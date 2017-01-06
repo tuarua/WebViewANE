@@ -1,5 +1,2 @@
-### 0.0.2 
-- Win 32 + OSX
-
 ### 0.0.1  
-- Win 32
+- initial OSX
