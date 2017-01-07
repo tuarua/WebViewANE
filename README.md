@@ -3,5 +3,9 @@
 Adobe Air Native Extension written in ActionScript 3 and Swift for embedding a WKWebView in AIR on OSX 10.10+
 Sample client included
 
+
+![alt tag](https://raw.githubusercontent.com/tuarua/WebViewANE/master/screenshots/screenshot1.jpg)
+
+
 ### References
 [https://developer.apple.com/reference/webkit/wkwebview]
