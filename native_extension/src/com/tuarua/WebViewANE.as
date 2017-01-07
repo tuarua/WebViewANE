@@ -1,9 +1,13 @@
+/*
+ * Copyright Tua Rua Ltd. (c) 2017.
+ */
 package com.tuarua {
 import com.tuarua.webview.WebViewEvent;
 
 import flash.events.EventDispatcher;
 import flash.events.StatusEvent;
 import flash.external.ExtensionContext;
+import flash.geom.Point;
 import flash.system.Capabilities;
 
 public class WebViewANE extends EventDispatcher {
@@ -29,6 +33,7 @@ public class WebViewANE extends EventDispatcher {
             try {
                 extensionContext = ExtensionContext.createExtensionContext("com.tuarua." + name, null);
                 extensionContext.addEventListener(StatusEvent.STATUS, gotEvent);
+                _isSupported = extensionContext.call("isSupported");
             } catch (e:Error) {
                 trace("[" + name + "] ANE Not loaded properly.  Future calls will fail.");
             }
@@ -77,107 +82,86 @@ public class WebViewANE extends EventDispatcher {
     }
 
     public function addToStage():void {
-        if (!isInited) {
-            trace("You need to init first")
-            return;
-        }
-        if (_isSupported)
+        if (safetyCheck())
             extensionContext.call("addToStage");
     }
 
     public function removeFromStage():void {
-        if (!isInited) {
-            trace("You need to init first")
-            return;
-        }
-        if (_isSupported)
+        if (safetyCheck())
             extensionContext.call("removeFromStage");
     }
 
     public function load(url:String):void {
-        if (!isInited) {
-            trace("You need to init first")
-            return;
-        }
-        if (_isSupported)
+        if (safetyCheck())
             extensionContext.call("load", url);
     }
 
     public function loadHTMLString(html:String):void {
-        if (!isInited) {
-            trace("You need to init first")
-            return;
-        }
-        if (_isSupported)
+        if (safetyCheck())
             extensionContext.call("loadHTMLString", html);
     }
 
-    public function loadFileURL(url:String,allowingReadAccessTo:String):void {
-        if (!isInited) {
-            trace("You need to init first")
-            return;
-        }
-        if (_isSupported)
+    public function loadFileURL(url:String, allowingReadAccessTo:String):void {
+        if (safetyCheck())
             extensionContext.call("loadFileURL", url, allowingReadAccessTo);
     }
 
-
-
     public function evaluateJavaScript(javascript:String):void {
-        if (!isInited) {
-            trace("You need to init first")
-            return;
-        }
-        if (_isSupported)
+        if (safetyCheck())
             extensionContext.call("evaluateJavaScript", javascript);
     }
 
     public function reload():void {
-        if (!isInited) {
-            trace("You need to init first")
-            return;
-        }
-        if (_isSupported)
+        if (safetyCheck())
             extensionContext.call("reload");
     }
 
     public function stopLoading():void {
-        if (!isInited) {
-            trace("You need to init first")
-            return;
-        }
-        if (_isSupported)
+        if (safetyCheck())
             extensionContext.call("stopLoading");
     }
 
     public function goBack():void {
-        if (!isInited) {
-            trace("You need to init first")
-            return;
-        }
-        if (_isSupported)
+        if (safetyCheck())
             extensionContext.call("goBack");
     }
 
     public function goForward():void {
-        if (!isInited) {
-            trace("You need to init first")
-            return;
-        }
-        if (_isSupported)
+        if (safetyCheck())
             extensionContext.call("goForward");
     }
 
     public function reloadFromOrigin():void {
-        if (!isInited) {
-            trace("You need to init first")
-            return;
-        }
-        if (_isSupported)
+        if (safetyCheck())
             extensionContext.call("reloadFromOrigin");
     }
 
-    public function get isSupported():Boolean {
+    public function allowsMagnification():Boolean {
+        if (safetyCheck())
+            extensionContext.call("allowsMagnification");
+        return false;
+    }
+
+    public function getMagnification():Number {
+        if (safetyCheck())
+            return extensionContext.call("getMagnification") as Number;
+        return 1.0;
+    }
+
+    public function setMagnification(value:Number,centeredAt:Point) {
+        if (safetyCheck())
+            return extensionContext.call("setMagnification",value,centeredAt) as Number;
+    }
+
+    private function safetyCheck():Boolean {
+        if (!isInited) {
+            trace("You need to init first")
+            return false;
+        }
+        return _isSupported;
+    }
+
+    public function isSupported():Boolean {
         return _isSupported;
     }
 

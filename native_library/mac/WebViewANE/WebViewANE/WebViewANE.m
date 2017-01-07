@@ -79,6 +79,23 @@ FRE_FUNCTION (goForward) {
     return NULL;
 }
 
+FRE_FUNCTION (isSupported) {
+    return [swft isSupported];
+}
+
+FRE_FUNCTION (allowsMagnification) {
+    return [swft allowsMagnification];
+}
+
+FRE_FUNCTION (getMagnification) {
+    return [swft getMagnification];
+}
+
+FRE_FUNCTION (setMagnification) {
+    [swft setMagnificationWithArgv:getFREargs(argc, argv)];
+    return NULL;
+}
+
 FRE_FUNCTION (evaluateJavaScript) {
     [swft evaluateJavaScriptWithArgv:getFREargs(argc, argv)];
     return NULL;
@@ -86,7 +103,8 @@ FRE_FUNCTION (evaluateJavaScript) {
 
 void contextInitializer(void *extData, const uint8_t *ctxType, FREContext ctx, uint32_t *numFunctionsToSet, const FRENamedFunction **functionsToSet) {
     static FRENamedFunction extensionFunctions[] = {
-            {(const uint8_t *) "init", NULL, &init}
+          {(const uint8_t *) "init", NULL, &init}
+        , {(const uint8_t *) "isSupported", NULL, &isSupported}
         , {(const uint8_t *) "addToStage", NULL, &addToStage}
         , {(const uint8_t *) "removeFromStage", NULL, &removeFromStage}
         , {(const uint8_t *) "load", NULL, &load}
@@ -98,6 +116,9 @@ void contextInitializer(void *extData, const uint8_t *ctxType, FREContext ctx, u
         , {(const uint8_t *) "stopLoading", NULL, &stopLoading}
         , {(const uint8_t *) "goBack", NULL, &goBack}
         , {(const uint8_t *) "goForward", NULL, &goForward}
+        , {(const uint8_t *) "allowsMagnification", NULL, &allowsMagnification}
+        , {(const uint8_t *) "getMagnification", NULL, &getMagnification}
+        , {(const uint8_t *) "setMagnification", NULL, &setMagnification}
         , {(const uint8_t *) "evaluateJavaScript", NULL, &evaluateJavaScript}
 
     };

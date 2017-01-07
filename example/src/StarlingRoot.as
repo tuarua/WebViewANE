@@ -1,3 +1,7 @@
+/*
+ * Copyright Tua Rua Ltd. (c) 2017.
+ */
+
 package {
 import com.tuarua.WebViewANE;
 import com.tuarua.webview.WebViewEvent;
@@ -7,6 +11,7 @@ import events.FormEvent;
 import flash.desktop.NativeApplication;
 import flash.events.Event;
 import flash.filesystem.File;
+import flash.geom.Point;
 import flash.text.TextFieldType;
 
 import starling.animation.Transitions;
@@ -36,9 +41,12 @@ public class StarlingRoot extends Sprite {
     private var fwdBtn:Image = new Image(Assets.getAtlas().getTexture("fwd-btn"));
     private var refreshBtn:Image = new Image(Assets.getAtlas().getTexture("refresh-btn"));
     private var cancelBtn:Image = new Image(Assets.getAtlas().getTexture("cancel-btn"));
+    private var zoomInBtn:Image = new Image(Assets.getAtlas().getTexture("zoomin-btn"));
+    private var zoomOutBtn:Image = new Image(Assets.getAtlas().getTexture("zoomout-btn"));
     private var titleTxt:TextField;
     private var urlInput:Input;
     private var progress:Quad = new Quad(800, 2, 0x00A3D9)
+    private var currentZoom:Number = 1.0;
 
     public function StarlingRoot() {
         super();
@@ -49,6 +57,8 @@ public class StarlingRoot extends Sprite {
 
         NativeApplication.nativeApplication.addEventListener(flash.events.Event.EXITING, onExiting);
 
+        if (!webView.isSupported) return;
+
         webView.addEventListener(WebViewEvent.ON_URL_CHANGE, onUrlChange);
         webView.addEventListener(WebViewEvent.ON_START, onStart);
         webView.addEventListener(WebViewEvent.ON_FINISH, onFinish);
@@ -58,6 +68,8 @@ public class StarlingRoot extends Sprite {
         webView.addEventListener(WebViewEvent.ON_PAGE_TITLE, onPageTitle);
         webView.init(0, 90, 1280, 660);
         webView.addToStage();
+
+
 
         // webView.removeFromStage();
 
@@ -99,7 +111,13 @@ public class StarlingRoot extends Sprite {
         cancelBtn.x = 100;
         cancelBtn.addEventListener(TouchEvent.TOUCH,onCancel);
 
-        backBtn.y = fwdBtn.y = refreshBtn.y = cancelBtn.y = 50;
+        zoomInBtn.x = 980;
+        zoomInBtn.addEventListener(TouchEvent.TOUCH,onZoomIn);
+
+        zoomOutBtn.x = zoomInBtn.x + 40;
+        zoomOutBtn.addEventListener(TouchEvent.TOUCH,onZoomOut);
+
+        zoomInBtn.y = zoomOutBtn.y = backBtn.y = backBtn.y = fwdBtn.y = refreshBtn.y = cancelBtn.y = 50;
         cancelBtn.visible = false;
 
         var tf:TextFormat = new TextFormat();
@@ -134,6 +152,10 @@ public class StarlingRoot extends Sprite {
         addChild(fwdBtn);
         addChild(refreshBtn);
         addChild(cancelBtn);
+
+        addChild(zoomInBtn);
+        addChild(zoomOutBtn);
+
         addChild(urlInput);
 
 
@@ -141,8 +163,23 @@ public class StarlingRoot extends Sprite {
 
     }
 
+    private function onZoomOut(event:TouchEvent):void {
+        var touch:Touch = event.getTouch(zoomOutBtn);
+        if (touch != null && touch.phase == TouchPhase.ENDED) {
+            currentZoom = currentZoom - .1
+            webView.setMagnification(currentZoom,new Point(0,0));
+        }
+    }
+
+    private function onZoomIn(event:TouchEvent):void {
+        var touch:Touch = event.getTouch(zoomInBtn);
+        if (touch != null && touch.phase == TouchPhase.ENDED) {
+            currentZoom = currentZoom + .1
+            webView.setMagnification(currentZoom,new Point(0,0));
+        }
+    }
+
     private function onUrlEnter(event:FormEvent):void {
-        trace(urlInput.text);
         webView.load(urlInput.text);
     }
 
@@ -205,7 +242,6 @@ public class StarlingRoot extends Sprite {
     }
 
     private function onFinish(event:WebViewEvent):void {
-        trace(event);
         var obj:Object = event.params;
         if (obj) {
             titleTxt.text = obj.title;
@@ -215,7 +251,6 @@ public class StarlingRoot extends Sprite {
     }
 
     private function onPageTitle(event:WebViewEvent):void {
-        trace(event);
         var obj:Object = event.params;
         if (obj) {
             titleTxt.text = obj.title;
@@ -223,7 +258,6 @@ public class StarlingRoot extends Sprite {
     }
 
     private function onStart(event:WebViewEvent):void {
-        trace(event);
         refreshBtn.visible = false;
         cancelBtn.visible = true;
     }

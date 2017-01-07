@@ -19,6 +19,7 @@
         </dependencies>
         <compiler-options>
           <map>
+            <entry key="compiler.debug.swf" value="true" />
             <entry key="compiler.locale" value="en_US" />
           </map>
         </compiler-options>

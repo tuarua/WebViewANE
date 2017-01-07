@@ -90,6 +90,38 @@ import WebKit
         sendEvent(name: WebViewANE.ON_URL_CHANGE, props: props);
     }
 
+    func isSupported() -> FREObject? {
+        var isSupported: Bool = false
+        if #available(OSX 10.10, *) {
+            isSupported = true
+        }
+        return aneHelper.getFreObject(bool: isSupported)
+    }
+
+    func allowsMagnification() -> FREObject? {
+        if let wv = myWebView {
+            return aneHelper.getFreObject(bool: wv.allowsMagnification)
+        }
+
+        return aneHelper.getFreObject(bool: true)
+    }
+
+    func getMagnification() -> FREObject? {
+        if let wv = myWebView {
+            return aneHelper.getFREObject(double: Double(wv.magnification))
+        }
+        return aneHelper.getFREObject(double: 1.0);
+    }
+
+    func setMagnification(argv: NSPointerArray) {
+        if let wv = myWebView {
+            let amount: Double = aneHelper.getNumber(freObject: argv.pointer(at: 0))
+            let pt: CGPoint = aneHelper.getCGPoint(freObject: argv.pointer(at: 1))
+            wv.setMagnification(CGFloat(amount), centeredAt: CGPoint.init(x: pt.x, y: pt.y))
+
+        }
+    }
+
     func addToStage() {
         if let mw = mainWindow {
             let view: NSView = mw.contentView!
@@ -106,73 +138,43 @@ import WebKit
     }
 
     func evaluateJavaScript(argv: NSPointerArray) {
-        if let js: String = aneHelper.getIdObjectFromFREObject(freObject: argv.pointer(at: 0)) as? String {
-            if let wv = myWebView {
-                wv.evaluateJavaScript(js, completionHandler: onJavascriptResult)
-            }
+        let js: String = aneHelper.getString(freObject: argv.pointer(at: 0))
+        if let wv = myWebView {
+            wv.evaluateJavaScript(js, completionHandler: onJavascriptResult)
         }
-    }
-
-    func onJavascriptResult(result: Any?, error: Error?) {
-        var resultValue: String = ""
-        var errorValue: String = ""
-
-        if result != nil {
-            Swift.debugPrint(result!)
-            resultValue = result as! String
-        }
-
-        if error != nil {
-            Swift.debugPrint(error!)
-            errorValue = error!.localizedDescription
-
-        }
-
-        var props: Dictionary<String, Any> = Dictionary()
-
-        props["result"] = resultValue
-        props["error"] = errorValue
-        sendEvent(name: WebViewANE.ON_JAVASCRIPT_RESULT, props: props);
-
     }
 
     func load(argv: NSPointerArray) {
-        if let url: String = aneHelper.getIdObjectFromFREObject(freObject: argv.pointer(at: 0)) as? String {
-            let myURL = URL(string: url)
-            let myRequest = URLRequest(url: myURL!)
-            if let wv = myWebView {
-                wv.load(myRequest)
-            }
+        let url: String = aneHelper.getString(freObject: argv.pointer(at: 0))
+        let myURL = URL(string: url)
+        let myRequest = URLRequest(url: myURL!)
+        if let wv = myWebView {
+            wv.load(myRequest)
         }
     }
 
     func loadHTMLString(argv: NSPointerArray) {
-        if let html: String = aneHelper.getIdObjectFromFREObject(freObject: argv.pointer(at: 0)) as? String {
-            if let wv = myWebView {
-                wv.loadHTMLString(html, baseURL: nil) //TODO
-            }
+        let html: String = aneHelper.getString(freObject: argv.pointer(at: 0))
+        if let wv = myWebView {
+            wv.loadHTMLString(html, baseURL: nil) //TODO
         }
     }
 
     func loadFileURL(argv: NSPointerArray) {
-        if let url: String = aneHelper.getIdObjectFromFREObject(freObject: argv.pointer(at: 0)) as? String {
-            let myURL = URL(string: url)
+        let url: String = aneHelper.getString(freObject: argv.pointer(at: 0))
+        let myURL = URL(string: url)
+        let allowingReadAccessTo: String = aneHelper.getString(freObject: argv.pointer(at: 1))
+        let accessURL = URL(string: allowingReadAccessTo)
 
-            if let allowingReadAccessTo: String = aneHelper.getIdObjectFromFREObject(freObject: argv.pointer(at: 1)) as? String {
-                let accessURL = URL(string: allowingReadAccessTo)
-
-                if let wv = myWebView {
-                    if #available(OSX 10.11, *) {
-                        wv.loadFileURL(myURL!, allowingReadAccessTo: accessURL!)
-                    } else {
-                        // Fallback on earlier versions
-                    }
-                }
+        if let wv = myWebView {
+            if #available(OSX 10.11, *) {
+                wv.loadFileURL(myURL!, allowingReadAccessTo: accessURL!)
+            } else {
+                // Fallback on earlier versions
             }
-
         }
-    }
 
+    }
 
     func reload() {
         if let wv = myWebView {
@@ -204,22 +206,6 @@ import WebKit
         }
     }
 
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
-        if (keyPath == "estimatedProgress") {
-            var props: Dictionary<String, Any> = Dictionary()
-            props["value"] = myWebView?.estimatedProgress
-            sendEvent(name: WebViewANE.ON_PROGRESS, props: props);
-        } else if (keyPath == "title") {
-            if let t = myWebView?.title {
-                if t != "" {
-                    var props: Dictionary<String, Any> = Dictionary()
-                    props["title"] = t
-                    sendEvent(name: WebViewANE.ON_PAGE_TITLE, props: props);
-                }
-            }
-        }
-    }
-
 
     func initWebView(argv: NSPointerArray) {
         var x = 0
@@ -227,10 +213,10 @@ import WebKit
         var width = 800
         var height = 600
 
-        x = aneHelper.getIntFromFREObject(freObject: argv.pointer(at: 0))
-        y = aneHelper.getIntFromFREObject(freObject: argv.pointer(at: 1))
-        width = aneHelper.getIntFromFREObject(freObject: argv.pointer(at: 2))
-        height = aneHelper.getIntFromFREObject(freObject: argv.pointer(at: 3))
+        x = aneHelper.getInt(freObject: argv.pointer(at: 0))
+        y = aneHelper.getInt(freObject: argv.pointer(at: 1))
+        width = aneHelper.getInt(freObject: argv.pointer(at: 2))
+        height = aneHelper.getInt(freObject: argv.pointer(at: 3))
 
 
         let allWindows = NSApp.windows;
@@ -251,6 +237,46 @@ import WebKit
             myWebView?.addObserver(self, forKeyPath: "estimatedProgress", options: .new, context: nil)
             myWebView?.addObserver(self, forKeyPath: "title", options: .new, context: nil)
         }
+
+    }
+
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
+        if (keyPath == "estimatedProgress") {
+            var props: Dictionary<String, Any> = Dictionary()
+            props["value"] = myWebView?.estimatedProgress
+            sendEvent(name: WebViewANE.ON_PROGRESS, props: props);
+        } else if (keyPath == "title") {
+            if let t = myWebView?.title {
+                if t != "" {
+                    var props: Dictionary<String, Any> = Dictionary()
+                    props["title"] = t
+                    sendEvent(name: WebViewANE.ON_PAGE_TITLE, props: props);
+                }
+            }
+        }
+    }
+
+
+    func onJavascriptResult(result: Any?, error: Error?) {
+        var resultValue: String = ""
+        var errorValue: String = ""
+
+        if result != nil {
+            Swift.debugPrint(result!)
+            resultValue = result as! String
+        }
+
+        if error != nil {
+            Swift.debugPrint(error!)
+            errorValue = error!.localizedDescription
+
+        }
+
+        var props: Dictionary<String, Any> = Dictionary()
+
+        props["result"] = resultValue
+        props["error"] = errorValue
+        sendEvent(name: WebViewANE.ON_JAVASCRIPT_RESULT, props: props);
 
     }
 

@@ -126,6 +126,7 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 
 SWIFT_CLASS("_TtC10WebViewANE10WebViewANE")
 @interface WebViewANE : NSObject
+- (FREObject _Nonnull)isSupported;
 - (void)addToStage;
 - (void)removeFromStage;
 - (void)reload;
@@ -133,6 +134,9 @@ SWIFT_CLASS("_TtC10WebViewANE10WebViewANE")
 - (void)reloadFromOrigin;
 - (void)goBack;
 - (void)goForward;
+- (FREObject _Nonnull)allowsMagnification;
+- (FREObject _Nonnull)getMagnification;
+- (void)setMagnificationWithArgv:(NSPointerArray * _Nonnull)argv;
 - (void)loadWithArgv:(NSPointerArray * _Nonnull)argv;
 - (void)loadHTMLStringWithArgv:(NSPointerArray * _Nonnull)argv;
 - (void)loadFileURLWithArgv:(NSPointerArray * _Nonnull)argv;

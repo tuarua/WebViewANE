@@ -1,3 +1,6 @@
+### 0.0.4
+- magnification methods added
+
 ### 0.0.3
 - loadHTMLString, loadFileUrl added
 - improved example

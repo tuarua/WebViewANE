@@ -6,22 +6,22 @@
 import Foundation
 
 class ANEHelper {
-    private var dllContext:FREContext!
+    private var dllContext: FREContext!
     func setFREContext(ctx: FREContext) {
         dllContext = ctx
     }
-    
-    private func trace(value:String) {
+
+    private func trace(value: String) {
         FREDispatchStatusEventAsync(self.dllContext, value, "TRACE")
     }
-    
+
     private func isFREResultOK(errorCode: FREResult, errorMessage: String) -> Bool {
         if FRE_OK == errorCode {
             return true
         }
         let messageToReport: String = "\(errorMessage) \(errorCode)"
         Swift.debugPrint(messageToReport)
-        trace(value:messageToReport)
+        trace(value: messageToReport)
         return false
     }
 
@@ -103,68 +103,98 @@ class ANEHelper {
         }
 
     }
-    
-    func getNumberFromFREObject(freObject:FREObject?) -> Double {
-        var val:Double = 0.0
-        
-        let status: FREResult = FREGetObjectAsDouble(freObject, &val)
-        _ = isFREResultOK(errorCode: status, errorMessage: "Could not convert FREObject to Double.")
-        
+
+    func getCGPoint(freObject: FREObject?) -> CGPoint {
+        var val: CGPoint = CGPoint.init(x: 0, y: 0)
+
+        var thrownException: FREObject? = nil
+        var valueX: FREObject? = nil
+        var valueY: FREObject? = nil
+        var isOK: Bool = true;
+
+        var status: FREResult = FREGetObjectProperty(freObject, UnsafePointer<UInt8>("x"), &valueX, &thrownException)
+        _ = isFREResultOK(errorCode: status, errorMessage: "Could not get x on Point FREObject.")
+        if (FRE_OK != status) {
+            isOK = false
+            _ = hasThrownException(thrownException: thrownException!);
+        }
+
+        status = FREGetObjectProperty(freObject, UnsafePointer<UInt8>("y"), &valueY, &thrownException)
+        _ = isFREResultOK(errorCode: status, errorMessage: "Could not get y on Point FREObject.")
+        if (FRE_OK != status) {
+            isOK = false
+            _ = hasThrownException(thrownException: thrownException!);
+        }
+
+        if isOK {
+            val = CGPoint.init(x: getInt(freObject: valueX), y: getInt(freObject: valueY))
+        }
+
+
         return val
     }
-    
-    func getStringFromFREObject(freObject:FREObject?) -> String {
-        var strLength:CUnsignedInt? = 0
-        var arg:UnsafePointer<UInt8>? = nil
-        
+
+    func getNumber(freObject: FREObject?) -> Double {
+        var val: Double = 0.0
+
+        let status: FREResult = FREGetObjectAsDouble(freObject, &val)
+        _ = isFREResultOK(errorCode: status, errorMessage: "Could not convert FREObject to Double.")
+
+        return val
+    }
+
+    func getString(freObject: FREObject?) -> String {
+        var strLength: CUnsignedInt? = 0
+        var arg: UnsafePointer<UInt8>? = nil
+
         let status: FREResult = FREGetObjectAsUTF8(freObject, &strLength!, &arg)
         let isOK = self.isFREResultOK(errorCode: status, errorMessage: "Could not convert FREGetObjectAsUTF8.")
         if isOK {
             return (NSString(bytes: arg!, length: Int(strLength!),
-                             encoding: String.Encoding.utf8.rawValue) as? String)!
+                    encoding: String.Encoding.utf8.rawValue) as? String)!
         } else {
             return ""
         }
-        
+
     }
 
 
-    func getIntFromFREObject(freObject:FREObject?) -> Int {
-        var result:CUnsignedInt? = 0
+    func getInt(freObject: FREObject?) -> Int {
+        var result: CUnsignedInt? = 0
         let status: FREResult = FREGetObjectAsUint32(freObject, &result!)
         _ = isFREResultOK(errorCode: status, errorMessage: "Could not convert FREObject to Int.")
         return Int(result!)
     }
 
     private func getArrayLengthFromFREObject(freObject: FREObject) -> Int {
-        var valueAs:FREObject? = nil
+        var valueAs: FREObject? = nil
         FREGetObjectProperty(freObject, UnsafePointer<UInt8>("length"), &valueAs, nil)
-        return self.getIntFromFREObject(freObject: valueAs!)
+        return self.getInt(freObject: valueAs!)
     }
 
 
-    func getArrayFromFREObject(freObject:FREObject?) ->Array<Any?>? {
-        var result : [Any?] = []
+    func getArray(freObject: FREObject?) -> Array<Any?>? {
+        var result: [Any?] = []
         if let freObject = freObject {
-            let arrayLength:Int = getArrayLengthFromFREObject(freObject: freObject)
-            for i in 0..<arrayLength {
-                var objAs:FREObject? = nil
-                FREGetArrayElementAt( freObject, UInt32(i), &objAs );
+            let arrayLength: Int = getArrayLengthFromFREObject(freObject: freObject)
+            for i in 0 ..< arrayLength {
+                var objAs: FREObject? = nil
+                FREGetArrayElementAt(freObject, UInt32(i), &objAs);
                 if objAs != nil {
-                    let obj = self.getIdObjectFromFREObject(freObject: objAs)
+                    let obj = self.getIdObject(freObject: objAs)
                     result.append(obj)
                 }
-               
+
             }
 
         }
-        
+
         return result
     }
 
-    private func printObjectType(freObject:FREObject?) {
-        var objectType:FREObjectType = FRE_TYPE_NULL;
-        FREGetObjectType( freObject, &objectType );
+    private func printObjectType(freObject: FREObject?) {
+        var objectType: FREObjectType = FRE_TYPE_NULL;
+        FREGetObjectType(freObject, &objectType);
         switch objectType {
         case FRE_TYPE_ARRAY:
             Swift.debugPrint("printObjectType: FRE_TYPE_ARRAY")
@@ -192,11 +222,11 @@ class ANEHelper {
         }
     }
 
-    func getFREObjectProperty(freObject:FREObject?, propertyName:String) -> FREObject? {
-        var valueAS:FREObject? = nil;
+    func getFREObjectProperty(freObject: FREObject?, propertyName: String) -> FREObject? {
+        var valueAS: FREObject? = nil;
         var thrownException: FREObject? = nil
         let status: FREResult = FREGetObjectProperty(freObject, UnsafePointer<UInt8>(propertyName), &valueAS,
-                                                     &thrownException)
+                &thrownException)
         _ = isFREResultOK(errorCode: status, errorMessage: "Could not get FREObject property.")
         if (FRE_OK != status) {
             _ = hasThrownException(thrownException: thrownException!);
@@ -204,43 +234,43 @@ class ANEHelper {
         return valueAS;
     }
 
-    func getIdObjectFromFREObject(freObject: FREObject?) -> Any? {
-        var objectType:FREObjectType = FRE_TYPE_NULL;
-        FREGetObjectType( freObject, &objectType );
+    func getIdObject(freObject: FREObject?) -> Any? {
+        var objectType: FREObjectType = FRE_TYPE_NULL;
+        FREGetObjectType(freObject, &objectType);
 
         switch objectType {
         case FRE_TYPE_VECTOR, FRE_TYPE_ARRAY:
-            return getArrayFromFREObject(freObject: freObject)
+            return getArray(freObject: freObject)
         case FRE_TYPE_STRING:
-            return self.getStringFromFREObject(freObject: freObject);
+            return self.getString(freObject: freObject);
         case FRE_TYPE_BOOLEAN:
-            var val:CUnsignedInt? = 0
-            FREGetObjectAsBool( freObject, &val! );
+            var val: CUnsignedInt? = 0
+            FREGetObjectAsBool(freObject, &val!);
             return (val == 1)
 
         case FRE_TYPE_OBJECT:
-            var result:FREObject? = nil
+            var result: FREObject? = nil
             let status: FREResult = FRECallObjectMethod(freObject, UnsafePointer<UInt8>("getPropNames"), 0, nil,
-                                                        &result, nil)
+                    &result, nil)
             if FRE_OK == status {
-                let paramNames:Array = getArrayFromFREObject(freObject: result!)!
-                var dict:Dictionary = Dictionary<String, AnyObject>()
+                let paramNames: Array = getArray(freObject: result!)!
+                var dict: Dictionary = Dictionary<String, AnyObject>()
                 for item in paramNames {
-                    var propVal:FREObject? = nil;
+                    var propVal: FREObject? = nil;
                     propVal = getFREObjectProperty(freObject: freObject, propertyName: item as! String)
-                    if let propVal2 = getIdObjectFromFREObject(freObject: propVal) {
+                    if let propVal2 = getIdObject(freObject: propVal) {
                         dict.updateValue(propVal2 as AnyObject, forKey: item as! String)
                     }
                 }
                 return dict
-            }else {
-                Swift.debugPrint("Could not convert FREObject to Dictionary.",status)
+            } else {
+                Swift.debugPrint("Could not convert FREObject to Dictionary.", status)
             }
 
             return nil;
 
         case FRE_TYPE_NUMBER:
-            return getNumberFromFREObject(freObject: freObject)
+            return getNumber(freObject: freObject)
 
         case FRE_TYPE_BITMAPDATA:
             return nil;
@@ -258,7 +288,6 @@ class ANEHelper {
         return nil
 
     }
-
 
 
 }
