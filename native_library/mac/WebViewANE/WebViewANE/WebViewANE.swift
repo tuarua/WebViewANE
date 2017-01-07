@@ -115,10 +115,8 @@ import WebKit
 
     func setMagnification(argv: NSPointerArray) {
         if let wv = myWebView {
-            let amount: Double = aneHelper.getNumber(freObject: argv.pointer(at: 0))
-            let pt: CGPoint = aneHelper.getCGPoint(freObject: argv.pointer(at: 1))
-            wv.setMagnification(CGFloat(amount), centeredAt: CGPoint.init(x: pt.x, y: pt.y))
-
+            wv.setMagnification(aneHelper.getCGFloat(freObject: argv.pointer(at: 0)),
+                                centeredAt: aneHelper.getCGPoint(freObject: argv.pointer(at: 1)))
         }
     }
 

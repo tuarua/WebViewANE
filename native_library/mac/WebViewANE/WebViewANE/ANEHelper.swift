@@ -134,13 +134,18 @@ class ANEHelper {
         return val
     }
 
-    func getNumber(freObject: FREObject?) -> Double {
+    func getDouble(freObject: FREObject?) -> Double {
         var val: Double = 0.0
-
         let status: FREResult = FREGetObjectAsDouble(freObject, &val)
         _ = isFREResultOK(errorCode: status, errorMessage: "Could not convert FREObject to Double.")
-
         return val
+    }
+    
+    func getCGFloat(freObject: FREObject?) -> CGFloat {
+        var val: Double = 0.0
+        let status: FREResult = FREGetObjectAsDouble(freObject, &val)
+        _ = isFREResultOK(errorCode: status, errorMessage: "Could not convert FREObject to CGFloat.")
+        return CGFloat(val)
     }
 
     func getString(freObject: FREObject?) -> String {
@@ -270,7 +275,7 @@ class ANEHelper {
             return nil;
 
         case FRE_TYPE_NUMBER:
-            return getNumber(freObject: freObject)
+            return getDouble(freObject: freObject)
 
         case FRE_TYPE_BITMAPDATA:
             return nil;
