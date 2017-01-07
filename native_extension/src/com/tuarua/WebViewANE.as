@@ -103,6 +103,26 @@ public class WebViewANE extends EventDispatcher {
             extensionContext.call("load", url);
     }
 
+    public function loadHTMLString(html:String):void {
+        if (!isInited) {
+            trace("You need to init first")
+            return;
+        }
+        if (_isSupported)
+            extensionContext.call("loadHTMLString", html);
+    }
+
+    public function loadFileURL(url:String,allowingReadAccessTo:String):void {
+        if (!isInited) {
+            trace("You need to init first")
+            return;
+        }
+        if (_isSupported)
+            extensionContext.call("loadFileURL", url, allowingReadAccessTo);
+    }
+
+
+
     public function evaluateJavaScript(javascript:String):void {
         if (!isInited) {
             trace("You need to init first")

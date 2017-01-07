@@ -11,6 +11,9 @@
             <entry library-name="FiraSansSemiBold" library-level="project">
               <dependency linkage="Merged" />
             </entry>
+            <entry library-name="WebViewANE" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
           </entries>
           <sdk name="AIRSDK" />
         </dependencies>
@@ -36,5 +39,6 @@
     <orderEntry type="library" exported="" name="starling" level="project" />
     <orderEntry type="library" exported="" name="DesktopToastANE" level="project" />
     <orderEntry type="library" exported="" name="FiraSansSemiBold" level="project" />
+    <orderEntry type="library" exported="" name="WebViewANE" level="project" />
   </component>
 </module>

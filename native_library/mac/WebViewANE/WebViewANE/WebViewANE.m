@@ -14,14 +14,13 @@ WebViewANE *swft;
 #define FRE_FUNCTION(fn) FREObject (fn)(FREContext context, void* functionData, uint32_t argc, FREObject argv[])
 
 // convert argv into a pointer array which can be passed to Swift
-NSPointerArray * getFREargs(uint32_t argc, FREObject argv[]) {
-    NSPointerArray * pa = [[NSPointerArray alloc] initWithOptions:NSPointerFunctionsOpaqueMemory];
+NSPointerArray *getFREargs(uint32_t argc, FREObject argv[]) {
+    NSPointerArray *pa = [[NSPointerArray alloc] initWithOptions:NSPointerFunctionsOpaqueMemory];
     for (int i = 0; i < argc; ++i) {
         FREObject freObject;
         freObject = argv[i];
         [pa addPointer:freObject];
     }
-    
     return pa;
 }
 
@@ -42,6 +41,16 @@ FRE_FUNCTION (removeFromStage) {
 
 FRE_FUNCTION (load) {
     [swft loadWithArgv:getFREargs(argc, argv)];
+    return NULL;
+}
+
+FRE_FUNCTION (loadHTMLString) {
+    [swft loadHTMLStringWithArgv:getFREargs(argc, argv)];
+    return NULL;
+}
+
+FRE_FUNCTION (loadFileURL) {
+    [swft loadFileURLWithArgv:getFREargs(argc, argv)];
     return NULL;
 }
 
@@ -75,21 +84,22 @@ FRE_FUNCTION (evaluateJavaScript) {
     return NULL;
 }
 
-
-
 void contextInitializer(void *extData, const uint8_t *ctxType, FREContext ctx, uint32_t *numFunctionsToSet, const FRENamedFunction **functionsToSet) {
     static FRENamedFunction extensionFunctions[] = {
-        {(const uint8_t *) "init", NULL, &init}
-        ,{(const uint8_t *) "addToStage", NULL, &addToStage}
-        ,{(const uint8_t *) "removeFromStage", NULL, &removeFromStage}
-        ,{(const uint8_t *) "load", NULL, &load}
-        ,{(const uint8_t *) "reload", NULL, &reload}
-        ,{(const uint8_t *) "reloadFromOrigin", NULL, &reloadFromOrigin}
-        ,{(const uint8_t *) "stopLoading", NULL, &stopLoading}
-        ,{(const uint8_t *) "goBack", NULL, &goBack}
-        ,{(const uint8_t *) "goForward", NULL, &goForward}
-        ,{(const uint8_t *) "evaluateJavaScript", NULL, &evaluateJavaScript}
-        
+            {(const uint8_t *) "init", NULL, &init}
+        , {(const uint8_t *) "addToStage", NULL, &addToStage}
+        , {(const uint8_t *) "removeFromStage", NULL, &removeFromStage}
+        , {(const uint8_t *) "load", NULL, &load}
+        , {(const uint8_t *) "loadHTMLString", NULL, &loadHTMLString}
+        , {(const uint8_t *) "load", NULL, &load}
+        , {(const uint8_t *) "loadFileURL", NULL, &loadFileURL}
+        , {(const uint8_t *) "reload", NULL, &reload}
+        , {(const uint8_t *) "reloadFromOrigin", NULL, &reloadFromOrigin}
+        , {(const uint8_t *) "stopLoading", NULL, &stopLoading}
+        , {(const uint8_t *) "goBack", NULL, &goBack}
+        , {(const uint8_t *) "goForward", NULL, &goForward}
+        , {(const uint8_t *) "evaluateJavaScript", NULL, &evaluateJavaScript}
+
     };
 
     *numFunctionsToSet = sizeof(extensionFunctions) / sizeof(FRENamedFunction);
@@ -99,7 +109,6 @@ void contextInitializer(void *extData, const uint8_t *ctxType, FREContext ctx, u
     [swft setFREContextWithCtx:ctx];
 
 }
-
 
 void contextFinalizer(FREContext ctx) {
     return;

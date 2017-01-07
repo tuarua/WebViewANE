@@ -27,7 +27,7 @@ package {
 		
 		public static function getTexture(name:String,mm:Boolean=false):Texture {
 			if (textures[name] == undefined) {
-				var bitmap:Bitmap = new Assets[name](); //don't understand this
+				var bitmap:Bitmap = new Assets[name]();
 				textures[name] = Texture.fromBitmap(bitmap,mm);
 			}
 			return textures[name];

@@ -134,6 +134,8 @@ SWIFT_CLASS("_TtC10WebViewANE10WebViewANE")
 - (void)goBack;
 - (void)goForward;
 - (void)loadWithArgv:(NSPointerArray * _Nonnull)argv;
+- (void)loadHTMLStringWithArgv:(NSPointerArray * _Nonnull)argv;
+- (void)loadFileURLWithArgv:(NSPointerArray * _Nonnull)argv;
 - (void)initWebViewWithArgv:(NSPointerArray * _Nonnull)argv;
 - (void)evaluateJavaScriptWithArgv:(NSPointerArray * _Nonnull)argv;
 - (void)setFREContextWithCtx:(FREContext _Nonnull)ctx;

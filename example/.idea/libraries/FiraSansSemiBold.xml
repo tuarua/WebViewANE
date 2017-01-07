@@ -2,7 +2,6 @@
   <library name="FiraSansSemiBold" type="flex">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/libs/FiraSansSemiBold.swc!/" />
-      <root url="jar://$PROJECT_DIR$/../native_extension/ane/WebViewANE.ane!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
