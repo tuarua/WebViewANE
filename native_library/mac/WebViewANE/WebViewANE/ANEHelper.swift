@@ -129,7 +129,7 @@ class ANEHelper {
     }
 
 
-    private func getInt(freObject:FREObject?) -> Int {
+    func getIntFromFREObject(freObject:FREObject?) -> Int {
         var result:CUnsignedInt? = 0
         let status: FREResult = FREGetObjectAsUint32(freObject, &result!)
         _ = isFREResultOK(errorCode: status, errorMessage: "Could not convert FREObject to Int.")
@@ -139,7 +139,7 @@ class ANEHelper {
     private func getArrayLengthFromFREObject(freObject: FREObject) -> Int {
         var valueAs:FREObject? = nil
         FREGetObjectProperty(freObject, UnsafePointer<UInt8>("length"), &valueAs, nil)
-        return self.getInt(freObject: valueAs!)
+        return self.getIntFromFREObject(freObject: valueAs!)
     }
 
 

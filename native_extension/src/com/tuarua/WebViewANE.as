@@ -44,18 +44,28 @@ public class WebViewANE extends EventDispatcher {
             case "TRACE":
                 trace(event.code);
                 break;
-            case WebViewEvent.WEBVIEW_ON_URL_CHANGE:
-                dispatchEvent(new WebViewEvent(WebViewEvent.WEBVIEW_ON_URL_CHANGE, JSON.parse(event.code)));
+            case WebViewEvent.ON_URL_CHANGE:
+                dispatchEvent(new WebViewEvent(WebViewEvent.ON_URL_CHANGE, JSON.parse(event.code)));
                 break;
-            case WebViewEvent.WEBVIEW_ON_FINISH:
-                dispatchEvent(new WebViewEvent(WebViewEvent.WEBVIEW_ON_FINISH, null));
+            case WebViewEvent.ON_FINISH:
+                dispatchEvent(new WebViewEvent(WebViewEvent.ON_FINISH, JSON.parse(event.code)));
                 break;
-            case WebViewEvent.WEBVIEW_ON_START:
-                dispatchEvent(new WebViewEvent(WebViewEvent.WEBVIEW_ON_START, null));
+            case WebViewEvent.ON_START:
+                dispatchEvent(new WebViewEvent(WebViewEvent.ON_START, JSON.parse(event.code)));
                 break;
-            case WebViewEvent.WEBVIEW_ON_FAIL:
-                dispatchEvent(new WebViewEvent(WebViewEvent.WEBVIEW_ON_FAIL, null));
+            case WebViewEvent.ON_FAIL:
+                dispatchEvent(new WebViewEvent(WebViewEvent.ON_FAIL, JSON.parse(event.code)));
                 break;
+            case WebViewEvent.ON_JAVASCRIPT_RESULT:
+                dispatchEvent(new WebViewEvent(WebViewEvent.ON_JAVASCRIPT_RESULT, JSON.parse(event.code)));
+                break;
+            case WebViewEvent.ON_PROGRESS:
+                dispatchEvent(new WebViewEvent(WebViewEvent.ON_PROGRESS, JSON.parse(event.code)));
+                break;
+            case WebViewEvent.ON_PAGE_TITLE:
+                dispatchEvent(new WebViewEvent(WebViewEvent.ON_PAGE_TITLE, JSON.parse(event.code)));
+                break;
+
         }
     }
 
@@ -75,6 +85,15 @@ public class WebViewANE extends EventDispatcher {
             extensionContext.call("addToStage");
     }
 
+    public function removeFromStage():void {
+        if (!isInited) {
+            trace("You need to init first")
+            return;
+        }
+        if (_isSupported)
+            extensionContext.call("removeFromStage");
+    }
+
     public function load(url:String):void {
         if (!isInited) {
             trace("You need to init first")
@@ -82,6 +101,15 @@ public class WebViewANE extends EventDispatcher {
         }
         if (_isSupported)
             extensionContext.call("load", url);
+    }
+
+    public function evaluateJavaScript(javascript:String):void {
+        if (!isInited) {
+            trace("You need to init first")
+            return;
+        }
+        if (_isSupported)
+            extensionContext.call("evaluateJavaScript", javascript);
     }
 
     public function reload():void {
@@ -93,6 +121,41 @@ public class WebViewANE extends EventDispatcher {
             extensionContext.call("reload");
     }
 
+    public function stopLoading():void {
+        if (!isInited) {
+            trace("You need to init first")
+            return;
+        }
+        if (_isSupported)
+            extensionContext.call("stopLoading");
+    }
+
+    public function goBack():void {
+        if (!isInited) {
+            trace("You need to init first")
+            return;
+        }
+        if (_isSupported)
+            extensionContext.call("goBack");
+    }
+
+    public function goForward():void {
+        if (!isInited) {
+            trace("You need to init first")
+            return;
+        }
+        if (_isSupported)
+            extensionContext.call("goForward");
+    }
+
+    public function reloadFromOrigin():void {
+        if (!isInited) {
+            trace("You need to init first")
+            return;
+        }
+        if (_isSupported)
+            extensionContext.call("reloadFromOrigin");
+    }
 
     public function get isSupported():Boolean {
         return _isSupported;

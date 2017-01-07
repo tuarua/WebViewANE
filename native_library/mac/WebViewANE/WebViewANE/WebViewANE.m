@@ -30,6 +30,16 @@ FRE_FUNCTION (init) {
     return NULL;
 }
 
+FRE_FUNCTION (addToStage) {
+    [swft addToStage];
+    return NULL;
+}
+
+FRE_FUNCTION (removeFromStage) {
+    [swft removeFromStage];
+    return NULL;
+}
+
 FRE_FUNCTION (load) {
     [swft loadWithArgv:getFREargs(argc, argv)];
     return NULL;
@@ -40,18 +50,46 @@ FRE_FUNCTION (reload) {
     return NULL;
 }
 
-FRE_FUNCTION (addToStage) {
-    [swft addToStage];
+FRE_FUNCTION (reloadFromOrigin) {
+    [swft reloadFromOrigin];
     return NULL;
 }
+
+FRE_FUNCTION (stopLoading) {
+    [swft stopLoading];
+    return NULL;
+}
+
+FRE_FUNCTION (goBack) {
+    [swft goBack];
+    return NULL;
+}
+
+FRE_FUNCTION (goForward) {
+    [swft goForward];
+    return NULL;
+}
+
+FRE_FUNCTION (evaluateJavaScript) {
+    [swft evaluateJavaScriptWithArgv:getFREargs(argc, argv)];
+    return NULL;
+}
+
 
 
 void contextInitializer(void *extData, const uint8_t *ctxType, FREContext ctx, uint32_t *numFunctionsToSet, const FRENamedFunction **functionsToSet) {
     static FRENamedFunction extensionFunctions[] = {
         {(const uint8_t *) "init", NULL, &init}
         ,{(const uint8_t *) "addToStage", NULL, &addToStage}
+        ,{(const uint8_t *) "removeFromStage", NULL, &removeFromStage}
         ,{(const uint8_t *) "load", NULL, &load}
         ,{(const uint8_t *) "reload", NULL, &reload}
+        ,{(const uint8_t *) "reloadFromOrigin", NULL, &reloadFromOrigin}
+        ,{(const uint8_t *) "stopLoading", NULL, &stopLoading}
+        ,{(const uint8_t *) "goBack", NULL, &goBack}
+        ,{(const uint8_t *) "goForward", NULL, &goForward}
+        ,{(const uint8_t *) "evaluateJavaScript", NULL, &evaluateJavaScript}
+        
     };
 
     *numFunctionsToSet = sizeof(extensionFunctions) / sizeof(FRENamedFunction);

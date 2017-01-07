@@ -127,9 +127,15 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 SWIFT_CLASS("_TtC10WebViewANE10WebViewANE")
 @interface WebViewANE : NSObject
 - (void)addToStage;
+- (void)removeFromStage;
 - (void)reload;
+- (void)stopLoading;
+- (void)reloadFromOrigin;
+- (void)goBack;
+- (void)goForward;
 - (void)loadWithArgv:(NSPointerArray * _Nonnull)argv;
 - (void)initWebViewWithArgv:(NSPointerArray * _Nonnull)argv;
+- (void)evaluateJavaScriptWithArgv:(NSPointerArray * _Nonnull)argv;
 - (void)setFREContextWithCtx:(FREContext _Nonnull)ctx;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end

@@ -21,15 +21,15 @@ import WebKit
     private static let ON_FINISH:String = "WebView.OnFinish"
     private static let ON_START:String = "WebView.OnStart"
     private static let ON_FAIL:String = "WebView.OnFail"
-
-    var outputText: String = ""
+    private static let ON_JAVASCRIPT_RESULT:String = "WebView.OnJavascriptResult"
+    private static let ON_PROGRESS:String = "WebView.OnProgress"
+    private static let ON_PAGE_TITLE:String = "WebView.OnPageTitle"
 
     private func trace(value: String) {
-        FREDispatchStatusEventAsync(self.dllContext, value, "TRACE")
+        FREDispatchStatusEventAsync(self.dllContext, "[WebViewANE] " + value, "TRACE")
     }
 
     private func sendEvent(name: String, props:Dictionary<String, Any>?) {
-        Swift.debugPrint(name)
         var value:String = ""
         if props != nil {
             do {
@@ -39,8 +39,6 @@ import WebKit
                                            encoding: String.Encoding.utf8.rawValue)
                 
                 value = theJSONText! as String
-                Swift.debugPrint("after let")
-                
             } catch {
                 Swift.debugPrint(error.localizedDescription)
                 print(error.localizedDescription)
@@ -50,8 +48,6 @@ import WebKit
     }
 
     func webView(_ myWebView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-        outputText = "1. The web content \(myWebView.url!) is loaded in the WebView.\n"
-        trace(value: outputText);
         var props:Dictionary<String,Any> = Dictionary()
         props["url"] = myWebView.url!.absoluteString
         
@@ -59,54 +55,40 @@ import WebKit
     }
 
     func webView(_ myWebView: WKWebView, didCommit navigation: WKNavigation!) {
-        outputText = "2. The WebView begins to receive web content.\n"
-        trace(value: outputText);
         var props:Dictionary<String,Any> = Dictionary()
         props["url"] = myWebView.url!.absoluteString
         sendEvent(name: WebViewANE.ON_START,props:props);
     }
 
     func webView(_ myWebView: WKWebView, didFinish navigation: WKNavigation!) {
-        outputText = "3. The navigating to url \(myWebView.url!) finished.\n"
-        trace(value: outputText);
-        
-        
         var props:Dictionary<String,Any> = Dictionary()
         props["url"] = myWebView.url!.absoluteString
-
+        props["title"] = myWebView.title
         sendEvent(name: WebViewANE.ON_FINISH,props:props);
-        //ON_FINISH
     }
 
 
     func webViewWebContentProcessDidTerminate(_ myWebView: WKWebView) {
-        outputText = "The Web Content Process is finished.\n"
-        trace(value: outputText)
+        //outputText = "The Web Content Process is finished.\n"
+        //trace(value: outputText)
     }
 
     func webView(_ myWebView: WKWebView, didFail navigation: WKNavigation!, withError: Error) {
-        outputText = "An error didFail occured.\n"
-        trace(value: outputText)
         var props:Dictionary<String,Any> = Dictionary()
         props["url"] = myWebView.url!.absoluteString
         sendEvent(name: WebViewANE.ON_FAIL,props:props);
-
     }
 
     func webView(_ myWebView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError: Error) {
-        outputText = "An error didFailProvisionalNavigation occured.\n"
-        trace(value: outputText)
+        var props:Dictionary<String,Any> = Dictionary()
+        props["url"] = myWebView.url!.absoluteString
+        sendEvent(name: WebViewANE.ON_FAIL,props:props);
     }
 
     func webView(_ myWebView: WKWebView, didReceiveServerRedirectForProvisionalNavigation navigation: WKNavigation!) {
-        outputText = "The WebView received a server redirect. \(myWebView.url!) \n"
-        trace(value: outputText)
-        
         var props:Dictionary<String,Any> = Dictionary()
         props["url"] = myWebView.url!.absoluteString
-        
         sendEvent(name: WebViewANE.ON_URL_CHANGE,props:props);
-
     }
 
     func addToStage() {
@@ -116,6 +98,43 @@ import WebKit
                 view.addSubview(wv)
             }
         }
+    }
+    
+    func removeFromStage() {
+        if let wv = myWebView {
+            wv.removeFromSuperview()
+        }
+    }
+    
+    func evaluateJavaScript(argv: NSPointerArray) {
+        if let js: String = aneHelper.getIdObjectFromFREObject(freObject: argv.pointer(at: 0)) as? String {
+            if let wv = myWebView {
+                wv.evaluateJavaScript(js, completionHandler: onJavascriptResult)
+            }
+        }
+    }
+    
+    func onJavascriptResult(result: Any?,error: Error?) {
+        var resultValue:String = ""
+        var errorValue:String = ""
+        
+        if result != nil {
+            Swift.debugPrint(result!)
+            resultValue = result as! String
+        }
+        
+        if error != nil {
+            Swift.debugPrint(error!)
+            errorValue = error!.localizedDescription
+            
+        }
+        
+        var props:Dictionary<String,Any> = Dictionary()
+        
+        props["result"] = resultValue
+        props["error"] = errorValue
+        sendEvent(name: WebViewANE.ON_JAVASCRIPT_RESULT,props:props);
+        
     }
 
     func load(argv: NSPointerArray) {
@@ -127,38 +146,69 @@ import WebKit
             }
         }
     }
+    
+    func reload() {
+        if let wv = myWebView {
+            wv.reload()
+        }
+    }
+    
+    func reloadFromOrigin() {
+        if let wv = myWebView {
+            wv.reloadFromOrigin()
+        }
+    }
+    
+    func stopLoading(){
+        if let wv = myWebView {
+            wv.stopLoading()
+        }
+    }
+    
+    func goBack(){
+        if let wv = myWebView {
+            wv.goBack()
+        }
+    }
+    
+    func goForward(){
+        if let wv = myWebView {
+            wv.goForward()
+        }
+    }
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if (keyPath == "estimatedProgress") {
+            var props:Dictionary<String,Any> = Dictionary()
+            props["value"] = myWebView?.estimatedProgress
+            sendEvent(name: WebViewANE.ON_PROGRESS,props:props);
+        }else if(keyPath == "title"){
+            if let t = myWebView?.title {
+                if t != "" {
+                    var props:Dictionary<String,Any> = Dictionary()
+                    props["title"] = t
+                    sendEvent(name: WebViewANE.ON_PAGE_TITLE,props:props);
+                }
+            }
+        }
+    }
 
+    
     func initWebView(argv: NSPointerArray) {
         var x = 0
         var y = 0
         var width = 800
         var height = 600
-
-        if let val = aneHelper.getIdObjectFromFREObject(freObject: argv.pointer(at: 0)) as? NSNumber {
-            x = Int(val)
-        }
-
-        if let val = aneHelper.getIdObjectFromFREObject(freObject: argv.pointer(at: 1)) as? NSNumber {
-            y = Int(val)
-        }
-
-        if let val = aneHelper.getIdObjectFromFREObject(freObject: argv.pointer(at: 2)) as? NSNumber {
-            width = Int(val)
-        }
-
-        if let val = aneHelper.getIdObjectFromFREObject(freObject: argv.pointer(at: 3)) as? NSNumber {
-            height = Int(val)
-        }
+        
+        x = aneHelper.getIntFromFREObject(freObject: argv.pointer(at: 0))
+        y = aneHelper.getIntFromFREObject(freObject: argv.pointer(at: 1))
+        width = aneHelper.getIntFromFREObject(freObject: argv.pointer(at: 2))
+        height = aneHelper.getIntFromFREObject(freObject: argv.pointer(at: 3))
+        
 
         let allWindows = NSApp.windows;
         if allWindows.count > 0 {
             mainWindow = allWindows[0]
-
-            trace(value: "\(mainWindow?.contentLayoutRect.width)")
-            trace(value: "\(mainWindow?.contentLayoutRect.height)")
-
-            trace(value: "\(mainWindow?.frame.origin.x)")
-            trace(value: "\(mainWindow?.frame.origin.y)")
 
             let configuration = WKWebViewConfiguration()
             let realY = (Int((mainWindow?.contentLayoutRect.height)!) - height) - y;
@@ -169,7 +219,10 @@ import WebKit
             myWebView?.translatesAutoresizingMaskIntoConstraints = false
             myWebView?.navigationDelegate = self
             myWebView?.uiDelegate = self
-
+            
+            
+            myWebView?.addObserver(self, forKeyPath: "estimatedProgress", options: .new, context: nil)
+            myWebView?.addObserver(self, forKeyPath: "title", options: .new, context: nil)
         }
 
     }
@@ -180,20 +233,7 @@ import WebKit
         aneHelper.setFREContext(ctx: ctx)
     }
 
-
 }
-
-
-//var webView: WKWebView!
-//let webConfiguration = WKWebViewConfiguration()
-//webView = WKWebView(frame: .zero, configuration: webConfiguration)
-//webView.uiDelegate = self
-//view = webView
-
-//let myURL = URL(string: "https://www.apple.com")
-//let myRequest = URLRequest(url: myURL!)
-//webView.load(myRequest)
-
 
 
 
