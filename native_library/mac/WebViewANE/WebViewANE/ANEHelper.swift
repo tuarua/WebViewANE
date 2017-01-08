@@ -165,8 +165,8 @@ class ANEHelper {
 
 
     func getInt(freObject: FREObject?) -> Int {
-        var result: CUnsignedInt? = 0
-        let status: FREResult = FREGetObjectAsUint32(freObject, &result!)
+        var result: CInt? = 0
+        let status: FREResult = FREGetObjectAsInt32(freObject, &result!)
         _ = isFREResultOK(errorCode: status, errorMessage: "Could not convert FREObject to Int.")
         return Int(result!)
     }

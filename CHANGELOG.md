@@ -1,3 +1,6 @@
+### 0.0.5
+- back forward methods added
+
 ### 0.0.4
 - magnification methods added
 

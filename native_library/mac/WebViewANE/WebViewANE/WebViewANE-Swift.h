@@ -134,7 +134,12 @@ SWIFT_CLASS("_TtC10WebViewANE10WebViewANE")
 - (void)reloadFromOrigin;
 - (void)goBack;
 - (void)goForward;
+- (FREObject _Nonnull)backForwardList;
+- (void)goWithArgv:(NSPointerArray * _Nonnull)argv;
 - (FREObject _Nonnull)allowsMagnification;
+- (FREObject _Nonnull)canGoForward;
+- (FREObject _Nonnull)canGoBack;
+- (FREObject _Nonnull)isLoading;
 - (FREObject _Nonnull)getMagnification;
 - (void)setMagnificationWithArgv:(NSPointerArray * _Nonnull)argv;
 - (void)loadWithArgv:(NSPointerArray * _Nonnull)argv;

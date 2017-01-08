@@ -14,6 +14,7 @@ public class WebViewEvent extends Event {
     public static const ON_JAVASCRIPT_RESULT:String = "WebView.OnJavascriptResult";
     public static const ON_PROGRESS:String = "WebView.OnProgress";
     public static const ON_PAGE_TITLE:String = "WebView.OnPageTitle"
+    public static const ON_BACK_FORWARD_UPDATE: String = "WebView.OnBackForwardUpdate"
     public var params:Object;
 
     public function WebViewEvent(type:String, params:Object = null, bubbles:Boolean = false, cancelable:Boolean = false) {

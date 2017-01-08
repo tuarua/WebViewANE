@@ -79,8 +79,29 @@ FRE_FUNCTION (goForward) {
     return NULL;
 }
 
+FRE_FUNCTION (backForwardList) {
+    return [swft backForwardList];
+}
+
+FRE_FUNCTION (go) {
+    [swft goWithArgv:getFREargs(argc, argv)];
+    return NULL;
+}
+
 FRE_FUNCTION (isSupported) {
     return [swft isSupported];
+}
+
+FRE_FUNCTION (isLoading) {
+    return [swft isLoading];
+}
+
+FRE_FUNCTION (canGoForward) {
+    return [swft canGoForward];
+}
+
+FRE_FUNCTION (canGoBack) {
+    return [swft canGoBack];
 }
 
 FRE_FUNCTION (allowsMagnification) {
@@ -105,6 +126,11 @@ void contextInitializer(void *extData, const uint8_t *ctxType, FREContext ctx, u
     static FRENamedFunction extensionFunctions[] = {
           {(const uint8_t *) "init", NULL, &init}
         , {(const uint8_t *) "isSupported", NULL, &isSupported}
+        , {(const uint8_t *) "isLoading", NULL, &isLoading}
+        , {(const uint8_t *) "canGoForward", NULL, &canGoForward}
+        , {(const uint8_t *) "canGoBack", NULL, &canGoBack}
+        , {(const uint8_t *) "backForwardList", NULL, &backForwardList}
+        , {(const uint8_t *) "go", NULL, &go}
         , {(const uint8_t *) "addToStage", NULL, &addToStage}
         , {(const uint8_t *) "removeFromStage", NULL, &removeFromStage}
         , {(const uint8_t *) "load", NULL, &load}

@@ -2,6 +2,7 @@
  * Copyright Tua Rua Ltd. (c) 2017.
  */
 package com.tuarua {
+import com.tuarua.webview.BackForwardList;
 import com.tuarua.webview.WebViewEvent;
 
 import flash.events.EventDispatcher;
@@ -70,6 +71,9 @@ public class WebViewANE extends EventDispatcher {
             case WebViewEvent.ON_PAGE_TITLE:
                 dispatchEvent(new WebViewEvent(WebViewEvent.ON_PAGE_TITLE, JSON.parse(event.code)));
                 break;
+            case WebViewEvent.ON_BACK_FORWARD_UPDATE:
+                dispatchEvent(new WebViewEvent(WebViewEvent.ON_BACK_FORWARD_UPDATE, null));
+                break;
 
         }
     }
@@ -84,6 +88,30 @@ public class WebViewANE extends EventDispatcher {
     public function addToStage():void {
         if (safetyCheck())
             extensionContext.call("addToStage");
+    }
+
+    public function isLoading():Boolean {
+        if (safetyCheck())
+            return extensionContext.call("isLoading");
+        return false;
+    }
+
+    public function canGoBackward():Boolean {
+        if (safetyCheck())
+            return extensionContext.call("canGoBack");
+        return false;
+    }
+
+    public function canGoForward():Boolean {
+        if (safetyCheck())
+            return extensionContext.call("canGoForward");
+        return false;
+    }
+
+    public function backForwardList():BackForwardList {
+        if (safetyCheck())
+            return extensionContext.call("backForwardList") as BackForwardList;
+        return new BackForwardList();
     }
 
     public function removeFromStage():void {
@@ -131,6 +159,11 @@ public class WebViewANE extends EventDispatcher {
             extensionContext.call("goForward");
     }
 
+    public function go(offset:int = 1):void {
+        if (safetyCheck())
+            extensionContext.call("go",offset);
+    }
+
     public function reloadFromOrigin():void {
         if (safetyCheck())
             extensionContext.call("reloadFromOrigin");
@@ -148,9 +181,9 @@ public class WebViewANE extends EventDispatcher {
         return 1.0;
     }
 
-    public function setMagnification(value:Number,centeredAt:Point) {
+    public function setMagnification(value:Number, centeredAt:Point):void {
         if (safetyCheck())
-            return extensionContext.call("setMagnification",value,centeredAt) as Number;
+            extensionContext.call("setMagnification", value, centeredAt);
     }
 
     private function safetyCheck():Boolean {

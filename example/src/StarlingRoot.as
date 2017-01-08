@@ -4,6 +4,8 @@
 
 package {
 import com.tuarua.WebViewANE;
+import com.tuarua.webview.BackForwardList;
+import com.tuarua.webview.BackForwardListItem;
 import com.tuarua.webview.WebViewEvent;
 
 import events.FormEvent;
@@ -18,7 +20,6 @@ import starling.animation.Transitions;
 
 import starling.animation.Tween;
 import starling.core.Starling;
-import starling.display.Image;
 import starling.display.Image;
 
 import starling.display.Quad;
@@ -66,6 +67,7 @@ public class StarlingRoot extends Sprite {
         webView.addEventListener(WebViewEvent.ON_PROGRESS, onProgress);
         webView.addEventListener(WebViewEvent.ON_JAVASCRIPT_RESULT, onJavascriptResult);
         webView.addEventListener(WebViewEvent.ON_PAGE_TITLE, onPageTitle);
+        webView.addEventListener(WebViewEvent.ON_BACK_FORWARD_UPDATE, onBackForwardUpdate);
         webView.init(0, 90, 1280, 660);
         webView.addToStage();
 
@@ -105,6 +107,8 @@ public class StarlingRoot extends Sprite {
         fwdBtn.x = 60;
         fwdBtn.addEventListener(TouchEvent.TOUCH,onForward);
 
+        fwdBtn.alpha = backBtn.alpha = 0.4;
+
         refreshBtn.x = 100;
         refreshBtn.addEventListener(TouchEvent.TOUCH,onRefresh);
 
@@ -124,7 +128,6 @@ public class StarlingRoot extends Sprite {
         tf.setTo("Fira Sans Semi-Bold 13", 13);
         tf.verticalAlign = Align.TOP;
         tf.color = 0x666666;
-
 
 
         urlInput = new Input(802,"");
@@ -158,9 +161,15 @@ public class StarlingRoot extends Sprite {
 
         addChild(urlInput);
 
-
         addChild(progress);
 
+    }
+
+    private function onBackForwardUpdate(event:WebViewEvent):void {
+        backBtn.alpha = webView.canGoBackward() ? 1.0 : 0.4;
+        fwdBtn.alpha = webView.canGoForward() ? 1.0 : 0.4;
+        backBtn.touchable = webView.canGoBackward()
+        fwdBtn.touchable = webView.canGoForward()
     }
 
     private function onZoomOut(event:TouchEvent):void {
@@ -194,6 +203,11 @@ public class StarlingRoot extends Sprite {
         var touch:Touch = event.getTouch(fwdBtn);
         if (touch != null && touch.phase == TouchPhase.ENDED) {
             webView.goForward();
+            /*
+            var obj:BackForwardList = webView.backForwardList();
+            trace()
+            trace()
+            */
         }
     }
 
@@ -266,7 +280,6 @@ public class StarlingRoot extends Sprite {
         var obj:Object = event.params;
         if (obj) {
             urlInput.text = obj.url;
-            // trace("url changed to:",obj.url);
         }
     }
 

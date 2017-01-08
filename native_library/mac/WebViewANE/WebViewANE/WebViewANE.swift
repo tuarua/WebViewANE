@@ -24,6 +24,7 @@ import WebKit
     private static let ON_JAVASCRIPT_RESULT: String = "WebView.OnJavascriptResult"
     private static let ON_PROGRESS: String = "WebView.OnProgress"
     private static let ON_PAGE_TITLE: String = "WebView.OnPageTitle"
+    private static let ON_BACK_FORWARD_UPDATE: String = "WebView.OnBackForwardUpdate"
 
     private func trace(value: String) {
         FREDispatchStatusEventAsync(self.dllContext, "[WebViewANE] " + value, "TRACE")
@@ -41,7 +42,6 @@ import WebKit
                 value = theJSONText! as String
             } catch {
                 Swift.debugPrint(error.localizedDescription)
-                print(error.localizedDescription)
             }
         }
         FREDispatchStatusEventAsync(self.dllContext, value, name)
@@ -102,8 +102,112 @@ import WebKit
         if let wv = myWebView {
             return aneHelper.getFreObject(bool: wv.allowsMagnification)
         }
-
         return aneHelper.getFreObject(bool: true)
+    }
+
+    func isLoading() -> FREObject? {
+        if let wv = myWebView {
+            return aneHelper.getFreObject(bool: wv.isLoading)
+        }
+        return aneHelper.getFreObject(bool: false)
+    }
+
+    func canGoBack() -> FREObject? {
+        if let wv = myWebView {
+            return aneHelper.getFreObject(bool: wv.canGoBack)
+        }
+        return aneHelper.getFreObject(bool: false)
+    }
+
+    func canGoForward() -> FREObject? {
+        if let wv = myWebView {
+            return aneHelper.getFreObject(bool: wv.canGoForward)
+        }
+        return aneHelper.getFreObject(bool: false)
+    }
+
+    func backForwardList() -> FREObject? {
+
+        if let wv = myWebView {
+            if let freBackForwardList = aneHelper.createFREObject(className: "com.tuarua.webview.BackForwardList") {
+
+                if let ci = wv.backForwardList.currentItem {
+                    if let freCurrentItem = aneHelper.createFREObject(className: "com.tuarua.webview.BackForwardListItem") {
+                        aneHelper.setFREObjectProperty(
+                                freObject: freCurrentItem, name: "url",
+                                prop: aneHelper.getFreObject(string: ci.url.absoluteString)!)
+                        aneHelper.setFREObjectProperty(
+                                freObject: freCurrentItem, name: "title",
+                                prop: aneHelper.getFreObject(string: ci.title)!)
+
+                        aneHelper.setFREObjectProperty(
+                                freObject: freCurrentItem, name: "initialURL",
+                                prop: aneHelper.getFreObject(string: ci.initialURL.absoluteString)!)
+
+                        aneHelper.setFREObjectProperty(freObject: freBackForwardList, name: "currentItem", prop: freCurrentItem)
+
+                    }
+                }
+
+                var i = 0
+                if let freBackList = aneHelper.createFREObject(className: "Vector.<com.tuarua.webview.BackForwardListItem>") {
+                    for item in wv.backForwardList.backList {
+                        if let freItem = aneHelper.createFREObject(className: "com.tuarua.webview.BackForwardListItem") {
+                            aneHelper.setFREObjectProperty(
+                                    freObject: freItem, name: "url",
+                                    prop: aneHelper.getFreObject(string: item.url.absoluteString)!)
+                            aneHelper.setFREObjectProperty(
+                                    freObject: freItem, name: "title",
+                                    prop: aneHelper.getFreObject(string: item.title)!)
+
+                            aneHelper.setFREObjectProperty(
+                                    freObject: freItem, name: "initialURL",
+                                    prop: aneHelper.getFreObject(string: item.initialURL.absoluteString)!)
+
+                            FRESetArrayElementAt(freBackList, UInt32(i), freItem);
+                            i = i + 1
+                        }
+                    }
+                    aneHelper.setFREObjectProperty(freObject: freBackForwardList, name: "backList", prop: freBackList)
+                }
+
+                i = 0
+                if let freForwardList = aneHelper.createFREObject(className: "Vector.<com.tuarua.webview.BackForwardListItem>") {
+                    for item in wv.backForwardList.forwardList {
+                        if let freItem = aneHelper.createFREObject(className: "com.tuarua.webview.BackForwardListItem") {
+                            aneHelper.setFREObjectProperty(
+                                    freObject: freItem, name: "url",
+                                    prop: aneHelper.getFreObject(string: item.url.absoluteString)!)
+                            aneHelper.setFREObjectProperty(
+                                    freObject: freItem, name: "title",
+                                    prop: aneHelper.getFreObject(string: item.title)!)
+
+                            aneHelper.setFREObjectProperty(
+                                    freObject: freItem, name: "initialURL",
+                                    prop: aneHelper.getFreObject(string: item.initialURL.absoluteString)!)
+
+                            FRESetArrayElementAt(freForwardList, UInt32(i), freItem);
+                            i = i + 1
+                        }
+                    }
+                    aneHelper.setFREObjectProperty(freObject: freBackForwardList, name: "forwardList", prop: freForwardList)
+                }
+
+                return freBackForwardList
+
+            }
+
+        }
+
+        return nil
+
+    }
+
+    func go(argv: NSPointerArray) {
+        let offset: Int = aneHelper.getInt(freObject: argv.pointer(at: 0))
+        if let wv = myWebView {
+            wv.go(to: wv.backForwardList.item(at: offset)!)
+        }
     }
 
     func getMagnification() -> FREObject? {
@@ -116,7 +220,7 @@ import WebKit
     func setMagnification(argv: NSPointerArray) {
         if let wv = myWebView {
             wv.setMagnification(aneHelper.getCGFloat(freObject: argv.pointer(at: 0)),
-                                centeredAt: aneHelper.getCGPoint(freObject: argv.pointer(at: 1)))
+                    centeredAt: aneHelper.getCGPoint(freObject: argv.pointer(at: 1)))
         }
     }
 
@@ -204,7 +308,6 @@ import WebKit
         }
     }
 
-
     func initWebView(argv: NSPointerArray) {
         var x = 0
         var y = 0
@@ -231,19 +334,21 @@ import WebKit
             myWebView?.navigationDelegate = self
             myWebView?.uiDelegate = self
 
-
             myWebView?.addObserver(self, forKeyPath: "estimatedProgress", options: .new, context: nil)
             myWebView?.addObserver(self, forKeyPath: "title", options: .new, context: nil)
+            myWebView?.addObserver(self, forKeyPath: "canGoBack", options: .new, context: nil)
+            myWebView?.addObserver(self, forKeyPath: "canGoForward", options: .new, context: nil)
+
         }
 
     }
 
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
-        if (keyPath == "estimatedProgress") {
+        if keyPath == "estimatedProgress" {
             var props: Dictionary<String, Any> = Dictionary()
             props["value"] = myWebView?.estimatedProgress
             sendEvent(name: WebViewANE.ON_PROGRESS, props: props);
-        } else if (keyPath == "title") {
+        } else if keyPath == "title" {
             if let t = myWebView?.title {
                 if t != "" {
                     var props: Dictionary<String, Any> = Dictionary()
@@ -251,6 +356,8 @@ import WebKit
                     sendEvent(name: WebViewANE.ON_PAGE_TITLE, props: props);
                 }
             }
+        } else if keyPath == "canGoBack" || keyPath == "canGoForward" {
+            sendEvent(name: WebViewANE.ON_BACK_FORWARD_UPDATE, props: nil);
         }
     }
 
