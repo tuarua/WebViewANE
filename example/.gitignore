@@ -6,6 +6,7 @@ bin/
 #bin-debug/
 bin-release/
 bin-release-temp/
+cache/
 
 # Other files and folders
 .settings/
