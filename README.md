@@ -7,6 +7,7 @@ Sample client included
 
 ![alt tag](https://raw.githubusercontent.com/tuarua/WebViewANE/master/screenshots/screenshot1.jpg)
 
+![alt tag](https://raw.githubusercontent.com/tuarua/WebViewANE/master/screenshots/screenshot2.jpg)
 
 ### References
 [https://developer.apple.com/reference/webkit/wkwebview]
