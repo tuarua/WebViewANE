@@ -27,3 +27,4 @@ xcuserdata/
 *.tps
 *.DS_Store
 /native_library_bak
+/cef_binaries
