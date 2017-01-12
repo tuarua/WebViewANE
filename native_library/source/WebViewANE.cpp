@@ -1,0 +1,366 @@
+#include "WebViewANE.h"
+#include <sstream>
+#include <iostream>
+#include <windows.h>
+#include <conio.h>
+
+#include "FlashRuntimeExtensions.h"
+bool isSupportedInOS = true;
+std::string pathSlash = "\\";
+
+#include "../include/ANEhelper.h"
+#include <string>
+
+#include <vector>
+#include "json.hpp"
+
+
+const std::string ANE_NAME = "WebViewANE";
+
+DWORD windowID;
+HWND _hwnd;
+HWND _hEdit;
+FREContext dllContext;
+
+int cef_width = 800;
+int cef_height = 600;
+int cef_x = 0;
+int cef_y = 0;
+std::vector<std::pair<std::string, std::string>> cef_commandLineArgs;
+int cef_remoteDebuggingPort;
+std::string cef_cachePath;
+int cef_logSeverity;
+bool cef_bestPerformance;
+
+#include "stdafx.h"
+#include "commctrl.h"
+#include <Windows.h>
+
+namespace ManagedCode {
+	using namespace System;
+	using namespace System::Windows;
+	using namespace System::Windows::Interop;
+	using namespace System::Windows::Media;
+	using namespace System::Collections::Generic;
+
+	ref class ManagedGlobals {
+	public:
+		static CefSharpLib::CefPage^ page = nullptr;
+	};
+
+	void MarshalString(String ^ s, std::string& os) {
+		using namespace Runtime::InteropServices;
+		const char* chars =
+			(const char*)(Marshal::StringToHGlobalAnsi(s)).ToPointer();
+		os = chars;
+		Marshal::FreeHGlobal(IntPtr((void*)chars));
+	}
+
+	void onCefLibMessage(Object ^sender, CefSharpLib::MessageEventArgs ^args) {
+		System::String^ type = args->Type;
+		System::String^ message = args->Message;
+		std::string typeStr = "";
+		MarshalString(type, typeStr);
+		std::string messageStr = "";
+		MarshalString(message, messageStr);
+
+		FREDispatchStatusEventAsync(dllContext, (uint8_t*)messageStr.c_str(), (const uint8_t*)typeStr.c_str());
+	}
+
+	HWND GetHwnd(HWND parent) {
+		HwndSource^ source = gcnew HwndSource(
+			0, // class style
+			/*WS_VISIBLE | */WS_CHILD, // style
+			0, // exstyle
+			cef_x, cef_y, cef_width, cef_height,
+			"Cef Window", // NAME
+			IntPtr(parent)        // parent window 
+			);
+
+
+		Dictionary<String^, String^>^ cs_cef_commandLineArgs = gcnew Dictionary<String^, String^>();
+		for (std::vector<std::pair<std::string, std::string>>::const_iterator i = cef_commandLineArgs.begin(); i != cef_commandLineArgs.end(); ++i) {
+			cs_cef_commandLineArgs->Add(gcnew String(i->first.c_str()), gcnew String(i->second.c_str()));
+		}
+		// cef_commandLineArgs
+
+		ManagedGlobals::page = gcnew CefSharpLib::CefPage(cef_bestPerformance, cef_logSeverity, cef_logSeverity, gcnew String(cef_cachePath.c_str()), cs_cef_commandLineArgs);
+		ManagedGlobals::page->OnMessageSent += gcnew CefSharpLib::CefPage::MessageHandler(onCefLibMessage);
+
+		source->RootVisual = ManagedGlobals::page; //is this wherer the visual is added
+		return (HWND)source->Handle.ToPointer();
+	}
+
+	void Load(System::String^ url) {
+		ManagedGlobals::page->Load(url);
+	}
+
+	void LoadHtmlString(System::String^ html, System::String^ url) {
+		ManagedGlobals::page->LoadHtmlString(html, url);
+	}
+
+	void Reload() {
+		ManagedGlobals::page->Reload();
+	}
+
+	void ReloadFromOrigin() {
+		ManagedGlobals::page->ReloadFromOrigin();
+	}
+
+	void GoForward() {
+		ManagedGlobals::page->GoForward();
+	}
+
+	void GoBack() {
+		ManagedGlobals::page->GoBack();
+	}
+
+	void StopLoading() {
+		ManagedGlobals::page->StopLoading();
+	}
+
+	void SetMagnification(System::Double value) {
+		ManagedGlobals::page->SetMagnification(value);
+	}
+
+	double GetMagnification() {
+		return ManagedGlobals::page->GetMagnification();
+	}
+
+	void EvaluateJavaScript(System::String^ javascript) {
+
+		std::string typeStr = "";
+		MarshalString(javascript, typeStr);
+
+		//trace("sent into ManagedGlobals::page->EvaluateJavaScript: " + typeStr);
+		ManagedGlobals::page->EvaluateJavaScript(javascript);
+	}
+
+	void Dispose() {
+		ManagedGlobals::page->TearDown();
+	}
+
+}
+
+
+extern "C" {
+	int logLevel = 1;
+	
+	HWND cefHwnd;
+
+	extern void trace(std::string msg) {
+		std::string value = "["+ANE_NAME+"] " + msg;
+		//if (logLevel > 0)
+			FREDispatchStatusEventAsync(dllContext, (uint8_t*)value.c_str(), (const uint8_t*) "TRACE");
+	}
+
+#define FRE_FUNCTION(fn) FREObject (fn)(FREContext context, void* functionData, uint32_t argc, FREObject argv[])
+
+	FRE_FUNCTION(init) {
+		using namespace std;
+		cef_width = getInt32FromFREObject(argv[0]);
+		cef_y = getInt32FromFREObject(argv[1]);
+		cef_width = getInt32FromFREObject(argv[2]);
+		cef_height = getInt32FromFREObject(argv[3]);
+
+		FREObjectType settingsType;
+		FREGetObjectType(argv[4], &settingsType);
+
+		if (FRE_TYPE_NULL != settingsType) {
+			FREObject cefSettingsFRE = getFREObjectProperty(argv[4], (const uint8_t*) "cef");
+			cef_remoteDebuggingPort = getInt32FromFREObject(getFREObjectProperty(cefSettingsFRE, (const uint8_t*) "remoteDebuggingPort"));
+			cef_cachePath = getStringFromFREObject(getFREObjectProperty(cefSettingsFRE, (const uint8_t*) "cachePath"));
+			cef_logSeverity = getInt32FromFREObject(getFREObjectProperty(cefSettingsFRE, (const uint8_t*) "logSeverity"));
+			cef_bestPerformance = getBoolFromFREObject(getFREObjectProperty(cefSettingsFRE, (const uint8_t*) "bestPerformance"));
+			
+			FREObject commandLineArgsFRE = getFREObjectProperty(cefSettingsFRE, (const uint8_t*) "commandLineArgs");
+			uint32_t numArgs = getFREObjectArrayLength(commandLineArgsFRE);
+
+			for (unsigned int j = 0; j < numArgs; ++j) {
+				FREObject elemAS = NULL;
+				FREGetArrayElementAt(commandLineArgsFRE, j, &elemAS);
+				string key = getStringFromFREObject(getFREObjectProperty(elemAS, (const uint8_t*) "key"));
+				string val = getStringFromFREObject(getFREObjectProperty(elemAS, (const uint8_t*) "value"));
+				cef_commandLineArgs.push_back(make_pair(key, val));
+			}
+		}
+		cefHwnd = ManagedCode::GetHwnd(_hwnd);
+		return NULL;
+	}
+
+	FRE_FUNCTION(isSupported) {
+		using namespace std;
+		return getFREObjectFromBool(true);
+	}
+
+	FRE_FUNCTION(load) {
+		using namespace std;
+		using namespace System;
+		string url = getStringFromFREObject(argv[0]);
+		String^ cs_url = gcnew String(url.c_str());
+		ManagedCode::Load(cs_url);
+		return NULL;
+	}
+
+	FRE_FUNCTION(LoadHtmlString) {
+		using namespace std;
+		using namespace System;
+		string html = getStringFromFREObject(argv[0]);
+		String^ cs_html = gcnew String(html.c_str());
+		string url = getStringFromFREObject(argv[1]);
+		String^ cs_url = gcnew String(url.c_str());
+		ManagedCode::LoadHtmlString(cs_html, cs_url);
+		return NULL;
+	}
+	
+	FRE_FUNCTION(reload) {
+		ManagedCode::Reload();
+		return NULL;
+	}
+
+	FRE_FUNCTION(reloadFromOrigin) {
+		ManagedCode::ReloadFromOrigin();
+		return NULL;
+	}
+
+	FRE_FUNCTION(goBack) {
+		ManagedCode::GoBack();
+		return NULL;
+	}
+
+	FRE_FUNCTION(goForward) {
+		ManagedCode::GoForward();
+		return NULL;
+	}
+
+	FRE_FUNCTION(stopLoading) {
+		ManagedCode::StopLoading();
+		return NULL;
+	}
+
+	FRE_FUNCTION(allowsMagnification) {
+		return getFREObjectFromBool(true);
+	}
+	
+	FRE_FUNCTION(getMagnification) {
+		return getFREObjectFromDouble(ManagedCode::GetMagnification());
+	}
+
+	FRE_FUNCTION(setMagnification) {
+		double value = getDoubleFromFREObject(argv[0]);
+		ManagedCode::SetMagnification(value);
+		return NULL;
+	}
+
+	FRE_FUNCTION(evaluateJavaScript) {
+		using namespace std;
+		using namespace System;
+
+		string javascript = getStringFromFREObject(argv[0]);
+		String^ cs_javascript = gcnew String(javascript.c_str());
+
+		ManagedCode::EvaluateJavaScript(cs_javascript);
+		return NULL;
+	}
+	
+
+	
+	FRE_FUNCTION(addToStage) {
+		using namespace std;
+		
+
+		ShowWindow(cefHwnd, SW_SHOWDEFAULT);
+		UpdateWindow(cefHwnd);
+
+		//do I need this ?
+		//System::Windows::Interop::HwndSource^ hws = ManagedCode::HwndSource::FromHwnd(System::IntPtr(cefHwnd)); //seems to run without this ?
+		//hws->
+		return NULL;
+	}
+
+	FRE_FUNCTION(removeFromStage) {
+		ShowWindow(cefHwnd, SW_HIDE);
+		UpdateWindow(cefHwnd);
+		return NULL;
+	}
+
+	BOOL CALLBACK EnumProc(HWND hwnd, LPARAM lParam) {
+		GetWindowThreadProcessId(hwnd, &windowID);
+		if (windowID == lParam) {
+			_hwnd = hwnd;
+			return false;
+		}
+		return true;
+	}
+
+	[System::STAThreadAttribute]
+	BOOL APIENTRY WebViewANEMain(HMODULE hModule,
+		DWORD  ul_reason_for_call,
+		LPVOID lpReserved
+		)
+	{
+		switch (ul_reason_for_call)
+		{
+		case DLL_PROCESS_ATTACH:
+		case DLL_THREAD_ATTACH:
+		case DLL_THREAD_DETACH:
+		case DLL_PROCESS_DETACH:
+			break;
+		}
+		return TRUE;
+	}
+
+	
+	void contextInitializer(void* extData, const uint8_t* ctxType, FREContext ctx, uint32_t* numFunctionsToSet, const FRENamedFunction** functionsToSet) {
+		
+		DWORD processID = GetCurrentProcessId();
+		EnumWindows(EnumProc, processID);
+
+		static FRENamedFunction extensionFunctions[] = {
+			{ (const uint8_t*) "init",NULL, &init }
+			,{ (const uint8_t*) "isSupported",NULL, &isSupported }
+			,{ (const uint8_t*) "addToStage",NULL, &addToStage }
+			,{ (const uint8_t*) "load",NULL, &load }
+			,{ (const uint8_t *) "reload", NULL, &reload }
+			,{ (const uint8_t *) "goBack", NULL, &goBack }
+			,{ (const uint8_t *) "goForward", NULL, &goForward }
+			,{ (const uint8_t *) "stopLoading", NULL, &stopLoading }
+			,{ (const uint8_t *) "reloadFromOrigin", NULL, &reloadFromOrigin }
+			,{ (const uint8_t *) "allowsMagnification", NULL, &allowsMagnification }
+			,{ (const uint8_t *) "getMagnification", NULL, &getMagnification }
+			,{ (const uint8_t *) "setMagnification", NULL, &setMagnification }
+			,{ (const uint8_t *) "evaluateJavaScript", NULL, &evaluateJavaScript }
+			,{ (const uint8_t *) "loadHTMLString", NULL, &LoadHtmlString }
+			,{ (const uint8_t *) "removeFromStage", NULL, &removeFromStage }
+
+			/*
+        
+        , {(const uint8_t *) "loadFileURL", NULL, &loadFileURL} //TODO 
+			*/
+
+		};
+
+		*numFunctionsToSet = sizeof(extensionFunctions) / sizeof(FRENamedFunction);
+		*functionsToSet = extensionFunctions;
+		dllContext = ctx;
+	}
+
+
+	void contextFinalizer(FREContext ctx) {
+		return;
+	}
+
+	void TRWVExtInizer(void** extData, FREContextInitializer* ctxInitializer, FREContextFinalizer* ctxFinalizer) {
+		*ctxInitializer = &contextInitializer;
+		*ctxFinalizer = &contextFinalizer;
+	}
+
+	void TRWVExtFinizer(void* extData) {
+		FREContext nullCTX;
+		nullCTX = 0;
+		ManagedCode::Dispose();
+		cefHwnd = NULL;
+		contextFinalizer(nullCTX);
+		return;
+	}
+}
