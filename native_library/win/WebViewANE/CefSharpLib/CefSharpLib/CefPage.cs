@@ -29,7 +29,6 @@ namespace CefSharpLib {
         //public static string ON_INITIALIZED = "WebView.OnInitialized";
         public static string ON_FAIL = "WebView.OnFail";
         public static string ON_JAVASCRIPT_RESULT = "WebView.OnJavascriptResult";
-        private static string ON_PROGRESS = "WebView.OnProgress";
         private static string ON_PROPERTY_CHANGE = "WebView.OnPropertyChange";
         public ChromiumWebBrowser Browser;
 

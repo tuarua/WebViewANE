@@ -158,7 +158,7 @@ extern "C" {
 
 	FRE_FUNCTION(init) {
 		using namespace std;
-		cef_width = getInt32FromFREObject(argv[0]);
+		cef_x = getInt32FromFREObject(argv[0]);
 		cef_y = getInt32FromFREObject(argv[1]);
 		cef_width = getInt32FromFREObject(argv[2]);
 		cef_height = getInt32FromFREObject(argv[3]);
@@ -185,6 +185,61 @@ extern "C" {
 			}
 		}
 		cefHwnd = ManagedCode::GetHwnd(_hwnd);
+		return NULL;
+	}
+
+	FRE_FUNCTION(setPositionAndSize) {
+		using namespace std;
+		int tmp_x = getInt32FromFREObject(argv[0]);
+		int tmp_y = getInt32FromFREObject(argv[1]);
+		int tmp_width = getInt32FromFREObject(argv[2]);
+		int tmp_height = getInt32FromFREObject(argv[3]);
+
+		bool updateWidth = false;
+		bool updateHeight = false;
+		bool updateX = false;
+		bool updateY = false;
+
+		if (tmp_width != cef_width) {
+			cef_width = tmp_width;
+			updateWidth = true;
+			trace(" UPDATE WIDTH");
+		}
+
+		if (tmp_height != cef_height) {
+			cef_height = tmp_height;
+			updateHeight = true;
+			trace(" UPDATE WIDTH");
+		}
+
+		if (tmp_x != cef_x) {
+			cef_x = tmp_x;
+			updateX = true;
+			trace(" UPDATE X");
+		}
+
+		if (tmp_y != cef_y) {
+			cef_y = tmp_y;
+			updateY = true;
+			trace(" UPDATE Y");
+		}
+
+		if (updateX || updateY || updateWidth || updateHeight) {
+			auto flg = NULL;
+			if (!updateWidth && !updateHeight)
+				flg = SWP_NOSIZE;
+			if (!updateX && !updateY)
+				flg = SWP_NOMOVE;
+
+			SetWindowPos(cefHwnd,
+				HWND_TOP,
+				(updateX) ? cef_x : 0,
+				(updateY) ? cef_y : 0,
+				(updateWidth) ? cef_width : 0,
+				(updateHeight) ? cef_height : 0,
+				flg);
+			UpdateWindow(cefHwnd);
+		}
 		return NULL;
 	}
 
@@ -332,6 +387,8 @@ extern "C" {
 			,{ (const uint8_t *) "evaluateJavaScript", NULL, &evaluateJavaScript }
 			,{ (const uint8_t *) "loadHTMLString", NULL, &LoadHtmlString }
 			,{ (const uint8_t *) "removeFromStage", NULL, &removeFromStage }
+			,{ (const uint8_t *) "setPositionAndSize", NULL, &setPositionAndSize }
+			
 
 			/*
         
