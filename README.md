@@ -28,7 +28,8 @@ The OSX version utilises the native WKWebView
 
 
 ### To Do
-* Allow 2 way Javascript Binding between
+* Allow 2 way Javascript Binding between AIR and the webview
+* Implement local file loading on Windows version
 * Allow the webView frame's position and size on the fly
 * Add additional CefSettings to be set
 * Add ability to set WKWebViewConfiguration of OSX version
