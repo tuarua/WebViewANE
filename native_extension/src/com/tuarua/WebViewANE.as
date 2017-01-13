@@ -106,7 +106,6 @@ public class WebViewANE extends EventDispatcher {
         }
     }
 
-    /*
     public function setPositionAndSize(x:int = 0, y:int = 0, width:int = 0, height:int = 0):void {
         this._x = x;
         this._y = y;
@@ -115,7 +114,6 @@ public class WebViewANE extends EventDispatcher {
         if (safetyCheck())
             extensionContext.call("setPositionAndSize", this._x, this._y, this._width, this._height);
     }
-*/
 
     public function addToStage():void {
         if (safetyCheck())
