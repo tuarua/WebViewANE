@@ -5,16 +5,9 @@ package com.tuarua.webview {
 import flash.events.Event;
 
 public class WebViewEvent extends Event {
-    //public static const WEBVIEW_ERROR:String = "WebView.Error";
-
-    public static const ON_URL_CHANGE:String = "WebView.OnUrlChange";
-    public static const ON_FINISH:String = "WebView.OnFinish";
-    public static const ON_START:String = "WebView.OnStart";
     public static const ON_FAIL:String = "WebView.OnFail";
     public static const ON_JAVASCRIPT_RESULT:String = "WebView.OnJavascriptResult";
-    public static const ON_PROGRESS:String = "WebView.OnProgress";
-    public static const ON_PAGE_TITLE:String = "WebView.OnPageTitle"
-    public static const ON_BACK_FORWARD_UPDATE: String = "WebView.OnBackForwardUpdate"
+    public static const ON_PROPERTY_CHANGE:String = "WebView.OnPropertyChange";
     public var params:Object;
 
     public function WebViewEvent(type:String, params:Object = null, bubbles:Boolean = false, cancelable:Boolean = false) {

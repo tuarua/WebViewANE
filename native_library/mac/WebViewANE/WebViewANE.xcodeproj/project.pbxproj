@@ -191,7 +191,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = ../../../native_extension/ane/build_osx.sh;
+			shellScript = ../../../native_extension/ane/build_multi.sh;
 		};
 /* End PBXShellScriptBuildPhase section */
 

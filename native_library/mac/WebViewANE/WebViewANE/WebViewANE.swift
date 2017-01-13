@@ -17,14 +17,10 @@ import WebKit
     private var myWebView: WKWebView?
     private var mainWindow: NSWindow?
 
-    private static let ON_URL_CHANGE: String = "WebView.OnUrlChange"
-    private static let ON_FINISH: String = "WebView.OnFinish"
-    private static let ON_START: String = "WebView.OnStart"
     private static let ON_FAIL: String = "WebView.OnFail"
     private static let ON_JAVASCRIPT_RESULT: String = "WebView.OnJavascriptResult"
     private static let ON_PROGRESS: String = "WebView.OnProgress"
-    private static let ON_PAGE_TITLE: String = "WebView.OnPageTitle"
-    private static let ON_BACK_FORWARD_UPDATE: String = "WebView.OnBackForwardUpdate"
+    private static let ON_PROPERTY_CHANGE: String = "WebView.OnPropertyChange"
 
     private func trace(value: String) {
         FREDispatchStatusEventAsync(self.dllContext, "[WebViewANE] " + value, "TRACE")
@@ -48,22 +44,12 @@ import WebKit
     }
 
     func webView(_ myWebView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-        var props: Dictionary<String, Any> = Dictionary()
-        props["url"] = myWebView.url!.absoluteString
-        sendEvent(name: WebViewANE.ON_URL_CHANGE, props: props);
     }
 
     func webView(_ myWebView: WKWebView, didCommit navigation: WKNavigation!) {
-        var props: Dictionary<String, Any> = Dictionary()
-        props["url"] = myWebView.url!.absoluteString
-        sendEvent(name: WebViewANE.ON_START, props: props);
     }
 
     func webView(_ myWebView: WKWebView, didFinish navigation: WKNavigation!) {
-        var props: Dictionary<String, Any> = Dictionary()
-        props["url"] = myWebView.url!.absoluteString
-        props["title"] = myWebView.title
-        sendEvent(name: WebViewANE.ON_FINISH, props: props);
     }
 
 
@@ -85,9 +71,6 @@ import WebKit
     }
 
     func webView(_ myWebView: WKWebView, didReceiveServerRedirectForProvisionalNavigation navigation: WKNavigation!) {
-        var props: Dictionary<String, Any> = Dictionary()
-        props["url"] = myWebView.url!.absoluteString
-        sendEvent(name: WebViewANE.ON_URL_CHANGE, props: props);
     }
 
     func isSupported() -> FREObject? {
@@ -103,27 +86,6 @@ import WebKit
             return aneHelper.getFreObject(bool: wv.allowsMagnification)
         }
         return aneHelper.getFreObject(bool: true)
-    }
-
-    func isLoading() -> FREObject? {
-        if let wv = myWebView {
-            return aneHelper.getFreObject(bool: wv.isLoading)
-        }
-        return aneHelper.getFreObject(bool: false)
-    }
-
-    func canGoBack() -> FREObject? {
-        if let wv = myWebView {
-            return aneHelper.getFreObject(bool: wv.canGoBack)
-        }
-        return aneHelper.getFreObject(bool: false)
-    }
-
-    func canGoForward() -> FREObject? {
-        if let wv = myWebView {
-            return aneHelper.getFreObject(bool: wv.canGoForward)
-        }
-        return aneHelper.getFreObject(bool: false)
     }
 
     func backForwardList() -> FREObject? {
@@ -336,29 +298,61 @@ import WebKit
 
             myWebView?.addObserver(self, forKeyPath: "estimatedProgress", options: .new, context: nil)
             myWebView?.addObserver(self, forKeyPath: "title", options: .new, context: nil)
+            myWebView?.addObserver(self, forKeyPath: "URL", options: .new, context: nil)
             myWebView?.addObserver(self, forKeyPath: "canGoBack", options: .new, context: nil)
             myWebView?.addObserver(self, forKeyPath: "canGoForward", options: .new, context: nil)
+            myWebView?.addObserver(self, forKeyPath: "isLoading", options: .new, context: nil)
 
         }
 
     }
 
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
-        if keyPath == "estimatedProgress" {
-            var props: Dictionary<String, Any> = Dictionary()
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?,
+                               context: UnsafeMutableRawPointer?) {
+        var props: Dictionary<String, Any> = Dictionary()
+
+        switch keyPath! {
+        case "estimatedProgress":
+            props["propName"] = "estimatedProgress"
             props["value"] = myWebView?.estimatedProgress
-            sendEvent(name: WebViewANE.ON_PROGRESS, props: props);
-        } else if keyPath == "title" {
-            if let t = myWebView?.title {
-                if t != "" {
-                    var props: Dictionary<String, Any> = Dictionary()
-                    props["title"] = t
-                    sendEvent(name: WebViewANE.ON_PAGE_TITLE, props: props);
+            break;
+        case "URL":
+            if let val = myWebView?.url?.absoluteString {
+                if val != "" {
+                    props["propName"] = "url"
+                    props["value"] = val
+                } else {
+                    return
                 }
             }
-        } else if keyPath == "canGoBack" || keyPath == "canGoForward" {
-            sendEvent(name: WebViewANE.ON_BACK_FORWARD_UPDATE, props: nil);
+            break;
+        case "title":
+            if let val = myWebView?.title {
+                if val != "" {
+                    props["propName"] = "title"
+                    props["value"] = val
+                }
+            }
+            break;
+        case "canGoBack":
+            props["propName"] = "canGoBack"
+            props["value"] = myWebView?.canGoBack
+
+            break;
+        case "canGoForward":
+            props["propName"] = "canGoForward"
+            props["value"] = myWebView?.canGoForward
+            break;
+        case "isLoading":
+            props["propName"] = "isLoading"
+            props["value"] = myWebView?.isLoading
+            break;
+        default:
+            return
         }
+
+        sendEvent(name: WebViewANE.ON_PROPERTY_CHANGE, props: props);
+
     }
 
 

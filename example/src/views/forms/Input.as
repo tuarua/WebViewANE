@@ -31,9 +31,6 @@ public class Input extends Sprite {
         this.addEventListener(starling.events.Event.ADDED_TO_STAGE, onAddedToStage);
         w = _w;
         inputBG = new Image(Assets.getAtlas().getTexture("input-bg"));
-
-        trace(inputBG);
-
         inputBG.scale9Grid = new Rectangle(4, 4, 16, 16);
         inputBG.width = _w;
         inputBG.height = _h;
