@@ -24,6 +24,10 @@ public class WebViewANE extends EventDispatcher {
     private var _canGoBack:Boolean;
     private var _canGoForward:Boolean;
     private var _estimatedProgress:Number;
+    private var _x:int;
+    private var _y:int;
+    private var _height:int;
+    private var _width:int;
 
     public function WebViewANE() {
         initiate();
@@ -69,7 +73,7 @@ public class WebViewANE extends EventDispatcher {
                     _canGoBack = pObj.value;
                 } else if (pObj.propName == "canGoForward") {
                     _canGoForward = pObj.value;
-                }else if (pObj.propName == "estimatedProgress") {
+                } else if (pObj.propName == "estimatedProgress") {
                     _estimatedProgress = pObj.value;
                 }
 
@@ -87,15 +91,31 @@ public class WebViewANE extends EventDispatcher {
     }
 
     public function init(x:int = 0, y:int = 0, width:int = 800, height:int = 600, settings:Settings = null):void {
+        this._x = x;
+        this._y = y;
+        this._width = width;
+        this._height = height;
+
         if (_isSupported) {
             var _settings:Settings = settings;
             if (_settings == null) {
                 _settings = new Settings();
             }
-            extensionContext.call("init", x, y, width, height, _settings);
+            extensionContext.call("init", this._x, this._y, this._width, this._height, _settings);
             isInited = true;
         }
     }
+
+    /*
+    public function setPositionAndSize(x:int = 0, y:int = 0, width:int = 0, height:int = 0):void {
+        this._x = x;
+        this._y = y;
+        if (width > 0) this._width = width;
+        if (height > 0) this._height = height;
+        if (safetyCheck())
+            extensionContext.call("setPositionAndSize", this._x, this._y, this._width, this._height);
+    }
+*/
 
     public function addToStage():void {
         if (safetyCheck())
