@@ -68,6 +68,7 @@ import WebKit
         //var props: Dictionary<String, Any> = Dictionary()
         //props["url"] = myWebView.url!.absoluteString
         //sendEvent(name: WebViewANE.ON_FAIL, props: props);
+        
     }
 
     func webView(_ myWebView: WKWebView, didReceiveServerRedirectForProvisionalNavigation navigation: WKNavigation!) {
@@ -205,6 +206,18 @@ import WebKit
         let js: String = aneHelper.getString(freObject: argv.pointer(at: 0))
         if let wv = myWebView {
             wv.evaluateJavaScript(js, completionHandler: onJavascriptResult)
+        }
+    }
+    
+    func setPositionAndSize(argv: NSPointerArray){
+        let x = aneHelper.getInt(freObject: argv.pointer(at: 0))
+        let y = aneHelper.getInt(freObject: argv.pointer(at: 1))
+        let width = aneHelper.getInt(freObject: argv.pointer(at: 2))
+        let height = aneHelper.getInt(freObject: argv.pointer(at: 3))
+        let realY = (Int((mainWindow?.contentLayoutRect.height)!) - height) - y;
+        myWebView?.setFrameOrigin(NSPoint.init(x: x, y: realY))
+        if width > 0 && height > 0 {
+            myWebView?.setFrameSize(NSSize.init(width: width, height: height))
         }
     }
 

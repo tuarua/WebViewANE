@@ -110,6 +110,11 @@ FRE_FUNCTION (evaluateJavaScript) {
     return NULL;
 }
 
+FRE_FUNCTION (setPositionAndSize) {
+    [swft setPositionAndSizeWithArgv:getFREargs(argc, argv)];
+    return NULL;
+}
+
 void contextInitializer(void *extData, const uint8_t *ctxType, FREContext ctx, uint32_t *numFunctionsToSet, const FRENamedFunction **functionsToSet) {
     static FRENamedFunction extensionFunctions[] = {
           {(const uint8_t *) "init", NULL, &init}
@@ -130,6 +135,9 @@ void contextInitializer(void *extData, const uint8_t *ctxType, FREContext ctx, u
         , {(const uint8_t *) "getMagnification", NULL, &getMagnification}
         , {(const uint8_t *) "setMagnification", NULL, &setMagnification}
         , {(const uint8_t *) "evaluateJavaScript", NULL, &evaluateJavaScript}
+        , {(const uint8_t *) "setPositionAndSize", NULL, &setPositionAndSize}
+        
+        
 
     };
 
