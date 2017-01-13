@@ -14,7 +14,7 @@ The Windows version utilises the [CefSharp WPF](https://github.com/cefsharp/CefS
 * For release builds, these files need to be packaged in the same folder as your exe
 * The Cef view and processes can only be attached once to your app. Therefore only one instance can be created and used.
 However, the view can be shown and hidden when not in use via the addToStage and removeFromStage methods
-* CefSharp WPF uses OSR (Offscreen Rendering). Cef command line args have been optimised for this. However, this disables WebGL. If you want to use WebGL please set the follwing 
+* CefSharp WPF uses OSR (Offscreen Rendering). Cef command line args have been optimised for this. However, this disables WebGL. If you want to use WebGL please set the following 
 ```actionscript
 var settings:Settings = new Settings();
 settings.cef.bestPerformance = false;
@@ -31,7 +31,7 @@ The OSX version utilises the native WKWebView
 
 ### To Do
 * Allow 2 way Javascript Binding between AIR and the webView
-* Implement local file loading on Windows version
+* Implement loadFileURL method on Windows version
 * Allow the webView's position and size to be set on the fly
 * Add additional CefSettings to settings.cef
 * Add ability to set WKWebViewConfiguration of OSX version
