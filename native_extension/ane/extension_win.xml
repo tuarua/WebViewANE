@@ -3,7 +3,7 @@
     <id>com.tuarua.WebViewANE</id>
     <name>WebView ANE</name>
     <copyright>his work is licensed under MIT License, Copyright (c) 2017 Tua Rua Ltd.</copyright>
-    <versionNumber>0.0.6</versionNumber>
+    <versionNumber>0.0.7</versionNumber>
 	<platforms>
         <platform name="Windows-x86">
             <applicationDeployment>

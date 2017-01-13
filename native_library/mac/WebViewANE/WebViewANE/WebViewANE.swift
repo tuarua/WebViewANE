@@ -16,6 +16,11 @@ import WebKit
     private let aneHelper = ANEHelper()
     private var myWebView: WKWebView?
     private var mainWindow: NSWindow?
+    
+    private var _x = 0
+    private var _y = 0
+    private var _width = 800
+    private var _height = 600
 
     private static let ON_FAIL: String = "WebView.OnFail"
     private static let ON_JAVASCRIPT_RESULT: String = "WebView.OnJavascriptResult"
@@ -210,14 +215,36 @@ import WebKit
     }
     
     func setPositionAndSize(argv: NSPointerArray){
-        let x = aneHelper.getInt(freObject: argv.pointer(at: 0))
-        let y = aneHelper.getInt(freObject: argv.pointer(at: 1))
-        let width = aneHelper.getInt(freObject: argv.pointer(at: 2))
-        let height = aneHelper.getInt(freObject: argv.pointer(at: 3))
-        let realY = (Int((mainWindow?.contentLayoutRect.height)!) - height) - y;
-        myWebView?.setFrameOrigin(NSPoint.init(x: x, y: realY))
-        if width > 0 && height > 0 {
-            myWebView?.setFrameSize(NSSize.init(width: width, height: height))
+        let tmp_x = aneHelper.getInt(freObject: argv.pointer(at: 0))
+        let tmp_y = aneHelper.getInt(freObject: argv.pointer(at: 1))
+        let tmp_width = aneHelper.getInt(freObject: argv.pointer(at: 2))
+        let tmp_height = aneHelper.getInt(freObject: argv.pointer(at: 3))
+        var updateWidth = false;
+        var updateHeight = false;
+        var updateX = false;
+        var updateY = false;
+        if (tmp_width != _width) {
+            _width = tmp_width;
+            updateWidth = true;
+        }
+        if (tmp_height != _height) {
+            _height = tmp_height;
+            updateHeight = true;
+        }
+        if (tmp_x != _x) {
+            _x = tmp_x;
+            updateX = true;
+        }
+        if (tmp_y != _y) {
+            _y = tmp_y;
+            updateY = true;
+        }
+        if updateX || updateY {
+            let realY = (Int((mainWindow?.contentLayoutRect.height)!) - _height) - _y;
+            myWebView?.setFrameOrigin(NSPoint.init(x: _x, y: realY))
+        }
+        if updateWidth || updateHeight {
+            myWebView?.setFrameSize(NSSize.init(width: _width, height: _height))
         }
     }
 
@@ -284,25 +311,19 @@ import WebKit
     }
 
     func initWebView(argv: NSPointerArray) {
-        var x = 0
-        var y = 0
-        var width = 800
-        var height = 600
-
-        x = aneHelper.getInt(freObject: argv.pointer(at: 0))
-        y = aneHelper.getInt(freObject: argv.pointer(at: 1))
-        width = aneHelper.getInt(freObject: argv.pointer(at: 2))
-        height = aneHelper.getInt(freObject: argv.pointer(at: 3))
-
+        _x = aneHelper.getInt(freObject: argv.pointer(at: 0))
+        _y = aneHelper.getInt(freObject: argv.pointer(at: 1))
+        _width = aneHelper.getInt(freObject: argv.pointer(at: 2))
+        _height = aneHelper.getInt(freObject: argv.pointer(at: 3))
 
         let allWindows = NSApp.windows;
         if allWindows.count > 0 {
             mainWindow = allWindows[0]
 
             let configuration = WKWebViewConfiguration()
-            let realY = (Int((mainWindow?.contentLayoutRect.height)!) - height) - y;
+            let realY = (Int((mainWindow?.contentLayoutRect.height)!) - _height) - _y;
 
-            let myRect: CGRect = CGRect.init(x: x, y: realY, width: width, height: height)
+            let myRect: CGRect = CGRect.init(x: _x, y: realY, width: _width, height: _height)
 
             myWebView = WKWebView(frame: myRect, configuration: configuration)
             myWebView?.translatesAutoresizingMaskIntoConstraints = false

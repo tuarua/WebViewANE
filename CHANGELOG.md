@@ -1,3 +1,7 @@
+### 0.0.7
+- WIN: Fix Issue#1
+- WIN/OSX: Added setPositionAndSize method
+
 ### 0.0.6
 - WIN: added Chromium Embedded Framework version
 - Utilised observer model better
