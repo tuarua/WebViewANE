@@ -3,6 +3,7 @@
  */
 package com.tuarua {
 import com.tuarua.webview.BackForwardList;
+import com.tuarua.webview.Settings;
 import com.tuarua.webview.WebViewEvent;
 
 import flash.events.EventDispatcher;
@@ -17,17 +18,20 @@ public class WebViewANE extends EventDispatcher {
     private var isInited:Boolean = false;
     private var _isSupported:Boolean = false;
 
+    private var _url:String;
+    private var _title:String;
+    private var _isLoading:Boolean;
+    private var _canGoBack:Boolean;
+    private var _canGoForward:Boolean;
+    private var _estimatedProgress:Number;
+
     public function WebViewANE() {
         initiate();
     }
 
-
     protected function initiate():void {
         isInited = true;
-
-        if (Capabilities.os.toLowerCase().indexOf("mac os") > -1) {
-            _isSupported = true;
-        }
+        _isSupported = true;
 
         if (_isSupported) {
             trace("[" + name + "] Initalizing ANE...");
@@ -45,42 +49,50 @@ public class WebViewANE extends EventDispatcher {
     }
 
     private function gotEvent(event:StatusEvent):void {
+        // trace(event);
         var pObj:Object;
         switch (event.level) {
             case "TRACE":
                 trace(event.code);
                 break;
-            case WebViewEvent.ON_URL_CHANGE:
-                dispatchEvent(new WebViewEvent(WebViewEvent.ON_URL_CHANGE, JSON.parse(event.code)));
-                break;
-            case WebViewEvent.ON_FINISH:
-                dispatchEvent(new WebViewEvent(WebViewEvent.ON_FINISH, JSON.parse(event.code)));
-                break;
-            case WebViewEvent.ON_START:
-                dispatchEvent(new WebViewEvent(WebViewEvent.ON_START, JSON.parse(event.code)));
+
+            case WebViewEvent.ON_PROPERTY_CHANGE:
+                //trace(event.code);
+                pObj = JSON.parse(event.code);
+                if (pObj.propName == "url") {
+                    _url = pObj.value;
+                } else if (pObj.propName == "title") {
+                    _title = pObj.value;
+                } else if (pObj.propName == "isLoading") {
+                    _isLoading = pObj.value;
+                } else if (pObj.propName == "canGoBack") {
+                    _canGoBack = pObj.value;
+                } else if (pObj.propName == "canGoForward") {
+                    _canGoForward = pObj.value;
+                }else if (pObj.propName == "estimatedProgress") {
+                    _estimatedProgress = pObj.value;
+                }
+
+                dispatchEvent(new WebViewEvent(WebViewEvent.ON_PROPERTY_CHANGE, pObj.propName));
                 break;
             case WebViewEvent.ON_FAIL:
-                dispatchEvent(new WebViewEvent(WebViewEvent.ON_FAIL, JSON.parse(event.code)));
+                dispatchEvent(new WebViewEvent(WebViewEvent.ON_FAIL, (event.code.length > 0)
+                        ? JSON.parse(event.code) : null));
                 break;
             case WebViewEvent.ON_JAVASCRIPT_RESULT:
-                dispatchEvent(new WebViewEvent(WebViewEvent.ON_JAVASCRIPT_RESULT, JSON.parse(event.code)));
+                dispatchEvent(new WebViewEvent(WebViewEvent.ON_JAVASCRIPT_RESULT, (event.code.length > 0)
+                        ? JSON.parse(event.code) : null));
                 break;
-            case WebViewEvent.ON_PROGRESS:
-                dispatchEvent(new WebViewEvent(WebViewEvent.ON_PROGRESS, JSON.parse(event.code)));
-                break;
-            case WebViewEvent.ON_PAGE_TITLE:
-                dispatchEvent(new WebViewEvent(WebViewEvent.ON_PAGE_TITLE, JSON.parse(event.code)));
-                break;
-            case WebViewEvent.ON_BACK_FORWARD_UPDATE:
-                dispatchEvent(new WebViewEvent(WebViewEvent.ON_BACK_FORWARD_UPDATE, null));
-                break;
-
         }
     }
 
-    public function init(x:int = 0, y:int = 0, width:int = 800, height:int = 600):void {
+    public function init(x:int = 0, y:int = 0, width:int = 800, height:int = 600, settings:Settings = null):void {
         if (_isSupported) {
-            extensionContext.call("init", x, y, width, height);
+            var _settings:Settings = settings;
+            if (_settings == null) {
+                _settings = new Settings();
+            }
+            extensionContext.call("init", x, y, width, height, _settings);
             isInited = true;
         }
     }
@@ -90,27 +102,11 @@ public class WebViewANE extends EventDispatcher {
             extensionContext.call("addToStage");
     }
 
-    public function isLoading():Boolean {
-        if (safetyCheck())
-            return extensionContext.call("isLoading");
-        return false;
-    }
-
-    public function canGoBackward():Boolean {
-        if (safetyCheck())
-            return extensionContext.call("canGoBack");
-        return false;
-    }
-
-    public function canGoForward():Boolean {
-        if (safetyCheck())
-            return extensionContext.call("canGoForward");
-        return false;
-    }
-
     public function backForwardList():BackForwardList {
-        if (safetyCheck())
+        if (safetyCheck() && Capabilities.os.toLowerCase().indexOf("windows") == -1) //only osx currently
             return extensionContext.call("backForwardList") as BackForwardList;
+
+        trace("[" + name + "] backForwardList method only available in OSX");
         return new BackForwardList();
     }
 
@@ -124,14 +120,16 @@ public class WebViewANE extends EventDispatcher {
             extensionContext.call("load", url);
     }
 
-    public function loadHTMLString(html:String):void {
+    public function loadHTMLString(html:String, baseUrl:String = ""):void {
         if (safetyCheck())
-            extensionContext.call("loadHTMLString", html);
+            extensionContext.call("loadHTMLString", html, baseUrl);
     }
 
     public function loadFileURL(url:String, allowingReadAccessTo:String):void {
-        if (safetyCheck())
+        if (safetyCheck() && Capabilities.os.toLowerCase().indexOf("windows") == -1)
             extensionContext.call("loadFileURL", url, allowingReadAccessTo);
+        else
+            trace("[" + name + "] loadFileURL method only available in OSX");
     }
 
     public function evaluateJavaScript(javascript:String):void {
@@ -160,8 +158,10 @@ public class WebViewANE extends EventDispatcher {
     }
 
     public function go(offset:int = 1):void {
-        if (safetyCheck())
-            extensionContext.call("go",offset);
+        if (safetyCheck() && Capabilities.os.toLowerCase().indexOf("windows") == -1)
+            extensionContext.call("go", offset);
+        else
+            trace("[" + name + "] go method only available in OSX");
     }
 
     public function reloadFromOrigin():void {
@@ -205,9 +205,33 @@ public class WebViewANE extends EventDispatcher {
         }
         trace("[" + name + "] Unloading ANE...");
         extensionContext.removeEventListener(StatusEvent.STATUS, gotEvent);
+        //TODO cleanup method ?
         extensionContext.dispose();
         extensionContext = null;
     }
 
+    public function get url():String {
+        return _url;
+    }
+
+    public function get title():String {
+        return _title;
+    }
+
+    public function get isLoading():Boolean {
+        return _isLoading;
+    }
+
+    public function get canGoBack():Boolean {
+        return _canGoBack;
+    }
+
+    public function get canGoForward():Boolean {
+        return _canGoForward;
+    }
+
+    public function get estimatedProgress():Number {
+        return _estimatedProgress;
+    }
 }
 }

@@ -6,6 +6,7 @@ package {
 import com.tuarua.WebViewANE;
 import com.tuarua.webview.BackForwardList;
 import com.tuarua.webview.BackForwardListItem;
+import com.tuarua.webview.Settings;
 import com.tuarua.webview.WebViewEvent;
 
 import events.FormEvent;
@@ -14,6 +15,7 @@ import flash.desktop.NativeApplication;
 import flash.events.Event;
 import flash.filesystem.File;
 import flash.geom.Point;
+import flash.system.Capabilities;
 import flash.text.TextFieldType;
 
 import starling.animation.Transitions;
@@ -58,68 +60,81 @@ public class StarlingRoot extends Sprite {
 
         NativeApplication.nativeApplication.addEventListener(flash.events.Event.EXITING, onExiting);
 
-        if (!webView.isSupported) return;
+        if (!webView.isSupported) {
+            return;
+        }
 
-        webView.addEventListener(WebViewEvent.ON_URL_CHANGE, onUrlChange);
-        webView.addEventListener(WebViewEvent.ON_START, onStart);
-        webView.addEventListener(WebViewEvent.ON_FINISH, onFinish);
+        /*
+        webView.addEventListener(WebViewEvent.ON_INITIALIZED, onBrowserInitialised)
+
+        */
+        webView.addEventListener(WebViewEvent.ON_PROPERTY_CHANGE,onPropertyChange);
         webView.addEventListener(WebViewEvent.ON_FAIL, onFail);
-        webView.addEventListener(WebViewEvent.ON_PROGRESS, onProgress);
         webView.addEventListener(WebViewEvent.ON_JAVASCRIPT_RESULT, onJavascriptResult);
-        webView.addEventListener(WebViewEvent.ON_PAGE_TITLE, onPageTitle);
-        webView.addEventListener(WebViewEvent.ON_BACK_FORWARD_UPDATE, onBackForwardUpdate);
-        webView.init(0, 90, 1280, 660);
-        webView.addToStage();
 
 
+        var settings:Settings = new Settings();
+        settings.cef.bestPerformance = true; //set to false to enable gpu and thus webgl
 
-        // webView.removeFromStage();
+        // See https://github.com/cefsharp/CefSharp/blob/master/CefSharp.Example/CefExample.cs#L37 for more examples
+        //settings.CefCommandLineArgs.Add("disable-direct-write", "1");
+        //Disables the DirectWrite font rendering system on windows.
+        //Possibly useful when experiencing blury fonts.
 
+        var kvp:Object = new Object();
+        kvp.key = "disable-direct-write";
+        kvp.value = "1";
+        settings.cef.commandLineArgs.push(kvp)
+
+        webView.init(0, 90, 1280, 660, settings);
+        webView.addToStage(); // webView.removeFromStage();
         webView.load("http://www.adobe.com/");
 
-        /*
-        //load a HTML string
-        webView.loadHTMLString('<!DOCTYPE html>' +
-                '<html lang="en">' +
-                '<head><' +
-                'meta charset="UTF-8">' +
-                '<title>Mocked HTML file</title>' +
-                '</head>' +
-                '<body>' +
-                '<p>I am a test</p>' +
-                '</body>' +
-                '</html>');
-                */
+        /*webView.evaluateJavaScript("navigator.userAgent"); // !! run this when we know has loaded
+         */
+
+/*
+         trace("loading html");
+         webView.loadHTMLString('<!DOCTYPE html>' +
+         '<html lang="en">' +
+         '<head><' +
+         'meta charset="UTF-8">' +
+         '<title>Mocked HTML file 1</title>' +
+         '</head>' +
+         '<body bgColor="#33FF00">' + //must give the body a bg color otherwise it loads black
+         '<p>I am a test</p>' +
+         '</body>' +
+         '</html>',"http://rendering/");
+*/
 
         /*
-        //load a local file
-        var localHTML:File = File.applicationDirectory.resolvePath("localTest.html");
-        if(localHTML.exists){
-            webView.loadFileURL("file://" + localHTML.nativePath,"file://" + File.applicationDirectory.nativePath);
-        }
-        */
+         //load a local file - OSX only at the moment
+         var localHTML:File = File.applicationDirectory.resolvePath("localTest.html");
+         if(localHTML.exists){
+         webView.loadFileURL("file://" + localHTML.nativePath,"file://" + File.applicationDirectory.nativePath);
+         }
+         */
 
-        webView.evaluateJavaScript("navigator.userAgent");
 
         backBtn.x = 20;
-        backBtn.addEventListener(TouchEvent.TOUCH,onBack);
+        backBtn.addEventListener(TouchEvent.TOUCH, onBack);
 
         fwdBtn.x = 60;
-        fwdBtn.addEventListener(TouchEvent.TOUCH,onForward);
+        fwdBtn.addEventListener(TouchEvent.TOUCH, onForward);
 
         fwdBtn.alpha = backBtn.alpha = 0.4;
 
         refreshBtn.x = 100;
-        refreshBtn.addEventListener(TouchEvent.TOUCH,onRefresh);
+        refreshBtn.addEventListener(TouchEvent.TOUCH, onRefresh);
 
         cancelBtn.x = 100;
-        cancelBtn.addEventListener(TouchEvent.TOUCH,onCancel);
+        cancelBtn.addEventListener(TouchEvent.TOUCH, onCancel);
 
         zoomInBtn.x = 980;
-        zoomInBtn.addEventListener(TouchEvent.TOUCH,onZoomIn);
+        zoomInBtn.addEventListener(TouchEvent.TOUCH, onZoomIn);
 
         zoomOutBtn.x = zoomInBtn.x + 40;
-        zoomOutBtn.addEventListener(TouchEvent.TOUCH,onZoomOut);
+        zoomOutBtn.addEventListener(TouchEvent.TOUCH, onZoomOut);
 
         zoomInBtn.y = zoomOutBtn.y = backBtn.y = backBtn.y = fwdBtn.y = refreshBtn.y = cancelBtn.y = 50;
         cancelBtn.visible = false;
@@ -130,15 +145,16 @@ public class StarlingRoot extends Sprite {
         tf.color = 0x666666;
 
 
-        urlInput = new Input(802,"");
+        urlInput = new Input(802, "");
         urlInput.type = TextFieldType.INPUT;
         urlInput.enable(true);
         urlInput.freeze(false);
-        urlInput.addEventListener(FormEvent.ENTER,onUrlEnter)
+        urlInput.addEventListener(FormEvent.ENTER, onUrlEnter)
 
         urlInput.x = 148;
         urlInput.y = 48;
 
+        progress.scaleX = 0;
         progress.x = 150;
         progress.y = 70;
 
@@ -165,26 +181,56 @@ public class StarlingRoot extends Sprite {
 
     }
 
-    private function onBackForwardUpdate(event:WebViewEvent):void {
-        backBtn.alpha = webView.canGoBackward() ? 1.0 : 0.4;
-        fwdBtn.alpha = webView.canGoForward() ? 1.0 : 0.4;
-        backBtn.touchable = webView.canGoBackward()
-        fwdBtn.touchable = webView.canGoForward()
+    private function onPropertyChange(event:WebViewEvent):void {
+       // trace(event.params,"has changed: ");
+        switch (event.params) {
+            case "url":
+                urlInput.text = webView.url;
+                break;
+            case "title":
+                titleTxt.text = webView.title;
+                break;
+            case "isLoading":
+                refreshBtn.visible = !webView.isLoading;
+                cancelBtn.visible = webView.isLoading;
+                break;
+            case "canGoBack":
+                backBtn.alpha = webView.canGoBack ? 1.0 : 0.4;
+                backBtn.touchable = webView.canGoBack;
+                break;
+            case "canGoForward":
+                fwdBtn.alpha = webView.canGoForward ? 1.0 : 0.4;
+                fwdBtn.touchable = webView.canGoForward;
+                break;
+            case "estimatedProgress":
+                var p:Number = webView.estimatedProgress;
+                progress.scaleX = p;
+                if (p > 0.99) {
+                    var tween:Tween;
+                    Starling.juggler.tween(progress, .5, {
+                        transition: Transitions.LINEAR,
+                        alpha: 0
+                    });
+                } else {
+                    progress.alpha = 1;
+                }
+                break;
+        }
     }
 
     private function onZoomOut(event:TouchEvent):void {
         var touch:Touch = event.getTouch(zoomOutBtn);
         if (touch != null && touch.phase == TouchPhase.ENDED) {
-            currentZoom = currentZoom - .1
-            webView.setMagnification(currentZoom,new Point(0,0));
+            currentZoom = currentZoom - .1;
+            webView.setMagnification(currentZoom, new Point(0, 0));
         }
     }
 
     private function onZoomIn(event:TouchEvent):void {
         var touch:Touch = event.getTouch(zoomInBtn);
         if (touch != null && touch.phase == TouchPhase.ENDED) {
-            currentZoom = currentZoom + .1
-            webView.setMagnification(currentZoom,new Point(0,0));
+            currentZoom = currentZoom + .1;
+            webView.setMagnification(currentZoom, new Point(0, 0));
         }
     }
 
@@ -204,10 +250,10 @@ public class StarlingRoot extends Sprite {
         if (touch != null && touch.phase == TouchPhase.ENDED) {
             webView.goForward();
             /*
-            var obj:BackForwardList = webView.backForwardList();
-            trace()
-            trace()
-            */
+             var obj:BackForwardList = webView.backForwardList();
+             trace()
+             trace()
+             */
         }
     }
 
@@ -227,62 +273,16 @@ public class StarlingRoot extends Sprite {
         }
     }
 
-
-    private function onProgress(event:WebViewEvent):void {
-        var obj:Object = event.params;
-        if (obj) {
-            progress.scaleX = obj.value;
-            if (obj.value > 0.99) {
-                var tween:Tween;
-                Starling.juggler.tween(progress, .5, {
-                    transition: Transitions.LINEAR,
-                    alpha: 0
-                });
-            } else {
-                progress.alpha = 1;
-            }
-        }
-    }
-
     private function onJavascriptResult(event:WebViewEvent):void {
         var obj:Object = event.params;
         if (obj) {
-            trace("onJavascriptResult result:", obj.result,"error:",obj.error);
+            trace("onJavascriptResult result:", obj.result, "error:", obj.error);
         }
     }
 
     private function onFail(event:WebViewEvent):void {
         trace(event);
     }
-
-    private function onFinish(event:WebViewEvent):void {
-        var obj:Object = event.params;
-        if (obj) {
-            titleTxt.text = obj.title;
-        }
-        refreshBtn.visible = true;
-        cancelBtn.visible = false;
-    }
-
-    private function onPageTitle(event:WebViewEvent):void {
-        var obj:Object = event.params;
-        if (obj) {
-            titleTxt.text = obj.title;
-        }
-    }
-
-    private function onStart(event:WebViewEvent):void {
-        refreshBtn.visible = false;
-        cancelBtn.visible = true;
-    }
-
-    private function onUrlChange(event:WebViewEvent):void {
-        var obj:Object = event.params;
-        if (obj) {
-            urlInput.text = obj.url;
-        }
-    }
-
 
     private function onExiting(event:Event):void {
         trace("exiting app");

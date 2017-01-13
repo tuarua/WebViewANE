@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension xmlns="http://ns.adobe.com/air/extension/19.0">
+	<id>com.tuarua.WebViewANE</id>
+	<name>WebView ANE</name>
+	<copyright>This work is licensed under MIT License, Copyright (c) 2017 Tua Rua Ltd.</copyright>
+	<versionNumber>0.0.6</versionNumber>
+	<platforms>
+	<platform name="MacOS-x86-64">
+		<applicationDeployment>
+			<nativeLibrary>WebViewANE.framework</nativeLibrary>
+			<initializer>TRWVExtInizer</initializer>
+			<finalizer>TRWVExtFinizer</finalizer>
+		</applicationDeployment>
+	</platform>
+    <platform name="Windows-x86">
+        <applicationDeployment>
+            <nativeLibrary>WebViewANE.dll</nativeLibrary>
+            <initializer>TRWVExtInizer</initializer>
+            <finalizer>TRWVExtFinizer</finalizer>
+        </applicationDeployment>
+    </platform>
+    </platforms>
+</extension>

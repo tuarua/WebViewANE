@@ -92,18 +92,6 @@ FRE_FUNCTION (isSupported) {
     return [swft isSupported];
 }
 
-FRE_FUNCTION (isLoading) {
-    return [swft isLoading];
-}
-
-FRE_FUNCTION (canGoForward) {
-    return [swft canGoForward];
-}
-
-FRE_FUNCTION (canGoBack) {
-    return [swft canGoBack];
-}
-
 FRE_FUNCTION (allowsMagnification) {
     return [swft allowsMagnification];
 }
@@ -126,16 +114,12 @@ void contextInitializer(void *extData, const uint8_t *ctxType, FREContext ctx, u
     static FRENamedFunction extensionFunctions[] = {
           {(const uint8_t *) "init", NULL, &init}
         , {(const uint8_t *) "isSupported", NULL, &isSupported}
-        , {(const uint8_t *) "isLoading", NULL, &isLoading}
-        , {(const uint8_t *) "canGoForward", NULL, &canGoForward}
-        , {(const uint8_t *) "canGoBack", NULL, &canGoBack}
         , {(const uint8_t *) "backForwardList", NULL, &backForwardList}
         , {(const uint8_t *) "go", NULL, &go}
         , {(const uint8_t *) "addToStage", NULL, &addToStage}
         , {(const uint8_t *) "removeFromStage", NULL, &removeFromStage}
         , {(const uint8_t *) "load", NULL, &load}
         , {(const uint8_t *) "loadHTMLString", NULL, &loadHTMLString}
-        , {(const uint8_t *) "load", NULL, &load}
         , {(const uint8_t *) "loadFileURL", NULL, &loadFileURL}
         , {(const uint8_t *) "reload", NULL, &reload}
         , {(const uint8_t *) "reloadFromOrigin", NULL, &reloadFromOrigin}
