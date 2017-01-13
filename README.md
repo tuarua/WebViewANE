@@ -1,9 +1,12 @@
-# WebViewANE
+# WebViewANE 
 
 WebView Adobe Air Native Extension for OSX 10.10+ and Windows Desktop.
 This ANE provides access to a more modern webview from AIR.
 
 Sample client included
+
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5UR2T52J633RC)
+
 
 ## Windows
 The Windows version utilises the [CefSharp WPF](https://github.com/cefsharp/CefSharp) version of Chrome Embedded Framework.
