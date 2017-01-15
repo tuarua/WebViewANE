@@ -12,7 +12,9 @@ import com.tuarua.webview.WebViewEvent;
 import events.FormEvent;
 
 import flash.desktop.NativeApplication;
+import flash.display.StageDisplayState;
 import flash.events.Event;
+import flash.events.FullScreenEvent;
 import flash.filesystem.File;
 import flash.geom.Point;
 import flash.system.Capabilities;
@@ -36,6 +38,7 @@ import starling.text.TextFormat;
 import starling.utils.Align;
 
 import views.forms.Input;
+import flash.geom.Rectangle;
 
 
 public class StarlingRoot extends Sprite {
@@ -46,10 +49,13 @@ public class StarlingRoot extends Sprite {
     private var cancelBtn:Image = new Image(Assets.getAtlas().getTexture("cancel-btn"));
     private var zoomInBtn:Image = new Image(Assets.getAtlas().getTexture("zoomin-btn"));
     private var zoomOutBtn:Image = new Image(Assets.getAtlas().getTexture("zoomout-btn"));
+    private var fullscreenBtn:Image = new Image(Assets.getAtlas().getTexture("fullscreen-btn"));
     private var titleTxt:TextField;
     private var urlInput:Input;
     private var progress:Quad = new Quad(800, 2, 0x00A3D9)
     private var currentZoom:Number = 1.0;
+    private var _appWidth:uint = 1280;
+    private var _appHeight:uint = 800;
 
     public function StarlingRoot() {
         super();
@@ -58,6 +64,7 @@ public class StarlingRoot extends Sprite {
 
     public function start():void {
 
+        WebViewANESample.target.stage.addEventListener(FullScreenEvent.FULL_SCREEN, onFullScreenEvent);
         NativeApplication.nativeApplication.addEventListener(flash.events.Event.EXITING, onExiting);
 
         if (!webView.isSupported) {
@@ -86,9 +93,10 @@ public class StarlingRoot extends Sprite {
         kvp.value = "1";
         settings.cef.commandLineArgs.push(kvp)
 
-        webView.init(0, 90, 1280, 660, settings);
+        webView.init(0, 90, _appWidth, _appHeight-140,  settings);
         webView.addToStage(); // webView.removeFromStage();
         webView.load("http://www.adobe.com/");
+
 
         /*webView.evaluateJavaScript("navigator.userAgent"); // !! run this when we know has loaded
          */
@@ -136,7 +144,13 @@ public class StarlingRoot extends Sprite {
         zoomOutBtn.x = zoomInBtn.x + 40;
         zoomOutBtn.addEventListener(TouchEvent.TOUCH, onZoomOut);
 
-        zoomInBtn.y = zoomOutBtn.y = backBtn.y = backBtn.y = fwdBtn.y = refreshBtn.y = cancelBtn.y = 50;
+
+        fullscreenBtn.x = zoomOutBtn.x + 40;
+        fullscreenBtn.addEventListener(TouchEvent.TOUCH, onFullScreen);
+
+
+        fullscreenBtn.y = zoomInBtn.y = zoomOutBtn.y = backBtn.y
+                = backBtn.y = fwdBtn.y = refreshBtn.y = cancelBtn.y = 50;
         cancelBtn.visible = false;
 
         var tf:TextFormat = new TextFormat();
@@ -174,6 +188,7 @@ public class StarlingRoot extends Sprite {
 
         addChild(zoomInBtn);
         addChild(zoomOutBtn);
+        addChild(fullscreenBtn);
 
         addChild(urlInput);
 
@@ -182,7 +197,7 @@ public class StarlingRoot extends Sprite {
     }
 
     private function onPropertyChange(event:WebViewEvent):void {
-       // trace(event.params,"has changed: ");
+        //trace(event.params,"has changed: ");
         switch (event.params) {
             case "url":
                 urlInput.text = webView.url;
@@ -233,6 +248,16 @@ public class StarlingRoot extends Sprite {
             webView.setMagnification(currentZoom, new Point(0, 0));
         }
     }
+
+    private function onFullScreen(event:TouchEvent):void {
+        var touch:Touch = event.getTouch(fullscreenBtn);
+        if (touch != null && touch.phase == TouchPhase.ENDED) {
+            onMaximiseApp();
+            //currentZoom = currentZoom + .1;
+            //webView.setMagnification(currentZoom, new Point(0, 0));
+        }
+    }
+
 
     private function onUrlEnter(event:FormEvent):void {
         webView.load(urlInput.text);
@@ -288,6 +313,45 @@ public class StarlingRoot extends Sprite {
         trace("exiting app");
         webView.dispose();
     }
+
+    public function onMaximiseApp():void {
+
+        if(WebViewANESample.target.stage.displayState == StageDisplayState.FULL_SCREEN_INTERACTIVE){
+            WebViewANESample.target.stage.displayState = StageDisplayState.NORMAL;
+            _appWidth = 1280;
+            _appHeight = 800;
+        }else {
+            _appWidth = WebViewANESample.target.stage.fullScreenWidth;
+            _appHeight = WebViewANESample.target.stage.fullScreenHeight;
+            WebViewANESample.target.stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
+            WebViewANESample.target.stage.fullScreenSourceRect = new Rectangle(0,0,_appWidth,_appHeight);
+        }
+    }
+
+    private function onFullScreenEvent(event:FullScreenEvent):void {
+         /*
+         !! Needed for OSX, ignored on Windows. Important - must tell the webView  we have gone in/out of fullscreen.
+         */
+        webView.onFullScreen(event.fullScreen);
+        webView.setPositionAndSize(0, 90, _appWidth, _appHeight-140);
+    }
+
+    public function updateWebViewOnResize():void {
+       // trace(_appWidth,_appHeight);
+        if(webView){
+            webView.setPositionAndSize(0, 90, _appWidth, _appHeight-140);
+        }
+    }
+
+    public function set appWidth(value:uint):void {
+        _appWidth = value;
+    }
+
+    public function set appHeight(value:uint):void {
+        _appHeight = value;
+    }
+
+
 
 }
 }

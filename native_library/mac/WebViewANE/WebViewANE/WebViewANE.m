@@ -115,6 +115,11 @@ FRE_FUNCTION (setPositionAndSize) {
     return NULL;
 }
 
+FRE_FUNCTION(onFullScreen) {
+    [swft onFullScreenWithArgv:getFREargs(argc, argv)];
+    return NULL;
+}
+
 void contextInitializer(void *extData, const uint8_t *ctxType, FREContext ctx, uint32_t *numFunctionsToSet, const FRENamedFunction **functionsToSet) {
     static FRENamedFunction extensionFunctions[] = {
           {(const uint8_t *) "init", NULL, &init}
@@ -127,6 +132,7 @@ void contextInitializer(void *extData, const uint8_t *ctxType, FREContext ctx, u
         , {(const uint8_t *) "loadHTMLString", NULL, &loadHTMLString}
         , {(const uint8_t *) "loadFileURL", NULL, &loadFileURL}
         , {(const uint8_t *) "reload", NULL, &reload}
+        , {(const uint8_t *) "onFullScreen", NULL, &onFullScreen}
         , {(const uint8_t *) "reloadFromOrigin", NULL, &reloadFromOrigin}
         , {(const uint8_t *) "stopLoading", NULL, &stopLoading}
         , {(const uint8_t *) "goBack", NULL, &goBack}

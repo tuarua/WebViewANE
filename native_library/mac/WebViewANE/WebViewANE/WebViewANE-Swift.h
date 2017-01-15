@@ -131,6 +131,7 @@ SWIFT_CLASS("_TtC10WebViewANE10WebViewANE")
 - (void)removeFromStage;
 - (void)reload;
 - (void)stopLoading;
+- (FREObject _Nonnull)onFullScreenWithArgv:(NSPointerArray * _Nonnull)argv;
 - (void)reloadFromOrigin;
 - (void)goBack;
 - (void)goForward;

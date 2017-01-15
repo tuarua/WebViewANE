@@ -170,6 +170,12 @@ class ANEHelper {
         _ = isFREResultOK(errorCode: status, errorMessage: "Could not convert FREObject to Int.")
         return Int(result!)
     }
+    
+    func getBool(freObject: FREObject?) ->Bool {
+        var val: CUnsignedInt? = 0
+        FREGetObjectAsBool(freObject, &val!);
+        return (val == 1)
+    }
 
     private func getArrayLengthFromFREObject(freObject: FREObject) -> Int {
         var valueAs: FREObject? = nil

@@ -15,7 +15,7 @@ import WebKit
     private var dllContext: FREContext!
     private let aneHelper = ANEHelper()
     private var myWebView: WKWebView?
-    private var mainWindow: NSWindow?
+    //private var mainWindow: NSWindow?
     
     private var _x = 0
     private var _y = 0
@@ -193,10 +193,19 @@ import WebKit
     }
 
     func addToStage() {
-        if let mw = mainWindow {
-            let view: NSView = mw.contentView!
-            if let wv = myWebView {
-                view.addSubview(wv)
+       // trace(value: "addToStage");
+        if let view = NSApp.mainWindow?.contentView {
+         //   trace(value: "addSubview");
+            view.addSubview(myWebView!)
+        }else { //allow for mainWindow not having been set yet on NSApp
+            let allWindows = NSApp.windows;
+            if allWindows.count > 0 {
+                let mWin = allWindows[0]
+                let view: NSView = mWin.contentView!
+                if let wv = myWebView {
+                   // trace(value: "addSubview");
+                    view.addSubview(wv)
+                }
             }
         }
     }
@@ -239,13 +248,21 @@ import WebKit
             _y = tmp_y;
             updateY = true;
         }
+        
+        let realY = (Int((NSApp.mainWindow?.contentLayoutRect.height)!) - _height) - _y;
+        //TODO not 100% right ?
+        
         if updateX || updateY {
-            let realY = (Int((mainWindow?.contentLayoutRect.height)!) - _height) - _y;
+            
             myWebView?.setFrameOrigin(NSPoint.init(x: _x, y: realY))
         }
         if updateWidth || updateHeight {
             myWebView?.setFrameSize(NSSize.init(width: _width, height: _height))
         }
+        
+        //trace(value: "setting x=\(_x), y=\(realY), width=\(_width), height=\(_height)");
+    
+        
     }
 
     func load(argv: NSPointerArray) {
@@ -264,6 +281,7 @@ import WebKit
         }
     }
 
+    //TODO align with CEF version. Load the file in AIR and pass as HTML string
     func loadFileURL(argv: NSPointerArray) {
         let url: String = aneHelper.getString(freObject: argv.pointer(at: 0))
         let myURL = URL(string: url)
@@ -278,6 +296,22 @@ import WebKit
             }
         }
 
+    }
+    
+    func onFullScreen (argv: NSPointerArray) {
+        let fullScreen:Bool = aneHelper.getBool(freObject: argv.pointer(at: 0))
+        for win in NSApp.windows {
+            if (fullScreen && win.canBecomeMain && win.className.contains("AIR_FullScreen")) {
+                win.makeMain()
+                break;
+            } else if(!fullScreen && win.canBecomeMain && win.className.contains("AIR_PlayerContent")) {
+                win.makeMain()
+                win.orderFront(nil)
+                break;
+            }
+        }
+        removeFromStage();
+        addToStage();
     }
 
     func reload() {
@@ -317,34 +351,41 @@ import WebKit
         _height = aneHelper.getInt(freObject: argv.pointer(at: 3))
 
         let allWindows = NSApp.windows;
+        var mWin:NSWindow?
         if allWindows.count > 0 {
-            mainWindow = allWindows[0]
-
+            if let win = NSApp.mainWindow {
+                mWin = win
+            }else { //allow for mainWindow not having been set yet on NSApp
+                mWin = allWindows[0]
+            }
+            
+            
             let configuration = WKWebViewConfiguration()
-            let realY = (Int((mainWindow?.contentLayoutRect.height)!) - _height) - _y;
-
+            let realY = (Int((mWin?.contentLayoutRect.height)!) - _height) - _y;
+            
             let myRect: CGRect = CGRect.init(x: _x, y: realY, width: _width, height: _height)
-
+            
             myWebView = WKWebView(frame: myRect, configuration: configuration)
             myWebView?.translatesAutoresizingMaskIntoConstraints = false
             myWebView?.navigationDelegate = self
             myWebView?.uiDelegate = self
-
+            
+            myWebView?.addObserver(self, forKeyPath: "loading", options: .new, context: nil)
             myWebView?.addObserver(self, forKeyPath: "estimatedProgress", options: .new, context: nil)
             myWebView?.addObserver(self, forKeyPath: "title", options: .new, context: nil)
             myWebView?.addObserver(self, forKeyPath: "URL", options: .new, context: nil)
             myWebView?.addObserver(self, forKeyPath: "canGoBack", options: .new, context: nil)
             myWebView?.addObserver(self, forKeyPath: "canGoForward", options: .new, context: nil)
-            myWebView?.addObserver(self, forKeyPath: "isLoading", options: .new, context: nil)
-
+            
         }
-
+        
+        
+        
     }
 
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?,
                                context: UnsafeMutableRawPointer?) {
         var props: Dictionary<String, Any> = Dictionary()
-
         switch keyPath! {
         case "estimatedProgress":
             props["propName"] = "estimatedProgress"
@@ -358,6 +399,8 @@ import WebKit
                 } else {
                     return
                 }
+            }else{
+                return
             }
             break;
         case "title":
@@ -371,18 +414,20 @@ import WebKit
         case "canGoBack":
             props["propName"] = "canGoBack"
             props["value"] = myWebView?.canGoBack
-
             break;
         case "canGoForward":
             props["propName"] = "canGoForward"
             props["value"] = myWebView?.canGoForward
             break;
-        case "isLoading":
+        case "loading":
             props["propName"] = "isLoading"
             props["value"] = myWebView?.isLoading
             break;
+            
         default:
-            return
+            props["propName"] = keyPath
+            props["value"] = nil
+            break;
         }
 
         sendEvent(name: WebViewANE.ON_PROPERTY_CHANGE, props: props);
@@ -420,21 +465,3 @@ import WebKit
     }
 
 }
-
-
-// topAnchor only available in version 10.11
-
-/*
- [myWebView.topAnchor.constraint(equalTo: view.topAnchor),
- myWebView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
- myWebView.leftAnchor.constraint(equalTo: view.leftAnchor),
- myWebView.rightAnchor.constraint(equalTo: view.rightAnchor)].forEach  {
- anchor in
- anchor.isActive = true
- }  // end forEach
- */
-
-
-
-
-
