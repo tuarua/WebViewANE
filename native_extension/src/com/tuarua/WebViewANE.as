@@ -34,7 +34,6 @@ public class WebViewANE extends EventDispatcher {
     }
 
     protected function initiate():void {
-        isInited = true;
         _isSupported = true;
 
         if (_isSupported) {
@@ -111,8 +110,11 @@ public class WebViewANE extends EventDispatcher {
         this._y = y;
         if (width > 0) this._width = width;
         if (height > 0) this._height = height;
-        if (safetyCheck())
+
+        if (safetyCheck()){
             extensionContext.call("setPositionAndSize", this._x, this._y, this._width, this._height);
+        }
+
     }
 
     public function addToStage():void {
@@ -185,6 +187,11 @@ public class WebViewANE extends EventDispatcher {
     public function reloadFromOrigin():void {
         if (safetyCheck())
             extensionContext.call("reloadFromOrigin");
+    }
+
+    public function onFullScreen(fs:Boolean=false):void {
+        if (safetyCheck() && Capabilities.os.toLowerCase().indexOf("windows") == -1)
+            extensionContext.call("onFullScreen",fs);
     }
 
     public function allowsMagnification():Boolean {

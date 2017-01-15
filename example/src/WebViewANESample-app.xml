@@ -56,7 +56,7 @@
         <!-- <title></title> -->
 
         <!-- The type of system chrome to use (either "standard" or "none"). Optional. Default standard. -->
-        <!-- <systemChrome></systemChrome> -->
+        <!-- <systemChrome>none</systemChrome> -->
 
         <!-- Whether the window is transparent. Only applicable when systemChrome is none. Optional. Default false. -->
         <!-- <transparent></transparent> -->
@@ -114,11 +114,11 @@
         <!-- <softKeyboardBehavior></softKeyboardBehavior> -->
 
         <!-- Display Resolution for the app (either "standard" or "high"). Optional, OSX-only. Default "standard" -->
-        <!-- <requestedDisplayResolution></requestedDisplayResolution> -->
+        <requestedDisplayResolution>high</requestedDisplayResolution>
         <depthAndStencil>true</depthAndStencil>
         <renderMode>direct</renderMode>
         <autoOrients>false</autoOrients>
-        <fullScreen>false</fullScreen>
+        <fullScreen>true</fullScreen>
         <visible>true</visible>
     </initialWindow>
 

@@ -1,3 +1,6 @@
+### 0.0.8
+- OSX: Fix Issue#2
+
 ### 0.0.7
 - WIN: Fix Issue#1
 - WIN/OSX: Added setPositionAndSize method
