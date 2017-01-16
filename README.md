@@ -13,7 +13,9 @@ The Windows version utilises the [CefSharp WPF](https://github.com/cefsharp/CefS
 
 ##### Windows Installation - Important!
 
-* Unzip the contents of cef_binaries.zip into the bin folder of your AIRSDK. The location of this will vary depending on your IDE or. These dlls and other cef files need to reside in the folder where adl.exe is run from
+* Unzip the contents of cef_binaries.zip into the bin folder of your AIRSDK. 
+* Copy the contents of the "cef_sharp_libs" folder into the bin folder of your AIRSDK. 
+The location of this will vary depending on your IDE or. These dlls and other cef files need to reside in the folder where adl.exe is run from.
 * For release builds, these files need to be packaged in the same folder as your exe
 * The Cef view and processes can only be attached once to your app. Therefore only one instance can be created and used.
 However, the view can be shown and hidden when not in use via the addToStage and removeFromStage methods

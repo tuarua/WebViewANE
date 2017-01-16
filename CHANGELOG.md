@@ -1,3 +1,7 @@
+### 0.0.9
+- OSX: Further Fix Issue#2
+- WIN: Moved CefSharpLib.dll to own folder
+
 ### 0.0.8
 - OSX: Fix Issue#2
 
