@@ -17,10 +17,11 @@ import WebKit
     private var myWebView: WKWebView?
     //private var mainWindow: NSWindow?
     
-    private var _x = 0
-    private var _y = 0
-    private var _width = 800
-    private var _height = 600
+    private var _x:Int = 0
+    private var _y:Int = 0
+    private var _width:Int = 800
+    private var _height:Int = 600
+    private var isAdded:Bool = false;
 
     private static let ON_FAIL: String = "WebView.OnFail"
     private static let ON_JAVASCRIPT_RESULT: String = "WebView.OnJavascriptResult"
@@ -197,6 +198,8 @@ import WebKit
         if let view = NSApp.mainWindow?.contentView {
          //   trace(value: "addSubview");
             view.addSubview(myWebView!)
+            isAdded = true
+            return
         }else { //allow for mainWindow not having been set yet on NSApp
             let allWindows = NSApp.windows;
             if allWindows.count > 0 {
@@ -205,6 +208,8 @@ import WebKit
                 if let wv = myWebView {
                    // trace(value: "addSubview");
                     view.addSubview(wv)
+                    isAdded = true
+                    return
                 }
             }
         }
@@ -213,6 +218,7 @@ import WebKit
     func removeFromStage() {
         if let wv = myWebView {
             wv.removeFromSuperview()
+            isAdded = false
         }
     }
 
@@ -300,6 +306,7 @@ import WebKit
     
     func onFullScreen (argv: NSPointerArray) {
         let fullScreen:Bool = aneHelper.getBool(freObject: argv.pointer(at: 0))
+        let tmpIsAdded = isAdded
         for win in NSApp.windows {
             if (fullScreen && win.canBecomeMain && win.className.contains("AIR_FullScreen")) {
                 win.makeMain()
@@ -310,8 +317,11 @@ import WebKit
                 break;
             }
         }
-        removeFromStage();
-        addToStage();
+        
+        if(tmpIsAdded){
+            removeFromStage();
+            addToStage();
+        }
     }
 
     func reload() {
