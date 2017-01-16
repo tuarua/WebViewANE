@@ -203,25 +203,21 @@ extern "C" {
 		if (tmp_width != cef_width) {
 			cef_width = tmp_width;
 			updateWidth = true;
-			trace(" UPDATE WIDTH");
 		}
 
 		if (tmp_height != cef_height) {
 			cef_height = tmp_height;
 			updateHeight = true;
-			trace(" UPDATE WIDTH");
 		}
 
 		if (tmp_x != cef_x) {
 			cef_x = tmp_x;
 			updateX = true;
-			trace(" UPDATE X");
 		}
 
 		if (tmp_y != cef_y) {
 			cef_y = tmp_y;
 			updateY = true;
-			trace(" UPDATE Y");
 		}
 
 		if (updateX || updateY || updateWidth || updateHeight) {

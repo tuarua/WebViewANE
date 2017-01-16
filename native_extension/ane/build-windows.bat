@@ -46,7 +46,7 @@ copy %pathtome%..\..\native_library\win\%projectName%\Debug\%projectName%.dll %p
 copy %pathtome%..\..\native_library\win\WebViewANE\CefSharpLib\CefSharpLib\bin\x86\Debug\CefSharpLib.dll %AIR_PATH%CefSharpLib.dll
 copy %pathtome%..\..\native_library\win\WebViewANE\CefSharpLib\CefSharpLib\bin\x86\Debug\CefSharpLib.pdb %AIR_PATH%CefSharpLib.pdb
 
-copy %pathtome%..\..\native_library\win\WebViewANE\CefSharpLib\CefSharpLib\bin\x86\Release\CefSharpLib.dll %pathtome%..\..\cef_binaries\CefSharpLib.dll
+copy %pathtome%..\..\native_library\win\WebViewANE\CefSharpLib\CefSharpLib\bin\x86\Release\CefSharpLib.dll %pathtome%..\..\cef_sharp_libs\CefSharpLib.dll
 
 REM Run the build command.
 echo Building Release.
