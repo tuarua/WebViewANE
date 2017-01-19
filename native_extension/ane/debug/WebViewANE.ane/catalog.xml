@@ -1,0 +1,83 @@
+<?xml version="1.0" ?>
+<swc xmlns="http://www.adobe.com/flash/swccatalog/9">
+    <versions>
+        <swc version="1.2"/>
+        <compiler name="ActionScript Compiler" version="2.0.0" build="354193"/>
+    </versions>
+    <features>
+        <feature-script-deps/>
+    </features>
+    <libraries>
+        <library path="library.swf">
+            <script name="com/tuarua/ANEObject" mod="1484266993182">
+                <def id="com.tuarua:ANEObject"/>
+                <dep id="Array" type="e"/>
+                <dep id="Object" type="i"/>
+                <dep id="String" type="e"/>
+            </script>
+            <script name="com/tuarua/WebViewANE" mod="1484683636076">
+                <def id="com.tuarua:WebViewANE"/>
+                <dep id="Array" type="s"/>
+                <dep id="Boolean" type="s"/>
+                <dep id="Error" type="e"/>
+                <dep id="Function" type="s"/>
+                <dep id="JSON" type="e"/>
+                <dep id="Number" type="s"/>
+                <dep id="Object" type="e"/>
+                <dep id="String" type="s"/>
+                <dep id="com.tuarua.webview:BackForwardList" type="e"/>
+                <dep id="com.tuarua.webview:JavascriptResult" type="e"/>
+                <dep id="com.tuarua.webview:Settings" type="s"/>
+                <dep id="com.tuarua.webview:WebViewEvent" type="e"/>
+                <dep id="flash.events:EventDispatcher" type="i"/>
+                <dep id="flash.events:StatusEvent" type="e"/>
+                <dep id="flash.external:ExtensionContext" type="s"/>
+                <dep id="flash.geom:Point" type="s"/>
+                <dep id="flash.system:Capabilities" type="e"/>
+                <dep id="flash.utils:Dictionary" type="e"/>
+                <dep id="int" type="s"/>
+                <dep id="trace" type="e"/>
+            </script>
+            <script name="com/tuarua/webview/BackForwardList" mod="1484266993191">
+                <def id="com.tuarua.webview:BackForwardList"/>
+                <dep id="Object" type="i"/>
+                <dep id="__AS3__.vec:Vector" type="e"/>
+                <dep id="com.tuarua.webview:BackForwardListItem" type="e"/>
+            </script>
+            <script name="com/tuarua/webview/BackForwardListItem" mod="1484266993193">
+                <def id="com.tuarua.webview:BackForwardListItem"/>
+                <dep id="Object" type="i"/>
+                <dep id="String" type="s"/>
+            </script>
+            <script name="com/tuarua/webview/CefSettings" mod="1484266993194">
+                <def id="com.tuarua.webview:CefSettings"/>
+                <dep id="Boolean" type="s"/>
+                <dep id="Object" type="e"/>
+                <dep id="String" type="s"/>
+                <dep id="__AS3__.vec:Vector" type="s"/>
+                <dep id="com.tuarua:ANEObject" type="i"/>
+                <dep id="int" type="s"/>
+            </script>
+            <script name="com/tuarua/webview/JavascriptResult" mod="1484683055470">
+                <def id="com.tuarua.webview:JavascriptResult"/>
+                <dep id="Object" type="i"/>
+                <dep id="String" type="s"/>
+            </script>
+            <script name="com/tuarua/webview/Settings" mod="1484266993194">
+                <def id="com.tuarua.webview:Settings"/>
+                <dep id="com.tuarua:ANEObject" type="i"/>
+                <dep id="com.tuarua.webview:CefSettings" type="e"/>
+            </script>
+            <script name="com/tuarua/webview/WebViewEvent" mod="1484266993199">
+                <def id="com.tuarua.webview:WebViewEvent"/>
+                <dep id="Boolean" type="s"/>
+                <dep id="Object" type="s"/>
+                <dep id="String" type="s"/>
+                <dep id="flash.events:Event" type="i"/>
+            </script>
+            <digests>
+                <digest type="SHA-256" signed="false" value="a759b032ec1c25bb98c820d980062d77a0b0cc24c35cc566e90199c4dff0bc9e"/>
+            </digests>
+        </library>
+    </libraries>
+</swc>
