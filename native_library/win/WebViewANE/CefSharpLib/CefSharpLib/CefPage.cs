@@ -1,40 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Media;
 using CefSharp;
 using CefSharp.Wpf;
+using Newtonsoft.Json;
 
 
 namespace CefSharpLib {
-    public class MessageEventArgs : EventArgs {
-        public string Type { get; set; }
-        public string Message { get; set; }
-    }
 
-    public partial class CefPage : Page {
+    public partial class CefPage {
         private string _initialUrl;
         private string _initialHtml;
         private bool _isLoaded = false;
-        private bool _isInited = false;
+        // private bool _isInited = false;
+
+        private const string AS_CALLBACK_EVENT = "TRWV.as.CALLBACK";
+
         public delegate void MessageHandler(object sender, MessageEventArgs args);
         public event MessageHandler OnMessageSent;
 
         //public static string ON_INITIALIZED = "WebView.OnInitialized";
         public static string ON_FAIL = "WebView.OnFail";
         public static string ON_JAVASCRIPT_RESULT = "WebView.OnJavascriptResult";
-        private static string ON_PROPERTY_CHANGE = "WebView.OnPropertyChange";
         public ChromiumWebBrowser Browser;
 
-        public CefPage(bool cefBestPerformance, int cefLogSeverity, int remoteDebuggingPort, string cachePath, Dictionary<string, string> settingsDict) {
+        public CefPage(bool cefBestPerformance, int cefLogSeverity, int remoteDebuggingPort, string cachePath,
+            Dictionary<string, string> settingsDict) {
             InitializeComponent();
             Loaded += CefPage_Loaded;
+
 
             //Console.WriteLine(Cef.ChromiumVersion);
 
@@ -81,6 +78,7 @@ namespace CefSharpLib {
 
             if (Cef.Initialize(settings)) {
                 Browser = new ChromiumWebBrowser();
+                Browser.RegisterJsObject("webViewANE", new BoundObject(this), BindingOptions.DefaultBinder);
                 Browser.SetBinding(ChromiumWebBrowser.AddressProperty, GetNewCefBinding("Address"));
                 Browser.SetBinding(ChromiumWebBrowser.TitleProperty, GetNewCefBinding("Title"));
                 Browser.SetBinding(ChromiumWebBrowser.IsLoadingProperty, GetNewCefBinding("IsLoading"));
@@ -92,81 +90,10 @@ namespace CefSharpLib {
 
         }
 
-        public class BindingSource {
-            private string _address;
-            private string _title;
-            private bool _isLoading;
-            private CefPage _pc;
-            public BindingSource(CefPage pc) {
-                _pc = pc;
-            }
 
-            public string Address {
-                set {
-                    if (_address == value) return;
-                    var props = new StringPropChange() {
-                        propName = @"url",
-                        value = value
-                    };
-                    DataContractJsonSerializer js = new DataContractJsonSerializer(typeof(StringPropChange));
-                    _pc.SendMessage(ON_PROPERTY_CHANGE, _pc.propsToJSON(js, props));
-                    _address = value;
-                }
-            }
 
-            public string Title {
-                set {
-                    if (_title == value) return;
-                    var props = new StringPropChange() {
-                        propName = @"title",
-                        value = value
-                    };
-                    DataContractJsonSerializer js = new DataContractJsonSerializer(typeof(StringPropChange));
-                    _pc.SendMessage(ON_PROPERTY_CHANGE, _pc.propsToJSON(js, props));
-                    _title = value;
-                }
-            }
 
-            public bool IsLoading {
-                set {
-                    if (_isLoading == value) return;
-                    var props = new BoolPropChange() {
-                        propName = @"isLoading",
-                        value = value
-                    };
-                    DataContractJsonSerializer js = new DataContractJsonSerializer(typeof(BoolPropChange));
-                    _pc.SendMessage(ON_PROPERTY_CHANGE, _pc.propsToJSON(js, props));
-                    _isLoading = value;
-                }
-            }
 
-            public bool CanGoBack {
-                set {
-                    if (_isLoading == value) return;
-                    var props = new BoolPropChange() {
-                        propName = @"canGoBack",
-                        value = value
-                    };
-                    DataContractJsonSerializer js = new DataContractJsonSerializer(typeof(BoolPropChange));
-                    _pc.SendMessage(ON_PROPERTY_CHANGE, _pc.propsToJSON(js, props));
-                    _isLoading = value;
-                }
-            }
-
-            public bool CanGoForward {
-                set {
-                    if (_isLoading == value) return;
-                    var props = new BoolPropChange() {
-                        propName = @"canGoForward",
-                        value = value
-                    };
-                    DataContractJsonSerializer js = new DataContractJsonSerializer(typeof(BoolPropChange));
-                    _pc.SendMessage(ON_PROPERTY_CHANGE, _pc.propsToJSON(js, props));
-                    _isLoading = value;
-                }
-            }
-
-        }
 
         private Binding GetNewCefBinding(string name) {
             return new Binding {
@@ -177,40 +104,11 @@ namespace CefSharpLib {
             };
         }
 
-
-
         public virtual void SendMessage(string type, string message) {
             //Console.WriteLine(@"SendMessage in C# type: " + type +  @" message:" + message);
             MessageHandler handler = OnMessageSent;   // make a copy to be more thread-safe
             var args = new MessageEventArgs() { Type = type, Message = message };  // this part will vary
             handler?.Invoke(this, args);
-        }
-
-
-        [DataContract]
-        class StringPropChange {
-            [DataMember]
-            public string propName { get; set; }
-            [DataMember]
-            public string value { get; set; }
-        }
-
-        [DataContract]
-        class BoolPropChange {
-            [DataMember]
-            public string propName { get; set; }
-            [DataMember]
-            public bool value { get; set; }
-        }
-
-
-        [DataContract]
-        class JavaScriptResultProps {
-            [DataMember]
-            public string result { get; set; }
-
-            [DataMember]
-            public string error { get; set; }
         }
 
         public void TearDown() {
@@ -237,19 +135,6 @@ namespace CefSharpLib {
         //https://github.com/cefsharp/CefSharp/wiki/Frequently-asked-questions#CallJSWithResult
         //https://gist.github.com/amaitland/9d354376960b0cd9305a#file-oneplusone-cs
 
-        public void EvaluateJavaScript(string javascript) {
-            Browser?.GetMainFrame().EvaluateScriptAsync(javascript).ContinueWith(x => {
-                var response = x.Result;
-                if (response.Success && response.Result != null) {
-                    var props = new JavaScriptResultProps() {
-                        result = (string)response.Result,
-                        error = ""
-                    };
-                    DataContractJsonSerializer js = new DataContractJsonSerializer(typeof(JavaScriptResultProps));
-                    SendMessage(ON_JAVASCRIPT_RESULT, propsToJSON(js, props));
-                }
-            });
-        }
 
         public void Load(string url) {
             if (_isLoaded) {
@@ -300,12 +185,134 @@ namespace CefSharpLib {
             return Browser.ZoomLevel;
         }
 
-        private string propsToJSON(DataContractJsonSerializer js, object props) {
-            MemoryStream msObj = new MemoryStream();
-            js.WriteObject(msObj, props);
-            msObj.Position = 0;
-            StreamReader sr = new StreamReader(msObj);
-            return sr.ReadToEnd();
+        public void ShowDevTools() { Browser.ShowDevTools(); }
+        public void CloseDevTools() { Browser.CloseDevTools(); }
+
+
+        public async void CallJavascriptFunction(string s, string cb) { //this is as->js->as
+            var sb = new StringBuilder();
+            var sw = new StringWriter(sb);
+            JsonWriter writer;
+            try {
+                var mf = Browser.GetMainFrame();
+                var response = await mf.EvaluateScriptAsync(s);
+                if (response.Success && response.Result is IJavascriptCallback) {
+                    response = await ((IJavascriptCallback)response.Result).ExecuteAsync("");
+                }
+
+                writer = new JsonTextWriter(sw) { Formatting = Formatting.None };
+                writer.WriteStartObject();
+                writer.WritePropertyName("callbackName");
+                writer.WriteValue(cb);
+                writer.WritePropertyName("success");
+                writer.WriteValue(response.Success);
+                writer.WritePropertyName("message");
+                writer.WriteValue(response.Message);
+                writer.WritePropertyName("error");
+                writer.WriteNull();
+                writer.WritePropertyName("result");
+
+                Console.WriteLine(response.Result);
+
+                if (response.Success && response.Result != null) {
+                    writer.WriteRawValue(JsonConvert.SerializeObject(response.Result, Formatting.None));
+                } else {
+                    writer.WriteNull();
+                }
+                writer.WriteEndObject();
+
+            }
+            catch (Exception e) {
+
+                Console.WriteLine(@"JS error: " + e.Message);
+
+                writer = new JsonTextWriter(sw) { Formatting = Formatting.None };
+                writer.WriteStartObject();
+                writer.WritePropertyName("message");
+                writer.WriteNull();
+                writer.WritePropertyName("error");
+                writer.WriteValue(e.Message);
+                writer.WritePropertyName("result");
+                writer.WriteNull();
+                writer.WritePropertyName("success");
+                writer.WriteValue(false);
+                writer.WritePropertyName("callbackName");
+                writer.WriteValue(cb);
+                writer.WriteEndObject();
+                
+            }
+
+            SendMessage(AS_CALLBACK_EVENT, sb.ToString());
+        }
+
+        public void CallJavascriptFunction(string js) { //this is as->js
+            try {
+                var mf = Browser.GetMainFrame();
+                mf.ExecuteJavaScriptAsync(js); // this is fire and forget can run js urls, startLine 
+            }
+            catch (Exception e) {
+                Console.WriteLine(@"JS error: " + e.Message);
+            }
+        }
+
+        public async void EvaluateJavaScript(string js, string cb) {
+            var sb = new StringBuilder();
+            var sw = new StringWriter(sb);
+            JsonWriter writer;
+            try {
+                writer = new JsonTextWriter(sw) { Formatting = Formatting.None };
+                var mf = Browser.GetMainFrame();
+                var response = await mf.EvaluateScriptAsync(js);
+                if (response.Success && response.Result is IJavascriptCallback) {
+                    response = await ((IJavascriptCallback)response.Result).ExecuteAsync("");
+                }
+                writer.WriteStartObject();
+                writer.WritePropertyName("success");
+                writer.WriteValue(response.Success);
+                writer.WritePropertyName("message");
+                writer.WriteValue(response.Message);
+                writer.WritePropertyName("error");
+                writer.WriteNull();
+                writer.WritePropertyName("callbackName");
+                writer.WriteValue(cb);
+                writer.WritePropertyName("result");
+
+                if (response.Success && response.Result != null) {
+                   writer.WriteRawValue(JsonConvert.SerializeObject(response.Result, Formatting.None));
+                } else {
+                    writer.WriteNull();
+                }
+                writer.WriteEndObject();
+            }
+            catch (Exception e) {
+                Console.WriteLine(@"EvaluateJavaScript JS error: " + e.Message);
+                //better
+                writer = new JsonTextWriter(sw) { Formatting = Formatting.None };
+                writer.WriteStartObject();
+                writer.WritePropertyName("message");
+                writer.WriteNull();
+                writer.WritePropertyName("error");
+                writer.WriteValue(e.Message);
+                writer.WritePropertyName("result");
+                writer.WriteNull();
+                writer.WritePropertyName("success");
+                writer.WriteValue(false);
+                writer.WritePropertyName("guid");
+                writer.WriteValue(cb);
+                writer.WriteEndObject();
+                
+            }
+            SendMessage(AS_CALLBACK_EVENT, sb.ToString());
+        }
+
+        public void EvaluateJavaScript(string js) {
+            try {
+                var mf = Browser.GetMainFrame();
+                mf.ExecuteJavaScriptAsync(js); // this is fire and forget can run js urls, startLine 
+            }
+            catch (Exception e) {
+                Console.WriteLine(@"JS error: " + e.Message);
+            }
         }
 
     }

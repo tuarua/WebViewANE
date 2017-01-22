@@ -82,7 +82,6 @@ namespace ManagedCode {
 		for (std::vector<std::pair<std::string, std::string>>::const_iterator i = cef_commandLineArgs.begin(); i != cef_commandLineArgs.end(); ++i) {
 			cs_cef_commandLineArgs->Add(gcnew String(i->first.c_str()), gcnew String(i->second.c_str()));
 		}
-		// cef_commandLineArgs
 
 		ManagedGlobals::page = gcnew CefSharpLib::CefPage(cef_bestPerformance, cef_logSeverity, cef_logSeverity, gcnew String(cef_cachePath.c_str()), cs_cef_commandLineArgs);
 		ManagedGlobals::page->OnMessageSent += gcnew CefSharpLib::CefPage::MessageHandler(onCefLibMessage);
@@ -127,13 +126,28 @@ namespace ManagedCode {
 		return ManagedGlobals::page->GetMagnification();
 	}
 
-	void EvaluateJavaScript(System::String^ javascript) {
+	void EvaluateJavaScript(System::String^ js) {
+		ManagedGlobals::page->EvaluateJavaScript(js);
+	}
 
-		std::string typeStr = "";
-		MarshalString(javascript, typeStr);
+	void EvaluateJavaScript(System::String^ js, String^ cb) {
+		ManagedGlobals::page->EvaluateJavaScript(js, cb);
+	}
 
-		//trace("sent into ManagedGlobals::page->EvaluateJavaScript: " + typeStr);
-		ManagedGlobals::page->EvaluateJavaScript(javascript);
+	void CallJavascriptFunction(String^ js) {
+		ManagedGlobals::page->CallJavascriptFunction(js);
+	}
+
+	void CallJavascriptFunction(String^ js, String^ cb) {
+		ManagedGlobals::page->CallJavascriptFunction(js, cb);
+	}
+
+	void ShowDevTools() {
+		ManagedGlobals::page->ShowDevTools();
+	}
+
+	void CloseDevTools() {
+		ManagedGlobals::page->CloseDevTools();
 	}
 
 	void Dispose() {
@@ -303,16 +317,7 @@ extern "C" {
 		return NULL;
 	}
 
-	FRE_FUNCTION(evaluateJavaScript) {
-		using namespace std;
-		using namespace System;
-
-		string javascript = getStringFromFREObject(argv[0]);
-		String^ cs_javascript = gcnew String(javascript.c_str());
-
-		ManagedCode::EvaluateJavaScript(cs_javascript);
-		return NULL;
-	}
+	
 	
 
 	
@@ -332,6 +337,65 @@ extern "C" {
 	FRE_FUNCTION(removeFromStage) {
 		ShowWindow(cefHwnd, SW_HIDE);
 		UpdateWindow(cefHwnd);
+		return NULL;
+	}
+
+	FRE_FUNCTION(showDevTools) {
+		ManagedCode::ShowDevTools();
+		return NULL;
+	}
+
+	FRE_FUNCTION(closeDevTools) {
+		ManagedCode::CloseDevTools();
+		return NULL;
+	}
+
+	FRE_FUNCTION(onFullScreen) {
+		return NULL;
+	}
+
+	FRE_FUNCTION(go) {
+		return NULL;
+	}
+
+	FRE_FUNCTION(backForwardList) {
+		return NULL;
+	}
+
+	FRE_FUNCTION(callJavascriptFunction) {
+		using namespace std;
+		using namespace System;
+		string js = getStringFromFREObject(argv[0]);
+		FREObjectType callbackType;
+		FREGetObjectType(argv[1], &callbackType);
+
+		if (FRE_TYPE_NULL != callbackType) {
+			string callback = getStringFromFREObject(argv[1]);
+			ManagedCode::CallJavascriptFunction(gcnew String(js.c_str()), gcnew String(callback.c_str()));
+		}
+		else {
+			ManagedCode::CallJavascriptFunction(gcnew String(js.c_str()));
+		}
+
+		return NULL;
+	}
+
+	FRE_FUNCTION(evaluateJavaScript) {
+		using namespace std;
+		using namespace System;
+
+		string js = getStringFromFREObject(argv[0]);
+		FREObjectType callbackType;
+		FREGetObjectType(argv[1], &callbackType);
+
+		if (FRE_TYPE_NULL != callbackType) {
+			string callback = getStringFromFREObject(argv[1]);
+			ManagedCode::EvaluateJavaScript(gcnew String(js.c_str()), gcnew String(callback.c_str()));
+		}
+		else {
+			ManagedCode::EvaluateJavaScript(gcnew String(js.c_str()));
+		}
+
 		return NULL;
 	}
 
@@ -372,7 +436,10 @@ extern "C" {
 			,{ (const uint8_t*) "isSupported",NULL, &isSupported }
 			,{ (const uint8_t*) "addToStage",NULL, &addToStage }
 			,{ (const uint8_t*) "load",NULL, &load }
+			,{ (const uint8_t *) "loadFileURL", NULL, &load }
 			,{ (const uint8_t *) "reload", NULL, &reload }
+			,{ (const uint8_t *) "backForwardList", NULL, &backForwardList }
+			,{ (const uint8_t *) "go", NULL, &go }
 			,{ (const uint8_t *) "goBack", NULL, &goBack }
 			,{ (const uint8_t *) "goForward", NULL, &goForward }
 			,{ (const uint8_t *) "stopLoading", NULL, &stopLoading }
@@ -380,16 +447,16 @@ extern "C" {
 			,{ (const uint8_t *) "allowsMagnification", NULL, &allowsMagnification }
 			,{ (const uint8_t *) "getMagnification", NULL, &getMagnification }
 			,{ (const uint8_t *) "setMagnification", NULL, &setMagnification }
-			,{ (const uint8_t *) "evaluateJavaScript", NULL, &evaluateJavaScript }
+			
 			,{ (const uint8_t *) "loadHTMLString", NULL, &LoadHtmlString }
 			,{ (const uint8_t *) "removeFromStage", NULL, &removeFromStage }
 			,{ (const uint8_t *) "setPositionAndSize", NULL, &setPositionAndSize }
 			
-
-			/*
-        
-        , {(const uint8_t *) "loadFileURL", NULL, &loadFileURL} //TODO 
-			*/
+			,{ (const uint8_t *) "showDevTools", NULL, &showDevTools }
+			,{ (const uint8_t *) "closeDevTools", NULL, &closeDevTools }
+			,{ (const uint8_t *) "onFullScreen", NULL, &onFullScreen }
+			,{ (const uint8_t *) "callJavascriptFunction", NULL, &callJavascriptFunction }
+			,{ (const uint8_t *) "evaluateJavaScript", NULL, &evaluateJavaScript }
 
 		};
 

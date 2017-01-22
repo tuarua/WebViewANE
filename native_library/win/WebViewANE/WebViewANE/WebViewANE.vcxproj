@@ -182,8 +182,12 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
-    <Reference Include="UIAutomationProvider" />
-    <Reference Include="UIAutomationTypes" />
+    <Reference Include="UIAutomationProvider">
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="UIAutomationTypes">
+      <Private>true</Private>
+    </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
