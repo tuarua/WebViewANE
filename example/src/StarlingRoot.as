@@ -4,41 +4,41 @@
 
 package {
 import com.tuarua.WebViewANE;
+import com.tuarua.webview.ActionscriptCallback;
 import com.tuarua.webview.BackForwardList;
 import com.tuarua.webview.BackForwardListItem;
+import com.tuarua.webview.JavascriptResult;
 import com.tuarua.webview.Settings;
 import com.tuarua.webview.WebViewEvent;
-
-import events.FormEvent;
 
 import flash.desktop.NativeApplication;
 import flash.display.StageDisplayState;
 import flash.events.Event;
 import flash.events.FullScreenEvent;
 import flash.filesystem.File;
+import flash.filesystem.FileMode;
+import flash.filesystem.FileStream;
 import flash.geom.Point;
+import flash.geom.Rectangle;
 import flash.system.Capabilities;
 import flash.text.TextFieldType;
 
-import starling.animation.Transitions;
+import events.FormEvent;
 
+import starling.animation.Transitions;
 import starling.animation.Tween;
 import starling.core.Starling;
 import starling.display.Image;
-
 import starling.display.Quad;
-
 import starling.display.Sprite;
 import starling.events.Touch;
 import starling.events.TouchEvent;
 import starling.events.TouchPhase;
-
 import starling.text.TextField;
 import starling.text.TextFormat;
 import starling.utils.Align;
 
 import views.forms.Input;
-import flash.geom.Rectangle;
 
 
 public class StarlingRoot extends Sprite {
@@ -50,16 +50,25 @@ public class StarlingRoot extends Sprite {
     private var zoomInBtn:Image = new Image(Assets.getAtlas().getTexture("zoomin-btn"));
     private var zoomOutBtn:Image = new Image(Assets.getAtlas().getTexture("zoomout-btn"));
     private var fullscreenBtn:Image = new Image(Assets.getAtlas().getTexture("fullscreen-btn"));
+    private var devToolsBtn:Image = new Image(Assets.getAtlas().getTexture("dev-tools-btn"));
+    private var jsBtn:Image = new Image(Assets.getAtlas().getTexture("js-btn"));
+    private var webBtn:Image = new Image(Assets.getAtlas().getTexture("web-btn"));
+
+    private var as_js_as_Btn:Image = new Image(Assets.getAtlas().getTexture("as-js-as-btn"));
+    private var eval_js_Btn:Image = new Image(Assets.getAtlas().getTexture("eval-js-btn"));
+
     private var titleTxt:TextField;
     private var urlInput:Input;
     private var progress:Quad = new Quad(800, 2, 0x00A3D9)
     private var currentZoom:Number = 1.0;
     private var _appWidth:uint = 1280;
     private var _appHeight:uint = 800;
+    private var isDevToolsShowing:Boolean = false;
 
     public function StarlingRoot() {
         super();
-        TextField.registerBitmapFont(Fonts.getFont("fira-sans-semi-bold-13"));
+        TextField.registerCompositor(Fonts.getFont("fira-sans-semi-bold-13"), "Fira Sans Semi-Bold 13");
+
     }
 
     public function start():void {
@@ -72,12 +81,15 @@ public class StarlingRoot extends Sprite {
         }
 
         /*
-        webView.addEventListener(WebViewEvent.ON_INITIALIZED, onBrowserInitialised)
+         webView.addEventListener(WebViewEvent.ON_INITIALIZED, onBrowserInitialised)
 
-        */
-        webView.addEventListener(WebViewEvent.ON_PROPERTY_CHANGE,onPropertyChange);
+         */
+
+
+        webView.addCallback("js_to_as", jsToAsCallback);
+
+        webView.addEventListener(WebViewEvent.ON_PROPERTY_CHANGE, onPropertyChange);
         webView.addEventListener(WebViewEvent.ON_FAIL, onFail);
-        webView.addEventListener(WebViewEvent.ON_JAVASCRIPT_RESULT, onJavascriptResult);
 
 
         var settings:Settings = new Settings();
@@ -93,15 +105,11 @@ public class StarlingRoot extends Sprite {
         kvp.value = "1";
         settings.cef.commandLineArgs.push(kvp)
 
-        webView.init(0, 90, _appWidth, _appHeight-140,  settings);
+        webView.init(0, 90, _appWidth, _appHeight - 140, settings);
         webView.addToStage(); // webView.removeFromStage();
         webView.load("http://www.adobe.com/");
 
-
-        /*webView.evaluateJavaScript("navigator.userAgent"); // !! run this when we know has loaded
-         */
-
-/*
+        /*
          trace("loading html");
          webView.loadHTMLString('<!DOCTYPE html>' +
          '<html lang="en">' +
@@ -113,15 +121,8 @@ public class StarlingRoot extends Sprite {
          '<p>I am a test</p>' +
          '</body>' +
          '</html>',"http://rendering/");
-*/
-
-        /*
-         //load a local file - OSX only at the moment
-         var localHTML:File = File.applicationDirectory.resolvePath("localTest.html");
-         if(localHTML.exists){
-         webView.loadFileURL("file://" + localHTML.nativePath,"file://" + File.applicationDirectory.nativePath);
-         }
          */
+
 
 
         backBtn.x = 20;
@@ -149,9 +150,36 @@ public class StarlingRoot extends Sprite {
         fullscreenBtn.addEventListener(TouchEvent.TOUCH, onFullScreen);
 
 
-        fullscreenBtn.y = zoomInBtn.y = zoomOutBtn.y = backBtn.y
+        devToolsBtn.y = fullscreenBtn.y = zoomInBtn.y = zoomOutBtn.y = backBtn.y
                 = backBtn.y = fwdBtn.y = refreshBtn.y = cancelBtn.y = 50;
+
+
+        devToolsBtn.x = fullscreenBtn.x + 40;
+        devToolsBtn.addEventListener(TouchEvent.TOUCH, onDevTools);
+
+
+        jsBtn.x = webBtn.x = devToolsBtn.x + 60;
+        jsBtn.y = webBtn.y = 48;
+
+        backBtn.useHandCursor = fwdBtn.useHandCursor = refreshBtn.useHandCursor = cancelBtn.useHandCursor
+                = zoomInBtn.useHandCursor = zoomOutBtn.useHandCursor = devToolsBtn.useHandCursor =
+                fullscreenBtn.useHandCursor = webBtn.useHandCursor = jsBtn.useHandCursor = true;
+
+        jsBtn.addEventListener(TouchEvent.TOUCH, onJS);
+        webBtn.addEventListener(TouchEvent.TOUCH, onWeb);
+
+        webBtn.visible = false;
         cancelBtn.visible = false;
+
+        as_js_as_Btn.addEventListener(TouchEvent.TOUCH, onAsJsAsBtn);
+        eval_js_Btn.addEventListener(TouchEvent.TOUCH, onEvalJsBtn);
+
+        as_js_as_Btn.x = 200;
+        eval_js_Btn.x = as_js_as_Btn.x + 200;
+
+        as_js_as_Btn.y = eval_js_Btn.y = 42;
+        eval_js_Btn.useHandCursor = as_js_as_Btn.useHandCursor = true;
+        as_js_as_Btn.visible = eval_js_Btn.visible = false;
 
         var tf:TextFormat = new TextFormat();
         tf.setTo("Fira Sans Semi-Bold 13", 13);
@@ -189,11 +217,91 @@ public class StarlingRoot extends Sprite {
         addChild(zoomInBtn);
         addChild(zoomOutBtn);
         addChild(fullscreenBtn);
+        if(Capabilities.os.toLowerCase().indexOf("windows") == 0)
+            addChild(devToolsBtn);
+
+        addChild(jsBtn);
+        addChild(webBtn);
+
+        addChild(as_js_as_Btn);
+        addChild(eval_js_Btn);
 
         addChild(urlInput);
 
         addChild(progress);
 
+    }
+
+    private function onEvalJsBtn(event:TouchEvent):void {
+        var touch:Touch = event.getTouch(eval_js_Btn);
+        if (touch != null && touch.phase == TouchPhase.ENDED) {
+
+            //this is without a callback
+            webView.evaluateJavascript('document.getElementsByTagName("body")[0].style.backgroundColor = "yellow";');
+
+            //this is with a callback
+            //webView.evaluateJavascript("document.getElementById('output').innerHTML;", onJsEvaluated)
+        }
+    }
+
+    private function onAsJsAsBtn(event:TouchEvent):void {
+        var touch:Touch = event.getTouch(as_js_as_Btn);
+        if (touch != null && touch.phase == TouchPhase.ENDED) {
+            webView.callJavascriptFunction("as_to_js",asToJsCallback,1,"a",77);
+
+            //this is how to use without a callback
+           // webView.callJavascriptFunction("console.log",null,"hello console. The is AIR");
+
+        }
+    }
+
+    private function onWeb(event:TouchEvent):void {
+        var touch:Touch = event.getTouch(webBtn);
+        if (touch != null && touch.phase == TouchPhase.ENDED) {
+            jsBtn.visible = true;
+            webBtn.visible = false;
+
+            urlInput.enable(true);
+            urlInput.freeze(false);
+            urlInput.visible = true;
+            progress.visible = true;
+
+            as_js_as_Btn.visible = eval_js_Btn.visible = false;
+
+            webView.load("http://www.adobe.com");
+        }
+    }
+
+    private function onJS(event:TouchEvent):void {
+        var touch:Touch = event.getTouch(jsBtn);
+        if (touch != null && touch.phase == TouchPhase.ENDED) {
+            jsBtn.visible = false;
+            webBtn.visible = true;
+
+            urlInput.enable(false);
+            urlInput.freeze(true);
+            urlInput.visible = false;
+            progress.visible = false;
+
+            as_js_as_Btn.visible = eval_js_Btn.visible = true;
+
+            var localHTML:File = File.applicationDirectory.resolvePath("jsTest.html");
+            if (localHTML.exists) {
+                webView.loadFileURL("file://" + localHTML.nativePath, "file://" + File.applicationDirectory.nativePath);
+            }
+        }
+    }
+
+    private function onDevTools(event:TouchEvent):void {
+        var touch:Touch = event.getTouch(devToolsBtn);
+        if (touch != null && touch.phase == TouchPhase.ENDED) {
+            isDevToolsShowing = !isDevToolsShowing;
+            if (isDevToolsShowing) {
+                webView.showDevTools();
+            } else {
+                webView.closeDevTools();
+            }
+        }
     }
 
     private function onPropertyChange(event:WebViewEvent):void {
@@ -249,12 +357,11 @@ public class StarlingRoot extends Sprite {
         }
     }
 
+
     private function onFullScreen(event:TouchEvent):void {
         var touch:Touch = event.getTouch(fullscreenBtn);
         if (touch != null && touch.phase == TouchPhase.ENDED) {
             onMaximiseApp();
-            //currentZoom = currentZoom + .1;
-            //webView.setMagnification(currentZoom, new Point(0, 0));
         }
     }
 
@@ -298,12 +405,49 @@ public class StarlingRoot extends Sprite {
         }
     }
 
-    private function onJavascriptResult(event:WebViewEvent):void {
-        var obj:Object = event.params;
-        if (obj) {
-            trace("onJavascriptResult result:", obj.result, "error:", obj.error);
-        }
+    private function onJsEvaluated(jsResult:JavascriptResult):void {
+        trace("Evaluate JS -> AS reached StarlingRoot.as");
+        trace("jsResult.error:", jsResult.error);
+        trace("jsResult.result:", jsResult.result);
+        trace("jsResult.message:", jsResult.message);
+        trace("jsResult.success:", jsResult.success);
     }
+
+
+    public function jsToAsCallback(asCallback:ActionscriptCallback):void {
+        trace("JS -> AS reached StarlingRoot.as");
+        trace("asCallback.args", asCallback.args);
+        trace("asCallback.functionName", asCallback.functionName);
+        trace("asCallback.callbackName", asCallback.callbackName);
+
+        if(asCallback.args && asCallback.args.length > 0){
+            var paramA:int = asCallback.args[0] + 33;
+            var paramB:String = asCallback.args[1].replace("I am", "You are");
+            var paramC:Boolean = !asCallback.args[2];
+
+            trace("paramA", paramA);
+            trace("paramB", paramB);
+            trace("paramC", paramC);
+            trace("we have a callbackName")
+        }
+
+
+        if (asCallback.callbackName) { //if we have a callbackName it means we have a further js call to make
+            webView.callJavascriptFunction(asCallback.callbackName, null, paramA, paramB, paramC);
+        }
+
+    }
+
+    public function asToJsCallback(jsResult:JavascriptResult):void {
+        trace("asToJsCallback");
+        trace("jsResult.error", jsResult.error);
+        trace("jsResult.result", jsResult.result);
+        trace("jsResult.message", jsResult.message);
+        trace("jsResult.success", jsResult.success);
+        var testObject:* = jsResult.result;
+        trace(testObject);
+    }
+
 
     private function onFail(event:WebViewEvent):void {
         trace(event);
@@ -316,30 +460,31 @@ public class StarlingRoot extends Sprite {
 
     public function onMaximiseApp():void {
 
-        if(WebViewANESample.target.stage.displayState == StageDisplayState.FULL_SCREEN_INTERACTIVE){
+        if (WebViewANESample.target.stage.displayState == StageDisplayState.FULL_SCREEN_INTERACTIVE) {
             WebViewANESample.target.stage.displayState = StageDisplayState.NORMAL;
             _appWidth = 1280;
             _appHeight = 800;
-        }else {
+        } else {
             _appWidth = WebViewANESample.target.stage.fullScreenWidth;
             _appHeight = WebViewANESample.target.stage.fullScreenHeight;
+
             WebViewANESample.target.stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
-            WebViewANESample.target.stage.fullScreenSourceRect = new Rectangle(0,0,_appWidth,_appHeight);
+            WebViewANESample.target.stage.fullScreenSourceRect = new Rectangle(0, 0, _appWidth, _appHeight);
         }
     }
 
     private function onFullScreenEvent(event:FullScreenEvent):void {
-         /*
+        /*
          !! Needed for OSX, ignored on Windows. Important - must tell the webView  we have gone in/out of fullscreen.
          */
         webView.onFullScreen(event.fullScreen);
-        webView.setPositionAndSize(0, 90, _appWidth, _appHeight-140);
+        webView.setPositionAndSize(0, 90, _appWidth, _appHeight - 140);
     }
 
     public function updateWebViewOnResize():void {
-       // trace(_appWidth,_appHeight);
-        if(webView){
-            webView.setPositionAndSize(0, 90, _appWidth, _appHeight-140);
+        // trace(_appWidth,_appHeight);
+        if (webView) {
+            webView.setPositionAndSize(0, 90, _appWidth, _appHeight - 140);
         }
     }
 
@@ -350,7 +495,6 @@ public class StarlingRoot extends Sprite {
     public function set appHeight(value:uint):void {
         _appHeight = value;
     }
-
 
 
 }
