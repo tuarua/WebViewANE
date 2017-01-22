@@ -2,7 +2,10 @@
  * Copyright Tua Rua Ltd. (c) 2017.
  */
 package com.tuarua {
+import com.tuarua.utils.GUID;
+import com.tuarua.webview.ActionscriptCallback;
 import com.tuarua.webview.BackForwardList;
+import com.tuarua.webview.JavascriptResult;
 import com.tuarua.webview.Settings;
 import com.tuarua.webview.WebViewEvent;
 
@@ -11,6 +14,7 @@ import flash.events.StatusEvent;
 import flash.external.ExtensionContext;
 import flash.geom.Point;
 import flash.system.Capabilities;
+import flash.utils.Dictionary;
 
 public class WebViewANE extends EventDispatcher {
     private static const name:String = "WebViewANE";
@@ -28,6 +32,13 @@ public class WebViewANE extends EventDispatcher {
     private var _y:int;
     private var _height:int;
     private var _width:int;
+    private var asCallBacks:Dictionary = new Dictionary(); // as -> js -> as
+    private var jsCallBacks:Dictionary = new Dictionary(); //js - > as -> js
+    private static const AS_CALLBACK_PREFIX:String = "TRWV.as.";
+    private static const JS_CALLBACK_PREFIX:String = "TRWV.js.";
+
+    private static const JS_CALLBACK_EVENT:String = "TRWV.js.CALLBACK";
+    private static const AS_CALLBACK_EVENT:String = "TRWV.as.CALLBACK";
 
     public function WebViewANE() {
         initiate();
@@ -53,6 +64,8 @@ public class WebViewANE extends EventDispatcher {
 
     private function gotEvent(event:StatusEvent):void {
         // trace(event);
+        var keyName:String;
+        var paramsAsJSON:Object;
         var pObj:Object;
         switch (event.level) {
             case "TRACE":
@@ -82,10 +95,91 @@ public class WebViewANE extends EventDispatcher {
                 dispatchEvent(new WebViewEvent(WebViewEvent.ON_FAIL, (event.code.length > 0)
                         ? JSON.parse(event.code) : null));
                 break;
-            case WebViewEvent.ON_JAVASCRIPT_RESULT:
-                dispatchEvent(new WebViewEvent(WebViewEvent.ON_JAVASCRIPT_RESULT, (event.code.length > 0)
-                        ? JSON.parse(event.code) : null));
+
+            case JS_CALLBACK_EVENT: //js->as->js
+                try {
+                    paramsAsJSON = JSON.parse(event.code);
+                    for (var key:Object in jsCallBacks) {
+                        var asCallback:ActionscriptCallback = new ActionscriptCallback();
+                        keyName = key as String;
+                        if (keyName == paramsAsJSON.functionName) {
+                            var tmpFunction1:Function = jsCallBacks[key] as Function;
+                            asCallback.functionName = paramsAsJSON.functionName;
+                            asCallback.callbackName = paramsAsJSON.callbackName;
+                            asCallback.args = paramsAsJSON.args;
+                            tmpFunction1.call(null, asCallback);
+                            break;
+                        }
+                    }
+
+                } catch (e:Error) {
+                    trace(e.message);
+                    break;
+                }
+
                 break;
+            case AS_CALLBACK_EVENT:
+
+                try {
+                    paramsAsJSON = JSON.parse(event.code);
+                } catch (e:Error) {
+                    trace(e.message);
+                    break;
+                }
+                for (var keyAs:Object in asCallBacks) {
+                    keyName = keyAs as String;
+
+                    if (keyName == paramsAsJSON.callbackName) {
+                        var jsResult:JavascriptResult = new JavascriptResult();
+                        jsResult.error = paramsAsJSON.error;
+                        jsResult.message = paramsAsJSON.message;
+                        jsResult.success = paramsAsJSON.success;
+                        jsResult.result = paramsAsJSON.result;
+
+                        var tmpFunction2:Function = asCallBacks[keyAs] as Function;
+                        tmpFunction2.call(null, jsResult);
+                    }
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    public function addCallback(functionName:String, closure:Function):void {
+        jsCallBacks[functionName] = closure;
+    }
+
+    public function removeCallback(functionName:String):void {
+        jsCallBacks[functionName] = null;
+    }
+
+    //to call js method with args, no closure=fire and forget
+    public function callJavascriptFunction(functionName:String, closure:Function = null, ...args):void {
+        if (safetyCheck()) {
+            var finalArray:Array = new Array();
+            for each (var arg:* in args)
+                finalArray.push(JSON.stringify(arg));
+            var js:String = functionName + "(" + finalArray.toString() + ");";
+            if (closure) {
+                asCallBacks[AS_CALLBACK_PREFIX + functionName] = closure;
+                extensionContext.call("callJavascriptFunction", js, AS_CALLBACK_PREFIX + functionName);
+            } else {
+                extensionContext.call("callJavascriptFunction", js, null);
+            }
+        }
+    }
+
+    //to insert script or run some js, no closure fire and forget
+    public function evaluateJavascript(js:String, closure:Function = null):void {
+        if (safetyCheck()) {
+            if (closure) {
+                var guid:String = GUID.create();
+                asCallBacks[AS_CALLBACK_PREFIX + guid] = closure;
+                extensionContext.call("evaluateJavaScript", js, AS_CALLBACK_PREFIX + guid);
+            } else {
+                extensionContext.call("evaluateJavaScript", js, null);
+            }
         }
     }
 
@@ -111,23 +205,14 @@ public class WebViewANE extends EventDispatcher {
         if (width > 0) this._width = width;
         if (height > 0) this._height = height;
 
-        if (safetyCheck()){
+        if (safetyCheck()) {
             extensionContext.call("setPositionAndSize", this._x, this._y, this._width, this._height);
         }
-
     }
 
     public function addToStage():void {
         if (safetyCheck())
             extensionContext.call("addToStage");
-    }
-
-    public function backForwardList():BackForwardList {
-        if (safetyCheck() && Capabilities.os.toLowerCase().indexOf("windows") == -1) //only osx currently
-            return extensionContext.call("backForwardList") as BackForwardList;
-
-        trace("[" + name + "] backForwardList method only available in OSX");
-        return new BackForwardList();
     }
 
     public function removeFromStage():void {
@@ -146,15 +231,8 @@ public class WebViewANE extends EventDispatcher {
     }
 
     public function loadFileURL(url:String, allowingReadAccessTo:String):void {
-        if (safetyCheck() && Capabilities.os.toLowerCase().indexOf("windows") == -1)
-            extensionContext.call("loadFileURL", url, allowingReadAccessTo);
-        else
-            trace("[" + name + "] loadFileURL method only available in OSX");
-    }
-
-    public function evaluateJavaScript(javascript:String):void {
         if (safetyCheck())
-            extensionContext.call("evaluateJavaScript", javascript);
+            extensionContext.call("loadFileURL", url, allowingReadAccessTo);
     }
 
     public function reload():void {
@@ -178,10 +256,14 @@ public class WebViewANE extends EventDispatcher {
     }
 
     public function go(offset:int = 1):void {
-        if (safetyCheck() && Capabilities.os.toLowerCase().indexOf("windows") == -1)
+        if (safetyCheck())
             extensionContext.call("go", offset);
-        else
-            trace("[" + name + "] go method only available in OSX");
+    }
+
+    public function backForwardList():BackForwardList {
+        if (safetyCheck())
+            return extensionContext.call("backForwardList") as BackForwardList;
+        return new BackForwardList();
     }
 
     public function reloadFromOrigin():void {
@@ -189,9 +271,9 @@ public class WebViewANE extends EventDispatcher {
             extensionContext.call("reloadFromOrigin");
     }
 
-    public function onFullScreen(fs:Boolean=false):void {
-        if (safetyCheck() && Capabilities.os.toLowerCase().indexOf("windows") == -1)
-            extensionContext.call("onFullScreen",fs);
+    public function onFullScreen(fs:Boolean = false):void {
+        if (safetyCheck())
+            extensionContext.call("onFullScreen", fs);
     }
 
     public function allowsMagnification():Boolean {
@@ -230,7 +312,6 @@ public class WebViewANE extends EventDispatcher {
         }
         trace("[" + name + "] Unloading ANE...");
         extensionContext.removeEventListener(StatusEvent.STATUS, gotEvent);
-        //TODO cleanup method ?
         extensionContext.dispose();
         extensionContext = null;
     }
@@ -258,5 +339,17 @@ public class WebViewANE extends EventDispatcher {
     public function get estimatedProgress():Number {
         return _estimatedProgress;
     }
+
+    public function showDevTools():void {
+        if (safetyCheck())
+            extensionContext.call("showDevTools");
+    }
+
+    public function closeDevTools():void {
+        if (safetyCheck())
+            extensionContext.call("closeDevTools");
+    }
+
+
 }
 }

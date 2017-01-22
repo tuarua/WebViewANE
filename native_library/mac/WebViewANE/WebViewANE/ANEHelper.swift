@@ -203,7 +203,7 @@ class ANEHelper {
         return result
     }
 
-    private func printObjectType(freObject: FREObject?) {
+    public func printObjectType(freObject: FREObject?) {
         var objectType: FREObjectType = FRE_TYPE_NULL;
         FREGetObjectType(freObject, &objectType);
         switch objectType {

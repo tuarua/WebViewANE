@@ -142,6 +142,7 @@ SWIFT_CLASS("_TtC10WebViewANE10WebViewANE")
 - (void)setMagnificationWithArgv:(NSPointerArray * _Nonnull)argv;
 - (void)loadWithArgv:(NSPointerArray * _Nonnull)argv;
 - (void)loadHTMLStringWithArgv:(NSPointerArray * _Nonnull)argv;
+- (void)callJavascriptFunctionWithArgv:(NSPointerArray * _Nonnull)argv;
 - (void)loadFileURLWithArgv:(NSPointerArray * _Nonnull)argv;
 - (void)initWebViewWithArgv:(NSPointerArray * _Nonnull)argv;
 - (void)setPositionAndSizeWithArgv:(NSPointerArray * _Nonnull)argv;

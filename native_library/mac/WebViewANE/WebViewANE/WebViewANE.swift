@@ -10,45 +10,33 @@ import Cocoa
 import Foundation
 import WebKit
 
-@objc class WebViewANE: NSObject, WKUIDelegate, WKNavigationDelegate {
-
+@objc class WebViewANE: NSObject, WKUIDelegate, WKNavigationDelegate, WKScriptMessageHandler {
+    
     private var dllContext: FREContext!
     private let aneHelper = ANEHelper()
     private var myWebView: WKWebView?
-    //private var mainWindow: NSWindow?
-    
-    private var _x:Int = 0
-    private var _y:Int = 0
-    private var _width:Int = 800
-    private var _height:Int = 600
-    private var isAdded:Bool = false;
+
+    private var _x: Int = 0
+    private var _y: Int = 0
+    private var _width: Int = 800
+    private var _height: Int = 600
+    private var isAdded: Bool = false;
 
     private static let ON_FAIL: String = "WebView.OnFail"
-    private static let ON_JAVASCRIPT_RESULT: String = "WebView.OnJavascriptResult"
-    private static let ON_PROGRESS: String = "WebView.OnProgress"
     private static let ON_PROPERTY_CHANGE: String = "WebView.OnPropertyChange"
-
+    private static let JS_CALLBACK_EVENT:String = "TRWV.js.CALLBACK";
+    private static let AS_CALLBACK_EVENT:String  = "TRWV.as.CALLBACK";
+    
+    private var configuration:WKWebViewConfiguration = WKWebViewConfiguration()
+    private var userController:WKUserContentController = WKUserContentController()
+    
     private func trace(value: String) {
         FREDispatchStatusEventAsync(self.dllContext, "[WebViewANE] " + value, "TRACE")
     }
-
-    private func sendEvent(name: String, props: Dictionary<String, Any>?) {
-        var value: String = ""
-        if props != nil {
-            do {
-                let dic: Dictionary<String, Any> = props!
-                let myjson = try JSONSerialization.data(withJSONObject: dic, options: .prettyPrinted)
-                let theJSONText = NSString(data: myjson,
-                        encoding: String.Encoding.utf8.rawValue)
-
-                value = theJSONText! as String
-            } catch {
-                Swift.debugPrint(error.localizedDescription)
-            }
-        }
+    private func sendEvent(name: String, value: String) {
         FREDispatchStatusEventAsync(self.dllContext, value, name)
     }
-
+    
     func webView(_ myWebView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
     }
 
@@ -67,14 +55,11 @@ import WebKit
     func webView(_ myWebView: WKWebView, didFail navigation: WKNavigation!, withError: Error) {
         var props: Dictionary<String, Any> = Dictionary()
         props["url"] = myWebView.url!.absoluteString
-        sendEvent(name: WebViewANE.ON_FAIL, props: props);
+        let json = JSON(props)
+        sendEvent(name: WebViewANE.ON_FAIL, value: json.description )
     }
 
     func webView(_ myWebView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError: Error) {
-        //var props: Dictionary<String, Any> = Dictionary()
-        //props["url"] = myWebView.url!.absoluteString
-        //sendEvent(name: WebViewANE.ON_FAIL, props: props);
-        
     }
 
     func webView(_ myWebView: WKWebView, didReceiveServerRedirectForProvisionalNavigation navigation: WKNavigation!) {
@@ -161,13 +146,9 @@ import WebKit
                     }
                     aneHelper.setFREObjectProperty(freObject: freBackForwardList, name: "forwardList", prop: freForwardList)
                 }
-
                 return freBackForwardList
-
             }
-
         }
-
         return nil
 
     }
@@ -194,19 +175,20 @@ import WebKit
     }
 
     func addToStage() {
-       // trace(value: "addToStage");
+        // trace(value: "addToStage");
         if let view = NSApp.mainWindow?.contentView {
-         //   trace(value: "addSubview");
+            //   trace(value: "addSubview");
             view.addSubview(myWebView!)
             isAdded = true
             return
-        }else { //allow for mainWindow not having been set yet on NSApp
+        } else {
+            //allow for mainWindow not having been set yet on NSApp
             let allWindows = NSApp.windows;
             if allWindows.count > 0 {
                 let mWin = allWindows[0]
                 let view: NSView = mWin.contentView!
                 if let wv = myWebView {
-                   // trace(value: "addSubview");
+                    // trace(value: "addSubview");
                     view.addSubview(wv)
                     isAdded = true
                     return
@@ -222,14 +204,7 @@ import WebKit
         }
     }
 
-    func evaluateJavaScript(argv: NSPointerArray) {
-        let js: String = aneHelper.getString(freObject: argv.pointer(at: 0))
-        if let wv = myWebView {
-            wv.evaluateJavaScript(js, completionHandler: onJavascriptResult)
-        }
-    }
-    
-    func setPositionAndSize(argv: NSPointerArray){
+    func setPositionAndSize(argv: NSPointerArray) {
         let tmp_x = aneHelper.getInt(freObject: argv.pointer(at: 0))
         let tmp_y = aneHelper.getInt(freObject: argv.pointer(at: 1))
         let tmp_width = aneHelper.getInt(freObject: argv.pointer(at: 2))
@@ -254,21 +229,18 @@ import WebKit
             _y = tmp_y;
             updateY = true;
         }
-        
+
         let realY = (Int((NSApp.mainWindow?.contentLayoutRect.height)!) - _height) - _y;
         //TODO not 100% right ?
-        
+
         if updateX || updateY {
-            
+
             myWebView?.setFrameOrigin(NSPoint.init(x: _x, y: realY))
         }
         if updateWidth || updateHeight {
             myWebView?.setFrameSize(NSSize.init(width: _width, height: _height))
         }
-        
-        //trace(value: "setting x=\(_x), y=\(realY), width=\(_width), height=\(_height)");
-    
-        
+
     }
 
     func load(argv: NSPointerArray) {
@@ -287,7 +259,6 @@ import WebKit
         }
     }
 
-    //TODO align with CEF version. Load the file in AIR and pass as HTML string
     func loadFileURL(argv: NSPointerArray) {
         let url: String = aneHelper.getString(freObject: argv.pointer(at: 0))
         let myURL = URL(string: url)
@@ -297,28 +268,29 @@ import WebKit
         if let wv = myWebView {
             if #available(OSX 10.11, *) {
                 wv.loadFileURL(myURL!, allowingReadAccessTo: accessURL!)
+                
             } else {
                 // Fallback on earlier versions
             }
         }
 
     }
-    
-    func onFullScreen (argv: NSPointerArray) {
-        let fullScreen:Bool = aneHelper.getBool(freObject: argv.pointer(at: 0))
+
+    func onFullScreen(argv: NSPointerArray) {
+        let fullScreen: Bool = aneHelper.getBool(freObject: argv.pointer(at: 0))
         let tmpIsAdded = isAdded
         for win in NSApp.windows {
             if (fullScreen && win.canBecomeMain && win.className.contains("AIR_FullScreen")) {
                 win.makeMain()
                 break;
-            } else if(!fullScreen && win.canBecomeMain && win.className.contains("AIR_PlayerContent")) {
+            } else if (!fullScreen && win.canBecomeMain && win.className.contains("AIR_PlayerContent")) {
                 win.makeMain()
                 win.orderFront(nil)
                 break;
             }
         }
-        
-        if(tmpIsAdded){
+
+        if (tmpIsAdded) {
             removeFromStage();
             addToStage();
         }
@@ -354,6 +326,82 @@ import WebKit
         }
     }
 
+    func evaluateJavaScript(argv: NSPointerArray) { //replicated, possibly refactor to remove
+        if let wv = myWebView {
+            let js = aneHelper.getString(freObject: argv.pointer(at: 0))
+            var callback: String? = nil
+            var callbackType: FREObjectType = FRE_TYPE_NULL;
+            FREGetObjectType(argv.pointer(at: 1), &callbackType);
+            
+            if FRE_TYPE_STRING == callbackType {
+                callback = aneHelper.getString(freObject: argv.pointer(at: 1))
+                wv.evaluateJavaScript(js, completionHandler: { (result: Any?, error: Error?) -> Void in
+                    var props: Dictionary<String, Any> = Dictionary()
+                    props["callbackName"] = callback
+                    props["message"] = ""
+                    if error != nil {
+                        props["success"] = false
+                        props["error"] = error.debugDescription
+                    } else {
+                        props["error"] = ""
+                        props["success"] = true
+                    }
+                    props["result"] = result
+                    let json = JSON(props)
+                    self.sendEvent(name: WebViewANE.AS_CALLBACK_EVENT, value: json.description )
+                })
+            }else{
+                wv.evaluateJavaScript(js, completionHandler: nil)
+            }
+            
+        }
+    }
+    
+    func callJavascriptFunction(argv: NSPointerArray) {
+        if let wv = myWebView {
+            let js = aneHelper.getString(freObject: argv.pointer(at: 0))
+            aneHelper.printObjectType(freObject: argv.pointer(at: 1))
+            var callback: String? = nil
+            var callbackType: FREObjectType = FRE_TYPE_NULL;
+            FREGetObjectType(argv.pointer(at: 1), &callbackType);
+            
+            
+            if FRE_TYPE_STRING == callbackType {
+                callback = aneHelper.getString(freObject: argv.pointer(at: 1))
+                wv.evaluateJavaScript(js, completionHandler: { (result: Any?, error: Error?) -> Void in
+                    var props: Dictionary<String, Any> = Dictionary()
+                    props["callbackName"] = callback
+                    props["message"] = ""
+                    if error != nil {
+                        props["success"] = false
+                        props["error"] = error.debugDescription
+                    } else {
+                        props["error"] = ""
+                        props["success"] = true
+                    }
+                    props["result"] = result
+                    let json = JSON(props)
+                    self.sendEvent(name: WebViewANE.AS_CALLBACK_EVENT, value: json.description )
+                })
+            } else {
+                wv.evaluateJavaScript(js, completionHandler: nil)
+            }
+        }
+    }
+    
+    /*! @abstract Invoked when a script message is received from a webpage.
+     @param userContentController The user content controller invoking the
+     delegate method.
+     @param message The script message received.
+     */
+    @available(OSX 10.10, *)
+    public func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+        if let messageBody:NSDictionary = message.body as? NSDictionary{
+            let json = JSON(messageBody);
+            sendEvent(name: WebViewANE.JS_CALLBACK_EVENT, value: json.description); 
+        }
+    }
+
     func initWebView(argv: NSPointerArray) {
         _x = aneHelper.getInt(freObject: argv.pointer(at: 0))
         _y = aneHelper.getInt(freObject: argv.pointer(at: 1))
@@ -361,36 +409,54 @@ import WebKit
         _height = aneHelper.getInt(freObject: argv.pointer(at: 3))
 
         let allWindows = NSApp.windows;
-        var mWin:NSWindow?
+        var mWin: NSWindow?
         if allWindows.count > 0 {
             if let win = NSApp.mainWindow {
                 mWin = win
-            }else { //allow for mainWindow not having been set yet on NSApp
+            } else {
+                //allow for mainWindow not having been set yet on NSApp
                 mWin = allWindows[0]
             }
+
+            let settingsFRE = aneHelper.getFREObjectProperty(freObject: argv.pointer(at: 4), propertyName: "webkit")
+            configuration.preferences.plugInsEnabled = aneHelper.getBool(freObject:
+                aneHelper.getFREObjectProperty(freObject: settingsFRE, propertyName: "plugInsEnabled"))
             
+            configuration.preferences.javaScriptEnabled = aneHelper.getBool(freObject:
+                aneHelper.getFREObjectProperty(freObject: settingsFRE, propertyName: "javaScriptEnabled"))
             
-            let configuration = WKWebViewConfiguration()
+            configuration.preferences.javaScriptCanOpenWindowsAutomatically = aneHelper.getBool(freObject:
+                aneHelper.getFREObjectProperty(freObject: settingsFRE,
+                                               propertyName: "javaScriptCanOpenWindowsAutomatically"))
+            
+            configuration.preferences.javaEnabled = aneHelper.getBool(freObject:
+                aneHelper.getFREObjectProperty(freObject: settingsFRE, propertyName: "javaEnabled"))
+            
+            configuration.preferences.minimumFontSize = aneHelper.getCGFloat(freObject:
+                aneHelper.getFREObjectProperty(freObject: settingsFRE, propertyName: "minimumFontSize"))
+
+            
+            userController.add(self, name: "webViewANE")
+            configuration.userContentController = userController;
+            
             let realY = (Int((mWin?.contentLayoutRect.height)!) - _height) - _y;
-            
             let myRect: CGRect = CGRect.init(x: _x, y: realY, width: _width, height: _height)
-            
+
             myWebView = WKWebView(frame: myRect, configuration: configuration)
             myWebView?.translatesAutoresizingMaskIntoConstraints = false
             myWebView?.navigationDelegate = self
             myWebView?.uiDelegate = self
-            
+
             myWebView?.addObserver(self, forKeyPath: "loading", options: .new, context: nil)
             myWebView?.addObserver(self, forKeyPath: "estimatedProgress", options: .new, context: nil)
             myWebView?.addObserver(self, forKeyPath: "title", options: .new, context: nil)
             myWebView?.addObserver(self, forKeyPath: "URL", options: .new, context: nil)
             myWebView?.addObserver(self, forKeyPath: "canGoBack", options: .new, context: nil)
             myWebView?.addObserver(self, forKeyPath: "canGoForward", options: .new, context: nil)
-            
+
         }
-        
-        
-        
+
+
     }
 
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?,
@@ -409,7 +475,7 @@ import WebKit
                 } else {
                     return
                 }
-            }else{
+            } else {
                 return
             }
             break;
@@ -433,41 +499,17 @@ import WebKit
             props["propName"] = "isLoading"
             props["value"] = myWebView?.isLoading
             break;
-            
+
         default:
             props["propName"] = keyPath
             props["value"] = nil
             break;
         }
 
-        sendEvent(name: WebViewANE.ON_PROPERTY_CHANGE, props: props);
+        let json = JSON(props)
+        sendEvent(name: WebViewANE.ON_PROPERTY_CHANGE, value: json.description )
 
     }
-
-
-    func onJavascriptResult(result: Any?, error: Error?) {
-        var resultValue: String = ""
-        var errorValue: String = ""
-
-        if result != nil {
-            Swift.debugPrint(result!)
-            resultValue = result as! String
-        }
-
-        if error != nil {
-            Swift.debugPrint(error!)
-            errorValue = error!.localizedDescription
-
-        }
-
-        var props: Dictionary<String, Any> = Dictionary()
-
-        props["result"] = resultValue
-        props["error"] = errorValue
-        sendEvent(name: WebViewANE.ON_JAVASCRIPT_RESULT, props: props);
-
-    }
-
 
     func setFREContext(ctx: FREContext) {
         dllContext = ctx
@@ -475,3 +517,15 @@ import WebKit
     }
 
 }
+
+/*
+ screenShot
+ - (UIImage *)snapshot:(UIView *)view
+ {
+ UIGraphicsBeginImageContextWithOptions(view.bounds.size, YES, 0);
+ [view drawViewHierarchyInRect:view.bounds afterScreenUpdates:YES];
+ UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+ UIGraphicsEndImageContext();
+ return image;
+ }
+ */
