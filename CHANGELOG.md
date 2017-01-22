@@ -1,3 +1,9 @@
+### 0.0.10
+- OSX: Enable Flash Player by default #7
+- WIN: Chrome Developer Tools #5
+- WIN/OSX: JS Binding #4
+- WIN: loadFileURL method added
+
 ### 0.0.9
 - OSX: Further Fix Issue#2
 - WIN: Moved CefSharpLib.dll to own folder
