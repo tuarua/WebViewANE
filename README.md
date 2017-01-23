@@ -17,7 +17,7 @@ The Windows version utilises the [CefSharp WPF](https://github.com/cefsharp/CefS
 * Copy the contents of the "cef_sharp_libs" folder into the bin folder of your AIRSDK. 
 The location of this will vary depending on your IDE or. These dlls and other cef files need to reside in the folder where adl.exe is run from.
 * For release builds, these files need to be packaged in the same folder as your exe
-* This ANE was built with MS Visual Sutio 2015. As such your machine (and user's machines) will need to have Micorsoft Visual C++ 2015 Redistributable (x86) runtime installed. Windows 10 machines will have this but perhaps not Windows 7.
+* This ANE was built with MS Visual Studio 2015. As such your machine (and user's machines) will need to have Microsoft Visual C++ 2015 Redistributable (x86) runtime installed. Windows 10 machines will have this but perhaps not Windows 7.
 https://www.microsoft.com/en-us/download/details.aspx?id=48145
 * The Cef view and processes can only be attached once to your app. Therefore only one instance can be created and used.
 However, the view can be shown and hidden when not in use via the addToStage and removeFromStage methods
@@ -43,7 +43,7 @@ The OSX version utilises the native WKWebView
 
 
 ### Long Term To Do
-* Investigate WebForms version of CefSharp for improved performance
+* Investigate WinForms version of CefSharp for improved performance
 * Windows Edge based WebView and CEF on OSX. Allow ability to select which one to be used, eg CEF or Native
 
 ### References
