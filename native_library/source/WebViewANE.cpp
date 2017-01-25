@@ -12,7 +12,6 @@ std::string pathSlash = "\\";
 #include <string>
 
 #include <vector>
-#include "json.hpp"
 
 
 const std::string ANE_NAME = "WebViewANE";
@@ -26,6 +25,11 @@ int cef_width = 800;
 int cef_height = 600;
 int cef_x = 0;
 int cef_y = 0;
+
+unsigned int cef_bg_r = 255;
+unsigned int cef_bg_g = 255;
+unsigned int cef_bg_b = 255;
+
 std::vector<std::pair<std::string, std::string>> cef_commandLineArgs;
 int cef_remoteDebuggingPort;
 std::string cef_cachePath;
@@ -68,22 +72,25 @@ namespace ManagedCode {
 	}
 
 	HWND GetHwnd(HWND parent) {
-		HwndSource^ source = gcnew HwndSource(
-			0, // class style
-			/*WS_VISIBLE | */WS_CHILD, // style
-			0, // exstyle
-			cef_x, cef_y, cef_width, cef_height,
-			"Cef Window", // NAME
-			IntPtr(parent)        // parent window 
-			);
 
+		HwndSourceParameters parameters;
+		parameters.SetPosition(cef_x, cef_y);
+		parameters.SetSize(cef_width, cef_height);
+		parameters.ParentWindow = IntPtr(parent);
+		parameters.WindowName = "Cef Window";
+		parameters.WindowStyle = WS_CHILD;
+		parameters.AcquireHwndFocusInMenuMode = true;
+		//parameters.WindowClassStyle = 0;
+		//parameters.ExtendedWindowStyle = 0;
+		HwndSource^ source = gcnew HwndSource(parameters);
 
 		Dictionary<String^, String^>^ cs_cef_commandLineArgs = gcnew Dictionary<String^, String^>();
 		for (std::vector<std::pair<std::string, std::string>>::const_iterator i = cef_commandLineArgs.begin(); i != cef_commandLineArgs.end(); ++i) {
 			cs_cef_commandLineArgs->Add(gcnew String(i->first.c_str()), gcnew String(i->second.c_str()));
 		}
 
-		ManagedGlobals::page = gcnew CefSharpLib::CefPage(cef_bestPerformance, cef_logSeverity, cef_logSeverity, gcnew String(cef_cachePath.c_str()), cs_cef_commandLineArgs);
+		ManagedGlobals::page = gcnew CefSharpLib::CefPage(cef_bestPerformance, cef_logSeverity, cef_logSeverity, 
+			gcnew String(cef_cachePath.c_str()), cs_cef_commandLineArgs, cef_bg_r, cef_bg_g, cef_bg_b);
 		ManagedGlobals::page->OnMessageSent += gcnew CefSharpLib::CefPage::MessageHandler(onCefLibMessage);
 
 		source->RootVisual = ManagedGlobals::page; //is this wherer the visual is added
@@ -399,6 +406,13 @@ extern "C" {
 		return NULL;
 	}
 
+	FRE_FUNCTION(setBackgroundColor) {
+		cef_bg_r = getUInt32FromFREObject(argv[0]);
+		cef_bg_g = getUInt32FromFREObject(argv[1]);
+		cef_bg_b = getUInt32FromFREObject(argv[2]);
+		return NULL;
+	}
+
 	BOOL CALLBACK EnumProc(HWND hwnd, LPARAM lParam) {
 		GetWindowThreadProcessId(hwnd, &windowID);
 		if (windowID == lParam) {
@@ -457,6 +471,7 @@ extern "C" {
 			,{ (const uint8_t *) "onFullScreen", NULL, &onFullScreen }
 			,{ (const uint8_t *) "callJavascriptFunction", NULL, &callJavascriptFunction }
 			,{ (const uint8_t *) "evaluateJavaScript", NULL, &evaluateJavaScript }
+			,{ (const uint8_t *) "setBackgroundColor", NULL, &setBackgroundColor }
 
 		};
 
