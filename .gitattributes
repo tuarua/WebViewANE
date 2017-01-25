@@ -1,4 +1,4 @@
-###############################################################################
+native_extension/docs/* linguist-documentation###############################################################################
 # Set default behavior to automatically normalize line endings.
 ###############################################################################
 * text=auto
@@ -61,3 +61,4 @@
 #*.PDF   diff=astextplain
 #*.rtf   diff=astextplain
 #*.RTF   diff=astextplain
+native_extension/docs/* linguist-documentation
