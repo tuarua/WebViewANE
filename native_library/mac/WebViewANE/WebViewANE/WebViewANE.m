@@ -133,34 +133,44 @@ FRE_FUNCTION(callJavascriptFunction) {
     return NULL;
 }
 
+FRE_FUNCTION(setBackgroundColor) {
+    return NULL;
+}
+
+FRE_FUNCTION(shutDown) {
+    return NULL;
+}
+
 void contextInitializer(void *extData, const uint8_t *ctxType, FREContext ctx, uint32_t *numFunctionsToSet,
                         const FRENamedFunction **functionsToSet) {
     static FRENamedFunction extensionFunctions[] = {
-          {(const uint8_t *) "init", NULL, &init}
-        , {(const uint8_t *) "isSupported", NULL, &isSupported}
-        , {(const uint8_t *) "addToStage", NULL, &addToStage}
-        , {(const uint8_t *) "removeFromStage", NULL, &removeFromStage}
-        , {(const uint8_t *) "load", NULL, &load}
-        , {(const uint8_t *) "loadHTMLString", NULL, &loadHTMLString}
-        , {(const uint8_t *) "loadFileURL", NULL, &loadFileURL}
-        , {(const uint8_t *) "reload", NULL, &reload}
-        , {(const uint8_t *) "onFullScreen", NULL, &onFullScreen}
-        , {(const uint8_t *) "reloadFromOrigin", NULL, &reloadFromOrigin}
-        , {(const uint8_t *) "stopLoading", NULL, &stopLoading}
-        , {(const uint8_t *) "backForwardList", NULL, &backForwardList}
-        , {(const uint8_t *) "go", NULL, &go}
-        , {(const uint8_t *) "goBack", NULL, &goBack}
-        , {(const uint8_t *) "goForward", NULL, &goForward}
-        , {(const uint8_t *) "allowsMagnification", NULL, &allowsMagnification}
-        , {(const uint8_t *) "getMagnification", NULL, &getMagnification}
-        , {(const uint8_t *) "setMagnification", NULL, &setMagnification}
-        , {(const uint8_t *) "setPositionAndSize", NULL, &setPositionAndSize}
+         {(const uint8_t *) "init", NULL, &init}
+        ,{(const uint8_t *) "isSupported", NULL, &isSupported}
+        ,{(const uint8_t *) "addToStage", NULL, &addToStage}
+        ,{(const uint8_t *) "removeFromStage", NULL, &removeFromStage}
+        ,{(const uint8_t *) "load", NULL, &load}
+        ,{(const uint8_t *) "loadHTMLString", NULL, &loadHTMLString}
+        ,{(const uint8_t *) "loadFileURL", NULL, &loadFileURL}
+        ,{(const uint8_t *) "reload", NULL, &reload}
+        ,{(const uint8_t *) "onFullScreen", NULL, &onFullScreen}
+        ,{(const uint8_t *) "reloadFromOrigin", NULL, &reloadFromOrigin}
+        ,{(const uint8_t *) "stopLoading", NULL, &stopLoading}
+        ,{(const uint8_t *) "backForwardList", NULL, &backForwardList}
+        ,{(const uint8_t *) "go", NULL, &go}
+        ,{(const uint8_t *) "goBack", NULL, &goBack}
+        ,{(const uint8_t *) "goForward", NULL, &goForward}
+        ,{(const uint8_t *) "allowsMagnification", NULL, &allowsMagnification}
+        ,{(const uint8_t *) "getMagnification", NULL, &getMagnification}
+        ,{(const uint8_t *) "setMagnification", NULL, &setMagnification}
+        ,{(const uint8_t *) "setPositionAndSize", NULL, &setPositionAndSize}
+        ,{(const uint8_t *) "showDevTools", NULL, &showDevTools }
+        ,{(const uint8_t *) "closeDevTools", NULL, &closeDevTools }
+        ,{(const uint8_t *) "onFullScreen", NULL, &onFullScreen }
+        ,{(const uint8_t *) "callJavascriptFunction", NULL, &callJavascriptFunction }
+        ,{(const uint8_t *) "evaluateJavaScript", NULL, &evaluateJavaScript }
         
-        ,{ (const uint8_t *) "showDevTools", NULL, &showDevTools }
-        ,{ (const uint8_t *) "closeDevTools", NULL, &closeDevTools }
-        ,{ (const uint8_t *) "onFullScreen", NULL, &onFullScreen }
-        ,{ (const uint8_t *) "callJavascriptFunction", NULL, &callJavascriptFunction }
-        ,{ (const uint8_t *) "evaluateJavaScript", NULL, &evaluateJavaScript }
+        ,{(const uint8_t *) "setBackgroundColor", NULL, &setBackgroundColor }
+        ,{(const uint8_t *) "shutDown", NULL, &shutDown }
         
     };
 

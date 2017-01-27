@@ -17,8 +17,6 @@ import flash.display.StageDisplayState;
 import flash.events.Event;
 import flash.events.FullScreenEvent;
 import flash.filesystem.File;
-import flash.filesystem.FileMode;
-import flash.filesystem.FileStream;
 import flash.geom.Point;
 import flash.geom.Rectangle;
 import flash.system.Capabilities;
@@ -27,7 +25,6 @@ import flash.text.TextFieldType;
 import events.FormEvent;
 
 import starling.animation.Transitions;
-import starling.animation.Tween;
 import starling.core.Starling;
 import starling.display.Image;
 import starling.display.Quad;
@@ -61,7 +58,7 @@ public class StarlingRoot extends Sprite {
     private var titleTxt:TextField;
     private var statusTxt:TextField;
     private var urlInput:Input;
-    private var progress:Quad = new Quad(800, 2, 0x00A3D9)
+    private var progress:Quad = new Quad(800, 2, 0x00A3D9);
     private var currentZoom:Number = 1.0;
     private var _appWidth:uint = 1280;
     private var _appHeight:uint = 800;
@@ -96,10 +93,10 @@ public class StarlingRoot extends Sprite {
         //Disables the DirectWrite font rendering system on windows.
         //Possibly useful when experiencing blury fonts.
 
-        var kvp:Object = new Object();
+        var kvp:Object = {};
         kvp.key = "disable-direct-write";
         kvp.value = "1";
-        settings.cef.commandLineArgs.push(kvp)
+        settings.cef.commandLineArgs.push(kvp);
 
         webView.setBackgroundColor(0xF1F1F1);
         webView.init(0, 90, _appWidth, _appHeight - 140, settings);
@@ -188,7 +185,7 @@ public class StarlingRoot extends Sprite {
         urlInput.type = TextFieldType.INPUT;
         urlInput.enable(true);
         urlInput.freeze(false);
-        urlInput.addEventListener(FormEvent.ENTER, onUrlEnter)
+        urlInput.addEventListener(FormEvent.ENTER, onUrlEnter);
 
         urlInput.x = 148;
         urlInput.y = 48;
@@ -346,7 +343,6 @@ public class StarlingRoot extends Sprite {
                 var p:Number = webView.estimatedProgress;
                 progress.scaleX = p;
                 if (p > 0.99) {
-                    var tween:Tween;
                     Starling.juggler.tween(progress, .5, {
                         transition: Transitions.LINEAR,
                         alpha: 0
@@ -421,8 +417,7 @@ public class StarlingRoot extends Sprite {
         if (touch != null && touch.phase == TouchPhase.ENDED) {
             cancelBtn.visible = true;
             refreshBtn.visible = false;
-			webView.shutDown();
-           // webView.reload();
+            webView.reload();
         }
     }
 

@@ -1,3 +1,8 @@
+### 0.0.11
+- WIN: Ability to set Background color of WPF control Issue #9
+- WIN: Add statusMessage to onPropertyChange Issue #10
+- WIN: added shutDown() method to fix Issue #11
+
 ### 0.0.10
 - OSX: Enable Flash Player by default #7
 - WIN: Chrome Developer Tools #5
