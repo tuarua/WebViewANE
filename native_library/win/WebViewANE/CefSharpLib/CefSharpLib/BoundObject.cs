@@ -24,8 +24,6 @@ namespace CefSharpLib {
 
         public void PostMessage(JavascriptMessage param) {
 
-            Console.WriteLine();
-
             StringBuilder sb = new StringBuilder();
             StringWriter sw = new StringWriter(sb);
             JsonWriter writer = new JsonTextWriter(sw);
@@ -53,7 +51,6 @@ namespace CefSharpLib {
             }
             writer.WriteEndObject();
 
-            Console.WriteLine(sb.ToString());
             _pc.SendMessage(JS_CALLBACK_EVENT, sb.ToString());
         }
 

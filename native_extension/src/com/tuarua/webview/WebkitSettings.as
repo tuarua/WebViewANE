@@ -7,10 +7,25 @@
  */
 package com.tuarua.webview {
 public class WebkitSettings {
+	/**
+	 * 
+	 */	
     public var plugInsEnabled:Boolean = true;
+	/**
+	 * 
+	 */	
     public var javaScriptEnabled:Boolean = true;
+	/**
+	 * 
+	 */	
     public var javaScriptCanOpenWindowsAutomatically:Boolean = true;
+	/**
+	 * 
+	 */	
     public var javaEnabled:Boolean = false;
+	/**
+	 * 
+	 */	
     public var minimumFontSize:int = 0;
     public function WebkitSettings() {
     }

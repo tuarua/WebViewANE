@@ -66,6 +66,9 @@ namespace CefSharpLib {
                 if (_isLoading == value) return;
                 _isLoading = value;
                 SendMessage(@"isLoading", value);
+                if (!_isLoading) {
+                    _pc.Browser.Focus();
+                }
 
             }
         }
