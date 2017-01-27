@@ -14,7 +14,6 @@ import flash.events.EventDispatcher;
 import flash.events.StatusEvent;
 import flash.external.ExtensionContext;
 import flash.geom.Point;
-import flash.system.Capabilities;
 import flash.utils.Dictionary;
 
 public class WebViewANE extends EventDispatcher {
@@ -202,7 +201,7 @@ public class WebViewANE extends EventDispatcher {
 	 */	
     public function callJavascriptFunction(functionName:String, closure:Function = null, ...args):void {
         if (safetyCheck()) {
-            var finalArray:Array = new Array();
+            var finalArray:Array = [];
             for each (var arg:* in args)
                 finalArray.push(JSON.stringify(arg));
             var js:String = functionName + "(" + finalArray.toString() + ");";
@@ -420,7 +419,7 @@ public class WebViewANE extends EventDispatcher {
 	 */ 
     private function safetyCheck():Boolean {
         if (!_isInited) {
-            trace("You need to init first")
+            trace("You need to init first");
             return false;
         }
         return _isSupported;
