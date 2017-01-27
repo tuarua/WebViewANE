@@ -3,6 +3,7 @@
 	<name>WebViewANESample</name>
 	<comment></comment>
 	<projects>
+		<project>WebViewANE</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

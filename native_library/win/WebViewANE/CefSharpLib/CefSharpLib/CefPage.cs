@@ -4,10 +4,10 @@ using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Data;
+using System.Windows.Media;
 using CefSharp;
 using CefSharp.Wpf;
 using Newtonsoft.Json;
-
 
 namespace CefSharpLib {
 
@@ -17,21 +17,26 @@ namespace CefSharpLib {
         private bool _isLoaded = false;
         // private bool _isInited = false;
 
-        private const string AS_CALLBACK_EVENT = "TRWV.as.CALLBACK";
+        private static string AS_CALLBACK_EVENT = "TRWV.as.CALLBACK";
+        private static string ON_CONSOLE_MESSAGE = "WebView.OnConsoleMessage";
+        private static string ON_DOWNLOAD_PROGRESS = "WebView.OnDownloadProgress";
+        private static string ON_DOWNLOAD_COMPLETE = "WebView.OnDownloadComplete";
+        private static string ON_DOWNLOAD_CANCEL = "WebView.OnDownloadCancel";
+        private static string ON_PROPERTY_CHANGE = "WebView.OnPropertyChange";
 
         public delegate void MessageHandler(object sender, MessageEventArgs args);
         public event MessageHandler OnMessageSent;
 
         //public static string ON_INITIALIZED = "WebView.OnInitialized";
         public static string ON_FAIL = "WebView.OnFail";
-        public static string ON_JAVASCRIPT_RESULT = "WebView.OnJavascriptResult";
         public ChromiumWebBrowser Browser;
 
         public CefPage(bool cefBestPerformance, int cefLogSeverity, int remoteDebuggingPort, string cachePath,
-            Dictionary<string, string> settingsDict) {
-            InitializeComponent();
-            Loaded += CefPage_Loaded;
+            Dictionary<string, string> settingsDict, byte r, byte g, byte b) {
 
+            InitializeComponent();
+            Background = new SolidColorBrush(Color.FromRgb(r, g, b));
+            Loaded += CefPage_Loaded;
 
             //Console.WriteLine(Cef.ChromiumVersion);
 
@@ -41,6 +46,7 @@ namespace CefSharpLib {
                 CachePath = cachePath
             };
 
+            //settings.UserAgent = "";
 
             CefSharpSettings.ShutdownOnExit = false;
 
@@ -78,6 +84,7 @@ namespace CefSharpLib {
 
             if (Cef.Initialize(settings)) {
                 Browser = new ChromiumWebBrowser();
+
                 Browser.RegisterJsObject("webViewANE", new BoundObject(this), BindingOptions.DefaultBinder);
                 Browser.SetBinding(ChromiumWebBrowser.AddressProperty, GetNewCefBinding("Address"));
                 Browser.SetBinding(ChromiumWebBrowser.TitleProperty, GetNewCefBinding("Title"));
@@ -85,14 +92,96 @@ namespace CefSharpLib {
                 Browser.SetBinding(ChromiumWebBrowser.CanGoBackProperty, GetNewCefBinding("CanGoBack"));
                 Browser.SetBinding(ChromiumWebBrowser.CanGoForwardProperty, GetNewCefBinding("CanGoForward"));
 
+                // ReSharper disable once UseObjectOrCollectionInitializer
+                var dh = new DownloadHandler(this);
+
+                dh.OnDownloadUpdatedFired += OnDownloadUpdatedFired;
+                dh.OnBeforeDownloadFired += OnDownloadFired;
+                Browser.DownloadHandler = dh;
+
+                // Browser.ConsoleMessage += OnConsoleMessage;
+                Browser.StatusMessage += OnStatusMessage;
                 MainGrid.Children.Add(Browser);
+
+
             }
 
         }
 
+        private void OnStatusMessage(object sender, StatusMessageEventArgs e) {
+            var sb = new StringBuilder();
+            var sw = new StringWriter(sb);
+            var writer = new JsonTextWriter(sw);
+            writer.WriteStartObject();
+            writer.WritePropertyName("propName");
+            writer.WriteValue("statusMessage");
+            writer.WritePropertyName("value");
+            writer.WriteValue(e.Value);
+            writer.WriteEndObject();
+            SendMessage(ON_PROPERTY_CHANGE, sb.ToString());
+        }
 
 
+        private void OnConsoleMessage(object sender, ConsoleMessageEventArgs args) {
+            Console.WriteLine(args.Line + args.Message);
+        }
 
+        private void OnDownloadFired(object sender, DownloadItem downloadItem) {
+            /*
+            Console.WriteLine(@"D Fired-------------------------");
+            Console.WriteLine(downloadItem.Id);
+            Console.WriteLine(downloadItem.Url);
+            Console.WriteLine(downloadItem.FullPath);
+            Console.WriteLine(downloadItem.IsComplete);
+           // Console.WriteLine(downloadItem.MimeType);
+            Console.WriteLine(@"-------------------------");*/
+        }
+
+        private void OnDownloadUpdatedFired(object sender, DownloadItem downloadItem) {
+            /*
+            Console.WriteLine(downloadItem.CurrentSpeed);
+            Console.WriteLine(downloadItem.PercentComplete);
+            Console.WriteLine(downloadItem.ReceivedBytes);
+            Console.WriteLine(downloadItem.Id);
+            Console.WriteLine(downloadItem.IsCancelled);
+            Console.WriteLine(downloadItem.IsComplete);
+            Console.WriteLine(@"-------------------------");
+            */
+
+            var sb = new StringBuilder();
+            var sw = new StringWriter(sb);
+            var writer = new JsonTextWriter(sw);
+
+            if (downloadItem.IsCancelled) {
+                SendMessage(ON_DOWNLOAD_CANCEL, downloadItem.Id.ToString());
+                return;
+            }
+
+            if (downloadItem.IsComplete) {
+                SendMessage(ON_DOWNLOAD_COMPLETE, downloadItem.Id.ToString());
+                return;
+            }
+            writer.WriteStartObject();
+
+            writer.WritePropertyName("id");
+            writer.WriteValue(downloadItem.Id);
+
+
+            writer.WritePropertyName("speed");
+            writer.WriteValue(downloadItem.CurrentSpeed);
+
+            writer.WritePropertyName("percent");
+            writer.WriteValue(downloadItem.PercentComplete);
+
+            writer.WritePropertyName("bytesLoaded");
+            writer.WriteValue(downloadItem.ReceivedBytes);
+
+            writer.WritePropertyName("bytesTotal");
+            writer.WriteValue(downloadItem.TotalBytes);
+
+            writer.WriteEndObject();
+            SendMessage(ON_DOWNLOAD_PROGRESS, sb.ToString());
+        }
 
 
         private Binding GetNewCefBinding(string name) {
@@ -111,9 +200,7 @@ namespace CefSharpLib {
             handler?.Invoke(this, args);
         }
 
-        public void TearDown() {
-            Console.WriteLine(@"TearDown");
-            Browser.Dispose();
+        public void ShutDown() {
             Cef.Shutdown();
         }
 
@@ -212,8 +299,6 @@ namespace CefSharpLib {
                 writer.WriteNull();
                 writer.WritePropertyName("result");
 
-                Console.WriteLine(response.Result);
-
                 if (response.Success && response.Result != null) {
                     writer.WriteRawValue(JsonConvert.SerializeObject(response.Result, Formatting.None));
                 } else {
@@ -239,7 +324,7 @@ namespace CefSharpLib {
                 writer.WritePropertyName("callbackName");
                 writer.WriteValue(cb);
                 writer.WriteEndObject();
-                
+
             }
 
             SendMessage(AS_CALLBACK_EVENT, sb.ToString());
@@ -278,7 +363,7 @@ namespace CefSharpLib {
                 writer.WritePropertyName("result");
 
                 if (response.Success && response.Result != null) {
-                   writer.WriteRawValue(JsonConvert.SerializeObject(response.Result, Formatting.None));
+                    writer.WriteRawValue(JsonConvert.SerializeObject(response.Result, Formatting.None));
                 } else {
                     writer.WriteNull();
                 }
@@ -300,7 +385,7 @@ namespace CefSharpLib {
                 writer.WritePropertyName("guid");
                 writer.WriteValue(cb);
                 writer.WriteEndObject();
-                
+
             }
             SendMessage(AS_CALLBACK_EVENT, sb.ToString());
         }

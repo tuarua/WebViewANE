@@ -6,9 +6,19 @@
  * Created by Eoin Landy on 21/01/2017.
  */
 package com.tuarua.webview {
+	
 public class ActionscriptCallback {
+	/**
+	 * 
+	 */	
     public var args:*;
+	/**
+	 * 
+	 */	
     public var functionName:String; //TODO need ?
+	/**
+	 * 
+	 */	
     public var callbackName:String;
 
     public function ActionscriptCallback(args:* = null, functionName:String = null, callbackName:String = null) {

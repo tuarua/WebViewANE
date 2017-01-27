@@ -7,9 +7,21 @@
  */
 package com.tuarua.webview {
 public class JavascriptResult {
+	/**
+	 * 
+	 */	
     public var result:*;
+	/**
+	 * 
+	 */	
     public var message:String;
+	/**
+	 * 
+	 */	
     public var error:String;
+	/**
+	 * 
+	 */	
     public var success:Boolean;
 
     public function JavascriptResult(result:* = null, message:String = null, error:String = null, success:Boolean = false) {

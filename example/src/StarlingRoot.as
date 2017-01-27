@@ -7,6 +7,7 @@ import com.tuarua.WebViewANE;
 import com.tuarua.webview.ActionscriptCallback;
 import com.tuarua.webview.BackForwardList;
 import com.tuarua.webview.BackForwardListItem;
+import com.tuarua.webview.DownloadProgress;
 import com.tuarua.webview.JavascriptResult;
 import com.tuarua.webview.Settings;
 import com.tuarua.webview.WebViewEvent;
@@ -58,6 +59,7 @@ public class StarlingRoot extends Sprite {
     private var eval_js_Btn:Image = new Image(Assets.getAtlas().getTexture("eval-js-btn"));
 
     private var titleTxt:TextField;
+    private var statusTxt:TextField;
     private var urlInput:Input;
     private var progress:Quad = new Quad(800, 2, 0x00A3D9)
     private var currentZoom:Number = 1.0;
@@ -73,6 +75,7 @@ public class StarlingRoot extends Sprite {
 
     public function start():void {
 
+
         WebViewANESample.target.stage.addEventListener(FullScreenEvent.FULL_SCREEN, onFullScreenEvent);
         NativeApplication.nativeApplication.addEventListener(flash.events.Event.EXITING, onExiting);
 
@@ -80,17 +83,10 @@ public class StarlingRoot extends Sprite {
             return;
         }
 
-        /*
-         webView.addEventListener(WebViewEvent.ON_INITIALIZED, onBrowserInitialised)
-
-         */
-
-
         webView.addCallback("js_to_as", jsToAsCallback);
-
         webView.addEventListener(WebViewEvent.ON_PROPERTY_CHANGE, onPropertyChange);
         webView.addEventListener(WebViewEvent.ON_FAIL, onFail);
-
+        webView.addEventListener(WebViewEvent.ON_DOWNLOAD_PROGRESS, onDownloadProgress);
 
         var settings:Settings = new Settings();
         settings.cef.bestPerformance = true; //set to false to enable gpu and thus webgl
@@ -105,6 +101,7 @@ public class StarlingRoot extends Sprite {
         kvp.value = "1";
         settings.cef.commandLineArgs.push(kvp)
 
+        webView.setBackgroundColor(0xF1F1F1);
         webView.init(0, 90, _appWidth, _appHeight - 140, settings);
         webView.addToStage(); // webView.removeFromStage();
         webView.load("http://www.adobe.com/");
@@ -203,12 +200,24 @@ public class StarlingRoot extends Sprite {
 
         titleTxt = new TextField(1280, 20, "");
         titleTxt.format = tf;
-        titleTxt.format.horizontalAlign = Align.CENTER;
+
         titleTxt.batchable = true;
         titleTxt.touchable = false;
         titleTxt.y = 20;
 
+        statusTxt = new TextField(1280, 20, "");
+        statusTxt.format = tf;
+        statusTxt.format.horizontalAlign = Align.LEFT;
+        statusTxt.batchable = true;
+        statusTxt.touchable = false;
+
+        statusTxt.x = 12;
+        statusTxt.y = _appHeight - 24;
+
+
+
         addChild(titleTxt);
+        addChild(statusTxt);
         addChild(backBtn);
         addChild(fwdBtn);
         addChild(refreshBtn);
@@ -230,6 +239,14 @@ public class StarlingRoot extends Sprite {
 
         addChild(progress);
 
+    }
+
+    private function onDownloadProgress(event:WebViewEvent):void {
+        var progress:DownloadProgress = event.params as DownloadProgress;
+        trace("progress.percent",progress.percent);
+        trace("progress.speed",progress.speed);
+        trace("progress.bytesLoaded",progress.bytesLoaded);
+        trace("progress.bytesTotal",progress.bytesTotal);
     }
 
     private function onEvalJsBtn(event:TouchEvent):void {
@@ -338,6 +355,9 @@ public class StarlingRoot extends Sprite {
                     progress.alpha = 1;
                 }
                 break;
+            case "statusMessage":
+                statusTxt.text = webView.statusMessage;
+                break;
         }
     }
 
@@ -401,7 +421,8 @@ public class StarlingRoot extends Sprite {
         if (touch != null && touch.phase == TouchPhase.ENDED) {
             cancelBtn.visible = true;
             refreshBtn.visible = false;
-            webView.reload();
+			webView.shutDown();
+           // webView.reload();
         }
     }
 
@@ -453,9 +474,12 @@ public class StarlingRoot extends Sprite {
         trace(event);
     }
 
+    /**
+     * It's very important to call webView.shutDown(); when the app is exiting. This cleans up CEF on Windows.
+     *
+     */
     private function onExiting(event:Event):void {
-        trace("exiting app");
-        webView.dispose();
+		webView.shutDown();
     }
 
     public function onMaximiseApp():void {

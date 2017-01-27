@@ -157,8 +157,8 @@ namespace ManagedCode {
 		ManagedGlobals::page->CloseDevTools();
 	}
 
-	void Dispose() {
-		ManagedGlobals::page->TearDown();
+	void ShutDown() {
+		ManagedGlobals::page->ShutDown();
 	}
 
 }
@@ -413,6 +413,11 @@ extern "C" {
 		return NULL;
 	}
 
+	FRE_FUNCTION(shutDown) {
+		ManagedCode::ShutDown();
+		return NULL;
+	}
+
 	BOOL CALLBACK EnumProc(HWND hwnd, LPARAM lParam) {
 		GetWindowThreadProcessId(hwnd, &windowID);
 		if (windowID == lParam) {
@@ -461,17 +466,17 @@ extern "C" {
 			,{ (const uint8_t *) "allowsMagnification", NULL, &allowsMagnification }
 			,{ (const uint8_t *) "getMagnification", NULL, &getMagnification }
 			,{ (const uint8_t *) "setMagnification", NULL, &setMagnification }
-			
 			,{ (const uint8_t *) "loadHTMLString", NULL, &LoadHtmlString }
 			,{ (const uint8_t *) "removeFromStage", NULL, &removeFromStage }
 			,{ (const uint8_t *) "setPositionAndSize", NULL, &setPositionAndSize }
-			
 			,{ (const uint8_t *) "showDevTools", NULL, &showDevTools }
 			,{ (const uint8_t *) "closeDevTools", NULL, &closeDevTools }
 			,{ (const uint8_t *) "onFullScreen", NULL, &onFullScreen }
 			,{ (const uint8_t *) "callJavascriptFunction", NULL, &callJavascriptFunction }
 			,{ (const uint8_t *) "evaluateJavaScript", NULL, &evaluateJavaScript }
+
 			,{ (const uint8_t *) "setBackgroundColor", NULL, &setBackgroundColor }
+			,{ (const uint8_t *) "shutDown", NULL, &shutDown }
 
 		};
 
@@ -493,7 +498,7 @@ extern "C" {
 	void TRWVExtFinizer(void* extData) {
 		FREContext nullCTX;
 		nullCTX = 0;
-		ManagedCode::Dispose();
+		ManagedCode::ShutDown();
 		cefHwnd = NULL;
 		contextFinalizer(nullCTX);
 		return;

@@ -9,7 +9,13 @@ package com.tuarua.webview {
 import com.tuarua.ANEObject;
 
 public class Settings extends ANEObject {
+	/**
+	 * 
+	 */	
     public var cef:CefSettings = new CefSettings();
+	/**
+	 * 
+	 */	
     public var webkit:WebkitSettings = new WebkitSettings();
     public function Settings() {
     }
