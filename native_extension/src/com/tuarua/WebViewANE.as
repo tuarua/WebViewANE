@@ -173,31 +173,74 @@ public class WebViewANE extends EventDispatcher {
                 break;
         }
     }
+
 	/**
 	 * 
-	 * @param functionName
-	 * @param closure
+	 * @param functionName name of the function as called from Javascript
+	 * @param closure Actionscript function to call when functionName is called from Javascript
+     *
+     * <p>Adds a callback in the webView. These should be added before .init() is called.</p>
 	 * 
 	 */
     public function addCallback(functionName:String, closure:Function):void {
         jsCallBacks[functionName] = closure;
     }
+
 	/**
 	 * 
-	 * @param functionName
+	 * @param functionName name of the function to remove. This function should have been added via .addCallback() method
 	 * 
 	 */
     public function removeCallback(functionName:String):void {
         jsCallBacks[functionName] = null;
     }
 
-    //to call js method with args, no closure=fire and forget
+
 	/**
 	 * 
-	 * @param functionName
-	 * @param closure
-	 * @param args
-	 * 
+	 * @param functionName name of the Javascript function to call
+	 * @param closure Actionscript function to call when Javascript functionName is called. If null then no
+     * actionscript function is called, aka a 'fire and forget' call.
+	 * @param args arguments to send to the Javascript function
+     *
+     * <p>Call a javascript function.</p>
+	 *
+     * @example
+     <listing version="3.0">
+// Logs to the console. No result expected.
+webView.callJavascriptFunction("as_to_js",asToJsCallback,1,"a",77);
+
+ public function asToJsCallback(jsResult:JavascriptResult):void {
+    trace("asToJsCallback");
+    trace("jsResult.error", jsResult.error);
+    trace("jsResult.result", jsResult.result);
+    trace("jsResult.message", jsResult.message);
+    trace("jsResult.success", jsResult.success);
+    var testObject:* = jsResult.result;
+    trace(testObject);
+}
+}
+     </listing>
+
+     * @example
+     <listing version="3.0">
+ // Calls Javascript function passing 3 args. Javascript function returns an object which is automatically mapped to an
+     Actionscript Object
+ webView.callJavascriptFunction("console.log",null,"hello console. The is AIR");
+ }
+
+// function in HTML page
+function as_to_js(numberA, stringA, numberB, obj) {
+    var person = {
+        name: "Jim Cowart",
+        response: {
+            name: "Chattanooga",
+            population: 167674
+        }
+    };
+    return person;
+}
+     </listing>
 	 */	
     public function callJavascriptFunction(functionName:String, closure:Function = null, ...args):void {
         if (safetyCheck()) {
@@ -217,8 +260,23 @@ public class WebViewANE extends EventDispatcher {
     //to insert script or run some js, no closure fire and forget
 	/**
 	 * 
-	 * @param js
-	 * @param closure
+	 * @param js Javascript string to evaluate.
+	 * @param closure Actionscript function to call when the Javascript string is evaluated. If null then no
+     * actionscript function is called, aka a 'fire and forget' call.
+     *
+     * @example
+<listing version="3.0">
+// Set the body background to yellow. No result expected
+webView.evaluateJavascript('document.getElementsByTagName("body")[0].style.backgroundColor = "yellow";');
+</listing>
+     * @example
+     <listing version="3.0">
+// Retrieve contents of div. Result is returned to Actionscript function 'onJsEvaluated'
+webView.evaluateJavascript("document.getElementById('output').innerHTML;", onJsEvaluated)
+private function onJsEvaluated(jsResult:JavascriptResult):void {
+    trace("innerHTML of div is:", jsResult.result);
+}
+     </listing>
 	 * 
 	 */	
     public function evaluateJavascript(js:String, closure:Function = null):void {
@@ -239,6 +297,8 @@ public class WebViewANE extends EventDispatcher {
 	 * @param width
 	 * @param height
 	 * @param settings
+     *
+     * <p>Initialises the webView. The webView is not automatically added to the native stage.</p>
 	 * 
 	 */
     public function init(x:int = 0, y:int = 0, width:int = 800, height:int = 600, settings:Settings = null):void {
@@ -260,8 +320,10 @@ public class WebViewANE extends EventDispatcher {
 	 * 
 	 * @param x
 	 * @param y
-	 * @param width
-	 * @param height
+	 * @param width set to 0 to retain existing
+	 * @param height  set to 0 to retain existing
+     *
+     * <p>Resizes and/or repositions the webView.</p>
 	 * 
 	 */
     public function setPositionAndSize(x:int = 0, y:int = 0, width:int = 0, height:int = 0):void {
@@ -275,7 +337,7 @@ public class WebViewANE extends EventDispatcher {
         }
     }
 	/**
-	 * 
+	 * <p>Adds the webView from the native stage.</p>
 	 * 
 	 */
     public function addToStage():void {
@@ -283,7 +345,7 @@ public class WebViewANE extends EventDispatcher {
             extensionContext.call("addToStage");
     }
 	/**
-	 * 
+	 * <p>Removes the webView from the native stage.</p>
 	 * 
 	 */
     public function removeFromStage():void {
@@ -301,8 +363,10 @@ public class WebViewANE extends EventDispatcher {
     }
 	/**
 	 * 
-	 * @param html
-	 * @param baseUrl
+	 * @param html HTML provided as a string
+	 * @param baseUrl url which will display as the address
+     *
+     * <p>Loads a HTML string into the webView.</p>
 	 * 
 	 */
     public function loadHTMLString(html:String, baseUrl:String = ""):void {
@@ -311,9 +375,11 @@ public class WebViewANE extends EventDispatcher {
     }
 	/**
 	 * 
-	 * @param url
-	 * @param allowingReadAccessTo
-	 * 
+	 * @param full path to the file on the local file system
+	 * @param allowingReadAccessTo path to the root of the document
+	 *
+     * <p>Loads a file from the local file system into the webView.</p>
+     *
 	 */
     public function loadFileURL(url:String, allowingReadAccessTo:String):void {
         if (safetyCheck())
@@ -367,7 +433,7 @@ public class WebViewANE extends EventDispatcher {
         return new BackForwardList();
     }
 	/**
-	 * 
+	 * Forces a reload of the page (i.e. ctrl F5)
 	 * 
 	 */
     public function reloadFromOrigin():void {
@@ -376,7 +442,7 @@ public class WebViewANE extends EventDispatcher {
     }
 	/**
 	 * 
-	 * @param fs
+	 * @param fs When going fullscreen set this to true, when coming out of fullscreen set to false
 	 * 
 	 */
     public function onFullScreen(fs:Boolean = false):void {
@@ -473,6 +539,8 @@ public class WebViewANE extends EventDispatcher {
 	/**
 	 * 
 	 * @return whether we can navigate back
+     *
+     * <p>A Boolean value indicating whether we can navigate back.</p>
 	 * 
 	 */
     public function get canGoBack():Boolean {
@@ -481,7 +549,9 @@ public class WebViewANE extends EventDispatcher {
 	/**
 	 * 
 	 * @return whether we can navigate forward
-	 * 
+	 *
+     * <p>A Boolean value indicating whether we can navigate forward.</p>
+     *
 	 */
     public function get canGoForward():Boolean {
         return _canGoForward;
@@ -555,6 +625,31 @@ public class WebViewANE extends EventDispatcher {
 	public function shutDown():void {
         extensionContext.call("shutDown");
     }
+
+    /*
+    public function getVerticalScrollPosition():int {
+        return 0;
+    }
+
+    public function setVerticalScrollPosition(position:int):void {
+
+    }
+*/
+    /*
+
+     public int GetVerticalScrollPosition()
+     {
+     var r = _webView.EvaluateScript(@"document.body.scrollTop");
+     return Convert.ToInt32(r);
+     }
+
+     public void SetVerticalScrollPosition(int pos)
+     {
+     _webView.ExecuteScript(
+     string.Format(@"document.body.scrollTop = {0}", pos));
+     }
+
+     */
 	
 }
 }
