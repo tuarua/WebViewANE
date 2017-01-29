@@ -61,4 +61,4 @@ native_extension/docs/* linguist-documentation##################################
 #*.PDF   diff=astextplain
 #*.rtf   diff=astextplain
 #*.RTF   diff=astextplain
-native_extension/docs/* linguist-documentation
+*.html linguist-documentation
