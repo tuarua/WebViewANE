@@ -5,20 +5,16 @@
 #include <conio.h>
 
 #include "FlashRuntimeExtensions.h"
-bool isSupportedInOS = true;
-std::string pathSlash = "\\";
 
-#include "../include/ANEhelper.h"
+
+#include "ANEHelper.h"
 #include <string>
 
-#include <vector>
-
-
-const std::string ANE_NAME = "WebViewANE";
+ANEHelper aneHelper = ANEHelper();
+const string ANE_NAME = "WebViewANE";
 
 DWORD windowID;
 HWND _hwnd;
-HWND _hEdit;
 FREContext dllContext;
 
 int cef_width = 800;
@@ -30,11 +26,13 @@ unsigned int cef_bg_r = 255;
 unsigned int cef_bg_g = 255;
 unsigned int cef_bg_b = 255;
 
-std::vector<std::pair<std::string, std::string>> cef_commandLineArgs;
+vector<pair<string, string>> cef_commandLineArgs;
 int cef_remoteDebuggingPort;
-std::string cef_cachePath;
+string cef_cachePath;
 int cef_logSeverity;
 bool cef_bestPerformance;
+string cef_userAgent;
+string cef_browserSubprocessPath;
 
 #include "stdafx.h"
 #include "commctrl.h"
@@ -52,7 +50,7 @@ namespace ManagedCode {
 		static CefSharpLib::CefPage^ page = nullptr;
 	};
 
-	void MarshalString(String ^ s, std::string& os) {
+	void MarshalString(String ^ s, string& os) {
 		using namespace Runtime::InteropServices;
 		const char* chars =
 			(const char*)(Marshal::StringToHGlobalAnsi(s)).ToPointer();
@@ -63,16 +61,15 @@ namespace ManagedCode {
 	void onCefLibMessage(Object ^sender, CefSharpLib::MessageEventArgs ^args) {
 		System::String^ type = args->Type;
 		System::String^ message = args->Message;
-		std::string typeStr = "";
+		string typeStr = "";
 		MarshalString(type, typeStr);
-		std::string messageStr = "";
+		string messageStr = "";
 		MarshalString(message, messageStr);
 
 		FREDispatchStatusEventAsync(dllContext, (uint8_t*)messageStr.c_str(), (const uint8_t*)typeStr.c_str());
 	}
 
 	HWND GetHwnd(HWND parent) {
-
 		HwndSourceParameters parameters;
 		parameters.SetPosition(cef_x, cef_y);
 		parameters.SetSize(cef_width, cef_height);
@@ -80,17 +77,16 @@ namespace ManagedCode {
 		parameters.WindowName = "Cef Window";
 		parameters.WindowStyle = WS_CHILD;
 		parameters.AcquireHwndFocusInMenuMode = true;
-		//parameters.WindowClassStyle = 0;
-		//parameters.ExtendedWindowStyle = 0;
 		HwndSource^ source = gcnew HwndSource(parameters);
 
 		Dictionary<String^, String^>^ cs_cef_commandLineArgs = gcnew Dictionary<String^, String^>();
-		for (std::vector<std::pair<std::string, std::string>>::const_iterator i = cef_commandLineArgs.begin(); i != cef_commandLineArgs.end(); ++i) {
+		for (vector<pair<string, string>>::const_iterator i = cef_commandLineArgs.begin(); i != cef_commandLineArgs.end(); ++i) {
 			cs_cef_commandLineArgs->Add(gcnew String(i->first.c_str()), gcnew String(i->second.c_str()));
 		}
+		
+		ManagedGlobals::page = gcnew CefSharpLib::CefPage(gcnew String(cef_userAgent.c_str()), cef_bestPerformance, cef_logSeverity, cef_logSeverity,
+			gcnew String(cef_cachePath.c_str()), cs_cef_commandLineArgs, gcnew String(cef_browserSubprocessPath.c_str()), cef_bg_r, cef_bg_g, cef_bg_b);
 
-		ManagedGlobals::page = gcnew CefSharpLib::CefPage(cef_bestPerformance, cef_logSeverity, cef_logSeverity, 
-			gcnew String(cef_cachePath.c_str()), cs_cef_commandLineArgs, cef_bg_r, cef_bg_g, cef_bg_b);
 		ManagedGlobals::page->OnMessageSent += gcnew CefSharpLib::CefPage::MessageHandler(onCefLibMessage);
 
 		source->RootVisual = ManagedGlobals::page; //is this wherer the visual is added
@@ -161,6 +157,10 @@ namespace ManagedCode {
 		ManagedGlobals::page->ShutDown();
 	}
 
+	void InjectScript(String^ code, String^ scriptUrl, unsigned int startLine) {
+		ManagedGlobals::page->InjectScript(code, scriptUrl, startLine);
+	}
+
 }
 
 
@@ -169,8 +169,8 @@ extern "C" {
 	
 	HWND cefHwnd;
 
-	extern void trace(std::string msg) {
-		std::string value = "["+ANE_NAME+"] " + msg;
+	extern void trace(string msg) {
+		string value = "["+ANE_NAME+"] " + msg;
 		//if (logLevel > 0)
 			FREDispatchStatusEventAsync(dllContext, (uint8_t*)value.c_str(), (const uint8_t*) "TRACE");
 	}
@@ -178,30 +178,33 @@ extern "C" {
 #define FRE_FUNCTION(fn) FREObject (fn)(FREContext context, void* functionData, uint32_t argc, FREObject argv[])
 
 	FRE_FUNCTION(init) {
-		using namespace std;
-		cef_x = getInt32FromFREObject(argv[0]);
-		cef_y = getInt32FromFREObject(argv[1]);
-		cef_width = getInt32FromFREObject(argv[2]);
-		cef_height = getInt32FromFREObject(argv[3]);
+		cef_x = aneHelper.getInt32(argv[0]);
+		cef_y = aneHelper.getInt32(argv[1]);
+		cef_width = aneHelper.getInt32(argv[2]);
+		cef_height = aneHelper.getInt32(argv[3]);
 
 		FREObjectType settingsType;
 		FREGetObjectType(argv[4], &settingsType);
 
 		if (FRE_TYPE_NULL != settingsType) {
-			FREObject cefSettingsFRE = getFREObjectProperty(argv[4], (const uint8_t*) "cef");
-			cef_remoteDebuggingPort = getInt32FromFREObject(getFREObjectProperty(cefSettingsFRE, (const uint8_t*) "remoteDebuggingPort"));
-			cef_cachePath = getStringFromFREObject(getFREObjectProperty(cefSettingsFRE, (const uint8_t*) "cachePath"));
-			cef_logSeverity = getInt32FromFREObject(getFREObjectProperty(cefSettingsFRE, (const uint8_t*) "logSeverity"));
-			cef_bestPerformance = getBoolFromFREObject(getFREObjectProperty(cefSettingsFRE, (const uint8_t*) "bestPerformance"));
+
+			FREObject cefSettingsFRE = aneHelper.getProperty(argv[4], "cef");
+			cef_remoteDebuggingPort = aneHelper.getInt32(aneHelper.getProperty(cefSettingsFRE, "remoteDebuggingPort"));
+			cef_cachePath = aneHelper.getString(aneHelper.getProperty(cefSettingsFRE, "cachePath"));
+			cef_logSeverity = aneHelper.getInt32(aneHelper.getProperty(cefSettingsFRE, "logSeverity"));
+			cef_bestPerformance = aneHelper.getBool(aneHelper.getProperty(cefSettingsFRE, "bestPerformance"));
+			cef_browserSubprocessPath = aneHelper.getString(aneHelper.getProperty(cefSettingsFRE, "browserSubprocessPath"));
+
+			cef_userAgent = aneHelper.getString(aneHelper.getProperty(argv[4], "userAgent"));
 			
-			FREObject commandLineArgsFRE = getFREObjectProperty(cefSettingsFRE, (const uint8_t*) "commandLineArgs");
-			uint32_t numArgs = getFREObjectArrayLength(commandLineArgsFRE);
+			FREObject commandLineArgsFRE = aneHelper.getProperty(cefSettingsFRE, "commandLineArgs");
+			uint32_t numArgs = aneHelper.getArrayLength(commandLineArgsFRE);
 
 			for (unsigned int j = 0; j < numArgs; ++j) {
 				FREObject elemAS = NULL;
 				FREGetArrayElementAt(commandLineArgsFRE, j, &elemAS);
-				string key = getStringFromFREObject(getFREObjectProperty(elemAS, (const uint8_t*) "key"));
-				string val = getStringFromFREObject(getFREObjectProperty(elemAS, (const uint8_t*) "value"));
+				string key = aneHelper.getString(aneHelper.getProperty(elemAS, "key"));
+				string val = aneHelper.getString(aneHelper.getProperty(elemAS, "value"));
 				cef_commandLineArgs.push_back(make_pair(key, val));
 			}
 		}
@@ -211,10 +214,10 @@ extern "C" {
 
 	FRE_FUNCTION(setPositionAndSize) {
 		using namespace std;
-		int tmp_x = getInt32FromFREObject(argv[0]);
-		int tmp_y = getInt32FromFREObject(argv[1]);
-		int tmp_width = getInt32FromFREObject(argv[2]);
-		int tmp_height = getInt32FromFREObject(argv[3]);
+		int tmp_x = aneHelper.getInt32(argv[0]);
+		int tmp_y = aneHelper.getInt32(argv[1]);
+		int tmp_width = aneHelper.getInt32(argv[2]);
+		int tmp_height = aneHelper.getInt32(argv[3]);
 
 		bool updateWidth = false;
 		bool updateHeight = false;
@@ -262,13 +265,13 @@ extern "C" {
 
 	FRE_FUNCTION(isSupported) {
 		using namespace std;
-		return getFREObjectFromBool(true);
+		return aneHelper.getFREObject(true);
 	}
 
 	FRE_FUNCTION(load) {
 		using namespace std;
 		using namespace System;
-		string url = getStringFromFREObject(argv[0]);
+		string url = aneHelper.getString(argv[0]);
 		String^ cs_url = gcnew String(url.c_str());
 		ManagedCode::Load(cs_url);
 		return NULL;
@@ -277,9 +280,9 @@ extern "C" {
 	FRE_FUNCTION(LoadHtmlString) {
 		using namespace std;
 		using namespace System;
-		string html = getStringFromFREObject(argv[0]);
+		string html = aneHelper.getString(argv[0]);
 		String^ cs_html = gcnew String(html.c_str());
-		string url = getStringFromFREObject(argv[1]);
+		string url = aneHelper.getString(argv[1]);
 		String^ cs_url = gcnew String(url.c_str());
 		ManagedCode::LoadHtmlString(cs_html, cs_url);
 		return NULL;
@@ -311,15 +314,15 @@ extern "C" {
 	}
 
 	FRE_FUNCTION(allowsMagnification) {
-		return getFREObjectFromBool(true);
+		return aneHelper.getFREObject(true);
 	}
 	
 	FRE_FUNCTION(getMagnification) {
-		return getFREObjectFromDouble(ManagedCode::GetMagnification());
+		return aneHelper.getFREObject(ManagedCode::GetMagnification());
 	}
 
 	FRE_FUNCTION(setMagnification) {
-		double value = getDoubleFromFREObject(argv[0]);
+		double value = aneHelper.getDouble(argv[0]);
 		ManagedCode::SetMagnification(value);
 		return NULL;
 	}
@@ -372,12 +375,12 @@ extern "C" {
 	FRE_FUNCTION(callJavascriptFunction) {
 		using namespace std;
 		using namespace System;
-		string js = getStringFromFREObject(argv[0]);
+		string js = aneHelper.getString(argv[0]);
 		FREObjectType callbackType;
 		FREGetObjectType(argv[1], &callbackType);
 
 		if (FRE_TYPE_NULL != callbackType) {
-			string callback = getStringFromFREObject(argv[1]);
+			string callback = aneHelper.getString(argv[1]);
 			ManagedCode::CallJavascriptFunction(gcnew String(js.c_str()), gcnew String(callback.c_str()));
 		}
 		else {
@@ -391,12 +394,12 @@ extern "C" {
 		using namespace std;
 		using namespace System;
 
-		string js = getStringFromFREObject(argv[0]);
+		string js = aneHelper.getString(argv[0]);
 		FREObjectType callbackType;
 		FREGetObjectType(argv[1], &callbackType);
 
 		if (FRE_TYPE_NULL != callbackType) {
-			string callback = getStringFromFREObject(argv[1]);
+			string callback = aneHelper.getString(argv[1]);
 			ManagedCode::EvaluateJavaScript(gcnew String(js.c_str()), gcnew String(callback.c_str()));
 		}
 		else {
@@ -407,14 +410,40 @@ extern "C" {
 	}
 
 	FRE_FUNCTION(setBackgroundColor) {
-		cef_bg_r = getUInt32FromFREObject(argv[0]);
-		cef_bg_g = getUInt32FromFREObject(argv[1]);
-		cef_bg_b = getUInt32FromFREObject(argv[2]);
+		cef_bg_r = aneHelper.getUInt32(argv[0]);
+		cef_bg_g = aneHelper.getUInt32(argv[1]);
+		cef_bg_b = aneHelper.getUInt32(argv[2]);
 		return NULL;
 	}
 
 	FRE_FUNCTION(shutDown) {
 		ManagedCode::ShutDown();
+		return NULL;
+	}
+
+	FRE_FUNCTION(injectScript) {
+		using namespace std;
+		using namespace System;
+		string code;
+		string scriptUrl;
+		unsigned int startLine = aneHelper.getUInt32(argv[2]);
+
+		FREObjectType codeType;
+		FREGetObjectType(argv[0], &codeType);
+
+		FREObjectType scriptUrlType;
+		FREGetObjectType(argv[1], &scriptUrlType);
+
+		if (FRE_TYPE_NULL != codeType) {
+			code = aneHelper.getString(argv[0]);
+		}
+			
+		if (FRE_TYPE_NULL != scriptUrlType) {
+			scriptUrl = aneHelper.getString(argv[1]);
+		}
+			
+		ManagedCode::InjectScript(gcnew String(code.c_str()), gcnew String(scriptUrl.c_str()), startLine);
+		
 		return NULL;
 	}
 
@@ -474,9 +503,12 @@ extern "C" {
 			,{ (const uint8_t *) "onFullScreen", NULL, &onFullScreen }
 			,{ (const uint8_t *) "callJavascriptFunction", NULL, &callJavascriptFunction }
 			,{ (const uint8_t *) "evaluateJavaScript", NULL, &evaluateJavaScript }
-
 			,{ (const uint8_t *) "setBackgroundColor", NULL, &setBackgroundColor }
 			,{ (const uint8_t *) "shutDown", NULL, &shutDown }
+			
+			,{ (const uint8_t *) "injectScript", NULL, &injectScript }
+
+			
 
 		};
 

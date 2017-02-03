@@ -29,7 +29,7 @@ CefRequestContext instances via the RequestContextSettings.CachePath value.</p>
 Also configurable using the "log-severity" command-line switch with a value of
 "verbose", "info", "warning", "error", "error-report" or "disable".</p>
  */
-    public var logSeverity:int = 99;//default
+    public var logSeverity:int = LogSeverity.DISABLE;
 /**
  *  <p>Add custom command line argumens to this collection, they will be added in 
 OnBeforeCommandLineProcessing.</p>
@@ -42,7 +42,12 @@ your requirements.</p>
  */	
     public var bestPerformance:Boolean = true;
 
-    public function CefSettings() {
+/**
+ <p>The path to a separate executable that will be launched for sub-processes. By
+default the browser process executable is used.</p>
+ */
+public var browserSubprocessPath:String = "CefSharp.BrowserSubprocess.exe";
+public function CefSettings() {
     }
 }
 }

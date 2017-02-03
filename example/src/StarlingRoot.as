@@ -86,6 +86,7 @@ public class StarlingRoot extends Sprite {
         webView.addEventListener(WebViewEvent.ON_DOWNLOAD_PROGRESS, onDownloadProgress);
 
         var settings:Settings = new Settings();
+        settings.userAgent = "WebViewANE";
         settings.cef.bestPerformance = true; //set to false to enable gpu and thus webgl
 
         // See https://github.com/cefsharp/CefSharp/blob/master/CefSharp.Example/CefExample.cs#L37 for more examples
@@ -99,8 +100,12 @@ public class StarlingRoot extends Sprite {
         settings.cef.commandLineArgs.push(kvp);
 
         webView.setBackgroundColor(0xF1F1F1);
+
         webView.init(0, 90, _appWidth, _appHeight - 140, settings);
         webView.addToStage(); // webView.removeFromStage();
+
+
+        webView.injectScript("function testInject(){console.log('yo yo')}");
         webView.load("http://www.adobe.com/");
 
         /*
@@ -116,7 +121,6 @@ public class StarlingRoot extends Sprite {
          '</body>' +
          '</html>',"http://rendering/");
          */
-
 
 
         backBtn.x = 20;
@@ -212,7 +216,6 @@ public class StarlingRoot extends Sprite {
         statusTxt.y = _appHeight - 24;
 
 
-
         addChild(titleTxt);
         addChild(statusTxt);
         addChild(backBtn);
@@ -223,7 +226,7 @@ public class StarlingRoot extends Sprite {
         addChild(zoomInBtn);
         addChild(zoomOutBtn);
         addChild(fullscreenBtn);
-        if(Capabilities.os.toLowerCase().indexOf("windows") == 0)
+        if (Capabilities.os.toLowerCase().indexOf("windows") == 0)
             addChild(devToolsBtn);
 
         addChild(jsBtn);
@@ -240,10 +243,10 @@ public class StarlingRoot extends Sprite {
 
     private function onDownloadProgress(event:WebViewEvent):void {
         var progress:DownloadProgress = event.params as DownloadProgress;
-        trace("progress.percent",progress.percent);
-        trace("progress.speed",progress.speed);
-        trace("progress.bytesLoaded",progress.bytesLoaded);
-        trace("progress.bytesTotal",progress.bytesTotal);
+        trace("progress.percent", progress.percent);
+        trace("progress.speed", progress.speed);
+        trace("progress.bytesLoaded", progress.bytesLoaded);
+        trace("progress.bytesTotal", progress.bytesTotal);
     }
 
     private function onEvalJsBtn(event:TouchEvent):void {
@@ -261,10 +264,10 @@ public class StarlingRoot extends Sprite {
     private function onAsJsAsBtn(event:TouchEvent):void {
         var touch:Touch = event.getTouch(as_js_as_Btn);
         if (touch != null && touch.phase == TouchPhase.ENDED) {
-            webView.callJavascriptFunction("as_to_js",asToJsCallback,1,"a",77);
+            webView.callJavascriptFunction("as_to_js", asToJsCallback, 1, "a", 77);
 
             //this is how to use without a callback
-           // webView.callJavascriptFunction("console.log",null,"hello console. The is AIR");
+            // webView.callJavascriptFunction("console.log",null,"hello console. The is AIR");
 
         }
     }
@@ -436,7 +439,7 @@ public class StarlingRoot extends Sprite {
         trace("asCallback.functionName", asCallback.functionName);
         trace("asCallback.callbackName", asCallback.callbackName);
 
-        if(asCallback.args && asCallback.args.length > 0){
+        if (asCallback.args && asCallback.args.length > 0) {
             var paramA:int = asCallback.args[0] + 33;
             var paramB:String = asCallback.args[1].replace("I am", "You are");
             var paramC:Boolean = !asCallback.args[2];
@@ -474,7 +477,7 @@ public class StarlingRoot extends Sprite {
      *
      */
     private function onExiting(event:Event):void {
-		webView.shutDown();
+        webView.shutDown();
     }
 
     public function onMaximiseApp():void {
@@ -501,10 +504,8 @@ public class StarlingRoot extends Sprite {
     }
 
     public function updateWebViewOnResize():void {
-        // trace(_appWidth,_appHeight);
-        if (webView) {
+        if (webView)
             webView.setPositionAndSize(0, 90, _appWidth, _appHeight - 140);
-        }
     }
 
     public function set appWidth(value:uint):void {
@@ -514,7 +515,6 @@ public class StarlingRoot extends Sprite {
     public function set appHeight(value:uint):void {
         _appHeight = value;
     }
-
 
 }
 }

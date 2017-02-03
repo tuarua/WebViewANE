@@ -15,7 +15,7 @@ public class ActionscriptCallback {
 	/**
 	 * 
 	 */	
-    public var functionName:String; //TODO need ?
+    public var functionName:String;
 	/**
 	 * 
 	 */	
