@@ -168,7 +168,7 @@ public class WebViewANE extends EventDispatcher {
 
                 break;
             case WebViewEvent.ON_DOWNLOAD_COMPLETE:
-                dispatchEvent(new WebViewEvent(WebViewEvent.ON_DOWNLOAD_PROGRESS, event.code));
+                dispatchEvent(new WebViewEvent(WebViewEvent.ON_DOWNLOAD_COMPLETE, event.code));
                 break;
             case WebViewEvent.ON_DOWNLOAD_CANCEL:
                 dispatchEvent(new WebViewEvent(WebViewEvent.ON_DOWNLOAD_CANCEL, event.code));
