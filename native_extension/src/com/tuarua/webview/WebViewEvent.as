@@ -5,29 +5,30 @@ package com.tuarua.webview {
 import flash.events.Event;
 
 public class WebViewEvent extends Event {
-	/**
-	 * 
-	 */	
+    /**
+     *
+     */
     public static const ON_FAIL:String = "WebView.OnFail";
-	/**
-	 * 
-	 */	
+    /**
+     * Dispatched when one of the following is updated url, title, isLoading, canGoBack, canGoForward,
+     * estimatedProgress, statusMessage
+     */
     public static const ON_PROPERTY_CHANGE:String = "WebView.OnPropertyChange";
-	/**
-	 * 
-	 */	
+    /**
+     *
+     */
     public static const ON_CONSOLE_MESSAGE:String = "WebView.OnConsoleMessage";
-	/**
-	 * 
-	 */	
+    /**
+     * Dispatched when download progress changes
+     */
     public static const ON_DOWNLOAD_PROGRESS:String = "WebView.OnDownloadProgress";
-	/**
-	 * 
-	 */	
+    /**
+     * Dispatched when download is marked as complete
+     */
     public static const ON_DOWNLOAD_COMPLETE:String = "WebView.OnDownloadComplete"
-	/**
-	 * 
-	 */		
+    /**
+     * Dispatched when download is cancelled
+     */
     public static const ON_DOWNLOAD_CANCEL:String = "WebView.OnDownloadCancel";
 
     public var params:*;
@@ -45,4 +46,6 @@ public class WebViewEvent extends Event {
         return formatToString("WebViewEvent", "params", "type", "bubbles", "cancelable");
     }
 }
+
+
 }

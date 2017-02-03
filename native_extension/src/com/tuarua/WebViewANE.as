@@ -41,12 +41,14 @@ public class WebViewANE extends EventDispatcher {
     private static const AS_CALLBACK_EVENT:String = "TRWV.as.CALLBACK";
     private var backgroundColor:RGB = new RGB(0xFFFFFF);
     private var downloadProgress:DownloadProgress = new DownloadProgress();
+
     public function WebViewANE() {
         initiate();
     }
-	/** 
-	 * This method is omitted from the output. * * @private 
-	 */ 
+
+    /**
+     * This method is omitted from the output. * * @private
+     */
     protected function initiate():void {
         _isSupported = true;
 
@@ -64,9 +66,10 @@ public class WebViewANE extends EventDispatcher {
         }
 
     }
-	/** 
-	 * This method is omitted from the output. * * @private 
-	 */ 
+
+    /**
+     * This method is omitted from the output. * * @private
+     */
     private function gotEvent(event:StatusEvent):void {
         // trace(event);
         var keyName:String;
@@ -92,7 +95,7 @@ public class WebViewANE extends EventDispatcher {
                     _canGoForward = pObj.value;
                 } else if (pObj.propName == "estimatedProgress") {
                     _estimatedProgress = pObj.value;
-                }else if(pObj.propName == "statusMessage"){
+                } else if (pObj.propName == "statusMessage") {
                     _statusMessage = pObj.value;
                 }
 
@@ -156,6 +159,7 @@ public class WebViewANE extends EventDispatcher {
                     downloadProgress.percent = pObj.percent;
                     downloadProgress.speed = pObj.speed;
                     downloadProgress.id = pObj.id;
+                    downloadProgress.url = pObj.url;
                     dispatchEvent(new WebViewEvent(WebViewEvent.ON_DOWNLOAD_PROGRESS, downloadProgress));
                 } catch (e:Error) {
                     trace(e.message);
@@ -174,43 +178,43 @@ public class WebViewANE extends EventDispatcher {
         }
     }
 
-	/**
-	 * 
-	 * @param functionName name of the function as called from Javascript
-	 * @param closure Actionscript function to call when functionName is called from Javascript
+    /**
+     *
+     * @param functionName name of the function as called from Javascript
+     * @param closure Actionscript function to call when functionName is called from Javascript
      *
      * <p>Adds a callback in the webView. These should be added before .init() is called.</p>
-	 * 
-	 */
+     *
+     */
     public function addCallback(functionName:String, closure:Function):void {
         jsCallBacks[functionName] = closure;
     }
 
-	/**
-	 * 
-	 * @param functionName name of the function to remove. This function should have been added via .addCallback() method
-	 * 
-	 */
+    /**
+     *
+     * @param functionName name of the function to remove. This function should have been added via .addCallback() method
+     *
+     */
     public function removeCallback(functionName:String):void {
         jsCallBacks[functionName] = null;
     }
 
 
-	/**
-	 * 
-	 * @param functionName name of the Javascript function to call
-	 * @param closure Actionscript function to call when Javascript functionName is called. If null then no
+    /**
+     *
+     * @param functionName name of the Javascript function to call
+     * @param closure Actionscript function to call when Javascript functionName is called. If null then no
      * actionscript function is called, aka a 'fire and forget' call.
-	 * @param args arguments to send to the Javascript function
+     * @param args arguments to send to the Javascript function
      *
      * <p>Call a javascript function.</p>
-	 *
+     *
      * @example
      <listing version="3.0">
-// Logs to the console. No result expected.
-webView.callJavascriptFunction("as_to_js",asToJsCallback,1,"a",77);
+     // Logs to the console. No result expected.
+     webView.callJavascriptFunction("as_to_js",asToJsCallback,1,"a",77);
 
- public function asToJsCallback(jsResult:JavascriptResult):void {
+     public function asToJsCallback(jsResult:JavascriptResult):void {
     trace("asToJsCallback");
     trace("jsResult.error", jsResult.error);
     trace("jsResult.result", jsResult.result);
@@ -219,18 +223,18 @@ webView.callJavascriptFunction("as_to_js",asToJsCallback,1,"a",77);
     var testObject:* = jsResult.result;
     trace(testObject);
 }
-}
+     }
      </listing>
 
      * @example
      <listing version="3.0">
- // Calls Javascript function passing 3 args. Javascript function returns an object which is automatically mapped to an
+     // Calls Javascript function passing 3 args. Javascript function returns an object which is automatically mapped to an
      Actionscript Object
- webView.callJavascriptFunction("console.log",null,"hello console. The is AIR");
- }
+     webView.callJavascriptFunction("console.log",null,"hello console. The is AIR");
+     }
 
-// function in HTML page
-function as_to_js(numberA, stringA, numberB, obj) {
+     // function in HTML page
+     function as_to_js(numberA, stringA, numberB, obj) {
     var person = {
         name: "Jim Cowart",
         response: {
@@ -241,7 +245,7 @@ function as_to_js(numberA, stringA, numberB, obj) {
     return person;
 }
      </listing>
-	 */	
+     */
     public function callJavascriptFunction(functionName:String, closure:Function = null, ...args):void {
         if (safetyCheck()) {
             var finalArray:Array = [];
@@ -258,49 +262,50 @@ function as_to_js(numberA, stringA, numberB, obj) {
     }
 
     //to insert script or run some js, no closure fire and forget
-	/**
-	 * 
-	 * @param js Javascript string to evaluate.
-	 * @param closure Actionscript function to call when the Javascript string is evaluated. If null then no
+    /**
+     *
+     * @param js Javascript string to evaluate.
+     * @param closure Actionscript function to call when the Javascript string is evaluated. If null then no
      * actionscript function is called, aka a 'fire and forget' call.
      *
      * @example
-<listing version="3.0">
-// Set the body background to yellow. No result expected
-webView.evaluateJavascript('document.getElementsByTagName("body")[0].style.backgroundColor = "yellow";');
-</listing>
+     <listing version="3.0">
+     // Set the body background to yellow. No result expected
+     webView.evaluateJavascript('document.getElementsByTagName("body")[0].style.backgroundColor = "yellow";');
+     </listing>
      * @example
      <listing version="3.0">
-// Retrieve contents of div. Result is returned to Actionscript function 'onJsEvaluated'
-webView.evaluateJavascript("document.getElementById('output').innerHTML;", onJsEvaluated)
-private function onJsEvaluated(jsResult:JavascriptResult):void {
+     // Retrieve contents of div. Result is returned to Actionscript function 'onJsEvaluated'
+     webView.evaluateJavascript("document.getElementById('output').innerHTML;", onJsEvaluated)
+     private function onJsEvaluated(jsResult:JavascriptResult):void {
     trace("innerHTML of div is:", jsResult.result);
 }
      </listing>
-	 * 
-	 */	
-    public function evaluateJavascript(js:String, closure:Function = null):void {
+     *
+     */
+    public function evaluateJavascript(code:String, closure:Function = null):void {
         if (safetyCheck()) {
             if (closure != null) {
                 var guid:String = GUID.create();
                 asCallBacks[AS_CALLBACK_PREFIX + guid] = closure;
-                extensionContext.call("evaluateJavaScript", js, AS_CALLBACK_PREFIX + guid);
+                extensionContext.call("evaluateJavaScript", code, AS_CALLBACK_PREFIX + guid);
             } else {
-                extensionContext.call("evaluateJavaScript", js, null);
+                extensionContext.call("evaluateJavaScript", code, null);
             }
         }
     }
-	/**
-	 * 
-	 * @param x
-	 * @param y
-	 * @param width
-	 * @param height
-	 * @param settings
+
+    /**
+     *
+     * @param x
+     * @param y
+     * @param width
+     * @param height
+     * @param settings
      *
      * <p>Initialises the webView. The webView is not automatically added to the native stage.</p>
-	 * 
-	 */
+     *
+     */
     public function init(x:int = 0, y:int = 0, width:int = 800, height:int = 600, settings:Settings = null):void {
         this._x = x;
         this._y = y;
@@ -316,16 +321,17 @@ private function onJsEvaluated(jsResult:JavascriptResult):void {
             _isInited = true;
         }
     }
-	/**
-	 * 
-	 * @param x
-	 * @param y
-	 * @param width set to 0 to retain existing
-	 * @param height  set to 0 to retain existing
+
+    /**
+     *
+     * @param x
+     * @param y
+     * @param width set to 0 to retain existing
+     * @param height  set to 0 to retain existing
      *
      * <p>Resizes and/or repositions the webView.</p>
-	 * 
-	 */
+     *
+     */
     public function setPositionAndSize(x:int = 0, y:int = 0, width:int = 0, height:int = 0):void {
         this._x = x;
         this._y = y;
@@ -336,153 +342,169 @@ private function onJsEvaluated(jsResult:JavascriptResult):void {
             extensionContext.call("setPositionAndSize", this._x, this._y, this._width, this._height);
         }
     }
-	/**
-	 * <p>Adds the webView from the native stage.</p>
-	 * 
-	 */
+
+    /**
+     * <p>Adds the webView from the native stage.</p>
+     *
+     */
     public function addToStage():void {
         if (safetyCheck())
             extensionContext.call("addToStage");
     }
-	/**
-	 * <p>Removes the webView from the native stage.</p>
-	 * 
-	 */
+
+    /**
+     * <p>Removes the webView from the native stage.</p>
+     *
+     */
     public function removeFromStage():void {
         if (safetyCheck())
             extensionContext.call("removeFromStage");
     }
-	/**
-	 * 
-	 * @param url
-	 * 
-	 */
+
+    /**
+     *
+     * @param url
+     *
+     */
     public function load(url:String):void {
         if (safetyCheck())
             extensionContext.call("load", url);
     }
-	/**
-	 * 
-	 * @param html HTML provided as a string
-	 * @param baseUrl url which will display as the address
+
+    /**
+     *
+     * @param html HTML provided as a string
+     * @param baseUrl url which will display as the address
      *
      * <p>Loads a HTML string into the webView.</p>
-	 * 
-	 */
+     *
+     */
     public function loadHTMLString(html:String, baseUrl:String = ""):void {
         if (safetyCheck())
             extensionContext.call("loadHTMLString", html, baseUrl);
     }
-	/**
-	 * 
-	 * @param full path to the file on the local file system
-	 * @param allowingReadAccessTo path to the root of the document
-	 *
+
+    /**
+     *
+     * @param full path to the file on the local file system
+     * @param allowingReadAccessTo path to the root of the document
+     *
      * <p>Loads a file from the local file system into the webView.</p>
      *
-	 */
+     */
     public function loadFileURL(url:String, allowingReadAccessTo:String):void {
         if (safetyCheck())
             extensionContext.call("loadFileURL", url, allowingReadAccessTo);
     }
-	/** 
-	 * <p>Reloads the current page.</p>
-	 */
+
+    /**
+     * <p>Reloads the current page.</p>
+     */
     public function reload():void {
         if (safetyCheck())
             extensionContext.call("reload");
     }
-	/** 
-	 * <p>Stops loading the current page.</p>
-	 */
+
+    /**
+     * <p>Stops loading the current page.</p>
+     */
     public function stopLoading():void {
         if (safetyCheck())
             extensionContext.call("stopLoading");
     }
-	/** 
-	 * <p>Navigates back.</p>
-	 */
+
+    /**
+     * <p>Navigates back.</p>
+     */
     public function goBack():void {
         if (safetyCheck())
             extensionContext.call("goBack");
     }
-	/**
-	 * <p>Navigates forward.</p>
-	 */
+
+    /**
+     * <p>Navigates forward.</p>
+     */
     public function goForward():void {
         if (safetyCheck())
             extensionContext.call("goForward");
     }
-	/**
-	 * 
-	 * @param offset Navigate forward (eg +1) or back (eg -1)
-	 * 
-	 */
+
+    /**
+     *
+     * @param offset Navigate forward (eg +1) or back (eg -1)
+     *
+     */
     public function go(offset:int = 1):void {
         if (safetyCheck())
             extensionContext.call("go", offset);
     }
-	/**
-	 * 
-	 * @return 
-	 * 
-	 */
+
+    /**
+     *
+     * @return
+     *
+     */
     public function backForwardList():BackForwardList {
         if (safetyCheck())
             return extensionContext.call("backForwardList") as BackForwardList;
         return new BackForwardList();
     }
-	/**
-	 * Forces a reload of the page (i.e. ctrl F5)
-	 * 
-	 */
+
+    /**
+     * Forces a reload of the page (i.e. ctrl F5)
+     *
+     */
     public function reloadFromOrigin():void {
         if (safetyCheck())
             extensionContext.call("reloadFromOrigin");
     }
-	/**
-	 * 
-	 * @param fs When going fullscreen set this to true, when coming out of fullscreen set to false
-	 * 
-	 */
+
+    /**
+     *
+     * @param fs When going fullscreen set this to true, when coming out of fullscreen set to false
+     *
+     */
     public function onFullScreen(fs:Boolean = false):void {
         if (safetyCheck())
             extensionContext.call("onFullScreen", fs);
     }
-	/**
-	 * 
-	 * @return Whether the page allows magnification functionality
-	 * 
-	 */
+
+    /**
+     *
+     * @return Whether the page allows magnification functionality
+     *
+     */
     public function allowsMagnification():Boolean {
         if (safetyCheck())
             extensionContext.call("allowsMagnification");
         return false;
     }
-	/**
-	 * 
-	 * @return The current magnification level
-	 * 
-	 */
+
+    /**
+     *
+     * @return The current magnification level
+     *
+     */
     public function getMagnification():Number {
         if (safetyCheck())
             return extensionContext.call("getMagnification") as Number;
         return 1.0;
     }
-	
-	/**
-	 * 
-	 * @param value
-	 * @param centeredAt
-	 * 
-	 */
+
+    /**
+     *
+     * @param value
+     * @param centeredAt
+     *
+     */
     public function setMagnification(value:Number, centeredAt:Point):void {
         if (safetyCheck())
             extensionContext.call("setMagnification", value, centeredAt);
     }
-	/** 
-	 * This method is omitted from the output. * * @private 
-	 */ 
+
+    /**
+     * This method is omitted from the output. * * @private
+     */
     private function safetyCheck():Boolean {
         if (!_isInited) {
             trace("You need to init first");
@@ -490,18 +512,20 @@ private function onJsEvaluated(jsResult:JavascriptResult):void {
         }
         return _isSupported;
     }
-	/**
-	 * 
-	 * @return true if the device is Windows 7+ or OSX 10.10+
-	 * 
-	 */
+
+    /**
+     *
+     * @return true if the device is Windows 7+ or OSX 10.10+
+     *
+     */
     public function isSupported():Boolean {
         return _isSupported;
     }
-	/**
-	 * 
-	 * 
-	 */
+
+    /**
+     *
+     *
+     */
     public function dispose():void {
         if (!extensionContext) {
             trace("[" + name + "] Error. ANE Already in a disposed or failed state...");
@@ -512,105 +536,117 @@ private function onJsEvaluated(jsResult:JavascriptResult):void {
         extensionContext.dispose();
         extensionContext = null;
     }
-	/**
-	 * 
-	 * @return current url
-	 * 
-	 */
+
+    /**
+     *
+     * @return current url
+     *
+     */
     public function get url():String {
         return _url;
     }
-	/**
-	 * 
-	 * @return current page title
-	 * 
-	 */
+
+    /**
+     *
+     * @return current page title
+     *
+     */
     public function get title():String {
         return _title;
     }
-	/**
-	 * 
-	 * @return whether the page is loading
-	 * 
-	 */
+
+    /**
+     *
+     * @return whether the page is loading
+     *
+     */
     public function get isLoading():Boolean {
         return _isLoading;
     }
-	/**
-	 * 
-	 * @return whether we can navigate back
+
+    /**
+     *
+     * @return whether we can navigate back
      *
      * <p>A Boolean value indicating whether we can navigate back.</p>
-	 * 
-	 */
+     *
+     */
     public function get canGoBack():Boolean {
         return _canGoBack;
     }
-	/**
-	 * 
-	 * @return whether we can navigate forward
-	 *
+
+    /**
+     *
+     * @return whether we can navigate forward
+     *
      * <p>A Boolean value indicating whether we can navigate forward.</p>
      *
-	 */
+     */
     public function get canGoForward():Boolean {
         return _canGoForward;
     }
-	/**
-	 * 
-	 * @return estimated progress between 0.0 and 1.0. 
-	 * Available on OSX only
-	 * 
-	 */
+
+    /**
+     *
+     * @return estimated progress between 0.0 and 1.0.
+     * Available on OSX only
+     *
+     */
     public function get estimatedProgress():Number {
         return _estimatedProgress;
     }
-	/**
-	 * <p>Shows the Chromium dev tools</p>
-	 * <p><strong>Windows only.</strong></p>
-	 * 
-	 */
+
+    /**
+     * <p>Shows the Chromium dev tools</p>
+     * <p><strong>Windows only.</strong></p>
+     *
+     */
     public function showDevTools():void {
         if (safetyCheck())
             extensionContext.call("showDevTools");
     }
-	/**
-	 * <p>Close the Chromium dev tools</p>
-	 * <p><strong>Windows only.</strong></p>
-	 * 
-	 */
+
+    /**
+     * <p>Close the Chromium dev tools</p>
+     * <p><strong>Windows only.</strong></p>
+     *
+     */
     public function closeDevTools():void {
         if (safetyCheck())
             extensionContext.call("closeDevTools");
     }
-	/**
-	 * 
-	 * @param value hex value of the view's background color.
-	 * <p>This should be set as the default is #000000 (black).</p>
-	 * <p><strong>Applicable to Windows only.</strong></p>
-	 * 
-	 */
+
+    /**
+     *
+     * @param value hex value of the view's background color.
+     * <p>This should be set as the default is #000000 (black).</p>
+     * <p><strong>Applicable to Windows only.</strong></p>
+     *
+     */
     public function setBackgroundColor(value:uint):void {
         backgroundColor.hexToRGB(value);
-        extensionContext.call("setBackgroundColor",backgroundColor.red,backgroundColor.green,backgroundColor.blue);
+        extensionContext.call("setBackgroundColor", backgroundColor.red, backgroundColor.green, backgroundColor.blue);
     }
-	/**
-	 * 
-	 * @return whether we have inited the webview
-	 * 
-	 */
+
+    /**
+     *
+     * @return whether we have inited the webview
+     *
+     */
     public function get isInited():Boolean {
         return _isInited;
     }
-	/**
-	 * 
-	 * @return current status message (This would normally appear on the bottom left of a browser)
-	 * <p><strong>Windows only.</strong></p>
-	 * 
-	 */
+
+    /**
+     *
+     * @return current status message (This would normally appear on the bottom left of a browser)
+     * <p><strong>Windows only.</strong></p>
+     *
+     */
     public function get statusMessage():String {
         return _statusMessage;
     }
+
     /**
      * <p>This calls Cef.ShutDown() to clean up all Chromium Embedded Framework processes.</p>
      * <p><strong>Applicable to Windows only.</strong></p>
@@ -622,35 +658,25 @@ private function onJsEvaluated(jsResult:JavascriptResult):void {
      }</listing>
      *
      */
-	public function shutDown():void {
+    public function shutDown():void {
         extensionContext.call("shutDown");
     }
+	/**
+	 * 
+	 * @param code Javascript to inject, if any.
+	 * @param scriptUrl is the URL where the script in question can be found, if any.
+	 * @param startLine is the base line number to use for error reporting.
+	 *
+     * <p>Specify either code or scriptUrl. These are injected into the main Frame when it is loaded. Call before
+     * load() method</p>
+	 */	
 
-    /*
-    public function getVerticalScrollPosition():int {
-        return 0;
+    public function injectScript(code:String = null, scriptUrl:String = null, startLine:uint = 0):void {
+        if (code != null || scriptUrl != null) {
+            extensionContext.call("injectScript", code, scriptUrl, startLine);
+        }
     }
-
-    public function setVerticalScrollPosition(position:int):void {
-
-    }
-*/
-    /*
-
-     public int GetVerticalScrollPosition()
-     {
-     var r = _webView.EvaluateScript(@"document.body.scrollTop");
-     return Convert.ToInt32(r);
-     }
-
-     public void SetVerticalScrollPosition(int pos)
-     {
-     _webView.ExecuteScript(
-     string.Format(@"document.body.scrollTop = {0}", pos));
-     }
-
-     */
-	
+    
 }
 }
 
@@ -662,6 +688,7 @@ internal class RGB {
     public function RGB(hex:uint) {
         hexToRGB(hex);
     }
+
     public function hexToRGB(hex:uint):void {
         red = ((hex & 0xFF0000) >> 16);
         green = ((hex & 0x00FF00) >> 8);

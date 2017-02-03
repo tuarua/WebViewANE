@@ -12,7 +12,7 @@ public class JavascriptResult {
 	 */	
     public var result:*;
 	/**
-	 * 
+	 * Reserved for future use.
 	 */	
     public var message:String;
 	/**
