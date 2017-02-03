@@ -84,6 +84,7 @@ public class StarlingRoot extends Sprite {
         webView.addEventListener(WebViewEvent.ON_PROPERTY_CHANGE, onPropertyChange);
         webView.addEventListener(WebViewEvent.ON_FAIL, onFail);
         webView.addEventListener(WebViewEvent.ON_DOWNLOAD_PROGRESS, onDownloadProgress);
+        webView.addEventListener(WebViewEvent.ON_DOWNLOAD_COMPLETE, onDownloadComplete);
 
         var settings:Settings = new Settings();
         settings.userAgent = "WebViewANE";
@@ -241,8 +242,14 @@ public class StarlingRoot extends Sprite {
 
     }
 
+    private function onDownloadComplete(event:WebViewEvent):void {
+        trace(event.params,"complete");
+    }
+
     private function onDownloadProgress(event:WebViewEvent):void {
         var progress:DownloadProgress = event.params as DownloadProgress;
+        trace("progress.id", progress.id);
+        trace("progress.url", progress.url);
         trace("progress.percent", progress.percent);
         trace("progress.speed", progress.speed);
         trace("progress.bytesLoaded", progress.bytesLoaded);
