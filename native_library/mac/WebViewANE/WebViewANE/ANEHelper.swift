@@ -3,6 +3,7 @@
 // Copyright (c) 2016 Tua Rua Ltd. All rights reserved.
 //
 
+import Cocoa
 import Foundation
 
 class ANEHelper {
@@ -244,6 +245,57 @@ class ANEHelper {
         }
         return valueAS;
     }
+    
+    public func getNSImage(freObject: FREObject?) -> NSImage {
+        let objectBitmapData:FREObject = freObject!;
+        var bitmapData:FREBitmapData2 = FREBitmapData2();
+        
+        FREAcquireBitmapData2( objectBitmapData, &bitmapData );
+        
+        let width:Int = Int(bitmapData.width);
+        let height:Int = Int(bitmapData.height);
+        
+        
+        let releaseProvider: CGDataProviderReleaseDataCallback = { (info: UnsafeMutableRawPointer?,
+            data: UnsafeRawPointer, size: Int) -> () in
+            // https://developer.apple.com/reference/coregraphics/cgdataproviderreleasedatacallback
+            // N.B. 'CGDataProviderRelease' is unavailable: Core Foundation objects are automatically memory managed
+            return
+        }
+        
+        let provider:CGDataProvider = CGDataProvider(dataInfo: nil, data: bitmapData.bits32, size: (width * height * 4),
+                                                     releaseData:releaseProvider)!
+        
+        
+        let bitsPerComponent = 8;
+        let bitsPerPixel = 32;
+        let bytesPerRow:Int = 4 * width;
+        let colorSpaceRef:CGColorSpace = CGColorSpaceCreateDeviceRGB();
+        var bitmapInfo:CGBitmapInfo
+        
+        if bitmapData.hasAlpha == 1 {
+            if  bitmapData.isPremultiplied == 1 {
+                bitmapInfo = CGBitmapInfo.init(rawValue: CGBitmapInfo.byteOrder32Little.rawValue |
+                    CGImageAlphaInfo.premultipliedFirst.rawValue )
+            }else{
+                bitmapInfo = CGBitmapInfo.init(rawValue: CGBitmapInfo.byteOrder32Little.rawValue |
+                    CGImageAlphaInfo.first.rawValue )
+            }
+        } else {
+            bitmapInfo = CGBitmapInfo.init(rawValue: CGBitmapInfo.byteOrder32Little.rawValue |
+                CGImageAlphaInfo.noneSkipLast.rawValue )
+        }
+        
+        let renderingIntent:CGColorRenderingIntent = CGColorRenderingIntent.defaultIntent;
+        let imageRef:CGImage = CGImage(width: width, height: height, bitsPerComponent: bitsPerComponent,
+                                       bitsPerPixel: bitsPerPixel, bytesPerRow: bytesPerRow, space: colorSpaceRef,
+                                       bitmapInfo: bitmapInfo, provider: provider, decode: nil, shouldInterpolate: false,
+                                       intent: renderingIntent)!;
+        
+        let img:NSImage = NSImage(cgImage: imageRef, size: NSSize.init(width: width, height: height))
+        return img
+
+    }
 
     func getIdObject(freObject: FREObject?) -> Any? {
         var objectType: FREObjectType = FRE_TYPE_NULL;
@@ -284,7 +336,7 @@ class ANEHelper {
             return getDouble(freObject: freObject)
 
         case FRE_TYPE_BITMAPDATA:
-            return nil;
+            return getNSImage(freObject: freObject);
 
         case FRE_TYPE_BYTEARRAY:
             return nil;

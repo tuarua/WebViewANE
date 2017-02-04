@@ -664,8 +664,8 @@ public class WebViewANE extends EventDispatcher {
 	/**
 	 * 
 	 * @param code Javascript to inject, if any.
-	 * @param scriptUrl is the URL where the script in question can be found, if any.
-	 * @param startLine is the base line number to use for error reporting.
+	 * @param scriptUrl is the URL where the script in question can be found, if any. Windows only
+	 * @param startLine is the base line number to use for error reporting. Windows only
 	 *
      * <p>Specify either code or scriptUrl. These are injected into the main Frame when it is loaded. Call before
      * load() method</p>
