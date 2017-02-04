@@ -21,7 +21,7 @@ import WebKit
     private var _width: Int = 800
     private var _height: Int = 600
     private var isAdded: Bool = false;
-
+    
     private static let ON_FAIL: String = "WebView.OnFail"
     private static let ON_PROPERTY_CHANGE: String = "WebView.OnPropertyChange"
     private static let JS_CALLBACK_EVENT:String = "TRWV.js.CALLBACK";
@@ -389,6 +389,20 @@ import WebKit
         }
     }
     
+    func injectScript(argv: NSPointerArray) {
+        var codeType: FREObjectType = FRE_TYPE_NULL;
+        FREGetObjectType(argv.pointer(at: 0), &codeType);
+        
+        var scriptUrlType: FREObjectType = FRE_TYPE_NULL;
+        FREGetObjectType(argv.pointer(at: 0), &scriptUrlType);
+
+        if (FRE_TYPE_NULL != codeType) {
+            let injectCode = aneHelper.getString(freObject: argv.pointer(at: 0));
+            let userScript =  WKUserScript.init(source: injectCode, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
+            userController.addUserScript(userScript)
+        }
+    }
+    
     /*! @abstract Invoked when a script message is received from a webpage.
      @param userContentController The user content controller invoking the
      delegate method.
@@ -446,6 +460,15 @@ import WebKit
             myWebView?.translatesAutoresizingMaskIntoConstraints = false
             myWebView?.navigationDelegate = self
             myWebView?.uiDelegate = self
+            if #available(OSX 10.11, *) {
+                var userAgentAS: FREObject? = nil;
+                userAgentAS = aneHelper.getFREObjectProperty(freObject: argv.pointer(at: 4), propertyName: "userAgent");
+                var userAgentType: FREObjectType = FRE_TYPE_NULL;
+                FREGetObjectType(userAgentAS, &userAgentType);
+                if FRE_TYPE_STRING == userAgentType {
+                    myWebView?.customUserAgent = aneHelper.getString(freObject: userAgentAS)
+                }
+            }
 
             myWebView?.addObserver(self, forKeyPath: "loading", options: .new, context: nil)
             myWebView?.addObserver(self, forKeyPath: "estimatedProgress", options: .new, context: nil)

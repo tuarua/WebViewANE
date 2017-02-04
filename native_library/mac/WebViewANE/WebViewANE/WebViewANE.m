@@ -141,6 +141,11 @@ FRE_FUNCTION(shutDown) {
     return NULL;
 }
 
+FRE_FUNCTION(injectScript) {
+    [swft injectScriptWithArgv:getFREargs(argc, argv)];
+    return NULL;
+}
+
 void contextInitializer(void *extData, const uint8_t *ctxType, FREContext ctx, uint32_t *numFunctionsToSet,
                         const FRENamedFunction **functionsToSet) {
     static FRENamedFunction extensionFunctions[] = {
@@ -168,9 +173,10 @@ void contextInitializer(void *extData, const uint8_t *ctxType, FREContext ctx, u
         ,{(const uint8_t *) "onFullScreen", NULL, &onFullScreen }
         ,{(const uint8_t *) "callJavascriptFunction", NULL, &callJavascriptFunction }
         ,{(const uint8_t *) "evaluateJavaScript", NULL, &evaluateJavaScript }
-        
         ,{(const uint8_t *) "setBackgroundColor", NULL, &setBackgroundColor }
         ,{(const uint8_t *) "shutDown", NULL, &shutDown }
+        
+        ,{ (const uint8_t *) "injectScript", NULL, &injectScript }
         
     };
 

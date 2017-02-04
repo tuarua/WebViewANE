@@ -1,3 +1,9 @@
+### 0.0.12
+- WIN: Upgraded CEF to 55.0.0 Issue #16
+- WIN: Add browserSubprocessPath to settings.cef #15
+- WIN/OSX: allow custom userAgent to be set Issue #13
+- WIN/OSX: add injectScript() method Issue #12
+
 ### 0.0.11
 - WIN: Ability to set Background color of WPF control Issue #9
 - WIN: Add statusMessage to onPropertyChange Issue #10

@@ -37,9 +37,6 @@ The OSX version utilises the native WKWebView
 
 
 ### To Do
-* Add additional CefSettings to settings.cef
-* Add ability to set WKWebViewConfiguration of OSX version
-* Asdocs
 
 
 ### Long Term To Do

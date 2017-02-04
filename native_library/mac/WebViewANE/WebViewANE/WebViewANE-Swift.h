@@ -147,6 +147,7 @@ SWIFT_CLASS("_TtC10WebViewANE10WebViewANE")
 - (void)initWebViewWithArgv:(NSPointerArray * _Nonnull)argv;
 - (void)setPositionAndSizeWithArgv:(NSPointerArray * _Nonnull)argv;
 - (void)evaluateJavaScriptWithArgv:(NSPointerArray * _Nonnull)argv;
+- (void)injectScriptWithArgv:(NSPointerArray * _Nonnull)argv;
 - (void)setFREContextWithCtx:(FREContext _Nonnull)ctx;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
