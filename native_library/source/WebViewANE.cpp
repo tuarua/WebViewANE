@@ -5,13 +5,12 @@
 #include <conio.h>
 
 #include "FlashRuntimeExtensions.h"
-
-
 #include "ANEHelper.h"
 #include <string>
 
 ANEHelper aneHelper = ANEHelper();
-const string ANE_NAME = "WebViewANE";
+using namespace std;
+const std::string ANE_NAME = "WebViewANE";
 
 DWORD windowID;
 HWND _hwnd;
@@ -65,8 +64,7 @@ namespace ManagedCode {
 		MarshalString(type, typeStr);
 		string messageStr = "";
 		MarshalString(message, messageStr);
-
-		FREDispatchStatusEventAsync(dllContext, (uint8_t*)messageStr.c_str(), (const uint8_t*)typeStr.c_str());
+		aneHelper.dispatchEvent(dllContext, typeStr, messageStr);
 	}
 
 	HWND GetHwnd(HWND parent) {
@@ -172,7 +170,7 @@ extern "C" {
 	extern void trace(string msg) {
 		string value = "["+ANE_NAME+"] " + msg;
 		//if (logLevel > 0)
-			FREDispatchStatusEventAsync(dllContext, (uint8_t*)value.c_str(), (const uint8_t*) "TRACE");
+		aneHelper.dispatchEvent(dllContext, "TRACE", value);
 	}
 
 #define FRE_FUNCTION(fn) FREObject (fn)(FREContext context, void* functionData, uint32_t argc, FREObject argv[])
