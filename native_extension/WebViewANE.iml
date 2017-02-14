@@ -4,11 +4,6 @@
     <configurations>
       <configuration name="WebViewANE" target-platform="Desktop" pure-as="true" output-type="Library" output-file="WebViewANE.swc" output-folder="$MODULE_DIR$/bin">
         <dependencies>
-          <entries>
-            <entry library-name="WebViewANE" library-level="project">
-              <dependency linkage="Merged" />
-            </entry>
-          </entries>
           <sdk name="AIRSDK" />
         </dependencies>
         <compiler-options>

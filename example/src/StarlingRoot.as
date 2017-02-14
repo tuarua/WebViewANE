@@ -102,12 +102,9 @@ public class StarlingRoot extends Sprite {
 
         webView.setBackgroundColor(0xF1F1F1);
 
-        webView.init(0, 90, _appWidth, _appHeight - 140, settings);
+        webView.init("http://www.adobe.com/", 0, 90, _appWidth, _appHeight - 140, settings);
         webView.addToStage(); // webView.removeFromStage();
-
-
         webView.injectScript("function testInject(){console.log('yo yo')}");
-        webView.load("http://www.adobe.com/");
 
         /*
          trace("loading html");
@@ -486,6 +483,9 @@ public class StarlingRoot extends Sprite {
 
     private function onFail(event:WebViewEvent):void {
         trace(event.params);
+        trace(event.params.url);
+        trace(event.params.errorCode);
+        trace(event.params.errorText);
     }
 
     /**
