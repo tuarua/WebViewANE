@@ -85,10 +85,10 @@ public class StarlingRoot extends Sprite {
         webView.addEventListener(WebViewEvent.ON_FAIL, onFail);
         webView.addEventListener(WebViewEvent.ON_DOWNLOAD_PROGRESS, onDownloadProgress);
         webView.addEventListener(WebViewEvent.ON_DOWNLOAD_COMPLETE, onDownloadComplete);
+        webView.addEventListener(WebViewEvent.ON_ESC_KEY, onEscKey);
 
         var settings:Settings = new Settings();
         settings.userAgent = "WebViewANE";
-        settings.cef.bestPerformance = true; //set to false to enable gpu and thus webgl
 
         // See https://github.com/cefsharp/CefSharp/blob/master/CefSharp.Example/CefExample.cs#L37 for more examples
         //settings.CefCommandLineArgs.Add("disable-direct-write", "1");
@@ -240,6 +240,15 @@ public class StarlingRoot extends Sprite {
 
         addChild(progress);
 
+    }
+
+    private function onEscKey(event:WebViewEvent):void {
+        trace(event);
+        if (WebViewANESample.target.stage.displayState == StageDisplayState.FULL_SCREEN_INTERACTIVE) {
+            WebViewANESample.target.stage.displayState = StageDisplayState.NORMAL;
+            _appWidth = 1280;
+            _appHeight = 800;
+        }
     }
 
     private function onDownloadComplete(event:WebViewEvent):void {

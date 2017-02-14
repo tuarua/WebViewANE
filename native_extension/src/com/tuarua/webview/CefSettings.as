@@ -35,12 +35,6 @@ Also configurable using the "log-severity" command-line switch with a value of
 OnBeforeCommandLineProcessing.</p>
  */	
     public var commandLineArgs:Vector.<Object> = new <Object>[];
-/**
- *  <p>Set command line arguments for best OSR (Offscreen and WPF) Rendering performance
-This will disable WebGL, look at the source to determine which flags best suite
-your requirements.</p>
- */	
-    public var bestPerformance:Boolean = true;
 
 /**
  <p>The path to a separate executable that will be launched for sub-processes. By

@@ -30,8 +30,12 @@ public class WebViewEvent extends Event {
      * Dispatched when download is cancelled
      */
     public static const ON_DOWNLOAD_CANCEL:String = "WebView.OnDownloadCancel";
-
+    /**
+     * Dispatched when Esc key is pressed. Use this to exit fullscreen.
+     */
+    public static const ON_ESC_KEY:String = "WebView.OnEscKey";
     public var params:*;
+
 
     public function WebViewEvent(type:String, params:* = null, bubbles:Boolean = false, cancelable:Boolean = false) {
         super(type, bubbles, cancelable);

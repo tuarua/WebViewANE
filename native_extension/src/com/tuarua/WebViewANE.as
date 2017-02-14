@@ -173,6 +173,9 @@ public class WebViewANE extends EventDispatcher {
             case WebViewEvent.ON_DOWNLOAD_CANCEL:
                 dispatchEvent(new WebViewEvent(WebViewEvent.ON_DOWNLOAD_CANCEL, event.code));
                 break;
+            case WebViewEvent.ON_ESC_KEY:
+                dispatchEvent(new WebViewEvent(WebViewEvent.ON_ESC_KEY, event.code));
+                break;
             default:
                 break;
         }
