@@ -102,7 +102,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Compile Include="BindingSource.cs" />
     <Compile Include="BoundObject.cs" />
     <Compile Include="CefPage.cs">
       <SubType>Code</SubType>

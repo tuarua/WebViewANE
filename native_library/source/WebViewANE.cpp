@@ -29,9 +29,9 @@ vector<pair<string, string>> cef_commandLineArgs;
 int cef_remoteDebuggingPort;
 string cef_cachePath;
 int cef_logSeverity;
-bool cef_bestPerformance;
 string cef_userAgent;
 string cef_browserSubprocessPath;
+string cef_initialUrl;
 
 #include "stdafx.h"
 #include "commctrl.h"
@@ -82,8 +82,9 @@ namespace ManagedCode {
 			cs_cef_commandLineArgs->Add(gcnew String(i->first.c_str()), gcnew String(i->second.c_str()));
 		}
 		
-		ManagedGlobals::page = gcnew CefSharpLib::CefPage(gcnew String(cef_userAgent.c_str()), cef_bestPerformance, cef_logSeverity, cef_logSeverity,
-			gcnew String(cef_cachePath.c_str()), cs_cef_commandLineArgs, gcnew String(cef_browserSubprocessPath.c_str()), cef_bg_r, cef_bg_g, cef_bg_b);
+		ManagedGlobals::page = gcnew CefSharpLib::CefPage(gcnew String(cef_initialUrl.c_str()),gcnew String(cef_userAgent.c_str()), cef_logSeverity, cef_logSeverity,
+			gcnew String(cef_cachePath.c_str()), cs_cef_commandLineArgs, gcnew String(cef_browserSubprocessPath.c_str()), 
+			cef_bg_r, cef_bg_g, cef_bg_b);
 
 		ManagedGlobals::page->OnMessageSent += gcnew CefSharpLib::CefPage::MessageHandler(onCefLibMessage);
 
@@ -176,24 +177,24 @@ extern "C" {
 #define FRE_FUNCTION(fn) FREObject (fn)(FREContext context, void* functionData, uint32_t argc, FREObject argv[])
 
 	FRE_FUNCTION(init) {
-		cef_x = aneHelper.getInt32(argv[0]);
-		cef_y = aneHelper.getInt32(argv[1]);
-		cef_width = aneHelper.getInt32(argv[2]);
-		cef_height = aneHelper.getInt32(argv[3]);
+		cef_initialUrl = aneHelper.getString(argv[0]);
+		cef_x = aneHelper.getInt32(argv[1]);
+		cef_y = aneHelper.getInt32(argv[2]);
+		cef_width = aneHelper.getInt32(argv[3]);
+		cef_height = aneHelper.getInt32(argv[4]);
 
 		FREObjectType settingsType;
-		FREGetObjectType(argv[4], &settingsType);
+		FREGetObjectType(argv[5], &settingsType);
 
 		if (FRE_TYPE_NULL != settingsType) {
 
-			FREObject cefSettingsFRE = aneHelper.getProperty(argv[4], "cef");
+			FREObject cefSettingsFRE = aneHelper.getProperty(argv[5], "cef");
 			cef_remoteDebuggingPort = aneHelper.getInt32(aneHelper.getProperty(cefSettingsFRE, "remoteDebuggingPort"));
 			cef_cachePath = aneHelper.getString(aneHelper.getProperty(cefSettingsFRE, "cachePath"));
 			cef_logSeverity = aneHelper.getInt32(aneHelper.getProperty(cefSettingsFRE, "logSeverity"));
-			cef_bestPerformance = aneHelper.getBool(aneHelper.getProperty(cefSettingsFRE, "bestPerformance"));
 			cef_browserSubprocessPath = aneHelper.getString(aneHelper.getProperty(cefSettingsFRE, "browserSubprocessPath"));
 
-			cef_userAgent = aneHelper.getString(aneHelper.getProperty(argv[4], "userAgent"));
+			cef_userAgent = aneHelper.getString(aneHelper.getProperty(argv[5], "userAgent"));
 			
 			FREObject commandLineArgsFRE = aneHelper.getProperty(cefSettingsFRE, "commandLineArgs");
 			uint32_t numArgs = aneHelper.getArrayLength(commandLineArgsFRE);
