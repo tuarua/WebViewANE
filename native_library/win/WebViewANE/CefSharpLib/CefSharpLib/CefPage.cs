@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Data;
 using System.Windows.Media;
+using System.Windows.Forms;
+using System.Windows.Forms.Integration;
 using CefSharp;
-using CefSharp.Wpf;
+using CefSharp.WinForms;
 using Newtonsoft.Json;
 
 namespace CefSharpLib {
@@ -27,18 +29,28 @@ namespace CefSharpLib {
         private static string ON_DOWNLOAD_COMPLETE = "WebView.OnDownloadComplete";
         private static string ON_DOWNLOAD_CANCEL = "WebView.OnDownloadCancel";
         private static string ON_PROPERTY_CHANGE = "WebView.OnPropertyChange";
+        private static string ON_ESC_KEY = "WebView.OnEscKey";
+        public static string ON_FAIL = "WebView.OnFail";
 
         public delegate void MessageHandler(object sender, MessageEventArgs args);
         public event MessageHandler OnMessageSent;
 
-        public static string ON_FAIL = "WebView.OnFail";
+        
         public ChromiumWebBrowser Browser;
 
+        private string _address;
+        private string _title;
+        private bool _isLoading;
+        private bool _canGoBack;
+        private bool _canGoForward;
 
         public CefPage(string userAgent, bool cefBestPerformance, int cefLogSeverity, int remoteDebuggingPort, string cachePath,
             Dictionary<string, string> settingsDict, string cefBrowserSubprocessPath, byte r, byte g, byte b) {
 
             InitializeComponent();
+
+            var host = new WindowsFormsHost();
+
             Background = new SolidColorBrush(Color.FromRgb(r, g, b));
             Loaded += CefPage_Loaded;
             var settings = new CefSettings {
@@ -48,6 +60,7 @@ namespace CefSharpLib {
             };
 
             CefSharpSettings.ShutdownOnExit = false;
+           
 
             switch (cefLogSeverity) {
                 case 0:
@@ -74,8 +87,10 @@ namespace CefSharpLib {
             }
 
 
-            if (cefBestPerformance)
-                settings.SetOffScreenRenderingBestPerformanceArgs();
+            //if (cefBestPerformance)
+              //  settings.SetOffScreenRenderingBestPerformanceArgs();
+
+            settings.WindowlessRenderingEnabled = false;
 
             settings.BrowserSubprocessPath = cefBrowserSubprocessPath;
 
@@ -83,35 +98,94 @@ namespace CefSharpLib {
                 settings.CefCommandLineArgs.Add(kvp.Key, kvp.Value);
             }
 
-            if (Cef.Initialize(settings)) {
-                Browser = new ChromiumWebBrowser();
+            Cef.EnableHighDPISupport();
+            if (Cef.Initialize(settings))
+            {
+                Browser = new ChromiumWebBrowser("http://www.google.com")
+                {
+                    Dock = DockStyle.Fill
+                };
 
                 Browser.RegisterAsyncJsObject("webViewANE", new BoundObject(this), BindingOptions.DefaultBinder);
-                Browser.SetBinding(ChromiumWebBrowser.AddressProperty, GetNewCefBinding("Address"));
-                Browser.SetBinding(ChromiumWebBrowser.TitleProperty, GetNewCefBinding("Title"));
-                Browser.SetBinding(ChromiumWebBrowser.IsLoadingProperty, GetNewCefBinding("IsLoading"));
-                Browser.SetBinding(ChromiumWebBrowser.CanGoBackProperty, GetNewCefBinding("CanGoBack"));
-                Browser.SetBinding(ChromiumWebBrowser.CanGoForwardProperty, GetNewCefBinding("CanGoForward"));
+
 
                 // ReSharper disable once UseObjectOrCollectionInitializer
                 var dh = new DownloadHandler();
-
-
                 dh.OnDownloadUpdatedFired += OnDownloadUpdatedFired;
                 dh.OnBeforeDownloadFired += OnDownloadFired;
+
+                var kh = new KeyboardHandler();
+
+                kh.OnKeyEventFired += OnKeyEventFired;
                 Browser.DownloadHandler = dh;
+                Browser.KeyboardHandler = kh;
                 Browser.FrameLoadEnd += OnFrameLoaded;
+                Browser.AddressChanged += OnBrowserAddressChanged;
+                Browser.TitleChanged += OnBrowserTitleChanged;
+                Browser.LoadingStateChanged += OnBrowserLoadingStateChanged;
+                Browser.LoadError += OnLoadError;
+
                 //Browser.LifeSpanHandler.OnBeforePopup();
-             
+
                 // Browser.ConsoleMessage += OnConsoleMessage;
                 Browser.StatusMessage += OnStatusMessage;
-                MainGrid.Children.Add(Browser);
 
+                host.Child = Browser;
+
+                MainGrid.Children.Add(host);
 
             }
 
         }
 
+        private void OnKeyEventFired(object sender, int e) {
+            Console.WriteLine(e.ToString());
+            SendMessage(ON_ESC_KEY, e.ToString());
+        }
+
+        private static void OnLoadError(object sender, LoadErrorEventArgs e) {
+           Console.WriteLine(e.ErrorCode);
+            Console.WriteLine(e.ErrorText);
+        }
+
+        private void OnBrowserLoadingStateChanged(object sender, LoadingStateChangedEventArgs e) {
+            if (_isLoading == e.IsLoading) return;
+            _isLoading = e.IsLoading;
+            SendPropertyChange(@"isLoading", _isLoading);
+
+            if (!_isLoading) {
+                Browser.Focus();
+            }
+
+            if (_canGoForward != e.CanGoForward) {
+                _canGoForward = e.CanGoForward;
+                SendPropertyChange(@"canGoForward", _canGoForward);
+            }
+
+            if (_canGoBack != e.CanGoBack) {
+                _canGoBack = e.CanGoBack;
+                SendPropertyChange(@"canGoBack", _canGoBack);
+            }
+
+           
+        }
+
+        private void OnBrowserTitleChanged(object sender, TitleChangedEventArgs e) {
+            if (_title == e.Title) return;
+            _title = e.Title;
+            SendPropertyChange(@"title", _title);
+        }
+
+
+        private void OnBrowserAddressChanged(object sender, AddressChangedEventArgs e) {
+            if (_address == e.Address) return;
+            _address = e.Address;
+            SendPropertyChange(@"url", _address);
+        }
+
+        private void OnStatusMessage(object sender, StatusMessageEventArgs e) {
+            SendPropertyChange(@"statusMessage", e.Value);
+        }
 
         private void OnFrameLoaded(object sender, FrameLoadEndEventArgs e) {
             if (!e.Frame.IsMain) return;
@@ -120,18 +194,7 @@ namespace CefSharpLib {
             }
         }
 
-        private void OnStatusMessage(object sender, StatusMessageEventArgs e) {
-            var sb = new StringBuilder();
-            var sw = new StringWriter(sb);
-            var writer = new JsonTextWriter(sw);
-            writer.WriteStartObject();
-            writer.WritePropertyName("propName");
-            writer.WriteValue("statusMessage");
-            writer.WritePropertyName("value");
-            writer.WriteValue(e.Value);
-            writer.WriteEndObject();
-            SendMessage(ON_PROPERTY_CHANGE, sb.ToString());
-        }
+       
 
 
         private void OnConsoleMessage(object sender, ConsoleMessageEventArgs args) {
@@ -197,7 +260,7 @@ namespace CefSharpLib {
             SendMessage(ON_DOWNLOAD_PROGRESS, sb.ToString());
         }
 
-
+        /*
         private Binding GetNewCefBinding(string name) {
             return new Binding {
                 Path = new PropertyPath(name),
@@ -205,6 +268,33 @@ namespace CefSharpLib {
                 Mode = BindingMode.OneWayToSource,
                 UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
             };
+        }
+        */
+
+        private void SendPropertyChange(string propName, bool value) {
+            var sb = new StringBuilder();
+            var sw = new StringWriter(sb);
+            var writer = new JsonTextWriter(sw);
+            writer.WriteStartObject();
+            writer.WritePropertyName("propName");
+            writer.WriteValue(propName);
+            writer.WritePropertyName("value");
+            writer.WriteValue(value);
+            writer.WriteEndObject();
+            SendMessage(ON_PROPERTY_CHANGE, sb.ToString());
+        }
+
+        private void SendPropertyChange(string propName, string value) {
+            var sb = new StringBuilder();
+            var sw = new StringWriter(sb);
+            var writer = new JsonTextWriter(sw);
+            writer.WriteStartObject();
+            writer.WritePropertyName("propName");
+            writer.WriteValue(propName);
+            writer.WritePropertyName("value");
+            writer.WriteValue(value);
+            writer.WriteEndObject();
+            SendMessage(ON_PROPERTY_CHANGE, sb.ToString());
         }
 
         public virtual void SendMessage(string type, string message) {
@@ -229,17 +319,9 @@ namespace CefSharpLib {
 
         }
 
-        //References
-        //https://github.com/cefsharp/CefSharp/blob/master/CefSharp.WinForms.Example/BrowserTabUserControl.cs
-        //https://github.com/cefsharp/CefSharp/blob/CefSharp1/CefSharp.Example/ExamplePresenter.cs#L263
-        //https://www.codeproject.com/Articles/887148/Display-HTML-in-WPF-and-CefSharp-Tutorial-Part
-        //https://github.com/cefsharp/CefSharp/wiki/Frequently-asked-questions#CallJSWithResult
-        //https://gist.github.com/amaitland/9d354376960b0cd9305a#file-oneplusone-cs
-
-
         public void Load(string url) {
             if (_isLoaded) {
-                Browser.Address = url;
+                Browser.Load(url);
             } else {
                 _initialUrl = url;
             }
@@ -253,7 +335,6 @@ namespace CefSharpLib {
                 _initialUrl = url;
             }
         }
-
 
         public void InjectScript(string code, string scriptUrl, uint startLine) {
             _injectCode = code;
@@ -288,7 +369,15 @@ namespace CefSharpLib {
         }
 
         public double GetMagnification() {
-            return Browser.ZoomLevel;
+            var task = Browser.GetZoomLevelAsync();
+            task.ContinueWith(previous => {
+                if (previous.Status == TaskStatus.RanToCompletion) {
+                    return previous.Result;
+                } else {
+                    return 1.0;
+                }
+            }, TaskContinuationOptions.ExecuteSynchronously);
+            return 1.0;
         }
 
         public void ShowDevTools() { Browser.ShowDevTools(); }
@@ -419,4 +508,6 @@ namespace CefSharpLib {
             }
         }
     }
+
+    
 }
