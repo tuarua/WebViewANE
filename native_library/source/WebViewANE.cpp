@@ -208,6 +208,7 @@ extern "C" {
 			}
 		}
 		cefHwnd = ManagedCode::GetHwnd(_hwnd);
+		RegisterTouchWindow(cefHwnd, TWF_WANTPALM);
 		return NULL;
 	}
 
@@ -325,21 +326,11 @@ extern "C" {
 		ManagedCode::SetMagnification(value);
 		return NULL;
 	}
-
-	
-	
-
 	
 	FRE_FUNCTION(addToStage) {
 		using namespace std;
-		
-
 		ShowWindow(cefHwnd, SW_SHOWDEFAULT);
 		UpdateWindow(cefHwnd);
-
-		//do I need this ?
-		//System::Windows::Interop::HwndSource^ hws = ManagedCode::HwndSource::FromHwnd(System::IntPtr(cefHwnd)); //seems to run without this ?
-		//hws->
 		return NULL;
 	}
 
@@ -479,33 +470,32 @@ extern "C" {
 		EnumWindows(EnumProc, processID);
 
 		static FRENamedFunction extensionFunctions[] = {
-			{ (const uint8_t*) "init",NULL, &init }
-			,{ (const uint8_t*) "isSupported",NULL, &isSupported }
-			,{ (const uint8_t*) "addToStage",NULL, &addToStage }
-			,{ (const uint8_t*) "load",NULL, &load }
-			,{ (const uint8_t *) "loadFileURL", NULL, &load }
-			,{ (const uint8_t *) "reload", NULL, &reload }
-			,{ (const uint8_t *) "backForwardList", NULL, &backForwardList }
-			,{ (const uint8_t *) "go", NULL, &go }
-			,{ (const uint8_t *) "goBack", NULL, &goBack }
-			,{ (const uint8_t *) "goForward", NULL, &goForward }
-			,{ (const uint8_t *) "stopLoading", NULL, &stopLoading }
-			,{ (const uint8_t *) "reloadFromOrigin", NULL, &reloadFromOrigin }
-			,{ (const uint8_t *) "allowsMagnification", NULL, &allowsMagnification }
-			,{ (const uint8_t *) "getMagnification", NULL, &getMagnification }
-			,{ (const uint8_t *) "setMagnification", NULL, &setMagnification }
-			,{ (const uint8_t *) "loadHTMLString", NULL, &LoadHtmlString }
-			,{ (const uint8_t *) "removeFromStage", NULL, &removeFromStage }
-			,{ (const uint8_t *) "setPositionAndSize", NULL, &setPositionAndSize }
-			,{ (const uint8_t *) "showDevTools", NULL, &showDevTools }
-			,{ (const uint8_t *) "closeDevTools", NULL, &closeDevTools }
-			,{ (const uint8_t *) "onFullScreen", NULL, &onFullScreen }
-			,{ (const uint8_t *) "callJavascriptFunction", NULL, &callJavascriptFunction }
-			,{ (const uint8_t *) "evaluateJavaScript", NULL, &evaluateJavaScript }
-			,{ (const uint8_t *) "setBackgroundColor", NULL, &setBackgroundColor }
-			,{ (const uint8_t *) "shutDown", NULL, &shutDown }
-			
-			,{ (const uint8_t *) "injectScript", NULL, &injectScript }
+			{ (const uint8_t*) "init",nullptr, &init }
+			,{ (const uint8_t*) "isSupported",nullptr, &isSupported }
+			,{ (const uint8_t*) "addToStage",nullptr, &addToStage }
+			,{ (const uint8_t*) "load",nullptr, &load }
+			,{ (const uint8_t *) "loadFileURL", nullptr, &load }
+			,{ (const uint8_t *) "reload", nullptr, &reload }
+			,{ (const uint8_t *) "backForwardList", nullptr, &backForwardList }
+			,{ (const uint8_t *) "go", nullptr, &go }
+			,{ (const uint8_t *) "goBack", nullptr, &goBack }
+			,{ (const uint8_t *) "goForward", nullptr, &goForward }
+			,{ (const uint8_t *) "stopLoading", nullptr, &stopLoading }
+			,{ (const uint8_t *) "reloadFromOrigin", nullptr, &reloadFromOrigin }
+			,{ (const uint8_t *) "allowsMagnification", nullptr, &allowsMagnification }
+			,{ (const uint8_t *) "getMagnification", nullptr, &getMagnification }
+			,{ (const uint8_t *) "setMagnification", nullptr, &setMagnification }
+			,{ (const uint8_t *) "loadHTMLString", nullptr, &LoadHtmlString }
+			,{ (const uint8_t *) "removeFromStage", nullptr, &removeFromStage }
+			,{ (const uint8_t *) "setPositionAndSize", nullptr, &setPositionAndSize }
+			,{ (const uint8_t *) "showDevTools", nullptr, &showDevTools }
+			,{ (const uint8_t *) "closeDevTools", nullptr, &closeDevTools }
+			,{ (const uint8_t *) "onFullScreen", nullptr, &onFullScreen }
+			,{ (const uint8_t *) "callJavascriptFunction", nullptr, &callJavascriptFunction }
+			,{ (const uint8_t *) "evaluateJavaScript", nullptr, &evaluateJavaScript }
+			,{ (const uint8_t *) "setBackgroundColor", nullptr, &setBackgroundColor }
+			,{ (const uint8_t *) "shutDown", nullptr, &shutDown }
+			,{ (const uint8_t *) "injectScript", nullptr, &injectScript }
 
 			
 

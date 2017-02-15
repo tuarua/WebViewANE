@@ -23,14 +23,14 @@ namespace CefSharpLib {
         private string _initialHtml;
         private bool _isLoaded;
 
-        private const string AS_CALLBACK_EVENT = "TRWV.as.CALLBACK";
+        private const string AsCallbackEvent = "TRWV.as.CALLBACK";
         private const string ON_CONSOLE_MESSAGE = "WebView.OnConsoleMessage";
-        private const string ON_DOWNLOAD_PROGRESS = "WebView.OnDownloadProgress";
-        private const string ON_DOWNLOAD_COMPLETE = "WebView.OnDownloadComplete";
-        private const string ON_DOWNLOAD_CANCEL = "WebView.OnDownloadCancel";
-        private const string ON_PROPERTY_CHANGE = "WebView.OnPropertyChange";
-        private const string ON_ESC_KEY = "WebView.OnEscKey";
-        private const string ON_FAIL = "WebView.OnFail";
+        private const string OnDownloadProgress = "WebView.OnDownloadProgress";
+        private const string OnDownloadComplete = "WebView.OnDownloadComplete";
+        private const string OnDownloadCancel = "WebView.OnDownloadCancel";
+        private const string OnPropertyChange = "WebView.OnPropertyChange";
+        private const string OnEscKey = "WebView.OnEscKey";
+        private const string OnFail = "WebView.OnFail";
 
         public delegate void MessageHandler(object sender, MessageEventArgs args);
         public event MessageHandler OnMessageSent;
@@ -49,9 +49,10 @@ namespace CefSharpLib {
         {
             _initialUrl = initialUrl;
             InitializeComponent();
-
+            IsManipulationEnabled = true;
             var host = new WindowsFormsHost();
-
+            host.IsManipulationEnabled = true;
+            
             Background = new SolidColorBrush(Color.FromRgb(r, g, b));
             Loaded += CefPage_Loaded;
             var settings = new CefSettings {
@@ -62,7 +63,6 @@ namespace CefSharpLib {
 
             CefSharpSettings.ShutdownOnExit = false;
            
-
             switch (cefLogSeverity) {
                 case 0:
                     settings.LogSeverity = LogSeverity.Default;
@@ -98,7 +98,6 @@ namespace CefSharpLib {
             Cef.EnableHighDPISupport();
             if (Cef.Initialize(settings))
             {
-                Console.WriteLine(@"initialised load url" + _initialUrl);
                 Browser = new ChromiumWebBrowser(_initialUrl)
                 {
                     Dock = DockStyle.Fill
@@ -138,24 +137,18 @@ namespace CefSharpLib {
         }
 
         private void OnBrowserInitialized(object sender, IsBrowserInitializedChangedEventArgs e) {
-            Console.WriteLine(@"OnBrowserInitialized: " + e.IsBrowserInitialized);
-            Console.WriteLine(@"Initialized Browser.Address: " + Browser.Address);
             _isLoaded = e.IsBrowserInitialized;
             if (!_isLoaded) return;
             if (!string.IsNullOrEmpty(Browser.Address)) return;
-
-            Console.WriteLine(@"getting through");
             if (!string.IsNullOrEmpty(_initialHtml)) {
                 LoadHtmlString(_initialHtml, _initialUrl);
             } else if (!string.IsNullOrEmpty(_initialUrl)) {
-                Console.WriteLine(@"We need to load initial");
                 Load(_initialUrl);
             }
         }
 
         private void OnKeyEventFired(object sender, int e) {
-            Console.WriteLine(e.ToString());
-            SendMessage(ON_ESC_KEY, e.ToString());
+            SendMessage(OnEscKey, e.ToString());
         }
 
         private void OnLoadError(object sender, LoadErrorEventArgs e) {
@@ -170,7 +163,7 @@ namespace CefSharpLib {
             writer.WritePropertyName("errorText");
             writer.WriteValue(e.ErrorText);
             writer.WriteEndObject();
-            SendMessage(ON_FAIL, sb.ToString());
+            SendMessage(OnFail, sb.ToString());
         }
 
         private void OnBrowserLoadingStateChanged(object sender, LoadingStateChangedEventArgs e) {
@@ -221,7 +214,7 @@ namespace CefSharpLib {
 
 
         private void OnConsoleMessage(object sender, ConsoleMessageEventArgs args) {
-            Console.WriteLine(args.Line + args.Message);
+           // Console.WriteLine(args.Line + args.Message);
         }
 
         private void OnDownloadFired(object sender, DownloadItem downloadItem) {
@@ -241,12 +234,12 @@ namespace CefSharpLib {
             var writer = new JsonTextWriter(sw);
 
             if (downloadItem.IsCancelled) {
-                SendMessage(ON_DOWNLOAD_CANCEL, downloadItem.Id.ToString());
+                SendMessage(OnDownloadCancel, downloadItem.Id.ToString());
                 return;
             }
 
             if (downloadItem.IsComplete) {
-                SendMessage(ON_DOWNLOAD_COMPLETE, downloadItem.Id.ToString());
+                SendMessage(OnDownloadComplete, downloadItem.Id.ToString());
                 return;
             }
             writer.WriteStartObject();
@@ -270,7 +263,7 @@ namespace CefSharpLib {
             writer.WriteValue(downloadItem.TotalBytes);
 
             writer.WriteEndObject();
-            SendMessage(ON_DOWNLOAD_PROGRESS, sb.ToString());
+            SendMessage(OnDownloadProgress, sb.ToString());
         }
 
         private void SendPropertyChange(string propName, bool value) {
@@ -283,7 +276,7 @@ namespace CefSharpLib {
             writer.WritePropertyName("value");
             writer.WriteValue(value);
             writer.WriteEndObject();
-            SendMessage(ON_PROPERTY_CHANGE, sb.ToString());
+            SendMessage(OnPropertyChange, sb.ToString());
         }
 
         private void SendPropertyChange(string propName, string value) {
@@ -296,7 +289,7 @@ namespace CefSharpLib {
             writer.WritePropertyName("value");
             writer.WriteValue(value);
             writer.WriteEndObject();
-            SendMessage(ON_PROPERTY_CHANGE, sb.ToString());
+            SendMessage(OnPropertyChange, sb.ToString());
         }
 
         public virtual void SendMessage(string type, string message) {
@@ -311,23 +304,9 @@ namespace CefSharpLib {
         }
 
         private void CefPage_Loaded(object sender, RoutedEventArgs e) {
-
-            Console.WriteLine(@"CefPage_Loaded");
-
-            /*
-            _isLoaded = true;
-
-            if (!string.IsNullOrEmpty(_initialHtml)) {
-                LoadHtmlString(_initialHtml, _initialUrl);
-            } else if (!string.IsNullOrEmpty(_initialUrl)) {
-                Load(_initialUrl);
-            }
-            */
         }
 
         public void Load(string url) {
-            Console.WriteLine(@"Load is called: "+ _isLoaded);
-            Console.WriteLine(@"Initial URL: " + _initialUrl);
             if (_isLoaded) {
                 Browser.Load(url);
             } else {
@@ -437,7 +416,7 @@ namespace CefSharpLib {
 
             }
 
-            SendMessage(AS_CALLBACK_EVENT, sb.ToString());
+            SendMessage(AsCallbackEvent, sb.ToString());
         }
 
         public void CallJavascriptFunction(string js) { //this is as->js
@@ -496,7 +475,7 @@ namespace CefSharpLib {
                 writer.WriteEndObject();
 
             }
-            SendMessage(AS_CALLBACK_EVENT, sb.ToString());
+            SendMessage(AsCallbackEvent, sb.ToString());
         }
 
         public void EvaluateJavaScript(string js) {
