@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using Newtonsoft.Json;
 
 namespace CefSharpLib {
     public class BoundObject {
-        private const string JS_CALLBACK_EVENT = "TRWV.js.CALLBACK";
+        private const string JsCallbackEvent = "TRWV.js.CALLBACK";
         private readonly CefPage _pc;
         public BoundObject(CefPage pc) {
             _pc = pc;
@@ -24,9 +23,9 @@ namespace CefSharpLib {
 
         public void PostMessage(JavascriptMessage param) {
 
-            StringBuilder sb = new StringBuilder();
-            StringWriter sw = new StringWriter(sb);
-            JsonWriter writer = new JsonTextWriter(sw);
+            var sb = new StringBuilder();
+            var sw = new StringWriter(sb);
+            var writer = new JsonTextWriter(sw);
 
             writer.WriteStartObject();
             writer.WritePropertyName("functionName");
@@ -51,7 +50,7 @@ namespace CefSharpLib {
             }
             writer.WriteEndObject();
 
-            _pc.SendMessage(JS_CALLBACK_EVENT, sb.ToString());
+            _pc.SendMessage(JsCallbackEvent, sb.ToString());
         }
 
     }

@@ -88,7 +88,12 @@ public class StarlingRoot extends Sprite {
         webView.addEventListener(WebViewEvent.ON_ESC_KEY, onEscKey);
 
         var settings:Settings = new Settings();
-        settings.userAgent = "WebViewANE";
+
+        /*
+         only use settings.userAgent if you are running your own site.
+         google.com for eg displays different sites based on user agent
+         */
+        //settings.userAgent = "WebViewANE";
 
         // See https://github.com/cefsharp/CefSharp/blob/master/CefSharp.Example/CefExample.cs#L37 for more examples
         //settings.CefCommandLineArgs.Add("disable-direct-write", "1");
