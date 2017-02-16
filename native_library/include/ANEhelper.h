@@ -34,42 +34,39 @@ SOFTWARE.*/
 
 class ANEHelper {
 public:
-	static FREObject getFREObject(std::string arg);
-
-	static FREObject getFREObject(const char *arg);
-
-	static FREObject getFREObject(double arg);
-
-	static FREObject getFREObject(bool arg);
-
-	static FREObject getFREObject(int32_t arg);
-
-	static FREObject getFREObject(int64_t arg);
-
-	static FREObject getFREObject(uint32_t arg);
-
-	static FREObject getFREObject(uint8_t arg);
-
-	static FREObject getProperty(FREObject objAS, std::string propertyName);
-
-	static void setProperty(FREObject objAS, std::string name, FREObject value);
-
-	static uint32_t getUInt32(FREObject uintAS);
-
-	static int32_t getInt32(FREObject intAS);
-
-	static std::string getString(FREObject arg);
-
-	static bool getBool(FREObject val);
-
-	static double getDouble(FREObject arg);
-
-	static uint32_t getArrayLength(FREObject arrayAS);
-
-	static std::vector<std::string> getStringVector(FREObject arg, std::string propertyName);
-
-	static FREObject createFREObject(std::string className);
-
+	FREObject getFREObject(std::string value);
+	FREObject getFREObject(const char *value);
+	FREObject getFREObject(double value);
+	FREObject getFREObject(bool value);
+	FREObject getFREObject(int32_t value);
+	FREObject getFREObject(int64_t value);
+	FREObject getFREObject(uint32_t value);
+	FREObject getFREObject(uint8_t value);
+	FREObject getProperty(FREObject freObject, std::string propertyName);
+	void setProperty(FREObject freObject, std::string name, FREObject value);
+	void setProperty(FREObject freObject, std::string name, const char *value);
+	void setProperty(FREObject freObject, std::string name, std::string value);
+	void setProperty(FREObject freObject, std::string name, double value);
+	void setProperty(FREObject freObject, std::string name, bool value);
+	void setProperty(FREObject freObject, std::string name, int32_t value);
+	void setProperty(FREObject freObject, std::string name, int64_t value);
+	void setProperty(FREObject freObject, std::string name, uint32_t value);
+	void setProperty(FREObject freObject, std::string name, uint8_t value);
+	uint32_t getUInt32(FREObject freObject);
+	int32_t getInt32(FREObject freObject);
+	std::string getString(FREObject freObject);
+	static bool getBool(FREObject freObject);
+	double getDouble(FREObject freObject);
+	uint32_t getArrayLength(FREObject freObject);
+	std::vector<std::string> getStringVector(FREObject freObject, std::string propertyName);
+	FREObject createFREObject(std::string className);
 	static void dispatchEvent(FREContext ctx, std::string name, std::string value);
-
+	void printObjectType(std::string tag, FREObject freObject);
+	void trace(std::string message) const;
+	void setFREContext(FREContext ctx);
+	FREContext dllContext;
+private:
+	bool isFREResultOK(FREResult errorCode, std::string errorMessage);
+	static std::string friendlyFREResult(FREResult errorCode);
+	bool hasThrownException(FREObject thrownException) const;
 };
