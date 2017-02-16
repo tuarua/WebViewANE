@@ -95,7 +95,7 @@ class ANEHelper {
     }
 
 
-    func setFREObjectProperty(freObject: FREObject, name: String, prop: FREObject) {
+    func setProperty(freObject: FREObject, name: String, prop: FREObject) {
         var thrownException: FREObject? = nil
         let status: FREResult = FRESetObjectProperty(freObject, name, prop, &thrownException)
         _ = isFREResultOK(errorCode: status, errorMessage: "Could not set property on FREObject.")
@@ -178,7 +178,7 @@ class ANEHelper {
         return (val == 1)
     }
 
-    private func getArrayLengthFromFREObject(freObject: FREObject) -> Int {
+    private func getArrayLength(freObject: FREObject) -> Int {
         var valueAs: FREObject? = nil
         FREGetObjectProperty(freObject, UnsafePointer<UInt8>("length"), &valueAs, nil)
         return self.getInt(freObject: valueAs!)
@@ -188,7 +188,7 @@ class ANEHelper {
     func getArray(freObject: FREObject?) -> Array<Any?>? {
         var result: [Any?] = []
         if let freObject = freObject {
-            let arrayLength: Int = getArrayLengthFromFREObject(freObject: freObject)
+            let arrayLength: Int = getArrayLength(freObject: freObject)
             for i in 0 ..< arrayLength {
                 var objAs: FREObject? = nil
                 FREGetArrayElementAt(freObject, UInt32(i), &objAs);
@@ -234,7 +234,7 @@ class ANEHelper {
         }
     }
 
-    func getFREObjectProperty(freObject: FREObject?, propertyName: String) -> FREObject? {
+    func getProperty(freObject: FREObject?, propertyName: String) -> FREObject? {
         var valueAS: FREObject? = nil;
         var thrownException: FREObject? = nil
         let status: FREResult = FREGetObjectProperty(freObject, UnsafePointer<UInt8>(propertyName), &valueAS,
@@ -320,7 +320,7 @@ class ANEHelper {
                 var dict: Dictionary = Dictionary<String, AnyObject>()
                 for item in paramNames {
                     var propVal: FREObject? = nil;
-                    propVal = getFREObjectProperty(freObject: freObject, propertyName: item as! String)
+                    propVal = getProperty(freObject: freObject, propertyName: item as! String)
                     if let propVal2 = getIdObject(freObject: propVal) {
                         dict.updateValue(propVal2 as AnyObject, forKey: item as! String)
                     }
