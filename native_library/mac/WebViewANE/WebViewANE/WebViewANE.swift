@@ -16,6 +16,7 @@ import WebKit
     private let aneHelper = ANEHelper()
     private var myWebView: WKWebView?
 
+    private var _initialUrl: String = ""
     private var _x: Int = 0
     private var _y: Int = 0
     private var _width: Int = 800
@@ -55,6 +56,8 @@ import WebKit
     func webView(_ myWebView: WKWebView, didFail navigation: WKNavigation!, withError: Error) {
         var props: Dictionary<String, Any> = Dictionary()
         props["url"] = myWebView.url!.absoluteString
+        props["errorCode"] = 0
+        props["errorText"] = withError.localizedDescription
         let json = JSON(props)
         sendEvent(name: WebViewANE.ON_FAIL, value: json.description )
     }
@@ -87,18 +90,18 @@ import WebKit
 
                 if let ci = wv.backForwardList.currentItem {
                     if let freCurrentItem = aneHelper.createFREObject(className: "com.tuarua.webview.BackForwardListItem") {
-                        aneHelper.setFREObjectProperty(
+                        aneHelper.setProperty(
                                 freObject: freCurrentItem, name: "url",
                                 prop: aneHelper.getFreObject(string: ci.url.absoluteString)!)
-                        aneHelper.setFREObjectProperty(
+                        aneHelper.setProperty(
                                 freObject: freCurrentItem, name: "title",
                                 prop: aneHelper.getFreObject(string: ci.title)!)
 
-                        aneHelper.setFREObjectProperty(
+                        aneHelper.setProperty(
                                 freObject: freCurrentItem, name: "initialURL",
                                 prop: aneHelper.getFreObject(string: ci.initialURL.absoluteString)!)
 
-                        aneHelper.setFREObjectProperty(freObject: freBackForwardList, name: "currentItem", prop: freCurrentItem)
+                        aneHelper.setProperty(freObject: freBackForwardList, name: "currentItem", prop: freCurrentItem)
 
                     }
                 }
@@ -107,14 +110,14 @@ import WebKit
                 if let freBackList = aneHelper.createFREObject(className: "Vector.<com.tuarua.webview.BackForwardListItem>") {
                     for item in wv.backForwardList.backList {
                         if let freItem = aneHelper.createFREObject(className: "com.tuarua.webview.BackForwardListItem") {
-                            aneHelper.setFREObjectProperty(
+                            aneHelper.setProperty(
                                     freObject: freItem, name: "url",
                                     prop: aneHelper.getFreObject(string: item.url.absoluteString)!)
-                            aneHelper.setFREObjectProperty(
+                            aneHelper.setProperty(
                                     freObject: freItem, name: "title",
                                     prop: aneHelper.getFreObject(string: item.title)!)
 
-                            aneHelper.setFREObjectProperty(
+                            aneHelper.setProperty(
                                     freObject: freItem, name: "initialURL",
                                     prop: aneHelper.getFreObject(string: item.initialURL.absoluteString)!)
 
@@ -122,21 +125,21 @@ import WebKit
                             i = i + 1
                         }
                     }
-                    aneHelper.setFREObjectProperty(freObject: freBackForwardList, name: "backList", prop: freBackList)
+                    aneHelper.setProperty(freObject: freBackForwardList, name: "backList", prop: freBackList)
                 }
 
                 i = 0
                 if let freForwardList = aneHelper.createFREObject(className: "Vector.<com.tuarua.webview.BackForwardListItem>") {
                     for item in wv.backForwardList.forwardList {
                         if let freItem = aneHelper.createFREObject(className: "com.tuarua.webview.BackForwardListItem") {
-                            aneHelper.setFREObjectProperty(
+                            aneHelper.setProperty(
                                     freObject: freItem, name: "url",
                                     prop: aneHelper.getFreObject(string: item.url.absoluteString)!)
-                            aneHelper.setFREObjectProperty(
+                            aneHelper.setProperty(
                                     freObject: freItem, name: "title",
                                     prop: aneHelper.getFreObject(string: item.title)!)
 
-                            aneHelper.setFREObjectProperty(
+                            aneHelper.setProperty(
                                     freObject: freItem, name: "initialURL",
                                     prop: aneHelper.getFreObject(string: item.initialURL.absoluteString)!)
 
@@ -144,7 +147,7 @@ import WebKit
                             i = i + 1
                         }
                     }
-                    aneHelper.setFREObjectProperty(freObject: freBackForwardList, name: "forwardList", prop: freForwardList)
+                    aneHelper.setProperty(freObject: freBackForwardList, name: "forwardList", prop: freForwardList)
                 }
                 return freBackForwardList
             }
@@ -417,10 +420,11 @@ import WebKit
     }
 
     func initWebView(argv: NSPointerArray) {
-        _x = aneHelper.getInt(freObject: argv.pointer(at: 0))
-        _y = aneHelper.getInt(freObject: argv.pointer(at: 1))
-        _width = aneHelper.getInt(freObject: argv.pointer(at: 2))
-        _height = aneHelper.getInt(freObject: argv.pointer(at: 3))
+        _initialUrl = aneHelper.getString(freObject: argv.pointer(at: 0))
+        _x = aneHelper.getInt(freObject: argv.pointer(at: 1))
+        _y = aneHelper.getInt(freObject: argv.pointer(at: 2))
+        _width = aneHelper.getInt(freObject: argv.pointer(at: 3))
+        _height = aneHelper.getInt(freObject: argv.pointer(at: 4))
 
         let allWindows = NSApp.windows;
         var mWin: NSWindow?
@@ -432,22 +436,22 @@ import WebKit
                 mWin = allWindows[0]
             }
 
-            let settingsFRE = aneHelper.getFREObjectProperty(freObject: argv.pointer(at: 4), propertyName: "webkit")
+            let settingsFRE = aneHelper.getProperty(freObject: argv.pointer(at: 5), propertyName: "webkit")
             configuration.preferences.plugInsEnabled = aneHelper.getBool(freObject:
-                aneHelper.getFREObjectProperty(freObject: settingsFRE, propertyName: "plugInsEnabled"))
+                aneHelper.getProperty(freObject: settingsFRE, propertyName: "plugInsEnabled"))
             
             configuration.preferences.javaScriptEnabled = aneHelper.getBool(freObject:
-                aneHelper.getFREObjectProperty(freObject: settingsFRE, propertyName: "javaScriptEnabled"))
+                aneHelper.getProperty(freObject: settingsFRE, propertyName: "javaScriptEnabled"))
             
             configuration.preferences.javaScriptCanOpenWindowsAutomatically = aneHelper.getBool(freObject:
-                aneHelper.getFREObjectProperty(freObject: settingsFRE,
+                aneHelper.getProperty(freObject: settingsFRE,
                                                propertyName: "javaScriptCanOpenWindowsAutomatically"))
             
             configuration.preferences.javaEnabled = aneHelper.getBool(freObject:
-                aneHelper.getFREObjectProperty(freObject: settingsFRE, propertyName: "javaEnabled"))
+                aneHelper.getProperty(freObject: settingsFRE, propertyName: "javaEnabled"))
             
             configuration.preferences.minimumFontSize = aneHelper.getCGFloat(freObject:
-                aneHelper.getFREObjectProperty(freObject: settingsFRE, propertyName: "minimumFontSize"))
+                aneHelper.getProperty(freObject: settingsFRE, propertyName: "minimumFontSize"))
 
             
             userController.add(self, name: "webViewANE")
@@ -457,26 +461,30 @@ import WebKit
             let myRect: CGRect = CGRect.init(x: _x, y: realY, width: _width, height: _height)
 
             myWebView = WKWebView(frame: myRect, configuration: configuration)
-            myWebView?.translatesAutoresizingMaskIntoConstraints = false
-            myWebView?.navigationDelegate = self
-            myWebView?.uiDelegate = self
-            if #available(OSX 10.11, *) {
-                var userAgentAS: FREObject? = nil;
-                userAgentAS = aneHelper.getFREObjectProperty(freObject: argv.pointer(at: 4), propertyName: "userAgent");
-                var userAgentType: FREObjectType = FRE_TYPE_NULL;
-                FREGetObjectType(userAgentAS, &userAgentType);
-                if FRE_TYPE_STRING == userAgentType {
-                    myWebView?.customUserAgent = aneHelper.getString(freObject: userAgentAS)
+            if let wv = myWebView {
+                wv.translatesAutoresizingMaskIntoConstraints = false
+                wv.navigationDelegate = self
+                wv.uiDelegate = self
+                if #available(OSX 10.11, *) {
+                    var userAgentAS: FREObject? = nil;
+                    userAgentAS = aneHelper.getProperty(freObject: argv.pointer(at: 5), propertyName: "userAgent");
+                    var userAgentType: FREObjectType = FRE_TYPE_NULL;
+                    FREGetObjectType(userAgentAS, &userAgentType);
+                    if FRE_TYPE_STRING == userAgentType {
+                       wv.customUserAgent = aneHelper.getString(freObject: userAgentAS)
+                    }
                 }
+
+                wv.addObserver(self, forKeyPath: "loading", options: .new, context: nil)
+                wv.addObserver(self, forKeyPath: "estimatedProgress", options: .new, context: nil)
+                wv.addObserver(self, forKeyPath: "title", options: .new, context: nil)
+                wv.addObserver(self, forKeyPath: "URL", options: .new, context: nil)
+                wv.addObserver(self, forKeyPath: "canGoBack", options: .new, context: nil)
+                wv.addObserver(self, forKeyPath: "canGoForward", options: .new, context: nil)
+                let myURL = URL(string: _initialUrl)
+                let myRequest = URLRequest(url: myURL!)
+                wv.load(myRequest)
             }
-
-            myWebView?.addObserver(self, forKeyPath: "loading", options: .new, context: nil)
-            myWebView?.addObserver(self, forKeyPath: "estimatedProgress", options: .new, context: nil)
-            myWebView?.addObserver(self, forKeyPath: "title", options: .new, context: nil)
-            myWebView?.addObserver(self, forKeyPath: "URL", options: .new, context: nil)
-            myWebView?.addObserver(self, forKeyPath: "canGoBack", options: .new, context: nil)
-            myWebView?.addObserver(self, forKeyPath: "canGoForward", options: .new, context: nil)
-
         }
 
 

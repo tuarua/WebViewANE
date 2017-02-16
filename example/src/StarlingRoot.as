@@ -487,7 +487,6 @@ public class StarlingRoot extends Sprite {
 
 
     private function onFail(event:WebViewEvent):void {
-        trace(event.params);
         trace(event.params.url);
         trace(event.params.errorCode);
         trace(event.params.errorText);
