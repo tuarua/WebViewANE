@@ -245,7 +245,6 @@ public class StarlingRoot extends Sprite {
     }
 
     private function onEscKey(event:WebViewEvent):void {
-        trace(event);
         if (WebViewANESample.target.stage.displayState == StageDisplayState.FULL_SCREEN_INTERACTIVE) {
             WebViewANESample.target.stage.displayState = StageDisplayState.NORMAL;
             _appWidth = 1280;

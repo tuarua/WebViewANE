@@ -11,10 +11,10 @@ import Foundation
 import WebKit
 
 @objc class WebViewANE: NSObject, WKUIDelegate, WKNavigationDelegate, WKScriptMessageHandler {
-    
     private var dllContext: FREContext!
     private let aneHelper = ANEHelper()
     private var myWebView: WKWebView?
+    static var escListener: Any?
 
     private var _initialUrl: String = ""
     private var _x: Int = 0
@@ -24,13 +24,13 @@ import WebKit
     private var isAdded: Bool = false;
     
     private static let ON_FAIL: String = "WebView.OnFail"
+    private static let ON_ESC_KEY: String = "WebView.OnEscKey"
     private static let ON_PROPERTY_CHANGE: String = "WebView.OnPropertyChange"
     private static let JS_CALLBACK_EVENT:String = "TRWV.js.CALLBACK";
     private static let AS_CALLBACK_EVENT:String  = "TRWV.as.CALLBACK";
     
     private var configuration:WKWebViewConfiguration = WKWebViewConfiguration()
     private var userController:WKUserContentController = WKUserContentController()
-    
     private func trace(value: String) {
         FREDispatchStatusEventAsync(self.dllContext, "[WebViewANE] " + value, "TRACE")
     }
@@ -178,9 +178,7 @@ import WebKit
     }
 
     func addToStage() {
-        // trace(value: "addToStage");
         if let view = NSApp.mainWindow?.contentView {
-            //   trace(value: "addSubview");
             view.addSubview(myWebView!)
             isAdded = true
             return
@@ -191,7 +189,6 @@ import WebKit
                 let mWin = allWindows[0]
                 let view: NSView = mWin.contentView!
                 if let wv = myWebView {
-                    // trace(value: "addSubview");
                     view.addSubview(wv)
                     isAdded = true
                     return
@@ -234,10 +231,7 @@ import WebKit
         }
 
         let realY = (Int((NSApp.mainWindow?.contentLayoutRect.height)!) - _height) - _y;
-        //TODO not 100% right ?
-
         if updateX || updateY {
-
             myWebView?.setFrameOrigin(NSPoint.init(x: _x, y: realY))
         }
         if updateWidth || updateHeight {
@@ -271,9 +265,8 @@ import WebKit
         if let wv = myWebView {
             if #available(OSX 10.11, *) {
                 wv.loadFileURL(myURL!, allowingReadAccessTo: accessURL!)
-                
             } else {
-                // Fallback on earlier versions
+                // Fallback on earlier versions //TODO
             }
         }
 
@@ -285,6 +278,18 @@ import WebKit
         for win in NSApp.windows {
             if (fullScreen && win.canBecomeMain && win.className.contains("AIR_FullScreen")) {
                 win.makeMain()
+                if (WebViewANE.escListener == nil) {
+                    WebViewANE.escListener = NSEvent.addLocalMonitorForEvents(matching: [.keyUp]) { (event: NSEvent) -> NSEvent? in
+                        let theX = Int(event.locationInWindow.x)
+                        let theY = Int(event.locationInWindow.y)
+                        let realY = (Int(win.contentLayoutRect.height) - self._height) - self._y;
+                        if (event.keyCode == 53 && theX > self._x && theX < (self._width - self._x)
+                            && theY > realY && theY < (realY + self._height)) {
+                            self.sendEvent(name: WebViewANE.ON_ESC_KEY, value: "")
+                        }
+                        return event
+                    }
+                }
                 break;
             } else if (!fullScreen && win.canBecomeMain && win.className.contains("AIR_PlayerContent")) {
                 win.makeMain()
@@ -292,7 +297,7 @@ import WebKit
                 break;
             }
         }
-
+        
         if (tmpIsAdded) {
             removeFromStage();
             addToStage();

@@ -17,6 +17,11 @@ echo "Making directories."
 if [ ! -d "$pathtome/platforms" ]; then
 mkdir "$pathtome/platforms"
 fi
+
+if [ -d "$pathtome/platforms/mac" ]; then
+rm -r "$pathtome/platforms/mac"
+fi
+
 if [ ! -d "$pathtome/platforms/mac" ]; then
 mkdir "$pathtome/platforms/mac"
 mkdir "$pathtome/platforms/mac/release"
@@ -48,7 +53,6 @@ cp "$pathtome/library.swf" "$pathtome/platforms/win/debug"
 echo "Copying native libraries into place."
 cp -R -L "$pathtome/../../native_library/mac/$PROJECT_NAME/Build/Products/Release/$PROJECT_NAME.framework" "$pathtome/platforms/mac/release"
 cp -R -L "$pathtome/../../native_library/mac/$PROJECT_NAME/Build/Products/Debug/$PROJECT_NAME.framework" "$pathtome/platforms/mac/debug"
-
 
 mv "$pathtome/platforms/mac/debug/$PROJECT_NAME.framework/Versions/A/Frameworks" "$pathtome/platforms/mac/debug/$PROJECT_NAME.framework"
 mv "$pathtome/platforms/mac/release/$PROJECT_NAME.framework/Versions/A/Frameworks" "$pathtome/platforms/mac/release/$PROJECT_NAME.framework"
@@ -86,7 +90,7 @@ mkdir "$pathtome/debug"
 unzip "$pathtome/$PROJECT_NAME-debug.ane" -d  "$pathtome/debug/$PROJECT_NAME.ane/"
 
 
-rm -r "$pathtome/platforms/mac"
+#rm -r "$pathtome/platforms/mac"
 rm "$pathtome/$PROJECT_NAME.swc"
 rm "$pathtome/library.swf"
 rm "$pathtome/$PROJECT_NAME-debug.ane"

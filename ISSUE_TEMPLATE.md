@@ -8,6 +8,9 @@ e.g. 0.0.12
 - **Which IDE are you using?**
     - IntelliJ, Flash Builder, Animate, cmd line, Flash Develop etc?
 
+- **What version of AIR are you using?**
+- 19, 24, 25 Beta etc?
+
 - **What steps will reproduce the problem?**
     - Please provide detailed information here, enough for someone else to reprodce your problem.
 
