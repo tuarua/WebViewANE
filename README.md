@@ -34,7 +34,6 @@ The OSX version utilises the native WKWebView
 
 
 ### Long Term To Do
-* Investigate WinForms version of CefSharp for improved performance
 * Windows Edge based WebView and CEF on OSX. Allow ability to select which one to be used, eg CEF or Native
 
 ### References

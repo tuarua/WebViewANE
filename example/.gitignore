@@ -8,7 +8,7 @@ bin-release/
 bin-release-temp/
 cache/
 
-.app
+*.app
 
 # Other files and folders
 .settings/
