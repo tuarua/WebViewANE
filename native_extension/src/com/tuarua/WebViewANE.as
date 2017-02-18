@@ -173,6 +173,9 @@ public class WebViewANE extends EventDispatcher {
             case WebViewEvent.ON_DOWNLOAD_CANCEL:
                 dispatchEvent(new WebViewEvent(WebViewEvent.ON_DOWNLOAD_CANCEL, event.code));
                 break;
+            case WebViewEvent.ON_ESC_KEY:
+                dispatchEvent(new WebViewEvent(WebViewEvent.ON_ESC_KEY, event.code));
+                break;
             default:
                 break;
         }
@@ -297,6 +300,7 @@ public class WebViewANE extends EventDispatcher {
 
     /**
      *
+     * @param initialUrl Url to load when the view loads
      * @param x
      * @param y
      * @param width
@@ -306,7 +310,7 @@ public class WebViewANE extends EventDispatcher {
      * <p>Initialises the webView. The webView is not automatically added to the native stage.</p>
      *
      */
-    public function init(x:int = 0, y:int = 0, width:int = 800, height:int = 600, settings:Settings = null):void {
+    public function init(initialUrl:String = null, x:int = 0, y:int = 0, width:int = 800, height:int = 600, settings:Settings = null):void {
         this._x = x;
         this._y = y;
         this._width = width;
@@ -317,7 +321,7 @@ public class WebViewANE extends EventDispatcher {
             if (_settings == null) {
                 _settings = new Settings();
             }
-            extensionContext.call("init", this._x, this._y, this._width, this._height, _settings);
+            extensionContext.call("init", initialUrl, this._x, this._y, this._width, this._height, _settings);
             _isInited = true;
         }
     }
@@ -661,22 +665,23 @@ public class WebViewANE extends EventDispatcher {
     public function shutDown():void {
         extensionContext.call("shutDown");
     }
-	/**
-	 * 
-	 * @param code Javascript to inject, if any.
-	 * @param scriptUrl is the URL where the script in question can be found, if any. Windows only
-	 * @param startLine is the base line number to use for error reporting. Windows only
-	 *
+
+    /**
+     *
+     * @param code Javascript to inject, if any.
+     * @param scriptUrl is the URL where the script in question can be found, if any. Windows only
+     * @param startLine is the base line number to use for error reporting. Windows only
+     *
      * <p>Specify either code or scriptUrl. These are injected into the main Frame when it is loaded. Call before
      * load() method</p>
-	 */	
+     */
 
     public function injectScript(code:String = null, scriptUrl:String = null, startLine:uint = 0):void {
         if (code != null || scriptUrl != null) {
             extensionContext.call("injectScript", code, scriptUrl, startLine);
         }
     }
-    
+
 }
 }
 

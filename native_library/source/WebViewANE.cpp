@@ -29,9 +29,9 @@ vector<pair<string, string>> cef_commandLineArgs;
 int cef_remoteDebuggingPort;
 string cef_cachePath;
 int cef_logSeverity;
-bool cef_bestPerformance;
 string cef_userAgent;
 string cef_browserSubprocessPath;
+string cef_initialUrl;
 
 #include "stdafx.h"
 #include "commctrl.h"
@@ -82,8 +82,9 @@ namespace ManagedCode {
 			cs_cef_commandLineArgs->Add(gcnew String(i->first.c_str()), gcnew String(i->second.c_str()));
 		}
 		
-		ManagedGlobals::page = gcnew CefSharpLib::CefPage(gcnew String(cef_userAgent.c_str()), cef_bestPerformance, cef_logSeverity, cef_logSeverity,
-			gcnew String(cef_cachePath.c_str()), cs_cef_commandLineArgs, gcnew String(cef_browserSubprocessPath.c_str()), cef_bg_r, cef_bg_g, cef_bg_b);
+		ManagedGlobals::page = gcnew CefSharpLib::CefPage(gcnew String(cef_initialUrl.c_str()),gcnew String(cef_userAgent.c_str()), cef_logSeverity, cef_logSeverity,
+			gcnew String(cef_cachePath.c_str()), cs_cef_commandLineArgs, gcnew String(cef_browserSubprocessPath.c_str()), 
+			cef_bg_r, cef_bg_g, cef_bg_b);
 
 		ManagedGlobals::page->OnMessageSent += gcnew CefSharpLib::CefPage::MessageHandler(onCefLibMessage);
 
@@ -176,24 +177,24 @@ extern "C" {
 #define FRE_FUNCTION(fn) FREObject (fn)(FREContext context, void* functionData, uint32_t argc, FREObject argv[])
 
 	FRE_FUNCTION(init) {
-		cef_x = aneHelper.getInt32(argv[0]);
-		cef_y = aneHelper.getInt32(argv[1]);
-		cef_width = aneHelper.getInt32(argv[2]);
-		cef_height = aneHelper.getInt32(argv[3]);
+		cef_initialUrl = aneHelper.getString(argv[0]);
+		cef_x = aneHelper.getInt32(argv[1]);
+		cef_y = aneHelper.getInt32(argv[2]);
+		cef_width = aneHelper.getInt32(argv[3]);
+		cef_height = aneHelper.getInt32(argv[4]);
 
 		FREObjectType settingsType;
-		FREGetObjectType(argv[4], &settingsType);
+		FREGetObjectType(argv[5], &settingsType);
 
 		if (FRE_TYPE_NULL != settingsType) {
 
-			FREObject cefSettingsFRE = aneHelper.getProperty(argv[4], "cef");
+			FREObject cefSettingsFRE = aneHelper.getProperty(argv[5], "cef");
 			cef_remoteDebuggingPort = aneHelper.getInt32(aneHelper.getProperty(cefSettingsFRE, "remoteDebuggingPort"));
 			cef_cachePath = aneHelper.getString(aneHelper.getProperty(cefSettingsFRE, "cachePath"));
 			cef_logSeverity = aneHelper.getInt32(aneHelper.getProperty(cefSettingsFRE, "logSeverity"));
-			cef_bestPerformance = aneHelper.getBool(aneHelper.getProperty(cefSettingsFRE, "bestPerformance"));
 			cef_browserSubprocessPath = aneHelper.getString(aneHelper.getProperty(cefSettingsFRE, "browserSubprocessPath"));
 
-			cef_userAgent = aneHelper.getString(aneHelper.getProperty(argv[4], "userAgent"));
+			cef_userAgent = aneHelper.getString(aneHelper.getProperty(argv[5], "userAgent"));
 			
 			FREObject commandLineArgsFRE = aneHelper.getProperty(cefSettingsFRE, "commandLineArgs");
 			uint32_t numArgs = aneHelper.getArrayLength(commandLineArgsFRE);
@@ -207,6 +208,7 @@ extern "C" {
 			}
 		}
 		cefHwnd = ManagedCode::GetHwnd(_hwnd);
+		RegisterTouchWindow(cefHwnd, TWF_WANTPALM);
 		return NULL;
 	}
 
@@ -324,21 +326,11 @@ extern "C" {
 		ManagedCode::SetMagnification(value);
 		return NULL;
 	}
-
-	
-	
-
 	
 	FRE_FUNCTION(addToStage) {
 		using namespace std;
-		
-
 		ShowWindow(cefHwnd, SW_SHOWDEFAULT);
 		UpdateWindow(cefHwnd);
-
-		//do I need this ?
-		//System::Windows::Interop::HwndSource^ hws = ManagedCode::HwndSource::FromHwnd(System::IntPtr(cefHwnd)); //seems to run without this ?
-		//hws->
 		return NULL;
 	}
 
@@ -455,56 +447,49 @@ extern "C" {
 	}
 
 	[System::STAThreadAttribute]
-	BOOL APIENTRY WebViewANEMain(HMODULE hModule,
-		DWORD  ul_reason_for_call,
-		LPVOID lpReserved
-		)
-	{
-		switch (ul_reason_for_call)
-		{
+	BOOL APIENTRY WebViewANEMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved) {
+		switch (ul_reason_for_call) {
 		case DLL_PROCESS_ATTACH:
 		case DLL_THREAD_ATTACH:
 		case DLL_THREAD_DETACH:
 		case DLL_PROCESS_DETACH:
 			break;
 		}
-		return TRUE;
+		return true;
 	}
 
-	
 	void contextInitializer(void* extData, const uint8_t* ctxType, FREContext ctx, uint32_t* numFunctionsToSet, const FRENamedFunction** functionsToSet) {
 		
 		DWORD processID = GetCurrentProcessId();
 		EnumWindows(EnumProc, processID);
 
 		static FRENamedFunction extensionFunctions[] = {
-			{ (const uint8_t*) "init",NULL, &init }
-			,{ (const uint8_t*) "isSupported",NULL, &isSupported }
-			,{ (const uint8_t*) "addToStage",NULL, &addToStage }
-			,{ (const uint8_t*) "load",NULL, &load }
-			,{ (const uint8_t *) "loadFileURL", NULL, &load }
-			,{ (const uint8_t *) "reload", NULL, &reload }
-			,{ (const uint8_t *) "backForwardList", NULL, &backForwardList }
-			,{ (const uint8_t *) "go", NULL, &go }
-			,{ (const uint8_t *) "goBack", NULL, &goBack }
-			,{ (const uint8_t *) "goForward", NULL, &goForward }
-			,{ (const uint8_t *) "stopLoading", NULL, &stopLoading }
-			,{ (const uint8_t *) "reloadFromOrigin", NULL, &reloadFromOrigin }
-			,{ (const uint8_t *) "allowsMagnification", NULL, &allowsMagnification }
-			,{ (const uint8_t *) "getMagnification", NULL, &getMagnification }
-			,{ (const uint8_t *) "setMagnification", NULL, &setMagnification }
-			,{ (const uint8_t *) "loadHTMLString", NULL, &LoadHtmlString }
-			,{ (const uint8_t *) "removeFromStage", NULL, &removeFromStage }
-			,{ (const uint8_t *) "setPositionAndSize", NULL, &setPositionAndSize }
-			,{ (const uint8_t *) "showDevTools", NULL, &showDevTools }
-			,{ (const uint8_t *) "closeDevTools", NULL, &closeDevTools }
-			,{ (const uint8_t *) "onFullScreen", NULL, &onFullScreen }
-			,{ (const uint8_t *) "callJavascriptFunction", NULL, &callJavascriptFunction }
-			,{ (const uint8_t *) "evaluateJavaScript", NULL, &evaluateJavaScript }
-			,{ (const uint8_t *) "setBackgroundColor", NULL, &setBackgroundColor }
-			,{ (const uint8_t *) "shutDown", NULL, &shutDown }
-			
-			,{ (const uint8_t *) "injectScript", NULL, &injectScript }
+			{ (const uint8_t*) "init",nullptr, &init }
+			,{ (const uint8_t*) "isSupported",nullptr, &isSupported }
+			,{ (const uint8_t*) "addToStage",nullptr, &addToStage }
+			,{ (const uint8_t*) "load",nullptr, &load }
+			,{ (const uint8_t *) "loadFileURL", nullptr, &load }
+			,{ (const uint8_t *) "reload", nullptr, &reload }
+			,{ (const uint8_t *) "backForwardList", nullptr, &backForwardList }
+			,{ (const uint8_t *) "go", nullptr, &go }
+			,{ (const uint8_t *) "goBack", nullptr, &goBack }
+			,{ (const uint8_t *) "goForward", nullptr, &goForward }
+			,{ (const uint8_t *) "stopLoading", nullptr, &stopLoading }
+			,{ (const uint8_t *) "reloadFromOrigin", nullptr, &reloadFromOrigin }
+			,{ (const uint8_t *) "allowsMagnification", nullptr, &allowsMagnification }
+			,{ (const uint8_t *) "getMagnification", nullptr, &getMagnification }
+			,{ (const uint8_t *) "setMagnification", nullptr, &setMagnification }
+			,{ (const uint8_t *) "loadHTMLString", nullptr, &LoadHtmlString }
+			,{ (const uint8_t *) "removeFromStage", nullptr, &removeFromStage }
+			,{ (const uint8_t *) "setPositionAndSize", nullptr, &setPositionAndSize }
+			,{ (const uint8_t *) "showDevTools", nullptr, &showDevTools }
+			,{ (const uint8_t *) "closeDevTools", nullptr, &closeDevTools }
+			,{ (const uint8_t *) "onFullScreen", nullptr, &onFullScreen }
+			,{ (const uint8_t *) "callJavascriptFunction", nullptr, &callJavascriptFunction }
+			,{ (const uint8_t *) "evaluateJavaScript", nullptr, &evaluateJavaScript }
+			,{ (const uint8_t *) "setBackgroundColor", nullptr, &setBackgroundColor }
+			,{ (const uint8_t *) "shutDown", nullptr, &shutDown }
+			,{ (const uint8_t *) "injectScript", nullptr, &injectScript }
 
 			
 

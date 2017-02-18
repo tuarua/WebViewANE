@@ -85,10 +85,15 @@ public class StarlingRoot extends Sprite {
         webView.addEventListener(WebViewEvent.ON_FAIL, onFail);
         webView.addEventListener(WebViewEvent.ON_DOWNLOAD_PROGRESS, onDownloadProgress);
         webView.addEventListener(WebViewEvent.ON_DOWNLOAD_COMPLETE, onDownloadComplete);
+        webView.addEventListener(WebViewEvent.ON_ESC_KEY, onEscKey);
 
         var settings:Settings = new Settings();
-        settings.userAgent = "WebViewANE";
-        settings.cef.bestPerformance = true; //set to false to enable gpu and thus webgl
+
+        /*
+         only use settings.userAgent if you are running your own site.
+         google.com for eg displays different sites based on user agent
+         */
+        //settings.userAgent = "WebViewANE";
 
         // See https://github.com/cefsharp/CefSharp/blob/master/CefSharp.Example/CefExample.cs#L37 for more examples
         //settings.CefCommandLineArgs.Add("disable-direct-write", "1");
@@ -102,12 +107,9 @@ public class StarlingRoot extends Sprite {
 
         webView.setBackgroundColor(0xF1F1F1);
 
-        webView.init(0, 90, _appWidth, _appHeight - 140, settings);
+        webView.init("http://www.adobe.com/", 0, 90, _appWidth, _appHeight - 140, settings);
         webView.addToStage(); // webView.removeFromStage();
-
-
         webView.injectScript("function testInject(){console.log('yo yo')}");
-        webView.load("http://www.adobe.com/");
 
         /*
          trace("loading html");
@@ -240,6 +242,14 @@ public class StarlingRoot extends Sprite {
 
         addChild(progress);
 
+    }
+
+    private function onEscKey(event:WebViewEvent):void {
+        if (WebViewANESample.target.stage.displayState == StageDisplayState.FULL_SCREEN_INTERACTIVE) {
+            WebViewANESample.target.stage.displayState = StageDisplayState.NORMAL;
+            _appWidth = 1280;
+            _appHeight = 800;
+        }
     }
 
     private function onDownloadComplete(event:WebViewEvent):void {
@@ -476,7 +486,9 @@ public class StarlingRoot extends Sprite {
 
 
     private function onFail(event:WebViewEvent):void {
-        trace(event.params);
+        trace(event.params.url);
+        trace(event.params.errorCode);
+        trace(event.params.errorText);
     }
 
     /**

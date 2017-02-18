@@ -1,3 +1,8 @@
+### 0.0.13
+- WIN: Changed to use CefSharp.WinForms. Improved performance Issue #17
+- WIN: Added support for touch devices. Issue #19
+- WIN/OSX: Added ON_ESC_KEY event. Issue #20
+
 ### 0.0.12
 - WIN: Upgraded CEF to 55.0.0 Issue #16
 - WIN: Add browserSubprocessPath to settings.cef #15

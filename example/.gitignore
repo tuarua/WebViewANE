@@ -8,6 +8,8 @@ bin-release/
 bin-release-temp/
 cache/
 
+.app
+
 # Other files and folders
 .settings/
 
