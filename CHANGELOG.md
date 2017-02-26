@@ -1,3 +1,6 @@
+### 0.0.14
+- OSX: Fix Issue #22
+
 ### 0.0.13
 - WIN: Changed to use CefSharp.WinForms. Improved performance Issue #17
 - WIN: Added support for touch devices. Issue #19
