@@ -486,9 +486,12 @@ import WebKit
                 wv.addObserver(self, forKeyPath: "URL", options: .new, context: nil)
                 wv.addObserver(self, forKeyPath: "canGoBack", options: .new, context: nil)
                 wv.addObserver(self, forKeyPath: "canGoForward", options: .new, context: nil)
-                let myURL = URL(string: _initialUrl)
-                let myRequest = URLRequest(url: myURL!)
-                wv.load(myRequest)
+                if !_initialUrl.isEmpty {
+                    let myURL = URL(string: _initialUrl)
+                    let myRequest = URLRequest(url: myURL!)
+                    wv.load(myRequest)
+                }
+
             }
         }
 

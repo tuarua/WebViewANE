@@ -155,6 +155,7 @@ class ANEHelper {
 
         let status: FREResult = FREGetObjectAsUTF8(freObject, &strLength!, &arg)
         let isOK = self.isFREResultOK(errorCode: status, errorMessage: "Could not convert FREGetObjectAsUTF8.")
+        
         if isOK {
             return (NSString(bytes: arg!, length: Int(strLength!),
                     encoding: String.Encoding.utf8.rawValue) as? String)!

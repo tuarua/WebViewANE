@@ -51,7 +51,7 @@ public class NativeTextInput extends Sprite {
         input.selectable = true;
         input.defaultTextFormat = textFormat;
         input.embedFonts = true;
-        input.addEventListener(KeyboardEvent.KEY_DOWN, onKeyUp);
+        input.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
         if (_restrict)
             input.restrict = _restrict;
 
