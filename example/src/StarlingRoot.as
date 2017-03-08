@@ -13,9 +13,13 @@ import com.tuarua.webview.Settings;
 import com.tuarua.webview.WebViewEvent;
 
 import flash.desktop.NativeApplication;
+import flash.display.NativeWindow;
+import flash.display.NativeWindowDisplayState;
 import flash.display.StageDisplayState;
 import flash.events.Event;
 import flash.events.FullScreenEvent;
+import flash.events.NativeWindowBoundsEvent;
+import flash.events.NativeWindowDisplayStateEvent;
 import flash.filesystem.File;
 import flash.geom.Point;
 import flash.geom.Rectangle;
@@ -72,9 +76,13 @@ public class StarlingRoot extends Sprite {
 
     public function start():void {
 
-
         WebViewANESample.target.stage.addEventListener(FullScreenEvent.FULL_SCREEN, onFullScreenEvent);
-        NativeApplication.nativeApplication.addEventListener(flash.events.Event.EXITING, onExiting);
+        NativeApplication.nativeApplication.addEventListener(Event.EXITING, onExiting);
+
+        if (Capabilities.os.toLowerCase().indexOf("mac") == 0) {
+            NativeApplication.nativeApplication.activeWindow.addEventListener(
+                    NativeWindowDisplayStateEvent.DISPLAY_STATE_CHANGE, onWindowMiniMaxi);
+        }
 
         if (!webView.isSupported) {
             return;
@@ -244,6 +252,16 @@ public class StarlingRoot extends Sprite {
 
     }
 
+    private function onWindowMiniMaxi(event:NativeWindowDisplayStateEvent):void {
+        /*
+         !! Needed for OSX, restores webView when we restore from minimized state
+         */
+        if (event.beforeDisplayState == NativeWindowDisplayState.MINIMIZED) {
+            webView.removeFromStage();
+            webView.addToStage();
+        }
+    }
+
     private function onEscKey(event:WebViewEvent):void {
         if (WebViewANESample.target.stage.displayState == StageDisplayState.FULL_SCREEN_INTERACTIVE) {
             WebViewANESample.target.stage.displayState = StageDisplayState.NORMAL;
@@ -253,7 +271,7 @@ public class StarlingRoot extends Sprite {
     }
 
     private function onDownloadComplete(event:WebViewEvent):void {
-        trace(event.params,"complete");
+        trace(event.params, "complete");
     }
 
     private function onDownloadProgress(event:WebViewEvent):void {
@@ -419,8 +437,6 @@ public class StarlingRoot extends Sprite {
             webView.goForward();
             /*
              var obj:BackForwardList = webView.backForwardList();
-             trace()
-             trace()
              */
         }
     }
@@ -493,7 +509,6 @@ public class StarlingRoot extends Sprite {
 
     /**
      * It's very important to call webView.shutDown(); when the app is exiting. This cleans up CEF on Windows.
-     *
      */
     private function onExiting(event:Event):void {
         webView.shutDown();
