@@ -11,8 +11,6 @@ import Foundation
 import WebKit
 
 @objc class WebViewANE: NSObject, WKUIDelegate, WKNavigationDelegate, WKScriptMessageHandler {
-    private var dllContext: FREContext!
-    private let aneHelper = ANEHelper()
     private var myWebView: WKWebView?
     static var escListener: Any?
 
@@ -21,23 +19,25 @@ import WebKit
     private var _y: Int = 0
     private var _width: Int = 800
     private var _height: Int = 600
+    private var _userAgent: String?;
     private var isAdded: Bool = false;
-    
+
     private static let ON_FAIL: String = "WebView.OnFail"
     private static let ON_ESC_KEY: String = "WebView.OnEscKey"
     private static let ON_PROPERTY_CHANGE: String = "WebView.OnPropertyChange"
-    private static let JS_CALLBACK_EVENT:String = "TRWV.js.CALLBACK";
-    private static let AS_CALLBACK_EVENT:String  = "TRWV.as.CALLBACK";
-    
-    private var configuration:WKWebViewConfiguration = WKWebViewConfiguration()
-    private var userController:WKUserContentController = WKUserContentController()
-    private func trace(value: String) {
-        FREDispatchStatusEventAsync(self.dllContext, "[WebViewANE] " + value, "TRACE")
-    }
+    private static let JS_CALLBACK_EVENT: String = "TRWV.js.CALLBACK";
+    private static let AS_CALLBACK_EVENT: String = "TRWV.as.CALLBACK";
+
+    private var configuration: WKWebViewConfiguration = WKWebViewConfiguration()
+    private var userController: WKUserContentController = WKUserContentController()
+
     private func sendEvent(name: String, value: String) {
-        FREDispatchStatusEventAsync(self.dllContext, value, name)
+        do {
+            try context.dispatchStatusEventAsync(code: value, level: name)
+        } catch {
+        }
     }
-    
+
     func webView(_ myWebView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
     }
 
@@ -59,7 +59,7 @@ import WebKit
         props["errorCode"] = 0
         props["errorText"] = withError.localizedDescription
         let json = JSON(props)
-        sendEvent(name: WebViewANE.ON_FAIL, value: json.description )
+        sendEvent(name: WebViewANE.ON_FAIL, value: json.description)
     }
 
     func webView(_ myWebView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError: Error) {
@@ -73,83 +73,64 @@ import WebKit
         if #available(OSX 10.10, *) {
             isSupported = true
         }
-        return aneHelper.getFreObject(bool: isSupported)
+        return try! FREObject.newObject(bool: isSupported)
     }
 
     func allowsMagnification() -> FREObject? {
         if let wv = myWebView {
-            return aneHelper.getFreObject(bool: wv.allowsMagnification)
+            return try! FREObject.newObject(bool: wv.allowsMagnification)
         }
-        return aneHelper.getFreObject(bool: true)
+        return try! FREObject.newObject(bool: true)
     }
 
     func backForwardList() -> FREObject? {
-
         if let wv = myWebView {
-            if let freBackForwardList = aneHelper.createFREObject(className: "com.tuarua.webview.BackForwardList") {
+            do {
+                if let freBackForwardList = try FREObject.newObject(className: "com.tuarua.webview.BackForwardList", args: nil) {
+                    if let ci = wv.backForwardList.currentItem {
+                        if let freCurrentItem = try FREObject.newObject(className: "com.tuarua.webview.BackForwardListItem", args: nil) {
+                            try freCurrentItem.setProperty(name: "url", prop: FREObject.newObject(string: ci.url.absoluteString))
+                            try freCurrentItem.setProperty(name: "title", prop: FREObject.newObject(string: ci.title!))
+                            try freCurrentItem.setProperty(name: "initialURL", prop: FREObject.newObject(string: ci.initialURL.absoluteString))
 
-                if let ci = wv.backForwardList.currentItem {
-                    if let freCurrentItem = aneHelper.createFREObject(className: "com.tuarua.webview.BackForwardListItem") {
-                        aneHelper.setProperty(
-                                freObject: freCurrentItem, name: "url",
-                                prop: aneHelper.getFreObject(string: ci.url.absoluteString)!)
-                        aneHelper.setProperty(
-                                freObject: freCurrentItem, name: "title",
-                                prop: aneHelper.getFreObject(string: ci.title)!)
-
-                        aneHelper.setProperty(
-                                freObject: freCurrentItem, name: "initialURL",
-                                prop: aneHelper.getFreObject(string: ci.initialURL.absoluteString)!)
-
-                        aneHelper.setProperty(freObject: freBackForwardList, name: "currentItem", prop: freCurrentItem)
-
-                    }
-                }
-
-                var i = 0
-                if let freBackList = aneHelper.createFREObject(className: "Vector.<com.tuarua.webview.BackForwardListItem>") {
-                    for item in wv.backForwardList.backList {
-                        if let freItem = aneHelper.createFREObject(className: "com.tuarua.webview.BackForwardListItem") {
-                            aneHelper.setProperty(
-                                    freObject: freItem, name: "url",
-                                    prop: aneHelper.getFreObject(string: item.url.absoluteString)!)
-                            aneHelper.setProperty(
-                                    freObject: freItem, name: "title",
-                                    prop: aneHelper.getFreObject(string: item.title)!)
-
-                            aneHelper.setProperty(
-                                    freObject: freItem, name: "initialURL",
-                                    prop: aneHelper.getFreObject(string: item.initialURL.absoluteString)!)
-
-                            FRESetArrayElementAt(freBackList, UInt32(i), freItem);
-                            i = i + 1
+                            try freBackForwardList.setProperty(name: "currentItem", prop: freCurrentItem)
                         }
-                    }
-                    aneHelper.setProperty(freObject: freBackForwardList, name: "backList", prop: freBackList)
-                }
 
-                i = 0
-                if let freForwardList = aneHelper.createFREObject(className: "Vector.<com.tuarua.webview.BackForwardListItem>") {
-                    for item in wv.backForwardList.forwardList {
-                        if let freItem = aneHelper.createFREObject(className: "com.tuarua.webview.BackForwardListItem") {
-                            aneHelper.setProperty(
-                                    freObject: freItem, name: "url",
-                                    prop: aneHelper.getFreObject(string: item.url.absoluteString)!)
-                            aneHelper.setProperty(
-                                    freObject: freItem, name: "title",
-                                    prop: aneHelper.getFreObject(string: item.title)!)
-
-                            aneHelper.setProperty(
-                                    freObject: freItem, name: "initialURL",
-                                    prop: aneHelper.getFreObject(string: item.initialURL.absoluteString)!)
-
-                            FRESetArrayElementAt(freForwardList, UInt32(i), freItem);
-                            i = i + 1
+                        var i = 0
+                        if let freBackList = try FREObject.newObject(className: "Vector.<com.tuarua.webview.BackForwardListItem>", args: nil) {
+                            for item in wv.backForwardList.backList {
+                                if let freItem = try FREObject.newObject(className: "com.tuarua.webview.BackForwardListItem", args: nil) {
+                                    try freItem.setProperty(name: "url", prop: FREObject.newObject(string: item.url.absoluteString))
+                                    try freItem.setProperty(name: "title", prop: FREObject.newObject(string: item.title!))
+                                    try freItem.setProperty(name: "initialURL", prop: FREObject.newObject(string: item.initialURL.absoluteString))
+                                    try freBackList.setObjectAt(index: UInt(i), object: freItem)
+                                    i = i + 1
+                                }
+                            }
+                            try freBackForwardList.setProperty(name: "backList", prop: freBackList)
                         }
+
+                        i = 0
+                        if let freForwardList = try FREObject.newObject(className: "Vector.<com.tuarua.webview.BackForwardListItem>", args: nil) {
+                            for item in wv.backForwardList.forwardList {
+                                if let freItem = try FREObject.newObject(className: "com.tuarua.webview.BackForwardListItem", args: nil) {
+                                    try freItem.setProperty(name: "url", prop: FREObject.newObject(string: item.url.absoluteString))
+                                    try freItem.setProperty(name: "title", prop: FREObject.newObject(string: item.title!))
+                                    try freItem.setProperty(name: "initialURL", prop: FREObject.newObject(string: item.initialURL.absoluteString))
+                                    try freForwardList.setObjectAt(index: UInt(i), object: freItem)
+                                    i = i + 1
+                                }
+                            }
+                            try freBackForwardList.setProperty(name: "forwardList", prop: freForwardList)
+
+                        }
+
                     }
-                    aneHelper.setProperty(freObject: freBackForwardList, name: "forwardList", prop: freForwardList)
+                    return freBackForwardList
                 }
-                return freBackForwardList
+            } catch let e as FREError {
+                e.printStackTrace(#file, #line, #column)
+            } catch {
             }
         }
         return nil
@@ -157,23 +138,44 @@ import WebKit
     }
 
     func go(argv: NSPointerArray) {
-        let offset: Int = aneHelper.getInt(freObject: argv.pointer(at: 0))
-        if let wv = myWebView {
-            wv.go(to: wv.backForwardList.item(at: offset)!)
+        do {
+            if let inFRE0 = argv.pointer(at: 0) {
+                let offset: Int = try inFRE0.getAsInt()
+                if let wv = myWebView {
+                    wv.go(to: wv.backForwardList.item(at: offset)!)
+                }
+            }
+        } catch let e as FREError {
+            e.printStackTrace(#file, #line, #column)
+        } catch {
         }
     }
 
     func getMagnification() -> FREObject? {
-        if let wv = myWebView {
-            return aneHelper.getFREObject(double: Double(wv.magnification))
+        do {
+            if let wv = myWebView {
+                return try FREObject.newObject(double: Double(wv.magnification))
+            }
+        } catch let e as FREError {
+            e.printStackTrace(#file, #line, #column)
+        } catch {
         }
-        return aneHelper.getFREObject(double: 1.0);
+        return try! FREObject.newObject(double: 1.0)
     }
 
     func setMagnification(argv: NSPointerArray) {
-        if let wv = myWebView {
-            wv.setMagnification(aneHelper.getCGFloat(freObject: argv.pointer(at: 0)),
-                    centeredAt: aneHelper.getCGPoint(freObject: argv.pointer(at: 1)))
+        do {
+            if let inFRE0 = argv.pointer(at: 0), let inFRE1 = argv.pointer(at: 1) {
+                let magnification = try inFRE0.getAsCGFloat()
+                let centeredAt = try inFRE1.getAsCGPoint()
+
+                if let wv = myWebView {
+                    wv.setMagnification(magnification, centeredAt: centeredAt)
+                }
+            }
+        } catch let e as FREError {
+            e.printStackTrace(#file, #line, #column)
+        } catch {
         }
     }
 
@@ -205,30 +207,43 @@ import WebKit
     }
 
     func setPositionAndSize(argv: NSPointerArray) {
-        let tmp_x = aneHelper.getInt(freObject: argv.pointer(at: 0))
-        let tmp_y = aneHelper.getInt(freObject: argv.pointer(at: 1))
-        let tmp_width = aneHelper.getInt(freObject: argv.pointer(at: 2))
-        let tmp_height = aneHelper.getInt(freObject: argv.pointer(at: 3))
         var updateWidth = false;
         var updateHeight = false;
         var updateX = false;
         var updateY = false;
-        if (tmp_width != _width) {
-            _width = tmp_width;
-            updateWidth = true;
+        do {
+            if let inFRE0 = argv.pointer(at: 0), let inFRE1 = argv.pointer(at: 1), let inFRE2 = argv.pointer(at: 2),
+               let inFRE3 = argv.pointer(at: 3) {
+
+                let tmp_x: Int = try inFRE0.getAsInt()
+                let tmp_y: Int = try inFRE1.getAsInt()
+                let tmp_width: Int = try inFRE2.getAsInt()
+                let tmp_height: Int = try inFRE3.getAsInt()
+
+                if (tmp_width != _width) {
+                    _width = tmp_width;
+                    updateWidth = true;
+                }
+                if (tmp_height != _height) {
+                    _height = tmp_height;
+                    updateHeight = true;
+                }
+                if (tmp_x != _x) {
+                    _x = tmp_x;
+                    updateX = true;
+                }
+                if (tmp_y != _y) {
+                    _y = tmp_y;
+                    updateY = true;
+                }
+
+            }
+
+        } catch let e as FREError {
+            e.printStackTrace(#file, #line, #column)
+        } catch {
         }
-        if (tmp_height != _height) {
-            _height = tmp_height;
-            updateHeight = true;
-        }
-        if (tmp_x != _x) {
-            _x = tmp_x;
-            updateX = true;
-        }
-        if (tmp_y != _y) {
-            _y = tmp_y;
-            updateY = true;
-        }
+
 
         let realY = (Int((NSApp.mainWindow?.contentLayoutRect.height)!) - _height) - _y;
         if updateX || updateY {
@@ -241,67 +256,99 @@ import WebKit
     }
 
     func load(argv: NSPointerArray) {
-        let url: String = aneHelper.getString(freObject: argv.pointer(at: 0))
-        let myURL = URL(string: url)
-        let myRequest = URLRequest(url: myURL!)
-        if let wv = myWebView {
-            wv.load(myRequest)
+        do {
+            if let inFRE0 = argv.pointer(at: 0) {
+                let url: String = try inFRE0.getAsString()
+                if !url.isEmpty {
+                    let myURL = URL(string: url)
+                    let myRequest = URLRequest(url: myURL!)
+                    if let wv = myWebView {
+                        wv.load(myRequest)
+                    }
+                }
+            }
+        } catch let e as FREError {
+            e.printStackTrace(#file, #line, #column)
+        } catch {
         }
+
     }
 
     func loadHTMLString(argv: NSPointerArray) {
-        let html: String = aneHelper.getString(freObject: argv.pointer(at: 0))
-        if let wv = myWebView {
-            wv.loadHTMLString(html, baseURL: nil) //TODO
+        do {
+            if let inFRE0 = argv.pointer(at: 0) {
+                let html: String = try inFRE0.getAsString()
+                if let wv = myWebView {
+                    wv.loadHTMLString(html, baseURL: nil) //TODO
+                }
+            }
+        } catch let e as FREError {
+            e.printStackTrace(#file, #line, #column)
+        } catch {
         }
     }
 
     func loadFileURL(argv: NSPointerArray) {
-        let url: String = aneHelper.getString(freObject: argv.pointer(at: 0))
-        let myURL = URL(string: url)
-        let allowingReadAccessTo: String = aneHelper.getString(freObject: argv.pointer(at: 1))
-        let accessURL = URL(string: allowingReadAccessTo)
-
-        if let wv = myWebView {
-            if #available(OSX 10.11, *) {
-                wv.loadFileURL(myURL!, allowingReadAccessTo: accessURL!)
-            } else {
-                // Fallback on earlier versions //TODO
+        do {
+            if let inFRE0 = argv.pointer(at: 0), let inFRE1 = argv.pointer(at: 1) {
+                let url: String = try inFRE0.getAsString()
+                let myURL = URL(string: url)
+                let allowingReadAccessTo: String = try inFRE1.getAsString()
+                let accessURL = URL(string: allowingReadAccessTo)
+                if let wv = myWebView {
+                    if #available(OSX 10.11, *) {
+                        wv.loadFileURL(myURL!, allowingReadAccessTo: accessURL!)
+                    } else {
+                        // Fallback on earlier versions //TODO
+                    }
+                }
             }
+        } catch let e as FREError {
+            e.printStackTrace(#file, #line, #column)
+        } catch {
         }
+
 
     }
 
     func onFullScreen(argv: NSPointerArray) {
-        let fullScreen: Bool = aneHelper.getBool(freObject: argv.pointer(at: 0))
-        let tmpIsAdded = isAdded
-        for win in NSApp.windows {
-            if (fullScreen && win.canBecomeMain && win.className.contains("AIR_FullScreen")) {
-                win.makeMain()
-                if (WebViewANE.escListener == nil) {
-                    WebViewANE.escListener = NSEvent.addLocalMonitorForEvents(matching: [.keyUp]) { (event: NSEvent) -> NSEvent? in
-                        let theX = Int(event.locationInWindow.x)
-                        let theY = Int(event.locationInWindow.y)
-                        let realY = (Int(win.contentLayoutRect.height) - self._height) - self._y;
-                        if (event.keyCode == 53 && theX > self._x && theX < (self._width - self._x)
-                            && theY > realY && theY < (realY + self._height)) {
-                            self.sendEvent(name: WebViewANE.ON_ESC_KEY, value: "")
+        do {
+            if let inFRE0 = argv.pointer(at: 0) {
+                let fullScreen: Bool = try inFRE0.getAsBool()
+                let tmpIsAdded = isAdded
+                for win in NSApp.windows {
+                    if (fullScreen && win.canBecomeMain && win.className.contains("AIR_FullScreen")) {
+                        win.makeMain()
+                        if (WebViewANE.escListener == nil) {
+                            WebViewANE.escListener = NSEvent.addLocalMonitorForEvents(matching: [.keyUp]) { (event: NSEvent) -> NSEvent? in
+                                let theX = Int(event.locationInWindow.x)
+                                let theY = Int(event.locationInWindow.y)
+                                let realY = (Int(win.contentLayoutRect.height) - self._height) - self._y;
+                                if (event.keyCode == 53 && theX > self._x && theX < (self._width - self._x)
+                                        && theY > realY && theY < (realY + self._height)) {
+                                    self.sendEvent(name: WebViewANE.ON_ESC_KEY, value: "")
+                                }
+                                return event
+                            }
                         }
-                        return event
+                        break;
+                    } else if (!fullScreen && win.canBecomeMain && win.className.contains("AIR_PlayerContent")) {
+                        win.makeMain()
+                        win.orderFront(nil)
+                        break;
                     }
                 }
-                break;
-            } else if (!fullScreen && win.canBecomeMain && win.className.contains("AIR_PlayerContent")) {
-                win.makeMain()
-                win.orderFront(nil)
-                break;
+
+                if (tmpIsAdded) {
+                    removeFromStage();
+                    addToStage();
+                }
             }
-        }
-        
-        if (tmpIsAdded) {
-            removeFromStage();
-            addToStage();
-        }
+
+        } catch let e as FREError {
+            e.printStackTrace(#file, #line, #column)
+        } catch {}
+
     }
 
     func reload() {
@@ -334,83 +381,58 @@ import WebKit
         }
     }
 
-    func evaluateJavaScript(argv: NSPointerArray) { //replicated, possibly refactor to remove
+    func evaluateJavaScript(argv: NSPointerArray) {
         if let wv = myWebView {
-            let js = aneHelper.getString(freObject: argv.pointer(at: 0))
-            var callback: String? = nil
-            var callbackType: FREObjectType = FRE_TYPE_NULL;
-            FREGetObjectType(argv.pointer(at: 1), &callbackType);
-            
-            if FRE_TYPE_STRING == callbackType {
-                callback = aneHelper.getString(freObject: argv.pointer(at: 1))
-                wv.evaluateJavaScript(js, completionHandler: { (result: Any?, error: Error?) -> Void in
-                    var props: Dictionary<String, Any> = Dictionary()
-                    props["callbackName"] = callback
-                    props["message"] = ""
-                    if error != nil {
-                        props["success"] = false
-                        props["error"] = error.debugDescription
+            do {
+                if let inFRE0 = argv.pointer(at: 0) {
+                    let js = try inFRE0.getAsString()
+                    if let inFRE1 = argv.pointer(at: 1) {
+                        //test this
+                        let callback = try inFRE1.getAsString()
+                        wv.evaluateJavaScript(js, completionHandler: { (result: Any?, error: Error?) -> Void in
+                            var props: Dictionary<String, Any> = Dictionary()
+                            props["callbackName"] = callback
+                            props["message"] = ""
+                            if error != nil {
+                                props["success"] = false
+                                props["error"] = error.debugDescription
+                            } else {
+                                props["error"] = ""
+                                props["success"] = true
+                            }
+                            props["result"] = result
+                            let json = JSON(props)
+                            self.sendEvent(name: WebViewANE.AS_CALLBACK_EVENT, value: json.description)
+                        })
                     } else {
-                        props["error"] = ""
-                        props["success"] = true
+                        wv.evaluateJavaScript(js, completionHandler: nil)
                     }
-                    props["result"] = result
-                    let json = JSON(props)
-                    self.sendEvent(name: WebViewANE.AS_CALLBACK_EVENT, value: json.description )
-                })
-            }else{
-                wv.evaluateJavaScript(js, completionHandler: nil)
-            }
-            
-        }
-    }
-    
-    func callJavascriptFunction(argv: NSPointerArray) {
-        if let wv = myWebView {
-            let js = aneHelper.getString(freObject: argv.pointer(at: 0))
-            aneHelper.printObjectType(freObject: argv.pointer(at: 1))
-            var callback: String? = nil
-            var callbackType: FREObjectType = FRE_TYPE_NULL;
-            FREGetObjectType(argv.pointer(at: 1), &callbackType);
-            
-            
-            if FRE_TYPE_STRING == callbackType {
-                callback = aneHelper.getString(freObject: argv.pointer(at: 1))
-                wv.evaluateJavaScript(js, completionHandler: { (result: Any?, error: Error?) -> Void in
-                    var props: Dictionary<String, Any> = Dictionary()
-                    props["callbackName"] = callback
-                    props["message"] = ""
-                    if error != nil {
-                        props["success"] = false
-                        props["error"] = error.debugDescription
-                    } else {
-                        props["error"] = ""
-                        props["success"] = true
-                    }
-                    props["result"] = result
-                    let json = JSON(props)
-                    self.sendEvent(name: WebViewANE.AS_CALLBACK_EVENT, value: json.description )
-                })
-            } else {
-                wv.evaluateJavaScript(js, completionHandler: nil)
-            }
-        }
-    }
-    
-    func injectScript(argv: NSPointerArray) {
-        var codeType: FREObjectType = FRE_TYPE_NULL;
-        FREGetObjectType(argv.pointer(at: 0), &codeType);
-        
-        var scriptUrlType: FREObjectType = FRE_TYPE_NULL;
-        FREGetObjectType(argv.pointer(at: 0), &scriptUrlType);
 
-        if (FRE_TYPE_NULL != codeType) {
-            let injectCode = aneHelper.getString(freObject: argv.pointer(at: 0));
-            let userScript =  WKUserScript.init(source: injectCode, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
-            userController.addUserScript(userScript)
+
+                }
+            } catch let e as FREError {
+                e.printStackTrace(#file, #line, #column)
+            } catch {}
         }
+
     }
-    
+
+    func callJavascriptFunction(argv: NSPointerArray) {
+        evaluateJavaScript(argv: argv)
+    }
+
+    func injectScript(argv: NSPointerArray) {
+        do {
+            if let inFRE0: FREObject = argv.pointer(at: 0) {
+                let injectCode: String = try inFRE0.getAsString()
+                let userScript = WKUserScript.init(source: injectCode, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
+                userController.addUserScript(userScript)
+            }
+        } catch let e as FREError {
+            e.printStackTrace(#file, #line, #column)
+        } catch {}
+    }
+
     /*! @abstract Invoked when a script message is received from a webpage.
      @param userContentController The user content controller invoking the
      delegate method.
@@ -418,18 +440,32 @@ import WebKit
      */
     @available(OSX 10.10, *)
     public func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-        if let messageBody:NSDictionary = message.body as? NSDictionary{
+        if let messageBody: NSDictionary = message.body as? NSDictionary {
             let json = JSON(messageBody);
-            sendEvent(name: WebViewANE.JS_CALLBACK_EVENT, value: json.description); 
+            sendEvent(name: WebViewANE.JS_CALLBACK_EVENT, value: json.description);
         }
     }
 
     func initWebView(argv: NSPointerArray) {
-        _initialUrl = aneHelper.getString(freObject: argv.pointer(at: 0))
-        _x = aneHelper.getInt(freObject: argv.pointer(at: 1))
-        _y = aneHelper.getInt(freObject: argv.pointer(at: 2))
-        _width = aneHelper.getInt(freObject: argv.pointer(at: 3))
-        _height = aneHelper.getInt(freObject: argv.pointer(at: 4))
+        do {
+            if let initialUrlFRE: FREObject = argv.pointer(at: 0) {
+                _initialUrl = try initialUrlFRE.getAsString()
+            }
+
+            if let inFRE1 = argv.pointer(at: 1), let inFRE2 = argv.pointer(at: 2), let inFRE3 = argv.pointer(at: 3),
+               let inFRE4 = argv.pointer(at: 4) {
+                _x = try inFRE1.getAsInt()
+                _y = try inFRE2.getAsInt()
+                _width = try inFRE3.getAsInt()
+                _height = try inFRE4.getAsInt()
+            }
+
+        } catch let e as FREError {
+            e.printStackTrace(#file, #line, #column)
+            return
+        } catch {
+            return
+        }
 
         let allWindows = NSApp.windows;
         var mWin: NSWindow?
@@ -441,27 +477,42 @@ import WebKit
                 mWin = allWindows[0]
             }
 
-            let settingsFRE = aneHelper.getProperty(freObject: argv.pointer(at: 5), propertyName: "webkit")
-            configuration.preferences.plugInsEnabled = aneHelper.getBool(freObject:
-                aneHelper.getProperty(freObject: settingsFRE, propertyName: "plugInsEnabled"))
-            
-            configuration.preferences.javaScriptEnabled = aneHelper.getBool(freObject:
-                aneHelper.getProperty(freObject: settingsFRE, propertyName: "javaScriptEnabled"))
-            
-            configuration.preferences.javaScriptCanOpenWindowsAutomatically = aneHelper.getBool(freObject:
-                aneHelper.getProperty(freObject: settingsFRE,
-                                               propertyName: "javaScriptCanOpenWindowsAutomatically"))
-            
-            configuration.preferences.javaEnabled = aneHelper.getBool(freObject:
-                aneHelper.getProperty(freObject: settingsFRE, propertyName: "javaEnabled"))
-            
-            configuration.preferences.minimumFontSize = aneHelper.getCGFloat(freObject:
-                aneHelper.getProperty(freObject: settingsFRE, propertyName: "minimumFontSize"))
+            do {
+                if let settingsFRE: FREObject = argv.pointer(at: 5) {
+                    if let settingsWK = try settingsFRE.getProperty(name: "webkit") {
+                        if let plugInsEnabled: Bool = try settingsWK.getProperty(name: "plugInsEnabled")?.getAsBool() {
+                            configuration.preferences.plugInsEnabled = plugInsEnabled
+                        }
+                        if let javaScriptEnabled: Bool = try settingsWK.getProperty(name: "javaScriptEnabled")?.getAsBool() {
+                            configuration.preferences.javaScriptEnabled = javaScriptEnabled
+                        }
+                        if let javaScriptCanOpenWindowsAutomatically: Bool =
+                        try settingsWK.getProperty(name: "javaScriptCanOpenWindowsAutomatically")?.getAsBool() {
+                            configuration.preferences.javaScriptCanOpenWindowsAutomatically = javaScriptCanOpenWindowsAutomatically
+                        }
+                        if let javaEnabled: Bool = try settingsWK.getProperty(name: "javaEnabled")?.getAsBool() {
+                            configuration.preferences.javaEnabled = javaEnabled
+                        }
+                        if let minimumFontSize: CGFloat = try settingsWK.getProperty(name: "minimumFontSize")?.getAsCGFloat() {
+                            configuration.preferences.minimumFontSize = minimumFontSize
+                        }
+                    }
 
-            
+                    if #available(OSX 10.11, *) {
+                        if let userAgent: String = try settingsFRE.getProperty(name: "userAgent")?.getAsString() {
+                            _userAgent = userAgent
+                        }
+                    }
+
+                }
+            } catch let e as FREError {
+                e.printStackTrace(#file, #line, #column)
+            } catch {
+            }
+
             userController.add(self, name: "webViewANE")
             configuration.userContentController = userController;
-            
+
             let realY = (Int((mWin?.contentLayoutRect.height)!) - _height) - _y;
             let myRect: CGRect = CGRect.init(x: _x, y: realY, width: _width, height: _height)
 
@@ -471,12 +522,8 @@ import WebKit
                 wv.navigationDelegate = self
                 wv.uiDelegate = self
                 if #available(OSX 10.11, *) {
-                    var userAgentAS: FREObject? = nil;
-                    userAgentAS = aneHelper.getProperty(freObject: argv.pointer(at: 5), propertyName: "userAgent");
-                    var userAgentType: FREObjectType = FRE_TYPE_NULL;
-                    FREGetObjectType(userAgentAS, &userAgentType);
-                    if FRE_TYPE_STRING == userAgentType {
-                       wv.customUserAgent = aneHelper.getString(freObject: userAgentAS)
+                    if let userAgent = _userAgent {
+                        wv.customUserAgent = userAgent
                     }
                 }
 
@@ -546,13 +593,12 @@ import WebKit
         }
 
         let json = JSON(props)
-        sendEvent(name: WebViewANE.ON_PROPERTY_CHANGE, value: json.description )
+        sendEvent(name: WebViewANE.ON_PROPERTY_CHANGE, value: json.description)
 
     }
 
     func setFREContext(ctx: FREContext) {
-        dllContext = ctx
-        aneHelper.setFREContext(ctx: ctx)
+        context = ctx
     }
 
 }

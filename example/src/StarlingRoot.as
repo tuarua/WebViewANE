@@ -435,9 +435,13 @@ public class StarlingRoot extends Sprite {
         var touch:Touch = event.getTouch(fwdBtn);
         if (touch != null && touch.phase == TouchPhase.ENDED) {
             webView.goForward();
+
+
             /*
-             var obj:BackForwardList = webView.backForwardList();
-             */
+            var obj:BackForwardList = webView.backForwardList();
+            trace("back list length",obj.backList.length)
+            trace("forward list length",obj.forwardList.length)
+            */
         }
     }
 

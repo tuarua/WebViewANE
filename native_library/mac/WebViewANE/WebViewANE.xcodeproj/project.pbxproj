@@ -11,9 +11,9 @@
 		CE89412A1E3440BF00191B38 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE8941291E3440BF00191B38 /* Cocoa.framework */; };
 		CE89412D1E3440E500191B38 /* SwiftyJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = CE89412B1E3440E500191B38 /* SwiftyJSON.h */; };
 		CE89412E1E3440E500191B38 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE89412C1E3440E500191B38 /* SwiftyJSON.swift */; };
+		CEEE923C1E75C5F500A874EC /* FlashRuntimeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEEE923B1E75C5F500A874EC /* FlashRuntimeExtensions.swift */; };
 		CEF5C70B1E1EE882004389CE /* Adobe AIR_64 in Frameworks */ = {isa = PBXBuildFile; fileRef = CEF5C7081E1EE882004389CE /* Adobe AIR_64 */; };
 		CEF5C70C1E1EE882004389CE /* Adobe AIR in Frameworks */ = {isa = PBXBuildFile; fileRef = CEF5C7091E1EE882004389CE /* Adobe AIR */; };
-		CEF5C7111E1EE8C6004389CE /* ANEHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF5C7101E1EE8C6004389CE /* ANEHelper.swift */; };
 		CEF5C7141E1EE8CF004389CE /* WebViewANE.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF5C7121E1EE8CF004389CE /* WebViewANE.m */; };
 		CEF5C71B1E1EED3B004389CE /* WebViewANE_oc.h in Headers */ = {isa = PBXBuildFile; fileRef = CEF5C7161E1EE8E8004389CE /* WebViewANE_oc.h */; };
 		CEF5C71C1E1EED3C004389CE /* WebViewANE-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = CEF5C7171E1EE8E8004389CE /* WebViewANE-Bridging-Header.h */; };
@@ -24,11 +24,11 @@
 		CE8941291E3440BF00191B38 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		CE89412B1E3440E500191B38 /* SwiftyJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwiftyJSON.h; sourceTree = "<group>"; };
 		CE89412C1E3440E500191B38 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
+		CEEE923B1E75C5F500A874EC /* FlashRuntimeExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlashRuntimeExtensions.swift; sourceTree = "<group>"; };
 		CEF5C6FC1E1EE83F004389CE /* WebViewANE.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WebViewANE.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEF5C7001E1EE83F004389CE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CEF5C7081E1EE882004389CE /* Adobe AIR_64 */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "Adobe AIR_64"; path = "../../../../../sdks/AIR/AIRSDK_24/runtimes/air/mac/Adobe AIR.framework/Versions/1.0/Adobe AIR_64"; sourceTree = "<group>"; };
 		CEF5C7091E1EE882004389CE /* Adobe AIR */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "Adobe AIR"; path = "../../../../../sdks/AIR/AIRSDK_24/runtimes/air/mac/Adobe AIR.framework/Versions/1.0/Adobe AIR"; sourceTree = "<group>"; };
-		CEF5C7101E1EE8C6004389CE /* ANEHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ANEHelper.swift; sourceTree = "<group>"; };
 		CEF5C7121E1EE8CF004389CE /* WebViewANE.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewANE.m; sourceTree = "<group>"; };
 		CEF5C7161E1EE8E8004389CE /* WebViewANE_oc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewANE_oc.h; sourceTree = "<group>"; };
 		CEF5C7171E1EE8E8004389CE /* WebViewANE-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WebViewANE-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -69,10 +69,10 @@
 		CEF5C6FE1E1EE83F004389CE /* WebViewANE */ = {
 			isa = PBXGroup;
 			children = (
+				CEEE923B1E75C5F500A874EC /* FlashRuntimeExtensions.swift */,
 				CE89412B1E3440E500191B38 /* SwiftyJSON.h */,
 				CE89412C1E3440E500191B38 /* SwiftyJSON.swift */,
 				CEF5C7121E1EE8CF004389CE /* WebViewANE.m */,
-				CEF5C7101E1EE8C6004389CE /* ANEHelper.swift */,
 				285FE0612F3E80324C9E166A /* WebViewANE.swift */,
 				CEF5C70F1E1EE8B6004389CE /* Headers */,
 				CEF5C70E1E1EE8AE004389CE /* Misc */,
@@ -208,7 +208,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CEF5C7141E1EE8CF004389CE /* WebViewANE.m in Sources */,
-				CEF5C7111E1EE8C6004389CE /* ANEHelper.swift in Sources */,
+				CEEE923C1E75C5F500A874EC /* FlashRuntimeExtensions.swift in Sources */,
 				285FE221A0881A06EF9342D3 /* WebViewANE.swift in Sources */,
 				CE89412E1E3440E500191B38 /* SwiftyJSON.swift in Sources */,
 			);

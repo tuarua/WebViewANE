@@ -57,8 +57,6 @@ public class WebViewANESample extends Sprite {
         mStarling.stage.stageWidth = this.stage.stageWidth;
         mStarling.stage.stageHeight = this.stage.stageHeight;
 
-        //trace(e);
-
         var viewPort:Rectangle = mStarling.viewPort;
         viewPort.width = this.stage.stageWidth;
         viewPort.height = this.stage.stageHeight;
