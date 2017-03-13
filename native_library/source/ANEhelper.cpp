@@ -53,7 +53,7 @@ FREObject ANEHelper::getFREObject(bool value) {
 FREObject ANEHelper::getFREObject(int32_t value) {
 	FREObject result;
 	auto status = FRENewObjectFromInt32(value, &result);
-	isFREResultOK(status, "Could not convert bool to FREObject.");
+	isFREResultOK(status, "Could not convert int32_t to FREObject.");
 	return result;
 }
 
@@ -90,7 +90,7 @@ FREObject ANEHelper::getProperty(FREObject freObject, std::string propertyName) 
 
 void ANEHelper::setProperty(FREObject freObject, std::string name, FREObject value) {
 	FREObject thrownException = nullptr;
-	auto status = FRESetObjectProperty(freObject, reinterpret_cast<const uint8_t *>(name.c_str()), value, nullptr);
+	auto status = FRESetObjectProperty(freObject, reinterpret_cast<const uint8_t *>(name.c_str()), value, &thrownException);
 	isFREResultOK(status, "Could not set FREObject property.");
 	if (FRE_OK != status)
 		hasThrownException(thrownException);
