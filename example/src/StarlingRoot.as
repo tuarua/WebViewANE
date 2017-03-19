@@ -13,12 +13,10 @@ import com.tuarua.webview.Settings;
 import com.tuarua.webview.WebViewEvent;
 
 import flash.desktop.NativeApplication;
-import flash.display.NativeWindow;
 import flash.display.NativeWindowDisplayState;
 import flash.display.StageDisplayState;
 import flash.events.Event;
 import flash.events.FullScreenEvent;
-import flash.events.NativeWindowBoundsEvent;
 import flash.events.NativeWindowDisplayStateEvent;
 import flash.filesystem.File;
 import flash.geom.Point;
@@ -159,8 +157,8 @@ public class StarlingRoot extends Sprite {
         fullscreenBtn.addEventListener(TouchEvent.TOUCH, onFullScreen);
 
 
-        devToolsBtn.y = fullscreenBtn.y = zoomInBtn.y = zoomOutBtn.y = backBtn.y
-                = backBtn.y = fwdBtn.y = refreshBtn.y = cancelBtn.y = 50;
+        devToolsBtn.y = fullscreenBtn.y = zoomInBtn.y = zoomOutBtn.y =
+                backBtn.y = fwdBtn.y = refreshBtn.y = cancelBtn.y = 50;
 
 
         devToolsBtn.x = fullscreenBtn.x + 40;

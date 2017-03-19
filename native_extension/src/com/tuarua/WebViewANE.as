@@ -81,7 +81,6 @@ public class WebViewANE extends EventDispatcher {
                 break;
 
             case WebViewEvent.ON_PROPERTY_CHANGE:
-                //trace(event.code);
                 pObj = JSON.parse(event.code);
                 if (pObj.propName == "url") {
                     _url = pObj.value;
@@ -519,7 +518,7 @@ public class WebViewANE extends EventDispatcher {
 
     /**
      *
-     * @return true if the device is Windows 7+ or OSX 10.10+
+     * @return true if the device is Windows 7+, OSX 10.10+ or iOS 9.0+
      *
      */
     public function isSupported():Boolean {
