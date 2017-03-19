@@ -1,7 +1,7 @@
 
 # WebViewANE 
 
-WebView Adobe Air Native Extension for OSX 10.10+ and Windows Desktop.
+WebView Adobe Air Native Extension for OSX 10.10+, Windows Desktop and iOS 9.0+.
 This ANE provides access to a more modern webview from AIR.
 
 Sample client included
@@ -25,7 +25,25 @@ https://www.microsoft.com/en-us/download/details.aspx?id=48145
 
 ## OSX
 
-The OSX version utilises the native WKWebView
+The OSX version utilises the native WKWebView.
+
+
+## iOS
+
+The iOS version utilises the native WKWebView.
+The iOS version is written in Swift and uses a new way of writing ANEs for iOS.
+
+### Running on Simulator
+
+The example project can be run on the Simulator from IntelliJ
+
+### Running on Device !
+
+The example project needs to be built and signed in the correct manner.
+An AIR based packaging tool is provided at https://github.com/tuarua/AIR-iOS-Packager
+
+The option to install and debug on the device is included within the tool.
+The AIR tool fdb (Flash debugger) is used for debugging. This is only applicable when "Debug over network" is chosen
 
 ## 
 
@@ -33,10 +51,8 @@ The OSX version utilises the native WKWebView
 
 
 ### To Do
+Android Version
 
-
-### Long Term To Do
-* Windows Edge based WebView and CEF on OSX. Allow ability to select which one to be used, eg CEF or Native
 
 ### References
 * [https://developer.apple.com/reference/webkit/wkwebview]
