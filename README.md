@@ -31,7 +31,7 @@ The OSX version utilises the native WKWebView.
 ## iOS
 
 The iOS version utilises the native WKWebView.
-The iOS version is written in Swift and uses a new way of writing ANEs for iOS.
+The iOS version is written in Swift and uses a new way of writing ANEs for iOS. See this repo for more details https://github.com/tuarua/Swift-IOS-ANE
 
 ### Running on Simulator
 
@@ -41,9 +41,6 @@ The example project can be run on the Simulator from IntelliJ
 
 The example project needs to be built and signed in the correct manner.
 An AIR based packaging tool is provided at https://github.com/tuarua/AIR-iOS-Packager
-
-The option to install and debug on the device is included within the tool.
-The AIR tool fdb (Flash debugger) is used for debugging. This is only applicable when "Debug over network" is chosen
 
 ## 
 
