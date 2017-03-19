@@ -6,9 +6,8 @@
  * Created by Eoin Landy on 10/01/2017.
  */
 package com.tuarua.webview {
-import com.tuarua.ANEObject;
 
-public class Settings extends ANEObject {
+public class Settings extends Object {
 	/**
 	 * <p>Settings to use for CEF (Windows) version.</p>
 	 */	

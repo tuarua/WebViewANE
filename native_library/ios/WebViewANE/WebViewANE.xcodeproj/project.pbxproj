@@ -1,0 +1,726 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		285FE3EB871F2DD420623AEE /* WebViewANE_oc.h in Headers */ = {isa = PBXBuildFile; fileRef = 285FEBB3CADF8D704FAB5E4D /* WebViewANE_oc.h */; };
+		285FECB67C2311471C2CD119 /* WebViewANE.m in Sources */ = {isa = PBXBuildFile; fileRef = 285FE6D7F3D6356FA03A26C0 /* WebViewANE.m */; };
+		CE39808E1E58BAA90062485B /* WebViewANE_FW.h in Headers */ = {isa = PBXBuildFile; fileRef = CE39808C1E58BAA90062485B /* WebViewANE_FW.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE3980981E58BB070062485B /* WebViewANE.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3980971E58BB070062485B /* WebViewANE.swift */; };
+		CE39809A1E58BC3B0062485B /* WebViewANE_FW-Swift.h in Headers */ = {isa = PBXBuildFile; fileRef = CE3980991E58BC3B0062485B /* WebViewANE_FW-Swift.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE3980AD1E58BF3F0062485B /* WebViewANE_FW.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE39808A1E58BAA90062485B /* WebViewANE_FW.framework */; };
+		CE53818B1E7D8E3000C09DA2 /* FRESwift.h in Headers */ = {isa = PBXBuildFile; fileRef = CE5381891E7D8E3000C09DA2 /* FRESwift.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE5381921E7D8F6D00C09DA2 /* FlashRuntimeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE53818F1E7D8F6D00C09DA2 /* FlashRuntimeExtensions.swift */; };
+		CE5381931E7D8F6D00C09DA2 /* FRESwiftBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5381901E7D8F6D00C09DA2 /* FRESwiftBridge.swift */; };
+		CE5381941E7D8F6D00C09DA2 /* FlashRuntimeExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = CE5381911E7D8F6D00C09DA2 /* FlashRuntimeExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE5381961E7D90BA00C09DA2 /* FRESwift-Swift.h in Headers */ = {isa = PBXBuildFile; fileRef = CE5381951E7D90BA00C09DA2 /* FRESwift-Swift.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE5381991E7D938F00C09DA2 /* FRESwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE5381871E7D8E3000C09DA2 /* FRESwift.framework */; };
+		CE53819C1E7DFFD400C09DA2 /* FlashRuntimeExtensionsBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 285FEC93B40FBCDF5C7C0984 /* FlashRuntimeExtensionsBridge.m */; };
+		CE53819D1E7DFFE100C09DA2 /* FlashRuntimeExtensionsBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = CEA437FE1E78361D0099F463 /* FlashRuntimeExtensionsBridge.h */; };
+		CEA438051E78A2C00099F463 /* SwiftyJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = CEA438031E78A2C00099F463 /* SwiftyJSON.h */; };
+		CEA438061E78A2C00099F463 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA438041E78A2C00099F463 /* SwiftyJSON.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		CE3980B01E58C08A0062485B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE3980631E58BA7F0062485B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CE3980891E58BAA90062485B;
+			remoteInfo = WebViewANE_FW;
+		};
+		CE5381971E7D923800C09DA2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE3980631E58BA7F0062485B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CE5381861E7D8E3000C09DA2;
+			remoteInfo = FRESwift;
+		};
+		CE53819A1E7D964E00C09DA2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE3980631E58BA7F0062485B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CE5381861E7D8E3000C09DA2;
+			remoteInfo = FRESwift;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		CE39809D1E58BEE10062485B /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		285FE6D7F3D6356FA03A26C0 /* WebViewANE.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WebViewANE.m; path = ../../../source/WebViewANE.m; sourceTree = "<group>"; };
+		285FEBB3CADF8D704FAB5E4D /* WebViewANE_oc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WebViewANE_oc.h; path = ../../../include/WebViewANE_oc.h; sourceTree = "<group>"; };
+		285FEC93B40FBCDF5C7C0984 /* FlashRuntimeExtensionsBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlashRuntimeExtensionsBridge.m; sourceTree = "<group>"; };
+		CE39808A1E58BAA90062485B /* WebViewANE_FW.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WebViewANE_FW.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE39808C1E58BAA90062485B /* WebViewANE_FW.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WebViewANE_FW.h; sourceTree = "<group>"; };
+		CE39808D1E58BAA90062485B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CE3980971E58BB070062485B /* WebViewANE.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebViewANE.swift; path = ../../../source/WebViewANE.swift; sourceTree = "<group>"; };
+		CE3980991E58BC3B0062485B /* WebViewANE_FW-Swift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WebViewANE_FW-Swift.h"; sourceTree = "<group>"; };
+		CE39809F1E58BEE10062485B /* libWebViewANE_LIB.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libWebViewANE_LIB.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE5381871E7D8E3000C09DA2 /* FRESwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FRESwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE5381891E7D8E3000C09DA2 /* FRESwift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FRESwift.h; sourceTree = "<group>"; };
+		CE53818A1E7D8E3000C09DA2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CE53818F1E7D8F6D00C09DA2 /* FlashRuntimeExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlashRuntimeExtensions.swift; sourceTree = "<group>"; };
+		CE5381901E7D8F6D00C09DA2 /* FRESwiftBridge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FRESwiftBridge.swift; sourceTree = "<group>"; };
+		CE5381911E7D8F6D00C09DA2 /* FlashRuntimeExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlashRuntimeExtensions.h; sourceTree = "<group>"; };
+		CE5381951E7D90BA00C09DA2 /* FRESwift-Swift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FRESwift-Swift.h"; sourceTree = "<group>"; };
+		CEA437FE1E78361D0099F463 /* FlashRuntimeExtensionsBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlashRuntimeExtensionsBridge.h; sourceTree = "<group>"; };
+		CEA438031E78A2C00099F463 /* SwiftyJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SwiftyJSON.h; path = ../../../dependencies/SwiftyJSON.h; sourceTree = "<group>"; };
+		CEA438041E78A2C00099F463 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftyJSON.swift; path = ../../../dependencies/SwiftyJSON.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CE3980861E58BAA90062485B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE39809C1E58BEE10062485B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE5381991E7D938F00C09DA2 /* FRESwift.framework in Frameworks */,
+				CE3980AD1E58BF3F0062485B /* WebViewANE_FW.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE5381831E7D8E3000C09DA2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		CE3980621E58BA7F0062485B = {
+			isa = PBXGroup;
+			children = (
+				CE39808B1E58BAA90062485B /* WebViewANE_FW */,
+				CE3980A01E58BEE10062485B /* WebViewANE_LIB */,
+				CE5381881E7D8E3000C09DA2 /* FRESwift */,
+				CE39806C1E58BA7F0062485B /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		CE39806C1E58BA7F0062485B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CE39808A1E58BAA90062485B /* WebViewANE_FW.framework */,
+				CE39809F1E58BEE10062485B /* libWebViewANE_LIB.a */,
+				CE5381871E7D8E3000C09DA2 /* FRESwift.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CE39808B1E58BAA90062485B /* WebViewANE_FW */ = {
+			isa = PBXGroup;
+			children = (
+				CEA438021E78397D0099F463 /* Misc */,
+				CEA438011E7839740099F463 /* Headers */,
+				CE3980971E58BB070062485B /* WebViewANE.swift */,
+			);
+			path = WebViewANE_FW;
+			sourceTree = "<group>";
+		};
+		CE3980A01E58BEE10062485B /* WebViewANE_LIB */ = {
+			isa = PBXGroup;
+			children = (
+				285FE6D7F3D6356FA03A26C0 /* WebViewANE.m */,
+				285FEBB3CADF8D704FAB5E4D /* WebViewANE_oc.h */,
+			);
+			path = WebViewANE_LIB;
+			sourceTree = "<group>";
+		};
+		CE5381881E7D8E3000C09DA2 /* FRESwift */ = {
+			isa = PBXGroup;
+			children = (
+				CE53819F1E7E005500C09DA2 /* Misc */,
+				CE53819E1E7E003600C09DA2 /* Headers */,
+				285FEC93B40FBCDF5C7C0984 /* FlashRuntimeExtensionsBridge.m */,
+				CE53818F1E7D8F6D00C09DA2 /* FlashRuntimeExtensions.swift */,
+				CE5381901E7D8F6D00C09DA2 /* FRESwiftBridge.swift */,
+			);
+			path = FRESwift;
+			sourceTree = "<group>";
+		};
+		CE53819E1E7E003600C09DA2 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				CEA437FE1E78361D0099F463 /* FlashRuntimeExtensionsBridge.h */,
+				CE5381951E7D90BA00C09DA2 /* FRESwift-Swift.h */,
+				CE5381911E7D8F6D00C09DA2 /* FlashRuntimeExtensions.h */,
+				CE5381891E7D8E3000C09DA2 /* FRESwift.h */,
+			);
+			name = Headers;
+			sourceTree = "<group>";
+		};
+		CE53819F1E7E005500C09DA2 /* Misc */ = {
+			isa = PBXGroup;
+			children = (
+				CE53818A1E7D8E3000C09DA2 /* Info.plist */,
+			);
+			name = Misc;
+			sourceTree = "<group>";
+		};
+		CEA438011E7839740099F463 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				CEA438031E78A2C00099F463 /* SwiftyJSON.h */,
+				CE3980991E58BC3B0062485B /* WebViewANE_FW-Swift.h */,
+				CE39808C1E58BAA90062485B /* WebViewANE_FW.h */,
+			);
+			name = Headers;
+			sourceTree = "<group>";
+		};
+		CEA438021E78397D0099F463 /* Misc */ = {
+			isa = PBXGroup;
+			children = (
+				CEA438041E78A2C00099F463 /* SwiftyJSON.swift */,
+				CE39808D1E58BAA90062485B /* Info.plist */,
+			);
+			name = Misc;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		CE3980871E58BAA90062485B /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE39809A1E58BC3B0062485B /* WebViewANE_FW-Swift.h in Headers */,
+				CEA438051E78A2C00099F463 /* SwiftyJSON.h in Headers */,
+				CE39808E1E58BAA90062485B /* WebViewANE_FW.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE3980AE1E58BF530062485B /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				285FE3EB871F2DD420623AEE /* WebViewANE_oc.h in Headers */,
+				CE53819D1E7DFFE100C09DA2 /* FlashRuntimeExtensionsBridge.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE5381841E7D8E3000C09DA2 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE5381941E7D8F6D00C09DA2 /* FlashRuntimeExtensions.h in Headers */,
+				CE5381961E7D90BA00C09DA2 /* FRESwift-Swift.h in Headers */,
+				CE53818B1E7D8E3000C09DA2 /* FRESwift.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		CE3980891E58BAA90062485B /* WebViewANE_FW */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CE3980931E58BAA90062485B /* Build configuration list for PBXNativeTarget "WebViewANE_FW" */;
+			buildPhases = (
+				CE3980851E58BAA90062485B /* Sources */,
+				CE3980861E58BAA90062485B /* Frameworks */,
+				CE3980871E58BAA90062485B /* Headers */,
+				CE3980881E58BAA90062485B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CE5381981E7D923800C09DA2 /* PBXTargetDependency */,
+			);
+			name = WebViewANE_FW;
+			productName = WebViewANE_FW;
+			productReference = CE39808A1E58BAA90062485B /* WebViewANE_FW.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		CE39809E1E58BEE10062485B /* WebViewANE_LIB */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CE3980A51E58BEE10062485B /* Build configuration list for PBXNativeTarget "WebViewANE_LIB" */;
+			buildPhases = (
+				CE39809B1E58BEE10062485B /* Sources */,
+				CE39809C1E58BEE10062485B /* Frameworks */,
+				CE39809D1E58BEE10062485B /* CopyFiles */,
+				CE3980AE1E58BF530062485B /* Headers */,
+				CE3980B21E58C0D80062485B /* ShellScript */,
+				CEFD140F1E59F28C00CA19D0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CE3980B11E58C08A0062485B /* PBXTargetDependency */,
+				CE53819B1E7D964E00C09DA2 /* PBXTargetDependency */,
+			);
+			name = WebViewANE_LIB;
+			productName = WebViewANE_LIB;
+			productReference = CE39809F1E58BEE10062485B /* libWebViewANE_LIB.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		CE5381861E7D8E3000C09DA2 /* FRESwift */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CE53818C1E7D8E3000C09DA2 /* Build configuration list for PBXNativeTarget "FRESwift" */;
+			buildPhases = (
+				CE5381821E7D8E3000C09DA2 /* Sources */,
+				CE5381831E7D8E3000C09DA2 /* Frameworks */,
+				CE5381841E7D8E3000C09DA2 /* Headers */,
+				CE5381851E7D8E3000C09DA2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FRESwift;
+			productName = FRESwift;
+			productReference = CE5381871E7D8E3000C09DA2 /* FRESwift.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		CE3980631E58BA7F0062485B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0820;
+				ORGANIZATIONNAME = "Tua Rua Ltd";
+				TargetAttributes = {
+					CE3980891E58BAA90062485B = {
+						CreatedOnToolsVersion = 8.2;
+						DevelopmentTeam = FWEQJ32FGC;
+						LastSwiftMigration = 0820;
+						ProvisioningStyle = Manual;
+					};
+					CE39809E1E58BEE10062485B = {
+						CreatedOnToolsVersion = 8.2;
+						ProvisioningStyle = Automatic;
+					};
+					CE5381861E7D8E3000C09DA2 = {
+						CreatedOnToolsVersion = 8.2;
+						DevelopmentTeam = FWEQJ32FGC;
+						LastSwiftMigration = 0820;
+						ProvisioningStyle = Manual;
+					};
+				};
+			};
+			buildConfigurationList = CE3980661E58BA7F0062485B /* Build configuration list for PBXProject "WebViewANE" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = CE3980621E58BA7F0062485B;
+			productRefGroup = CE39806C1E58BA7F0062485B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				CE3980891E58BAA90062485B /* WebViewANE_FW */,
+				CE39809E1E58BEE10062485B /* WebViewANE_LIB */,
+				CE5381861E7D8E3000C09DA2 /* FRESwift */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		CE3980881E58BAA90062485B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE5381851E7D8E3000C09DA2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CEFD140F1E59F28C00CA19D0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		CE3980B21E58C0D80062485B /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 12;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = ../../../native_extension/ane/build_ios.sh;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CE3980851E58BAA90062485B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE3980981E58BB070062485B /* WebViewANE.swift in Sources */,
+				CEA438061E78A2C00099F463 /* SwiftyJSON.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE39809B1E58BEE10062485B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				285FECB67C2311471C2CD119 /* WebViewANE.m in Sources */,
+				CE53819C1E7DFFD400C09DA2 /* FlashRuntimeExtensionsBridge.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE5381821E7D8E3000C09DA2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE5381931E7D8F6D00C09DA2 /* FRESwiftBridge.swift in Sources */,
+				CE5381921E7D8F6D00C09DA2 /* FlashRuntimeExtensions.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		CE3980B11E58C08A0062485B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CE3980891E58BAA90062485B /* WebViewANE_FW */;
+			targetProxy = CE3980B01E58C08A0062485B /* PBXContainerItemProxy */;
+		};
+		CE5381981E7D923800C09DA2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CE5381861E7D8E3000C09DA2 /* FRESwift */;
+			targetProxy = CE5381971E7D923800C09DA2 /* PBXContainerItemProxy */;
+		};
+		CE53819B1E7D964E00C09DA2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CE5381861E7D8E3000C09DA2 /* FRESwift */;
+			targetProxy = CE53819A1E7D964E00C09DA2 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		CE3980801E58BA7F0062485B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = J5NM3RJ6B6;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SYMROOT = /Users/User/flash/WebViewANE/native_library/ios/WebViewANE/Build/Products;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		CE3980811E58BA7F0062485B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = J5NM3RJ6B6;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SYMROOT = /Users/User/flash/WebViewANE/native_library/ios/WebViewANE/Build/Products;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		CE3980941E58BAA90062485B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Eoin Landy (R7A9D97PD9)";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = FWEQJ32FGC;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = WebViewANE_FW/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = com.tuarua.WebViewANE;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "WebViewANE_FW-Swift.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		CE3980951E58BAA90062485B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Eoin Landy (R7A9D97PD9)";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = FWEQJ32FGC;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = WebViewANE_FW/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = com.tuarua.WebViewANE;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "WebViewANE_FW-Swift.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		CE3980A61E58BEE10062485B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_BITCODE = NO;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @rpath @loader_path @executable_path/Frameworks @executable_path";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		CE3980A71E58BEE10062485B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_BITCODE = NO;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @rpath @loader_path @executable_path/Frameworks @executable_path";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		CE53818D1E7D8E3000C09DA2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Eoin Landy (R7A9D97PD9)";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = FWEQJ32FGC;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = FRESwift/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = com.tuarua.FRESwift;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "FRESwift-Swift.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		CE53818E1E7D8E3000C09DA2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Eoin Landy (R7A9D97PD9)";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = FWEQJ32FGC;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = FRESwift/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = com.tuarua.FRESwift;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "FRESwift-Swift.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CE3980661E58BA7F0062485B /* Build configuration list for PBXProject "WebViewANE" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE3980801E58BA7F0062485B /* Debug */,
+				CE3980811E58BA7F0062485B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CE3980931E58BAA90062485B /* Build configuration list for PBXNativeTarget "WebViewANE_FW" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE3980941E58BAA90062485B /* Debug */,
+				CE3980951E58BAA90062485B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CE3980A51E58BEE10062485B /* Build configuration list for PBXNativeTarget "WebViewANE_LIB" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE3980A61E58BEE10062485B /* Debug */,
+				CE3980A71E58BEE10062485B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CE53818C1E7D8E3000C09DA2 /* Build configuration list for PBXNativeTarget "FRESwift" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE53818D1E7D8E3000C09DA2 /* Debug */,
+				CE53818E1E7D8E3000C09DA2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = CE3980631E58BA7F0062485B /* Project object */;
+}

@@ -169,6 +169,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class) id _Nullable escListener;)
 - (void)callJavascriptFunctionWithArgv:(NSPointerArray * _Nonnull)argv;
 - (void)injectScriptWithArgv:(NSPointerArray * _Nonnull)argv;
 - (void)userContentController:(WKUserContentController * _Nonnull)userContentController didReceiveScriptMessage:(WKScriptMessage * _Nonnull)message;
+- (void)setBackgroundColorWithArgv:(NSPointerArray * _Nonnull)argv;
 - (void)initWebViewWithArgv:(NSPointerArray * _Nonnull)argv SWIFT_METHOD_FAMILY(none);
 - (void)observeValueForKeyPath:(NSString * _Nullable)keyPath ofObject:(id _Nullable)object change:(NSDictionary<NSKeyValueChangeKey, id> * _Nullable)change context:(void * _Nullable)context;
 - (void)setFREContextWithCtx:(FREContext _Nonnull)ctx;

@@ -6,6 +6,7 @@ import flash.display.StageScaleMode;
 import flash.events.Event;
 import flash.events.FullScreenEvent;
 import flash.geom.Rectangle;
+import flash.system.Capabilities;
 
 import starling.core.Starling;
 import starling.events.Event;
@@ -23,7 +24,7 @@ public class WebViewANESample extends Sprite {
         WebViewANESample.target = this;
         stage.align = StageAlign.TOP_LEFT;
         stage.scaleMode = StageScaleMode.NO_SCALE;
-
+        
         Starling.multitouchEnabled = false;
         var viewPort:Rectangle = new Rectangle(0, 0, stage.stageWidth, stage.stageHeight);
 

@@ -6,9 +6,8 @@
  * Created by Eoin Landy on 10/01/2017.
  */
 package com.tuarua.webview {
-import com.tuarua.ANEObject;
 
-public class CefSettings extends ANEObject {
+public class CefSettings extends Object {
 /** 
  * <p>Set to a value between 1024 and 65535 to enable remote debugging on the specified
 port. For example, if 8080 is specified the remote debugging URL will be http://localhost:8080.

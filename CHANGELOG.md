@@ -1,3 +1,6 @@
+### 0.0.15
+- iOS: Add iOS version
+
 ### 0.0.14
 - OSX: Fix Issue #22
 

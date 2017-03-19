@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:75bffbbbaf275806d363a6914177a967:4e409e8bd8b9cea451f69e7c1610dffe:cde709370900f12288f3449eded86f07$ -->
+<TextureAtlas imagePath="atlas.png" width="231" height="32">
+    <SubTexture name="back-btn" x="1" y="1" width="30" height="30"/>
+    <SubTexture name="cancel-btn" x="35" y="1" width="30" height="30"/>
+    <SubTexture name="fwd-btn" x="69" y="1" width="30" height="30"/>
+    <SubTexture name="input-bg" x="205" y="1" width="25" height="25"/>
+    <SubTexture name="js-btn" x="103" y="1" width="30" height="30"/>
+    <SubTexture name="refresh-btn" x="137" y="1" width="30" height="30"/>
+    <SubTexture name="web-btn" x="171" y="1" width="30" height="30"/>
+</TextureAtlas>

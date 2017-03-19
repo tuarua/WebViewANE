@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<platform xmlns="http://ns.adobe.com/air/extension/19.0">
+    <sdkVersion>10.0</sdkVersion>
+    <linkerOptions>
+        <option>-ios_version_min 10.0</option>
+        <option>-lstdc++</option>
+        <option>-w</option>
+        <option>-ObjC</option>
+        <option>-rpath @executable_path</option>
+        
+        <!--<option>-framework SwiftIOSANE_FW</option>-->
+    </linkerOptions>
+    
+    <packagedDependencies>
+        <packagedDependency>FRESwift.framework</packagedDependency>
+        <packagedDependency>WebViewANE_FW.framework</packagedDependency>
+    </packagedDependencies>
+    
+   </platform>
