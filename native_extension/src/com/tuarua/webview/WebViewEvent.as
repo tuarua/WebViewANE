@@ -15,23 +15,27 @@ public class WebViewEvent extends Event {
      */
     public static const ON_PROPERTY_CHANGE:String = "WebView.OnPropertyChange";
     /**
-     *
+     * <p><strong>Placeholder only.</strong></p>
      */
     public static const ON_CONSOLE_MESSAGE:String = "WebView.OnConsoleMessage";
     /**
      * Dispatched when download progress changes
+     * <p><strong>Windows only.</strong></p>
      */
     public static const ON_DOWNLOAD_PROGRESS:String = "WebView.OnDownloadProgress";
     /**
      * Dispatched when download is marked as complete
+     * <p><strong>Windows only.</strong></p>
      */
     public static const ON_DOWNLOAD_COMPLETE:String = "WebView.OnDownloadComplete"
     /**
      * Dispatched when download is cancelled
+     * <p><strong>Windows only.</strong></p>
      */
     public static const ON_DOWNLOAD_CANCEL:String = "WebView.OnDownloadCancel";
     /**
      * Dispatched when Esc key is pressed. Use this to exit fullscreen.
+     * <p><strong>Windows and OSX only.</strong></p>
      */
     public static const ON_ESC_KEY:String = "WebView.OnEscKey";
     public var params:*;
