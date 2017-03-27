@@ -376,7 +376,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = ../../../native_extension/ane/build_ios.sh;
+			shellScript = ../../../native_extension/ane/build_mobile.sh;
 		};
 /* End PBXShellScriptBuildPhase section */
 

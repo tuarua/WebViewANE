@@ -355,10 +355,10 @@ import Cocoa
                 let myURL = URL(string: url)
                 let allowingReadAccessTo: String = try inFRE1.getAsString()
                 let accessURL = URL(string: allowingReadAccessTo)
+
                 if let wv = myWebView {
 #if os(iOS)
                     wv.loadFileURL(myURL!, allowingReadAccessTo: accessURL!)
-
 #else
                     if #available(OSX 10.11, *) {
                         wv.loadFileURL(myURL!, allowingReadAccessTo: accessURL!)
@@ -534,11 +534,17 @@ import Cocoa
 #if os(iOS)
         do {
 
-            if let inFRE0 = argv.pointer(at: 0), let inFRE1 = argv.pointer(at: 1), let inFRE2 = argv.pointer(at: 2) {
+            if let inFRE0 = argv.pointer(at: 0), let inFRE1 = argv.pointer(at: 1), let inFRE2 = argv.pointer(at: 2),
+                let inFRE3 = argv.pointer(at: 3) {
                 let r = try inFRE0.getAsCGFloat()
                 let g = try inFRE1.getAsCGFloat()
                 let b = try inFRE2.getAsCGFloat()
-                _bgColor = UIColor.init(red: r / 255, green: g / 255, blue: b / 255, alpha: 1.0)
+                let a = try inFRE3.getAsCGFloat()
+                if a == 0.0 {
+                    _bgColor = UIColor.clear
+                }else{
+                    _bgColor = UIColor.init(red: r / 255, green: g / 255, blue: b / 255, alpha: a)
+                }
             }
 
         } catch let e as FREError {
@@ -669,7 +675,14 @@ import Cocoa
 
         if let wv = myWebView {
 #if os(iOS)
+    
             wv.backgroundColor = _bgColor
+            
+            if UIColor.clear == _bgColor {
+                wv.isOpaque = false;
+                wv.scrollView.backgroundColor = UIColor.clear
+            }
+    
 #endif
 
             wv.translatesAutoresizingMaskIntoConstraints = false

@@ -30,6 +30,8 @@
 
 #include "FlashRuntimeExtensions.h"
 #import "FlashRuntimeExtensionsBridge.h"
+#import "WebViewANE_FW-Swift.h"
+
 FlashRuntimeExtensionsBridge *freBridge; // this runs the native FRE calls and returns to Swift
 FRESwiftBridge *swftBridge; // this is the bridge from Swift back to ObjectiveC
 

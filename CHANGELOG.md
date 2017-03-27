@@ -1,3 +1,7 @@
+### 0.0.16
+- Android: Add Android version
+- iOS: Allow transparent background
+
 ### 0.0.15
 - iOS: Add iOS version
 

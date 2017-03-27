@@ -71,7 +71,7 @@ public class WebViewANE extends EventDispatcher {
      * This method is omitted from the output. * * @private
      */
     private function gotEvent(event:StatusEvent):void {
-        // trace(event);
+       // trace("gotEvent",event);
         var keyName:String;
         var argsAsJSON:Object;
         var pObj:Object;
@@ -309,7 +309,8 @@ public class WebViewANE extends EventDispatcher {
      * <p>Initialises the webView. The webView is not automatically added to the native stage.</p>
      *
      */
-    public function init(initialUrl:String = null, x:int = 0, y:int = 0, width:int = 800, height:int = 600, settings:Settings = null):void {
+    public function init(initialUrl:String = null, x:int = 0, y:int = 0, width:int = 800, height:int = 600,
+                         settings:Settings = null, scaleFactor:int = 1):void {
         this._x = x;
         this._y = y;
         this._width = width;
@@ -320,7 +321,10 @@ public class WebViewANE extends EventDispatcher {
             if (_settings == null) {
                 _settings = new Settings();
             }
-            extensionContext.call("init", initialUrl, this._x, this._y, this._width, this._height, _settings);
+
+            trace("scaleFactor",scaleFactor);
+
+            extensionContext.call("init", initialUrl, this._x, this._y, this._width, this._height, _settings, scaleFactor);
             _isInited = true;
         }
     }
@@ -626,9 +630,9 @@ public class WebViewANE extends EventDispatcher {
      * <p><strong>Applicable to Windows only.</strong></p>
      *
      */
-    public function setBackgroundColor(value:uint):void {
+    public function setBackgroundColor(value:uint, alpha:Number = 1.0):void {
         backgroundColor.hexToRGB(value);
-        extensionContext.call("setBackgroundColor", backgroundColor.red, backgroundColor.green, backgroundColor.blue);
+        extensionContext.call("setBackgroundColor", backgroundColor.red, backgroundColor.green, backgroundColor.blue, alpha);
     }
 
     /**
@@ -680,6 +684,13 @@ public class WebViewANE extends EventDispatcher {
             extensionContext.call("injectScript", code, scriptUrl, startLine);
         }
     }
+
+    /*
+    //complete on Windows - WKWebview has issue on OSX
+    public function print():void {
+        extensionContext.call("print");
+    }
+    */
 
 }
 }

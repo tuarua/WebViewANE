@@ -7,8 +7,6 @@
         <option>-w</option>
         <option>-ObjC</option>
         <option>-rpath @executable_path</option>
-        
-        <!--<option>-framework SwiftIOSANE_FW</option>-->
     </linkerOptions>
     
     <packagedDependencies>

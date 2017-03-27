@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<platform xmlns="http://ns.adobe.com/air/extension/19.0">
+	<packagedResources>
+		<packagedResource>
+			<packageName>com.tuarua.WebViewANE</packageName>
+			<folderName>res</folderName>
+		</packagedResource>
+	</packagedResources>
+</platform>

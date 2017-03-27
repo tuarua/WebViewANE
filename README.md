@@ -1,7 +1,7 @@
 
 # WebViewANE 
 
-WebView Adobe Air Native Extension for OSX 10.10+, Windows Desktop and iOS 9.0+.
+WebView Adobe Air Native Extension for OSX 10.10+, Windows Desktop, iOS 9.0+ and Android21+.
 This ANE provides access to a more modern webview from AIR.
 
 Sample client included
@@ -42,13 +42,14 @@ The example project can be run on the Simulator from IntelliJ
 The example project needs to be built and signed in the correct manner.
 An AIR based packaging tool is provided at https://github.com/tuarua/AIR-iOS-Packager
 
-## 
+## Android
+
+The Android version utilises the native WebView. 
+
+##
 
 ![alt tag](https://raw.githubusercontent.com/tuarua/WebViewANE/master/screenshots/screenshot1.jpg)
 
-
-### To Do
-Android Version
 
 
 ### References

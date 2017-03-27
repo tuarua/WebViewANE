@@ -20,6 +20,9 @@ public class Settings extends Object {
      * <p>Value that will be returned as the User-Agent HTTP header.</p>
      */
     public var userAgent:String = "";
+
+    public var android:AndroidSettings = new AndroidSettings();
+
     public function Settings() {
     }
 }
