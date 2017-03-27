@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="WebViewANE-ios" type="flex">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../native_extension/ane/WebViewANE-ios.ane!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

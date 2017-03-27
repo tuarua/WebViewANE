@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<!--
+  ~ Copyright Tua Rua Ltd. (c) 2017.
+  -->
+<html lang="en">
+<head>
+    <title>Javascript Binding Test Page</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+
+
+        var isAndroid = /Android/.test(navigator.userAgent);
+        var isCef = (navigator.vendor == "Google Inc.");
+
+        function as_to_js(numberA, stringA, numberB, obj) {
+            console.log(numberA);
+            console.log(stringA);
+            console.log(numberB);
+            console.log(obj);
+
+            var person = {
+                name: "Jim Cowart",
+                response: {
+                    name: "Chattanooga",
+                    population: 167674
+                }
+            };
+
+            var i = 21;
+            var str = "this is a string";
+            var b = false;
+
+            return person;
+            //return str;
+        }
+
+        function getWebviewANE() {
+            return (isCef) ? webViewANE : window.webkit.messageHandlers.webViewANE;
+        }
+
+        function jsCallback(paramA, paramB, paramC) {
+            var d = new Date();
+            var n = d.getTime();
+            var output = document.getElementById('output');
+            output.innerText += "Callback: paraA: " + paramA + ", paramB: " + paramB + ", paramC: " + paramC + " - " + d + " - unix tamestamp: " + n + "\n";
+            console.log(paramA)
+            console.log(paramB)
+            console.log(paramC)
+        }
+
+        function testCallback() {
+            var d = new Date();
+            var n = d.getTime();
+            var output = document.getElementById('output');
+            output.innerText = "The function has returned: " + d + " - unix timestamp: " + n + "\n";
+
+            var messageToPost = {
+                'functionName': 'js_to_as',
+                'callbackName': 'jsCallback',
+                'args': [1, 'I am a string', false]
+            };
+
+            //if Android need to stringify
+
+            console.log("isAndroid",isAndroid);
+            console.log("messageToPost",JSON.stringify(messageToPost));
+            console.log(getWebviewANE());
+
+            getWebviewANE().postMessage(isAndroid ? JSON.stringify(messageToPost) : messageToPost);
+
+        }
+
+        function noCallback() {
+            var d = new Date();
+            var n = d.getTime();
+            var output = document.getElementById('output');
+            output.innerText = "The function has returned: " + d + " - unix timestamp: " + n + "\n";
+            var messageToPost = {'functionName': 'js_to_as'};
+            //if Android need to stringify
+            getWebviewANE().postMessage(isAndroid ? JSON.stringify(messageToPost) : messageToPost);
+        }
+
+    </script>
+
+</head>
+<body>
+
+<div class="container">
+
+    <h4>Demo Of Javascript Binding with WebViewANE</h4>
+
+    <p>
+        <button type="button" class="btn btn-primary" onclick="testCallback()">Call Actionscript with Callback</button>
+        <button type="button" class="btn btn-primary" onclick="noCallback()">Call Actionscript with No Callback</button>
+    </p>
+    <div id="output" class="well well-sm">Output goes here</div>
+    <a href="localTest.html">Go To page 2 (Link test)</a>
+</div>
+
+</body>
+</html>
