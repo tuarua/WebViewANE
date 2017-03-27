@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><!-- saved from url=(0014)about:internet --><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><link rel="stylesheet" href="../../style.css" type="text/css" media="screen"><link rel="stylesheet" href="../../print.css" type="text/css" media="print"><link rel="stylesheet" href="../../override.css" type="text/css"><meta name="keywords" content="WebViewANE,com.tuarua.WebViewANE,_propNames,canGoBack,canGoForward,estimatedProgress,isInited,isLoading,statusMessage,title,url,addCallback,addPropName,addToStage,allowsMagnification,backForwardList,callJavascriptFunction,closeDevTools,dispose,evaluateJavascript,getMagnification,getPropNames,go,goBack,goForward,init,injectScript,isSupported,load,loadFileURL,loadHTMLString,onFullScreen,reload,reloadFromOrigin,removeCallback,removeFromStage,setBackgroundColor,setMagnification,setPositionAndSize,showDevTools,shutDown,stopLoading"><title>com.tuarua.WebViewANE</title></head><body><script language="javascript" type="text/javascript" src="../../asdoc.js"></script><script language="javascript" type="text/javascript" src="../../help.js"></script><script language="javascript" type="text/javascript" src="../../cookies.js"></script><script language="javascript" type="text/javascript"><!--
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><!-- saved from url=(0014)about:internet --><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><link rel="stylesheet" href="../../style.css" type="text/css" media="screen"><link rel="stylesheet" href="../../print.css" type="text/css" media="print"><link rel="stylesheet" href="../../override.css" type="text/css"><meta name="keywords" content="WebViewANE,com.tuarua.WebViewANE,canGoBack,canGoForward,estimatedProgress,isInited,isLoading,statusMessage,title,url,addCallback,addToStage,allowsMagnification,backForwardList,callJavascriptFunction,closeDevTools,dispose,evaluateJavascript,getClassProps,getClassType,getMagnification,go,goBack,goForward,init,injectScript,isSupported,load,loadFileURL,loadHTMLString,onFullScreen,reload,reloadFromOrigin,removeCallback,removeFromStage,setBackgroundColor,setMagnification,setPositionAndSize,showDevTools,shutDown,stopLoading"><title>com.tuarua.WebViewANE</title></head><body><script language="javascript" type="text/javascript" src="../../asdoc.js"></script><script language="javascript" type="text/javascript" src="../../help.js"></script><script language="javascript" type="text/javascript" src="../../cookies.js"></script><script language="javascript" type="text/javascript"><!--
 				asdocTitle = 'WebViewANE - Tua Rua WebViewANE';
 				var baseRef = '../../';
 				window.onload = configPage;
@@ -39,7 +39,7 @@
      
      </div></td><td class="summaryTableOwnerCol">WebViewANE</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#closeDevTools()" class="signatureLink">closeDevTools</a>():void</div><div class="summaryTableDescription">
      Close the Chromium dev tools
-     Windows only.
+     On Android disconnects from chrome://inspect
      
      </div></td><td class="summaryTableOwnerCol">WebViewANE</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#dispose()" class="signatureLink">dispose</a>():void</div><div class="summaryTableDescription">
      
@@ -54,7 +54,7 @@
      Navigates back.
      </div></td><td class="summaryTableOwnerCol">WebViewANE</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#goForward()" class="signatureLink">goForward</a>():void</div><div class="summaryTableDescription">
      Navigates forward.
-     </div></td><td class="summaryTableOwnerCol">WebViewANE</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#init()" class="signatureLink">init</a>(initialUrl:String = null, x:int = 0, y:int = 0, width:int = 800, height:int = 600, settings:<a href="../../com/tuarua/webview/Settings.html">Settings</a> = null):void</div><div class="summaryTableDescription">
+     </div></td><td class="summaryTableOwnerCol">WebViewANE</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#init()" class="signatureLink">init</a>(initialUrl:String = null, x:int = 0, y:int = 0, width:int = 800, height:int = 600, settings:<a href="../../com/tuarua/webview/Settings.html">Settings</a> = null, scaleFactor:int = 1):void</div><div class="summaryTableDescription">
      
      </div></td><td class="summaryTableOwnerCol">WebViewANE</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#injectScript()" class="signatureLink">injectScript</a>(code:String = null, scriptUrl:String = null, startLine:uint = 0):void</div><div class="summaryTableDescription">
      
@@ -76,15 +76,15 @@
      </div></td><td class="summaryTableOwnerCol">WebViewANE</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#removeFromStage()" class="signatureLink">removeFromStage</a>():void</div><div class="summaryTableDescription">
      Removes the webView from the native stage.
      
-     </div></td><td class="summaryTableOwnerCol">WebViewANE</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#setBackgroundColor()" class="signatureLink">setBackgroundColor</a>(value:uint):void</div><div class="summaryTableDescription">
+     </div></td><td class="summaryTableOwnerCol">WebViewANE</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#setBackgroundColor()" class="signatureLink">setBackgroundColor</a>(value:uint, alpha:Number = 1.0):void</div><div class="summaryTableDescription">
      
      </div></td><td class="summaryTableOwnerCol">WebViewANE</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#setMagnification()" class="signatureLink">setMagnification</a>(value:Number, centeredAt:Point):void</div><div class="summaryTableDescription">
      
      </div></td><td class="summaryTableOwnerCol">WebViewANE</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#setPositionAndSize()" class="signatureLink">setPositionAndSize</a>(x:int = 0, y:int = 0, width:int = 0, height:int = 0):void</div><div class="summaryTableDescription">
      
      </div></td><td class="summaryTableOwnerCol">WebViewANE</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#showDevTools()" class="signatureLink">showDevTools</a>():void</div><div class="summaryTableDescription">
-     Shows the Chromium dev tools
-     Windows only.
+     Shows the Chromium dev tools on Windows
+     On Android use Chrome on connected computer and navigate to chrome://inspect
      
      </div></td><td class="summaryTableOwnerCol">WebViewANE</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#shutDown()" class="signatureLink">shutDown</a>():void</div><div class="summaryTableDescription">
      This calls Cef.ShutDown() to clean up all Chromium Embedded Framework processes.
@@ -122,11 +122,11 @@
      </p></div><a name="allowsMagnification()"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">allowsMagnification</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> public function allowsMagnification():Boolean</code><p></p><p></p><p>
      
      </p><p></p><span class="label">Returns</span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20"></td><td><code>Boolean</code> &mdash; Whether the page allows magnification functionality
-     
+     <p><b>Ignored on iOS and Android.</b></p>
      </td></tr></table></div><a name="backForwardList()"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">backForwardList</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> public function backForwardList():<a href="../../com/tuarua/webview/BackForwardList.html">BackForwardList</a></code><p></p><p></p><p>
      
      </p><p></p><span class="label">Returns</span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20"></td><td><code><a href="../../com/tuarua/webview/BackForwardList.html">BackForwardList</a></code> &mdash; 
-     
+     <p><b>Ignored on Windows and Android.</b></p>
      </td></tr></table></div><a name="callJavascriptFunction()"></a><a name="callJavascriptFunction(String,Function,restParam)"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">callJavascriptFunction</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> public function callJavascriptFunction(functionName:String, closure:Function = null, ... args):void</code><p></p><p></p><p>
      
      </p><p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code><span class="label">functionName</span>:String</code> &mdash; name of the Javascript function to call
@@ -174,7 +174,7 @@
      </pre></div>
      </div></div><a name="closeDevTools()"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">closeDevTools</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> public function closeDevTools():void</code><p></p><p></p><p>
      <p>Close the Chromium dev tools</p>
-     <p><b>Windows only.</b></p>
+     <p>On Android disconnects from chrome://inspect</p>
      
      </p></div><a name="dispose()"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">dispose</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> public function dispose():void</code><p></p><p></p><p>
      
@@ -211,10 +211,11 @@
      <p>Navigates back.</p>
      </p></div><a name="goForward()"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">goForward</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> public function goForward():void</code><p></p><p></p><p>
      <p>Navigates forward.</p>
-     </p></div><a name="init()"></a><a name="init(String,int,int,int,int,com.tuarua.webview.Settings)"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">init</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> public function init(initialUrl:String = null, x:int = 0, y:int = 0, width:int = 800, height:int = 600, settings:<a href="../../com/tuarua/webview/Settings.html">Settings</a> = null):void</code><p></p><p></p><p>
+     </p></div><a name="init()"></a><a name="init(String,int,int,int,int,com.tuarua.webview.Settings,int)"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">init</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> public function init(initialUrl:String = null, x:int = 0, y:int = 0, width:int = 800, height:int = 600, settings:<a href="../../com/tuarua/webview/Settings.html">Settings</a> = null, scaleFactor:int = 1):void</code><p></p><p></p><p>
      
      </p><p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code><span class="label">initialUrl</span>:String</code> (default = <code>null</code>)<code></code> &mdash; Url to load when the view loads
-     </td></tr><tr><td class="paramSpacer">&nbsp;</td></tr><tr><td width="20px"></td><td><code><span class="label">x</span>:int</code> (default = <code>0</code>)<code></code></td></tr><tr><td class="paramSpacer">&nbsp;</td></tr><tr><td width="20px"></td><td><code><span class="label">y</span>:int</code> (default = <code>0</code>)<code></code></td></tr><tr><td class="paramSpacer">&nbsp;</td></tr><tr><td width="20px"></td><td><code><span class="label">width</span>:int</code> (default = <code>800</code>)<code></code></td></tr><tr><td class="paramSpacer">&nbsp;</td></tr><tr><td width="20px"></td><td><code><span class="label">height</span>:int</code> (default = <code>600</code>)<code></code></td></tr><tr><td class="paramSpacer">&nbsp;</td></tr><tr><td width="20px"></td><td><code><span class="label">settings</span>:<a href="../../com/tuarua/webview/Settings.html">Settings</a></code> (default = <code>null</code>)<code></code> &mdash;     
+     </td></tr><tr><td class="paramSpacer">&nbsp;</td></tr><tr><td width="20px"></td><td><code><span class="label">x</span>:int</code> (default = <code>0</code>)<code></code></td></tr><tr><td class="paramSpacer">&nbsp;</td></tr><tr><td width="20px"></td><td><code><span class="label">y</span>:int</code> (default = <code>0</code>)<code></code></td></tr><tr><td class="paramSpacer">&nbsp;</td></tr><tr><td width="20px"></td><td><code><span class="label">width</span>:int</code> (default = <code>800</code>)<code></code></td></tr><tr><td class="paramSpacer">&nbsp;</td></tr><tr><td width="20px"></td><td><code><span class="label">height</span>:int</code> (default = <code>600</code>)<code></code></td></tr><tr><td class="paramSpacer">&nbsp;</td></tr><tr><td width="20px"></td><td><code><span class="label">settings</span>:<a href="../../com/tuarua/webview/Settings.html">Settings</a></code> (default = <code>null</code>)<code></code></td></tr><tr><td class="paramSpacer">&nbsp;</td></tr><tr><td width="20px"></td><td><code><span class="label">scaleFactor</span>:int</code> (default = <code>1</code>)<code></code> &mdash; iOS and Android only
+     
      <p>Initialises the webView. The webView is not automatically added to the native stage.</p>
      
      </td></tr></table></p></div><a name="injectScript()"></a><a name="injectScript(String,String,uint)"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">injectScript</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> public function injectScript(code:String = null, scriptUrl:String = null, startLine:uint = 0):void</code><p></p><p></p><p>
@@ -225,15 +226,16 @@
      
      <p>Specify either code or scriptUrl. These are injected into the main Frame when it is loaded. Call before
      load() method</p>
+     <p><b>Ignored on Android.</b></p>
      </td></tr></table></p></div><a name="isSupported()"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">isSupported</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> public function isSupported():Boolean</code><p></p><p></p><p>
      
-     </p><p></p><span class="label">Returns</span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20"></td><td><code>Boolean</code> &mdash; true if the device is Windows 7+ or OSX 10.10+
+     </p><p></p><span class="label">Returns</span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20"></td><td><code>Boolean</code> &mdash; true if the device is Windows 7+, OSX 10.10+ or iOS 9.0+
      
      </td></tr></table></div><a name="load()"></a><a name="load(String)"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">load</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> public function load(url:String):void</code><p></p><p></p><p>
      
      </p><p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code><span class="label">url</span>:String</code></td></tr></table></p></div><a name="loadFileURL()"></a><a name="loadFileURL(String,String)"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">loadFileURL</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> public function loadFileURL(url:String, allowingReadAccessTo:String):void</code><p></p><p></p><p>
      
-     </p><p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code><span class="label">url</span>:String</code> &mdash; path to the file on the local file system
+     </p><p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code><span class="label">url</span>:String</code> &mdash; full path to the file on the local file system
      </td></tr><tr><td class="paramSpacer">&nbsp;</td></tr><tr><td width="20px"></td><td><code><span class="label">allowingReadAccessTo</span>:String</code> &mdash; path to the root of the document
      
      <p>Loads a file from the local file system into the webView.</p>
@@ -261,15 +263,17 @@
      </td></tr></table></p></div><a name="removeFromStage()"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">removeFromStage</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> public function removeFromStage():void</code><p></p><p></p><p>
      <p>Removes the webView from the native stage.</p>
      
-     </p></div><a name="setBackgroundColor()"></a><a name="setBackgroundColor(uint)"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">setBackgroundColor</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> public function setBackgroundColor(value:uint):void</code><p></p><p></p><p>
+     </p></div><a name="setBackgroundColor()"></a><a name="setBackgroundColor(uint,Number)"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">setBackgroundColor</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> public function setBackgroundColor(value:uint, alpha:Number = 1.0):void</code><p></p><p></p><p>
      
      </p><p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code><span class="label">value</span>:uint</code> &mdash; hex value of the view's background color.
      <p>This should be set as the default is #000000 (black).</p>
-     <p><b>Applicable to Windows only.</b></p>
+     </td></tr><tr><td class="paramSpacer">&nbsp;</td></tr><tr><td width="20px"></td><td><code><span class="label">alpha</span>:Number</code> (default = <code>1.0</code>)<code></code> &mdash; set to 0.0 for transparent background. iOS and Android only.
      
+     <p><b>Ignored on OSX.</b></p>
      </td></tr></table></p></div><a name="setMagnification()"></a><a name="setMagnification(Number,flash.geom.Point)"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">setMagnification</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> public function setMagnification(value:Number, centeredAt:Point):void</code><p></p><p></p><p>
      
-     </p><p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code><span class="label">value</span>:Number</code></td></tr><tr><td class="paramSpacer">&nbsp;</td></tr><tr><td width="20px"></td><td><code><span class="label">centeredAt</span>:Point</code></td></tr></table></p></div><a name="setPositionAndSize()"></a><a name="setPositionAndSize(int,int,int,int)"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">setPositionAndSize</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> public function setPositionAndSize(x:int = 0, y:int = 0, width:int = 0, height:int = 0):void</code><p></p><p></p><p>
+     </p><p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code><span class="label">value</span>:Number</code></td></tr><tr><td class="paramSpacer">&nbsp;</td></tr><tr><td width="20px"></td><td><code><span class="label">centeredAt</span>:Point</code> &mdash;     <p><b>Ignored on iOS and Android.</b></p>
+     </td></tr></table></p></div><a name="setPositionAndSize()"></a><a name="setPositionAndSize(int,int,int,int)"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">setPositionAndSize</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> public function setPositionAndSize(x:int = 0, y:int = 0, width:int = 0, height:int = 0):void</code><p></p><p></p><p>
      
      </p><p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code><span class="label">x</span>:int</code> (default = <code>0</code>)<code></code></td></tr><tr><td class="paramSpacer">&nbsp;</td></tr><tr><td width="20px"></td><td><code><span class="label">y</span>:int</code> (default = <code>0</code>)<code></code></td></tr><tr><td class="paramSpacer">&nbsp;</td></tr><tr><td width="20px"></td><td><code><span class="label">width</span>:int</code> (default = <code>0</code>)<code></code> &mdash; set to 0 to retain existing
      </td></tr><tr><td class="paramSpacer">&nbsp;</td></tr><tr><td width="20px"></td><td><code><span class="label">height</span>:int</code> (default = <code>0</code>)<code></code> &mdash;  set to 0 to retain existing
@@ -277,8 +281,8 @@
      <p>Resizes and/or repositions the webView.</p>
      
      </td></tr></table></p></div><a name="showDevTools()"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">showDevTools</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> public function showDevTools():void</code><p></p><p></p><p>
-     <p>Shows the Chromium dev tools</p>
-     <p><b>Windows only.</b></p>
+     <p>Shows the Chromium dev tools on Windows</p>
+     <p>On Android use Chrome on connected computer and navigate to chrome://inspect</p>
      
      </p></div><a name="shutDown()"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">shutDown</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> public function shutDown():void</code><p></p><p></p><p>
      <p>This calls Cef.ShutDown() to clean up all Chromium Embedded Framework processes.</p>
@@ -292,4 +296,4 @@
      
      </div></div><a name="stopLoading()"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">stopLoading</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> public function stopLoading():void</code><p></p><p></p><p>
      <p>Stops loading the current page.</p>
-     </p></div><br/><br/><hr><br/><p></p><center class="copyright"><footer></footer><br/>Wed Feb 15 2017, 08:02 PM Z  </center></div></body></html><!--<br/>Wed Feb 15 2017, 08:02 PM Z  -->
+     </p></div><br/><br/><hr><br/><p></p><center class="copyright"><footer></footer><br/>Tue Mar 28 2017, 12:40 AM +01:00  </center></div></body></html><!--<br/>Tue Mar 28 2017, 12:40 AM +01:00  -->

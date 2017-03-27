@@ -71,7 +71,7 @@ public class WebViewANE extends EventDispatcher {
      * This method is omitted from the output. * * @private
      */
     private function gotEvent(event:StatusEvent):void {
-       // trace("gotEvent",event);
+        // trace("gotEvent",event);
         var keyName:String;
         var argsAsJSON:Object;
         var pObj:Object;
@@ -305,6 +305,7 @@ public class WebViewANE extends EventDispatcher {
      * @param width
      * @param height
      * @param settings
+     * @param scaleFactor iOS and Android only
      *
      * <p>Initialises the webView. The webView is not automatically added to the native stage.</p>
      *
@@ -322,7 +323,7 @@ public class WebViewANE extends EventDispatcher {
                 _settings = new Settings();
             }
 
-            trace("scaleFactor",scaleFactor);
+            trace("scaleFactor", scaleFactor);
 
             extensionContext.call("init", initialUrl, this._x, this._y, this._width, this._height, _settings, scaleFactor);
             _isInited = true;
@@ -393,7 +394,7 @@ public class WebViewANE extends EventDispatcher {
 
     /**
      *
-     * @param full path to the file on the local file system
+     * @param url full path to the file on the local file system
      * @param allowingReadAccessTo path to the root of the document
      *
      * <p>Loads a file from the local file system into the webView.</p>
@@ -449,7 +450,7 @@ public class WebViewANE extends EventDispatcher {
     /**
      *
      * @return
-     *
+     * <p><strong>Ignored on Windows and Android.</strong></p>
      */
     public function backForwardList():BackForwardList {
         if (safetyCheck())
@@ -479,7 +480,7 @@ public class WebViewANE extends EventDispatcher {
     /**
      *
      * @return Whether the page allows magnification functionality
-     *
+     * <p><strong>Ignored on iOS and Android.</strong></p>
      */
     public function allowsMagnification():Boolean {
         if (safetyCheck())
@@ -502,7 +503,7 @@ public class WebViewANE extends EventDispatcher {
      *
      * @param value
      * @param centeredAt
-     *
+     * <p><strong>Ignored on iOS and Android.</strong></p>
      */
     public function setMagnification(value:Number, centeredAt:Point):void {
         if (safetyCheck())
@@ -604,8 +605,8 @@ public class WebViewANE extends EventDispatcher {
     }
 
     /**
-     * <p>Shows the Chromium dev tools</p>
-     * <p><strong>Windows only.</strong></p>
+     * <p>Shows the Chromium dev tools on Windows</p>
+     * <p>On Android use Chrome on connected computer and navigate to chrome://inspect</p>
      *
      */
     public function showDevTools():void {
@@ -615,7 +616,7 @@ public class WebViewANE extends EventDispatcher {
 
     /**
      * <p>Close the Chromium dev tools</p>
-     * <p><strong>Windows only.</strong></p>
+     * <p>On Android disconnects from chrome://inspect</p>
      *
      */
     public function closeDevTools():void {
@@ -627,8 +628,9 @@ public class WebViewANE extends EventDispatcher {
      *
      * @param value hex value of the view's background color.
      * <p>This should be set as the default is #000000 (black).</p>
-     * <p><strong>Applicable to Windows only.</strong></p>
+     * @param alpha set to 0.0 for transparent background. iOS and Android only.
      *
+     * <p><strong>Ignored on OSX.</strong></p>
      */
     public function setBackgroundColor(value:uint, alpha:Number = 1.0):void {
         backgroundColor.hexToRGB(value);
@@ -677,6 +679,7 @@ public class WebViewANE extends EventDispatcher {
      *
      * <p>Specify either code or scriptUrl. These are injected into the main Frame when it is loaded. Call before
      * load() method</p>
+     * <p><strong>Ignored on Android.</strong></p>
      */
 
     public function injectScript(code:String = null, scriptUrl:String = null, startLine:uint = 0):void {
@@ -686,11 +689,11 @@ public class WebViewANE extends EventDispatcher {
     }
 
     /*
-    //complete on Windows - WKWebview has issue on OSX
-    public function print():void {
-        extensionContext.call("print");
-    }
-    */
+     //complete on Windows - WKWebview has issue on OSX
+     public function print():void {
+     extensionContext.call("print");
+     }
+     */
 
 }
 }

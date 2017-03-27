@@ -7,7 +7,6 @@
  */
 package com.tuarua.webview {
 public class AndroidSettings {
-
     /**
      * <p>Sets whether the WebView requires a user gesture to play media.</p>
      */
