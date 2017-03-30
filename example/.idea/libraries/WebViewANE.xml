@@ -3,9 +3,7 @@
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/../native_extension/ane/WebViewANE.ane!/" />
     </CLASSES>
-    <JAVADOC>
-      <root url="https://github.com/tuarua/WebViewANE/tree/master/native_extension/docs/asdocs/" />
-    </JAVADOC>
+    <JAVADOC />
     <SOURCES />
   </library>
 </component>

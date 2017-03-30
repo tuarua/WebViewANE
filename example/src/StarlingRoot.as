@@ -455,6 +455,7 @@ public class StarlingRoot extends Sprite {
         if (touch != null && touch.phase == TouchPhase.ENDED) {
             cancelBtn.visible = true;
             refreshBtn.visible = false;
+            //webView.addToStage();
             webView.reload();
         }
     }

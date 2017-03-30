@@ -261,8 +261,8 @@
 				CE39809C1E58BEE10062485B /* Frameworks */,
 				CE39809D1E58BEE10062485B /* CopyFiles */,
 				CE3980AE1E58BF530062485B /* Headers */,
-				CE3980B21E58C0D80062485B /* ShellScript */,
 				CEFD140F1E59F28C00CA19D0 /* Resources */,
+				CEC00F3D1E8DA49E0062311C /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -299,7 +299,7 @@
 		CE3980631E58BA7F0062485B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0820;
+				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = "Tua Rua Ltd";
 				TargetAttributes = {
 					CE3980891E58BAA90062485B = {
@@ -365,9 +365,9 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		CE3980B21E58C0D80062485B /* ShellScript */ = {
+		CEC00F3D1E8DA49E0062311C /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 12;
+			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
@@ -470,7 +470,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -514,9 +514,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SYMROOT = /Users/User/flash/WebViewANE/native_library/ios/WebViewANE/Build/Products;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;

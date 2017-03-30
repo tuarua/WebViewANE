@@ -47,181 +47,26 @@ FRESwiftBridge *swftBridge; // this is the bridge from Swift back to ObjectiveC
 #endif
 #endif
 
-
 WebViewANE *swft; // our main Swift Controller
-
-
+NSArray * funcArray;
 #define FRE_FUNCTION(fn) FREObject (fn)(FREContext context, void* functionData, uint32_t argc, FREObject argv[])
 
-// convert argv into a pointer array which can be passed to Swift
-NSPointerArray * getFREargs(uint32_t argc, FREObject argv[]) {
-    NSPointerArray * pa = [[NSPointerArray alloc] initWithOptions:NSPointerFunctionsOpaqueMemory];
-    for (int i = 0; i < argc; ++i) {
-        FREObject freObject;
-        freObject = argv[i];
-        [pa addPointer:freObject];
-    }
-    return pa;
+FRE_FUNCTION(callSwiftFunction) {
+    NSString* fName = (__bridge NSString *)(functionData);
+    return [swft callSwiftFunctionWithName:fName ctx:context argc:argc argv:argv];
 }
+
+void contextInitializer(void *extData, const uint8_t *ctxType, FREContext ctx, uint32_t *numFunctionsToSet,
+                        const FRENamedFunction **functionsToSet) {
     
-FRE_FUNCTION (init) {
-    [swft initWebViewWithArgv:getFREargs(argc, argv)];
-    return NULL;
-}
+    /******* MAKE SURE TO SET NUM OF FUNCTIONS MANUALLY *****/
+    /********************************************************/
+    
+    const int numFunctions = 27;
+    
+    /********************************************************/
+    /********************************************************/
 
-FRE_FUNCTION (addToStage) {
-    [swft addToStage];
-    return NULL;
-}
-
-FRE_FUNCTION (removeFromStage) {
-    [swft removeFromStage];
-    return NULL;
-}
-
-FRE_FUNCTION (load) {
-    [swft loadWithArgv:getFREargs(argc, argv)];
-    return NULL;
-}
-
-FRE_FUNCTION (loadHTMLString) {
-    [swft loadHTMLStringWithArgv:getFREargs(argc, argv)];
-    return NULL;
-}
-
-FRE_FUNCTION (loadFileURL) {
-    [swft loadFileURLWithArgv:getFREargs(argc, argv)];
-    return NULL;
-}
-
-FRE_FUNCTION (reload) {
-    [swft reload];
-    return NULL;
-}
-
-FRE_FUNCTION (reloadFromOrigin) {
-    [swft reloadFromOrigin];
-    return NULL;
-}
-
-FRE_FUNCTION (stopLoading) {
-    [swft stopLoading];
-    return NULL;
-}
-
-FRE_FUNCTION (goBack) {
-    [swft goBack];
-    return NULL;
-}
-
-FRE_FUNCTION (goForward) {
-    [swft goForward];
-    return NULL;
-}
-
-FRE_FUNCTION (backForwardList) {
-    return [swft backForwardList];
-}
-
-FRE_FUNCTION (go) {
-    [swft goWithArgv:getFREargs(argc, argv)];
-    return NULL;
-}
-
-FRE_FUNCTION (isSupported) {
-    return [swft isSupported];
-}
-
-FRE_FUNCTION (allowsMagnification) {
-    return [swft allowsMagnification];
-}
-
-FRE_FUNCTION (getMagnification) {
-    return [swft getMagnification];
-}
-
-FRE_FUNCTION (setMagnification) {
-    [swft setMagnificationWithArgv:getFREargs(argc, argv)];
-    return NULL;
-}
-
-FRE_FUNCTION (evaluateJavaScript) {
-    [swft evaluateJavaScriptWithArgv:getFREargs(argc, argv)];
-    return NULL;
-}
-
-FRE_FUNCTION (setPositionAndSize) {
-    [swft setPositionAndSizeWithArgv:getFREargs(argc, argv)];
-    return NULL;
-}
-
-FRE_FUNCTION(onFullScreen) {
-    [swft onFullScreenWithArgv:getFREargs(argc, argv)];
-    return NULL;
-}
-
-FRE_FUNCTION(showDevTools) {
-    return NULL;
-}
-
-FRE_FUNCTION(closeDevTools) {
-    return NULL;
-}
-
-FRE_FUNCTION(callJavascriptFunction) {
-    [swft callJavascriptFunctionWithArgv:getFREargs(argc, argv)];
-    return NULL;
-}
-
-FRE_FUNCTION(setBackgroundColor) {
-    [swft setBackgroundColorWithArgv:getFREargs(argc, argv)];
-    return NULL;
-}
-
-FRE_FUNCTION(shutDown) {
-    return NULL;
-}
-
-FRE_FUNCTION(injectScript) {
-    [swft injectScriptWithArgv:getFREargs(argc, argv)];
-    return NULL;
-}
-
-void contextInitializer(void *extData, const uint8_t *ctxType, FREContext ctx, uint32_t *numFunctionsToSet, const FRENamedFunction **functionsToSet) {
-
-    static FRENamedFunction extensionFunctions[] = {
-        {(const uint8_t *) "init", NULL, &init}
-        ,{(const uint8_t *) "isSupported", NULL, &isSupported}
-        ,{(const uint8_t *) "addToStage", NULL, &addToStage}
-        ,{(const uint8_t *) "removeFromStage", NULL, &removeFromStage}
-        ,{(const uint8_t *) "load", NULL, &load}
-        ,{(const uint8_t *) "loadHTMLString", NULL, &loadHTMLString}
-        ,{(const uint8_t *) "loadFileURL", NULL, &loadFileURL}
-        ,{(const uint8_t *) "reload", NULL, &reload}
-        ,{(const uint8_t *) "onFullScreen", NULL, &onFullScreen}
-        ,{(const uint8_t *) "reloadFromOrigin", NULL, &reloadFromOrigin}
-        ,{(const uint8_t *) "stopLoading", NULL, &stopLoading}
-        ,{(const uint8_t *) "backForwardList", NULL, &backForwardList}
-        ,{(const uint8_t *) "go", NULL, &go}
-        ,{(const uint8_t *) "goBack", NULL, &goBack}
-        ,{(const uint8_t *) "goForward", NULL, &goForward}
-        ,{(const uint8_t *) "allowsMagnification", NULL, &allowsMagnification}
-        ,{(const uint8_t *) "getMagnification", NULL, &getMagnification}
-        ,{(const uint8_t *) "setMagnification", NULL, &setMagnification}
-        ,{(const uint8_t *) "setPositionAndSize", NULL, &setPositionAndSize}
-        ,{(const uint8_t *) "showDevTools", NULL, &showDevTools }
-        ,{(const uint8_t *) "closeDevTools", NULL, &closeDevTools }
-        ,{(const uint8_t *) "onFullScreen", NULL, &onFullScreen }
-        ,{(const uint8_t *) "callJavascriptFunction", NULL, &callJavascriptFunction }
-        ,{(const uint8_t *) "evaluateJavaScript", NULL, &evaluateJavaScript }
-        ,{(const uint8_t *) "setBackgroundColor", NULL, &setBackgroundColor }
-        ,{(const uint8_t *) "shutDown", NULL, &shutDown }
-        ,{ (const uint8_t *) "injectScript", NULL, &injectScript }
-        
-
-    };
-    *numFunctionsToSet = sizeof(extensionFunctions) / sizeof(FRENamedFunction);
-    *functionsToSet = extensionFunctions;
     
 #ifdef _WIN32
 #elif __APPLE__
@@ -240,6 +85,16 @@ void contextInitializer(void *extData, const uint8_t *ctxType, FREContext ctx, u
     swft = [[WebViewANE alloc] init];
     [swft setFREContextWithCtx:ctx];
     
+    funcArray = [swft getFunctions];
+    static FRENamedFunction extensionFunctions[numFunctions] = {};
+    for (int i = 0; i < [funcArray count]; ++i) {
+        NSString * nme = [funcArray objectAtIndex:i];
+        FRENamedFunction nf = {(const uint8_t *) [nme UTF8String], (__bridge void *)(nme), &callSwiftFunction};
+        extensionFunctions[i] = nf;
+    }
+    
+    *numFunctionsToSet = sizeof(extensionFunctions) / sizeof(FRENamedFunction);
+    *functionsToSet = extensionFunctions;
     
 }
 

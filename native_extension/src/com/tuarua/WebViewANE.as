@@ -322,9 +322,6 @@ public class WebViewANE extends EventDispatcher {
             if (_settings == null) {
                 _settings = new Settings();
             }
-
-            trace("scaleFactor", scaleFactor);
-
             extensionContext.call("init", initialUrl, this._x, this._y, this._width, this._height, _settings, scaleFactor);
             _isInited = true;
         }

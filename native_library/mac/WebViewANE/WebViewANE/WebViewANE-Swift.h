@@ -125,30 +125,12 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 
 SWIFT_CLASS("_TtC10WebViewANE10WebViewANE")
 @interface WebViewANE : NSObject
-- (FREObject _Nonnull)isSupported;
-- (void)addToStage;
-- (void)removeFromStage;
-- (void)reload;
-- (void)stopLoading;
-- (FREObject _Nonnull)onFullScreenWithArgv:(NSPointerArray * _Nonnull)argv;
-- (void)reloadFromOrigin;
-- (void)goBack;
-- (void)goForward;
-- (FREObject _Nonnull)backForwardList;
-- (void)goWithArgv:(NSPointerArray * _Nonnull)argv;
-- (FREObject _Nonnull)allowsMagnification;
-- (FREObject _Nonnull)getMagnification;
-- (void)setMagnificationWithArgv:(NSPointerArray * _Nonnull)argv;
-- (void)loadWithArgv:(NSPointerArray * _Nonnull)argv;
-- (void)loadHTMLStringWithArgv:(NSPointerArray * _Nonnull)argv;
-- (void)callJavascriptFunctionWithArgv:(NSPointerArray * _Nonnull)argv;
-- (void)setBackgroundColorWithArgv:(NSPointerArray * _Nonnull)argv;
-- (void)loadFileURLWithArgv:(NSPointerArray * _Nonnull)argv;
-- (void)initWebViewWithArgv:(NSPointerArray * _Nonnull)argv;
-- (void)setPositionAndSizeWithArgv:(NSPointerArray * _Nonnull)argv;
-- (void)evaluateJavaScriptWithArgv:(NSPointerArray * _Nonnull)argv;
-- (void)injectScriptWithArgv:(NSPointerArray * _Nonnull)argv;
 - (void)setFREContextWithCtx:(FREContext _Nonnull)ctx;
+- (NSArray *_Nonnull) getFunctions;
+- (FREObject _Nullable)callSwiftFunctionWithName:(NSString * _Nonnull)name
+                                             ctx:(FREContext _Nonnull)ctx
+                                            argc:(uint32_t)argc
+                                            argv:(FREObject _Nullable * _Nonnull)argv;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
