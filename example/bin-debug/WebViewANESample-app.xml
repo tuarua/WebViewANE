@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<application xmlns="http://ns.adobe.com/air/application/24.0">
+<application xmlns="http://ns.adobe.com/air/application/25.0">
   <!-- Adobe AIR Application Descriptor File Template.
 
         Specifies parameters for identifying, installing, and launching AIR applications.
@@ -230,4 +229,3 @@
     <extensionID>com.tuarua.WebViewANE</extensionID>
   </extensions>
 </application>
-

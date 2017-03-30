@@ -1,3 +1,7 @@
+### 0.0.17
+- iOS/OSX: added getFunctions(). Functions are defined here. Removes need to edit -Swift.h bridging header
+- iOS/OSX:  Update to Swift 3.1 + Xcode 8.3
+
 ### 0.0.16
 - Android: Add Android version
 - iOS: Allow transparent background

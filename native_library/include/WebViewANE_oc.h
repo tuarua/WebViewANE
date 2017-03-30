@@ -32,7 +32,7 @@
 #if (TARGET_IPHONE_SIMULATOR) || (TARGET_OS_IPHONE)
 
 #import <Foundation/Foundation.h>
-@interface WebViewANE : NSObject
+@interface WebViewANE_oc : NSObject
 @end
 
 #elif TARGET_OS_MAC

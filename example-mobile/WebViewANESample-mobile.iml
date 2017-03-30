@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="Flex" version="4">
-  <component name="FlexBuildConfigurationManager" active="WebViewANESample-mobile simulator">
+  <component name="FlexBuildConfigurationManager" active="WebViewANESample-mobile device">
     <configurations>
       <configuration name="WebViewANESample-mobile simulator" target-platform="Mobile" pure-as="true" main-class="WebViewANESample" output-file="WebViewANESample-mobile.swf" output-folder="$MODULE_DIR$/bin-debug">
         <dependencies>
@@ -58,7 +58,7 @@
           </map>
         </compiler-options>
         <packaging-air-desktop />
-        <packaging-android enabled="true" use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/src/WebViewANESample-app.xml" package-file-name="WebViewANESample-mobile_device">
+        <packaging-android use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/src/WebViewANESample-app.xml" package-file-name="WebViewANESample-mobile_device">
           <files-to-package>
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/system" path-in-package="." />
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/assets" path-in-package="." />
