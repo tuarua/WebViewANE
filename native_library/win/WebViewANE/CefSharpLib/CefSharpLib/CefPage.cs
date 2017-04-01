@@ -45,7 +45,7 @@ namespace CefSharpLib {
         private bool _canGoForward;
 
         public CefPage(string initialUrl, string userAgent, int cefLogSeverity, int remoteDebuggingPort, string cachePath,
-            Dictionary<string, string> settingsDict, string cefBrowserSubprocessPath, byte r, byte g, byte b)
+            Dictionary<string, string> settingsDict, string cefBrowserSubprocessPath, byte r, byte g, byte b, bool enableDownloads)
         {
             _initialUrl = initialUrl;
             InitializeComponent();
@@ -114,7 +114,8 @@ namespace CefSharpLib {
                 var kh = new KeyboardHandler();
                 kh.OnKeyEventFired += OnKeyEventFired;
 
-                Browser.DownloadHandler = dh;
+                if(enableDownloads)
+                    Browser.DownloadHandler = dh;
                 Browser.KeyboardHandler = kh;
                 Browser.FrameLoadEnd += OnFrameLoaded;
                 Browser.AddressChanged += OnBrowserAddressChanged;
@@ -349,6 +350,10 @@ namespace CefSharpLib {
 
         public void StopLoading() {
             Browser.Stop();
+        }
+
+        public void Print() {
+            Browser.Print();
         }
 
         public void SetMagnification(double value) {

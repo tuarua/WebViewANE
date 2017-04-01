@@ -104,12 +104,13 @@ public class StarlingRoot extends Sprite {
         // See https://github.com/cefsharp/CefSharp/blob/master/CefSharp.Example/CefExample.cs#L37 for more examples
         //settings.CefCommandLineArgs.Add("disable-direct-write", "1");
         //Disables the DirectWrite font rendering system on windows.
-        //Possibly useful when experiencing blury fonts.
+        //Possibly useful when experiencing blurry fonts.
 
         var kvp:Object = {};
         kvp.key = "disable-direct-write";
         kvp.value = "1";
         settings.cef.commandLineArgs.push(kvp);
+        settings.cef.enableDownloads = true;
 
         webView.setBackgroundColor(0xF1F1F1);
 
@@ -455,7 +456,6 @@ public class StarlingRoot extends Sprite {
         if (touch != null && touch.phase == TouchPhase.ENDED) {
             cancelBtn.visible = true;
             refreshBtn.visible = false;
-            //webView.addToStage();
             webView.reload();
         }
     }
