@@ -362,7 +362,7 @@ import Cocoa
 
 #else
             let realY = ((NSApp.mainWindow?.contentLayoutRect.height)! - _height) - _y
-            if updateX || updateY {
+            if updateX || updateY || updateHeight {
                 wv.setFrameOrigin(NSPoint.init(x: _x, y: realY))
             }
             if updateWidth || updateHeight {

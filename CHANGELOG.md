@@ -1,3 +1,7 @@
+### 0.0.18
+- WIN/OSX: Fix Issue #26 with setPositionAndSize
+- WIN: Implement Issue #27 allow downloads to be enabled disabled
+
 ### 0.0.17
 - iOS/OSX: added getFunctions(). Functions are defined here. Removes need to edit -Swift.h bridging header
 - iOS/OSX:  Update to Swift 3.1 + Xcode 8.3
