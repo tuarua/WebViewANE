@@ -25,6 +25,8 @@ unsigned int cef_bg_r = 255;
 unsigned int cef_bg_g = 255;
 unsigned int cef_bg_b = 255;
 
+bool cef_enableDownloads;
+
 vector<pair<string, string>> cef_commandLineArgs;
 int cef_remoteDebuggingPort;
 string cef_cachePath;
@@ -84,7 +86,7 @@ namespace ManagedCode {
 		
 		ManagedGlobals::page = gcnew CefSharpLib::CefPage(gcnew String(cef_initialUrl.c_str()),gcnew String(cef_userAgent.c_str()), cef_logSeverity, cef_logSeverity,
 			gcnew String(cef_cachePath.c_str()), cs_cef_commandLineArgs, gcnew String(cef_browserSubprocessPath.c_str()), 
-			cef_bg_r, cef_bg_g, cef_bg_b);
+			cef_bg_r, cef_bg_g, cef_bg_b, cef_enableDownloads);
 
 		ManagedGlobals::page->OnMessageSent += gcnew CefSharpLib::CefPage::MessageHandler(onCefLibMessage);
 
@@ -160,6 +162,10 @@ namespace ManagedCode {
 		ManagedGlobals::page->InjectScript(code, scriptUrl, startLine);
 	}
 
+	void Print() {
+		ManagedGlobals::page->Print();
+	}
+
 }
 
 
@@ -193,6 +199,7 @@ extern "C" {
 			cef_cachePath = aneHelper.getString(aneHelper.getProperty(cefSettingsFRE, "cachePath"));
 			cef_logSeverity = aneHelper.getInt32(aneHelper.getProperty(cefSettingsFRE, "logSeverity"));
 			cef_browserSubprocessPath = aneHelper.getString(aneHelper.getProperty(cefSettingsFRE, "browserSubprocessPath"));
+			cef_enableDownloads = aneHelper.getBool(aneHelper.getProperty(cefSettingsFRE, "enableDownloads"));
 
 			cef_userAgent = aneHelper.getString(aneHelper.getProperty(argv[5], "userAgent"));
 			
@@ -245,18 +252,20 @@ extern "C" {
 		}
 
 		if (updateX || updateY || updateWidth || updateHeight) {
+
 			auto flg = NULL;
 			if (!updateWidth && !updateHeight)
-				flg = SWP_NOSIZE;
+				flg += SWP_NOSIZE;
+				
 			if (!updateX && !updateY)
-				flg = SWP_NOMOVE;
+				flg += SWP_NOMOVE;
 
 			SetWindowPos(cefHwnd,
 				HWND_TOP,
-				(updateX) ? cef_x : 0,
-				(updateY) ? cef_y : 0,
-				(updateWidth) ? cef_width : 0,
-				(updateHeight) ? cef_height : 0,
+				cef_x,
+				cef_y,
+				cef_width,
+				cef_height,
 				flg);
 			UpdateWindow(cefHwnd);
 		}
@@ -437,6 +446,13 @@ extern "C" {
 		return NULL;
 	}
 
+	FRE_FUNCTION(print) {
+		ManagedCode::Print();
+		return NULL;
+	}
+
+	
+
 	BOOL CALLBACK EnumProc(HWND hwnd, LPARAM lParam) {
 		GetWindowThreadProcessId(hwnd, &windowID);
 		if (windowID == lParam) {
@@ -491,6 +507,7 @@ extern "C" {
 			,{ (const uint8_t *) "shutDown", nullptr, &shutDown }
 			,{ (const uint8_t *) "injectScript", nullptr, &injectScript }
 
+			,{ (const uint8_t *) "print", nullptr, &print }
 			
 
 		};

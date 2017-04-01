@@ -8,6 +8,10 @@
 package com.tuarua.webview {
 
 public class CefSettings extends Object {
+/**
+* <p>Sets whether downloads will be handled by the WebView.</p>
+*/
+public var enableDownloads:Boolean = true;
 /** 
  * <p>Set to a value between 1024 and 65535 to enable remote debugging on the specified
 port. For example, if 8080 is specified the remote debugging URL will be http://localhost:8080.
