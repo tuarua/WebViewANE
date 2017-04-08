@@ -166,6 +166,10 @@ namespace ManagedCode {
 		ManagedGlobals::page->Print();
 	}
 
+	void Focus() {
+		ManagedGlobals::page->BrowserFocus();
+	}
+
 }
 
 
@@ -451,7 +455,10 @@ extern "C" {
 		return NULL;
 	}
 
-	
+	FRE_FUNCTION(focus) {
+		ManagedCode::Focus();
+		return NULL;
+	}
 
 	BOOL CALLBACK EnumProc(HWND hwnd, LPARAM lParam) {
 		GetWindowThreadProcessId(hwnd, &windowID);
@@ -508,6 +515,7 @@ extern "C" {
 			,{ (const uint8_t *) "injectScript", nullptr, &injectScript }
 
 			,{ (const uint8_t *) "print", nullptr, &print }
+			,{ (const uint8_t *) "focus", nullptr, &focus }
 			
 
 		};

@@ -668,6 +668,10 @@ public class WebViewANE extends EventDispatcher {
         extensionContext.call("shutDown");
     }
 
+    public function focus():void {
+        extensionContext.call("focus");
+    }
+
     /**
      *
      * @param code Javascript to inject, if any.

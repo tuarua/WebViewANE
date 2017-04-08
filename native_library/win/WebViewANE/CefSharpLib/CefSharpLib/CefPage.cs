@@ -356,6 +356,10 @@ namespace CefSharpLib {
             Browser.Print();
         }
 
+        public void BrowserFocus() {
+            Browser.Focus();
+        }
+
         public void SetMagnification(double value) {
             Browser.SetZoomLevel(value);
         }
