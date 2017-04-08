@@ -631,7 +631,8 @@ public class WebViewANE extends EventDispatcher {
      */
     public function setBackgroundColor(value:uint, alpha:Number = 1.0):void {
         backgroundColor.hexToRGB(value);
-        extensionContext.call("setBackgroundColor", backgroundColor.red, backgroundColor.green, backgroundColor.blue, alpha);
+        if (extensionContext)
+            extensionContext.call("setBackgroundColor", backgroundColor.red, backgroundColor.green, backgroundColor.blue, alpha);
     }
 
     /**
@@ -665,11 +666,13 @@ public class WebViewANE extends EventDispatcher {
      *
      */
     public function shutDown():void {
-        extensionContext.call("shutDown");
+        if (safetyCheck())
+            extensionContext.call("shutDown");
     }
 
     public function focus():void {
-        extensionContext.call("focus");
+        if (safetyCheck())
+            extensionContext.call("focus");
     }
 
     /**

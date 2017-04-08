@@ -5,12 +5,12 @@
     <filename>WebViewANESample-mobile</filename> <!-- Used as the filename for the application. Required. -->
     <name>WebViewANESample-mobile</name> <!-- The name that is displayed below the app icon. -->
     <versionNumber>0.0.2</versionNumber> <!-- Required. -->
-    
+
     <!-- Settings for the application's initial window. Required. -->
     <initialWindow>
         <!-- The main SWF or HTML file of the application. Required. -->
         <content>[This value will be overwritten by Flash Builder in the output app.xml]</content>
-        
+
         <!-- The aspect ratio ("portrait", "landscape", or "any"). Optional. -->
         <aspectRatio>any</aspectRatio>
 
@@ -55,7 +55,7 @@
     <iPhone>
         <!-- A list of plist key/value pairs to be added to the application Info.plist -->
         <!-- UIDeviceFamily: 1 - iPhone/iPod Touch; 2 - iPad; both: universal app -->
-    
+
         <InfoAdditions><![CDATA[            
             <key>UIDeviceFamily</key>
             <array>
@@ -65,15 +65,15 @@
             <key>MinimumOSVersion</key>
             <string>9.0</string>
         ]]></InfoAdditions>
-        
+
         <!-- Display Resolution for the app ("standard" or "high"). Optional. Default "standard" -->
         <requestedDisplayResolution>high</requestedDisplayResolution>
     </iPhone>
-    
+
     <!-- Android specific capabilities -->
     <android>
         <manifestAdditions>
-         <![CDATA[
+            <![CDATA[
              <manifest android:installLocation="auto">
                  <uses-permission android:name="android.permission.INTERNET"/>
                 <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -97,5 +97,5 @@
     <extensions>
         <extensionID>com.tuarua.WebViewANE</extensionID>
     </extensions>
-    
+
 </application>

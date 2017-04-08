@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.ViewGroup;
+import android.webkit.GeolocationPermissions;
 import android.webkit.JavascriptInterface;
 import android.webkit.PermissionRequest;
 import android.webkit.ValueCallback;
@@ -93,6 +94,7 @@ class WebViewANEContext extends FREContext {
         functionsToSet.put("shutDown", new shutDown());
         functionsToSet.put("injectScript", new injectScript());
         functionsToSet.put("print", new print());
+        functionsToSet.put("focus", new focus());
 
         return functionsToSet;
     }
@@ -149,10 +151,11 @@ class WebViewANEContext extends FREContext {
                     settings.getJavaScriptCanOpenWindowsAutomatically());
             webSettings.setBlockNetworkImage(settings.getBlockNetworkImage());
 
-            //getUserMedia
-            webSettings.setAllowFileAccessFromFileURLs(true);
-            webSettings.setAllowUniversalAccessFromFileURLs(true);
-
+            webSettings.setAllowContentAccess(settings.getAllowContentAccess());
+            webSettings.setAllowFileAccess(settings.getAllowFileAccess());
+            webSettings.setAllowFileAccessFromFileURLs(settings.getAllowFileAccessFromFileURLs());
+            webSettings.setAllowUniversalAccessFromFileURLs(settings.getAllowUniversalAccessFromFileURLs());
+            webSettings.setGeolocationEnabled(settings.getGeolocationEnabled());
 
             //webSettings.setBuiltInZoomControls(true);
 
@@ -188,40 +191,26 @@ class WebViewANEContext extends FREContext {
 
                 @Override
                 public void onPermissionRequest(final PermissionRequest request) {
-                    trace("onPermissionRequest" + request.getOrigin().toString());
-                   // super.onPermissionRequest(request);
                     request.grant(request.getResources());
-
-
-
-                    //https://github.com/Oldes/ANEAmanitaAndroid-public/blob/eclipse-permissions/02-ANEAmanitaAndroid/ANEAmanitaAndroid-eclipse/src/com/amanitadesign/ane/functions/PermissionsFunctions.java
-/*
-                    getActivity().runOnUiThread(new Runnable() {
-                        @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-                        @Override
-                        public void run() {
-                            try {
-                                //if(request.getOrigin().toString().equals("https://apprtc-m.appspot.com/")) {
-                                    trace("this should be grant");
-                                    request.grant(request.getResources());
-                               // } else {
-                                    //trace("this should be deny");
-                                   // request.deny();
-                               // }
-                            }catch (Error e){
-                                trace(e.toString());
-                            }
-
-                        }
-                    });
-                    */
-
                 }
 
                 @Override
                 public void onPermissionRequestCanceled(PermissionRequest request) {
                     super.onPermissionRequestCanceled(request);
-                    trace("onPermissionRequestCanceled");
+                    //trace("onPermissionRequestCanceled");
+                }
+
+                @Override
+                public void onGeolocationPermissionsShowPrompt(String origin, GeolocationPermissions.Callback callback) {
+                    //trace("onGeolocationPermissionsShowPrompt");
+                    callback.invoke(origin, true, false);
+
+                }
+
+                @Override
+                public void onGeolocationPermissionsHidePrompt() {
+                    //trace("onGeolocationPermissionsHidePrompt");
+                    super.onGeolocationPermissionsHidePrompt();
                 }
             });
             webView.setWebViewClient(new WebViewClient() {
@@ -330,6 +319,16 @@ class WebViewANEContext extends FREContext {
                 settings.setJavaScriptCanOpenWindowsAutomatically(
                         freSettings.getProperty("javaScriptCanOpenWindowsAutomatically").getAsBool());
                 settings.setBlockNetworkImage(freSettings.getProperty("blockNetworkImage").getAsBool());
+
+                settings.setAllowContentAccess(freSettings.getProperty("allowContentAccess").getAsBool());
+                settings.setAllowFileAccess(freSettings.getProperty("allowFileAccess").getAsBool());
+                settings.setAllowFileAccessFromFileURLs(
+                        freSettings.getProperty("allowFileAccessFromFileURLs").getAsBool());
+
+                settings.setAllowUniversalAccessFromFileURLs(
+                        freSettings.getProperty("allowUniversalAccessFromFileURLs").getAsBool());
+
+                settings.setGeolocationEnabled(freSettings.getProperty("geolocationEnabled").getAsBool());
 
                 airView = (ViewGroup) getActivity().findViewById(android.R.id.content);
                 airView = (ViewGroup) airView.getChildAt(0);
@@ -682,6 +681,13 @@ class WebViewANEContext extends FREContext {
         }
     }
 
+    private class focus implements FREFunction {
+        @Override
+        public FREObject call(FREContext freContext, FREObject[] freObjects) {
+            return null;
+        }
+    }
+
     private void trace(String msg) {
         //if(logLevel > LogLevel.QUIET){
         Log.i("com.tuarua.WebViewANE", String.valueOf(msg));
@@ -703,4 +709,6 @@ class WebViewANEContext extends FREContext {
         dispatchStatusEventAsync(String.valueOf(msg), "TRACE");
         //  }
     }
+
+
 }

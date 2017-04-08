@@ -13,6 +13,19 @@
 
     <script type="text/javascript">
 
+        //workaround for Windows touch, ensures the webview is focussed on
+        window.addEventListener("load", function () { // on page load
+            document.body.addEventListener("touchend", function (e) {
+                var messageToPost = {
+                    'functionName': 'forceWebViewFocus',
+                    'callbackName': null,
+                    'args': []
+                };
+                getWebviewANE().postMessage(messageToPost);
+            }, false)
+
+        }, false)
+
         var isCef = (navigator.vendor == "Google Inc.");
 
         function as_to_js(numberA, stringA, numberB, obj) {
@@ -88,7 +101,14 @@
         <button type="button" class="btn btn-primary" onclick="noCallback()">Call Actionscript with No Callback</button>
     </p>
     <div id="output" class="well well-sm">Output goes here</div>
+
+    <form>
+        <input type="text" name="testInput" value="Type here">
+    </form>
+
     <a href="localTest.html">Go To page 2 (Link test)</a>
+
+
 </div>
 
 </body>
