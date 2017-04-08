@@ -112,7 +112,7 @@ public class StarlingRoot extends Sprite {
         tf.verticalAlign = Align.TOP;
         tf.horizontalAlign = Align.CENTER;
         tf.color = 0x666666;
-        titleTxt = new TextField(stage.stageWidth - 20, 20, "This will be the title");
+        titleTxt = new TextField(stage.stageWidth - 20, 20, "");
         titleTxt.format = tf;
 
         titleTxt.batchable = true;

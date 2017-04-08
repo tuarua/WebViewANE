@@ -82,11 +82,12 @@ import Cocoa
         functionsToSet["setPositionAndSize"] = setPositionAndSize
         functionsToSet["showDevTools"] = showDevTools
         functionsToSet["closeDevTools"] = closeDevTools
-        functionsToSet["onFullScreen"] = onFullScreen
         functionsToSet["callJavascriptFunction"] = callJavascriptFunction
         functionsToSet["evaluateJavaScript"] = evaluateJavaScript
         functionsToSet["shutDown"] = shutDown
         functionsToSet["injectScript"] = injectScript
+        functionsToSet["focus"] = focusWebView
+        functionsToSet["print"] = print
 
         var arr: Array<String> = []
         for key in functionsToSet.keys {
@@ -308,35 +309,14 @@ import Cocoa
     }
 
     func setPositionAndSize(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
-        var updateWidth = false
-        var updateHeight = false
-        var updateX = false
-        var updateY = false
         do {
             if let inFRE0 = argv[0], let inFRE1 = argv[1], let inFRE2 = argv[2],
                let inFRE3 = argv[3] {
 
-                let tmp_x: CGFloat = try inFRE0.getAsCGFloat()
-                let tmp_y: CGFloat = try inFRE1.getAsCGFloat()
-                let tmp_width: CGFloat = try inFRE2.getAsCGFloat()
-                let tmp_height: CGFloat = try inFRE3.getAsCGFloat()
-
-                if (tmp_width != _width) {
-                    _width = tmp_width
-                    updateWidth = true
-                }
-                if (tmp_height != _height) {
-                    _height = tmp_height
-                    updateHeight = true
-                }
-                if (tmp_x != _x) {
-                    _x = tmp_x
-                    updateX = true
-                }
-                if (tmp_y != _y) {
-                    _y = tmp_y
-                    updateY = true
-                }
+                _x = try inFRE0.getAsCGFloat()
+                _y = try inFRE1.getAsCGFloat()
+                _width = try inFRE2.getAsCGFloat()
+                _height = try inFRE3.getAsCGFloat()
 
             }
 
@@ -350,24 +330,16 @@ import Cocoa
 #if os(iOS)
             let realY = _y
             var frame: CGRect = wv.frame
-            if updateX || updateY {
-                frame.origin.x = _x
-                frame.origin.y = realY
-            }
-            if updateWidth || updateHeight {
-                frame.size.width = _width
-                frame.size.height = _height
-            }
+            frame.origin.x = _x
+            frame.origin.y = realY
+            frame.size.width = _width
+            frame.size.height = _height
             wv.frame = frame
 
 #else
-            let realY = ((NSApp.mainWindow?.contentLayoutRect.height)! - _height) - _y
-            if updateX || updateY || updateHeight {
-                wv.setFrameOrigin(NSPoint.init(x: _x, y: realY))
-            }
-            if updateWidth || updateHeight {
-                wv.setFrameSize(NSSize.init(width: _width, height: _height))
-            }
+            let realY = ((NSApp.mainWindow?.contentLayoutRect.height)! - _height) - _y; //TODO make this better, perform calc in ANE
+            wv.setFrameOrigin(NSPoint.init(x: _x, y: realY))
+            wv.setFrameSize(NSSize.init(width: _width, height: _height))
 #endif
 
         }
@@ -569,7 +541,14 @@ import Cocoa
         }
         return nil
     }
+    
+    func focusWebView(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
+        return nil
+    }
 
+    func print(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? { //TODO
+        return nil
+    }
 
     /*! @abstract Invoked when a script message is received from a webpage.
      @param userContentController The user content controller invoking the
@@ -739,10 +718,7 @@ import Cocoa
 
 
         let myRect: CGRect = CGRect.init(x: _x, y: realY, width: _width, height: _height)
-
-
         myWebView = WKWebView(frame: myRect, configuration: configuration)
-
 
         if let wv = myWebView {
 #if os(iOS)

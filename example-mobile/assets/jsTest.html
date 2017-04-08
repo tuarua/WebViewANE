@@ -36,7 +36,6 @@
             var b = false;
 
             return person;
-            //return str;
         }
 
         function getWebviewANE() {
@@ -66,11 +65,6 @@
             };
 
             //if Android need to stringify
-
-            console.log("isAndroid",isAndroid);
-            console.log("messageToPost",JSON.stringify(messageToPost));
-            console.log(getWebviewANE());
-
             getWebviewANE().postMessage(isAndroid ? JSON.stringify(messageToPost) : messageToPost);
 
         }
@@ -85,6 +79,7 @@
             getWebviewANE().postMessage(isAndroid ? JSON.stringify(messageToPost) : messageToPost);
         }
 
+
     </script>
 
 </head>
@@ -97,6 +92,7 @@
     <p>
         <button type="button" class="btn btn-primary" onclick="testCallback()">Call Actionscript with Callback</button>
         <button type="button" class="btn btn-primary" onclick="noCallback()">Call Actionscript with No Callback</button>
+
     </p>
     <div id="output" class="well well-sm">Output goes here</div>
     <a href="localTest.html">Go To page 2 (Link test)</a>

@@ -193,6 +193,8 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class) id _Nullable escListener;)
 - (FREObject _Nullable)evaluateJavaScriptWithCtx:(FREContext _Nonnull)ctx argc:(uint32_t)argc argv:(FREObject _Nullable * _Null_unspecified)argv SWIFT_WARN_UNUSED_RESULT;
 - (FREObject _Nullable)callJavascriptFunctionWithCtx:(FREContext _Nonnull)ctx argc:(uint32_t)argc argv:(FREObject _Nullable * _Null_unspecified)argv SWIFT_WARN_UNUSED_RESULT;
 - (FREObject _Nullable)injectScriptWithCtx:(FREContext _Nonnull)ctx argc:(uint32_t)argc argv:(FREObject _Nullable * _Null_unspecified)argv SWIFT_WARN_UNUSED_RESULT;
+- (FREObject _Nullable)focusWebViewWithCtx:(FREContext _Nonnull)ctx argc:(uint32_t)argc argv:(FREObject _Nullable * _Null_unspecified)argv SWIFT_WARN_UNUSED_RESULT;
+- (FREObject _Nullable)printWithCtx:(FREContext _Nonnull)ctx argc:(uint32_t)argc argv:(FREObject _Nullable * _Null_unspecified)argv SWIFT_WARN_UNUSED_RESULT;
 - (void)userContentController:(WKUserContentController * _Nonnull)userContentController didReceiveScriptMessage:(WKScriptMessage * _Nonnull)message SWIFT_AVAILABILITY(macos,introduced=10.10);
 - (FREObject _Nullable)setBackgroundColorWithCtx:(FREContext _Nonnull)ctx argc:(uint32_t)argc argv:(FREObject _Nullable * _Null_unspecified)argv SWIFT_WARN_UNUSED_RESULT;
 - (FREObject _Nullable)initWebViewWithCtx:(FREContext _Nonnull)ctx argc:(uint32_t)argc argv:(FREObject _Nullable * _Null_unspecified)argv SWIFT_METHOD_FAMILY(none) SWIFT_WARN_UNUSED_RESULT;

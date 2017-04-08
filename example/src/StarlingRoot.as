@@ -543,8 +543,10 @@ public class StarlingRoot extends Sprite {
         /*
          !! Needed for OSX, ignored on Windows. Important - must tell the webView  we have gone in/out of fullscreen.
          */
-        webView.onFullScreen(event.fullScreen);
-        webView.setPositionAndSize(0, 90, _appWidth, _appHeight - 140);
+        if (webView) {
+            webView.onFullScreen(event.fullScreen);
+            webView.setPositionAndSize(0, 90, _appWidth, _appHeight - 140);
+        }
     }
 
     public function updateWebViewOnResize():void {

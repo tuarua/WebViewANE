@@ -10,45 +10,92 @@ public class Settings {
     private String userAgent;
     private Boolean javaScriptCanOpenWindowsAutomatically = true;
     private Boolean blockNetworkImage = false;
+    private Boolean allowFileAccess = true;
+    private Boolean allowContentAccess = true;
+    private Boolean allowUniversalAccessFromFileURLs = true;
+    private Boolean allowFileAccessFromFileURLs = true;
+    private Boolean geolocationEnabled = false;
 
     public Boolean getJavaScriptEnabled() {
         return javaScriptEnabled;
     }
 
-    public void setJavaScriptEnabled(Boolean javaScriptEnabled) {
-        this.javaScriptEnabled = javaScriptEnabled;
+    public void setJavaScriptEnabled(Boolean b) {
+        javaScriptEnabled = b;
     }
 
     public Boolean getMediaPlaybackRequiresUserGesture() {
         return mediaPlaybackRequiresUserGesture;
     }
 
-    public void setMediaPlaybackRequiresUserGesture(Boolean mediaPlaybackRequiresUserGesture) {
-        this.mediaPlaybackRequiresUserGesture = mediaPlaybackRequiresUserGesture;
+    public void setMediaPlaybackRequiresUserGesture(Boolean b) {
+        mediaPlaybackRequiresUserGesture = b;
     }
 
     public String getUserAgent() {
         return userAgent;
     }
 
-    public void setUserAgent(String userAgent) {
-        this.userAgent = userAgent;
+    public void setUserAgent(String s) {
+        userAgent = s;
     }
 
     public Boolean getJavaScriptCanOpenWindowsAutomatically() {
         return javaScriptCanOpenWindowsAutomatically;
     }
 
-    public void setJavaScriptCanOpenWindowsAutomatically(Boolean javaScriptCanOpenWindowsAutomatically) {
-        this.javaScriptCanOpenWindowsAutomatically = javaScriptCanOpenWindowsAutomatically;
+    public void setJavaScriptCanOpenWindowsAutomatically(Boolean b) {
+        javaScriptCanOpenWindowsAutomatically = b;
     }
 
     public Boolean getBlockNetworkImage() {
         return blockNetworkImage;
     }
 
-    public void setBlockNetworkImage(Boolean blockNetworkImage) {
-        this.blockNetworkImage = blockNetworkImage;
+    public void setBlockNetworkImage(Boolean b) {
+        blockNetworkImage = b;
+    }
+
+    public void setAllowFileAccess(Boolean b) {
+        allowFileAccess = b;
+    }
+
+    public Boolean getAllowFileAccess() {
+        return allowFileAccess;
+    }
+
+    public void setAllowContentAccess(Boolean b) {
+        allowContentAccess = b;
+    }
+
+    public Boolean getAllowContentAccess() {
+        return allowContentAccess;
+    }
+
+
+    public void setAllowUniversalAccessFromFileURLs(Boolean b) {
+        allowUniversalAccessFromFileURLs = b;
+    }
+
+    public Boolean getAllowUniversalAccessFromFileURLs() {
+        return allowUniversalAccessFromFileURLs;
+    }
+
+
+    public void setAllowFileAccessFromFileURLs(Boolean b) {
+        allowFileAccessFromFileURLs = b;
+    }
+
+    public Boolean getAllowFileAccessFromFileURLs() {
+        return allowFileAccessFromFileURLs;
+    }
+
+    public Boolean getGeolocationEnabled() {
+        return geolocationEnabled;
+    }
+
+    public void setGeolocationEnabled(boolean b) {
+        geolocationEnabled = b;
     }
 
     /*
@@ -84,25 +131,9 @@ public class Settings {
         return false;
     }
 
-    @Override
-    public void setAllowFileAccess(boolean b) {
 
-    }
 
-    @Override
-    public boolean getAllowFileAccess() {
-        return false;
-    }
 
-    @Override
-    public void setAllowContentAccess(boolean b) {
-
-    }
-
-    @Override
-    public boolean getAllowContentAccess() {
-        return false;
-    }
 
     @Override
     public void setLoadWithOverviewMode(boolean b) {
@@ -328,15 +359,9 @@ public class Settings {
 
 
 
-    @Override
-    public void setAllowUniversalAccessFromFileURLs(boolean b) {
 
-    }
 
-    @Override
-    public void setAllowFileAccessFromFileURLs(boolean b) {
 
-    }
 
     @Override
     public void setPluginState(PluginState pluginState) {
@@ -393,22 +418,9 @@ public class Settings {
         return false;
     }
 
-    @Override
-    public void setGeolocationEnabled(boolean b) {
-
-    }
 
 
 
-    @Override
-    public boolean getAllowUniversalAccessFromFileURLs() {
-        return false;
-    }
-
-    @Override
-    public boolean getAllowFileAccessFromFileURLs() {
-        return false;
-    }
 
     @Override
     public PluginState getPluginState() {

@@ -36,8 +36,8 @@ fi
 if [ ! -d "$pathtome/platforms/ios/device/Frameworks" ]; then
 mkdir "$pathtome/platforms/ios/device/Frameworks"
 fi
-if [ ! -d "$pathtome/platforms/ios/default" ]; then
-mkdir "$pathtome/platforms/ios/default"
+if [ ! -d "$pathtome/platforms/default" ]; then
+mkdir "$pathtome/platforms/default"
 fi
 if [ ! -d "$pathtome/platforms/android" ]; then
 mkdir "$pathtome/platforms/android"
@@ -56,7 +56,7 @@ unzip "$pathtome/$PROJECTNAME.swc" "library.swf" -d "$pathtome"
 echo "Copying library.swf into place."
 cp "$pathtome/library.swf" "$pathtome/platforms/ios/simulator"
 cp "$pathtome/library.swf" "$pathtome/platforms/ios/device"
-cp "$pathtome/library.swf" "$pathtome/platforms/ios/default"
+cp "$pathtome/library.swf" "$pathtome/platforms/default"
 cp "$pathtome/library.swf" "$pathtome/platforms/android"
 
 #Copy ios native libraries into place.
@@ -96,10 +96,11 @@ echo "Generating ANE."
 -C $pathtome/platforms/ios/simulator/Frameworks/ . \
 -platform iPhone-ARM  -C "$pathtome/platforms/ios/device" "library.swf" "lib$PROJECTNAME.a" \
 -platformoptions "$pathtome/platforms/ios/platform.xml" \
--C $pathtome/platforms/ios/device/Frameworks/ . 
+-C $pathtome/platforms/ios/device/Frameworks/ . \
+-platform default -C "$pathtome/platforms/default" "library.swf"
 
 
-rm -r "$pathtome/platforms/ios/default"
+rm -r "$pathtome/platforms/default"
 rm "$pathtome/$PROJECTNAME.swc"
 rm "$pathtome/library.swf"
 rm "$pathtome/platforms/android/library.swf"

@@ -1,3 +1,8 @@
+### 0.0.19
+- WIN: add new method focus() Issue #31
+- AND/iOS: add default platform Issue #29
+- AND: add onPermissionRequest, onGeolocation where AIR < 24 Issue #28
+
 ### 0.0.18
 - WIN/OSX: Fix Issue #26 with setPositionAndSize
 - WIN: Implement Issue #27 allow downloads to be enabled disabled
