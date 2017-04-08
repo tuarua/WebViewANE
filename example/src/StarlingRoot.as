@@ -87,6 +87,9 @@ public class StarlingRoot extends Sprite {
         }
 
         webView.addCallback("js_to_as", jsToAsCallback);
+        webView.addCallback("forceWebViewFocus", forceWebViewFocus); //for Windows touch - see jsTest.html
+
+
         webView.addEventListener(WebViewEvent.ON_PROPERTY_CHANGE, onPropertyChange);
         webView.addEventListener(WebViewEvent.ON_FAIL, onFail);
         webView.addEventListener(WebViewEvent.ON_DOWNLOAD_PROGRESS, onDownloadProgress);
@@ -326,6 +329,7 @@ public class StarlingRoot extends Sprite {
     private function onJS(event:TouchEvent):void {
         var touch:Touch = event.getTouch(jsBtn);
         if (touch != null && touch.phase == TouchPhase.ENDED) {
+
             jsBtn.visible = false;
             webBtn.visible = true;
 
@@ -468,6 +472,9 @@ public class StarlingRoot extends Sprite {
         trace("jsResult.success:", jsResult.success);
     }
 
+    public function forceWebViewFocus(asCallback:ActionscriptCallback):void {
+        webView.focus();
+    }
 
     public function jsToAsCallback(asCallback:ActionscriptCallback):void {
         trace("JS -> AS reached StarlingRoot.as");

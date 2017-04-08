@@ -1,13 +1,16 @@
 package com.tuarua;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
+import android.webkit.PermissionRequest;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
@@ -32,6 +35,8 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static android.webkit.PermissionRequest.RESOURCE_VIDEO_CAPTURE;
 
 /**
  * Created by Eoin Landy on 21/03/2017.
@@ -144,11 +149,16 @@ class WebViewANEContext extends FREContext {
                     settings.getJavaScriptCanOpenWindowsAutomatically());
             webSettings.setBlockNetworkImage(settings.getBlockNetworkImage());
 
+            //getUserMedia
+            webSettings.setAllowFileAccessFromFileURLs(true);
+            webSettings.setAllowUniversalAccessFromFileURLs(true);
+
 
             //webSettings.setBuiltInZoomControls(true);
 
             webView.setHorizontalScrollBarEnabled(false);
             webView.setWebChromeClient(new WebChromeClient() {
+
                 @Override
                 public void onProgressChanged(WebView view, int newProgress) {
                     super.onProgressChanged(view, newProgress);
@@ -176,7 +186,43 @@ class WebViewANEContext extends FREContext {
                     }
                 }
 
+                @Override
+                public void onPermissionRequest(final PermissionRequest request) {
+                    trace("onPermissionRequest" + request.getOrigin().toString());
+                   // super.onPermissionRequest(request);
+                    request.grant(request.getResources());
 
+
+
+                    //https://github.com/Oldes/ANEAmanitaAndroid-public/blob/eclipse-permissions/02-ANEAmanitaAndroid/ANEAmanitaAndroid-eclipse/src/com/amanitadesign/ane/functions/PermissionsFunctions.java
+/*
+                    getActivity().runOnUiThread(new Runnable() {
+                        @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+                        @Override
+                        public void run() {
+                            try {
+                                //if(request.getOrigin().toString().equals("https://apprtc-m.appspot.com/")) {
+                                    trace("this should be grant");
+                                    request.grant(request.getResources());
+                               // } else {
+                                    //trace("this should be deny");
+                                   // request.deny();
+                               // }
+                            }catch (Error e){
+                                trace(e.toString());
+                            }
+
+                        }
+                    });
+                    */
+
+                }
+
+                @Override
+                public void onPermissionRequestCanceled(PermissionRequest request) {
+                    super.onPermissionRequestCanceled(request);
+                    trace("onPermissionRequestCanceled");
+                }
             });
             webView.setWebViewClient(new WebViewClient() {
                 @Override
