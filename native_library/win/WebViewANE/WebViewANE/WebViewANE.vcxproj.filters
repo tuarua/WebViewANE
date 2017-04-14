@@ -24,15 +24,9 @@
     <ClInclude Include="..\..\..\include\stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ANEHelper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\WebViewANE.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\source\ANEHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
