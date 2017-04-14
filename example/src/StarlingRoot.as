@@ -95,13 +95,12 @@ public class StarlingRoot extends Sprite {
         webView.addEventListener(WebViewEvent.ON_DOWNLOAD_PROGRESS, onDownloadProgress);
         webView.addEventListener(WebViewEvent.ON_DOWNLOAD_COMPLETE, onDownloadComplete);
         webView.addEventListener(WebViewEvent.ON_ESC_KEY, onEscKey);
+        webView.addEventListener(WebViewEvent.ON_PERMISSION_RESULT, onPermissionResult);
 
         var settings:Settings = new Settings();
 
-        /*
-         only use settings.userAgent if you are running your own site.
-         google.com for eg displays different sites based on user agent
-         */
+//         only use settings.userAgent if you are running your own site.
+//         google.com for eg displays different sites based on user agent
         //settings.userAgent = "WebViewANE";
 
         // See https://github.com/cefsharp/CefSharp/blob/master/CefSharp.Example/CefExample.cs#L37 for more examples
@@ -115,14 +114,19 @@ public class StarlingRoot extends Sprite {
         settings.cef.commandLineArgs.push(kvp);
         settings.cef.enableDownloads = true;
 
+        //to retrieve geolocation on Windows (CEF), follow the instructions on this page and set these vars
+        //https://www.chromium.org/developers/how-tos/api-keys
+//        settings.cef.GOOGLE_API_KEY = "YOUR_VALUE";
+//        settings.cef.GOOGLE_DEFAULT_CLIENT_ID = "YOUR_VALUE";
+//        settings.cef.GOOGLE_DEFAULT_CLIENT_SECRET = "YOUR_VALUE";
+
         webView.setBackgroundColor(0xF1F1F1);
 
         webView.init("http://www.adobe.com/", 0, 90, _appWidth, _appHeight - 140, settings);
         webView.addToStage(); // webView.removeFromStage();
         webView.injectScript("function testInject(){console.log('yo yo')}");
 
-        /*
-         trace("loading html");
+         /*trace("loading html");
          webView.loadHTMLString('<!DOCTYPE html>' +
          '<html lang="en">' +
          '<head><' +
@@ -132,8 +136,8 @@ public class StarlingRoot extends Sprite {
          '<body bgColor="#33FF00">' + //must give the body a bg color otherwise it loads black
          '<p>I am a test</p>' +
          '</body>' +
-         '</html>',"http://rendering/");
-         */
+         '</html>',"http://rendering/");*/
+
 
 
         backBtn.x = 20;
@@ -251,7 +255,11 @@ public class StarlingRoot extends Sprite {
         addChild(urlInput);
 
         addChild(progress);
+    }
 
+    private function onPermissionResult(event:WebViewEvent):void {
+        trace("type:",event.params.type);
+        trace("granted?",event.params.result);
     }
 
     private function onWindowMiniMaxi(event:NativeWindowDisplayStateEvent):void {
@@ -441,10 +449,10 @@ public class StarlingRoot extends Sprite {
 
 
             /*
-            var obj:BackForwardList = webView.backForwardList();
-            trace("back list length",obj.backList.length)
-            trace("forward list length",obj.forwardList.length)
-            */
+             var obj:BackForwardList = webView.backForwardList();
+             trace("back list length",obj.backList.length)
+             trace("forward list length",obj.forwardList.length)
+             */
         }
     }
 

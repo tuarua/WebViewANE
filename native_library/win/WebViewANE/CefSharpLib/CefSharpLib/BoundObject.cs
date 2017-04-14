@@ -6,10 +6,6 @@ using Newtonsoft.Json;
 namespace CefSharpLib {
     public class BoundObject {
         private const string JsCallbackEvent = "TRWV.js.CALLBACK";
-        private readonly CefPage _pc;
-        public BoundObject(CefPage pc) {
-            _pc = pc;
-        }
 
         public class JavascriptMessage {
             //public IJavascriptCallback Callback { get; set; }
@@ -49,8 +45,7 @@ namespace CefSharpLib {
                 writer.WriteNull();
             }
             writer.WriteEndObject();
-
-            _pc.SendMessage(JsCallbackEvent, sb.ToString());
+            FreSharpController.FreHelper.DispatchEvent(JsCallbackEvent, sb.ToString());
         }
 
     }

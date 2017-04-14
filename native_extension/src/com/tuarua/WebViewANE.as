@@ -175,6 +175,19 @@ public class WebViewANE extends EventDispatcher {
             case WebViewEvent.ON_ESC_KEY:
                 dispatchEvent(new WebViewEvent(WebViewEvent.ON_ESC_KEY, event.code));
                 break;
+            case WebViewEvent.ON_PERMISSION_RESULT:
+                try {
+                    pObj = JSON.parse(event.code);
+                    var permission:Object = new Object();
+                    permission.result = pObj.result;
+                    permission.type = pObj.type;
+                    dispatchEvent(new WebViewEvent(WebViewEvent.ON_PERMISSION_RESULT, permission));
+                } catch (e:Error) {
+                    trace(e.message);
+                    break;
+                }
+
+
             default:
                 break;
         }
