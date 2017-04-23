@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 
 namespace CefSharpLib {
     public partial class CefView {
+        private WindowsFormsHost _host;
         public string InitialUrl { get; set; }
         public int X { get; set; }
         public int Y { get; set; }
@@ -50,8 +51,8 @@ namespace CefSharpLib {
             InitializeComponent();
             IsManipulationEnabled = true;
             // ReSharper disable once UseObjectOrCollectionInitializer
-            var host = new WindowsFormsHost();
-            host.IsManipulationEnabled = true;
+            _host = new WindowsFormsHost();
+            _host.IsManipulationEnabled = true;
 
             Loaded += CefView_Loaded;
             var settings = new CefSettings {
@@ -128,9 +129,11 @@ namespace CefSharpLib {
                 Browser.LoadError += OnLoadError;
                 Browser.IsBrowserInitializedChanged += OnBrowserInitialized;
                 Browser.StatusMessage += OnStatusMessage;
-                host.Child = Browser;
+                _host.Child = Browser;
 
-                MainGrid.Children.Add(host);
+                MainGrid.Children.Add(_host);
+
+                
 
             }
 
@@ -308,6 +311,7 @@ namespace CefSharpLib {
         private static void CefView_Loaded(object sender, RoutedEventArgs e) {
         }
 
+       
 
     }
 }
