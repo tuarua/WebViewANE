@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.ViewGroup;
+import android.webkit.CookieManager;
 import android.webkit.GeolocationPermissions;
 import android.webkit.JavascriptInterface;
 import android.webkit.PermissionRequest;
@@ -156,6 +157,10 @@ class WebViewANEContext extends FREContext {
             webSettings.setAllowFileAccessFromFileURLs(settings.getAllowFileAccessFromFileURLs());
             webSettings.setAllowUniversalAccessFromFileURLs(settings.getAllowUniversalAccessFromFileURLs());
             webSettings.setGeolocationEnabled(settings.getGeolocationEnabled());
+
+            // AppRTC requires third party cookies to work
+            CookieManager cookieManager = CookieManager.getInstance();
+            cookieManager.setAcceptThirdPartyCookies(webView, true);
 
             //webSettings.setBuiltInZoomControls(true);
 
