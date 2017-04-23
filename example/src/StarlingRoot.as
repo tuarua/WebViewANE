@@ -13,18 +13,25 @@ import com.tuarua.webview.Settings;
 import com.tuarua.webview.WebViewEvent;
 
 import flash.desktop.NativeApplication;
+import flash.display.Bitmap;
+import flash.display.BitmapData;
 import flash.display.NativeWindowDisplayState;
+import flash.display.PNGEncoderOptions;
 import flash.display.StageDisplayState;
 import flash.events.Event;
 import flash.events.FullScreenEvent;
 import flash.events.NativeWindowDisplayStateEvent;
 import flash.filesystem.File;
+import flash.filesystem.FileMode;
+import flash.filesystem.FileStream;
 import flash.geom.Point;
 import flash.geom.Rectangle;
 import flash.system.Capabilities;
 import flash.text.TextFieldType;
 
 import events.FormEvent;
+
+import flash.utils.ByteArray;
 
 import starling.animation.Transitions;
 import starling.core.Starling;
@@ -126,7 +133,7 @@ public class StarlingRoot extends Sprite {
         webView.addToStage(); // webView.removeFromStage();
         webView.injectScript("function testInject(){console.log('yo yo')}");
 
-         /*trace("loading html");
+        /*trace("loading html");
          webView.loadHTMLString('<!DOCTYPE html>' +
          '<html lang="en">' +
          '<head><' +
@@ -137,7 +144,6 @@ public class StarlingRoot extends Sprite {
          '<p>I am a test</p>' +
          '</body>' +
          '</html>',"http://rendering/");*/
-
 
 
         backBtn.x = 20;
@@ -258,8 +264,8 @@ public class StarlingRoot extends Sprite {
     }
 
     private function onPermissionResult(event:WebViewEvent):void {
-        trace("type:",event.params.type);
-        trace("granted?",event.params.result);
+        trace("type:", event.params.type);
+        trace("granted?", event.params.result);
     }
 
     private function onWindowMiniMaxi(event:NativeWindowDisplayStateEvent):void {
@@ -460,6 +466,23 @@ public class StarlingRoot extends Sprite {
         var touch:Touch = event.getTouch(backBtn);
         if (touch != null && touch.phase == TouchPhase.ENDED) {
             webView.goBack();
+        }
+    }
+
+    private function onCapture(event:TouchEvent):void {
+        var touch:Touch = event.getTouch(refreshBtn);
+        if (touch != null && touch.phase == TouchPhase.ENDED) {
+            var bmd:BitmapData = webView.capture(100, 100, 400, 400);
+            var ba:ByteArray = new ByteArray();
+            var encodingOptions:PNGEncoderOptions = new PNGEncoderOptions(true);
+
+            bmd.encode(new Rectangle(0, 0, bmd.width, bmd.height), encodingOptions, ba);
+
+            var file:File = File.desktopDirectory.resolvePath("webViewANE_capture.png");
+            var fs:FileStream = new FileStream();
+            fs.open(file, FileMode.WRITE);
+            fs.writeBytes(ba);
+            fs.close();
         }
     }
 

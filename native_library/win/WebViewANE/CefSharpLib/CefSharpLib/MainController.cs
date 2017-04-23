@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,7 @@ using System.Windows.Media;
 using CefSharp;
 using Newtonsoft.Json;
 using FreSharp;
+using Color = System.Windows.Media.Color;
 using FREObject = System.IntPtr;
 using FREContext = System.IntPtr;
 using Hwnd = System.IntPtr;
@@ -52,10 +54,30 @@ namespace CefSharpLib {
                     {"removeFromStage", RemoveFromStage},
                     {"setPositionAndSize", SetPositionAndSize},
                     {"init", InitView},
+                    {"capture", Capture},
                     
                 };
 
             return FunctionsDict.Select(kvp => kvp.Key).ToArray();
+        }
+
+        private FREObject Capture(FREContext ctx, uint argc, FREObject[] argv) {
+            var rect = new WinApi.Rect();
+            WinApi.GetWindowRect(_cefWindow, ref rect);
+
+            var freX = new FreObjectSharp(argv[0]).GetAsInt();
+            var freY = new FreObjectSharp(argv[1]).GetAsInt();
+            var freW = new FreObjectSharp(argv[2]).GetAsInt();
+            var freH = new FreObjectSharp(argv[3]).GetAsInt();
+
+            var width = freW > 0 ? freW : rect.right - rect.left;
+            var height = freH > 0 ? freW : rect.bottom - rect.top;
+
+            var bmp = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            var graphics = Graphics.FromImage(bmp);
+            graphics.CopyFromScreen(rect.left + freX, rect.top + freY, 0, 0, new Size(width, height), CopyPixelOperation.SourceCopy);
+            var ret = new FreBitmapDataSharp(bmp);
+            return ret.Get();
         }
 
         private static FREObject IsSupported(FREContext ctx, uint argc, FREObject[] argv) {

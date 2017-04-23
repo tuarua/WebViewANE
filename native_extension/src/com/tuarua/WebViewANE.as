@@ -10,6 +10,8 @@ import com.tuarua.webview.JavascriptResult;
 import com.tuarua.webview.Settings;
 import com.tuarua.webview.WebViewEvent;
 
+import flash.display.BitmapData;
+
 import flash.events.EventDispatcher;
 import flash.events.StatusEvent;
 import flash.external.ExtensionContext;
@@ -705,12 +707,31 @@ public class WebViewANE extends EventDispatcher {
         }
     }
 
-    /*
-     //complete on Windows - WKWebview has issue on OSX
-     public function print():void {
-     extensionContext.call("print");
-     }
+
+    /**
+     *
+     * <p>prints the webView.</p>
+     * <p><strong>Windows only.</strong></p>
+     *
      */
+    public function print():void {
+        extensionContext.call("print");
+    }
+
+    /**
+     *
+     * @param x
+     * @param y
+     * @param width leaving as default of 0 captures the full width
+     * @param height leaving as default of 0 captures the full height
+     *
+     * <p>Captures the webView to BitmapData.</p>
+     * <p><strong>Windows only.</strong></p>
+     *
+     */
+    public function capture(x:int = 0, y:int = 0, width:int = 0, height:int = 0):BitmapData {
+        return extensionContext.call("capture", x, y, width, height) as BitmapData;
+    }
 
 }
 }
