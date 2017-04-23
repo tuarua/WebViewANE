@@ -79,6 +79,26 @@
             getWebviewANE().postMessage(isAndroid ? JSON.stringify(messageToPost) : messageToPost);
         }
 
+        function displayLocation(pos) {
+            var crd = pos.coords;
+            var output = document.getElementById('output');
+            output.innerText = "Your current position is:\nLatitude : " + crd.latitude + "\nLongitude: " + crd.longitude
+                + "\nAccuracy: " + crd.accuracy + " meters"
+        };
+
+        function handleLocationError(err) {
+            output.innerText = "Error: (" + err.code + "): " + err.message;
+        }
+
+        function getLocation() {
+            var options = {
+                enableHighAccuracy: true,
+                timeout: 5000,
+                maximumAge: 0
+            };
+            navigator.geolocation.getCurrentPosition(displayLocation, handleLocationError, options);
+        }
+
 
     </script>
 
@@ -92,10 +112,10 @@
     <p>
         <button type="button" class="btn btn-primary" onclick="testCallback()">Call Actionscript with Callback</button>
         <button type="button" class="btn btn-primary" onclick="noCallback()">Call Actionscript with No Callback</button>
+        <button type="button" class="btn btn-primary" onclick="getLocation()">Get Location</button>
 
     </p>
     <div id="output" class="well well-sm">Output goes here</div>
-    <a href="localTest.html">Go To page 2 (Link test)</a>
 </div>
 
 </body>
