@@ -23,6 +23,8 @@ cache/
 # build files
 *.sh
 
+# my google api keys
+googlekeys.txt
 
 # Created by https://www.gitignore.io/api/intellij
 

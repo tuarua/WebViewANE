@@ -28,3 +28,7 @@ xcuserdata/
 *.DS_Store
 /native_library_bak
 /cef_binaries
+native_library/win/WebViewANE/WebViewANE/README.txt
+native_extension/ane/build_asdocs.bat
+native_library/android/WebViewANE/app/src/main/java/com/adobe/air/TRSRActivityResultCallback.java
+native_library/android/WebViewANE/app/src/main/java/com/tuarua/webviewane/PermissionsRequestActivity.java
