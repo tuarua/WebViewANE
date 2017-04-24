@@ -495,6 +495,7 @@ public class StarlingRoot extends Sprite {
                 fs.open(file, FileMode.WRITE);
                 fs.writeBytes(ba);
                 fs.close();
+                trace("webview captured");
             }
 
         }

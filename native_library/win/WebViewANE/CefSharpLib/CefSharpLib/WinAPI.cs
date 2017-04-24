@@ -27,8 +27,8 @@ namespace CefSharpLib {
             public int bottom;
         }
 
-        [DllImport("user32.dll")]
-        public static extern IntPtr GetWindowRect(IntPtr hWnd, ref Rect rect);
+        [DllImport(User32, ExactSpelling = true)]
+        public static extern Hwnd GetWindowRect(Hwnd hWnd, ref Rect rect);
 
     }
 
