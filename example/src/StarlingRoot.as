@@ -60,9 +60,11 @@ public class StarlingRoot extends Sprite {
     private var devToolsBtn:Image = new Image(Assets.getAtlas().getTexture("dev-tools-btn"));
     private var jsBtn:Image = new Image(Assets.getAtlas().getTexture("js-btn"));
     private var webBtn:Image = new Image(Assets.getAtlas().getTexture("web-btn"));
+    private var capureBtn:Image = new Image(Assets.getAtlas().getTexture("capture-btn"));
 
     private var as_js_as_Btn:Image = new Image(Assets.getAtlas().getTexture("as-js-as-btn"));
     private var eval_js_Btn:Image = new Image(Assets.getAtlas().getTexture("eval-js-btn"));
+
 
     private var titleTxt:TextField;
     private var statusTxt:TextField;
@@ -172,7 +174,7 @@ public class StarlingRoot extends Sprite {
 
 
         devToolsBtn.y = fullscreenBtn.y = zoomInBtn.y = zoomOutBtn.y =
-                backBtn.y = fwdBtn.y = refreshBtn.y = cancelBtn.y = 50;
+                backBtn.y = fwdBtn.y = refreshBtn.y = cancelBtn.y = capureBtn.y = 50;
 
 
         devToolsBtn.x = fullscreenBtn.x + 40;
@@ -182,12 +184,15 @@ public class StarlingRoot extends Sprite {
         jsBtn.x = webBtn.x = devToolsBtn.x + 60;
         jsBtn.y = webBtn.y = 48;
 
-        backBtn.useHandCursor = fwdBtn.useHandCursor = refreshBtn.useHandCursor = cancelBtn.useHandCursor
+        capureBtn.x = jsBtn.x + 60;
+
+        capureBtn.useHandCursor = backBtn.useHandCursor = fwdBtn.useHandCursor = refreshBtn.useHandCursor = cancelBtn.useHandCursor
                 = zoomInBtn.useHandCursor = zoomOutBtn.useHandCursor = devToolsBtn.useHandCursor =
                 fullscreenBtn.useHandCursor = webBtn.useHandCursor = jsBtn.useHandCursor = true;
 
         jsBtn.addEventListener(TouchEvent.TOUCH, onJS);
         webBtn.addEventListener(TouchEvent.TOUCH, onWeb);
+        capureBtn.addEventListener(TouchEvent.TOUCH, onCapture);
 
         webBtn.visible = false;
         cancelBtn.visible = false;
@@ -201,6 +206,7 @@ public class StarlingRoot extends Sprite {
         as_js_as_Btn.y = eval_js_Btn.y = 42;
         eval_js_Btn.useHandCursor = as_js_as_Btn.useHandCursor = true;
         as_js_as_Btn.visible = eval_js_Btn.visible = false;
+
 
         var tf:TextFormat = new TextFormat();
         tf.setTo("Fira Sans Semi-Bold 13", 13);
@@ -249,11 +255,17 @@ public class StarlingRoot extends Sprite {
         addChild(zoomInBtn);
         addChild(zoomOutBtn);
         addChild(fullscreenBtn);
-        if (Capabilities.os.toLowerCase().indexOf("windows") == 0)
+        if (Capabilities.os.toLowerCase().indexOf("windows") == 0) {
             addChild(devToolsBtn);
+
+        }
+
+
+        addChild(capureBtn);
 
         addChild(jsBtn);
         addChild(webBtn);
+
 
         addChild(as_js_as_Btn);
         addChild(eval_js_Btn);
@@ -470,19 +482,21 @@ public class StarlingRoot extends Sprite {
     }
 
     private function onCapture(event:TouchEvent):void {
-        var touch:Touch = event.getTouch(refreshBtn);
+        var touch:Touch = event.getTouch(capureBtn);
         if (touch != null && touch.phase == TouchPhase.ENDED) {
             var bmd:BitmapData = webView.capture(100, 100, 400, 400);
-            var ba:ByteArray = new ByteArray();
-            var encodingOptions:PNGEncoderOptions = new PNGEncoderOptions(true);
+            if (bmd) {
+                var ba:ByteArray = new ByteArray();
+                var encodingOptions:PNGEncoderOptions = new PNGEncoderOptions(true);
+                bmd.encode(new Rectangle(0, 0, bmd.width, bmd.height), encodingOptions, ba);
 
-            bmd.encode(new Rectangle(0, 0, bmd.width, bmd.height), encodingOptions, ba);
+                var file:File = File.desktopDirectory.resolvePath("webViewANE_capture.png");
+                var fs:FileStream = new FileStream();
+                fs.open(file, FileMode.WRITE);
+                fs.writeBytes(ba);
+                fs.close();
+            }
 
-            var file:File = File.desktopDirectory.resolvePath("webViewANE_capture.png");
-            var fs:FileStream = new FileStream();
-            fs.open(file, FileMode.WRITE);
-            fs.writeBytes(ba);
-            fs.close();
         }
     }
 
