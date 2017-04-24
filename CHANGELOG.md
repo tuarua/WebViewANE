@@ -1,3 +1,11 @@
+### 0.0.20
+- WIN: upgrade to CEF 57 Issue #34
+- WIN: added geoLocation request handling Issue #32
+- WIN: upgrade to Json.NET 10.0.2 Issue #35
+- WIN: added print method Issue #36
+- WIN: added capture method Issue #3
+- WIN: upgrade to using FreSharp 1.0.1 Issue #37
+
 ### 0.0.19
 - WIN: add new method focus() Issue #31
 - AND/iOS: add default platform Issue #29

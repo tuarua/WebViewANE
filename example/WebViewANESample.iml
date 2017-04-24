@@ -23,7 +23,12 @@
             <entry key="compiler.locale" value="en_US" />
           </map>
         </compiler-options>
-        <packaging-air-desktop use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/src/WebViewANESample-app.xml" package-file-name="WebViewANESample" />
+        <packaging-air-desktop use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/src/WebViewANESample-app.xml" package-file-name="WebViewANESample">
+          <files-to-package>
+            <FilePathAndPathInPackage file-path="$MODULE_DIR$/src/jsTest.html" path-in-package="jsTest.html" />
+            <FilePathAndPathInPackage file-path="$MODULE_DIR$/src/localTest.html" path-in-package="localTest.html" />
+          </files-to-package>
+        </packaging-air-desktop>
         <packaging-android />
         <packaging-ios />
       </configuration>

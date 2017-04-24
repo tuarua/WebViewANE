@@ -43,10 +43,19 @@ echo Copying native libraries into place.
 copy %pathtome%..\..\native_library\win\%projectName%\Release\%projectName%.dll %pathtome%platforms\win\release
 copy %pathtome%..\..\native_library\win\%projectName%\Debug\%projectName%.dll %pathtome%platforms\win\debug
 
-copy %pathtome%..\..\native_library\win\WebViewANE\CefSharpLib\CefSharpLib\bin\x86\Debug\CefSharpLib.dll %AIR_PATH%CefSharpLib.dll
-copy %pathtome%..\..\native_library\win\WebViewANE\CefSharpLib\CefSharpLib\bin\x86\Debug\CefSharpLib.pdb %AIR_PATH%CefSharpLib.pdb
+copy %pathtome%..\..\native_library\win\%projectName%\CefSharpLib\CefSharpLib\bin\x86\Debug\CefSharpLib.dll %AIR_PATH%CefSharpLib.dll
+copy %pathtome%..\..\native_library\win\%projectName%\CefSharpLib\CefSharpLib\bin\x86\Debug\CefSharpLib.pdb %AIR_PATH%CefSharpLib.pdb
 
-copy %pathtome%..\..\native_library\win\WebViewANE\CefSharpLib\CefSharpLib\bin\x86\Release\CefSharpLib.dll %pathtome%..\..\cef_sharp_libs\CefSharpLib.dll
+copy %pathtome%..\..\native_library\win\%projectName%\CefSharpLib\CefSharpLib\bin\x86\Release\CefSharpLib.dll %pathtome%..\..\cef_sharp_libs\CefSharpLib.dll
+
+copy %pathtome%..\..\native_library\win\%projectName%\CefSharpLib\CefSharpLib\bin\x86\Debug\FreSharpCore.dll %AIR_PATH%FreSharpCore.dll
+copy %pathtome%..\..\native_library\win\%projectName%\CefSharpLib\CefSharpLib\bin\x86\Debug\FreSharpCore.pdb %AIR_PATH%FreSharpCore.pdb
+
+copy %pathtome%..\..\native_library\win\%projectName%\CefSharpLib\CefSharpLib\bin\x86\Debug\FreSharp.dll %AIR_PATH%FreSharp.dll
+copy %pathtome%..\..\native_library\win\%projectName%\CefSharpLib\CefSharpLib\bin\x86\Debug\FreSharp.pdb %AIR_PATH%FreSharp.pdb
+
+copy %pathtome%..\..\native_library\win\%projectName%\CefSharpLib\CefSharpLib\bin\x86\Release\FreSharpCore.dll %pathtome%..\..\cef_sharp_libs\FreSharpCore.dll
+copy %pathtome%..\..\native_library\win\%projectName%\CefSharpLib\CefSharpLib\bin\x86\Release\FreSharp.dll %pathtome%..\..\cef_sharp_libs\FreSharp.dll
 
 REM Run the build command.
 echo Building Release.

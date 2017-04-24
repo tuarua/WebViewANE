@@ -88,6 +88,7 @@ import Cocoa
         functionsToSet["injectScript"] = injectScript
         functionsToSet["focus"] = focusWebView
         functionsToSet["print"] = print
+        functionsToSet["capture"] = capture
 
         var arr: Array<String> = []
         for key in functionsToSet.keys {
@@ -547,8 +548,15 @@ import Cocoa
     }
 
     func print(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? { //TODO
+        trace("print is Windows only at the moment");
         return nil
     }
+    
+    func capture(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? { //TODO
+        trace("capture is Windows only at the moment");
+        return nil
+    }
+    
 
     /*! @abstract Invoked when a script message is received from a webpage.
      @param userContentController The user content controller invoking the

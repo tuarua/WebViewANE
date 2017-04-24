@@ -13,18 +13,25 @@ import com.tuarua.webview.Settings;
 import com.tuarua.webview.WebViewEvent;
 
 import flash.desktop.NativeApplication;
+import flash.display.Bitmap;
+import flash.display.BitmapData;
 import flash.display.NativeWindowDisplayState;
+import flash.display.PNGEncoderOptions;
 import flash.display.StageDisplayState;
 import flash.events.Event;
 import flash.events.FullScreenEvent;
 import flash.events.NativeWindowDisplayStateEvent;
 import flash.filesystem.File;
+import flash.filesystem.FileMode;
+import flash.filesystem.FileStream;
 import flash.geom.Point;
 import flash.geom.Rectangle;
 import flash.system.Capabilities;
 import flash.text.TextFieldType;
 
 import events.FormEvent;
+
+import flash.utils.ByteArray;
 
 import starling.animation.Transitions;
 import starling.core.Starling;
@@ -53,9 +60,11 @@ public class StarlingRoot extends Sprite {
     private var devToolsBtn:Image = new Image(Assets.getAtlas().getTexture("dev-tools-btn"));
     private var jsBtn:Image = new Image(Assets.getAtlas().getTexture("js-btn"));
     private var webBtn:Image = new Image(Assets.getAtlas().getTexture("web-btn"));
+    private var capureBtn:Image = new Image(Assets.getAtlas().getTexture("capture-btn"));
 
     private var as_js_as_Btn:Image = new Image(Assets.getAtlas().getTexture("as-js-as-btn"));
     private var eval_js_Btn:Image = new Image(Assets.getAtlas().getTexture("eval-js-btn"));
+
 
     private var titleTxt:TextField;
     private var statusTxt:TextField;
@@ -95,13 +104,12 @@ public class StarlingRoot extends Sprite {
         webView.addEventListener(WebViewEvent.ON_DOWNLOAD_PROGRESS, onDownloadProgress);
         webView.addEventListener(WebViewEvent.ON_DOWNLOAD_COMPLETE, onDownloadComplete);
         webView.addEventListener(WebViewEvent.ON_ESC_KEY, onEscKey);
+        webView.addEventListener(WebViewEvent.ON_PERMISSION_RESULT, onPermissionResult);
 
         var settings:Settings = new Settings();
 
-        /*
-         only use settings.userAgent if you are running your own site.
-         google.com for eg displays different sites based on user agent
-         */
+//         only use settings.userAgent if you are running your own site.
+//         google.com for eg displays different sites based on user agent
         //settings.userAgent = "WebViewANE";
 
         // See https://github.com/cefsharp/CefSharp/blob/master/CefSharp.Example/CefExample.cs#L37 for more examples
@@ -115,14 +123,19 @@ public class StarlingRoot extends Sprite {
         settings.cef.commandLineArgs.push(kvp);
         settings.cef.enableDownloads = true;
 
+        //to retrieve geolocation on Windows (CEF), follow the instructions on this page and set these vars
+        //https://www.chromium.org/developers/how-tos/api-keys
+//        settings.cef.GOOGLE_API_KEY = "YOUR_VALUE";
+//        settings.cef.GOOGLE_DEFAULT_CLIENT_ID = "YOUR_VALUE";
+//        settings.cef.GOOGLE_DEFAULT_CLIENT_SECRET = "YOUR_VALUE";
+
         webView.setBackgroundColor(0xF1F1F1);
 
         webView.init("http://www.adobe.com/", 0, 90, _appWidth, _appHeight - 140, settings);
         webView.addToStage(); // webView.removeFromStage();
         webView.injectScript("function testInject(){console.log('yo yo')}");
 
-        /*
-         trace("loading html");
+        /*trace("loading html");
          webView.loadHTMLString('<!DOCTYPE html>' +
          '<html lang="en">' +
          '<head><' +
@@ -132,8 +145,7 @@ public class StarlingRoot extends Sprite {
          '<body bgColor="#33FF00">' + //must give the body a bg color otherwise it loads black
          '<p>I am a test</p>' +
          '</body>' +
-         '</html>',"http://rendering/");
-         */
+         '</html>',"http://rendering/");*/
 
 
         backBtn.x = 20;
@@ -162,7 +174,7 @@ public class StarlingRoot extends Sprite {
 
 
         devToolsBtn.y = fullscreenBtn.y = zoomInBtn.y = zoomOutBtn.y =
-                backBtn.y = fwdBtn.y = refreshBtn.y = cancelBtn.y = 50;
+                backBtn.y = fwdBtn.y = refreshBtn.y = cancelBtn.y = capureBtn.y = 50;
 
 
         devToolsBtn.x = fullscreenBtn.x + 40;
@@ -172,12 +184,15 @@ public class StarlingRoot extends Sprite {
         jsBtn.x = webBtn.x = devToolsBtn.x + 60;
         jsBtn.y = webBtn.y = 48;
 
-        backBtn.useHandCursor = fwdBtn.useHandCursor = refreshBtn.useHandCursor = cancelBtn.useHandCursor
+        capureBtn.x = jsBtn.x + 60;
+
+        capureBtn.useHandCursor = backBtn.useHandCursor = fwdBtn.useHandCursor = refreshBtn.useHandCursor = cancelBtn.useHandCursor
                 = zoomInBtn.useHandCursor = zoomOutBtn.useHandCursor = devToolsBtn.useHandCursor =
                 fullscreenBtn.useHandCursor = webBtn.useHandCursor = jsBtn.useHandCursor = true;
 
         jsBtn.addEventListener(TouchEvent.TOUCH, onJS);
         webBtn.addEventListener(TouchEvent.TOUCH, onWeb);
+        capureBtn.addEventListener(TouchEvent.TOUCH, onCapture);
 
         webBtn.visible = false;
         cancelBtn.visible = false;
@@ -191,6 +206,7 @@ public class StarlingRoot extends Sprite {
         as_js_as_Btn.y = eval_js_Btn.y = 42;
         eval_js_Btn.useHandCursor = as_js_as_Btn.useHandCursor = true;
         as_js_as_Btn.visible = eval_js_Btn.visible = false;
+
 
         var tf:TextFormat = new TextFormat();
         tf.setTo("Fira Sans Semi-Bold 13", 13);
@@ -239,11 +255,17 @@ public class StarlingRoot extends Sprite {
         addChild(zoomInBtn);
         addChild(zoomOutBtn);
         addChild(fullscreenBtn);
-        if (Capabilities.os.toLowerCase().indexOf("windows") == 0)
+        if (Capabilities.os.toLowerCase().indexOf("windows") == 0) {
             addChild(devToolsBtn);
+
+        }
+
+
+        addChild(capureBtn);
 
         addChild(jsBtn);
         addChild(webBtn);
+
 
         addChild(as_js_as_Btn);
         addChild(eval_js_Btn);
@@ -251,7 +273,11 @@ public class StarlingRoot extends Sprite {
         addChild(urlInput);
 
         addChild(progress);
+    }
 
+    private function onPermissionResult(event:WebViewEvent):void {
+        trace("type:", event.params.type);
+        trace("granted?", event.params.result);
     }
 
     private function onWindowMiniMaxi(event:NativeWindowDisplayStateEvent):void {
@@ -441,10 +467,10 @@ public class StarlingRoot extends Sprite {
 
 
             /*
-            var obj:BackForwardList = webView.backForwardList();
-            trace("back list length",obj.backList.length)
-            trace("forward list length",obj.forwardList.length)
-            */
+             var obj:BackForwardList = webView.backForwardList();
+             trace("back list length",obj.backList.length)
+             trace("forward list length",obj.forwardList.length)
+             */
         }
     }
 
@@ -452,6 +478,25 @@ public class StarlingRoot extends Sprite {
         var touch:Touch = event.getTouch(backBtn);
         if (touch != null && touch.phase == TouchPhase.ENDED) {
             webView.goBack();
+        }
+    }
+
+    private function onCapture(event:TouchEvent):void {
+        var touch:Touch = event.getTouch(capureBtn);
+        if (touch != null && touch.phase == TouchPhase.ENDED) {
+            var bmd:BitmapData = webView.capture(100, 100, 400, 400);
+            if (bmd) {
+                var ba:ByteArray = new ByteArray();
+                var encodingOptions:PNGEncoderOptions = new PNGEncoderOptions(true);
+                bmd.encode(new Rectangle(0, 0, bmd.width, bmd.height), encodingOptions, ba);
+
+                var file:File = File.desktopDirectory.resolvePath("webViewANE_capture.png");
+                var fs:FileStream = new FileStream();
+                fs.open(file, FileMode.WRITE);
+                fs.writeBytes(ba);
+                fs.close();
+            }
+
         }
     }
 
