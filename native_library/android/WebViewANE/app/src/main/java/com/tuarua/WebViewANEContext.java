@@ -96,6 +96,7 @@ class WebViewANEContext extends FREContext {
         functionsToSet.put("injectScript", new injectScript());
         functionsToSet.put("print", new print());
         functionsToSet.put("focus", new focus());
+        functionsToSet.put("capture", new capture());
 
         return functionsToSet;
     }
@@ -682,6 +683,7 @@ class WebViewANEContext extends FREContext {
     private class print implements FREFunction {
         @Override
         public FREObject call(FREContext freContext, FREObject[] freObjects) {
+            trace("print is only available on Windows");
             return null;
         }
     }
@@ -689,6 +691,14 @@ class WebViewANEContext extends FREContext {
     private class focus implements FREFunction {
         @Override
         public FREObject call(FREContext freContext, FREObject[] freObjects) {
+            return null;
+        }
+    }
+
+    private class capture implements FREFunction {
+        @Override
+        public FREObject call(FREContext freContext, FREObject[] freObjects) {
+            trace("capture is only available on Windows");
             return null;
         }
     }
@@ -714,6 +724,7 @@ class WebViewANEContext extends FREContext {
         dispatchStatusEventAsync(String.valueOf(msg), "TRACE");
         //  }
     }
+
 
 
 }
