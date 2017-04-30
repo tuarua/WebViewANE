@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="WebViewANE-mobile" type="flex">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../native_extension/ane/WebViewANE-mobile.ane!/" />
+      <root url="jar://$PROJECT_DIR$/../native_extension/ane/mobile/WebViewANE-mobile.ane!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

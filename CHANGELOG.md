@@ -1,3 +1,6 @@
+### 0.0.21
+- AND/iOS/WIN/OSX: move mobile ANE to fix Issue #39
+
 ### 0.0.20
 - WIN: upgrade to CEF 57 Issue #34
 - WIN: added geoLocation request handling Issue #32
