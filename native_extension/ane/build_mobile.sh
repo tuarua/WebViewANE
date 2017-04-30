@@ -83,7 +83,7 @@ unzip "$pathtome/platforms/android/app-release.aar" "classes.jar" -d "$pathtome/
 #Run the build command.
 echo "Generating ANE."
 "$AIR_SDK"/bin/adt -package \
--target ane "$pathtome/$PROJECTNAME-mobile.ane" "$pathtome/extension_mobile.xml" \
+-target ane "$pathtome/mobile/$PROJECTNAME-mobile.ane" "$pathtome/extension_mobile.xml" \
 -swc "$pathtome/$PROJECTNAME.swc" \
 -platform Android-ARM \
 -C "$pathtome/platforms/android" "library.swf" "classes.jar" \
