@@ -3,7 +3,7 @@
 ### FlashBuilder ###
 # Build and Release Folders
 bin/
-#bin-debug/
+bin-debug/WebViewANESample
 bin-release/
 bin-release-temp/
 cache/
