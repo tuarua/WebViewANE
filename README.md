@@ -16,11 +16,16 @@ The Windows version utilises the [CefSharp WinForms](https://github.com/cefsharp
 
 * Unzip the contents of cef_binaries.zip into the bin folder of your AIRSDK. 
 * Copy the contents of the "cef_sharp_libs" folder into the bin folder of your AIRSDK. 
+
 The location of this will vary depending on your IDE or. These dlls and other cef files need to reside in the folder where adl.exe is run from.
-* For release builds, these files need to be packaged in the same folder as your exe
 * CEF was built with MS Visual Studio 2013. As such your machine (and user's machines) will need to have Microsoft Visual C++ 2013 Redistributable (x86) runtime installed. https://github.com/cefsharp/CefSharp/wiki/Frequently-asked-questions#Including_vcredist
-* This ANE was built with MS Visual Studio 2015. As such your machine (and user's machines) will need to have Microsoft Visual C++ 2015 Redistributable (x86) runtime installed. Windows 10 machines will have this but perhaps not Windows 7.
+* This ANE was built with MS Visual Studio 2015. As such your machine (and user's machines) will need to have Microsoft Visual C++ 2015 Redistributable (x86) runtime installed.
 https://www.microsoft.com/en-us/download/details.aspx?id=48145
+
+* For release builds, these files need to be packaged in the same folder as your exe.  
+It is highly recommended you package your app for release using an installer.  
+Please see the win_installer folder for an example Inno Setup project which handles .NET and MSVC2013 and MSV2015 dependencies.
+
 * The Cef view and processes can only be attached once to your app. Therefore only one instance can be created and used.
 
 ## OSX
