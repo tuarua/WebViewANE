@@ -8,5 +8,7 @@ Download this software at http://www.jrsoftware.org/isinfo.php
 1) Place your final Adobe AIR release files into the src folder.  
 2) Open setup.iss in InnoSetup and Compile.  
 
-See below for an example of files to to be packaged.
+See below for an example of files to to be packaged.  
 
+
+![alt tag](https://raw.githubusercontent.com/tuarua/WebViewANE/master/screenshots/file_list.png)
