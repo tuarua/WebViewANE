@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -26,7 +27,7 @@ namespace CefSharpLib {
         public string InjectScriptUrl { get; set; }
         public int InjectStartLine { get; set; }
         public PopupBehaviour PopupBehaviour { get; set; }
-
+        public Tuple<int, int> PopupDimensions { get; set; }
         public string UserAgent { get; set; }
         public Dictionary<string, string> CommandLineArgs { get; set; }
 
@@ -123,7 +124,7 @@ namespace CefSharpLib {
                 Browser.GeolocationHandler = gh;
 
                 // ReSharper disable once UseObjectOrCollectionInitializer
-                var sh = new LifeSpanHandler(PopupBehaviour);
+                var sh = new LifeSpanHandler(PopupBehaviour, PopupDimensions);
                 sh.OnPermissionPopup += OnPermissionPopup;
 
                 Browser.LifeSpanHandler = sh;
@@ -318,7 +319,7 @@ namespace CefSharpLib {
         private static void CefView_Loaded(object sender, RoutedEventArgs e) {
         }
 
-       
+
 
     }
 }
