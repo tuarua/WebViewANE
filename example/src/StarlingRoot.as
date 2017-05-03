@@ -9,11 +9,11 @@ import com.tuarua.webview.BackForwardList;
 import com.tuarua.webview.BackForwardListItem;
 import com.tuarua.webview.DownloadProgress;
 import com.tuarua.webview.JavascriptResult;
+import com.tuarua.webview.PopupBehaviour;
 import com.tuarua.webview.Settings;
 import com.tuarua.webview.WebViewEvent;
 
 import flash.desktop.NativeApplication;
-import flash.display.Bitmap;
 import flash.display.BitmapData;
 import flash.display.NativeWindowDisplayState;
 import flash.display.PNGEncoderOptions;
@@ -30,7 +30,6 @@ import flash.system.Capabilities;
 import flash.text.TextFieldType;
 
 import events.FormEvent;
-
 import flash.utils.ByteArray;
 
 import starling.animation.Transitions;
@@ -46,7 +45,6 @@ import starling.text.TextFormat;
 import starling.utils.Align;
 
 import views.forms.Input;
-
 
 public class StarlingRoot extends Sprite {
     private var webView:WebViewANE = new WebViewANE();
@@ -107,6 +105,7 @@ public class StarlingRoot extends Sprite {
         webView.addEventListener(WebViewEvent.ON_PERMISSION_RESULT, onPermissionResult);
 
         var settings:Settings = new Settings();
+        settings.popupBehaviour = PopupBehaviour.SAME_WINDOW;
 
 //         only use settings.userAgent if you are running your own site.
 //         google.com for eg displays different sites based on user agent
@@ -275,7 +274,7 @@ public class StarlingRoot extends Sprite {
         addChild(progress);
     }
 
-    private function onPermissionResult(event:WebViewEvent):void {
+    private static function onPermissionResult(event:WebViewEvent):void {
         trace("type:", event.params.type);
         trace("granted?", event.params.result);
     }
@@ -298,11 +297,11 @@ public class StarlingRoot extends Sprite {
         }
     }
 
-    private function onDownloadComplete(event:WebViewEvent):void {
+    private static function onDownloadComplete(event:WebViewEvent):void {
         trace(event.params, "complete");
     }
 
-    private function onDownloadProgress(event:WebViewEvent):void {
+    private static function onDownloadProgress(event:WebViewEvent):void {
         var progress:DownloadProgress = event.params as DownloadProgress;
         trace("progress.id", progress.id);
         trace("progress.url", progress.url);
@@ -546,7 +545,7 @@ public class StarlingRoot extends Sprite {
 
     }
 
-    public function asToJsCallback(jsResult:JavascriptResult):void {
+    public static function asToJsCallback(jsResult:JavascriptResult):void {
         trace("asToJsCallback");
         trace("jsResult.error", jsResult.error);
         trace("jsResult.result", jsResult.result);
@@ -557,7 +556,7 @@ public class StarlingRoot extends Sprite {
     }
 
 
-    private function onFail(event:WebViewEvent):void {
+    private static function onFail(event:WebViewEvent):void {
         trace(event.params.url);
         trace(event.params.errorCode);
         trace(event.params.errorText);

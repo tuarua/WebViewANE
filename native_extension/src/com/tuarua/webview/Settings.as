@@ -20,8 +20,12 @@ public class Settings extends Object {
      * <p>Value that will be returned as the User-Agent HTTP header.</p>
      */
     public var userAgent:String = "";
-
+    /**
+     * <p>Settings to use for Android version.</p>
+     */
     public var android:AndroidSettings = new AndroidSettings();
+
+    public var popupBehaviour:int = PopupBehaviour.NEW_WINDOW;
 
     public function Settings() {
     }
