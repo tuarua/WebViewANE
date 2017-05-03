@@ -180,7 +180,7 @@ public class WebViewANE extends EventDispatcher {
             case WebViewEvent.ON_PERMISSION_RESULT:
                 try {
                     pObj = JSON.parse(event.code);
-                    var permission:Object = new Object();
+                    var permission:Object = {};
                     permission.result = pObj.result;
                     permission.type = pObj.type;
                     dispatchEvent(new WebViewEvent(WebViewEvent.ON_PERMISSION_RESULT, permission));
@@ -188,7 +188,7 @@ public class WebViewANE extends EventDispatcher {
                     trace(e.message);
                     break;
                 }
-
+                break;
 
             default:
                 break;
@@ -281,7 +281,7 @@ public class WebViewANE extends EventDispatcher {
     //to insert script or run some js, no closure fire and forget
     /**
      *
-     * @param js Javascript string to evaluate.
+     * @param code Javascript string to evaluate.
      * @param closure Actionscript function to call when the Javascript string is evaluated. If null then no
      * actionscript function is called, aka a 'fire and forget' call.
      *

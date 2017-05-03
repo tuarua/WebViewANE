@@ -15,7 +15,11 @@ using FREObject = System.IntPtr;
 using FREContext = System.IntPtr;
 using Hwnd = System.IntPtr;
 namespace CefSharpLib {
-
+    public enum PopupBehaviour {
+        Block = 0,
+        NewWindow,
+        SameWindow
+    }
     public class MainController : FreSharpController {
         private CefView _view;
         private Hwnd _airWindow;
@@ -177,7 +181,8 @@ namespace CefSharpLib {
                 BrowserSubprocessPath = cefSettingsFre.GetProperty("browserSubprocessPath").GetAsString(),
                 EnableDownloads = cefSettingsFre.GetProperty("enableDownloads").GetAsBool(),
                 UserAgent = inFre5.GetProperty("userAgent").GetAsString(),
-                CommandLineArgs = argsDict
+                CommandLineArgs = argsDict,
+                PopupBehaviour = (PopupBehaviour) inFre5.GetProperty("popupBehaviour").GetAsUInt()
             };
 
             _view.Init();
