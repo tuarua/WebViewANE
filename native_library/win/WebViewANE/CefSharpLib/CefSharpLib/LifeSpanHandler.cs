@@ -4,9 +4,13 @@ using CefSharp;
 namespace CefSharpLib {
     public class LifeSpanHandler : ILifeSpanHandler {
         public event EventHandler<string> OnPermissionPopup;
-        private readonly PopupBehaviour _type;
-        public LifeSpanHandler(PopupBehaviour type) {
-            _type = type;
+        private readonly PopupBehaviour _popupBehaviour;
+        private readonly Tuple<int, int> _popupDimensions;
+
+
+        public LifeSpanHandler(PopupBehaviour popupBehaviour, Tuple<int, int> popupDimensions) {
+            _popupBehaviour = popupBehaviour;
+            _popupDimensions = popupDimensions;
         }
 
         public bool OnBeforePopup(IWebBrowser browserControl, IBrowser browser, IFrame frame, string targetUrl, string targetFrameName,
@@ -15,13 +19,16 @@ namespace CefSharpLib {
             //Set newBrowser to null unless your attempting to host the popup in a new instance of ChromiumWebBrowser
             newBrowser = null;
 
+            windowInfo.Width = _popupDimensions.Item1;
+            windowInfo.Height = _popupDimensions.Item2;
+
             // ReSharper disable once ConvertIfStatementToSwitchStatement
-            if (_type == PopupBehaviour.Block) {
+            if (_popupBehaviour == PopupBehaviour.Block) {
                 return true;
             }
             
             // ReSharper disable once InvertIf
-            if (_type == PopupBehaviour.SameWindow) {
+            if (_popupBehaviour == PopupBehaviour.SameWindow) {
                 var handler = OnPermissionPopup;
                 handler?.Invoke(this, targetUrl);
                 return true;

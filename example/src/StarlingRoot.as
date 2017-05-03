@@ -9,9 +9,9 @@ import com.tuarua.webview.BackForwardList;
 import com.tuarua.webview.BackForwardListItem;
 import com.tuarua.webview.DownloadProgress;
 import com.tuarua.webview.JavascriptResult;
-import com.tuarua.webview.PopupBehaviour;
 import com.tuarua.webview.Settings;
 import com.tuarua.webview.WebViewEvent;
+import com.tuarua.webview.popup.Behaviour;
 
 import flash.desktop.NativeApplication;
 import flash.display.BitmapData;
@@ -105,7 +105,9 @@ public class StarlingRoot extends Sprite {
         webView.addEventListener(WebViewEvent.ON_PERMISSION_RESULT, onPermissionResult);
 
         var settings:Settings = new Settings();
-        settings.popupBehaviour = PopupBehaviour.SAME_WINDOW;
+        settings.popup.behaviour = Behaviour.NEW_WINDOW;
+        settings.popup.dimensions.width = 600;
+        settings.popup.dimensions.height = 900;
 
 //         only use settings.userAgent if you are running your own site.
 //         google.com for eg displays different sites based on user agent

@@ -6,6 +6,7 @@
  * Created by Eoin Landy on 10/01/2017.
  */
 package com.tuarua.webview {
+import com.tuarua.webview.popup.Popup;
 
 public class Settings extends Object {
 	/**
@@ -25,7 +26,7 @@ public class Settings extends Object {
      */
     public var android:AndroidSettings = new AndroidSettings();
 
-    public var popupBehaviour:int = PopupBehaviour.NEW_WINDOW;
+    public var popup:Popup = new Popup();
 
     public function Settings() {
     }
