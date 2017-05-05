@@ -6,6 +6,7 @@
  * Created by Eoin Landy on 10/01/2017.
  */
 package com.tuarua.webview {
+import com.tuarua.webview.popup.Popup;
 
 public class Settings extends Object {
 	/**
@@ -20,8 +21,12 @@ public class Settings extends Object {
      * <p>Value that will be returned as the User-Agent HTTP header.</p>
      */
     public var userAgent:String = "";
-
+    /**
+     * <p>Settings to use for Android version.</p>
+     */
     public var android:AndroidSettings = new AndroidSettings();
+
+    public var popup:Popup = new Popup();
 
     public function Settings() {
     }

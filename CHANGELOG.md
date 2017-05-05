@@ -1,4 +1,5 @@
 ### 0.0.21
+- WIN/OSX: Handle popups via settings Issue #40
 - AND/iOS/WIN/OSX: move mobile ANE to fix Issue #39
 
 ### 0.0.20

@@ -32,7 +32,6 @@ namespace CefSharpLib {
         }
 
         void IGeolocationHandler.OnCancelGeolocationPermission(IWebBrowser browserControl, IBrowser browser, int requestId) {
-            Console.WriteLine(@"cancelled permission");
             var handler = OnPermissionResult;
             handler?.Invoke(this, false);
         }

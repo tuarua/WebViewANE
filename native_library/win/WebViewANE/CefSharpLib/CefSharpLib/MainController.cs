@@ -15,7 +15,11 @@ using FREObject = System.IntPtr;
 using FREContext = System.IntPtr;
 using Hwnd = System.IntPtr;
 namespace CefSharpLib {
-
+    public enum PopupBehaviour {
+        Block = 0,
+        NewWindow,
+        SameWindow
+    }
     public class MainController : FreSharpController {
         private CefView _view;
         private Hwnd _airWindow;
@@ -55,7 +59,7 @@ namespace CefSharpLib {
                     {"setPositionAndSize", SetPositionAndSize},
                     {"init", InitView},
                     {"capture", Capture},
-                    
+
                 };
 
             return FunctionsDict.Select(kvp => kvp.Key).ToArray();
@@ -108,9 +112,9 @@ namespace CefSharpLib {
             _view.Browser.Focus();
             return FREObject.Zero;
         }
-        
+
         public FREObject SetBackgroundColor(FREContext ctx, uint argc, FREObject[] argv) {
-            _backgroundColorBrush = new SolidColorBrush(Color.FromRgb((byte)new FreObjectSharp(argv[0]).GetAsUInt(), 
+            _backgroundColorBrush = new SolidColorBrush(Color.FromRgb((byte)new FreObjectSharp(argv[0]).GetAsUInt(),
                 (byte)new FreObjectSharp(argv[1]).GetAsUInt(), (byte)new FreObjectSharp(argv[2]).GetAsUInt()));
             return FREObject.Zero;
         }
@@ -143,10 +147,10 @@ namespace CefSharpLib {
             var googleDefaultClientSecretFre = cefSettingsFre.GetProperty("GOOGLE_DEFAULT_CLIENT_SECRET");
 
             if (FreObjectTypeSharp.String == googleApiKeyFre.GetType()) {
-               Environment.SetEnvironmentVariable("GOOGLE_API_KEY", googleApiKeyFre.GetAsString());
+                Environment.SetEnvironmentVariable("GOOGLE_API_KEY", googleApiKeyFre.GetAsString());
             }
             if (FreObjectTypeSharp.String == googleDefaultClientIdFre.GetType()) {
-               Environment.SetEnvironmentVariable("GOOGLE_DEFAULT_CLIENT_ID", googleDefaultClientIdFre.GetAsString());
+                Environment.SetEnvironmentVariable("GOOGLE_DEFAULT_CLIENT_ID", googleDefaultClientIdFre.GetAsString());
             }
             if (FreObjectTypeSharp.String == googleDefaultClientSecretFre.GetType()) {
                 Environment.SetEnvironmentVariable("GOOGLE_DEFAULT_CLIENT_SECRET", googleDefaultClientSecretFre.GetAsString());
@@ -177,19 +181,24 @@ namespace CefSharpLib {
                 BrowserSubprocessPath = cefSettingsFre.GetProperty("browserSubprocessPath").GetAsString(),
                 EnableDownloads = cefSettingsFre.GetProperty("enableDownloads").GetAsBool(),
                 UserAgent = inFre5.GetProperty("userAgent").GetAsString(),
-                CommandLineArgs = argsDict
+                CommandLineArgs = argsDict,
+                PopupBehaviour = (PopupBehaviour)inFre5.GetProperty("popup").GetProperty("behaviour").GetAsInt(),
+                PopupDimensions = new Tuple<int, int>(
+                    inFre5.GetProperty("popup").GetProperty("dimensions").GetProperty("width").GetAsInt(), 
+                    inFre5.GetProperty("popup").GetProperty("dimensions").GetProperty("height").GetAsInt()
+                    )
             };
 
             _view.Init();
 
             var parameters = new HwndSourceParameters();
             parameters.SetPosition(_view.X, _view.Y);
-            parameters.SetSize(_view.ViewWidth,_view.ViewHeight);
+            parameters.SetSize(_view.ViewWidth, _view.ViewHeight);
             parameters.ParentWindow = _airWindow;
             parameters.WindowName = "Cef Window";
             parameters.WindowStyle = (int)WindowStyles.WS_CHILD;
             parameters.AcquireHwndFocusInMenuMode = true;
-            var source = new HwndSource(parameters) {RootVisual = _view};
+            var source = new HwndSource(parameters) { RootVisual = _view };
             _cefWindow = source.Handle;
 
             WinApi.RegisterTouchWindow(_cefWindow, TouchWindowFlags.TWF_WANTPALM);
@@ -197,7 +206,7 @@ namespace CefSharpLib {
             return FREObject.Zero;
         }
 
-       
+
         public FREObject AddToStage(FREContext ctx, uint argc, FREObject[] argv) {
             WinApi.ShowWindow(_cefWindow, ShowWindowCommands.SW_SHOWNORMAL);
             WinApi.UpdateWindow(_cefWindow);
@@ -478,7 +487,7 @@ namespace CefSharpLib {
             Cef.Shutdown();
         }
 
-        
+
     }
 
 }
