@@ -59,9 +59,9 @@
             var n = d.getTime();
             var output = document.getElementById('output');
             output.innerText += "Callback: paraA: " + paramA + ", paramB: " + paramB + ", paramC: " + paramC + " - " + d + " - unix tamestamp: " + n + "\n";
-            console.log(paramA)
-            console.log(paramB)
-            console.log(paramC)
+            console.log(paramA);
+            console.log(paramB);
+            console.log(paramC);
         }
 
         function testCallback() {
@@ -92,7 +92,7 @@
             var output = document.getElementById('output');
             output.innerText = "Your current position is:\nLatitude : " + crd.latitude + "\nLongitude: " + crd.longitude
                 + "\nAccuracy: " + crd.accuracy + " meters"
-        };
+        }
 
         function handleLocationError(err) {
             output.innerText = "Error: (" + err.code + "): " + err.message;
@@ -105,6 +105,10 @@
                 maximumAge: 0
             };
             navigator.geolocation.getCurrentPosition(displayLocation, handleLocationError, options);
+        }
+
+        function openNewWindow() {
+            window.open("https://www.w3schools.com");
         }
 
     </script>
@@ -124,11 +128,14 @@
     <div id="output" class="well well-sm">Output goes here</div>
 
     <form>
-        <input type="text" name="testInput" value="Type here">
+        <label>
+            <input type="text" name="testInput" value="Type here">
+        </label>
     </form>
 
-    <a href="localTest.html">Go To page 2 (Link test)</a><br />
+    <a href="localTest.html">Go To page 2 (Link test)</a><br/>
     <a href="http://www.bbc.co.uk" target="_blank">Open popup</a>
+
 
 </div>
 
