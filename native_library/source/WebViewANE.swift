@@ -25,17 +25,13 @@ import Foundation
 import WebKit
 
 #if os(iOS)
-
 import FRESwift
-
 #else
-
 import Cocoa
-
 #endif
 
-
 @objc class WebViewANE: FRESwiftController, WKUIDelegate, WKNavigationDelegate, WKScriptMessageHandler {
+
     private var myWebView: WKWebView?
     static var escListener: Any?
     private var _initialUrl: String = ""
@@ -44,8 +40,18 @@ import Cocoa
     private var _width: CGFloat = 800
     private var _height: CGFloat = 600
     private var _userAgent: String?
+
+    public enum PopupBehaviour: Int {
+        case block = 0
+        case newWindow
+        case sameWindow
+    }
+
+    private var _popupBehaviour: PopupBehaviour = PopupBehaviour.newWindow;
 #if os(iOS)
     private var _bgColor: UIColor = UIColor.white
+#else
+    private var _popup: Popup!
 #endif
     private var isAdded: Bool = false
     private static let ON_FAIL: String = "WebView.OnFail"
@@ -55,6 +61,7 @@ import Cocoa
     private static let AS_CALLBACK_EVENT: String = "TRWV.as.CALLBACK"
     private var configuration: WKWebViewConfiguration = WKWebViewConfiguration()
     private var userController: WKUserContentController = WKUserContentController()
+
 
     // must have this function !!
     // Must set const numFunctions in WebViewANE.m to the length of this Array
@@ -104,31 +111,97 @@ import Cocoa
         }
     }
 
-    func webView(_ myWebView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+#if os(iOS)
+#else
+
+    /*func createPopupWindow(url: URLRequest) {
+        popupWindow = NSWindow(contentRect: NSMakeRect(0, 0, CGFloat(_popupDimensions.0), CGFloat(_popupDimensions.1)),
+                styleMask: [.titled, .miniaturizable, .closable],
+                backing: NSBackingStoreType.buffered, defer: false)
+
+        popupWindow.center()
+        popupWindow.isReleasedWhenClosed = false
+
+       // let pd:PopupDelegate = PopupDelegate(popupVC:popupVC)
+
+        popupWindow.delegate = self
+        
+        popupVC = PopupVC(request: url, width: _popupDimensions.0, height: _popupDimensions.1)
+        popupWindow.contentView!.addSubview(popupVC!.view)
+        popupWindow.makeKeyAndOrderFront(nil)
+    }*/
+
+    /*
+    func windowWillClose(_ notification: Notification) {
+        //this clears the popup window and it's webview
+
+        trace("popup closed")
+        trace("what was the url")
+
+        popupVC.view.removeFromSuperview()
+        popupVC = nil
+
+
+        //TODO send event to as3 to say popup has closed
+
+        //_popupWindow = nil
+    }
+    */
+
+#endif
+
+
+
+    // this handles target=_blank links by opening them in the same view
+    func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration,
+                 for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
+        if navigationAction.targetFrame == nil {
+            switch _popupBehaviour {
+            case .block:
+                break
+            case .newWindow:
+#if os(iOS)
+                trace("Cannot open popup in new window on iOS. Opening in same window.")
+                webView.load(navigationAction.request)
+
+#else
+                _popup.createPopupWindow(url: navigationAction.request)
+                //createPopupWindow(url: navigationAction.request)
+#endif
+                break
+            case .sameWindow:
+                webView.load(navigationAction.request)
+                break
+            }
+        }
+        return nil
     }
 
-    func webView(_ myWebView: WKWebView, didCommit navigation: WKNavigation!) {
+    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
     }
 
-    func webView(_ myWebView: WKWebView, didFinish navigation: WKNavigation!) {
+    func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
     }
 
-    func webViewWebContentProcessDidTerminate(_ myWebView: WKWebView) {
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
     }
 
-    func webView(_ myWebView: WKWebView, didFail navigation: WKNavigation!, withError: Error) {
+    func webViewWebContentProcessDidTerminate(_ webView: WKWebView) {
+    }
+
+    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError: Error) {
         var props: Dictionary<String, Any> = Dictionary()
-        props["url"] = myWebView.url!.absoluteString
+        props["url"] = webView.url!.absoluteString
         props["errorCode"] = 0
         props["errorText"] = withError.localizedDescription
         let json = JSON(props)
         sendEvent(name: WebViewANE.ON_FAIL, value: json.description)
     }
 
-    func webView(_ myWebView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError: Error) {
+    func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError: Error) {
     }
 
-    func webView(_ myWebView: WKWebView, didReceiveServerRedirectForProvisionalNavigation navigation: WKNavigation!) {
+    func webView(_ webView: WKWebView, didReceiveServerRedirectForProvisionalNavigation navigation: WKNavigation!) {
     }
 
     func isSupported(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
@@ -327,7 +400,7 @@ import Cocoa
         }
 
         if let wv = myWebView {
-            
+
 #if os(iOS)
             let realY = _y
             var frame: CGRect = wv.frame
@@ -338,7 +411,8 @@ import Cocoa
             wv.frame = frame
 
 #else
-            let realY = ((NSApp.mainWindow?.contentLayoutRect.height)! - _height) - _y; //TODO make this better, perform calc in ANE
+            let realY = ((NSApp.mainWindow?.contentLayoutRect.height)! - _height) - _y;
+            //TODO make this better, perform calc in ANE
             wv.setFrameOrigin(NSPoint.init(x: _x, y: realY))
             wv.setFrameSize(NSSize.init(width: _width, height: _height))
 #endif
@@ -542,7 +616,7 @@ import Cocoa
         }
         return nil
     }
-    
+
     func focusWebView(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
         return nil
     }
@@ -551,12 +625,12 @@ import Cocoa
         trace("print is Windows only at the moment");
         return nil
     }
-    
+
     func capture(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? { //TODO
         trace("capture is Windows only at the moment");
         return nil
     }
-    
+
 
     /*! @abstract Invoked when a script message is received from a webpage.
      @param userContentController The user content controller invoking the
@@ -609,11 +683,11 @@ import Cocoa
             return nil
         }
 #else
-    
+
 #endif
-        
+
         return nil
-        
+
     }
 
 
@@ -693,6 +767,24 @@ import Cocoa
                 if let userAgent: String = try settingsFRE.getProperty(name: "userAgent")?.getAsString() {
                     _userAgent = userAgent
                 }
+
+#if os(iOS)
+#else
+                if let popupSettings: Dictionary<String, AnyObject> = try settingsFRE.getProperty(name: "popup")?.getAsDictionary() {
+                    _popup = Popup()
+
+                    if let behaviour = popupSettings["behaviour"] as? Int {
+                        _popupBehaviour = WebViewANE.PopupBehaviour(rawValue: behaviour)!
+                    }
+                    if let dimensions = popupSettings["dimensions"] as? Dictionary<String, Int> {
+                        if let w = dimensions["width"], let h = dimensions["height"] {
+                            _popup.popupDimensions.0 = w
+                            _popup.popupDimensions.1 = h
+                        }
+
+                    }
+                }
+#endif
 
             }
         } catch let e as FREError {
@@ -777,7 +869,7 @@ import Cocoa
 
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
         var props: Dictionary<String, Any> = Dictionary()
-        
+
         switch keyPath! {
         case "estimatedProgress":
             props["propName"] = "estimatedProgress"

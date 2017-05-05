@@ -8,9 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		285FE221A0881A06EF9342D3 /* WebViewANE.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285FE0612F3E80324C9E166A /* WebViewANE.swift */; };
+		285FE67BD6D6ADA9B37C0549 /* Popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285FED7949ECEDCFD8666D9E /* Popup.swift */; };
 		CE89412A1E3440BF00191B38 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE8941291E3440BF00191B38 /* Cocoa.framework */; };
 		CE89412D1E3440E500191B38 /* SwiftyJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = CE89412B1E3440E500191B38 /* SwiftyJSON.h */; };
 		CE89412E1E3440E500191B38 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE89412C1E3440E500191B38 /* SwiftyJSON.swift */; };
+		CEEA4EF71EBBBD1600F46A1C /* PopupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEEA4EF61EBBBD1600F46A1C /* PopupVC.swift */; };
 		CEEE923C1E75C5F500A874EC /* FlashRuntimeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEEE923B1E75C5F500A874EC /* FlashRuntimeExtensions.swift */; };
 		CEF5C70B1E1EE882004389CE /* Adobe AIR_64 in Frameworks */ = {isa = PBXBuildFile; fileRef = CEF5C7081E1EE882004389CE /* Adobe AIR_64 */; };
 		CEF5C70C1E1EE882004389CE /* Adobe AIR in Frameworks */ = {isa = PBXBuildFile; fileRef = CEF5C7091E1EE882004389CE /* Adobe AIR */; };
@@ -21,9 +23,11 @@
 
 /* Begin PBXFileReference section */
 		285FE0612F3E80324C9E166A /* WebViewANE.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebViewANE.swift; path = ../../../source/WebViewANE.swift; sourceTree = "<group>"; };
+		285FED7949ECEDCFD8666D9E /* Popup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Popup.swift; sourceTree = "<group>"; };
 		CE8941291E3440BF00191B38 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		CE89412B1E3440E500191B38 /* SwiftyJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SwiftyJSON.h; path = ../../../dependencies/SwiftyJSON.h; sourceTree = "<group>"; };
 		CE89412C1E3440E500191B38 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftyJSON.swift; path = ../../../dependencies/SwiftyJSON.swift; sourceTree = "<group>"; };
+		CEEA4EF61EBBBD1600F46A1C /* PopupVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PopupVC.swift; path = ../../../source/PopupVC.swift; sourceTree = "<group>"; };
 		CEEE923B1E75C5F500A874EC /* FlashRuntimeExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FlashRuntimeExtensions.swift; path = ../../../ios/WebViewANE/FRESwift/FlashRuntimeExtensions.swift; sourceTree = "<group>"; };
 		CEF5C6FC1E1EE83F004389CE /* WebViewANE.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WebViewANE.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEF5C7001E1EE83F004389CE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -69,6 +73,8 @@
 		CEF5C6FE1E1EE83F004389CE /* WebViewANE */ = {
 			isa = PBXGroup;
 			children = (
+				285FED7949ECEDCFD8666D9E /* Popup.swift */,
+				CEEA4EF61EBBBD1600F46A1C /* PopupVC.swift */,
 				CEEE923B1E75C5F500A874EC /* FlashRuntimeExtensions.swift */,
 				CEF5C7121E1EE8CF004389CE /* WebViewANE.m */,
 				285FE0612F3E80324C9E166A /* WebViewANE.swift */,
@@ -209,8 +215,10 @@
 			files = (
 				CEF5C7141E1EE8CF004389CE /* WebViewANE.m in Sources */,
 				CEEE923C1E75C5F500A874EC /* FlashRuntimeExtensions.swift in Sources */,
+				CEEA4EF71EBBBD1600F46A1C /* PopupVC.swift in Sources */,
 				285FE221A0881A06EF9342D3 /* WebViewANE.swift in Sources */,
 				CE89412E1E3440E500191B38 /* SwiftyJSON.swift in Sources */,
+				285FE67BD6D6ADA9B37C0549 /* Popup.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
