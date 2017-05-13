@@ -1,3 +1,6 @@
+### 0.0.22
+- WIN: upgrade to using FreSharp 1.0.6 Issue #42
+
 ### 0.0.21
 - WIN/OSX: Handle popups via settings Issue #40
 - AND/iOS/WIN/OSX: move mobile ANE to fix Issue #39

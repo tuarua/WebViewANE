@@ -45,7 +45,7 @@ namespace CefSharpLib {
                 writer.WriteNull();
             }
             writer.WriteEndObject();
-            FreSharpController.FreHelper.DispatchEvent(JsCallbackEvent, sb.ToString());
+            FreSharpController.Context.DispatchEvent(JsCallbackEvent, sb.ToString());
         }
 
     }
