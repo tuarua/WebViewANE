@@ -132,8 +132,9 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 # define SWIFT_DEPRECATED_MSG(...) __attribute__((deprecated(__VA_ARGS__)))
 #endif
 #if defined(__has_feature) && __has_feature(modules)
-@import Foundation;
 @import ObjectiveC;
+@import CoreGraphics;
+@import Foundation;
 @import AppKit;
 @import WebKit;
 #endif
@@ -142,6 +143,80 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 
 #pragma clang diagnostic ignored "-Wproperty-attribute-mismatch"
 #pragma clang diagnostic ignored "-Wduplicate-method-arg"
+@class FREObjectSwift;
+
+SWIFT_CLASS("_TtC10WebViewANE13FREArraySwift")
+@interface FREArraySwift : NSObject
+@property (nonatomic) FREObject _Nullable rawValue;
+- (nonnull instancetype)initWithFreObject:(FREObject _Nonnull)freObject OBJC_DESIGNATED_INITIALIZER;
+- (BOOL)setObjectAtIndex:(NSUInteger)index object:(FREObjectSwift * _Nonnull)object error:(NSError * _Nullable * _Nullable)error;
+@property (nonatomic, readonly) NSUInteger length;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
+@end
+
+
+SWIFT_CLASS("_TtC10WebViewANE18FREBitmapDataSwift")
+@interface FREBitmapDataSwift : NSObject
+@property (nonatomic) FREObject _Nullable rawValue;
+@property (nonatomic) NSInteger width;
+@property (nonatomic) NSInteger height;
+@property (nonatomic) BOOL hasAlpha;
+@property (nonatomic) BOOL isPremultiplied;
+@property (nonatomic) BOOL isInvertedY;
+@property (nonatomic) NSUInteger lineStride32;
+@property (nonatomic) uint32_t * _Null_unspecified bits32;
+- (nonnull instancetype)initWithFreObject:(FREObject _Nonnull)freObject OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithCgImage:(CGImageRef _Nonnull)cgImage OBJC_DESIGNATED_INITIALIZER;
+- (BOOL)acquireAndReturnError:(NSError * _Nullable * _Nullable)error;
+- (void)releaseData;
+- (BOOL)setPixelsWithCgImage:(CGImageRef _Nonnull)cgImage error:(NSError * _Nullable * _Nullable)error;
+- (BOOL)invalidateRectWithX:(NSUInteger)x y:(NSUInteger)y width:(NSUInteger)width height:(NSUInteger)height error:(NSError * _Nullable * _Nullable)error;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
+@end
+
+@class NSData;
+
+SWIFT_CLASS("_TtC10WebViewANE17FREByteArraySwift")
+@interface FREByteArraySwift : NSObject
+@property (nonatomic) FREObject _Nullable rawValue;
+@property (nonatomic) uint8_t * _Null_unspecified bytes;
+@property (nonatomic) NSUInteger length;
+- (nonnull instancetype)initWithFreByteArray:(FREObject _Nonnull)freByteArray OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithData:(NSData * _Nonnull)data OBJC_DESIGNATED_INITIALIZER;
+- (BOOL)acquireAndReturnError:(NSError * _Nullable * _Nullable)error;
+- (void)releaseBytes;
+- (NSData * _Nullable)getAsDataAndReturnError:(NSError * _Nullable * _Nullable)error SWIFT_WARN_UNUSED_RESULT;
+@property (nonatomic, readonly, strong) NSData * _Nullable value;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
+@end
+
+
+SWIFT_CLASS("_TtC10WebViewANE15FREContextSwift")
+@interface FREContextSwift : NSObject
+@property (nonatomic) FREContext _Nullable rawValue;
+- (nonnull instancetype)initWithFreContext:(FREContext _Nonnull)freContext OBJC_DESIGNATED_INITIALIZER;
+- (BOOL)dispatchStatusEventAsyncWithCode:(NSString * _Nonnull)code level:(NSString * _Nonnull)level error:(NSError * _Nullable * _Nullable)error;
+- (BOOL)setActionScriptDataWithObject:(FREObject _Nonnull)object error:(NSError * _Nullable * _Nullable)error;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
+@end
+
+
+SWIFT_CLASS("_TtC10WebViewANE14FREObjectSwift")
+@interface FREObjectSwift : NSObject
+@property (nonatomic) FREObject _Nullable rawValue;
+@property (nonatomic, readonly) id _Nullable value;
+- (nonnull instancetype)initWithFreObject:(FREObject _Nonnull)freObject OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithString:(NSString * _Nonnull)string error:(NSError * _Nullable * _Nullable)error OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithDouble:(double)double_ error:(NSError * _Nullable * _Nullable)error OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithInt:(NSInteger)int_ error:(NSError * _Nullable * _Nullable)error OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithUint:(NSUInteger)uint error:(NSError * _Nullable * _Nullable)error OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithBool:(BOOL)bool_ error:(NSError * _Nullable * _Nullable)error OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithAny:(id _Nonnull)any error:(NSError * _Nullable * _Nullable)error OBJC_DESIGNATED_INITIALIZER;
+- (BOOL)setPropertyWithName:(NSString * _Nonnull)name prop:(FREObjectSwift * _Nullable)prop error:(NSError * _Nullable * _Nullable)error;
+- (BOOL)setPropertyWithName:(NSString * _Nonnull)name array:(FREArraySwift * _Nullable)array error:(NSError * _Nullable * _Nullable)error;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
+@end
+
 
 @interface NSNumber (SWIFT_EXTENSION(WebViewANE))
 @property (nonatomic, readonly) BOOL isBool;

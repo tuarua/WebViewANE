@@ -38,14 +38,11 @@ namespace CefSharpLib {
         }
 
         public void OnAfterCreated(IWebBrowser browserControl, IBrowser browser) {
-            FreSharpController.FreHelper.DispatchEvent("TRACE", "OnAfterCreated");
         }
 
         public bool DoClose(IWebBrowser browserControl, IBrowser browser) {
             //We need to allow popups to close
             //If the browser has been disposed then we'll just let the default behaviour take place
-
-            FreSharpController.FreHelper.DispatchEvent("TRACE", "DoClose");
 
             return !browser.IsDisposed && !browser.IsPopup;
 
@@ -53,12 +50,9 @@ namespace CefSharpLib {
             //See the doc for this method for full details.
             //return true here to handle closing yourself (no WM_CLOSE will be sent).
 
-
-
         }
 
         public void OnBeforeClose(IWebBrowser browserControl, IBrowser browser) {
-            FreSharpController.FreHelper.DispatchEvent("TRACE", "OnBeforeClose");
         }
     }
 }

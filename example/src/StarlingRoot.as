@@ -89,6 +89,8 @@ public class StarlingRoot extends Sprite {
                     NativeWindowDisplayStateEvent.DISPLAY_STATE_CHANGE, onWindowMiniMaxi);
         }
 
+        trace("webView.isSupported()",webView.isSupported())
+
         if (!webView.isSupported) {
             return;
         }
