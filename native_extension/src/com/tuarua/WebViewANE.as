@@ -64,7 +64,7 @@ public class WebViewANE extends EventDispatcher {
                 trace("[" + name + "] ANE Not loaded properly.  Future calls will fail.");
             }
         } else {
-            trace("[" + name + "] Can't initialize. Only OSX is supported");
+            trace("[" + name + "] Can't initialize.");
         }
 
     }
