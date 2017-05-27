@@ -56,6 +56,11 @@ default the browser process executable is used.</p>
  <p>Keys for retrieving user location please see https://www.chromium.org/developers/how-tos/api-keys.</p>
  */
     public var GOOGLE_DEFAULT_CLIENT_SECRET:String;
+/**
+ <p>Vector of urls to allow through, example google.com - This is a simple string match. There is no regex support.</p>
+*/
+    public var urlWhiteList:Vector.<String> = new <String>[];
+
 public function CefSettings() {
     }
 }

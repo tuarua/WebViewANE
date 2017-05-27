@@ -1,10 +1,10 @@
 /**
  * Created by User on 26/02/2017.
  */
-package com.tuarua {
+package com.tuarua.fre {
 import flash.utils.describeType;
 
-[RemoteClass(alias="com.tuarua.ANEUtils")]
+[RemoteClass(alias="com.tuarua.fre.ANEUtils")]
 public class ANEUtils {
     public function ANEUtils() {
     }

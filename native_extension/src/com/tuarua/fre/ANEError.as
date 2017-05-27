@@ -1,24 +1,24 @@
 /**
  * Created by Eoin Landy on 29/04/2017.
  */
-package com.tuarua {
-[RemoteClass(alias="com.tuarua.ANEError")]
+package com.tuarua.fre {
+[RemoteClass(alias="com.tuarua.fre.ANEError")]
 public class ANEError extends Error {
     private var _stackTrace:String;
     private var _source:String;
     private var _type:String;
 
     private var errorTypes:Array = [
-        "ok",
-        "noSuchName",
-        "invalidObject",
-        "typeMismatch",
-        "actionscriptError",
-        "invalidArgument",
-        "readOnly",
-        "wrongThread",
-        "illegalState",
-        "insufficientMemory"
+        "FreSharp.Exceptions.Ok",
+        "FreSharp.Exceptions.NoSuchNameException",
+        "FreSharp.Exceptions.FreInvalidObjectException",
+        "FreSharp.Exceptions.FreTypeMismatchException",
+        "FreSharp.Exceptions.FreActionscriptErrorException",
+        "FreSharp.Exceptions.FreInvalidArgumentException",
+        "FreSharp.Exceptions.FreReadOnlyException",
+        "FreSharp.Exceptions.FreWrongThreadException",
+        "FreSharp.Exceptions.FreIllegalStateException",
+        "FreSharp.Exceptions.FreInsufficientMemoryException"
     ];
 
     public function ANEError(message:String, errorID:int, type:String, source:String, stackTrace:String) {
@@ -44,10 +44,6 @@ public class ANEError extends Error {
 
     public function get type():String {
         return _type;
-    }
-
-    public function get source():String {
-        return _source;
     }
 }
 }

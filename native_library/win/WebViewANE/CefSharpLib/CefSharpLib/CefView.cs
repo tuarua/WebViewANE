@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -30,6 +31,7 @@ namespace CefSharpLib {
         public Tuple<int, int> PopupDimensions { get; set; }
         public string UserAgent { get; set; }
         public Dictionary<string, string> CommandLineArgs { get; set; }
+        public ArrayList WhiteList { get; set; }
 
         public ChromiumWebBrowser Browser;
         private bool _isLoaded;
@@ -123,6 +125,7 @@ namespace CefSharpLib {
                 gh.OnPermissionResult += OnPermissionResult;
                 Browser.GeolocationHandler = gh;
 
+
                 // ReSharper disable once UseObjectOrCollectionInitializer
                 var sh = new LifeSpanHandler(PopupBehaviour, PopupDimensions);
                 sh.OnPermissionPopup += OnPermissionPopup;
@@ -135,6 +138,10 @@ namespace CefSharpLib {
                 Browser.LoadError += OnLoadError;
                 Browser.IsBrowserInitializedChanged += OnBrowserInitialized;
                 Browser.StatusMessage += OnStatusMessage;
+
+                var rh = new RequestHandler(WhiteList);
+                Browser.RequestHandler = rh;
+
                 _host.Child = Browser;
 
                 MainGrid.Children.Add(_host);

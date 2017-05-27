@@ -110,15 +110,16 @@ begin
 
 
 #ifdef use_dotnetfx46
-    dotnetfx46(50); // min allowed version is 4.5.0
+    dotnetfx46(60); // min allowed version is 4.5.0
 #endif
 
 #ifdef use_vc2013
-	//SetForceX86(true); // force 32-bit install of next products
+	SetForceX86(true); // force 32-bit install of next products
 	vcredist2013();
 	//SetForceX86(false); // disable forced 32-bit install again
 #endif
 #ifdef use_vc2015
+  SetForceX86(true);
 	vcredist2015();
 #endif
 
