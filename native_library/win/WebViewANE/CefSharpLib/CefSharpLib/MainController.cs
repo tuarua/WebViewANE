@@ -148,9 +148,9 @@ namespace CefSharpLib {
             var googleApiKeyFre = cefSettingsFre.GetProperty("GOOGLE_API_KEY");
             var googleDefaultClientIdFre = cefSettingsFre.GetProperty("GOOGLE_DEFAULT_CLIENT_ID");
             var googleDefaultClientSecretFre = cefSettingsFre.GetProperty("GOOGLE_DEFAULT_CLIENT_SECRET");
+            
 
             if (FreObjectTypeSharp.String == googleApiKeyFre.GetType()) {
-
                 Environment.SetEnvironmentVariable("GOOGLE_API_KEY", Convert.ToString(googleApiKeyFre.Value));
             }
             if (FreObjectTypeSharp.String == googleDefaultClientIdFre.GetType()) {
@@ -164,13 +164,15 @@ namespace CefSharpLib {
             var argsDict = new Dictionary<string, string>();
 
             uint i;
-            for (i = 0; i < clArr.GetLength(); ++i) {
+            for (i = 0; i < clArr.Length; ++i) {
                 var argFre = clArr.GetObjectAt(i);
                 var key = Convert.ToString(argFre.GetProperty("key").Value);
                 var val = Convert.ToString(argFre.GetProperty("value").Value);
                 if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(val)) continue;
                 argsDict.Add(key, val);
             }
+
+            var whiteList = new FreArraySharp(cefSettingsFre.GetProperty("urlWhiteList").RawValue).GetAsArrayList();
 
             _view = new CefView {
                 InitialUrl = Convert.ToString(new FreObjectSharp(argv[0]).Value),
@@ -186,6 +188,7 @@ namespace CefSharpLib {
                 EnableDownloads = Convert.ToBoolean(cefSettingsFre.GetProperty("enableDownloads").Value),
                 UserAgent = Convert.ToString(inFre5.GetProperty("userAgent").Value),
                 CommandLineArgs = argsDict,
+                WhiteList = whiteList,
                 PopupBehaviour = (PopupBehaviour)inFre5.GetProperty("popup").GetProperty("behaviour").Value,
                 PopupDimensions = new Tuple<int, int>(
                     Convert.ToInt32(inFre5.GetProperty("popup").GetProperty("dimensions").GetProperty("width").Value),

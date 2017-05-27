@@ -10,12 +10,13 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CefSharpLib</RootNamespace>
     <AssemblyName>CefSharpLib</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -54,12 +55,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FreSharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <HintPath>..\packages\TuaRua.FreSharp.1.0.6\lib\net452\FreSharp.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\packages\TuaRua.FreSharp.1.0.7\lib\net46\FreSharp.dll</HintPath>
     </Reference>
     <Reference Include="FreSharpCore, Version=0.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <HintPath>..\packages\TuaRua.FreSharp.1.0.6\lib\net452\FreSharpCore.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\packages\TuaRua.FreSharp.1.0.7\lib\net46\FreSharpCore.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -94,6 +93,7 @@
     <Compile Include="FreSharpController.cs" />
     <Compile Include="LifeSpanHandler.cs" />
     <Compile Include="WinAPI.cs" />
+    <Compile Include="RequestHandler.cs" />
     <Page Include="CefView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

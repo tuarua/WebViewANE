@@ -30,6 +30,7 @@ import flash.system.Capabilities;
 import flash.text.TextFieldType;
 
 import events.FormEvent;
+
 import flash.utils.ByteArray;
 
 import starling.animation.Transitions;
@@ -89,7 +90,7 @@ public class StarlingRoot extends Sprite {
                     NativeWindowDisplayStateEvent.DISPLAY_STATE_CHANGE, onWindowMiniMaxi);
         }
 
-        trace("webView.isSupported()",webView.isSupported())
+        trace("webView.isSupported()", webView.isSupported())
 
         if (!webView.isSupported) {
             return;
@@ -107,7 +108,7 @@ public class StarlingRoot extends Sprite {
         webView.addEventListener(WebViewEvent.ON_PERMISSION_RESULT, onPermissionResult);
 
         var settings:Settings = new Settings();
-        settings.popup.behaviour = Behaviour.NEW_WINDOW;  //Behaviour.BLOCK //Behaviour.SAME_WINDOW
+        settings.popup.behaviour = Behaviour.BLOCK;  //Behaviour.BLOCK //Behaviour.SAME_WINDOW
         settings.popup.dimensions.width = 600;
         settings.popup.dimensions.height = 800;
 
@@ -125,6 +126,7 @@ public class StarlingRoot extends Sprite {
         kvp.value = "1";
         settings.cef.commandLineArgs.push(kvp);
         settings.cef.enableDownloads = true;
+        //settings.cef.urlWhiteList.push("google.", "youtube.","adobe.com"); to restrict urls - simple string matching
 
         //to retrieve geolocation on Windows (CEF), follow the instructions on this page and set these vars
         //https://www.chromium.org/developers/how-tos/api-keys
