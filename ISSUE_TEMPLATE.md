@@ -1,3 +1,5 @@
+- **Have you read the README carefully?**
+
 - **What version of the product are you using?**
     - What version are you using?
 e.g. 0.0.12
