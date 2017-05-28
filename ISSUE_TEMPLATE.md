@@ -1,5 +1,6 @@
 - **Have you read the README carefully?**
-
+    - Follow the instructions provided before rasing an issue.
+    
 - **What version of the product are you using?**
     - What version are you using?
 e.g. 0.0.12
