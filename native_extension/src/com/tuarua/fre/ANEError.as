@@ -45,5 +45,9 @@ public class ANEError extends Error {
     public function get type():String {
         return _type;
     }
+
+    public function get source():String {
+        return _source;
+    }
 }
 }
