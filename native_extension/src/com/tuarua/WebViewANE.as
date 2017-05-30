@@ -177,6 +177,9 @@ public class WebViewANE extends EventDispatcher {
             case WebViewEvent.ON_ESC_KEY:
                 dispatchEvent(new WebViewEvent(WebViewEvent.ON_ESC_KEY, event.code));
                 break;
+            case WebViewEvent.ON_URL_BLOCKED:
+                dispatchEvent(new WebViewEvent(WebViewEvent.ON_URL_BLOCKED, event.code));
+                break;
             case WebViewEvent.ON_PERMISSION_RESULT:
                 try {
                     pObj = JSON.parse(event.code);

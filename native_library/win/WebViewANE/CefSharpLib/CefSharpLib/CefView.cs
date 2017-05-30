@@ -50,6 +50,7 @@ namespace CefSharpLib {
         private const string OnEscKey = "WebView.OnEscKey";
         private const string OnFail = "WebView.OnFail";
         private const string OnPermission = "WebView.OnPermissionResult";
+        private const string OnUrlBlocked = "WebView.OnUrlBlocked";
 
         public void Init() {
             InitializeComponent();
@@ -140,6 +141,8 @@ namespace CefSharpLib {
                 Browser.StatusMessage += OnStatusMessage;
 
                 var rh = new RequestHandler(WhiteList);
+                rh.OnUrlBlockedFired += OnUrlBlockedFired;
+
                 Browser.RequestHandler = rh;
 
                 _host.Child = Browser;
@@ -148,6 +151,10 @@ namespace CefSharpLib {
 
             }
 
+        }
+
+        private static void OnUrlBlockedFired(object sender, string e) {
+            FreSharpController.Context.DispatchEvent(OnUrlBlocked, e);
         }
 
         private void OnPermissionPopup(object sender, string s) {
