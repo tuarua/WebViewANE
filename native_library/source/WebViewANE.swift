@@ -59,6 +59,7 @@ import Cocoa
     private var _popup: Popup!
 #endif
     private var isAdded: Bool = false
+    private static let ON_URL_BLOCKED: String = "WebView.OnUrlBlocked"
     private static let ON_FAIL: String = "WebView.OnFail"
     private static let ON_ESC_KEY: String = "WebView.OnEscKey"
     private static let ON_PROPERTY_CHANGE: String = "WebView.OnPropertyChange"
@@ -162,6 +163,7 @@ import Cocoa
                 return
             }
         }
+        sendEvent(name: WebViewANE.ON_URL_BLOCKED, value: newUrl)
         decisionHandler(.cancel)
 
     }
