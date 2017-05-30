@@ -7,7 +7,7 @@ using CefSharp;
 namespace CefSharpLib {
     public class RequestHandler : IRequestHandler {
         private readonly ArrayList _whiteList;
-        public event EventHandler<string> OnBeforeBrowseFired;
+        public event EventHandler<string> OnUrlBlockedFired;
         public RequestHandler(ArrayList whiteList) {
             _whiteList = whiteList;
         }
@@ -16,7 +16,7 @@ namespace CefSharpLib {
             if (_whiteList == null || _whiteList.Count == 0 || _whiteList.Cast<string>().Any(url => request.Url.Contains(url))) {
                 return false;
             }
-            var handler = OnBeforeBrowseFired;
+            var handler = OnUrlBlockedFired;
             handler?.Invoke(this, request.Url);
             return true;
         }

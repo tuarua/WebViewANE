@@ -172,7 +172,7 @@ namespace CefSharpLib {
                 argsDict.Add(key, val);
             }
 
-            var whiteList = new FreArraySharp(cefSettingsFre.GetProperty("urlWhiteList").RawValue).GetAsArrayList();
+            var whiteList = new FreArraySharp(inFre5.GetProperty("urlWhiteList").RawValue).GetAsArrayList();
 
             _view = new CefView {
                 InitialUrl = Convert.ToString(new FreObjectSharp(argv[0]).Value),
