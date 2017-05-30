@@ -30,6 +30,7 @@ import flash.system.Capabilities;
 import flash.text.TextFieldType;
 
 import events.FormEvent;
+
 import flash.utils.ByteArray;
 
 import starling.animation.Transitions;
@@ -89,7 +90,7 @@ public class StarlingRoot extends Sprite {
                     NativeWindowDisplayStateEvent.DISPLAY_STATE_CHANGE, onWindowMiniMaxi);
         }
 
-        trace("webView.isSupported()",webView.isSupported())
+        trace("webView.isSupported()", webView.isSupported())
 
         if (!webView.isSupported) {
             return;
@@ -105,9 +106,10 @@ public class StarlingRoot extends Sprite {
         webView.addEventListener(WebViewEvent.ON_DOWNLOAD_COMPLETE, onDownloadComplete);
         webView.addEventListener(WebViewEvent.ON_ESC_KEY, onEscKey);
         webView.addEventListener(WebViewEvent.ON_PERMISSION_RESULT, onPermissionResult);
+        webView.addEventListener(WebViewEvent.ON_URL_BLOCKED, onUrlBlocked);
 
         var settings:Settings = new Settings();
-        settings.popup.behaviour = Behaviour.NEW_WINDOW;  //Behaviour.BLOCK //Behaviour.SAME_WINDOW
+        settings.popup.behaviour = Behaviour.BLOCK;  //Behaviour.BLOCK //Behaviour.SAME_WINDOW
         settings.popup.dimensions.width = 600;
         settings.popup.dimensions.height = 800;
 
@@ -125,6 +127,8 @@ public class StarlingRoot extends Sprite {
         kvp.value = "1";
         settings.cef.commandLineArgs.push(kvp);
         settings.cef.enableDownloads = true;
+
+        //settings.urlWhiteList.push("google.", "youtube.", "adobe.com","chrome-devtools://"); //to restrict urls - simple string matching
 
         //to retrieve geolocation on Windows (CEF), follow the instructions on this page and set these vars
         //https://www.chromium.org/developers/how-tos/api-keys
@@ -276,6 +280,10 @@ public class StarlingRoot extends Sprite {
         addChild(urlInput);
 
         addChild(progress);
+    }
+
+    private function onUrlBlocked(event:WebViewEvent):void {
+        trace(event.params, "does not match our urlWhiteList");
     }
 
     private static function onPermissionResult(event:WebViewEvent):void {
@@ -570,7 +578,9 @@ public class StarlingRoot extends Sprite {
      * It's very important to call webView.shutDown(); when the app is exiting. This cleans up CEF on Windows.
      */
     private function onExiting(event:Event):void {
+
         webView.shutDown();
+        webView.dispose();
     }
 
     public function onMaximiseApp():void {
