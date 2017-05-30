@@ -44,6 +44,7 @@ import Cocoa
     private var _width: CGFloat = 800
     private var _height: CGFloat = 600
     private var _userAgent: String?
+    private var _urlWhiteList:NSArray?
 
     public enum PopupBehaviour: Int {
         case block = 0
@@ -146,6 +147,25 @@ import Cocoa
         return nil
     }
 
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        guard let urlWhiteList = _urlWhiteList,
+            urlWhiteList.count > 0,
+            let newUrl = navigationAction.request.url?.absoluteString.lowercased()
+            else {
+            decisionHandler(.allow)
+            return
+        }
+
+        for url in urlWhiteList {
+            if newUrl.range(of:url as! String) != nil {
+                decisionHandler(.allow)
+                return
+            }
+        }
+        decisionHandler(.cancel)
+
+    }
+    
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
     }
 
@@ -661,15 +681,15 @@ import Cocoa
 
     func setBackgroundColor(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
 #if os(iOS)
-        guard argc > 0,
+    
+    guard argc > 0,
               let inFRE0 = argv[0],
               let inFRE1 = argv[1],
               let inFRE2 = argv[2],
               let inFRE3 = argv[3],
               let rFre = FREObjectSwift.init(freObject: inFRE0).value as? Int,
               let gFre = FREObjectSwift.init(freObject: inFRE1).value as? Int,
-              let bFre = FREObjectSwift.init(freObject: inFRE2).value as? Int,
-              let aFre = FREObjectSwift.init(freObject: inFRE3).value as? Int
+              let bFre = FREObjectSwift.init(freObject: inFRE2).value as? Int
                 else {
             traceError(message: "setBackgroundColor - incorrect arguments", line: #line, column: #column, file: #file, freError: nil)
             return nil
@@ -678,13 +698,14 @@ import Cocoa
         let r = CGFloat.init(rFre)
         let g = CGFloat.init(gFre)
         let b = CGFloat.init(bFre)
-        let a = CGFloat.init(aFre)
 
-        if a == 0.0 {
-            _bgColor = UIColor.clear
-        } else {
+        if let aFre = FREObjectSwift.init(freObject: inFRE3).value as? Double {
+            let a = CGFloat.init(aFre)
             _bgColor = UIColor.init(red: r / 255, green: g / 255, blue: b / 255, alpha: a)
+        } else {
+            _bgColor = UIColor.clear
         }
+    
 #else
 #endif
         return nil
@@ -718,7 +739,8 @@ import Cocoa
 
         if let settingsFRE: FREObject = argv[5] {
             if let settings = FREObjectSwift.init(freObject: settingsFRE).value as? Dictionary<String, AnyObject> {
-                //Swift.debugPrint(settings)
+                
+                Swift.debugPrint(settings)
 
                 if let settingsWK = settings["webkit"] {
 #if os(iOS)
@@ -769,6 +791,13 @@ import Cocoa
                 if let userAgent: String = settings["userAgent"] as? String {
                     _userAgent = userAgent
                 }
+                
+                if let urlWhiteList: NSArray = settings["urlWhiteList"] as? NSArray {
+                    _urlWhiteList = urlWhiteList
+                    //Swift.debugPrint(_urlWhiteList)
+                    //Swift.debugPrint(_urlWhiteList?.count)
+                }
+                
 #if os(iOS)
 #else
                 if let popupSettings = settings["popup"] {

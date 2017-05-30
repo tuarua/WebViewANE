@@ -126,7 +126,7 @@ public class StarlingRoot extends Sprite {
         kvp.value = "1";
         settings.cef.commandLineArgs.push(kvp);
         settings.cef.enableDownloads = true;
-        //settings.cef.urlWhiteList.push("google.", "youtube.","adobe.com"); to restrict urls - simple string matching
+        //settings.urlWhiteList.push("google.", "youtube.","adobe.com"); //to restrict urls - simple string matching
 
         //to retrieve geolocation on Windows (CEF), follow the instructions on this page and set these vars
         //https://www.chromium.org/developers/how-tos/api-keys
@@ -572,7 +572,9 @@ public class StarlingRoot extends Sprite {
      * It's very important to call webView.shutDown(); when the app is exiting. This cleans up CEF on Windows.
      */
     private function onExiting(event:Event):void {
+
         webView.shutDown();
+        webView.dispose();
     }
 
     public function onMaximiseApp():void {
