@@ -14,10 +14,9 @@ namespace CefSharpLib {
             var handler = OnBeforeDownloadFired;
             handler?.Invoke(this, downloadItem);
 
-            if (!callback.IsDisposed) {
-                using (callback) {
-                    callback.Continue(downloadItem.SuggestedFileName, true);
-                }
+            if (callback.IsDisposed) return;
+            using (callback) {
+                callback.Continue(downloadItem.SuggestedFileName, true);
             }
         }
 

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -30,6 +31,7 @@ namespace CefSharpLib {
         public Tuple<int, int> PopupDimensions { get; set; }
         public string UserAgent { get; set; }
         public Dictionary<string, string> CommandLineArgs { get; set; }
+        public ArrayList WhiteList { get; set; }
 
         public ChromiumWebBrowser Browser;
         private bool _isLoaded;
@@ -48,6 +50,7 @@ namespace CefSharpLib {
         private const string OnEscKey = "WebView.OnEscKey";
         private const string OnFail = "WebView.OnFail";
         private const string OnPermission = "WebView.OnPermissionResult";
+        private const string OnUrlBlocked = "WebView.OnUrlBlocked";
 
         public void Init() {
             InitializeComponent();
@@ -123,6 +126,7 @@ namespace CefSharpLib {
                 gh.OnPermissionResult += OnPermissionResult;
                 Browser.GeolocationHandler = gh;
 
+
                 // ReSharper disable once UseObjectOrCollectionInitializer
                 var sh = new LifeSpanHandler(PopupBehaviour, PopupDimensions);
                 sh.OnPermissionPopup += OnPermissionPopup;
@@ -135,12 +139,22 @@ namespace CefSharpLib {
                 Browser.LoadError += OnLoadError;
                 Browser.IsBrowserInitializedChanged += OnBrowserInitialized;
                 Browser.StatusMessage += OnStatusMessage;
+
+                var rh = new RequestHandler(WhiteList);
+                rh.OnUrlBlockedFired += OnUrlBlockedFired;
+
+                Browser.RequestHandler = rh;
+
                 _host.Child = Browser;
 
                 MainGrid.Children.Add(_host);
 
             }
 
+        }
+
+        private static void OnUrlBlockedFired(object sender, string e) {
+            FreSharpController.Context.DispatchEvent(OnUrlBlocked, e);
         }
 
         private void OnPermissionPopup(object sender, string s) {

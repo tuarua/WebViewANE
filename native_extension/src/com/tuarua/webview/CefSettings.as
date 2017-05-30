@@ -56,6 +56,8 @@ default the browser process executable is used.</p>
  <p>Keys for retrieving user location please see https://www.chromium.org/developers/how-tos/api-keys.</p>
  */
     public var GOOGLE_DEFAULT_CLIENT_SECRET:String;
+
+
 public function CefSettings() {
     }
 }

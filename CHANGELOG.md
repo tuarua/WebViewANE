@@ -1,3 +1,7 @@
+### 0.0.23
+- WIN: add whitelist to cefsettings
+- WIN: upgrade to using FreSharp 1.0.7
+
 ### 0.0.22
 - WIN: upgrade to using FreSharp 1.0.6 Issue #42
 - iOS/OSX: upgrade to latest FRESwift

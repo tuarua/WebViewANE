@@ -24,7 +24,7 @@ https://www.microsoft.com/en-us/download/details.aspx?id=48145
 
 * For release builds, these files need to be packaged in the same folder as your exe.  
 It is highly recommended you package your app for release using an installer.  
-Please see the win_installer folder for an example Inno Setup project which handles .NET and MSVC2013 and MSV2015 dependencies.
+Please see the win_installer folder for an example Inno Setup project which handles .NET 4.6 and MSVC2013 and MSV2015 dependencies.
 
 * The Cef view and processes can only be attached once to your app. Therefore only one instance can be created and used.
 
