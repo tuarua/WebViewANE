@@ -10,7 +10,7 @@ Sample client included
 
 
 ## Windows
-The Windows version utilises the [CefSharp WinForms](https://github.com/cefsharp/CefSharp) version of Chrome Embedded Framework.
+The Windows version utilises the [CefSharp WinForms](https://github.com/cefsharp/CefSharp) version of Chromium Embedded Framework.
 
 ##### Windows Installation - Important!
 
