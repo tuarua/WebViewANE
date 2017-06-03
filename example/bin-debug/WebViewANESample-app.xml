@@ -79,7 +79,8 @@
     <!-- Whether or not to pan when a soft keyboard is raised or lowered (either "pan" or "none").  Optional.  Defaults "pan." -->
     <!-- <softKeyboardBehavior></softKeyboardBehavior> -->
     <!-- Display Resolution for the app (either "standard" or "high"). Optional, OSX-only. Default "standard" -->
-    <requestedDisplayResolution>high</requestedDisplayResolution>
+    <!--<requestedDisplayResolution>high</requestedDisplayResolution>-->
+    <!-- This also applies to Windows 10 and display settings scaling, eg 125% breaks the cefview-->
     <depthAndStencil>true</depthAndStencil>
     <renderMode>direct</renderMode>
     <autoOrients>false</autoOrients>

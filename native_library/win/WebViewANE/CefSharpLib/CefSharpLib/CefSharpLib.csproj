@@ -92,7 +92,7 @@
   <ItemGroup>
     <Compile Include="FreSharpController.cs" />
     <Compile Include="LifeSpanHandler.cs" />
-    <Compile Include="WinAPI.cs" />
+    <Compile Include="MenuHandler.cs" />
     <Compile Include="RequestHandler.cs" />
     <Page Include="CefView.xaml">
       <Generator>MSBuild:Compile</Generator>
