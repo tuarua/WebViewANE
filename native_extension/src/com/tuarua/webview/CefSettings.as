@@ -27,6 +27,8 @@
 package com.tuarua.webview {
 
 public class CefSettings extends Object {
+
+public var contextMenu:ContextMenu = new ContextMenu();
 /**
 * <p>Sets whether downloads will be handled by the WebView.</p>
 */
