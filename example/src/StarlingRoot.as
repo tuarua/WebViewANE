@@ -127,6 +127,7 @@ public class StarlingRoot extends Sprite {
         kvp.value = "1";
         settings.cef.commandLineArgs.push(kvp);
         settings.cef.enableDownloads = true;
+        settings.cef.contextMenu.enabled = false; //enable/disable right click
 
         //settings.urlWhiteList.push("google.", "youtube.", "adobe.com","chrome-devtools://"); //to restrict urls - simple string matching
 
