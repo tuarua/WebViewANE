@@ -34,6 +34,7 @@ using CefSharp;
 using Newtonsoft.Json;
 using TuaRua.FreSharp;
 using TuaRua.FreSharp.Display;
+using TuaRua.FreSharp.Utils;
 using Color = System.Windows.Media.Color;
 using FREObject = System.IntPtr;
 using FREContext = System.IntPtr;
@@ -166,13 +167,10 @@ namespace CefSharpLib {
             var inFre5 = new FreObjectSharp(argv[5]); //settings
             var cefSettingsFre = inFre5.GetProperty("cef");
 
-            //Trace("initing view and here is a trace");
-
             var googleApiKeyFre = cefSettingsFre.GetProperty("GOOGLE_API_KEY");
             var googleDefaultClientIdFre = cefSettingsFre.GetProperty("GOOGLE_DEFAULT_CLIENT_ID");
             var googleDefaultClientSecretFre = cefSettingsFre.GetProperty("GOOGLE_DEFAULT_CLIENT_SECRET");
             
-
             if (FreObjectTypeSharp.String == googleApiKeyFre.GetType()) {
                 Environment.SetEnvironmentVariable("GOOGLE_API_KEY", Convert.ToString(googleApiKeyFre.Value));
             }
@@ -208,6 +206,7 @@ namespace CefSharpLib {
                 CachePath = Convert.ToString(cefSettingsFre.GetProperty("cachePath").Value),
                 LogLevel = Convert.ToInt32(cefSettingsFre.GetProperty("logSeverity").Value),
                 BrowserSubprocessPath = Convert.ToString(cefSettingsFre.GetProperty("browserSubprocessPath").Value),
+                ContextMenuEnabled = Convert.ToBoolean(cefSettingsFre.GetProperty("contextMenu").GetProperty("enabled").Value),
                 EnableDownloads = Convert.ToBoolean(cefSettingsFre.GetProperty("enableDownloads").Value),
                 UserAgent = Convert.ToString(inFre5.GetProperty("userAgent").Value),
                 CommandLineArgs = argsDict,
@@ -291,7 +290,7 @@ namespace CefSharpLib {
             if (!updateX && !updateY) {
                 flgs |= WindowPositionFlags.SWP_NOMOVE;
             }
-            WinApi.SetWindowPos(_cefWindow, new IntPtr(0), _view.X, _view.Y, _view.ViewWidth, _view.ViewHeight, flgs);
+            WinApi.SetWindowPos(_cefWindow, new Hwnd(0), _view.X, _view.Y, _view.ViewWidth, _view.ViewHeight, flgs);
             WinApi.UpdateWindow(_cefWindow);
             return FREObject.Zero;
         }

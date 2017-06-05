@@ -55,6 +55,7 @@ namespace CefSharpLib {
         public string UserAgent { get; set; }
         public Dictionary<string, string> CommandLineArgs { get; set; }
         public ArrayList WhiteList { get; set; }
+        public bool ContextMenuEnabled { get; set; }
 
         public ChromiumWebBrowser Browser;
         private bool _isLoaded;
@@ -121,6 +122,8 @@ namespace CefSharpLib {
                 settings.CefCommandLineArgs.Add(kvp.Key, kvp.Value);
             }
 
+            
+
             Cef.EnableHighDPISupport();
             // ReSharper disable once InvertIf
             if (Cef.Initialize(settings)) {
@@ -163,6 +166,10 @@ namespace CefSharpLib {
                 Browser.IsBrowserInitializedChanged += OnBrowserInitialized;
                 Browser.StatusMessage += OnStatusMessage;
 
+                if(!ContextMenuEnabled)
+                    Browser.MenuHandler = new MenuHandler();
+
+                // ReSharper disable once UseObjectOrCollectionInitializer
                 var rh = new RequestHandler(WhiteList);
                 rh.OnUrlBlockedFired += OnUrlBlockedFired;
 

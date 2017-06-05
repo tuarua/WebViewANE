@@ -1,3 +1,6 @@
+### 0.0.24
+- WIN: Allow right click context menu to be disabled Issue #52
+
 ### 0.0.23
 - WIN: add whitelist to cefsettings
 - WIN: upgrade to using FreSharp 1.0.7
