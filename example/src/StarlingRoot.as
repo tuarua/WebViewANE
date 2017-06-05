@@ -109,7 +109,7 @@ public class StarlingRoot extends Sprite {
         webView.addEventListener(WebViewEvent.ON_URL_BLOCKED, onUrlBlocked);
 
         var settings:Settings = new Settings();
-        settings.popup.behaviour = Behaviour.BLOCK;  //Behaviour.BLOCK //Behaviour.SAME_WINDOW
+        settings.popup.behaviour = Behaviour.NEW_WINDOW;  //Behaviour.BLOCK //Behaviour.SAME_WINDOW
         settings.popup.dimensions.width = 600;
         settings.popup.dimensions.height = 800;
 
