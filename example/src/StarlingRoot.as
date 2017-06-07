@@ -139,7 +139,7 @@ public class StarlingRoot extends Sprite {
 
         webView.setBackgroundColor(0xF1F1F1);
 
-        webView.init("http://www.adobe.com/", 0, 90, _appWidth, _appHeight - 140, settings);
+        webView.init("http://www.bbc.co.uk/", 0, 90, _appWidth, _appHeight - 140, settings);
         webView.addToStage(); // webView.removeFromStage();
         webView.injectScript("function testInject(){console.log('yo yo')}");
 
@@ -496,7 +496,7 @@ public class StarlingRoot extends Sprite {
     private function onCapture(event:TouchEvent):void {
         var touch:Touch = event.getTouch(capureBtn);
         if (touch != null && touch.phase == TouchPhase.ENDED) {
-            var bmd:BitmapData = webView.capture(100, 100, 400, 400);
+            var bmd:BitmapData = webView.capture(100, 100, 400, 200);
             if (bmd) {
                 var ba:ByteArray = new ByteArray();
                 var encodingOptions:PNGEncoderOptions = new PNGEncoderOptions(true);
