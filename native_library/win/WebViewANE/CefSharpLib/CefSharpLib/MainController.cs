@@ -100,7 +100,7 @@ namespace CefSharpLib {
             var freH = Convert.ToInt32(new FreObjectSharp(argv[3]).Value);
 
             var width = freW > 0 ? freW : rect.right - rect.left;
-            var height = freH > 0 ? freW : rect.bottom - rect.top;
+            var height = freH > 0 ? freH : rect.bottom - rect.top;
 
             var bmp = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
             var graphics = Graphics.FromImage(bmp);
