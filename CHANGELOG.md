@@ -1,5 +1,6 @@
 ### 0.0.24
 - WIN: Allow right click context menu to be disabled Issue #52
+- WIN: BUG fix - capture method Issue #54
 
 ### 0.0.23
 - WIN: add whitelist to cefsettings
