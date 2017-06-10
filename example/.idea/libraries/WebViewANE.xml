@@ -1,9 +1,11 @@
 <component name="libraryTable">
   <library name="WebViewANE" type="flex">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../native_extension/ane/WebViewANE.ane!/" />
+      <root url="jar://$DOCUMENTS$/WebViewANE/native_extension/ane/WebViewANE.ane!/" />
     </CLASSES>
-    <JAVADOC />
+    <JAVADOC>
+      <root url="https://tuarua.github.io/asdocs/webviewane/" />
+    </JAVADOC>
     <SOURCES />
   </library>
 </component>
