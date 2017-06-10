@@ -77,7 +77,6 @@ public class StarlingRoot extends Sprite {
     public function StarlingRoot() {
         super();
         TextField.registerCompositor(Fonts.getFont("fira-sans-semi-bold-13"), "Fira Sans Semi-Bold 13");
-
     }
 
     public function start():void {
@@ -579,7 +578,6 @@ public class StarlingRoot extends Sprite {
      * It's very important to call webView.shutDown(); when the app is exiting. This cleans up CEF on Windows.
      */
     private function onExiting(event:Event):void {
-
         webView.shutDown();
         webView.dispose();
     }

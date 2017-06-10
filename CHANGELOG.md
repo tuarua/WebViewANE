@@ -1,3 +1,5 @@
+### 0.0.25
+
 ### 0.0.24
 - WIN: Allow right click context menu to be disabled Issue #52
 - WIN: BUG fix - capture method Issue #54
