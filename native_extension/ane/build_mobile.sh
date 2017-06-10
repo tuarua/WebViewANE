@@ -99,6 +99,7 @@ echo "Generating ANE."
 -C $pathtome/platforms/ios/device/Frameworks/ . \
 -platform default -C "$pathtome/platforms/default" "library.swf"
 
+zip "$pathtome/mobile/$PROJECTNAME-mobile.ane" -u docs/*
 
 rm -r "$pathtome/platforms/default"
 rm "$pathtome/$PROJECTNAME.swc"
