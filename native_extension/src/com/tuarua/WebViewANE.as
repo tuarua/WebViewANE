@@ -566,7 +566,14 @@ public class WebViewANE extends EventDispatcher {
     }
 
     /**
-     *
+     * <p>This cleans up the webview and all related processes.</p>
+     * <p><strong>It is important to call this when the app is exiting.</strong></p>
+     * @example
+     * <listing version="3.0">
+     NativeApplication.nativeApplication.addEventListener(flash.events.Event.EXITING, onExiting);
+     private function onExiting(event:Event):void {
+        webView.dispose();
+     }</listing>
      *
      */
     public function dispose():void {
@@ -692,17 +699,9 @@ public class WebViewANE extends EventDispatcher {
         return _statusMessage;
     }
 
-    /**
-     * <p>This calls Cef.ShutDown() to clean up all Chromium Embedded Framework processes.</p>
-     * <p><strong>Applicable to Windows only.</strong></p>
-     * @example
-     * <listing version="3.0">
-     NativeApplication.nativeApplication.addEventListener(flash.events.Event.EXITING, onExiting);
-     private function onExiting(event:Event):void {
-        webView.shutDown();
-     }</listing>
-     *
-     */
+    //[Deprecated(replacement="string_specifying_replacement")]
+
+    [Deprecated(message="This is not needed any more as shutdown of CEF is automatically handled in the dispose method")]
     public function shutDown():void {
         if (safetyCheck())
             ANEContext.ctx.call("shutDown");
