@@ -48,7 +48,7 @@ public class Settings extends Object {
     public var popup:Popup = new Popup();
 
     /**
-     <p>Vector of urls to allow through, example google.com - This is a simple string match. There is no regex support. WIN, OSX, iOS only.</p>
+     <p>Vector of urls to allow through, example google.com - This uses a simple string match. There is no regex support. WIN, OSX, iOS only.</p>
      */
     public var urlWhiteList:Vector.<String> = new <String>[];
 

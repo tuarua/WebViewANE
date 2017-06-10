@@ -347,7 +347,7 @@ public class WebViewANE extends EventDispatcher {
      * @param settings
      * @param scaleFactor iOS and Android only
      *
-     * <p>Initialises the webView. The webView is not automatically added to the native stage.</p>
+     * <p>Initialises the webView. N.B. The webView is set to visible=false initially.</p>
      *
      */
     public function init(initialUrl:String = null, x:int = 0, y:int = 0, width:int = 800, height:int = 600,

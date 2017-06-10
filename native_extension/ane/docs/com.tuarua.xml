@@ -144,7 +144,7 @@
      </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn><apiParam><apiItemName>initialUrl</apiItemName><apiType value="String"/><apiData>null</apiData><apiDesc>Url to load when the view loads
      </apiDesc></apiParam><apiParam><apiItemName>x</apiItemName><apiType value="int"/><apiData>0</apiData><apiDesc>    </apiDesc></apiParam><apiParam><apiItemName>y</apiItemName><apiType value="int"/><apiData>0</apiData><apiDesc>    </apiDesc></apiParam><apiParam><apiItemName>width</apiItemName><apiType value="int"/><apiData>800</apiData><apiDesc>    </apiDesc></apiParam><apiParam><apiItemName>height</apiItemName><apiType value="int"/><apiData>600</apiData><apiDesc>    </apiDesc></apiParam><apiParam><apiItemName>settings</apiItemName><apiOperationClassifier>com.tuarua.webview:Settings</apiOperationClassifier><apiData>null</apiData><apiDesc>    </apiDesc></apiParam><apiParam><apiItemName>scaleFactor</apiItemName><apiType value="int"/><apiData>1</apiData><apiDesc>iOS and Android only
      
-     <p>Initialises the webView. The webView is not automatically added to the native stage.</p>
+     <p>Initialises the webView. N.B. The webView is set to visible=false initially.</p>
      
      </apiDesc></apiParam></apiOperationDef><apiDesc>
      

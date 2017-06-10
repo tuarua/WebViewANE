@@ -303,7 +303,7 @@ public class StarlingRoot extends Sprite {
 
         _appWidth = event.target.width;
         _appHeight = event.target.height - 17;
-
+		trace(_appHeight);
         webView.viewPort = new Rectangle(0, 90, _appWidth, _appHeight - 140);
 
     }
