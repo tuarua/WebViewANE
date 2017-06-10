@@ -139,7 +139,7 @@ public class StarlingRoot extends Sprite {
         webView.setBackgroundColor(0xF1F1F1);
 
         webView.init("http://www.bbc.co.uk/", 0, 90, _appWidth, _appHeight - 140, settings);
-        webView.addToStage(); // webView.removeFromStage();
+        webView.visible = true;
         webView.injectScript("function testInject(){console.log('yo yo')}");
 
         /*trace("loading html");
@@ -296,9 +296,16 @@ public class StarlingRoot extends Sprite {
          !! Needed for OSX, restores webView when we restore from minimized state
          */
         if (event.beforeDisplayState == NativeWindowDisplayState.MINIMIZED) {
-            webView.removeFromStage();
-            webView.addToStage();
+            webView.visible = false;
+            webView.visible = true;
+            return;
         }
+
+        _appWidth = event.target.width;
+        _appHeight = event.target.height - 17;
+
+        webView.viewPort = new Rectangle(0, 90, _appWidth, _appHeight - 140);
+
     }
 
     private function onEscKey(event:WebViewEvent):void {
@@ -455,7 +462,7 @@ public class StarlingRoot extends Sprite {
     private function onFullScreen(event:TouchEvent):void {
         var touch:Touch = event.getTouch(fullscreenBtn);
         if (touch != null && touch.phase == TouchPhase.ENDED) {
-            onMaximiseApp();
+            onFullScreenApp();
         }
     }
 
@@ -575,14 +582,13 @@ public class StarlingRoot extends Sprite {
     }
 
     /**
-     * It's very important to call webView.shutDown(); when the app is exiting. This cleans up CEF on Windows.
+     * It's very important to call webView.dispose(); when the app is exiting.
      */
     private function onExiting(event:Event):void {
-        webView.shutDown();
         webView.dispose();
     }
 
-    public function onMaximiseApp():void {
+    public function onFullScreenApp():void {
 
         if (WebViewANESample.target.stage.displayState == StageDisplayState.FULL_SCREEN_INTERACTIVE) {
             WebViewANESample.target.stage.displayState = StageDisplayState.NORMAL;
@@ -603,13 +609,14 @@ public class StarlingRoot extends Sprite {
          */
         if (webView) {
             webView.onFullScreen(event.fullScreen);
-            webView.setPositionAndSize(0, 90, _appWidth, _appHeight - 140);
+            webView.viewPort = new Rectangle(0, 90, _appWidth, _appHeight - 140);
         }
     }
 
     public function updateWebViewOnResize():void {
-        if (webView)
-            webView.setPositionAndSize(0, 90, _appWidth, _appHeight - 140);
+        if (webView) {
+            webView.viewPort = new Rectangle(0, 90, _appWidth, _appHeight - 140);
+        }
     }
 
     public function set appWidth(value:uint):void {

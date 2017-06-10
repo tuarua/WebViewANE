@@ -1,4 +1,10 @@
 ### 0.0.25
+- AND/iOS/WIN/OSX: deprecate setPositionAndSize() - use viewPort setter instead
+- AND/iOS/WIN/OSX: deprecate addToStage() - use visible setter instead
+- AND/iOS/WIN/OSX: deprecate removeFromStage() - use visible setter instead
+- AND/iOS/WIN/OSX: deprecate shutDown() - not needed
+- WIN/OSX: fix BUG in example when maximising
+
 
 ### 0.0.24
 - WIN: Allow right click context menu to be disabled Issue #52

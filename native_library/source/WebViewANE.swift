@@ -95,7 +95,6 @@ import Cocoa
         functionsToSet["closeDevTools"] = closeDevTools
         functionsToSet["callJavascriptFunction"] = callJavascriptFunction
         functionsToSet["evaluateJavaScript"] = evaluateJavaScript
-        functionsToSet["shutDown"] = shutDown
         functionsToSet["injectScript"] = injectScript
         functionsToSet["focus"] = focusWebView
         functionsToSet["print"] = print
@@ -362,10 +361,6 @@ import Cocoa
     }
 
     func closeDevTools(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
-        return nil
-    }
-
-    func shutDown(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
         return nil
     }
 
@@ -739,9 +734,6 @@ import Cocoa
 
         if let settingsFRE: FREObject = argv[5] {
             if let settings = FREObjectSwift.init(freObject: settingsFRE).value as? Dictionary<String, AnyObject> {
-                
-                Swift.debugPrint(settings)
-
                 if let settingsWK = settings["webkit"] {
 #if os(iOS)
 

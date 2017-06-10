@@ -37,13 +37,14 @@ import flash.events.EventDispatcher;
 import flash.events.StatusEvent;
 import flash.external.ExtensionContext;
 import flash.geom.Point;
+import flash.geom.Rectangle;
 import flash.utils.Dictionary;
 
 public class WebViewANE extends EventDispatcher {
     private static const name:String = "WebViewANE";
     private var _isInited:Boolean = false;
     private var _isSupported:Boolean = false;
-
+    private var _viewPort:Rectangle;
     private var _url:String;
     private var _title:String;
     private var _isLoading:Boolean;
@@ -63,6 +64,7 @@ public class WebViewANE extends EventDispatcher {
     private static const AS_CALLBACK_EVENT:String = "TRWV.as.CALLBACK";
     private var backgroundColor:RGB = new RGB(0xFFFFFF);
     private var downloadProgress:DownloadProgress = new DownloadProgress();
+    private var _visible:Boolean;
 
     public function WebViewANE() {
         initiate();
@@ -355,6 +357,8 @@ public class WebViewANE extends EventDispatcher {
         this._width = width;
         this._height = height;
 
+        this._viewPort = new Rectangle(x, y, width, height);
+
         if (_isSupported) {
             var _settings:Settings = settings;
             if (_settings == null) {
@@ -365,16 +369,7 @@ public class WebViewANE extends EventDispatcher {
         }
     }
 
-    /**
-     *
-     * @param x
-     * @param y
-     * @param width set to 0 to retain existing
-     * @param height  set to 0 to retain existing
-     *
-     * <p>Resizes and/or repositions the webView.</p>
-     *
-     */
+    [Deprecated(replacement="viewPort")]
     public function setPositionAndSize(x:int = 0, y:int = 0, width:int = 0, height:int = 0):void {
         this._x = x;
         this._y = y;
@@ -386,23 +381,18 @@ public class WebViewANE extends EventDispatcher {
         }
     }
 
-    /**
-     * <p>Adds the webView from the native stage.</p>
-     *
-     */
+    [Deprecated(replacement="visible")]
     public function addToStage():void {
         if (safetyCheck())
             ANEContext.ctx.call("addToStage");
     }
 
-    /**
-     * <p>Removes the webView from the native stage.</p>
-     *
-     */
+    [Deprecated(replacement="visible")]
     public function removeFromStage():void {
         if (safetyCheck())
             ANEContext.ctx.call("removeFromStage");
     }
+
 
     /**
      *
@@ -699,12 +689,8 @@ public class WebViewANE extends EventDispatcher {
         return _statusMessage;
     }
 
-    //[Deprecated(replacement="string_specifying_replacement")]
-
     [Deprecated(message="This is not needed any more as shutdown of CEF is automatically handled in the dispose method")]
     public function shutDown():void {
-        if (safetyCheck())
-            ANEContext.ctx.call("shutDown");
     }
 
     public function focus():void {
@@ -755,6 +741,54 @@ public class WebViewANE extends EventDispatcher {
         return ANEContext.ctx.call("capture", x, y, width, height) as BitmapData;
     }
 
+    /**
+     *
+     * @param value
+     *
+     */
+    public function set visible(value:Boolean):void {
+        _visible = value;
+        if (safetyCheck()) {
+            if (value) {
+                ANEContext.ctx.call("addToStage");
+            } else {
+                ANEContext.ctx.call("removeFromStage");
+            }
+        }
+    }
+
+    /**
+     *
+     * @return whether the webView is visible
+     *
+     */
+    public function get visible():Boolean {
+        return _visible;
+    }
+
+    public function get viewPort():Rectangle {
+        return _viewPort;
+    }
+
+    /**
+     *
+     * @param value
+     * <p>Sets the viewPort of the webView.</p>
+     *
+     */
+    public function set viewPort(value:Rectangle):void {
+        _viewPort = value;
+
+        this._x = _viewPort.x;
+        this._y = _viewPort.y;
+        if (_viewPort.width > 0) this._width = _viewPort.width;
+        if (_viewPort.height > 0) this._height = _viewPort.height;
+
+        if (safetyCheck()) {
+            ANEContext.ctx.call("setPositionAndSize", this._x, this._y, this._width, this._height);
+        }
+
+    }
 }
 }
 
