@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?><apiPackage id="com.tuarua"><apiName>com.tuarua</apiName><apiDetail/><apiClassifier id="com.tuarua:WebViewANE"><apiName>WebViewANE</apiName><shortdesc/><prolog><asMetadata/></prolog><apiClassifierDetail><apiClassifierDef><apiAccess value="public"/><apiStatic/><apiBaseClassifier>flash.events:EventDispatcher</apiBaseClassifier></apiClassifierDef></apiClassifierDetail><apiConstructor id="com.tuarua:WebViewANE:WebViewANE"><apiName>WebViewANE</apiName><shortdesc/><prolog/><apiConstructorDetail><apiConstructorDef><apiAccess value="public"/></apiConstructorDef></apiConstructorDetail></apiConstructor><apiOperation id="com.tuarua:WebViewANE:addCallback"><apiName>addCallback</apiName><shortdesc>
+     
+     </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn><apiParam><apiItemName>functionName</apiItemName><apiType value="String"/><apiDesc>name of the function as called from Javascript
+     </apiDesc></apiParam><apiParam><apiItemName>closure</apiItemName><apiType value="Function"/><apiDesc>Actionscript function to call when functionName is called from Javascript
+     
+     <p>Adds a callback in the webView. These should be added before .init() is called.</p>
+     
+     </apiDesc></apiParam></apiOperationDef><apiDesc>
+     
+     </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:addToStage"><apiName>addToStage</apiName><shortdesc/><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn><apiDeprecated replacement="visible"/></apiOperationDef></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:allowsMagnification"><apiName>allowsMagnification</apiName><shortdesc>
+     
+     </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiDesc>Whether the page allows magnification functionality
+     <p><b>Ignored on iOS and Android.</b></p>
+     </apiDesc><apiType value="Boolean"/></apiReturn></apiOperationDef><apiDesc>
+     
+     </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:backForwardList"><apiName>backForwardList</apiName><shortdesc>
+     
+     </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiDesc>
+     <p><b>Ignored on Windows and Android.</b></p>
+     </apiDesc><apiOperationClassifier>com.tuarua.webview:BackForwardList</apiOperationClassifier></apiReturn></apiOperationDef><apiDesc>
+     
+     </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:callJavascriptFunction"><apiName>callJavascriptFunction</apiName><shortdesc>
+     
+     </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn><apiParam><apiItemName>functionName</apiItemName><apiType value="String"/><apiDesc>name of the Javascript function to call
+     </apiDesc></apiParam><apiParam><apiItemName>closure</apiItemName><apiType value="Function"/><apiData>null</apiData><apiDesc>Actionscript function to call when Javascript functionName is called. If null then no
+     actionscript function is called, aka a 'fire and forget' call.
+     </apiDesc></apiParam><apiParam><apiItemName>args</apiItemName><apiType value="restParam"/><apiDesc>arguments to send to the Javascript function
+     
+     <p>Call a javascript function.</p>
+     
+     </apiDesc></apiParam></apiOperationDef><apiDesc>
+     
+     </apiDesc><example>
+     <codeblock rev="3.0">
+     // Logs to the console. No result expected.
+     webView.callJavascriptFunction("as_to_js",asToJsCallback,1,"a",77);
+
+     public function asToJsCallback(jsResult:JavascriptResult):void {
+    trace("asToJsCallback");
+    trace("jsResult.error", jsResult.error);
+    trace("jsResult.result", jsResult.result);
+    trace("jsResult.message", jsResult.message);
+    trace("jsResult.success", jsResult.success);
+    var testObject:= jsResult.result;
+    trace(testObject);
+}
+     }
+     </codeblock>
+
+     </example><example>
+     <codeblock rev="3.0">
+     // Calls Javascript function passing 3 args. Javascript function returns an object which is automatically mapped to an
+     Actionscript Object
+     webView.callJavascriptFunction("console.log",null,"hello console. The is AIR");
+     }
+
+     // function in HTML page
+     function as_to_js(numberA, stringA, numberB, obj) {
+    var person = {
+        name: "Jim Cowart",
+        response: {
+            name: "Chattanooga",
+            population: 167674
+        }
+    };
+    return person;
+}
+     </codeblock>
+     </example></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:capture"><apiName>capture</apiName><shortdesc>
+     
+     </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="flash.display:BitmapData"/></apiReturn><apiParam><apiItemName>x</apiItemName><apiType value="int"/><apiData>0</apiData><apiDesc>    </apiDesc></apiParam><apiParam><apiItemName>y</apiItemName><apiType value="int"/><apiData>0</apiData><apiDesc>    </apiDesc></apiParam><apiParam><apiItemName>width</apiItemName><apiType value="int"/><apiData>0</apiData><apiDesc>leaving as default of 0 captures the full width
+     </apiDesc></apiParam><apiParam><apiItemName>height</apiItemName><apiType value="int"/><apiData>0</apiData><apiDesc>leaving as default of 0 captures the full height
+     
+     <p>Captures the webView to BitmapData.</p>
+     <p><b>Windows only.</b></p>
+     
+     </apiDesc></apiParam></apiOperationDef><apiDesc>
+     
+     </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:closeDevTools"><apiName>closeDevTools</apiName><shortdesc>
+     Close the Chromium dev tools
+     On Android disconnects from chrome://inspect
+     
+     </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn></apiOperationDef><apiDesc>
+     <p>Close the Chromium dev tools</p>
+     <p>On Android disconnects from chrome://inspect</p>
+     
+     </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:dispose"><apiName>dispose</apiName><shortdesc>
+     This cleans up the webview and all related processes.
+     It is important to call this when the app is exiting.
+     </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn></apiOperationDef><apiDesc>
+     <p>This cleans up the webview and all related processes.</p>
+     <p><b>It is important to call this when the app is exiting.</b></p>
+     </apiDesc><example>
+     <codeblock rev="3.0">
+     NativeApplication.nativeApplication.addEventListener(flash.events.Event.EXITING, onExiting);
+     private function onExiting(event:Event):void {
+        webView.dispose();
+     }</codeblock>
+     
+     </example></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:evaluateJavascript"><apiName>evaluateJavascript</apiName><shortdesc>
+     
+     </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn><apiParam><apiItemName>code</apiItemName><apiType value="String"/><apiDesc>Javascript string to evaluate.
+     </apiDesc></apiParam><apiParam><apiItemName>closure</apiItemName><apiType value="Function"/><apiData>null</apiData><apiDesc>Actionscript function to call when the Javascript string is evaluated. If null then no
+     actionscript function is called, aka a 'fire and forget' call.
+     
+     </apiDesc></apiParam></apiOperationDef><apiDesc>
+     
+     </apiDesc><example>
+     <codeblock rev="3.0">
+     // Set the body background to yellow. No result expected
+     webView.evaluateJavascript('document.getElementsByTagName("body")[0].style.backgroundColor = "yellow";');
+     </codeblock>
+     </example><example>
+     <codeblock rev="3.0">
+     // Retrieve contents of div. Result is returned to Actionscript function 'onJsEvaluated'
+     webView.evaluateJavascript("document.getElementById('output').innerHTML;", onJsEvaluated)
+     private function onJsEvaluated(jsResult:JavascriptResult):void {
+    trace("innerHTML of div is:", jsResult.result);
+}
+     </codeblock>
+     
+     </example></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:focus"><apiName>focus</apiName><shortdesc/><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn></apiOperationDef></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:getMagnification"><apiName>getMagnification</apiName><shortdesc>
+     
+     </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiDesc>The current magnification level
+     
+     </apiDesc><apiType value="Number"/></apiReturn></apiOperationDef><apiDesc>
+     
+     </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:goBack"><apiName>goBack</apiName><shortdesc>
+     Navigates back.
+     </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn></apiOperationDef><apiDesc>
+     <p>Navigates back.</p>
+     </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:goForward"><apiName>goForward</apiName><shortdesc>
+     Navigates forward.
+     </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn></apiOperationDef><apiDesc>
+     <p>Navigates forward.</p>
+     </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:go"><apiName>go</apiName><shortdesc>
+     
+     </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn><apiParam><apiItemName>offset</apiItemName><apiType value="int"/><apiData>1</apiData><apiDesc>Navigate forward (eg +1) or back (eg -1)
+     
+     </apiDesc></apiParam></apiOperationDef><apiDesc>
+     
+     </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:init"><apiName>init</apiName><shortdesc>
+     
+     </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn><apiParam><apiItemName>initialUrl</apiItemName><apiType value="String"/><apiData>null</apiData><apiDesc>Url to load when the view loads
+     </apiDesc></apiParam><apiParam><apiItemName>x</apiItemName><apiType value="int"/><apiData>0</apiData><apiDesc>    </apiDesc></apiParam><apiParam><apiItemName>y</apiItemName><apiType value="int"/><apiData>0</apiData><apiDesc>    </apiDesc></apiParam><apiParam><apiItemName>width</apiItemName><apiType value="int"/><apiData>800</apiData><apiDesc>    </apiDesc></apiParam><apiParam><apiItemName>height</apiItemName><apiType value="int"/><apiData>600</apiData><apiDesc>    </apiDesc></apiParam><apiParam><apiItemName>settings</apiItemName><apiOperationClassifier>com.tuarua.webview:Settings</apiOperationClassifier><apiData>null</apiData><apiDesc>    </apiDesc></apiParam><apiParam><apiItemName>scaleFactor</apiItemName><apiType value="int"/><apiData>1</apiData><apiDesc>iOS and Android only
+     
+     <p>Initialises the webView. The webView is not automatically added to the native stage.</p>
+     
+     </apiDesc></apiParam></apiOperationDef><apiDesc>
+     
+     </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:injectScript"><apiName>injectScript</apiName><shortdesc>
+     
+     </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn><apiParam><apiItemName>code</apiItemName><apiType value="String"/><apiData>null</apiData><apiDesc>Javascript to inject, if any.
+     </apiDesc></apiParam><apiParam><apiItemName>scriptUrl</apiItemName><apiType value="String"/><apiData>null</apiData><apiDesc>is the URL where the script in question can be found, if any. Windows only
+     </apiDesc></apiParam><apiParam><apiItemName>startLine</apiItemName><apiType value="uint"/><apiData>0</apiData><apiDesc>is the base line number to use for error reporting. Windows only
+     
+     <p>Specify either code or scriptUrl. These are injected into the main Frame when it is loaded. Call before
+     load() method</p>
+     <p><b>Ignored on Android.</b></p>
+     </apiDesc></apiParam></apiOperationDef><apiDesc>
+     
+     </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:isSupported"><apiName>isSupported</apiName><shortdesc>
+     
+     </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiDesc>true if the device is Windows 7+, OSX 10.10+ or iOS 9.0+
+     
+     </apiDesc><apiType value="Boolean"/></apiReturn></apiOperationDef><apiDesc>
+     
+     </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:loadFileURL"><apiName>loadFileURL</apiName><shortdesc>
+     
+     </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn><apiParam><apiItemName>url</apiItemName><apiType value="String"/><apiDesc>full path to the file on the local file system
+     </apiDesc></apiParam><apiParam><apiItemName>allowingReadAccessTo</apiItemName><apiType value="String"/><apiDesc>path to the root of the document
+     
+     <p>Loads a file from the local file system into the webView.</p>
+     
+     </apiDesc></apiParam></apiOperationDef><apiDesc>
+     
+     </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:loadHTMLString"><apiName>loadHTMLString</apiName><shortdesc>
+     
+     </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn><apiParam><apiItemName>html</apiItemName><apiType value="String"/><apiDesc>HTML provided as a string
+     </apiDesc></apiParam><apiParam><apiItemName>baseUrl</apiItemName><apiType value="String"/><apiData/><apiDesc>url which will display as the address
+     
+     <p>Loads a HTML string into the webView.</p>
+     
+     </apiDesc></apiParam></apiOperationDef><apiDesc>
+     
+     </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:load"><apiName>load</apiName><shortdesc>
+     
+     </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn><apiParam><apiItemName>url</apiItemName><apiType value="String"/><apiDesc>    
+     </apiDesc></apiParam></apiOperationDef><apiDesc>
+     
+     </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:onFullScreen"><apiName>onFullScreen</apiName><shortdesc>
+     
+     </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn><apiParam><apiItemName>fs</apiItemName><apiType value="Boolean"/><apiData>false</apiData><apiDesc>When going fullscreen set this to true, when coming out of fullscreen set to false
+     
+     </apiDesc></apiParam></apiOperationDef><apiDesc>
+     
+     </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:print"><apiName>print</apiName><shortdesc>
+     
+     prints the webView.
+     Windows only.
+     
+     </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn></apiOperationDef><apiDesc>
+     
+     <p>prints the webView.</p>
+     <p><b>Windows only.</b></p>
+     
+     </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:reloadFromOrigin"><apiName>reloadFromOrigin</apiName><shortdesc>
+     Forces a reload of the page (i.e.</shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn></apiOperationDef><apiDesc>
+     Forces a reload of the page (i.e. ctrl F5)
+     
+     </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:reload"><apiName>reload</apiName><shortdesc>
+     Reloads the current page.
+     </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn></apiOperationDef><apiDesc>
+     <p>Reloads the current page.</p>
+     </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:removeCallback"><apiName>removeCallback</apiName><shortdesc>
+     
+     </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn><apiParam><apiItemName>functionName</apiItemName><apiType value="String"/><apiDesc>name of the function to remove. This function should have been added via .addCallback() method
+     
+     </apiDesc></apiParam></apiOperationDef><apiDesc>
+     
+     </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:removeFromStage"><apiName>removeFromStage</apiName><shortdesc/><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn><apiDeprecated replacement="visible"/></apiOperationDef></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:setBackgroundColor"><apiName>setBackgroundColor</apiName><shortdesc>
+     
+     </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn><apiParam><apiItemName>value</apiItemName><apiType value="uint"/><apiDesc>hex value of the view's background color.
+     <p>This should be set as the default is #000000 (black).</p>
+     </apiDesc></apiParam><apiParam><apiItemName>alpha</apiItemName><apiType value="Number"/><apiData>1.0</apiData><apiDesc>set to 0.0 for transparent background. iOS and Android only.
+     
+     <p><b>Ignored on OSX.</b></p>
+     </apiDesc></apiParam></apiOperationDef><apiDesc>
+     
+     </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:setMagnification"><apiName>setMagnification</apiName><shortdesc>
+     
+     </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn><apiParam><apiItemName>value</apiItemName><apiType value="Number"/><apiDesc>    </apiDesc></apiParam><apiParam><apiItemName>centeredAt</apiItemName><apiType value="flash.geom:Point"/><apiDesc>    <p><b>Ignored on iOS and Android.</b></p>
+     </apiDesc></apiParam></apiOperationDef><apiDesc>
+     
+     </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:setPositionAndSize"><apiName>setPositionAndSize</apiName><shortdesc/><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn><apiParam><apiItemName>x</apiItemName><apiType value="int"/><apiData>0</apiData></apiParam><apiParam><apiItemName>y</apiItemName><apiType value="int"/><apiData>0</apiData></apiParam><apiParam><apiItemName>width</apiItemName><apiType value="int"/><apiData>0</apiData></apiParam><apiParam><apiItemName>height</apiItemName><apiType value="int"/><apiData>0</apiData></apiParam><apiDeprecated replacement="viewPort"/></apiOperationDef></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:showDevTools"><apiName>showDevTools</apiName><shortdesc>
+     Shows the Chromium dev tools on Windows
+     On Android use Chrome on connected computer and navigate to chrome://inspect
+     
+     </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn></apiOperationDef><apiDesc>
+     <p>Shows the Chromium dev tools on Windows</p>
+     <p>On Android use Chrome on connected computer and navigate to chrome://inspect</p>
+     
+     </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:shutDown"><apiName>shutDown</apiName><shortdesc/><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn><apiDeprecated><apiDesc>This is not needed any more as shutdown of CEF is automatically handled in the dispose method</apiDesc></apiDeprecated></apiOperationDef></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:stopLoading"><apiName>stopLoading</apiName><shortdesc>
+     Stops loading the current page.
+     </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn></apiOperationDef><apiDesc>
+     <p>Stops loading the current page.</p>
+     </apiDesc></apiOperationDetail></apiOperation><apiValue id="com.tuarua:WebViewANE:canGoBack:get"><apiName>canGoBack</apiName><shortdesc>
+     
+     </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiValueAccess value="read"/><apiType value="Boolean"/></apiValueDef><apiDesc>
+     
+     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua:WebViewANE:canGoForward:get"><apiName>canGoForward</apiName><shortdesc>
+     
+     </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiValueAccess value="read"/><apiType value="Boolean"/></apiValueDef><apiDesc>
+     
+     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua:WebViewANE:estimatedProgress:get"><apiName>estimatedProgress</apiName><shortdesc>
+     
+     </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiValueAccess value="read"/><apiType value="Number"/></apiValueDef><apiDesc>
+     
+     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua:WebViewANE:isInited:get"><apiName>isInited</apiName><shortdesc>
+     
+     </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiValueAccess value="read"/><apiType value="Boolean"/></apiValueDef><apiDesc>
+     
+     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua:WebViewANE:isLoading:get"><apiName>isLoading</apiName><shortdesc>
+     
+     </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiValueAccess value="read"/><apiType value="Boolean"/></apiValueDef><apiDesc>
+     
+     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua:WebViewANE:statusMessage:get"><apiName>statusMessage</apiName><shortdesc>
+     
+     </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiValueAccess value="read"/><apiType value="String"/></apiValueDef><apiDesc>
+     
+     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua:WebViewANE:title:get"><apiName>title</apiName><shortdesc>
+     
+     </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiValueAccess value="read"/><apiType value="String"/></apiValueDef><apiDesc>
+     
+     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua:WebViewANE:url:get"><apiName>url</apiName><shortdesc>
+     
+     </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiValueAccess value="read"/><apiType value="String"/></apiValueDef><apiDesc>
+     
+     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua:WebViewANE:viewPort:get"><apiName>viewPort</apiName><shortdesc/><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiValueAccess value="readwrite"/><apiType value="flash.geom:Rectangle"/></apiValueDef></apiValueDetail></apiValue><apiValue id="com.tuarua:WebViewANE:visible:get"><apiName>visible</apiName><shortdesc>
+     
+     </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiValueAccess value="readwrite"/><apiType value="Boolean"/></apiValueDef><apiDesc>
+     
+     </apiDesc></apiValueDetail></apiValue></apiClassifier></apiPackage>

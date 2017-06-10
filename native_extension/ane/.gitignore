@@ -1,5 +1,5 @@
 debug/
-docs/
+build-asdocs.bat
 build_asdocs.sh
 build_osx_debug.sh
 extension_android.xml
