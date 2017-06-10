@@ -53,7 +53,6 @@ extern "C" {
 			,{ (const uint8_t *) "init","init", &callSharpFunction }
 			,{ (const uint8_t *) "addToStage", "addToStage", &callSharpFunction }
 			,{ (const uint8_t *) "removeFromStage", "removeFromStage", &callSharpFunction }
-			,{ (const uint8_t *) "shutDown", "shutDown", &callSharpFunction }
 			,{ (const uint8_t *) "injectScript", "injectScript", &callSharpFunction }
 			,{ (const uint8_t *) "load","load", &callSharpFunction }
 			,{ (const uint8_t *) "loadFileURL", "loadFileURL", &callSharpFunction }

@@ -230,8 +230,8 @@ using the "remote-debugging-port" command-line switch.</p>
 	 </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>unknown</apiData><apiValueClassifier>com.tuarua.webview:CefSettings</apiValueClassifier></apiValueDef><apiDesc>
 	 <p>Settings to use for CEF (Windows) version.</p>
 	 </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:Settings:popup"><apiName>popup</apiName><shortdesc/><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>unknown</apiData><apiValueClassifier>com.tuarua.webview.popup:Popup</apiValueClassifier></apiValueDef></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:Settings:urlWhiteList"><apiName>urlWhiteList</apiName><shortdesc>
-     Vector of urls to allow through, example google.com - This is a simple string match.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>unknown</apiData><apiType value="Vector$String"/></apiValueDef><apiDesc>
-     <p>Vector of urls to allow through, example google.com - This is a simple string match. There is no regex support. WIN, OSX, iOS only.</p>
+     Vector of urls to allow through, example google.com - This uses a simple string match.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>unknown</apiData><apiType value="Vector$String"/></apiValueDef><apiDesc>
+     <p>Vector of urls to allow through, example google.com - This uses a simple string match. There is no regex support. WIN, OSX, iOS only.</p>
      </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:Settings:userAgent"><apiName>userAgent</apiName><shortdesc>
      Value that will be returned as the User-Agent HTTP header.
      </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value="String"/></apiValueDef><apiDesc>
