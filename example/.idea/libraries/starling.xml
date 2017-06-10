@@ -3,7 +3,9 @@
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/libs/starling.swc!/" />
     </CLASSES>
-    <JAVADOC />
+    <JAVADOC>
+      <root url="http://doc.starling-framework.org/current/" />
+    </JAVADOC>
     <SOURCES />
   </library>
 </component>
