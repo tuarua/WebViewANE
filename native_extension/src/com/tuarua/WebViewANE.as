@@ -675,10 +675,6 @@ public class WebViewANE extends EventDispatcher {
     public function setBackgroundColor(value:uint, alpha:Number = 1.0):void {
         _backgroundColor = value;
         _backgroundAlpha = alpha;
-
-        //backgroundColor.hexToRGB(value);
-        //if (ANEContext.ctx)
-        //ANEContext.ctx.call("setBackgroundColor", backgroundColor.red, backgroundColor.green, backgroundColor.blue, alpha);
     }
 
     /**

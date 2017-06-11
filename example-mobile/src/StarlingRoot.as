@@ -9,7 +9,6 @@ import flash.filesystem.File;
 import flash.filesystem.FileMode;
 import flash.filesystem.FileStream;
 import flash.geom.Rectangle;
-import flash.system.Capabilities;
 import flash.text.ReturnKeyLabel;
 import flash.text.SoftKeyboardType;
 import flash.text.StageText;
@@ -278,7 +277,7 @@ public class StarlingRoot extends Sprite {
 
     }
 
-    private function onUrlBlocked(event:WebViewEvent):void {
+    private static function onUrlBlocked(event:WebViewEvent):void {
         trace(event.params, "does not match our urlWhiteList");
     }
 
