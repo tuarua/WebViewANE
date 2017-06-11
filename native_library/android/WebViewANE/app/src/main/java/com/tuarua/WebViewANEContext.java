@@ -23,6 +23,7 @@ import android.webkit.WebViewClient;
 import android.widget.RelativeLayout;
 
 import com.adobe.fre.FREASErrorException;
+import com.adobe.fre.FREArray;
 import com.adobe.fre.FREContext;
 import com.adobe.fre.FREFunction;
 import com.adobe.fre.FREInvalidObjectException;
@@ -35,6 +36,7 @@ import com.tuarua.webviewane.Settings;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,12 +53,15 @@ class WebViewANEContext extends FREContext {
     private int _y;
     private int _width;
     private int _height;
-    private int _scaleFactor;
+    private double _scaleFactor;
 
     private int bg_r = 255;
     private int bg_g = 255;
     private int bg_b = 255;
     private int bg_a = 255;
+
+    private int backgroundColor;
+    private int backgroundAlpha;
 
     private WebView webView;
     private RelativeLayout container;
@@ -91,8 +96,6 @@ class WebViewANEContext extends FREContext {
         functionsToSet.put("onFullScreen", new onFullScreen());
         functionsToSet.put("callJavascriptFunction", new callJavascriptFunction());
         functionsToSet.put("evaluateJavaScript", new evaluateJavaScript());
-        functionsToSet.put("setBackgroundColor", new setBackgroundColor());
-        functionsToSet.put("shutDown", new shutDown());
         functionsToSet.put("injectScript", new injectScript());
         functionsToSet.put("print", new print());
         functionsToSet.put("focus", new focus());
@@ -139,13 +142,13 @@ class WebViewANEContext extends FREContext {
         private static final String ON_DOWNLOAD_CANCEL = "WebView.OnDownloadCancel";
         private static final String ON_PROPERTY_CHANGE = "WebView.OnPropertyChange";
         private static final String ON_FAIL = "WebView.OnFail";
+        private static final String ON_URL_BLOCKED = "WebView.OnUrlBlocked";
 
-
-        public AirWebView(Context context, Settings settings) {
+        public AirWebView(Context context, final Settings settings) {
             super(context);
             webView = new WebView(context);
 
-            WebSettings webSettings = webView.getSettings();
+            final WebSettings webSettings = webView.getSettings();
             webSettings.setJavaScriptEnabled(settings.getJavaScriptEnabled());
             webSettings.setMediaPlaybackRequiresUserGesture(settings.getMediaPlaybackRequiresUserGesture());
             webSettings.setUserAgentString(settings.getUserAgent());
@@ -226,6 +229,22 @@ class WebViewANEContext extends FREContext {
                 }
 
                 @Override
+                public void onLoadResource(WebView view, String url) {
+                    ArrayList<String> whiteList = settings.getWhiteList();
+                    if (whiteList.isEmpty()) {
+                        return;
+                    }
+                    for (int i = 0, whiteListSize = whiteList.size(); i < whiteListSize; i++) {
+                        String s = whiteList.get(i);
+                        if (url.contains(s)) {
+                            return;
+                        }
+                    }
+                    view.stopLoading();
+                    dispatchStatusEventAsync(url, ON_URL_BLOCKED);
+                }
+
+                @Override
                 public void onPageStarted(WebView view, String url, Bitmap favicon) {
                     super.onPageStarted(view, url, favicon);
                     JSONObject jsonObject = new JSONObject();
@@ -279,7 +298,11 @@ class WebViewANEContext extends FREContext {
 
                 }
             });
-            webView.setBackgroundColor((bg_a == 0) ? Color.TRANSPARENT : Color.argb(bg_a, bg_r, bg_g, bg_b));
+
+            webView.setBackgroundColor((backgroundAlpha == 0.0) ? Color.TRANSPARENT
+                    : Color.argb(backgroundAlpha,
+                    Color.red(backgroundColor), Color.green(backgroundColor),
+                    Color.blue(backgroundColor)));
             webView.addJavascriptInterface(new BoundObject(), "webViewANE");
 
             if (!TextUtils.isEmpty(_initialUrl)) {
@@ -287,9 +310,7 @@ class WebViewANEContext extends FREContext {
             }
 
             RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(_width, _height);
-
             webView.setLayoutParams(layoutParams);
-
             layoutParams.setMargins(_x, _y, 0, 0);
             super.setGravity(Gravity.TOP | Gravity.LEFT);
             super.addView(webView, layoutParams);
@@ -304,18 +325,27 @@ class WebViewANEContext extends FREContext {
         public FREObject call(FREContext freContext, FREObject[] argv) {
             try {
                 _initialUrl = argv[0].getAsString();
-                _scaleFactor = argv[6].getAsInt();
-                _x = Math.round(argv[1].getAsInt() * _scaleFactor);
-                _y = Math.round(argv[2].getAsInt() * _scaleFactor);
-                _width = Math.round(argv[3].getAsInt() * _scaleFactor);
-                _height = Math.round(argv[4].getAsInt() * _scaleFactor);
+                _scaleFactor = argv[6].getAsDouble();
+                _x = (int) Math.round((double) argv[1].getAsInt() * _scaleFactor);
+                _y = (int) Math.round((double) argv[2].getAsInt() * _scaleFactor);
+                _width = (int) Math.round((double) argv[3].getAsInt() * _scaleFactor);
+                _height = (int) Math.round((double) argv[4].getAsInt() * _scaleFactor);
 
+                backgroundColor = argv[7].getAsInt();
+                backgroundAlpha = (int) Math.round(argv[8].getAsDouble() * 255.0);
 
+                FREArray arr = (FREArray) argv[5].getProperty("urlWhiteList");
                 FREObject freSettings = argv[5].getProperty("android");
 
+                ArrayList<String> arrayList = new ArrayList<>();
+                for (int i = 0, whiteListSize = (int) arr.getLength(); i < whiteListSize; i++) {
+                    arrayList.add(arr.getObjectAt(i).getAsString());
+                }
 
                 //TODO settings [5]
                 Settings settings = new Settings();
+                settings.setWhiteList(arrayList);
+
                 settings.setJavaScriptEnabled(
                         freSettings.getProperty("javaScriptEnabled").getAsBool());
                 settings.setMediaPlaybackRequiresUserGesture(
@@ -510,10 +540,10 @@ class WebViewANEContext extends FREContext {
         public FREObject call(FREContext ctx, FREObject[] argv) {
 
             try {
-                int tmp_x = argv[0].getAsInt() * _scaleFactor;
-                int tmp_y = argv[1].getAsInt() * _scaleFactor;
-                int tmp_width = argv[2].getAsInt() * _scaleFactor;
-                int tmp_height = argv[3].getAsInt() * _scaleFactor;
+                int tmp_x = (int) ((double) argv[0].getAsInt() * _scaleFactor);
+                int tmp_y = (int) ((double) argv[1].getAsInt() * _scaleFactor);
+                int tmp_width = (int) ((double) argv[2].getAsInt() * _scaleFactor);
+                int tmp_height = (int) ((double) argv[3].getAsInt() * _scaleFactor);
 
                 Boolean updateWidth = false;
                 Boolean updateHeight = false;
@@ -645,34 +675,6 @@ class WebViewANEContext extends FREContext {
         }
     }
 
-    private class setBackgroundColor implements FREFunction {
-        @Override
-        public FREObject call(FREContext ctx, FREObject[] argv) {
-            try {
-                bg_r = argv[0].getAsInt();
-                bg_g = argv[1].getAsInt();
-                bg_b = argv[2].getAsInt();
-                bg_a = (int) (argv[3].getAsDouble() * 255);
-
-                if (webView != null) {
-                    webView.setBackgroundColor((bg_a == 0) ? Color.TRANSPARENT : Color.argb(bg_a, bg_r, bg_g, bg_b));
-                }
-
-            } catch (FRETypeMismatchException | FREInvalidObjectException | FREWrongThreadException e) {
-                trace(e.toString());
-                e.printStackTrace();
-            }
-            return null;
-        }
-    }
-
-    private class shutDown implements FREFunction {
-        @Override
-        public FREObject call(FREContext freContext, FREObject[] freObjects) {
-            return null;
-        }
-    }
-
     private class injectScript implements FREFunction {
         @Override
         public FREObject call(FREContext freContext, FREObject[] freObjects) {
@@ -724,7 +726,6 @@ class WebViewANEContext extends FREContext {
         dispatchStatusEventAsync(String.valueOf(msg), "TRACE");
         //  }
     }
-
 
 
 }

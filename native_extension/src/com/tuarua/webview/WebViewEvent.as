@@ -69,7 +69,7 @@ public class WebViewEvent extends Event {
 
     /**
      * Dispatched when a url is blocked (due to settings.urlWhiteList).
-     * <p><strong>Windows, OSX, iOS only.</strong></p>
+     *
      */
     public static const ON_URL_BLOCKED:String = "WebView.OnUrlBlocked";
 
