@@ -136,9 +136,7 @@ public class StarlingRoot extends Sprite {
 //        settings.cef.GOOGLE_DEFAULT_CLIENT_ID = "YOUR_VALUE";
 //        settings.cef.GOOGLE_DEFAULT_CLIENT_SECRET = "YOUR_VALUE";
 
-        webView.setBackgroundColor(0xF1F1F1);
-
-        webView.init("http://www.bbc.co.uk/", 0, 90, _appWidth, _appHeight - 140, settings);
+        webView.init("http://www.bbc.co.uk/", 0, 90, _appWidth, _appHeight - 140, settings, 1.0, 0xF1F1F1);
         webView.visible = true;
         webView.injectScript("function testInject(){console.log('yo yo')}");
 

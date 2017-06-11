@@ -62,9 +62,10 @@ public class WebViewANE extends EventDispatcher {
     private static const JS_CALLBACK_PREFIX:String = "TRWV.js.";
     private static const JS_CALLBACK_EVENT:String = "TRWV.js.CALLBACK";
     private static const AS_CALLBACK_EVENT:String = "TRWV.as.CALLBACK";
-    private var backgroundColor:RGB = new RGB(0xFFFFFF);
     private var downloadProgress:DownloadProgress = new DownloadProgress();
     private var _visible:Boolean;
+    private var _backgroundColor:uint = 0xFFFFFF;
+    private var _backgroundAlpha:Number = 1.0;
 
     public function WebViewANE() {
         initiate();
@@ -346,25 +347,38 @@ public class WebViewANE extends EventDispatcher {
      * @param height
      * @param settings
      * @param scaleFactor iOS and Android only
+     * @param backgroundColor value of the view's background color.
+     * @param backgroundAlpha set to 0.0 for transparent background. iOS and Android only
      *
-     * <p>Initialises the webView. N.B. The webView is set to visible=false initially.</p>
+     * <p>Initialises the webView. N.B. The webView is set to visible = false initially.</p>
      *
      */
     public function init(initialUrl:String = null, x:int = 0, y:int = 0, width:int = 800, height:int = 600,
-                         settings:Settings = null, scaleFactor:int = 1):void {
-        this._x = x;
-        this._y = y;
-        this._width = width;
-        this._height = height;
+                         settings:Settings = null, scaleFactor:Number = 1.0,
+                         backgroundColor:uint = 0xFFFFFF, backgroundAlpha:Number = 1.0):void {
+        _x = x;
+        _y = y;
+        _width = width;
+        _height = height;
 
-        this._viewPort = new Rectangle(x, y, width, height);
+        //hasn't been set by setBackgroundColor
+        if (_backgroundColor == 0xFFFFFF) {
+            _backgroundColor = backgroundColor;
+        }
+        if (_backgroundAlpha == 1.0) {
+            _backgroundAlpha = backgroundAlpha;
+        }
+
+        _viewPort = new Rectangle(x, y, width, height);
 
         if (_isSupported) {
             var _settings:Settings = settings;
             if (_settings == null) {
                 _settings = new Settings();
             }
-            ANEContext.ctx.call("init", initialUrl, this._x, this._y, this._width, this._height, _settings, scaleFactor);
+
+            ANEContext.ctx.call("init", initialUrl, _x, _y, _width, _height,
+                    _settings, scaleFactor, _backgroundColor, _backgroundAlpha);
             _isInited = true;
         }
     }
@@ -656,18 +670,15 @@ public class WebViewANE extends EventDispatcher {
             ANEContext.ctx.call("closeDevTools");
     }
 
-    /**
-     *
-     * @param value hex value of the view's background color.
-     * <p>This should be set as the default is #000000 (black).</p>
-     * @param alpha set to 0.0 for transparent background. iOS and Android only.
-     *
-     * <p><strong>Ignored on OSX.</strong></p>
-     */
+
+    [Deprecated(message="combined into init params")]
     public function setBackgroundColor(value:uint, alpha:Number = 1.0):void {
-        backgroundColor.hexToRGB(value);
-        if (ANEContext.ctx)
-            ANEContext.ctx.call("setBackgroundColor", backgroundColor.red, backgroundColor.green, backgroundColor.blue, alpha);
+        _backgroundColor = value;
+        _backgroundAlpha = alpha;
+
+        //backgroundColor.hexToRGB(value);
+        //if (ANEContext.ctx)
+        //ANEContext.ctx.call("setBackgroundColor", backgroundColor.red, backgroundColor.green, backgroundColor.blue, alpha);
     }
 
     /**
@@ -792,18 +803,20 @@ public class WebViewANE extends EventDispatcher {
 }
 }
 
-internal class RGB {
-    public var red:int = 255;
-    public var green:int = 255;
-    public var blue:int = 255;
+/*
+ internal class RGB {
+ public var red:int = 255;
+ public var green:int = 255;
+ public var blue:int = 255;
 
-    public function RGB(hex:uint) {
-        hexToRGB(hex);
-    }
+ public function RGB(hex:uint) {
+ hexToRGB(hex);
+ }
 
-    public function hexToRGB(hex:uint):void {
-        red = ((hex & 0xFF0000) >> 16);
-        green = ((hex & 0x00FF00) >> 8);
-        blue = ((hex & 0x0000FF));
-    }
-}
+ public function hexToRGB(hex:uint):void {
+ red = ((hex & 0xFF0000) >> 16);
+ green = ((hex & 0x00FF00) >> 8);
+ blue = ((hex & 0x0000FF));
+ }
+ }
+ */

@@ -49,7 +49,6 @@ extern "C" {
 
 		static FRENamedFunction extensionFunctions[] = {
 			{ (const uint8_t *) "isSupported","isSupported", &callSharpFunction }
-			,{ (const uint8_t *) "setBackgroundColor", "setBackgroundColor", &callSharpFunction }
 			,{ (const uint8_t *) "init","init", &callSharpFunction }
 			,{ (const uint8_t *) "addToStage", "addToStage", &callSharpFunction }
 			,{ (const uint8_t *) "removeFromStage", "removeFromStage", &callSharpFunction }

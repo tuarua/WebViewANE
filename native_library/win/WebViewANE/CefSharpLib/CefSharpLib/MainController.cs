@@ -49,14 +49,14 @@ namespace CefSharpLib {
         private CefView _view;
         private Hwnd _airWindow;
         private Hwnd _cefWindow;
-        private SolidColorBrush _backgroundColorBrush;
+        private Color _backgroundColor;
 
         public string[] GetFunctions() {
             FunctionsDict =
                 new Dictionary<string, Func<FREObject, uint, FREObject[], FREObject>>
                 {
                     {"isSupported", IsSupported},
-                    {"setBackgroundColor", SetBackgroundColor},
+                   // {"setBackgroundColor", SetBackgroundColor},
                     {"injectScript", InjectScript},
                     {"shutDown", ShutDown},
                     {"go", Go},
@@ -138,14 +138,6 @@ namespace CefSharpLib {
             return FREObject.Zero;
         }
 
-        public FREObject SetBackgroundColor(FREContext ctx, uint argc, FREObject[] argv) {
-            _backgroundColorBrush = new SolidColorBrush(
-                Color.FromRgb(Convert.ToByte(new FreObjectSharp(argv[0]).Value),
-                Convert.ToByte(new FreObjectSharp(argv[1]).Value),
-                Convert.ToByte(new FreObjectSharp(argv[2]).Value)));
-            return FREObject.Zero;
-        }
-
         public FREObject InjectScript(FREContext ctx, uint argc, FREObject[] argv) {
             var injectCodeFre = new FreObjectSharp(argv[0]);
             var injectScriptUrlFre = new FreObjectSharp(argv[1]);
@@ -165,6 +157,8 @@ namespace CefSharpLib {
         public FREObject InitView(FREContext ctx, uint argc, FREObject[] argv) {
             _airWindow = System.Diagnostics.Process.GetCurrentProcess().MainWindowHandle;
             var inFre5 = new FreObjectSharp(argv[5]); //settings
+            var inFre7 = new FreObjectSharp(argv[7]); //backgroundColor
+
             var cefSettingsFre = inFre5.GetProperty("cef");
 
             var googleApiKeyFre = cefSettingsFre.GetProperty("GOOGLE_API_KEY");
@@ -195,9 +189,15 @@ namespace CefSharpLib {
 
             var whiteList = new FreArraySharp(inFre5.GetProperty("urlWhiteList").RawValue).GetAsArrayList();
 
+            var rgb = FreSharpHelper.GetAsUInt(inFre7.RawValue);
+            _backgroundColor = Color.FromRgb(
+                Convert.ToByte((rgb >> 16) & 0xff),
+                Convert.ToByte((rgb >> 8) & 0xff),
+                Convert.ToByte((rgb >> 0) & 0xff));
+
             _view = new CefView {
                 InitialUrl = Convert.ToString(new FreObjectSharp(argv[0]).Value),
-                Background = _backgroundColorBrush,
+                Background = new SolidColorBrush(_backgroundColor),
                 X = Convert.ToInt32(new FreObjectSharp(argv[1]).Value),
                 Y = Convert.ToInt32(new FreObjectSharp(argv[2]).Value),
                 ViewWidth = Convert.ToInt32(new FreObjectSharp(argv[3]).Value),
@@ -218,7 +218,7 @@ namespace CefSharpLib {
                     )
             };
 
-
+           
 
             _view.Init();
 

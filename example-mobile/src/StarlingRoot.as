@@ -122,19 +122,19 @@ public class StarlingRoot extends Sprite {
 
         addChild(titleTxt);
 
-        trace(Capabilities.os.toLowerCase());
-
         webView = new WebViewANE();
         webView.addEventListener(WebViewEvent.ON_PROPERTY_CHANGE, onPropertyChange);
+        webView.addEventListener(WebViewEvent.ON_URL_BLOCKED, onUrlBlocked);
 
         var settings:Settings = new Settings();
         settings.webkit.allowsInlineMediaPlayback = true;
 
-        webView.setBackgroundColor(0xF1F1F1, 0);
+        //settings.urlWhiteList.push("github.", "google.", "youtube.", "adobe.com", "chrome-devtools://"); //to restrict urls - simple string matching
+
         webView.addCallback("js_to_as", jsToAsCallback);
         webView.init("https://github.com/tuarua/WebViewANE", 0, 80, stage.stageWidth, (stage.stageHeight - 80),
-                settings, Starling.current.contentScaleFactor);
-        webView.addToStage();
+                settings, Starling.current.contentScaleFactor, 0xF1F1F1, 0.0);
+        webView.visible = true;
 
         webView.showDevTools();  //open chrome://inspect in Chrome for Android - ignored on iOS
 
@@ -159,7 +159,7 @@ public class StarlingRoot extends Sprite {
         copyHTMLFiles();
     }
 
-    private function copyHTMLFiles():void {
+    private static function copyHTMLFiles():void {
 
         var inFile1:File = File.applicationDirectory.resolvePath("jsTest.html");
         var inStream1:FileStream = new FileStream();
@@ -278,6 +278,10 @@ public class StarlingRoot extends Sprite {
 
     }
 
+    private function onUrlBlocked(event:WebViewEvent):void {
+        trace(event.params, "does not match our urlWhiteList");
+    }
+
     private function onPropertyChange(event:WebViewEvent):void {
         // trace("");
         //trace(event.params,"has changed: ");
@@ -333,7 +337,7 @@ public class StarlingRoot extends Sprite {
 
         progress.width = inputBG.width - 2;
 
-        webView.setPositionAndSize(0, 80, stage.stageWidth, stage.stageHeight - 80);
+        webView.viewPort = new Rectangle(0, 80, stage.stageWidth, stage.stageHeight - 80);
 
         titleTxt.width = stage.stageWidth - 20;
         urlInput.viewPort = new Rectangle((inputBG.x + 5) * Starling.current.contentScaleFactor,

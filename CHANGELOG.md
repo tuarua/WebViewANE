@@ -2,16 +2,17 @@
 - AND/iOS/WIN/OSX: deprecate setPositionAndSize() - use viewPort setter instead
 - AND/iOS/WIN/OSX: deprecate addToStage() - use visible setter instead
 - AND/iOS/WIN/OSX: deprecate removeFromStage() - use visible setter instead
+- AND/iOS/WIN/OSX: deprecate setBackgroundColor() - use params in init instead
 - AND/iOS/WIN/OSX: deprecate shutDown() - not needed
 - WIN/OSX: fix BUG in example when maximising
-
+- AND/iOS/OSX: add whitelist to settings
 
 ### 0.0.24
 - WIN: Allow right click context menu to be disabled Issue #52
 - WIN: BUG fix - capture method Issue #54
 
 ### 0.0.23
-- WIN: add whitelist to cefsettings
+- WIN: add whitelist to settings
 - WIN: upgrade to using FreSharp 1.0.7
 
 ### 0.0.22
