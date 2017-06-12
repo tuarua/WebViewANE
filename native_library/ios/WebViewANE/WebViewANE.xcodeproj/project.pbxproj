@@ -10,7 +10,6 @@
 		285FE3EB871F2DD420623AEE /* WebViewANE_oc.h in Headers */ = {isa = PBXBuildFile; fileRef = 285FEBB3CADF8D704FAB5E4D /* WebViewANE_oc.h */; };
 		285FECB67C2311471C2CD119 /* WebViewANE.m in Sources */ = {isa = PBXBuildFile; fileRef = 285FE6D7F3D6356FA03A26C0 /* WebViewANE.m */; };
 		CE39808E1E58BAA90062485B /* WebViewANE_FW.h in Headers */ = {isa = PBXBuildFile; fileRef = CE39808C1E58BAA90062485B /* WebViewANE_FW.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CE3980981E58BB070062485B /* WebViewANE.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3980971E58BB070062485B /* WebViewANE.swift */; };
 		CE39809A1E58BC3B0062485B /* WebViewANE_FW-Swift.h in Headers */ = {isa = PBXBuildFile; fileRef = CE3980991E58BC3B0062485B /* WebViewANE_FW-Swift.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE3980AD1E58BF3F0062485B /* WebViewANE_FW.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE39808A1E58BAA90062485B /* WebViewANE_FW.framework */; };
 		CE53818B1E7D8E3000C09DA2 /* FRESwift.h in Headers */ = {isa = PBXBuildFile; fileRef = CE5381891E7D8E3000C09DA2 /* FRESwift.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -21,6 +20,11 @@
 		CE5381991E7D938F00C09DA2 /* FRESwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE5381871E7D8E3000C09DA2 /* FRESwift.framework */; };
 		CE53819C1E7DFFD400C09DA2 /* FlashRuntimeExtensionsBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 285FEC93B40FBCDF5C7C0984 /* FlashRuntimeExtensionsBridge.m */; };
 		CE53819D1E7DFFE100C09DA2 /* FlashRuntimeExtensionsBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = CEA437FE1E78361D0099F463 /* FlashRuntimeExtensionsBridge.h */; };
+		CE59BDDF1EEF38C600F698DE /* WebViewANE.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE59BDDA1EEF38C600F698DE /* WebViewANE.swift */; };
+		CE59BDE01EEF38C600F698DE /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE59BDDB1EEF38C600F698DE /* Constants.swift */; };
+		CE59BDE11EEF38C600F698DE /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE59BDDC1EEF38C600F698DE /* Settings.swift */; };
+		CE59BDE21EEF38C600F698DE /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE59BDDD1EEF38C600F698DE /* Configuration.swift */; };
+		CE59BDE31EEF38C600F698DE /* BackForwardList.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE59BDDE1EEF38C600F698DE /* BackForwardList.swift */; };
 		CEA438051E78A2C00099F463 /* SwiftyJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = CEA438031E78A2C00099F463 /* SwiftyJSON.h */; };
 		CEA438061E78A2C00099F463 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA438041E78A2C00099F463 /* SwiftyJSON.swift */; };
 /* End PBXBuildFile section */
@@ -62,13 +66,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		285FE6D7F3D6356FA03A26C0 /* WebViewANE.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WebViewANE.m; path = ../../../source/WebViewANE.m; sourceTree = "<group>"; };
+		285FE6D7F3D6356FA03A26C0 /* WebViewANE.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WebViewANE.m; path = ../../../source/swift/WebViewANE.m; sourceTree = "<group>"; };
 		285FEBB3CADF8D704FAB5E4D /* WebViewANE_oc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WebViewANE_oc.h; path = ../../../include/WebViewANE_oc.h; sourceTree = "<group>"; };
 		285FEC93B40FBCDF5C7C0984 /* FlashRuntimeExtensionsBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlashRuntimeExtensionsBridge.m; sourceTree = "<group>"; };
 		CE39808A1E58BAA90062485B /* WebViewANE_FW.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WebViewANE_FW.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE39808C1E58BAA90062485B /* WebViewANE_FW.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WebViewANE_FW.h; sourceTree = "<group>"; };
 		CE39808D1E58BAA90062485B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		CE3980971E58BB070062485B /* WebViewANE.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebViewANE.swift; path = ../../../source/WebViewANE.swift; sourceTree = "<group>"; };
 		CE3980991E58BC3B0062485B /* WebViewANE_FW-Swift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WebViewANE_FW-Swift.h"; sourceTree = "<group>"; };
 		CE39809F1E58BEE10062485B /* libWebViewANE_LIB.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libWebViewANE_LIB.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE5381871E7D8E3000C09DA2 /* FRESwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FRESwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -78,6 +81,11 @@
 		CE5381901E7D8F6D00C09DA2 /* FRESwiftBridge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FRESwiftBridge.swift; sourceTree = "<group>"; };
 		CE5381911E7D8F6D00C09DA2 /* FlashRuntimeExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlashRuntimeExtensions.h; sourceTree = "<group>"; };
 		CE5381951E7D90BA00C09DA2 /* FRESwift-Swift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FRESwift-Swift.h"; sourceTree = "<group>"; };
+		CE59BDDA1EEF38C600F698DE /* WebViewANE.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewANE.swift; sourceTree = "<group>"; };
+		CE59BDDB1EEF38C600F698DE /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		CE59BDDC1EEF38C600F698DE /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		CE59BDDD1EEF38C600F698DE /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
+		CE59BDDE1EEF38C600F698DE /* BackForwardList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackForwardList.swift; sourceTree = "<group>"; };
 		CEA437FE1E78361D0099F463 /* FlashRuntimeExtensionsBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlashRuntimeExtensionsBridge.h; sourceTree = "<group>"; };
 		CEA438031E78A2C00099F463 /* SwiftyJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SwiftyJSON.h; path = ../../../dependencies/SwiftyJSON.h; sourceTree = "<group>"; };
 		CEA438041E78A2C00099F463 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftyJSON.swift; path = ../../../dependencies/SwiftyJSON.swift; sourceTree = "<group>"; };
@@ -133,9 +141,13 @@
 		CE39808B1E58BAA90062485B /* WebViewANE_FW */ = {
 			isa = PBXGroup;
 			children = (
+				CE59BDDA1EEF38C600F698DE /* WebViewANE.swift */,
+				CE59BDDB1EEF38C600F698DE /* Constants.swift */,
+				CE59BDDC1EEF38C600F698DE /* Settings.swift */,
+				CE59BDDD1EEF38C600F698DE /* Configuration.swift */,
+				CE59BDDE1EEF38C600F698DE /* BackForwardList.swift */,
 				CEA438021E78397D0099F463 /* Misc */,
 				CEA438011E7839740099F463 /* Headers */,
-				CE3980971E58BB070062485B /* WebViewANE.swift */,
 			);
 			path = WebViewANE_FW;
 			sourceTree = "<group>";
@@ -385,8 +397,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE3980981E58BB070062485B /* WebViewANE.swift in Sources */,
+				CE59BDDF1EEF38C600F698DE /* WebViewANE.swift in Sources */,
+				CE59BDE21EEF38C600F698DE /* Configuration.swift in Sources */,
+				CE59BDE31EEF38C600F698DE /* BackForwardList.swift in Sources */,
 				CEA438061E78A2C00099F463 /* SwiftyJSON.swift in Sources */,
+				CE59BDE11EEF38C600F698DE /* Settings.swift in Sources */,
+				CE59BDE01EEF38C600F698DE /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
