@@ -19,8 +19,13 @@
 //  OSX and/or iOS and/or Android.
 //  All Rights Reserved. Tua Rua Ltd.
 
-import Cocoa
+import Foundation
 import WebKit
+#if os(iOS)
+    import FRESwift
+#else
+    import Cocoa
+#endif
 
 open class Configuration: WKWebViewConfiguration {
     convenience init(dictionary: Dictionary<String, AnyObject>) {
