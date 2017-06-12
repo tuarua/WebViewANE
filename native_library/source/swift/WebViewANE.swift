@@ -93,20 +93,9 @@ import Cocoa
         return arr
     }
 
-    private func traceError(message: String, line: Int, column: Int, file: String, freError: FREError?) {
-        trace("ERROR:", "message:", message, "file:", "[\(file):\(line):\(column)]")
-        if let freError = freError {
-            trace(freError.type)
-            trace(freError.stackTrace)
-        }
-    }
+    
 
-    private func sendEvent(name: String, value: String) {
-        do {
-            try context.dispatchStatusEventAsync(code: value, level: name)
-        } catch {
-        }
-    }
+    
 
     // this handles target=_blank links by opening them in the same view
     func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration,
@@ -446,7 +435,7 @@ import Cocoa
                         let realY = ((NSApp.mainWindow?.contentLayoutRect.height)! - self._height) - self._y
                         if (event.keyCode == 53 && theX > self._x && theX < (self._width - self._x)
                         && theY > realY && theY < (realY + self._height)) {
-                            self.sendEvent(name: Constants.ON_ESC_KEY, value: "")
+                            sendEvent(name: Constants.ON_ESC_KEY, value: "")
                         }
                         return event
                     }
@@ -530,7 +519,7 @@ import Cocoa
                     }
                     props["result"] = result
                     let json = JSON(props)
-                    self.sendEvent(name: Constants.AS_CALLBACK_EVENT, value: json.description)
+                    sendEvent(name: Constants.AS_CALLBACK_EVENT, value: json.description)
                 })
                 return nil
             }
@@ -692,7 +681,7 @@ import Cocoa
             wv.scrollView.backgroundColor = UIColor.clear
         }
 
-        if let userAgent = _userAgent {
+        if let userAgent = settings.userAgent {
             wv.customUserAgent = userAgent
         }
 #else

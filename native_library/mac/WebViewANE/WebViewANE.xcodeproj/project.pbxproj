@@ -31,8 +31,7 @@
 		285FE79ADD617339B126F104 /* BackForwardList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BackForwardList.swift; path = ../../../source/swift/BackForwardList.swift; sourceTree = "<group>"; };
 		285FED7949ECEDCFD8666D9E /* Popup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Popup.swift; path = ../../../source/swift/Popup.swift; sourceTree = "<group>"; };
 		CE59BDD31EEF28F300F698DE /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Settings.swift; path = ../../../source/swift/Settings.swift; sourceTree = "<group>"; };
-		CE59BDD51EEF332300F698DE /* WebViewANE.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WebViewANE.m; path = ../../../source/swift/WebViewANE.m; sourceTree = "<group>"; };
-		CE59BDD71EEF36BE00F698DE /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		CE59BDD71EEF36BE00F698DE /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = ../../../source/swift/Constants.swift; sourceTree = "<group>"; };
 		CE8941291E3440BF00191B38 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		CE89412B1E3440E500191B38 /* SwiftyJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SwiftyJSON.h; path = ../../../dependencies/SwiftyJSON.h; sourceTree = "<group>"; };
 		CE89412C1E3440E500191B38 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftyJSON.swift; path = ../../../dependencies/SwiftyJSON.swift; sourceTree = "<group>"; };
@@ -83,7 +82,6 @@
 			isa = PBXGroup;
 			children = (
 				CE59BDD71EEF36BE00F698DE /* Constants.swift */,
-				CE59BDD51EEF332300F698DE /* WebViewANE.m */,
 				CE59BDD31EEF28F300F698DE /* Settings.swift */,
 				285FE79ADD617339B126F104 /* BackForwardList.swift */,
 				285FE36940402B8AC84FD751 /* Configuration.swift */,
@@ -209,14 +207,14 @@
 /* Begin PBXShellScriptBuildPhase section */
 		CEF5C71A1E1EE910004389CE /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 12;
+			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = ../../../native_extension/ane/build_multi.sh;
 		};

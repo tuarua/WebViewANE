@@ -81,11 +81,11 @@
 		CE5381901E7D8F6D00C09DA2 /* FRESwiftBridge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FRESwiftBridge.swift; sourceTree = "<group>"; };
 		CE5381911E7D8F6D00C09DA2 /* FlashRuntimeExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlashRuntimeExtensions.h; sourceTree = "<group>"; };
 		CE5381951E7D90BA00C09DA2 /* FRESwift-Swift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FRESwift-Swift.h"; sourceTree = "<group>"; };
-		CE59BDDA1EEF38C600F698DE /* WebViewANE.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewANE.swift; sourceTree = "<group>"; };
-		CE59BDDB1EEF38C600F698DE /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		CE59BDDC1EEF38C600F698DE /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
-		CE59BDDD1EEF38C600F698DE /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
-		CE59BDDE1EEF38C600F698DE /* BackForwardList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackForwardList.swift; sourceTree = "<group>"; };
+		CE59BDDA1EEF38C600F698DE /* WebViewANE.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebViewANE.swift; path = ../../../source/swift/WebViewANE.swift; sourceTree = "<group>"; };
+		CE59BDDB1EEF38C600F698DE /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = ../../../source/swift/Constants.swift; sourceTree = "<group>"; };
+		CE59BDDC1EEF38C600F698DE /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Settings.swift; path = ../../../source/swift/Settings.swift; sourceTree = "<group>"; };
+		CE59BDDD1EEF38C600F698DE /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Configuration.swift; path = ../../../source/swift/Configuration.swift; sourceTree = "<group>"; };
+		CE59BDDE1EEF38C600F698DE /* BackForwardList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BackForwardList.swift; path = ../../../source/swift/BackForwardList.swift; sourceTree = "<group>"; };
 		CEA437FE1E78361D0099F463 /* FlashRuntimeExtensionsBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlashRuntimeExtensionsBridge.h; sourceTree = "<group>"; };
 		CEA438031E78A2C00099F463 /* SwiftyJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SwiftyJSON.h; path = ../../../dependencies/SwiftyJSON.h; sourceTree = "<group>"; };
 		CEA438041E78A2C00099F463 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftyJSON.swift; path = ../../../dependencies/SwiftyJSON.swift; sourceTree = "<group>"; };

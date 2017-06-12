@@ -19,17 +19,15 @@
 //  OSX and/or iOS and/or Android.
 //  All Rights Reserved. Tua Rua Ltd.
 
-import Cocoa
+import Foundation
 import WebKit
+#if os(iOS)
+    import FRESwift
+#else
+    import Cocoa
+#endif
 
 class BackForwardList: FREObjectSwift {
-    private func traceError(message: String, line: Int, column: Int, file: String, freError: FREError?) {
-        trace("ERROR:", "message:", message, "file:", "[\(file):\(line):\(column)]")
-        if let freError = freError {
-            trace(freError.type)
-            trace(freError.stackTrace)
-        }
-    }
 
     convenience init(webView: WKWebView) {
         self.init()
@@ -80,9 +78,10 @@ class BackForwardList: FREObjectSwift {
 
     public init() {
         var freObject: FREObject? = nil
-        do {
-            freObject = try FRESwiftHelper.newObject("com.tuarua.webview.BackForwardList", nil)
-        } catch {
+        if let freClass = try? FREObjectSwift.init(className: "com.tuarua.webview.BackForwardList") {
+            if let rv = freClass.rawValue {
+                freObject = rv
+            }
         }
         super.init(freObject: freObject)
     }
