@@ -133,8 +133,8 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 #endif
 #if defined(__has_feature) && __has_feature(modules)
 @import ObjectiveC;
-@import WebKit;
 @import CoreGraphics;
+@import WebKit;
 @import Foundation;
 @import AppKit;
 #endif
@@ -152,6 +152,7 @@ SWIFT_CLASS("_TtC10WebViewANE14FREObjectSwift")
 - (nonnull instancetype)initWithFreObject:(FREObject _Nullable)freObject OBJC_DESIGNATED_INITIALIZER;
 - (nullable instancetype)initWithString:(NSString * _Nonnull)string error:(NSError * _Nullable * _Nullable)error OBJC_DESIGNATED_INITIALIZER;
 - (nullable instancetype)initWithDouble:(double)double_ error:(NSError * _Nullable * _Nullable)error OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCgFloat:(CGFloat)cgFloat error:(NSError * _Nullable * _Nullable)error OBJC_DESIGNATED_INITIALIZER;
 - (nullable instancetype)initWithInt:(NSInteger)int_ error:(NSError * _Nullable * _Nullable)error OBJC_DESIGNATED_INITIALIZER;
 - (nullable instancetype)initWithUint:(NSUInteger)uint error:(NSError * _Nullable * _Nullable)error OBJC_DESIGNATED_INITIALIZER;
 - (nullable instancetype)initWithBool:(BOOL)bool_ error:(NSError * _Nullable * _Nullable)error OBJC_DESIGNATED_INITIALIZER;
@@ -170,6 +171,7 @@ SWIFT_CLASS("_TtC10WebViewANE15BackForwardList")
 - (nonnull instancetype)initWithFreObject:(FREObject _Nullable)freObject SWIFT_UNAVAILABLE;
 - (nullable instancetype)initWithString:(NSString * _Nonnull)string error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
 - (nullable instancetype)initWithDouble:(double)double_ error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
+- (nullable instancetype)initWithCgFloat:(CGFloat)cgFloat error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
 - (nullable instancetype)initWithInt:(NSInteger)int_ error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
 - (nullable instancetype)initWithUint:(NSUInteger)uint error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
 - (nullable instancetype)initWithBool:(BOOL)bool_ error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
@@ -243,6 +245,36 @@ SWIFT_CLASS("_TtC10WebViewANE15FREContextSwift")
 
 
 
+SWIFT_CLASS("_TtC10WebViewANE13FREPointSwift")
+@interface FREPointSwift : FREObjectSwift
+- (nonnull instancetype)initWithFreObject:(FREObject _Nullable)freObject OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithValue:(CGPoint)value OBJC_DESIGNATED_INITIALIZER;
+@property (nonatomic, readonly) id _Nullable value;
+- (nullable instancetype)initWithString:(NSString * _Nonnull)string error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
+- (nullable instancetype)initWithDouble:(double)double_ error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
+- (nullable instancetype)initWithCgFloat:(CGFloat)cgFloat error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
+- (nullable instancetype)initWithInt:(NSInteger)int_ error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
+- (nullable instancetype)initWithUint:(NSUInteger)uint error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
+- (nullable instancetype)initWithBool:(BOOL)bool_ error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
+- (nullable instancetype)initWithAny:(id _Nonnull)any error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
+@end
+
+
+SWIFT_CLASS("_TtC10WebViewANE17FRERectangleSwift")
+@interface FRERectangleSwift : FREObjectSwift
+- (nonnull instancetype)initWithFreObject:(FREObject _Nullable)freObject OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithValue:(CGRect)value OBJC_DESIGNATED_INITIALIZER;
+@property (nonatomic, readonly) id _Nullable value;
+- (nullable instancetype)initWithString:(NSString * _Nonnull)string error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
+- (nullable instancetype)initWithDouble:(double)double_ error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
+- (nullable instancetype)initWithCgFloat:(CGFloat)cgFloat error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
+- (nullable instancetype)initWithInt:(NSInteger)int_ error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
+- (nullable instancetype)initWithUint:(NSUInteger)uint error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
+- (nullable instancetype)initWithBool:(BOOL)bool_ error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
+- (nullable instancetype)initWithAny:(id _Nonnull)any error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
+@end
+
+
 @interface NSNumber (SWIFT_EXTENSION(WebViewANE))
 @property (nonatomic, readonly) BOOL isBool;
 @end
@@ -267,6 +299,7 @@ SWIFT_CLASS("_TtC10WebViewANE7PopupVC")
 - (nonnull instancetype)initWithRequest:(NSURLRequest * _Nonnull)request width:(NSInteger)width height:(NSInteger)height;
 - (void)viewDidLoad;
 - (void)loadView;
+- (void)observeValueForKeyPath:(NSString * _Nullable)keyPath ofObject:(id _Nullable)object change:(NSDictionary<NSKeyValueChangeKey, id> * _Nullable)change context:(void * _Nullable)context;
 - (nullable instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil OBJC_DESIGNATED_INITIALIZER;
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
 @end

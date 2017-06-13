@@ -4,8 +4,11 @@
 - AND/iOS/WIN/OSX: deprecate removeFromStage() - use visible setter instead
 - AND/iOS/WIN/OSX: deprecate setBackgroundColor() - use params in init instead
 - AND/iOS/WIN/OSX: deprecate shutDown() - not needed
-- WIN/OSX: fix BUG in example when maximising
+- WIN/OSX: fix BUG in example when minimising maximising
 - AND/iOS/OSX: add whitelist to settings
+- AND/iOS/WIN/OSX: update example to AIR SDK 26
+- iOS/OSX: refactor
+- OSX: add web page title to popup window
 
 ### 0.0.24
 - WIN: Allow right click context menu to be disabled Issue #52

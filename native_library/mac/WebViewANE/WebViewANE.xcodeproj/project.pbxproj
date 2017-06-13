@@ -14,6 +14,8 @@
 		CE59BDD41EEF28F300F698DE /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE59BDD31EEF28F300F698DE /* Settings.swift */; };
 		CE59BDD81EEF36BE00F698DE /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE59BDD71EEF36BE00F698DE /* Constants.swift */; };
 		CE59BDD91EEF36FC00F698DE /* WebViewANE.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF5C7121E1EE8CF004389CE /* WebViewANE.m */; };
+		CE6232951EF08DCF00FC9691 /* FREPointSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6232931EF08DCF00FC9691 /* FREPointSwift.swift */; };
+		CE6232961EF08DCF00FC9691 /* FRERectangleSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6232941EF08DCF00FC9691 /* FRERectangleSwift.swift */; };
 		CE89412A1E3440BF00191B38 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE8941291E3440BF00191B38 /* Cocoa.framework */; };
 		CE89412D1E3440E500191B38 /* SwiftyJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = CE89412B1E3440E500191B38 /* SwiftyJSON.h */; };
 		CE89412E1E3440E500191B38 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE89412C1E3440E500191B38 /* SwiftyJSON.swift */; };
@@ -32,11 +34,13 @@
 		285FED7949ECEDCFD8666D9E /* Popup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Popup.swift; path = ../../../source/swift/Popup.swift; sourceTree = "<group>"; };
 		CE59BDD31EEF28F300F698DE /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Settings.swift; path = ../../../source/swift/Settings.swift; sourceTree = "<group>"; };
 		CE59BDD71EEF36BE00F698DE /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = ../../../source/swift/Constants.swift; sourceTree = "<group>"; };
+		CE6232931EF08DCF00FC9691 /* FREPointSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FREPointSwift.swift; path = ../../ios/WebViewANE/FRESwift/Geom/FREPointSwift.swift; sourceTree = "<group>"; };
+		CE6232941EF08DCF00FC9691 /* FRERectangleSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FRERectangleSwift.swift; path = ../../ios/WebViewANE/FRESwift/Geom/FRERectangleSwift.swift; sourceTree = "<group>"; };
 		CE8941291E3440BF00191B38 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		CE89412B1E3440E500191B38 /* SwiftyJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SwiftyJSON.h; path = ../../../dependencies/SwiftyJSON.h; sourceTree = "<group>"; };
 		CE89412C1E3440E500191B38 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftyJSON.swift; path = ../../../dependencies/SwiftyJSON.swift; sourceTree = "<group>"; };
 		CEEA4EF61EBBBD1600F46A1C /* PopupVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PopupVC.swift; path = ../../../source/swift/PopupVC.swift; sourceTree = "<group>"; };
-		CEEE923B1E75C5F500A874EC /* FlashRuntimeExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FlashRuntimeExtensions.swift; path = ../../../ios/WebViewANE/FRESwift/FlashRuntimeExtensions.swift; sourceTree = "<group>"; };
+		CEEE923B1E75C5F500A874EC /* FlashRuntimeExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FlashRuntimeExtensions.swift; path = ../../ios/WebViewANE/FRESwift/FlashRuntimeExtensions.swift; sourceTree = "<group>"; };
 		CEF5C6FC1E1EE83F004389CE /* WebViewANE.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WebViewANE.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEF5C7001E1EE83F004389CE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CEF5C7081E1EE882004389CE /* Adobe AIR_64 */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "Adobe AIR_64"; path = "../../../../../sdks/AIR/AIRSDK_24/runtimes/air/mac/Adobe AIR.framework/Versions/1.0/Adobe AIR_64"; sourceTree = "<group>"; };
@@ -61,9 +65,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CE6232911EF08DA800FC9691 /* FRESwift */ = {
+			isa = PBXGroup;
+			children = (
+				CE6232921EF08DBC00FC9691 /* Geom */,
+				CEEE923B1E75C5F500A874EC /* FlashRuntimeExtensions.swift */,
+			);
+			name = FRESwift;
+			sourceTree = "<group>";
+		};
+		CE6232921EF08DBC00FC9691 /* Geom */ = {
+			isa = PBXGroup;
+			children = (
+				CE6232931EF08DCF00FC9691 /* FREPointSwift.swift */,
+				CE6232941EF08DCF00FC9691 /* FRERectangleSwift.swift */,
+			);
+			name = Geom;
+			sourceTree = "<group>";
+		};
 		CEF5C6F21E1EE83E004389CE = {
 			isa = PBXGroup;
 			children = (
+				CE6232911EF08DA800FC9691 /* FRESwift */,
 				CEF5C7071E1EE86A004389CE /* Frameworks */,
 				CEF5C6FE1E1EE83F004389CE /* WebViewANE */,
 				CEF5C6FD1E1EE83F004389CE /* Products */,
@@ -87,7 +110,6 @@
 				285FE36940402B8AC84FD751 /* Configuration.swift */,
 				285FED7949ECEDCFD8666D9E /* Popup.swift */,
 				CEEA4EF61EBBBD1600F46A1C /* PopupVC.swift */,
-				CEEE923B1E75C5F500A874EC /* FlashRuntimeExtensions.swift */,
 				CEF5C7121E1EE8CF004389CE /* WebViewANE.m */,
 				285FE0612F3E80324C9E166A /* WebViewANE.swift */,
 				CEF5C70F1E1EE8B6004389CE /* Headers */,
@@ -207,14 +229,14 @@
 /* Begin PBXShellScriptBuildPhase section */
 		CEF5C71A1E1EE910004389CE /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 8;
+			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = ../../../native_extension/ane/build_multi.sh;
 		};
@@ -229,10 +251,12 @@
 				CE59BDD81EEF36BE00F698DE /* Constants.swift in Sources */,
 				CEEE923C1E75C5F500A874EC /* FlashRuntimeExtensions.swift in Sources */,
 				CEEA4EF71EBBBD1600F46A1C /* PopupVC.swift in Sources */,
+				CE6232951EF08DCF00FC9691 /* FREPointSwift.swift in Sources */,
 				285FE221A0881A06EF9342D3 /* WebViewANE.swift in Sources */,
 				CE89412E1E3440E500191B38 /* SwiftyJSON.swift in Sources */,
 				285FE67BD6D6ADA9B37C0549 /* Popup.swift in Sources */,
 				CE59BDD41EEF28F300F698DE /* Settings.swift in Sources */,
+				CE6232961EF08DCF00FC9691 /* FRERectangleSwift.swift in Sources */,
 				285FEF0F916CD0723F2C291C /* Configuration.swift in Sources */,
 				285FED8981954D26132A4738 /* BackForwardList.swift in Sources */,
 			);

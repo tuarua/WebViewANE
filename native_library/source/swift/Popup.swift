@@ -22,27 +22,28 @@
 import Cocoa
 
 class Popup: NSObject, NSWindowDelegate {
-    private var popupWindow: NSWindow!
-    private var popupVC: PopupVC!
+    private var _popupWindow: NSWindow!
+    private var _popupVC: PopupVC!
     public var popupDimensions: (Int, Int) = (800, 600)
 
     public func createPopupWindow(url: URLRequest) {
-        popupWindow = NSWindow(contentRect: NSMakeRect(0, 0, CGFloat(popupDimensions.0), CGFloat(popupDimensions.1)),
+        _popupWindow = NSWindow(contentRect: NSMakeRect(0, 0, CGFloat(popupDimensions.0), CGFloat(popupDimensions.1)),
                 styleMask: [.titled, .miniaturizable, .closable],
                 backing: NSBackingStoreType.buffered, defer: false)
 
-        popupWindow.center()
-        popupWindow.isReleasedWhenClosed = false
-        popupWindow.delegate = self
-        popupVC = PopupVC(request: url, width: popupDimensions.0, height: popupDimensions.1)
-        popupWindow.contentView!.addSubview(popupVC!.view)
-        popupWindow.makeKeyAndOrderFront(nil)
+        _popupWindow.center()
+        _popupWindow.isReleasedWhenClosed = false
+        _popupWindow.delegate = self
+        _popupVC = PopupVC(request: url, width: popupDimensions.0, height: popupDimensions.1)
+        _popupWindow.contentView!.addSubview(_popupVC!.view)
+        _popupWindow.makeKeyAndOrderFront(nil)
+        
     }
 
     func windowWillClose(_ notification: Notification) {
         //this clears the popup window and it's webview
-        popupVC.view.removeFromSuperview()
-        popupVC = nil
+        _popupVC.view.removeFromSuperview()
+        _popupVC = nil
     }
 
 }
