@@ -298,12 +298,11 @@ public class StarlingRoot extends Sprite {
             webView.visible = true;
             return;
         }
-
-        _appWidth = event.target.width;
-        _appHeight = event.target.height - 17;
-		trace(_appHeight);
-        webView.viewPort = new Rectangle(0, 90, _appWidth, _appHeight - 140);
-
+        if(event.afterDisplayState != NativeWindowDisplayState.MINIMIZED) {
+            _appWidth = event.target.width;
+            _appHeight = event.target.height - 17;
+            webView.viewPort = new Rectangle(0, 90, _appWidth, _appHeight - 140);
+        }
     }
 
     private function onEscKey(event:WebViewEvent):void {

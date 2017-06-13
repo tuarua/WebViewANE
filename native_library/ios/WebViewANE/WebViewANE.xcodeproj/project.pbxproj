@@ -25,6 +25,8 @@
 		CE59BDE11EEF38C600F698DE /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE59BDDC1EEF38C600F698DE /* Settings.swift */; };
 		CE59BDE21EEF38C600F698DE /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE59BDDD1EEF38C600F698DE /* Configuration.swift */; };
 		CE59BDE31EEF38C600F698DE /* BackForwardList.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE59BDDE1EEF38C600F698DE /* BackForwardList.swift */; };
+		CE62328E1EF08B4A00FC9691 /* FRERectangleSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE62328D1EF08B4A00FC9691 /* FRERectangleSwift.swift */; };
+		CE6232901EF08C7000FC9691 /* FREPointSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE62328F1EF08C7000FC9691 /* FREPointSwift.swift */; };
 		CEA438051E78A2C00099F463 /* SwiftyJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = CEA438031E78A2C00099F463 /* SwiftyJSON.h */; };
 		CEA438061E78A2C00099F463 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA438041E78A2C00099F463 /* SwiftyJSON.swift */; };
 /* End PBXBuildFile section */
@@ -86,6 +88,8 @@
 		CE59BDDC1EEF38C600F698DE /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Settings.swift; path = ../../../source/swift/Settings.swift; sourceTree = "<group>"; };
 		CE59BDDD1EEF38C600F698DE /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Configuration.swift; path = ../../../source/swift/Configuration.swift; sourceTree = "<group>"; };
 		CE59BDDE1EEF38C600F698DE /* BackForwardList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BackForwardList.swift; path = ../../../source/swift/BackForwardList.swift; sourceTree = "<group>"; };
+		CE62328D1EF08B4A00FC9691 /* FRERectangleSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FRERectangleSwift.swift; path = Geom/FRERectangleSwift.swift; sourceTree = "<group>"; };
+		CE62328F1EF08C7000FC9691 /* FREPointSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FREPointSwift.swift; path = Geom/FREPointSwift.swift; sourceTree = "<group>"; };
 		CEA437FE1E78361D0099F463 /* FlashRuntimeExtensionsBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlashRuntimeExtensionsBridge.h; sourceTree = "<group>"; };
 		CEA438031E78A2C00099F463 /* SwiftyJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SwiftyJSON.h; path = ../../../dependencies/SwiftyJSON.h; sourceTree = "<group>"; };
 		CEA438041E78A2C00099F463 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftyJSON.swift; path = ../../../dependencies/SwiftyJSON.swift; sourceTree = "<group>"; };
@@ -164,6 +168,7 @@
 		CE5381881E7D8E3000C09DA2 /* FRESwift */ = {
 			isa = PBXGroup;
 			children = (
+				CE62328C1EF08B3400FC9691 /* Geom */,
 				CE53819F1E7E005500C09DA2 /* Misc */,
 				CE53819E1E7E003600C09DA2 /* Headers */,
 				285FEC93B40FBCDF5C7C0984 /* FlashRuntimeExtensionsBridge.m */,
@@ -190,6 +195,15 @@
 				CE53818A1E7D8E3000C09DA2 /* Info.plist */,
 			);
 			name = Misc;
+			sourceTree = "<group>";
+		};
+		CE62328C1EF08B3400FC9691 /* Geom */ = {
+			isa = PBXGroup;
+			children = (
+				CE62328F1EF08C7000FC9691 /* FREPointSwift.swift */,
+				CE62328D1EF08B4A00FC9691 /* FRERectangleSwift.swift */,
+			);
+			name = Geom;
 			sourceTree = "<group>";
 		};
 		CEA438011E7839740099F463 /* Headers */ = {
@@ -419,7 +433,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE62328E1EF08B4A00FC9691 /* FRERectangleSwift.swift in Sources */,
 				CE5381931E7D8F6D00C09DA2 /* FRESwiftBridge.swift in Sources */,
+				CE6232901EF08C7000FC9691 /* FREPointSwift.swift in Sources */,
 				CE5381921E7D8F6D00C09DA2 /* FlashRuntimeExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

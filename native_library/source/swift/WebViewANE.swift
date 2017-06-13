@@ -23,21 +23,21 @@ import Foundation
 import WebKit
 
 #if os(iOS)
+
 import FRESwift
+
 #else
+
 import Cocoa
 
 #endif
 
 @objc class WebViewANE: FRESwiftController, WKUIDelegate, WKNavigationDelegate, WKScriptMessageHandler {
 
-    private var myWebView: WKWebView?
+    private var _webView: WKWebView?
     static var escListener: Any?
     private var _initialUrl: String = ""
-    private var _x: CGFloat = 0
-    private var _y: CGFloat = 0
-    private var _width: CGFloat = 800
-    private var _height: CGFloat = 600
+    private var _viewPort: CGRect = CGRect.init(x: 0, y: 0, width: 800, height: 600)
 
     public enum PopupBehaviour: Int {
         case block = 0
@@ -50,9 +50,9 @@ import Cocoa
 #else
     private var _popup: Popup!
 #endif
-    private var isAdded: Bool = false
-    private var settings: Settings!
-    private var userController: WKUserContentController = WKUserContentController()
+    private var _isAdded: Bool = false
+    private var _settings: Settings!
+    private var _userController: WKUserContentController = WKUserContentController()
 
     // must have this function !!
     // Must set const numFunctions in WebViewANE.m to the length of this Array
@@ -93,10 +93,6 @@ import Cocoa
         return arr
     }
 
-    
-
-    
-
     // this handles target=_blank links by opening them in the same view
     func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration,
                  for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
@@ -121,7 +117,7 @@ import Cocoa
     }
 
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-        guard let urlWhiteList = settings.urlWhiteList,
+        guard let urlWhiteList = _settings.urlWhiteList,
               urlWhiteList.count > 0,
               let newUrl = navigationAction.request.url?.absoluteString.lowercased()
           else {
@@ -175,7 +171,7 @@ import Cocoa
 #if os(iOS)
             ret = try FREObjectSwift.init(bool: false).rawValue
 #else
-            if let wv = myWebView {
+            if let wv = _webView {
                 ret = try FREObjectSwift.init(bool: wv.allowsMagnification).rawValue
             }
 #endif
@@ -185,7 +181,7 @@ import Cocoa
     }
 
     func backForwardList(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
-        guard let wv = myWebView/*, let ci = wv.backForwardList.currentItem*/
+        guard let wv = _webView
           else {
             traceError(message: "no webview", line: #line, column: #column, file: #file, freError: nil)
             return nil
@@ -200,24 +196,24 @@ import Cocoa
     }
 
     func go(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
-        var ret: FREObject? = nil
-#if os(iOS)
-#else
-        do {
-            if let wv = myWebView {
-                ret = try FREObjectSwift.init(double: Double(wv.magnification)).rawValue
-            }
-        } catch let e as FREError {
-            traceError(message: "go error", line: #line, column: #column, file: #file, freError: e)
-        } catch {
+        guard argc > 0,
+              let wv = _webView,
+              let inFRE0 = argv[0],
+              let i = FREObjectSwift.init(freObject: inFRE0).value as? Int
+          else {
+            traceError(message: "go - no webview or incorrect arguments", line: #line, column: #column, file: #file, freError: nil)
+            return nil
         }
-#endif
-        return ret
+
+        if let item = wv.backForwardList.item(at: i) {
+            wv.go(to: item)
+        }
+        return nil
     }
 
     func getMagnification(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
         guard argc > 0,
-              let wv = myWebView
+              let wv = _webView
           else {
             traceError(message: "getMagnification - no webview", line: #line, column: #column, file: #file, freError: nil)
             return nil
@@ -237,7 +233,7 @@ import Cocoa
 #if os(iOS)
 #else
         guard argc > 0,
-              let wv = myWebView,
+              let wv = _webView,
               let inFRE0 = argv[0],
               let inFRE1 = argv[1]
           else {
@@ -253,17 +249,9 @@ import Cocoa
             magnification = CGFloat.init(magFre.value as! Double)
         }
 
-        let centredFre = FREObjectSwift.init(freObject: inFRE1)
         var centeredAt = CGPoint.init()
-        do {
-            if let xFRE = try centredFre.getProperty(name: "x"),
-               let yFRE = try centredFre.getProperty(name: "y"),
-               let x = xFRE.value as? Int,
-               let y = yFRE.value as? Int {
-                centeredAt = CGPoint.init(x: x, y: y)
-            }
-        } catch {
-            Swift.debugPrint("setMagnification error")
+        if let ca = FREPointSwift.init(freObject: inFRE1).value as? CGPoint {
+            centeredAt = ca
         }
 
         wv.setMagnification(magnification, centeredAt: centeredAt)
@@ -282,14 +270,14 @@ import Cocoa
     func addToStage(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
 #if os(iOS)
         if let rootViewController = UIApplication.shared.keyWindow?.rootViewController {
-            if let wv = myWebView {
+            if let wv = _webView {
                 rootViewController.view.addSubview(wv)
             }
         }
 #else
         if let view = NSApp.mainWindow?.contentView {
-            view.addSubview(myWebView!)
-            isAdded = true
+            view.addSubview(_webView!)
+            _isAdded = true
             return nil
         } else {
             //allow for mainWindow not having been set yet on NSApp
@@ -297,9 +285,9 @@ import Cocoa
             if allWindows.count > 0 {
                 let mWin = allWindows[0]
                 let view: NSView = mWin.contentView!
-                if let wv = myWebView {
+                if let wv = _webView {
                     view.addSubview(wv)
-                    isAdded = true
+                    _isAdded = true
                     return nil
                 }
             }
@@ -309,16 +297,16 @@ import Cocoa
     }
 
     func removeFromStage(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
-        if let wv = myWebView {
+        if let wv = _webView {
             wv.removeFromSuperview()
-            isAdded = false
+            _isAdded = false
         }
         return nil
     }
 
     func setPositionAndSize(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
         guard argc > 0,
-              let wv = myWebView,
+              let wv = _webView,
               let inFRE0 = argv[0],
               let inFRE1 = argv[1],
               let inFRE2 = argv[2],
@@ -332,35 +320,27 @@ import Cocoa
             return nil
         }
 
-        _x = CGFloat.init(xFre)
-        _y = CGFloat.init(yFre)
-        _width = CGFloat.init(wFre)
-        _height = CGFloat.init(hFre)
-
+        _viewPort = CGRect.init(x: CGFloat.init(xFre), y: CGFloat.init(yFre), width: CGFloat.init(wFre), height: CGFloat.init(hFre))
 #if os(iOS)
-        let realY = _y
+        let realY = _viewPort.origin.y
         var frame: CGRect = wv.frame
-        frame.origin.x = _x
+        frame.origin.x = _viewPort.origin.x
         frame.origin.y = realY
-        frame.size.width = _width
-        frame.size.height = _height
+        frame.size.width = _viewPort.size.width
+        frame.size.height = _viewPort.size.height
         wv.frame = frame
-
 #else
-        let realY = ((NSApp.mainWindow?.contentLayoutRect.height)! - _height) - _y;
-        //TODO make this better, perform calc in ANE
-        wv.setFrameOrigin(NSPoint.init(x: _x, y: realY))
-        wv.setFrameSize(NSSize.init(width: _width, height: _height))
+        let realY = ((NSApp.mainWindow?.contentLayoutRect.height)! - _viewPort.size.height) - _viewPort.origin.y;
+        wv.setFrameOrigin(NSPoint.init(x: _viewPort.origin.x, y: realY))
+        wv.setFrameSize(NSSize.init(width: _viewPort.size.width, height: _viewPort.size.height))
 #endif
 
-
         return nil
-
     }
 
     func load(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
         guard argc > 0,
-              let wv = myWebView,
+              let wv = _webView,
               let inFRE0 = argv[0],
               let url: String = FREObjectSwift(freObject: inFRE0).value as? String,
               !url.isEmpty else {
@@ -375,7 +355,7 @@ import Cocoa
 
     func loadHTMLString(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
         guard argc > 0,
-              let wv = myWebView,
+              let wv = _webView,
               let inFRE0 = argv[0],
               let html: String = FREObjectSwift(freObject: inFRE0).value as? String
           else {
@@ -388,7 +368,7 @@ import Cocoa
 
     func loadFileURL(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
         guard argc > 0,
-              let wv = myWebView,
+              let wv = _webView,
               let inFRE0 = argv[0],
               let inFRE1 = argv[1],
               let url: String = FREObjectSwift(freObject: inFRE0).value as? String,
@@ -424,7 +404,7 @@ import Cocoa
 
         let fullScreen: Bool = FREObjectSwift.init(freObject: inFRE0).value as! Bool
 
-        let tmpIsAdded = isAdded
+        let tmpIsAdded = _isAdded
         for win in NSApp.windows {
             if (fullScreen && win.canBecomeMain && win.className.contains("AIR_FullScreen")) {
                 win.makeMain()
@@ -432,9 +412,9 @@ import Cocoa
                     WebViewANE.escListener = NSEvent.addLocalMonitorForEvents(matching: [.keyUp]) { (event: NSEvent) -> NSEvent? in
                         let theX = event.locationInWindow.x
                         let theY = event.locationInWindow.y
-                        let realY = ((NSApp.mainWindow?.contentLayoutRect.height)! - self._height) - self._y
-                        if (event.keyCode == 53 && theX > self._x && theX < (self._width - self._x)
-                        && theY > realY && theY < (realY + self._height)) {
+                        let realY = ((NSApp.mainWindow?.contentLayoutRect.height)! - self._viewPort.size.height) - self._viewPort.origin.y
+                        if (event.keyCode == 53 && theX > self._viewPort.origin.x && theX < (self._viewPort.size.width - self._viewPort.origin.x)
+                          && theY > realY && theY < (realY + self._viewPort.size.height)) {
                             sendEvent(name: Constants.ON_ESC_KEY, value: "")
                         }
                         return event
@@ -458,35 +438,35 @@ import Cocoa
     }
 
     func reload(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
-        if let wv = myWebView {
+        if let wv = _webView {
             wv.reload()
         }
         return nil
     }
 
     func reloadFromOrigin(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
-        if let wv = myWebView {
+        if let wv = _webView {
             wv.reloadFromOrigin()
         }
         return nil
     }
 
     func stopLoading(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
-        if let wv = myWebView {
+        if let wv = _webView {
             wv.stopLoading()
         }
         return nil
     }
 
     func goBack(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
-        if let wv = myWebView {
+        if let wv = _webView {
             wv.goBack()
         }
         return nil
     }
 
     func goForward(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
-        if let wv = myWebView {
+        if let wv = _webView {
             wv.goForward()
         }
         return nil
@@ -494,7 +474,7 @@ import Cocoa
 
     func evaluateJavaScript(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
         guard argc > 0,
-              let wv = myWebView,
+              let wv = _webView,
               let inFRE0 = argv[0],
               let js: String = FREObjectSwift(freObject: inFRE0).value as? String
           else {
@@ -543,7 +523,7 @@ import Cocoa
         }
 
         let userScript = WKUserScript.init(source: injectCode, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
-        userController.addUserScript(userScript)
+        _userController.addUserScript(userScript)
         return nil
     }
 
@@ -605,15 +585,12 @@ import Cocoa
             }
         }
 
-        _x = CGFloat.init(xFre)
-        _y = CGFloat.init(yFre)
-        _width = CGFloat.init(wFre)
-        _height = CGFloat.init(hFre)
+        _viewPort = CGRect.init(x: CGFloat.init(xFre), y: CGFloat.init(yFre), width: CGFloat.init(wFre), height: CGFloat.init(hFre))
 
         if let settingsFRE: FREObject = argv[5] {
             if let settingsDict = FREObjectSwift.init(freObject: settingsFRE).value as? Dictionary<String, AnyObject> {
 
-                settings = Settings.init(dictionary: settingsDict)
+                _settings = Settings.init(dictionary: settingsDict)
 
 #if os(iOS)
 #else
@@ -633,10 +610,10 @@ import Cocoa
             }
         }
 
-        userController.add(self, name: "webViewANE")
-        settings.configuration.userContentController = userController
+        _userController.add(self, name: "webViewANE")
+        _settings.configuration.userContentController = _userController
 
-        var realY = _y
+        var realY = _viewPort.origin.y
 #if os(iOS)
 #else
         let allWindows = NSApp.windows
@@ -653,12 +630,13 @@ import Cocoa
             return nil
         }
 
-        realY = ((mWin?.contentLayoutRect.height)! - _height) - _y
+        realY = ((mWin?.contentLayoutRect.height)! - _viewPort.size.height) - _viewPort.origin.y
 #endif
-        let myRect: CGRect = CGRect.init(x: _x, y: realY, width: _width, height: _height)
-        myWebView = WKWebView(frame: myRect, configuration: settings.configuration)
+        let myRect: CGRect = CGRect.init(x: _viewPort.origin.x, y: realY, width: _viewPort.size.width, height: _viewPort.size.height)
 
-        guard let wv = myWebView else {
+        _webView = WKWebView(frame: myRect, configuration: _settings.configuration)
+
+        guard let wv = _webView else {
             traceError(message: "initWebView - no webview", line: #line, column: #column, file: #file, freError: nil)
             return nil
         }
@@ -681,12 +659,12 @@ import Cocoa
             wv.scrollView.backgroundColor = UIColor.clear
         }
 
-        if let userAgent = settings.userAgent {
+        if let userAgent = _settings.userAgent {
             wv.customUserAgent = userAgent
         }
 #else
         if #available(OSX 10.11, *) {
-            if let userAgent = settings.userAgent {
+            if let userAgent = _settings.userAgent {
                 wv.customUserAgent = userAgent
             }
         }
@@ -704,12 +682,11 @@ import Cocoa
         }
 
         return nil
-
     }
 
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
         var props: Dictionary<String, Any> = Dictionary()
-        guard let wv = myWebView else {
+        guard let wv = _webView else {
             traceError(message: "observeValue - no webview", line: #line, column: #column, file: #file, freError: nil)
             return
         }
@@ -762,12 +739,10 @@ import Cocoa
             sendEvent(name: Constants.ON_PROPERTY_CHANGE, value: json.description)
         }
         return
-
     }
 
     func setFREContext(ctx: FREContext) {
         context = FREContextSwift.init(freContext: ctx)
     }
-
 
 }

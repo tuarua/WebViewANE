@@ -18,13 +18,14 @@
 //  undertakes the same purpose as this software. That is, a WebView for Windows,
 //  OSX and/or iOS and/or Android.
 //  All Rights Reserved. Tua Rua Ltd.
+
 import Cocoa
 import Foundation
 import WebKit
 
 class PopupVC: NSViewController, WKUIDelegate, WKNavigationDelegate {
-    private var webView: WKWebView?
-    private var configuration: WKWebViewConfiguration = WKWebViewConfiguration()
+    private var _webView: WKWebView?
+    private var _configuration: WKWebViewConfiguration = WKWebViewConfiguration()
     private var _request: URLRequest!
     private var _width: Int!
     private var _height: Int!
@@ -35,15 +36,15 @@ class PopupVC: NSViewController, WKUIDelegate, WKNavigationDelegate {
         self._width = width
         self._height = height
 
-        webView = WKWebView(frame: self.view.frame, configuration: configuration)
-        if let wv = webView {
+        _webView = WKWebView(frame: self.view.frame, configuration: _configuration)
+        if let wv = _webView {
             wv.translatesAutoresizingMaskIntoConstraints = true
             wv.navigationDelegate = self
             wv.uiDelegate = self
+            wv.addObserver(self, forKeyPath: "title", options: .new, context: nil)
             wv.load(_request)
             self.view.addSubview(wv)
         }
-
     }
 
     override func viewDidLoad() {
@@ -54,6 +55,25 @@ class PopupVC: NSViewController, WKUIDelegate, WKNavigationDelegate {
     override func loadView() {
         let myRect: NSRect = NSRect.init(x: 0, y: 0, width: _width, height: _height)
         self.view = NSView.init(frame: myRect)
+    }
+
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
+        guard let wv = _webView else {
+            return
+        }
+
+        switch keyPath! {
+        case "title":
+            if let val = wv.title {
+                if val != "" {
+                    self.view.window?.title = val
+                }
+            }
+            break
+        default:
+            break
+        }
+        return
     }
 
 }
