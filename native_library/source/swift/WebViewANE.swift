@@ -33,8 +33,7 @@ import Cocoa
 #endif
 
 @objc class WebViewANE: FRESwiftController, WKUIDelegate, WKNavigationDelegate, WKScriptMessageHandler {
-
-    private var _webView: WKWebView?
+    private var _webView: WebViewVC?
     static var escListener: Any?
     private var _initialUrl: String = ""
     private var _viewPort: CGRect = CGRect.init(x: 0, y: 0, width: 800, height: 600)
@@ -268,27 +267,26 @@ import Cocoa
     }
 
     func addToStage(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
+        guard let wv = _webView else {
+            return nil
+        }
 #if os(iOS)
         if let rootViewController = UIApplication.shared.keyWindow?.rootViewController {
-            if let wv = _webView {
-                rootViewController.view.addSubview(wv)
-            }
+            rootViewController.view.addSubview(wv)
+            _isAdded = true
         }
 #else
         if let view = NSApp.mainWindow?.contentView {
-            view.addSubview(_webView!)
+            view.addSubview(wv)
             _isAdded = true
-            return nil
         } else {
             //allow for mainWindow not having been set yet on NSApp
             let allWindows = NSApp.windows
             if allWindows.count > 0 {
                 let mWin = allWindows[0]
-                let view: NSView = mWin.contentView!
-                if let wv = _webView {
+                if let view: NSView = mWin.contentView {
                     view.addSubview(wv)
                     _isAdded = true
-                    return nil
                 }
             }
         }
@@ -297,10 +295,11 @@ import Cocoa
     }
 
     func removeFromStage(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
-        if let wv = _webView {
-            wv.removeFromSuperview()
-            _isAdded = false
+        guard let wv = _webView else {
+            return nil
         }
+        wv.removeFromSuperview()
+        _isAdded = false
         return nil
     }
 
@@ -308,33 +307,14 @@ import Cocoa
         guard argc > 0,
               let wv = _webView,
               let inFRE0 = argv[0],
-              let inFRE1 = argv[1],
-              let inFRE2 = argv[2],
-              let inFRE3 = argv[3],
-              let xFre = FREObjectSwift.init(freObject: inFRE0).value as? Int,
-              let yFre = FREObjectSwift.init(freObject: inFRE1).value as? Int,
-              let wFre = FREObjectSwift.init(freObject: inFRE2).value as? Int,
-              let hFre = FREObjectSwift.init(freObject: inFRE3).value as? Int
+              let viewPortFre = FRERectangleSwift.init(freObject: inFRE0).value as? CGRect
           else {
             traceError(message: "setPositionAndSize - no webview or incorrect arguments", line: #line, column: #column, file: #file, freError: nil)
             return nil
         }
 
-        _viewPort = CGRect.init(x: CGFloat.init(xFre), y: CGFloat.init(yFre), width: CGFloat.init(wFre), height: CGFloat.init(hFre))
-#if os(iOS)
-        let realY = _viewPort.origin.y
-        var frame: CGRect = wv.frame
-        frame.origin.x = _viewPort.origin.x
-        frame.origin.y = realY
-        frame.size.width = _viewPort.size.width
-        frame.size.height = _viewPort.size.height
-        wv.frame = frame
-#else
-        let realY = ((NSApp.mainWindow?.contentLayoutRect.height)! - _viewPort.size.height) - _viewPort.origin.y;
-        wv.setFrameOrigin(NSPoint.init(x: _viewPort.origin.x, y: realY))
-        wv.setFrameSize(NSSize.init(width: _viewPort.size.width, height: _viewPort.size.height))
-#endif
-
+        _viewPort = viewPortFre
+        wv.setPositionAndSize(viewPort: _viewPort)
         return nil
     }
 
@@ -347,9 +327,7 @@ import Cocoa
             traceError(message: "load - no webview or incorrect arguments", line: #line, column: #column, file: #file, freError: nil)
             return nil
         }
-        let myURL = URL(string: url)
-        let myRequest = URLRequest(url: myURL!)
-        wv.load(myRequest)
+        wv.load(url: url)
         return nil
     }
 
@@ -362,7 +340,7 @@ import Cocoa
             traceError(message: "loadHTMLString - no webview or incorrect arguments", line: #line, column: #column, file: #file, freError: nil)
             return nil
         }
-        wv.loadHTMLString(html, baseURL: nil) //TODO
+        wv.load(html: html)
         return nil
     }
 
@@ -377,20 +355,7 @@ import Cocoa
             traceError(message: "loadFileURL - no webview or incorrect arguments", line: #line, column: #column, file: #file, freError: nil)
             return nil
         }
-
-        let myURL = URL(string: url)
-        let accessURL = URL(string: allowingReadAccessTo)
-
-#if os(iOS)
-        wv.loadFileURL(myURL!, allowingReadAccessTo: accessURL!)
-#else
-        if #available(OSX 10.11, *) {
-            wv.loadFileURL(myURL!, allowingReadAccessTo: accessURL!)
-        } else {
-            // Fallback on earlier versions //TODO
-        }
-#endif
-
+        wv.load(fileUrl: url, allowingReadAccessTo: allowingReadAccessTo)
         return nil
     }
 
@@ -484,27 +449,12 @@ import Cocoa
 
         if let inFRE1 = argv[1] {
             let callbackFre = FREObjectSwift.init(freObject: inFRE1)
-
             if FREObjectTypeSwift.string == callbackFre.getType(), let callback: String = callbackFre.value as? String {
-                wv.evaluateJavaScript(js, completionHandler: { (result: Any?, error: Error?) -> Void in
-                    var props: Dictionary<String, Any> = Dictionary()
-                    props["callbackName"] = callback
-                    props["message"] = ""
-                    if error != nil {
-                        props["success"] = false
-                        props["error"] = error.debugDescription
-                    } else {
-                        props["error"] = ""
-                        props["success"] = true
-                    }
-                    props["result"] = result
-                    let json = JSON(props)
-                    sendEvent(name: Constants.AS_CALLBACK_EVENT, value: json.description)
-                })
+                wv.evaluateJavaScript(js: js, callback: callback)
                 return nil
             }
         }
-        wv.evaluateJavaScript(js, completionHandler: nil)
+        wv.evaluateJavaScript(js: js)
         return nil
     }
 
@@ -565,31 +515,22 @@ import Cocoa
     func initWebView(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
         guard argc > 0,
               let inFRE1 = argv[1],
-              let inFRE2 = argv[2],
-              let inFRE3 = argv[3],
               let inFRE4 = argv[4],
-              let inFRE7 = argv[7],
-              let inFRE8 = argv[8],
-
-              let xFre = FREObjectSwift.init(freObject: inFRE1).value as? Int,
-              let yFre = FREObjectSwift.init(freObject: inFRE2).value as? Int,
-              let wFre = FREObjectSwift.init(freObject: inFRE3).value as? Int,
-              let hFre = FREObjectSwift.init(freObject: inFRE4).value as? Int
+            let inFRE5 = argv[5],
+              let viewPortFre = FRERectangleSwift.init(freObject: inFRE1).value as? CGRect
           else {
             traceError(message: "initWebView - incorrect arguments", line: #line, column: #column, file: #file, freError: nil)
             return nil
         }
-        if let initialUrlFRE: FREObject = argv[0] {
-            if let initialUrl = FREObjectSwift.init(freObject: initialUrlFRE).value as? String {
+        if let initialUrlFRE: FREObject = argv[0],
+            let initialUrl = FREObjectSwift.init(freObject: initialUrlFRE).value as? String {
                 _initialUrl = initialUrl
-            }
         }
+        
+        _viewPort = viewPortFre
 
-        _viewPort = CGRect.init(x: CGFloat.init(xFre), y: CGFloat.init(yFre), width: CGFloat.init(wFre), height: CGFloat.init(hFre))
-
-        if let settingsFRE: FREObject = argv[5] {
+        if let settingsFRE: FREObject = argv[2] {
             if let settingsDict = FREObjectSwift.init(freObject: settingsFRE).value as? Dictionary<String, AnyObject> {
-
                 _settings = Settings.init(dictionary: settingsDict)
 
 #if os(iOS)
@@ -613,6 +554,7 @@ import Cocoa
         _userController.add(self, name: "webViewANE")
         _settings.configuration.userContentController = _userController
 
+        
         var realY = _viewPort.origin.y
 #if os(iOS)
 #else
@@ -634,7 +576,9 @@ import Cocoa
 #endif
         let myRect: CGRect = CGRect.init(x: _viewPort.origin.x, y: realY, width: _viewPort.size.width, height: _viewPort.size.height)
 
-        _webView = WKWebView(frame: myRect, configuration: _settings.configuration)
+        
+        
+        _webView = WebViewVC(frame: myRect, configuration: _settings.configuration)
 
         guard let wv = _webView else {
             traceError(message: "initWebView - no webview", line: #line, column: #column, file: #file, freError: nil)
@@ -649,7 +593,7 @@ import Cocoa
 
         var _bgColor = UIColor.white
         do {
-            _bgColor = try FRESwiftHelper.toUIColor(freObject: inFRE7, alpha: inFRE8)
+            _bgColor = try FRESwiftHelper.toUIColor(freObject: inFRE4, alpha: inFRE5)
         } catch {
         }
 
@@ -669,76 +613,12 @@ import Cocoa
             }
         }
 #endif
-        wv.addObserver(self, forKeyPath: "loading", options: .new, context: nil)
-        wv.addObserver(self, forKeyPath: "estimatedProgress", options: .new, context: nil)
-        wv.addObserver(self, forKeyPath: "title", options: .new, context: nil)
-        wv.addObserver(self, forKeyPath: "URL", options: .new, context: nil)
-        wv.addObserver(self, forKeyPath: "canGoBack", options: .new, context: nil)
-        wv.addObserver(self, forKeyPath: "canGoForward", options: .new, context: nil)
+
         if !_initialUrl.isEmpty {
-            let myURL = URL(string: _initialUrl)
-            let myRequest = URLRequest(url: myURL!)
-            wv.load(myRequest)
+            wv.load(url: _initialUrl)
         }
 
         return nil
-    }
-
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
-        var props: Dictionary<String, Any> = Dictionary()
-        guard let wv = _webView else {
-            traceError(message: "observeValue - no webview", line: #line, column: #column, file: #file, freError: nil)
-            return
-        }
-
-        switch keyPath! {
-        case "estimatedProgress":
-            props["propName"] = "estimatedProgress"
-            props["value"] = wv.estimatedProgress
-            break
-        case "URL":
-            if let val = wv.url?.absoluteString {
-                if val != "" {
-                    props["propName"] = "url"
-                    props["value"] = val
-                } else {
-                    return
-                }
-            } else {
-                return
-            }
-            break
-        case "title":
-            if let val = wv.title {
-                if val != "" {
-                    props["propName"] = "title"
-                    props["value"] = val
-                }
-            }
-            break
-        case "canGoBack":
-            props["propName"] = "canGoBack"
-            props["value"] = wv.canGoBack
-            break
-        case "canGoForward":
-            props["propName"] = "canGoForward"
-            props["value"] = wv.canGoForward
-            break
-        case "loading":
-            props["propName"] = "isLoading"
-            props["value"] = wv.isLoading
-            break
-        default:
-            props["propName"] = keyPath
-            props["value"] = nil
-            break
-        }
-
-        let json = JSON(props)
-        if ((props["propName"]) != nil) {
-            sendEvent(name: Constants.ON_PROPERTY_CHANGE, value: json.description)
-        }
-        return
     }
 
     func setFREContext(ctx: FREContext) {
