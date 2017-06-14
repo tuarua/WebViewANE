@@ -52,10 +52,6 @@ public class WebViewANE extends EventDispatcher {
     private var _canGoForward:Boolean;
     private var _estimatedProgress:Number;
     private var _statusMessage:String;
-    private var _x:int;
-    private var _y:int;
-    private var _height:int;
-    private var _width:int;
     private var asCallBacks:Dictionary = new Dictionary(); // as -> js -> as
     private var jsCallBacks:Dictionary = new Dictionary(); //js - > as -> js
     private static const AS_CALLBACK_PREFIX:String = "TRWV.as.";
@@ -356,10 +352,7 @@ public class WebViewANE extends EventDispatcher {
     public function init(initialUrl:String = null, x:int = 0, y:int = 0, width:int = 800, height:int = 600,
                          settings:Settings = null, scaleFactor:Number = 1.0,
                          backgroundColor:uint = 0xFFFFFF, backgroundAlpha:Number = 1.0):void {
-        _x = x;
-        _y = y;
-        _width = width;
-        _height = height;
+        _viewPort = new Rectangle(x, y, width, height)
 
         //hasn't been set by setBackgroundColor
         if (_backgroundColor == 0xFFFFFF) {
@@ -377,21 +370,17 @@ public class WebViewANE extends EventDispatcher {
                 _settings = new Settings();
             }
 
-            ANEContext.ctx.call("init", initialUrl, _x, _y, _width, _height,
-                    _settings, scaleFactor, _backgroundColor, _backgroundAlpha);
+            ANEContext.ctx.call("init", initialUrl, _viewPort, _settings, scaleFactor, _backgroundColor,
+                    _backgroundAlpha);
             _isInited = true;
         }
     }
 
     [Deprecated(replacement="viewPort")]
     public function setPositionAndSize(x:int = 0, y:int = 0, width:int = 0, height:int = 0):void {
-        this._x = x;
-        this._y = y;
-        if (width > 0) this._width = width;
-        if (height > 0) this._height = height;
-
+        _viewPort = new Rectangle(x, y, width, height);
         if (safetyCheck()) {
-            ANEContext.ctx.call("setPositionAndSize", this._x, this._y, this._width, this._height);
+            ANEContext.ctx.call("setPositionAndSize", _viewPort);
         }
     }
 
@@ -754,6 +743,7 @@ public class WebViewANE extends EventDispatcher {
      *
      */
     public function set visible(value:Boolean):void {
+        if (_visible == value) return;
         _visible = value;
         if (safetyCheck()) {
             if (value) {
@@ -785,34 +775,10 @@ public class WebViewANE extends EventDispatcher {
      */
     public function set viewPort(value:Rectangle):void {
         _viewPort = value;
-
-        this._x = _viewPort.x;
-        this._y = _viewPort.y;
-        if (_viewPort.width > 0) this._width = _viewPort.width;
-        if (_viewPort.height > 0) this._height = _viewPort.height;
-
         if (safetyCheck()) {
-            ANEContext.ctx.call("setPositionAndSize", this._x, this._y, this._width, this._height);
+            ANEContext.ctx.call("setPositionAndSize", _viewPort);
         }
 
     }
 }
 }
-
-/*
- internal class RGB {
- public var red:int = 255;
- public var green:int = 255;
- public var blue:int = 255;
-
- public function RGB(hex:uint) {
- hexToRGB(hex);
- }
-
- public function hexToRGB(hex:uint):void {
- red = ((hex & 0xFF0000) >> 16);
- green = ((hex & 0x00FF00) >> 8);
- blue = ((hex & 0x0000FF));
- }
- }
- */
