@@ -32,8 +32,10 @@ import com.tuarua.webview.Settings;
 import com.tuarua.webview.WebViewEvent;
 
 import flash.display.BitmapData;
+import flash.display.Stage;
 
 import flash.events.EventDispatcher;
+import flash.events.FullScreenEvent;
 import flash.events.StatusEvent;
 import flash.external.ExtensionContext;
 import flash.geom.Point;
@@ -62,6 +64,7 @@ public class WebViewANE extends EventDispatcher {
     private var _visible:Boolean;
     private var _backgroundColor:uint = 0xFFFFFF;
     private var _backgroundAlpha:Number = 1.0;
+    private var _currentTab:int = 0;
 
     public function WebViewANE() {
         initiate();
@@ -92,7 +95,7 @@ public class WebViewANE extends EventDispatcher {
      * This method is omitted from the output. * * @private
      */
     private function gotEvent(event:StatusEvent):void {
-        // trace("gotEvent",event);
+        //trace("gotEvent", event);
         var keyName:String;
         var argsAsJSON:Object;
         var pObj:Object;
@@ -118,8 +121,14 @@ public class WebViewANE extends EventDispatcher {
                 } else if (pObj.propName == "statusMessage") {
                     _statusMessage = pObj.value;
                 }
-
-                dispatchEvent(new WebViewEvent(WebViewEvent.ON_PROPERTY_CHANGE, pObj.propName));
+                var tab:int = 0;
+                if (pObj.hasOwnProperty("tab")) {
+                    tab = pObj.tab;
+                }
+                dispatchEvent(new WebViewEvent(WebViewEvent.ON_PROPERTY_CHANGE, {
+                    propertyName: pObj.propName,
+                    tab: tab
+                }));
                 break;
             case WebViewEvent.ON_FAIL:
                 dispatchEvent(new WebViewEvent(WebViewEvent.ON_FAIL, (event.code.length > 0)
@@ -165,7 +174,6 @@ public class WebViewANE extends EventDispatcher {
                         jsResult.message = argsAsJSON.message;
                         jsResult.success = argsAsJSON.success;
                         jsResult.result = argsAsJSON.result;
-
                         var tmpFunction2:Function = asCallBacks[keyAs] as Function;
                         tmpFunction2.call(null, jsResult);
                     }
@@ -185,7 +193,6 @@ public class WebViewANE extends EventDispatcher {
                     trace(e.message);
                     break;
                 }
-
                 break;
             case WebViewEvent.ON_DOWNLOAD_COMPLETE:
                 dispatchEvent(new WebViewEvent(WebViewEvent.ON_DOWNLOAD_COMPLETE, event.code));
@@ -197,7 +204,13 @@ public class WebViewANE extends EventDispatcher {
                 dispatchEvent(new WebViewEvent(WebViewEvent.ON_ESC_KEY, event.code));
                 break;
             case WebViewEvent.ON_URL_BLOCKED:
-                dispatchEvent(new WebViewEvent(WebViewEvent.ON_URL_BLOCKED, event.code));
+                try {
+                    argsAsJSON = JSON.parse(event.code);
+                } catch (e:Error) {
+                    trace(e.message);
+                    break;
+                }
+                dispatchEvent(new WebViewEvent(WebViewEvent.ON_URL_BLOCKED, argsAsJSON));
                 break;
             case WebViewEvent.ON_PERMISSION_RESULT:
                 try {
@@ -336,11 +349,9 @@ public class WebViewANE extends EventDispatcher {
 
     /**
      *
+     * @param stage
+     * @param viewPort
      * @param initialUrl Url to load when the view loads
-     * @param x
-     * @param y
-     * @param width
-     * @param height
      * @param settings
      * @param scaleFactor iOS and Android only
      * @param backgroundColor value of the view's background color.
@@ -349,10 +360,11 @@ public class WebViewANE extends EventDispatcher {
      * <p>Initialises the webView. N.B. The webView is set to visible = false initially.</p>
      *
      */
-    public function init(initialUrl:String = null, x:int = 0, y:int = 0, width:int = 800, height:int = 600,
+    public function init(stage:Stage, viewPort:Rectangle, initialUrl:String = null,
                          settings:Settings = null, scaleFactor:Number = 1.0,
                          backgroundColor:uint = 0xFFFFFF, backgroundAlpha:Number = 1.0):void {
-        _viewPort = new Rectangle(x, y, width, height)
+        stage.addEventListener(FullScreenEvent.FULL_SCREEN, onFullScreenEvent);
+        _viewPort = viewPort;
 
         //hasn't been set by setBackgroundColor
         if (_backgroundColor == 0xFFFFFF) {
@@ -361,8 +373,6 @@ public class WebViewANE extends EventDispatcher {
         if (_backgroundAlpha == 1.0) {
             _backgroundAlpha = backgroundAlpha;
         }
-
-        _viewPort = new Rectangle(x, y, width, height);
 
         if (_isSupported) {
             var _settings:Settings = settings;
@@ -373,6 +383,12 @@ public class WebViewANE extends EventDispatcher {
             ANEContext.ctx.call("init", initialUrl, _viewPort, _settings, scaleFactor, _backgroundColor,
                     _backgroundAlpha);
             _isInited = true;
+        }
+    }
+
+    private function onFullScreenEvent(event:FullScreenEvent):void {
+        if (safetyCheck()) {
+            ANEContext.ctx.call("onFullScreen", event.fullScreen);
         }
     }
 
@@ -403,8 +419,10 @@ public class WebViewANE extends EventDispatcher {
      *
      */
     public function load(url:String):void {
-        if (safetyCheck())
+        if (safetyCheck()) {
             ANEContext.ctx.call("load", url);
+        }
+
     }
 
     /**
@@ -495,14 +513,8 @@ public class WebViewANE extends EventDispatcher {
             ANEContext.ctx.call("reloadFromOrigin");
     }
 
-    /**
-     *
-     * @param fs When going fullscreen set this to true, when coming out of fullscreen set to false
-     *
-     */
+    [Deprecated(message="handled by passing stage with init")]
     public function onFullScreen(fs:Boolean = false):void {
-        if (safetyCheck())
-            ANEContext.ctx.call("onFullScreen", fs);
     }
 
     /**
@@ -526,6 +538,26 @@ public class WebViewANE extends EventDispatcher {
             return ANEContext.ctx.call("getMagnification") as Number;
         return 1.0;
     }
+
+
+    public function addTab(initialUrl:String = null):void {
+        if (safetyCheck()) {
+            var ct:int = int(ANEContext.ctx.call("addTab", initialUrl));
+            _currentTab = (ct > -1) ? ct : _currentTab;
+            trace("adding tab, current is now ", _currentTab);
+        }
+
+    }
+
+    public function switchTab(index:int):void {
+        if (safetyCheck()) {
+            trace("switching tab from ", _currentTab);
+            var ct:int = int(ANEContext.ctx.call("switchTab", index));
+            _currentTab = (ct > -1) ? ct : _currentTab;
+            trace("switching tab to ", _currentTab);
+        }
+    }
+
 
     /**
      *
@@ -779,6 +811,10 @@ public class WebViewANE extends EventDispatcher {
             ANEContext.ctx.call("setPositionAndSize", _viewPort);
         }
 
+    }
+
+    public function get currentTab():int {
+        return _currentTab;
     }
 }
 }

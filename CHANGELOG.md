@@ -1,14 +1,23 @@
 ### 0.0.25
+
+- AND/iOS/WIN/OSX: BREAKING CHANGE!! - init() now takes the following params: 
+init(stage:Stage, viewPort:Rectangle, initialUrl:String, settings:Settings, scaleFactor:Number, backgroundColor:uint, backgroundAlpha:Number)
+- AND/iOS/WIN/OSX: BREAKING CHANGE!! - onPropertyChange now returns event.params as {propertyName, tab}
+- AND/iOS/WIN/OSX: BREAKING CHANGE!! - onUrlBlocked now returns event.params as {url, tab}
 - AND/iOS/WIN/OSX: deprecate setPositionAndSize() - use viewPort setter instead
 - AND/iOS/WIN/OSX: deprecate addToStage() - use visible setter instead
 - AND/iOS/WIN/OSX: deprecate removeFromStage() - use visible setter instead
 - AND/iOS/WIN/OSX: deprecate setBackgroundColor() - use params in init instead
 - AND/iOS/WIN/OSX: deprecate shutDown() - not needed
+- AND/iOS/WIN/OSX: deprecate onFullScreen() - not needed
 - WIN/OSX: fix BUG in example when minimising maximising
-- AND/iOS/OSX: add whitelist to settings
-- AND/iOS/WIN/OSX: update example to AIR SDK 26
-- iOS/OSX: refactor
 - OSX: add web page title to popup window
+- WIN: Added multi-tab support using methods addTab() and switchTab() 
+- iOS/OSX: fix BUG in go() method
+- AND/iOS/OSX: add whitelist to settings
+- AND: add WebViewEvent.ON_FAIL events
+- iOS/WIN/OSX: update example to AIR SDK 26
+- iOS/OSX: refactor
 
 ### 0.0.24
 - WIN: Allow right click context menu to be disabled Issue #52

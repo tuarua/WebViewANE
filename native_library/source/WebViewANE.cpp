@@ -75,6 +75,8 @@ extern "C" {
 			,{ (const uint8_t *) "evaluateJavaScript", "evaluateJavaScript", &callSharpFunction }
 			,{ (const uint8_t *) "print", "print", &callSharpFunction }
 			,{ (const uint8_t *) "capture", "capture", &callSharpFunction }
+			,{ (const uint8_t *) "addTab", "addTab", &callSharpFunction }
+			,{ (const uint8_t *) "switchTab", "switchTab", &callSharpFunction }
 			
 		};
 

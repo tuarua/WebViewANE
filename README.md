@@ -47,9 +47,10 @@ The example project can be run on the Simulator from IntelliJ
 The example project needs to be built and signed in the correct manner.
 An AIR based packaging tool is provided at https://github.com/tuarua/AIR-iOS-Packager
 
-## Android
-
+## Android Important!
+AIRSDK 26 is not supported. Please use AIRSDK 25 
 The Android version utilises the native WebView. 
+
 
 ##
 

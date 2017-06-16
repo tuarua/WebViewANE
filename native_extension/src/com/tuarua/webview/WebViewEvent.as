@@ -34,7 +34,7 @@ public class WebViewEvent extends Event {
     public static const ON_FAIL:String = "WebView.OnFail";
     /**
      * Dispatched when one of the following is updated url, title, isLoading, canGoBack, canGoForward,
-     * estimatedProgress, statusMessage
+     * estimatedProgress, statusMessage. This returns an object with 2 properties:  propertyName, tab
      */
     public static const ON_PROPERTY_CHANGE:String = "WebView.OnPropertyChange";
     /**

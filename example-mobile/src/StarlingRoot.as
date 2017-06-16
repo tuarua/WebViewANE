@@ -124,6 +124,7 @@ public class StarlingRoot extends Sprite {
         webView = new WebViewANE();
         webView.addEventListener(WebViewEvent.ON_PROPERTY_CHANGE, onPropertyChange);
         webView.addEventListener(WebViewEvent.ON_URL_BLOCKED, onUrlBlocked);
+        webView.addEventListener(WebViewEvent.ON_FAIL, onUrlFail);
 
         var settings:Settings = new Settings();
         settings.webkit.allowsInlineMediaPlayback = true;
@@ -131,7 +132,8 @@ public class StarlingRoot extends Sprite {
         //settings.urlWhiteList.push("github.", "google.", "youtube.", "adobe.com", "chrome-devtools://"); //to restrict urls - simple string matching
 
         webView.addCallback("js_to_as", jsToAsCallback);
-        webView.init("https://github.com/tuarua/WebViewANE", 0, 80, stage.stageWidth, (stage.stageHeight - 80),
+        var viewPort:Rectangle = new Rectangle(0, 80, stage.stageWidth, (stage.stageHeight - 80));
+        webView.init(Starling.current.nativeStage, viewPort, "https://github.com/tuarua/WebViewANE",
                 settings, Starling.current.contentScaleFactor, 0xF1F1F1, 0.0);
         webView.visible = true;
 
@@ -156,6 +158,13 @@ public class StarlingRoot extends Sprite {
         stage.addEventListener(Event.RESIZE, onResize);
 
         copyHTMLFiles();
+    }
+
+    private function onUrlFail(event:WebViewEvent):void {
+        var error:Object = event.params;
+        trace("error.url", error.url);
+        trace("error.errorCode", error.errorCode);
+        trace("error.errorText", error.errorText);
     }
 
     private static function copyHTMLFiles():void {
@@ -278,15 +287,15 @@ public class StarlingRoot extends Sprite {
     }
 
     private static function onUrlBlocked(event:WebViewEvent):void {
-        trace(event.params, "does not match our urlWhiteList");
+        trace(event.params.url, "does not match our urlWhiteList");
     }
 
     private function onPropertyChange(event:WebViewEvent):void {
         // trace("");
-        //trace(event.params,"has changed: ");
+        //trace(event.params.propertyName,"has changed: ");
         // trace("------");
 
-        switch (event.params) {
+        switch (event.params.propertyName) {
             case "url":
                 urlInput.text = webView.url;
                 break;

@@ -87,6 +87,8 @@ namespace CefSharpLib {
                     {"setPositionAndSize", SetPositionAndSize},
                     {"init", InitView},
                     {"capture", Capture},
+                    {"addTab", AddTab},
+                    {"switchTab", SwitchTab},
                 };
 
             return FunctionsDict.Select(kvp => kvp.Key).ToArray();
@@ -121,7 +123,7 @@ namespace CefSharpLib {
         }
 
         private FREObject GetMagnification(FREContext ctx, uint argc, FREObject[] argv) {
-            var task = _view.Browser.GetZoomLevelAsync();
+            var task = _view.CurrentBrowser.GetZoomLevelAsync();
             task.ContinueWith(previous => {
                 if (previous.Status == TaskStatus.RanToCompletion) {
                     return new FreObjectSharp(previous.Result).RawValue;
@@ -134,12 +136,12 @@ namespace CefSharpLib {
         }
 
         private FREObject SetMagnification(FREContext ctx, uint argc, FREObject[] argv) {
-            _view.Browser.SetZoomLevel(Convert.ToDouble(new FreObjectSharp(argv[0]).Value));
+            _view.CurrentBrowser.SetZoomLevel(Convert.ToDouble(new FreObjectSharp(argv[0]).Value));
             return FREObject.Zero;
         }
 
         private FREObject BrowserFocus(FREContext ctx, uint argc, FREObject[] argv) {
-            _view.Browser.Focus();
+            _view.CurrentBrowser.Focus();
             return FREObject.Zero;
         }
 
@@ -227,7 +229,6 @@ namespace CefSharpLib {
                 )
             };
 
-
             _view.Init();
 
             var parameters = new HwndSourceParameters();
@@ -245,6 +246,17 @@ namespace CefSharpLib {
             return FREObject.Zero;
         }
 
+        public FREObject AddTab(FREContext ctx, uint argc, FREObject[] argv) {
+            _view.InitialUrl = Convert.ToString(new FreObjectSharp(argv[0]).Value);
+            var tab = _view.AddTab();
+            return new FreObjectSharp(tab).RawValue;
+        }
+
+        public FREObject SwitchTab(FREContext ctx, uint argc, FREObject[] argv) {
+            var tab = _view.SwitchTab(Convert.ToInt32(new FreObjectSharp(argv[0]).Value));
+            return new FreObjectSharp(tab).RawValue;
+        }
+        
 
         public FREObject AddToStage(FREContext ctx, uint argc, FREObject[] argv) {
             WinApi.ShowWindow(_cefWindow, ShowWindowCommands.SW_SHOWNORMAL);
@@ -317,17 +329,17 @@ namespace CefSharpLib {
         }
 
         public FREObject Reload(FREContext ctx, uint argc, FREObject[] argv) {
-            _view.Browser.Reload();
+            _view.CurrentBrowser.Reload();
             return FREObject.Zero;
         }
 
         public FREObject ReloadFromOrigin(FREContext ctx, uint argc, FREObject[] argv) {
-            _view.Browser.Reload(true);
+            _view.CurrentBrowser.Reload(true);
             return FREObject.Zero;
         }
 
         public FREObject StopLoading(FREContext ctx, uint argc, FREObject[] argv) {
-            _view.Browser.Stop();
+            _view.CurrentBrowser.Stop();
             return FREObject.Zero;
         }
 
@@ -340,14 +352,14 @@ namespace CefSharpLib {
         }
 
         public FREObject GoBack(FREContext ctx, uint argc, FREObject[] argv) {
-            if (_view.Browser.CanGoBack)
-                _view.Browser.Back();
+            if (_view.CurrentBrowser.CanGoBack)
+                _view.CurrentBrowser.Back();
             return FREObject.Zero;
         }
 
         public FREObject GoForward(FREContext ctx, uint argc, FREObject[] argv) {
-            if (_view.Browser.CanGoForward)
-                _view.Browser.Forward();
+            if (_view.CurrentBrowser.CanGoForward)
+                _view.CurrentBrowser.Forward();
             return FREObject.Zero;
         }
 
@@ -357,12 +369,12 @@ namespace CefSharpLib {
         }
 
         public FREObject ShowDevTools(FREContext ctx, uint argc, FREObject[] argv) {
-            _view.Browser.ShowDevTools();
+            _view.CurrentBrowser.ShowDevTools();
             return FREObject.Zero;
         }
 
         public FREObject CloseDevTools(FREContext ctx, uint argc, FREObject[] argv) {
-            _view.Browser.CloseDevTools();
+            _view.CurrentBrowser.CloseDevTools();
             return FREObject.Zero;
         }
 
@@ -404,7 +416,7 @@ namespace CefSharpLib {
             var sw = new StringWriter(sb);
             JsonWriter writer;
             try {
-                var mf = _view.Browser.GetMainFrame();
+                var mf = _view.CurrentBrowser.GetMainFrame();
                 var response = await mf.EvaluateScriptAsync(s, TimeSpan.FromMilliseconds(500).ToString());
 
                 if (response.Success && response.Result is IJavascriptCallback) {
@@ -453,7 +465,7 @@ namespace CefSharpLib {
         public void CallJavascriptFunction(string js) {
             //this is as->js
             try {
-                var mf = _view.Browser.GetMainFrame();
+                var mf = _view.CurrentBrowser.GetMainFrame();
                 mf.ExecuteJavaScriptAsync(js); // this is fire and forget can run js urls, startLine 
             }
             catch (Exception e) {
@@ -467,7 +479,7 @@ namespace CefSharpLib {
             JsonWriter writer;
             try {
                 writer = new JsonTextWriter(sw) {Formatting = Formatting.None};
-                var mf = _view.Browser.GetMainFrame();
+                var mf = _view.CurrentBrowser.GetMainFrame();
                 var response = await mf.EvaluateScriptAsync(js, TimeSpan.FromMilliseconds(500).ToString());
                 if (response.Success && response.Result is IJavascriptCallback) {
                     response = await ((IJavascriptCallback) response.Result).ExecuteAsync("");
@@ -512,7 +524,7 @@ namespace CefSharpLib {
 
         public void EvaluateJavaScript(string js) {
             try {
-                var mf = _view.Browser.GetMainFrame();
+                var mf = _view.CurrentBrowser.GetMainFrame();
                 mf.ExecuteJavaScriptAsync(js); // this is fire and forget can run js urls, startLine 
             }
             catch (Exception e) {
@@ -521,7 +533,7 @@ namespace CefSharpLib {
         }
 
         public FREObject Print(FREContext ctx, uint argc, FREObject[] argv) {
-            _view.Browser.Print();
+            _view.CurrentBrowser.Print();
             return FREObject.Zero;
         }
 
