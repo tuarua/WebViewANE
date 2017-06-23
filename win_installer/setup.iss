@@ -9,7 +9,7 @@
 #define use_vc2015
 
 #define MyAppSetupName 'WebViewANESample'
-#define MyAppVersion '1.0.0'
+#define MyAppVersion '0.0.24'
 
 [Setup]
 AppName={#MyAppSetupName}
@@ -110,7 +110,7 @@ begin
 
 
 #ifdef use_dotnetfx46
-    dotnetfx46(60); // min allowed version is 4.5.0
+    dotnetfx46(60); // min allowed version is 4.6.0
 #endif
 
 #ifdef use_vc2013
