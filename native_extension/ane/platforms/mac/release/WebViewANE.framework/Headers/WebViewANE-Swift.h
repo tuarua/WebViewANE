@@ -287,7 +287,7 @@ SWIFT_CLASS("_TtC10WebViewANE17FRERectangleSwift")
 
 SWIFT_CLASS("_TtC10WebViewANE5Popup")
 @interface Popup : NSObject <NSWindowDelegate>
-- (void)createPopupWindowWithUrl:(NSURLRequest * _Nonnull)url;
+- (void)createPopupWindowWithUrl:(NSURLRequest * _Nonnull)url configuration:(WKWebViewConfiguration * _Nonnull)configuration;
 - (void)windowWillClose:(NSNotification * _Nonnull)notification;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
@@ -296,7 +296,8 @@ SWIFT_CLASS("_TtC10WebViewANE5Popup")
 
 SWIFT_CLASS("_TtC10WebViewANE7PopupVC")
 @interface PopupVC : NSViewController <WKUIDelegate, WKNavigationDelegate>
-- (nonnull instancetype)initWithRequest:(NSURLRequest * _Nonnull)request width:(NSInteger)width height:(NSInteger)height;
+- (nonnull instancetype)initWithRequest:(NSURLRequest * _Nonnull)request width:(NSInteger)width height:(NSInteger)height configuration:(WKWebViewConfiguration * _Nonnull)configuration;
+- (void)dispose;
 - (void)viewDidLoad;
 - (void)loadView;
 - (void)observeValueForKeyPath:(NSString * _Nullable)keyPath ofObject:(id _Nullable)object change:(NSDictionary<NSKeyValueChangeKey, id> * _Nullable)change context:(void * _Nullable)context;
@@ -345,11 +346,34 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class) id _Nullable escListener;)
 - (FREObject _Nullable)focusWebViewWithCtx:(FREContext _Nonnull)ctx argc:(uint32_t)argc argv:(FREObject _Nullable * _Null_unspecified)argv SWIFT_WARN_UNUSED_RESULT;
 - (FREObject _Nullable)printWithCtx:(FREContext _Nonnull)ctx argc:(uint32_t)argc argv:(FREObject _Nullable * _Null_unspecified)argv SWIFT_WARN_UNUSED_RESULT;
 - (FREObject _Nullable)captureWithCtx:(FREContext _Nonnull)ctx argc:(uint32_t)argc argv:(FREObject _Nullable * _Null_unspecified)argv SWIFT_WARN_UNUSED_RESULT;
+- (FREObject _Nullable)addTabWithCtx:(FREContext _Nonnull)ctx argc:(uint32_t)argc argv:(FREObject _Nullable * _Null_unspecified)argv SWIFT_WARN_UNUSED_RESULT;
+- (FREObject _Nullable)closeTabWithCtx:(FREContext _Nonnull)ctx argc:(uint32_t)argc argv:(FREObject _Nullable * _Null_unspecified)argv SWIFT_WARN_UNUSED_RESULT;
+- (FREObject _Nullable)setCurrentTabWithCtx:(FREContext _Nonnull)ctx argc:(uint32_t)argc argv:(FREObject _Nullable * _Null_unspecified)argv SWIFT_WARN_UNUSED_RESULT;
+- (FREObject _Nullable)getTabDetailsWithCtx:(FREContext _Nonnull)ctx argc:(uint32_t)argc argv:(FREObject _Nullable * _Null_unspecified)argv SWIFT_WARN_UNUSED_RESULT;
+- (FREObject _Nullable)getCurrentTabWithCtx:(FREContext _Nonnull)ctx argc:(uint32_t)argc argv:(FREObject _Nullable * _Null_unspecified)argv SWIFT_WARN_UNUSED_RESULT;
 - (void)userContentController:(WKUserContentController * _Nonnull)userContentController didReceiveScriptMessage:(WKScriptMessage * _Nonnull)message SWIFT_AVAILABILITY(macos,introduced=10.10);
 - (FREObject _Nullable)initWebViewWithCtx:(FREContext _Nonnull)ctx argc:(uint32_t)argc argv:(FREObject _Nullable * _Null_unspecified)argv SWIFT_METHOD_FAMILY(none) SWIFT_WARN_UNUSED_RESULT;
-- (void)observeValueForKeyPath:(NSString * _Nullable)keyPath ofObject:(id _Nullable)object change:(NSDictionary<NSKeyValueChangeKey, id> * _Nullable)change context:(void * _Nullable)context;
 - (void)setFREContextWithCtx:(FREContext _Nonnull)ctx;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+SWIFT_CLASS("_TtC10WebViewANE9WebViewVC")
+@interface WebViewVC : WKWebView
+@property (nonatomic) NSInteger tab;
+- (nonnull instancetype)initWithFrame:(CGRect)frame configuration:(WKWebViewConfiguration * _Nonnull)configuration tab:(NSInteger)tab;
+- (nonnull instancetype)initWithFrame:(CGRect)frame configuration:(WKWebViewConfiguration * _Nonnull)configuration OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
+- (void)loadWithUrl:(NSString * _Nonnull)url;
+- (void)loadWithHtml:(NSString * _Nonnull)html;
+- (void)loadWithFileUrl:(NSString * _Nonnull)fileUrl allowingReadAccessTo:(NSString * _Nonnull)allowingReadAccessTo;
+- (void)evaluateJavaScriptWithJs:(NSString * _Nonnull)js;
+- (void)evaluateJavaScriptWithJs:(NSString * _Nonnull)js callback:(NSString * _Nonnull)callback;
+- (void)setPositionAndSizeWithViewPort:(CGRect)viewPort;
+- (void)switchTabTo;
+- (void)observeValueForKeyPath:(NSString * _Nullable)keyPath ofObject:(id _Nullable)object change:(NSDictionary<NSKeyValueChangeKey, id> * _Nullable)change context:(void * _Nullable)context;
+- (void)dispose;
+@property (nonatomic, readonly, getter=isFlipped) BOOL flipped;
 @end
 
 #pragma clang diagnostic pop

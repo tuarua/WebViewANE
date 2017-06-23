@@ -10,8 +10,11 @@ import com.tuarua.webview.BackForwardListItem;
 import com.tuarua.webview.DownloadProgress;
 import com.tuarua.webview.JavascriptResult;
 import com.tuarua.webview.Settings;
+import com.tuarua.webview.TabDetails;
 import com.tuarua.webview.WebViewEvent;
 import com.tuarua.webview.popup.Behaviour;
+
+import events.InteractionEvent;
 
 import flash.desktop.NativeApplication;
 import flash.display.BitmapData;
@@ -45,6 +48,8 @@ import starling.text.TextField;
 import starling.text.TextFormat;
 import starling.utils.Align;
 
+import views.TabBar;
+
 import views.forms.Input;
 
 public class StarlingRoot extends Sprite {
@@ -64,8 +69,6 @@ public class StarlingRoot extends Sprite {
     private var as_js_as_Btn:Image = new Image(Assets.getAtlas().getTexture("as-js-as-btn"));
     private var eval_js_Btn:Image = new Image(Assets.getAtlas().getTexture("eval-js-btn"));
 
-
-    private var titleTxt:TextField;
     private var statusTxt:TextField;
     private var urlInput:Input;
     private var progress:Quad = new Quad(800, 2, 0x00A3D9);
@@ -73,7 +76,7 @@ public class StarlingRoot extends Sprite {
     private var _appWidth:uint = 1280;
     private var _appHeight:uint = 800;
     private var isDevToolsShowing:Boolean = false;
-    private var _currentTab:int = 0;
+    private var tabBar:TabBar = new TabBar();
 
     public function StarlingRoot() {
         super();
@@ -88,8 +91,6 @@ public class StarlingRoot extends Sprite {
             NativeApplication.nativeApplication.activeWindow.addEventListener(
                     NativeWindowDisplayStateEvent.DISPLAY_STATE_CHANGE, onWindowMiniMaxi);
         }
-
-        trace("webView.isSupported()", webView.isSupported());
 
         if (!webView.isSupported) {
             return;
@@ -135,7 +136,7 @@ public class StarlingRoot extends Sprite {
 //        settings.cef.GOOGLE_DEFAULT_CLIENT_ID = "YOUR_VALUE";
 //        settings.cef.GOOGLE_DEFAULT_CLIENT_SECRET = "YOUR_VALUE";
 
-        var viewPort:Rectangle = new flash.geom.Rectangle(0, 90, _appWidth, _appHeight - 140);
+        var viewPort:Rectangle = new Rectangle(0, 90, _appWidth, _appHeight - 140);
         webView.init(WebViewANESample.target.stage, viewPort, "http://www.adobe.com", settings, 1.0, 0xF1F1F1);
         webView.visible = true;
         webView.injectScript("function testInject(){console.log('yo yo')}");
@@ -223,13 +224,6 @@ public class StarlingRoot extends Sprite {
         progress.x = 150;
         progress.y = 70;
 
-        titleTxt = new TextField(1280, 20, "");
-        titleTxt.format = tf;
-
-        titleTxt.batchable = true;
-        titleTxt.touchable = false;
-        titleTxt.y = 20;
-
         statusTxt = new TextField(1280, 20, "");
         statusTxt.format = tf;
         statusTxt.format.horizontalAlign = Align.LEFT;
@@ -240,7 +234,10 @@ public class StarlingRoot extends Sprite {
         statusTxt.y = _appHeight - 24;
 
 
-        addChild(titleTxt);
+        tabBar.addEventListener(InteractionEvent.ON_NEW_TAB, onNewTab);
+        tabBar.addEventListener(InteractionEvent.ON_SWITCH_TAB, onSwitchTab);
+        tabBar.addEventListener(InteractionEvent.ON_CLOSE_TAB, onCloseTab);
+        addChild(tabBar);
         addChild(statusTxt);
         addChild(backBtn);
         addChild(fwdBtn);
@@ -264,6 +261,33 @@ public class StarlingRoot extends Sprite {
         addChild(progress);
     }
 
+    private function onNewTab(event:InteractionEvent):void {
+        trace("create new Tab");
+        fwdBtn.alpha = backBtn.alpha = 0.4
+        fwdBtn.touchable = backBtn.touchable = false;
+        progress.scaleX = 0.0;
+        urlInput.text = "";
+        webView.addTab("http://www.bing.com/");
+        tabBar.setActiveTab(webView.currentTab);
+        trace("webView.currentTab", webView.currentTab);
+    }
+
+    private function onSwitchTab(event:InteractionEvent):void {
+        trace("switch tab", event.params.index);
+        webView.currentTab = event.params.index;
+        tabBar.setActiveTab(webView.currentTab);
+        trace("webView.currentTab", webView.currentTab);
+    }
+
+    private function onCloseTab(event:InteractionEvent):void {
+        trace("close tab", event.params.index);
+        webView.closeTab(event.params.index);
+        tabBar.closeTab(event.params.index);
+        tabBar.setActiveTab(webView.currentTab);
+        trace("webView.currentTab", webView.currentTab);
+    }
+
+
     private static function onUrlBlocked(event:WebViewEvent):void {
         trace(event.params.url, "does not match our urlWhiteList", "tab is:", event.params.tab);
     }
@@ -277,6 +301,7 @@ public class StarlingRoot extends Sprite {
         /*
          !! Needed for OSX, restores webView when we restore from minimized state
          */
+
         if (event.beforeDisplayState == NativeWindowDisplayState.MINIMIZED) {
             webView.visible = false;
             webView.visible = true;
@@ -387,40 +412,52 @@ public class StarlingRoot extends Sprite {
     private function onPropertyChange(event:WebViewEvent):void {
         switch (event.params.propertyName) {
             case "url":
-                trace("tab", event.params.tab, "address has changed", "the current tab is: ", webView.currentTab);
-                urlInput.text = webView.url;
-                break;
-            case "title":
-                trace("tab", event.params.tab, "title has changed", "the current tab is: ", webView.currentTab);
-                titleTxt.text = webView.title;
-                break;
-            case "isLoading":
-                trace("tab", event.params.tab, "isLoading has changed", "the current tab is: ", webView.currentTab);
-                refreshBtn.visible = !webView.isLoading;
-                cancelBtn.visible = webView.isLoading;
-                break;
-            case "canGoBack":
-                backBtn.alpha = webView.canGoBack ? 1.0 : 0.4;
-                backBtn.touchable = webView.canGoBack;
-                break;
-            case "canGoForward":
-                fwdBtn.alpha = webView.canGoForward ? 1.0 : 0.4;
-                fwdBtn.touchable = webView.canGoForward;
-                break;
-            case "estimatedProgress":
-                var p:Number = webView.estimatedProgress;
-                progress.scaleX = p;
-                if (p > 0.99) {
-                    Starling.juggler.tween(progress, .5, {
-                        transition: Transitions.LINEAR,
-                        alpha: 0
-                    });
-                } else {
-                    progress.alpha = 1;
+                if (event.params.tab == webView.currentTab) {
+                    urlInput.text = event.params.value;
                 }
                 break;
+            case "title":
+                tabBar.setTabTitle(event.params.tab, event.params.value);
+                break;
+            case "isLoading":
+                if (event.params.tab == webView.currentTab) {
+                    refreshBtn.visible = !event.params.value;
+                    cancelBtn.visible = event.params.value;
+                }
+                break;
+            case "canGoBack":
+                if (event.params.tab == webView.currentTab) {
+                    backBtn.alpha = event.params.value ? 1.0 : 0.4;
+                    backBtn.touchable = event.params.value;
+                }
+
+                break;
+            case "canGoForward":
+                if (event.params.tab == webView.currentTab) {
+                    fwdBtn.alpha = event.params.value ? 1.0 : 0.4;
+                    fwdBtn.touchable = event.params.value;
+                }
+
+                break;
+            case "estimatedProgress":
+                var p:Number = event.params.value;
+                if (event.params.tab == webView.currentTab) {
+                    progress.scaleX = p;
+                    if (p > 0.99) {
+                        Starling.juggler.tween(progress, .5, {
+                            transition: Transitions.LINEAR,
+                            alpha: 0
+                        });
+                    } else {
+                        progress.alpha = 1;
+                    }
+                }
+
+                break;
             case "statusMessage":
-                statusTxt.text = webView.statusMessage;
+                if (event.params.tab == webView.currentTab) {
+                    statusTxt.text = event.params.value;
+                }
                 break;
         }
     }
@@ -462,9 +499,7 @@ public class StarlingRoot extends Sprite {
     private function onForward(event:TouchEvent):void {
         var touch:Touch = event.getTouch(fwdBtn);
         if (touch != null && touch.phase == TouchPhase.ENDED) {
-            //_currentTab = 1;
             //trace("as3 _currentTab", _currentTab);
-            //webView.switchTab(_currentTab);
             webView.goForward();
 
             /*
@@ -478,10 +513,7 @@ public class StarlingRoot extends Sprite {
     private function onBack(event:TouchEvent):void {
         var touch:Touch = event.getTouch(backBtn);
         if (touch != null && touch.phase == TouchPhase.ENDED) {
-
-            //_currentTab = 0;
-            //webView.switchTab(_currentTab);
-             webView.goBack();
+            webView.goBack();
         }
     }
 
@@ -508,10 +540,16 @@ public class StarlingRoot extends Sprite {
     private function onRefresh(event:TouchEvent):void {
         var touch:Touch = event.getTouch(refreshBtn);
         if (touch != null && touch.phase == TouchPhase.ENDED) {
-            //webView.addTab("http://www.bbc.co.uk/");
-            cancelBtn.visible = true;
-            refreshBtn.visible = false;
-            webView.reload();
+            //webView.visible = !webView.visible;
+
+            var tabList:Vector.<TabDetails> = webView.tabDetails;
+            //for (var i:int = 0, l:int = tabList.length; i < l; ++i) {
+            trace(tabList[webView.currentTab].index, tabList[webView.currentTab].title, tabList[webView.currentTab].url);
+            //}
+
+            //cancelBtn.visible = true;
+            //refreshBtn.visible = false;
+            //webView.reload();
         }
     }
 
@@ -583,18 +621,20 @@ public class StarlingRoot extends Sprite {
             _appWidth = 1280;
             _appHeight = 800;
         } else {
-            _appWidth = WebViewANESample.target.stage.fullScreenWidth;
-            _appHeight = WebViewANESample.target.stage.fullScreenHeight;
+            //_appWidth = WebViewANESample.target.stage.fullScreenWidth;
+            //_appHeight = WebViewANESample.target.stage.fullScreenHeight;
 
-            WebViewANESample.target.stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
+            _appWidth = Capabilities.screenResolutionX;
+            _appHeight = Capabilities.screenResolutionY;
+
             WebViewANESample.target.stage.fullScreenSourceRect = new Rectangle(0, 0, _appWidth, _appHeight);
+            WebViewANESample.target.stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
+
         }
     }
 
     private function onFullScreenEvent(event:FullScreenEvent):void {
-        /*
-         !! Needed for OSX, ignored on Windows. Important - must tell the webView  we have gone in/out of fullscreen.
-         */
+        //trace(event);
         if (webView) {
             webView.onFullScreen(event.fullScreen);
             webView.viewPort = new Rectangle(0, 90, _appWidth, _appHeight - 140);

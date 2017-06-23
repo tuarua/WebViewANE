@@ -9,7 +9,6 @@ init(stage:Stage, viewPort:Rectangle, initialUrl:String, settings:Settings, scal
 - AND/iOS/WIN/OSX: deprecate removeFromStage() - use visible setter instead
 - AND/iOS/WIN/OSX: deprecate setBackgroundColor() - use params in init instead
 - AND/iOS/WIN/OSX: deprecate shutDown() - not needed
-- AND/iOS/WIN/OSX: deprecate onFullScreen() - not needed
 - WIN/OSX: fix BUG in example when minimising maximising
 - OSX: add web page title to popup window
 - WIN: Added multi-tab support using methods addTab() and switchTab() 

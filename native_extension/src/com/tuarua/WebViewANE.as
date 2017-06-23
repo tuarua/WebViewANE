@@ -29,6 +29,7 @@ import com.tuarua.webview.BackForwardList;
 import com.tuarua.webview.DownloadProgress;
 import com.tuarua.webview.JavascriptResult;
 import com.tuarua.webview.Settings;
+import com.tuarua.webview.TabDetails;
 import com.tuarua.webview.WebViewEvent;
 
 import flash.display.BitmapData;
@@ -64,7 +65,7 @@ public class WebViewANE extends EventDispatcher {
     private var _visible:Boolean;
     private var _backgroundColor:uint = 0xFFFFFF;
     private var _backgroundAlpha:Number = 1.0;
-    private var _currentTab:int = 0;
+    private var _stage:Stage;
 
     public function WebViewANE() {
         initiate();
@@ -106,27 +107,35 @@ public class WebViewANE extends EventDispatcher {
 
             case WebViewEvent.ON_PROPERTY_CHANGE:
                 pObj = JSON.parse(event.code);
-                if (pObj.propName == "url") {
-                    _url = pObj.value;
-                } else if (pObj.propName == "title") {
-                    _title = pObj.value;
-                } else if (pObj.propName == "isLoading") {
-                    _isLoading = pObj.value;
-                } else if (pObj.propName == "canGoBack") {
-                    _canGoBack = pObj.value;
-                } else if (pObj.propName == "canGoForward") {
-                    _canGoForward = pObj.value;
-                } else if (pObj.propName == "estimatedProgress") {
-                    _estimatedProgress = pObj.value;
-                } else if (pObj.propName == "statusMessage") {
-                    _statusMessage = pObj.value;
-                }
+
                 var tab:int = 0;
                 if (pObj.hasOwnProperty("tab")) {
                     tab = pObj.tab;
                 }
+
+                if (currentTab == tab) {
+                    if (pObj.propName == "url") {
+                        _url = pObj.value;
+                    } else if (pObj.propName == "title") {
+                        _title = pObj.value;
+                    } else if (pObj.propName == "isLoading") {
+                        _isLoading = pObj.value;
+                    } else if (pObj.propName == "canGoBack") {
+                        _canGoBack = pObj.value;
+                    } else if (pObj.propName == "canGoForward") {
+                        _canGoForward = pObj.value;
+                    } else if (pObj.propName == "estimatedProgress") {
+                        _estimatedProgress = pObj.value;
+                    } else if (pObj.propName == "statusMessage") {
+                        _statusMessage = pObj.value;
+                    }
+                }
+                //trace(event.code);
+
+
                 dispatchEvent(new WebViewEvent(WebViewEvent.ON_PROPERTY_CHANGE, {
                     propertyName: pObj.propName,
+                    value: pObj.value,
                     tab: tab
                 }));
                 break;
@@ -363,7 +372,8 @@ public class WebViewANE extends EventDispatcher {
     public function init(stage:Stage, viewPort:Rectangle, initialUrl:String = null,
                          settings:Settings = null, scaleFactor:Number = 1.0,
                          backgroundColor:uint = 0xFFFFFF, backgroundAlpha:Number = 1.0):void {
-        stage.addEventListener(FullScreenEvent.FULL_SCREEN, onFullScreenEvent);
+        _stage = stage;
+        //stage.addEventListener(FullScreenEvent.FULL_SCREEN, onFullScreenEvent);
         _viewPort = viewPort;
 
         //hasn't been set by setBackgroundColor
@@ -387,9 +397,9 @@ public class WebViewANE extends EventDispatcher {
     }
 
     private function onFullScreenEvent(event:FullScreenEvent):void {
-        if (safetyCheck()) {
-            ANEContext.ctx.call("onFullScreen", event.fullScreen);
-        }
+        //if (safetyCheck()) {
+        //ANEContext.ctx.call("onFullScreen", event.fullScreen);
+        //}
     }
 
     [Deprecated(replacement="viewPort")]
@@ -513,8 +523,17 @@ public class WebViewANE extends EventDispatcher {
             ANEContext.ctx.call("reloadFromOrigin");
     }
 
-    [Deprecated(message="handled by passing stage with init")]
+    //[Deprecated(message="handled by passing stage with init")]
+
+    /**
+     *
+     * @param fs When going fullscreen set this to true, when coming out of fullscreen set to false
+     *
+     */
     public function onFullScreen(fs:Boolean = false):void {
+        //trace(_stage.width, _stage.height, _stage.stageWidth, _stage.stageHeight)
+        if (safetyCheck())
+            ANEContext.ctx.call("onFullScreen", fs);
     }
 
     /**
@@ -541,21 +560,34 @@ public class WebViewANE extends EventDispatcher {
 
 
     public function addTab(initialUrl:String = null):void {
-        if (safetyCheck()) {
+        if (safetyCheck())
             var ct:int = int(ANEContext.ctx.call("addTab", initialUrl));
-            _currentTab = (ct > -1) ? ct : _currentTab;
-            trace("adding tab, current is now ", _currentTab);
-        }
-
     }
 
-    public function switchTab(index:int):void {
+    public function closeTab(index:int):void {
+        if (safetyCheck())
+            ANEContext.ctx.call("closeTab", index);
+    }
+
+    public function set currentTab(value:int):void {
+        if (safetyCheck())
+            ANEContext.ctx.call("setCurrentTab", value);
+    }
+
+    public function get currentTab():int {
+        var ct:int = 0;
+        if (safetyCheck())
+            ct = int(ANEContext.ctx.call("getCurrentTab"));
+        return ct;
+    }
+
+    public function get tabDetails():Vector.<TabDetails> {
+        var ret:Vector.<TabDetails> = new Vector.<TabDetails>();
         if (safetyCheck()) {
-            trace("switching tab from ", _currentTab);
-            var ct:int = int(ANEContext.ctx.call("switchTab", index));
-            _currentTab = (ct > -1) ? ct : _currentTab;
-            trace("switching tab to ", _currentTab);
+            ret = Vector.<TabDetails>(ANEContext.ctx.call("getTabDetails"));
         }
+        return ret;
+
     }
 
 
@@ -617,6 +649,7 @@ public class WebViewANE extends EventDispatcher {
      * @return current url
      *
      */
+    [Deprecated(replacement="tabDetails")]
     public function get url():String {
         return _url;
     }
@@ -626,6 +659,7 @@ public class WebViewANE extends EventDispatcher {
      * @return current page title
      *
      */
+    [Deprecated(replacement="tabDetails")]
     public function get title():String {
         return _title;
     }
@@ -635,6 +669,7 @@ public class WebViewANE extends EventDispatcher {
      * @return whether the page is loading
      *
      */
+    [Deprecated(replacement="tabDetails")]
     public function get isLoading():Boolean {
         return _isLoading;
     }
@@ -646,6 +681,7 @@ public class WebViewANE extends EventDispatcher {
      * <p>A Boolean value indicating whether we can navigate back.</p>
      *
      */
+    [Deprecated(replacement="tabDetails")]
     public function get canGoBack():Boolean {
         return _canGoBack;
     }
@@ -657,6 +693,7 @@ public class WebViewANE extends EventDispatcher {
      * <p>A Boolean value indicating whether we can navigate forward.</p>
      *
      */
+    [Deprecated(replacement="tabDetails")]
     public function get canGoForward():Boolean {
         return _canGoForward;
     }
@@ -667,6 +704,7 @@ public class WebViewANE extends EventDispatcher {
      * Available on OSX only
      *
      */
+    [Deprecated(replacement="tabDetails")]
     public function get estimatedProgress():Number {
         return _estimatedProgress;
     }
@@ -713,6 +751,7 @@ public class WebViewANE extends EventDispatcher {
      * <p><strong>Windows only.</strong></p>
      *
      */
+    [Deprecated(replacement="tabDetails")]
     public function get statusMessage():String {
         return _statusMessage;
     }
@@ -813,8 +852,6 @@ public class WebViewANE extends EventDispatcher {
 
     }
 
-    public function get currentTab():int {
-        return _currentTab;
-    }
+
 }
 }
