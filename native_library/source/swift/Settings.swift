@@ -21,45 +21,50 @@
 
 import Foundation
 import WebKit
+
 #if os(iOS)
-    import FRESwift
+
+import FRESwift
+
 #else
-    import Cocoa
+
+import Cocoa
+
 #endif
 
 public struct Settings {
     private var _configuration: Configuration
     private var _userAgent: String?
     private var _urlWhiteList: NSArray?
-    
+
     public var configuration: Configuration {
         get {
             return _configuration
         }
     }
-    
-    public var userAgent:String? {
+
+    public var userAgent: String? {
         get {
             return _userAgent
         }
     }
-    
-    public var urlWhiteList:NSArray? {
+
+    public var urlWhiteList: NSArray? {
         get {
             return _urlWhiteList
         }
     }
-    
-    init(dictionary:Dictionary<String, AnyObject>) {
+
+    init(dictionary: Dictionary<String, AnyObject>) {
         _configuration = Configuration.init(dictionary: dictionary)
-        
+
         if let ua: String = dictionary["userAgent"] as? String {
             _userAgent = ua
         }
-        
+
         if let uwl: NSArray = dictionary["urlWhiteList"] as? NSArray {
             _urlWhiteList = uwl
         }
-        
+
     }
 }

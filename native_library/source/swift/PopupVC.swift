@@ -25,16 +25,17 @@ import WebKit
 
 class PopupVC: NSViewController, WKUIDelegate, WKNavigationDelegate {
     private var _webView: WKWebView?
-    private var _configuration: WKWebViewConfiguration = WKWebViewConfiguration()
+    private var _configuration: WKWebViewConfiguration!
     private var _request: URLRequest!
     private var _width: Int!
     private var _height: Int!
 
-    convenience init(request: URLRequest, width: Int, height: Int) {
+    convenience init(request: URLRequest, width: Int, height: Int, configuration: WKWebViewConfiguration) {
         self.init()
         self._request = request
         self._width = width
         self._height = height
+        self._configuration = configuration
 
         _webView = WKWebView(frame: self.view.frame, configuration: _configuration)
         if let wv = _webView {
@@ -44,6 +45,12 @@ class PopupVC: NSViewController, WKUIDelegate, WKNavigationDelegate {
             wv.addObserver(self, forKeyPath: "title", options: .new, context: nil)
             wv.load(_request)
             self.view.addSubview(wv)
+        }
+    }
+
+    func dispose() {
+        if let wv = _webView {
+            wv.removeObserver(self, forKeyPath: "title")
         }
     }
 

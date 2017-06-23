@@ -20,13 +20,14 @@
 //  All Rights Reserved. Tua Rua Ltd.
 
 import Cocoa
+import WebKit
 
 class Popup: NSObject, NSWindowDelegate {
     private var _popupWindow: NSWindow!
     private var _popupVC: PopupVC!
     public var popupDimensions: (Int, Int) = (800, 600)
 
-    public func createPopupWindow(url: URLRequest) {
+    public func createPopupWindow(url: URLRequest, configuration: WKWebViewConfiguration) {
         _popupWindow = NSWindow(contentRect: NSMakeRect(0, 0, CGFloat(popupDimensions.0), CGFloat(popupDimensions.1)),
                 styleMask: [.titled, .miniaturizable, .closable],
                 backing: NSBackingStoreType.buffered, defer: false)
@@ -34,7 +35,7 @@ class Popup: NSObject, NSWindowDelegate {
         _popupWindow.center()
         _popupWindow.isReleasedWhenClosed = false
         _popupWindow.delegate = self
-        _popupVC = PopupVC(request: url, width: popupDimensions.0, height: popupDimensions.1)
+        _popupVC = PopupVC(request: url, width: popupDimensions.0, height: popupDimensions.1, configuration: configuration)
         _popupWindow.contentView!.addSubview(_popupVC!.view)
         _popupWindow.makeKeyAndOrderFront(nil)
         
@@ -42,6 +43,7 @@ class Popup: NSObject, NSWindowDelegate {
 
     func windowWillClose(_ notification: Notification) {
         //this clears the popup window and it's webview
+        _popupVC.dispose()
         _popupVC.view.removeFromSuperview()
         _popupVC = nil
     }

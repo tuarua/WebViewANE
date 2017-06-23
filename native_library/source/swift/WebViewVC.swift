@@ -18,20 +18,36 @@
 //  undertakes the same purpose as this software. That is, a WebView for Windows,
 //  OSX and/or iOS and/or Android.
 //  All Rights Reserved. Tua Rua Ltd.
+
 import Foundation
 import WebKit
 
 #if os(iOS)
-    
-    import FRESwift
-    
+
+import FRESwift
+
 #else
-    
-    import Cocoa
-    
+
+import Cocoa
+
 #endif
 
 class WebViewVC: WKWebView {
+
+    private var _tab: Int = 0
+    public var tab: Int {
+        get {
+            return _tab
+        }
+        set {
+            _tab = newValue
+        }
+    }
+
+    convenience init(frame: CGRect, configuration: WKWebViewConfiguration, tab: Int) {
+        self.init(frame: frame, configuration: configuration)
+        _tab = tab
+    }
 
     public override init(frame: CGRect, configuration: WKWebViewConfiguration) {
         super.init(frame: frame, configuration: configuration)
@@ -43,40 +59,39 @@ class WebViewVC: WKWebView {
         self.addObserver(self, forKeyPath: "canGoForward", options: .new, context: nil)
     }
 
-    
     public required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
-    
+
     func load(url: String) {
         let myURL = URL(string: url)
         let myRequest = URLRequest(url: myURL!)
         self.load(myRequest)
     }
-    
+
     func load(html: String) {
         self.loadHTMLString(html, baseURL: nil) //TODO
     }
-    
+
     func load(fileUrl: String, allowingReadAccessTo: String) {
         let myURL = URL(string: fileUrl)
         let accessURL = URL(string: allowingReadAccessTo)
-        
-        #if os(iOS)
+
+#if os(iOS)
+        self.loadFileURL(myURL!, allowingReadAccessTo: accessURL!)
+#else
+        if #available(OSX 10.11, *) {
             self.loadFileURL(myURL!, allowingReadAccessTo: accessURL!)
-        #else
-            if #available(OSX 10.11, *) {
-                self.loadFileURL(myURL!, allowingReadAccessTo: accessURL!)
-            } else {
-                // Fallback on earlier versions //TODO
-            }
-        #endif
+        } else {
+            // Fallback on earlier versions //TODO
+        }
+#endif
     }
-    
+
     func evaluateJavaScript(js: String) {
         self.evaluateJavaScript(js, completionHandler: nil)
     }
-    
+
     func evaluateJavaScript(js: String, callback: String) {
         self.evaluateJavaScript(js, completionHandler: { (result: Any?, error: Error?) -> Void in
             var props: Dictionary<String, Any> = Dictionary()
@@ -94,26 +109,79 @@ class WebViewVC: WKWebView {
             sendEvent(name: Constants.AS_CALLBACK_EVENT, value: json.description)
         })
     }
-    
-    func setPositionAndSize(viewPort:CGRect){
-        #if os(iOS)
-            let realY = _viewPort.origin.y
-            var frame: CGRect = self.frame
-            frame.origin.x = viewPort.origin.x
-            frame.origin.y = realY
-            frame.size.width = viewPort.size.width
-            frame.size.height = viewPort.size.height
-            self.frame = frame
-        #else
-            let realY = ((NSApp.mainWindow?.contentLayoutRect.height)! - viewPort.size.height) - viewPort.origin.y;
-            self.setFrameOrigin(NSPoint.init(x: viewPort.origin.x, y: realY))
-            self.setFrameSize(NSSize.init(width: viewPort.size.width, height: viewPort.size.height))
-        #endif
+
+    func setPositionAndSize(viewPort: CGRect) {
+#if os(iOS)
+        let realY = _viewPort.origin.y
+        var frame: CGRect = self.frame
+        frame.origin.x = viewPort.origin.x
+        frame.origin.y = realY
+        frame.size.width = viewPort.size.width
+        frame.size.height = viewPort.size.height
+        self.frame = frame
+#else
+        let realY = ((NSApp.mainWindow?.contentLayoutRect.height)! - viewPort.size.height) - viewPort.origin.y;
+
+        /*
+            trace("NSApp.mainWindow?.contentLayoutRect", NSApp.mainWindow?.contentLayoutRect)
+            trace("viewPort.size.height", viewPort.size.height)
+            trace("viewPort.size.height", viewPort.origin.y)
+            trace("setPositionAndSize", viewPort.debugDescription)
+            trace("realY", realY)
+     */
+
+        self.setFrameOrigin(NSPoint.init(x: viewPort.origin.x, y: realY))
+        self.setFrameSize(NSSize.init(width: viewPort.size.width, height: viewPort.size.height))
+#endif
     }
-    
+
+    public func switchTabTo() {
+        var props: Dictionary<String, Any> = Dictionary()
+        var json: JSON
+        if let val = self.url?.absoluteString {
+            if val != "" {
+                props = Dictionary()
+                props["propName"] = "url"
+                props["value"] = val
+                props["tab"] = _tab
+                json = JSON(props)
+                sendEvent(name: Constants.ON_PROPERTY_CHANGE, value: json.description)
+            }
+        }
+
+        if let val = self.title {
+            if val != "" {
+                props = Dictionary()
+                props["propName"] = "title"
+                props["value"] = val
+                props["tab"] = _tab
+                json = JSON(props)
+                sendEvent(name: Constants.ON_PROPERTY_CHANGE, value: json.description)
+            }
+        }
+
+        props["propName"] = "canGoBack"
+        props["value"] = self.canGoBack
+        props["tab"] = _tab
+        json = JSON(props)
+        sendEvent(name: Constants.ON_PROPERTY_CHANGE, value: json.description)
+
+        props["propName"] = "canGoForward"
+        props["value"] = self.canGoForward
+        props["tab"] = _tab
+        json = JSON(props)
+        sendEvent(name: Constants.ON_PROPERTY_CHANGE, value: json.description)
+
+        props["propName"] = "isLoading"
+        props["value"] = self.isLoading
+        props["tab"] = _tab
+        json = JSON(props)
+        sendEvent(name: Constants.ON_PROPERTY_CHANGE, value: json.description)
+    }
+
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
         var props: Dictionary<String, Any> = Dictionary()
-        
+
         switch keyPath! {
         case "estimatedProgress":
             props["propName"] = "estimatedProgress"
@@ -156,13 +224,27 @@ class WebViewVC: WKWebView {
             props["value"] = nil
             break
         }
-        
+
+        props["tab"] = _tab
         let json = JSON(props)
         if ((props["propName"]) != nil) {
             sendEvent(name: Constants.ON_PROPERTY_CHANGE, value: json.description)
         }
         return
     }
-    
-    
+
+
+    func dispose() {
+        self.removeObserver(self, forKeyPath: "loading")
+        self.removeObserver(self, forKeyPath: "estimatedProgress")
+        self.removeObserver(self, forKeyPath: "title")
+        self.removeObserver(self, forKeyPath: "URL")
+        self.removeObserver(self, forKeyPath: "canGoBack")
+        self.removeObserver(self, forKeyPath: "canGoForward")
+    }
+
+    override var isFlipped: Bool {
+        return true
+    }
+
 }
