@@ -9,16 +9,16 @@ init(stage:Stage, viewPort:Rectangle, initialUrl:String, settings:Settings, scal
 - AND/iOS/WIN/OSX: deprecate removeFromStage() - use visible setter instead
 - AND/iOS/WIN/OSX: deprecate setBackgroundColor() - use params in init instead
 - AND/iOS/WIN/OSX: deprecate shutDown() - not needed
-- AND/iOS/WIN/OSX: deprecate getMagnification() inconsistent behaviour
-- AND/iOS/WIN/OSX: deprecate setMagnification() inconsistent behaviour
-- AND/iOS/WIN/OSX: add zoomIn() and zoomOut() methods
+- AND/WIN/OSX: deprecate getMagnification() due to inconsistent behaviour
+- AND/WIN/OSX: deprecate setMagnification() due to inconsistent behaviour
+- AND/WIN/OSX: add zoomIn() and zoomOut() methods
 - AND/iOS/WIN/OSX: deprecate url, title, isLoading, canGoBack, canGoForward, estimatedProgress getters - call tabDetails getter instead
 - OSX: fix BUG in example when minimising maximising
 - OSX: add web page title to popup window
 - iOS/OSX: fix BUG in go() method
 - AND/iOS/OSX: add whitelist to settings
 - AND: add WebViewEvent.ON_FAIL events
-- iOS/WIN/OSX: update example to AIR SDK 26
+- WIN/OSX: update example to AIR SDK 26
 - iOS/OSX: refactor
 - WIN/OSX: Add check that AIR window can be referenced before attaching the native view
 
