@@ -1,19 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><apiPackage id="com.tuarua.webview"><apiName>com.tuarua.webview</apiName><apiDetail/><apiClassifier id="com.tuarua.webview:JavascriptResult"><apiName>JavascriptResult</apiName><shortdesc/><prolog><asMetadata/></prolog><apiClassifierDetail><apiClassifierDef><apiAccess value="public"/><apiStatic/><apiBaseClassifier>Object</apiBaseClassifier></apiClassifierDef></apiClassifierDetail><apiConstructor id="com.tuarua.webview:JavascriptResult:JavascriptResult"><apiName>JavascriptResult</apiName><shortdesc/><prolog/><apiConstructorDetail><apiConstructorDef><apiAccess value="public"/><apiParam><apiItemName>result</apiItemName><apiType value="any"/><apiData>null</apiData></apiParam><apiParam><apiItemName>message</apiItemName><apiType value="String"/><apiData>null</apiData></apiParam><apiParam><apiItemName>error</apiItemName><apiType value="String"/><apiData>null</apiData></apiParam><apiParam><apiItemName>success</apiItemName><apiType value="Boolean"/><apiData>false</apiData></apiParam></apiConstructorDef></apiConstructorDetail></apiConstructor><apiValue id="com.tuarua.webview:JavascriptResult:error"><apiName>error</apiName><shortdesc>
-	 
-	 </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value="String"/></apiValueDef><apiDesc>
-	 
-	 </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:JavascriptResult:message"><apiName>message</apiName><shortdesc>
-	 Reserved for future use.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value="String"/></apiValueDef><apiDesc>
-	 Reserved for future use.
-	 </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:JavascriptResult:result"><apiName>result</apiName><shortdesc>
-	 
-	 </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value=""/></apiValueDef><apiDesc>
-	 
-	 </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:JavascriptResult:success"><apiName>success</apiName><shortdesc>
-	 
-	 </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value="Boolean"/></apiValueDef><apiDesc>
-	 
-	 </apiDesc></apiValueDetail></apiValue></apiClassifier><apiClassifier id="com.tuarua.webview:WebkitSettings"><apiName>WebkitSettings</apiName><shortdesc/><prolog><asMetadata/></prolog><apiClassifierDetail><apiClassifierDef><apiAccess value="public"/><apiStatic/><apiBaseClassifier>Object</apiBaseClassifier></apiClassifierDef></apiClassifierDetail><apiConstructor id="com.tuarua.webview:WebkitSettings:WebkitSettings"><apiName>WebkitSettings</apiName><shortdesc/><prolog/><apiConstructorDetail><apiConstructorDef><apiAccess value="public"/></apiConstructorDef></apiConstructorDetail></apiConstructor><apiValue id="com.tuarua.webview:WebkitSettings:allowsAirPlayForMediaPlayback"><apiName>allowsAirPlayForMediaPlayback</apiName><shortdesc>
+<?xml version="1.0" encoding="UTF-8"?><apiPackage id="com.tuarua.webview"><apiName>com.tuarua.webview</apiName><apiDetail/><apiClassifier id="com.tuarua.webview:WebkitSettings"><apiName>WebkitSettings</apiName><shortdesc/><prolog><asMetadata/></prolog><apiClassifierDetail><apiClassifierDef><apiAccess value="public"/><apiStatic/><apiBaseClassifier>Object</apiBaseClassifier></apiClassifierDef></apiClassifierDetail><apiConstructor id="com.tuarua.webview:WebkitSettings:WebkitSettings"><apiName>WebkitSettings</apiName><shortdesc/><prolog/><apiConstructorDetail><apiConstructorDef><apiAccess value="public"/></apiConstructorDef></apiConstructorDetail></apiConstructor><apiValue id="com.tuarua.webview:WebkitSettings:allowsAirPlayForMediaPlayback"><apiName>allowsAirPlayForMediaPlayback</apiName><shortdesc>
      A Boolean value indicating whether AirPlay is allowed.
      </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>true</apiData><apiType value="Boolean"/></apiValueDef><apiDesc>
      <p>A Boolean value indicating whether AirPlay is allowed.</p>
@@ -47,6 +32,64 @@
 	 </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:WebkitSettings:plugInsEnabled"><apiName>plugInsEnabled</apiName><shortdesc>
 	 A Boolean value indicating whether plug-ins are enabled.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>true</apiData><apiType value="Boolean"/></apiValueDef><apiDesc>
 	 <p>A Boolean value indicating whether plug-ins are enabled. OSX only.</p>
+	 </apiDesc></apiValueDetail></apiValue></apiClassifier><apiClassifier id="com.tuarua.webview:TabDetails"><apiName>TabDetails</apiName><shortdesc/><prolog><asMetadata/></prolog><apiClassifierDetail><apiClassifierDef><apiAccess value="public"/><apiStatic/><apiBaseClassifier>Object</apiBaseClassifier></apiClassifierDef></apiClassifierDetail><apiConstructor id="com.tuarua.webview:TabDetails:TabDetails"><apiName>TabDetails</apiName><shortdesc/><prolog/><apiConstructorDetail><apiConstructorDef><apiAccess value="public"/><apiParam><apiItemName>index</apiItemName><apiType value="int"/></apiParam><apiParam><apiItemName>url</apiItemName><apiType value="String"/></apiParam><apiParam><apiItemName>title</apiItemName><apiType value="String"/></apiParam><apiParam><apiItemName>isLoading</apiItemName><apiType value="Boolean"/></apiParam><apiParam><apiItemName>canGoBack</apiItemName><apiType value="Boolean"/></apiParam><apiParam><apiItemName>canGoForward</apiItemName><apiType value="Boolean"/></apiParam><apiParam><apiItemName>estimatedProgress</apiItemName><apiType value="Number"/></apiParam></apiConstructorDef></apiConstructorDetail></apiConstructor><apiValue id="com.tuarua.webview:TabDetails:canGoBack"><apiName>canGoBack</apiName><shortdesc>
+     
+     </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value="Boolean"/></apiValueDef><apiDesc>
+     
+     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:TabDetails:canGoForward"><apiName>canGoForward</apiName><shortdesc>
+     
+     </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value="Boolean"/></apiValueDef><apiDesc>
+     
+     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:TabDetails:estimatedProgress"><apiName>estimatedProgress</apiName><shortdesc>
+     
+     </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value="Number"/></apiValueDef><apiDesc>
+     
+     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:TabDetails:index"><apiName>index</apiName><shortdesc>
+     
+     </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value="int"/></apiValueDef><apiDesc>
+     
+     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:TabDetails:isLoading"><apiName>isLoading</apiName><shortdesc>
+     
+     </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value="Boolean"/></apiValueDef><apiDesc>
+     
+     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:TabDetails:title"><apiName>title</apiName><shortdesc>
+     
+     </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value="String"/></apiValueDef><apiDesc>
+     
+     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:TabDetails:url"><apiName>url</apiName><shortdesc>
+     
+     </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value="String"/></apiValueDef><apiDesc>
+     
+     </apiDesc></apiValueDetail></apiValue></apiClassifier><apiClassifier id="com.tuarua.webview:BackForwardList"><apiName>BackForwardList</apiName><shortdesc/><prolog><asMetadata/></prolog><apiClassifierDetail><apiClassifierDef><apiAccess value="public"/><apiStatic/><apiBaseClassifier>Object</apiBaseClassifier></apiClassifierDef></apiClassifierDetail><apiConstructor id="com.tuarua.webview:BackForwardList:BackForwardList"><apiName>BackForwardList</apiName><shortdesc/><prolog/><apiConstructorDetail><apiConstructorDef><apiAccess value="public"/></apiConstructorDef></apiConstructorDetail></apiConstructor><apiValue id="com.tuarua.webview:BackForwardList:backList"><apiName>backList</apiName><shortdesc>
+	 
+	 </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>unknown</apiData><apiType value="Vector$com.tuarua.webview:BackForwardListItem"/></apiValueDef><apiDesc>
+	 
+	 </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:BackForwardList:currentItem"><apiName>currentItem</apiName><shortdesc>
+	 
+	 </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiValueClassifier>com.tuarua.webview:BackForwardListItem</apiValueClassifier></apiValueDef><apiDesc>
+	 
+	 </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:BackForwardList:forwardList"><apiName>forwardList</apiName><shortdesc>
+	 
+	 </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>unknown</apiData><apiType value="Vector$com.tuarua.webview:BackForwardListItem"/></apiValueDef><apiDesc>
+	 
+	 </apiDesc></apiValueDetail></apiValue></apiClassifier><apiClassifier id="com.tuarua.webview:ContextMenu"><apiName>ContextMenu</apiName><shortdesc/><prolog><asMetadata/></prolog><apiClassifierDetail><apiClassifierDef><apiAccess value="public"/><apiStatic/><apiBaseClassifier>Object</apiBaseClassifier></apiClassifierDef></apiClassifierDetail><apiValue id="com.tuarua.webview:ContextMenu:enabled"><apiName>enabled</apiName><shortdesc>
+ Sets whether the context menu is displayed on right click.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>true</apiData><apiType value="Boolean"/></apiValueDef><apiDesc>
+ <p>Sets whether the context menu is displayed on right click. </p>
+</apiDesc></apiValueDetail></apiValue></apiClassifier><apiClassifier id="com.tuarua.webview:JavascriptResult"><apiName>JavascriptResult</apiName><shortdesc/><prolog><asMetadata/></prolog><apiClassifierDetail><apiClassifierDef><apiAccess value="public"/><apiStatic/><apiBaseClassifier>Object</apiBaseClassifier></apiClassifierDef></apiClassifierDetail><apiConstructor id="com.tuarua.webview:JavascriptResult:JavascriptResult"><apiName>JavascriptResult</apiName><shortdesc/><prolog/><apiConstructorDetail><apiConstructorDef><apiAccess value="public"/><apiParam><apiItemName>result</apiItemName><apiType value="any"/><apiData>null</apiData></apiParam><apiParam><apiItemName>message</apiItemName><apiType value="String"/><apiData>null</apiData></apiParam><apiParam><apiItemName>error</apiItemName><apiType value="String"/><apiData>null</apiData></apiParam><apiParam><apiItemName>success</apiItemName><apiType value="Boolean"/><apiData>false</apiData></apiParam></apiConstructorDef></apiConstructorDetail></apiConstructor><apiValue id="com.tuarua.webview:JavascriptResult:error"><apiName>error</apiName><shortdesc>
+	 
+	 </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value="String"/></apiValueDef><apiDesc>
+	 
+	 </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:JavascriptResult:message"><apiName>message</apiName><shortdesc>
+	 Reserved for future use.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value="String"/></apiValueDef><apiDesc>
+	 Reserved for future use.
+	 </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:JavascriptResult:result"><apiName>result</apiName><shortdesc>
+	 
+	 </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value=""/></apiValueDef><apiDesc>
+	 
+	 </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:JavascriptResult:success"><apiName>success</apiName><shortdesc>
+	 
+	 </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value="Boolean"/></apiValueDef><apiDesc>
+	 
 	 </apiDesc></apiValueDetail></apiValue></apiClassifier><apiClassifier id="com.tuarua.webview:CefSettings"><apiName>CefSettings</apiName><shortdesc/><prolog><asMetadata/></prolog><apiClassifierDetail><apiClassifierDef><apiAccess value="public"/><apiStatic/><apiBaseClassifier>Object</apiBaseClassifier></apiClassifierDef></apiClassifierDetail><apiConstructor id="com.tuarua.webview:CefSettings:CefSettings"><apiName>CefSettings</apiName><shortdesc/><prolog/><apiConstructorDetail><apiConstructorDef><apiAccess value="public"/></apiConstructorDef></apiConstructorDetail></apiConstructor><apiValue id="com.tuarua.webview:CefSettings:GOOGLE_API_KEY"><apiName>GOOGLE_API_KEY</apiName><shortdesc>
  Keys for retrieving user location please see https://www.chromium.org/developers/how-tos/api-keys.
  </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value="String"/></apiValueDef><apiDesc>
@@ -93,21 +136,24 @@ port. For example, if 8080 is specified the remote debugging URL will be http://
 CEF can be remotely debugged from any CEF or Chrome browser window. Also configurable
 using the "remote-debugging-port" command-line switch.</p>
  </apiDesc></apiValueDetail></apiValue></apiClassifier><apiClassifier id="com.tuarua.webview:DownloadProgress"><apiName>DownloadProgress</apiName><shortdesc/><prolog><asMetadata/></prolog><apiClassifierDetail><apiClassifierDef><apiAccess value="public"/><apiStatic/><apiBaseClassifier>Object</apiBaseClassifier></apiClassifierDef></apiClassifierDetail><apiConstructor id="com.tuarua.webview:DownloadProgress:DownloadProgress"><apiName>DownloadProgress</apiName><shortdesc/><prolog/><apiConstructorDetail><apiConstructorDef><apiAccess value="public"/></apiConstructorDef></apiConstructorDetail></apiConstructor><apiValue id="com.tuarua.webview:DownloadProgress:bytesLoaded"><apiName>bytesLoaded</apiName><shortdesc>
-	 Returns the number of received bytes.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>0</apiData><apiType value="uint"/></apiValueDef><apiDesc>
-	 Returns the number of received bytes.
-	 </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:DownloadProgress:bytesTotal"><apiName>bytesTotal</apiName><shortdesc>
-	 Returns the total number of bytes.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>0</apiData><apiType value="uint"/></apiValueDef><apiDesc>
-	 Returns the total number of bytes.
-	 </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:DownloadProgress:id"><apiName>id</apiName><shortdesc>
-	 Returns the unique identifier for this download.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>0</apiData><apiType value="uint"/></apiValueDef><apiDesc>
-	 Returns the unique identifier for this download.
-	 </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:DownloadProgress:percent"><apiName>percent</apiName><shortdesc>
-	 Returns the rough percent complete or -1 if the receive total size is unknown.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>0</apiData><apiType value="uint"/></apiValueDef><apiDesc>
-	 Returns the rough percent complete or -1 if the receive total size is unknown.
-	 </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:DownloadProgress:speed"><apiName>speed</apiName><shortdesc>
-	 Returns a simple speed estimate in bytes/s.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>0</apiData><apiType value="uint"/></apiValueDef><apiDesc>
-	 Returns a simple speed estimate in bytes/s.
-	 </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:DownloadProgress:url"><apiName>url</apiName><shortdesc>
+     Returns the number of received bytes.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>0</apiData><apiType value="uint"/></apiValueDef><apiDesc>
+     Returns the number of received bytes.
+     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:DownloadProgress:bytesTotal"><apiName>bytesTotal</apiName><shortdesc>
+     Returns the total number of bytes.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>0</apiData><apiType value="uint"/></apiValueDef><apiDesc>
+     Returns the total number of bytes.
+     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:DownloadProgress:id"><apiName>id</apiName><shortdesc>
+     Returns the unique identifier for this download.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>0</apiData><apiType value="uint"/></apiValueDef><apiDesc>
+     Returns the unique identifier for this download.
+     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:DownloadProgress:percent"><apiName>percent</apiName><shortdesc>
+     Returns the rough percent complete or -1 if the receive total size is unknown.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>0</apiData><apiType value="uint"/></apiValueDef><apiDesc>
+     Returns the rough percent complete or -1 if the receive total size is unknown.
+     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:DownloadProgress:speed"><apiName>speed</apiName><shortdesc>
+     Returns a simple speed estimate in bytes/s.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>0</apiData><apiType value="uint"/></apiValueDef><apiDesc>
+     Returns a simple speed estimate in bytes/s.
+     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:DownloadProgress:tab"><apiName>tab</apiName><shortdesc>
+     Returns the current tab of this download.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>0</apiData><apiType value="int"/></apiValueDef><apiDesc>
+     Returns the current tab of this download.
+     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:DownloadProgress:url"><apiName>url</apiName><shortdesc>
      Returns the URL as it was before any redirects.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value="String"/></apiValueDef><apiDesc>
      Returns the URL as it was before any redirects.
      </apiDesc></apiValueDetail></apiValue></apiClassifier><apiClassifier id="com.tuarua.webview:WebViewEvent"><apiName>WebViewEvent</apiName><shortdesc/><prolog><asMetadata/></prolog><apiClassifierDetail><apiClassifierDef><apiAccess value="public"/><apiStatic/><apiBaseClassifier>flash.events:Event</apiBaseClassifier></apiClassifierDef></apiClassifierDetail><apiConstructor id="com.tuarua.webview:WebViewEvent:WebViewEvent"><apiName>WebViewEvent</apiName><shortdesc/><prolog/><apiConstructorDetail><apiConstructorDef><apiAccess value="public"/><apiParam><apiItemName>type</apiItemName><apiType value="String"/></apiParam><apiParam><apiItemName>params</apiItemName><apiType value="any"/><apiData>null</apiData></apiParam><apiParam><apiItemName>bubbles</apiItemName><apiType value="Boolean"/><apiData>false</apiData></apiParam><apiParam><apiItemName>cancelable</apiItemName><apiType value="Boolean"/><apiData>false</apiData></apiParam></apiConstructorDef></apiConstructorDetail></apiConstructor><apiOperation id="com.tuarua.webview:WebViewEvent:clone"><apiName>clone</apiName><shortdesc/><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiIsOverride/><apiReturn><apiType value="flash.events:Event"/></apiReturn></apiOperationDef></apiOperationDetail></apiOperation><apiOperation id="com.tuarua.webview:WebViewEvent:toString"><apiName>toString</apiName><shortdesc/><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiIsOverride/><apiReturn><apiType value="String"/></apiReturn></apiOperationDef></apiOperationDetail></apiOperation><apiValue id="com.tuarua.webview:WebViewEvent:ON_CONSOLE_MESSAGE"><apiName>ON_CONSOLE_MESSAGE</apiName><shortdesc>
@@ -146,30 +192,14 @@ using the "remote-debugging-port" command-line switch.</p>
      <p><b>Windows only.</b></p>
      </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:WebViewEvent:ON_PROPERTY_CHANGE"><apiName>ON_PROPERTY_CHANGE</apiName><shortdesc>
      Dispatched when one of the following is updated url, title, isLoading, canGoBack, canGoForward,
-     estimatedProgress, statusMessage
-     </shortdesc><prolog/><apiValueDetail><apiValueDef><apiAccess value="public"/><apiStatic/><apiData>WebView.OnPropertyChange</apiData><apiType value="String"/></apiValueDef><apiDesc>
+     estimatedProgress, statusMessage.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiAccess value="public"/><apiStatic/><apiData>WebView.OnPropertyChange</apiData><apiType value="String"/></apiValueDef><apiDesc>
      Dispatched when one of the following is updated url, title, isLoading, canGoBack, canGoForward,
-     estimatedProgress, statusMessage
+     estimatedProgress, statusMessage. This returns an object with 2 properties:  propertyName, tab
      </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:WebViewEvent:ON_URL_BLOCKED"><apiName>ON_URL_BLOCKED</apiName><shortdesc>
      Dispatched when a url is blocked (due to settings.urlWhiteList).</shortdesc><prolog/><apiValueDetail><apiValueDef><apiAccess value="public"/><apiStatic/><apiData>WebView.OnUrlBlocked</apiData><apiType value="String"/></apiValueDef><apiDesc>
      Dispatched when a url is blocked (due to settings.urlWhiteList).
-     <p><b>Windows, OSX, iOS only.</b></p>
-     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:WebViewEvent:params"><apiName>params</apiName><shortdesc/><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value=""/></apiValueDef></apiValueDetail></apiValue></apiClassifier><apiClassifier id="com.tuarua.webview:BackForwardList"><apiName>BackForwardList</apiName><shortdesc/><prolog><asMetadata/></prolog><apiClassifierDetail><apiClassifierDef><apiAccess value="public"/><apiStatic/><apiBaseClassifier>Object</apiBaseClassifier></apiClassifierDef></apiClassifierDetail><apiConstructor id="com.tuarua.webview:BackForwardList:BackForwardList"><apiName>BackForwardList</apiName><shortdesc/><prolog/><apiConstructorDetail><apiConstructorDef><apiAccess value="public"/></apiConstructorDef></apiConstructorDetail></apiConstructor><apiValue id="com.tuarua.webview:BackForwardList:backList"><apiName>backList</apiName><shortdesc>
-	 
-	 </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>unknown</apiData><apiType value="Vector$com.tuarua.webview:BackForwardListItem"/></apiValueDef><apiDesc>
-	 
-	 </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:BackForwardList:currentItem"><apiName>currentItem</apiName><shortdesc>
-	 
-	 </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiValueClassifier>com.tuarua.webview:BackForwardListItem</apiValueClassifier></apiValueDef><apiDesc>
-	 
-	 </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:BackForwardList:forwardList"><apiName>forwardList</apiName><shortdesc>
-	 
-	 </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>unknown</apiData><apiType value="Vector$com.tuarua.webview:BackForwardListItem"/></apiValueDef><apiDesc>
-	 
-	 </apiDesc></apiValueDetail></apiValue></apiClassifier><apiClassifier id="com.tuarua.webview:ContextMenu"><apiName>ContextMenu</apiName><shortdesc/><prolog><asMetadata/></prolog><apiClassifierDetail><apiClassifierDef><apiAccess value="public"/><apiStatic/><apiBaseClassifier>Object</apiBaseClassifier></apiClassifierDef></apiClassifierDetail><apiValue id="com.tuarua.webview:ContextMenu:enabled"><apiName>enabled</apiName><shortdesc>
- Sets whether the context menu is displayed on right click.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>true</apiData><apiType value="Boolean"/></apiValueDef><apiDesc>
- <p>Sets whether the context menu is displayed on right click. </p>
-</apiDesc></apiValueDetail></apiValue></apiClassifier><apiClassifier id="com.tuarua.webview:BackForwardListItem"><apiName>BackForwardListItem</apiName><shortdesc/><prolog><asMetadata/></prolog><apiClassifierDetail><apiClassifierDef><apiAccess value="public"/><apiStatic/><apiBaseClassifier>Object</apiBaseClassifier></apiClassifierDef></apiClassifierDetail><apiConstructor id="com.tuarua.webview:BackForwardListItem:BackForwardListItem"><apiName>BackForwardListItem</apiName><shortdesc/><prolog/><apiConstructorDetail><apiConstructorDef><apiAccess value="public"/></apiConstructorDef></apiConstructorDetail></apiConstructor><apiValue id="com.tuarua.webview:BackForwardListItem:initialURL"><apiName>initialURL</apiName><shortdesc>
+     
+     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:WebViewEvent:params"><apiName>params</apiName><shortdesc/><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value=""/></apiValueDef></apiValueDetail></apiValue></apiClassifier><apiClassifier id="com.tuarua.webview:BackForwardListItem"><apiName>BackForwardListItem</apiName><shortdesc/><prolog><asMetadata/></prolog><apiClassifierDetail><apiClassifierDef><apiAccess value="public"/><apiStatic/><apiBaseClassifier>Object</apiBaseClassifier></apiClassifierDef></apiClassifierDetail><apiConstructor id="com.tuarua.webview:BackForwardListItem:BackForwardListItem"><apiName>BackForwardListItem</apiName><shortdesc/><prolog/><apiConstructorDetail><apiConstructorDef><apiAccess value="public"/></apiConstructorDef></apiConstructorDetail></apiConstructor><apiValue id="com.tuarua.webview:BackForwardListItem:initialURL"><apiName>initialURL</apiName><shortdesc>
 	 
 	 </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value="String"/></apiValueDef><apiDesc>
 	 
