@@ -29,6 +29,7 @@
 		CE6232901EF08C7000FC9691 /* FREPointSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE62328F1EF08C7000FC9691 /* FREPointSwift.swift */; };
 		CEA438051E78A2C00099F463 /* SwiftyJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = CEA438031E78A2C00099F463 /* SwiftyJSON.h */; };
 		CEA438061E78A2C00099F463 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA438041E78A2C00099F463 /* SwiftyJSON.swift */; };
+		CEC13D411EFEE651003BDA4A /* WebViewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC13D401EFEE651003BDA4A /* WebViewVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,6 +94,7 @@
 		CEA437FE1E78361D0099F463 /* FlashRuntimeExtensionsBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlashRuntimeExtensionsBridge.h; sourceTree = "<group>"; };
 		CEA438031E78A2C00099F463 /* SwiftyJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SwiftyJSON.h; path = ../../../dependencies/SwiftyJSON.h; sourceTree = "<group>"; };
 		CEA438041E78A2C00099F463 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftyJSON.swift; path = ../../../dependencies/SwiftyJSON.swift; sourceTree = "<group>"; };
+		CEC13D401EFEE651003BDA4A /* WebViewVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebViewVC.swift; path = ../../../source/swift/WebViewVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,6 +147,7 @@
 		CE39808B1E58BAA90062485B /* WebViewANE_FW */ = {
 			isa = PBXGroup;
 			children = (
+				CEC13D401EFEE651003BDA4A /* WebViewVC.swift */,
 				CE59BDDA1EEF38C600F698DE /* WebViewANE.swift */,
 				CE59BDDB1EEF38C600F698DE /* Constants.swift */,
 				CE59BDDC1EEF38C600F698DE /* Settings.swift */,
@@ -414,6 +417,7 @@
 				CE59BDDF1EEF38C600F698DE /* WebViewANE.swift in Sources */,
 				CE59BDE21EEF38C600F698DE /* Configuration.swift in Sources */,
 				CE59BDE31EEF38C600F698DE /* BackForwardList.swift in Sources */,
+				CEC13D411EFEE651003BDA4A /* WebViewVC.swift in Sources */,
 				CEA438061E78A2C00099F463 /* SwiftyJSON.swift in Sources */,
 				CE59BDE11EEF38C600F698DE /* Settings.swift in Sources */,
 				CE59BDE01EEF38C600F698DE /* Constants.swift in Sources */,

@@ -72,7 +72,6 @@ public class StarlingRoot extends Sprite {
     private var statusTxt:TextField;
     private var urlInput:Input;
     private var progress:Quad = new Quad(800, 2, 0x00A3D9);
-    private var currentZoom:Number = 1.0;
     private var _appWidth:uint = 1280;
     private var _appHeight:uint = 800;
     private var tabBar:TabBar = new TabBar();
@@ -267,7 +266,8 @@ public class StarlingRoot extends Sprite {
         fwdBtn.touchable = backBtn.touchable = false;
         progress.scaleX = 0.0;
         urlInput.text = "";
-        webView.addTab(newTabUrls[tabBar.tabs.length - 2]);
+        //webView.addTab(newTabUrls[tabBar.tabs.length - 2]);
+        webView.addTab();
         tabBar.setActiveTab(webView.currentTab);
     }
 
@@ -617,7 +617,6 @@ public class StarlingRoot extends Sprite {
     }
 
     private function onFullScreenEvent(event:FullScreenEvent):void {
-        //trace(event);
         if (webView) {
             webView.onFullScreen(event.fullScreen);
             webView.viewPort = new Rectangle(0, 90, _appWidth, _appHeight - 140);
