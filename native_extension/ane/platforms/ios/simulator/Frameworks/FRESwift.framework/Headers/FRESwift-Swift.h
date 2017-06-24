@@ -215,6 +215,36 @@ SWIFT_CLASS("_TtC8FRESwift14FREObjectSwift")
 @end
 
 
+SWIFT_CLASS("_TtC8FRESwift13FREPointSwift")
+@interface FREPointSwift : FREObjectSwift
+- (nonnull instancetype)initWithFreObject:(FREObject _Nullable)freObject OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithValue:(CGPoint)value OBJC_DESIGNATED_INITIALIZER;
+@property (nonatomic, readonly) id _Nullable value;
+- (nullable instancetype)initWithString:(NSString * _Nonnull)string error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
+- (nullable instancetype)initWithDouble:(double)double_ error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
+- (nullable instancetype)initWithCgFloat:(CGFloat)cgFloat error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
+- (nullable instancetype)initWithInt:(NSInteger)int_ error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
+- (nullable instancetype)initWithUint:(NSUInteger)uint error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
+- (nullable instancetype)initWithBool:(BOOL)bool_ error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
+- (nullable instancetype)initWithAny:(id _Nonnull)any error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
+@end
+
+
+SWIFT_CLASS("_TtC8FRESwift17FRERectangleSwift")
+@interface FRERectangleSwift : FREObjectSwift
+- (nonnull instancetype)initWithFreObject:(FREObject _Nullable)freObject OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithValue:(CGRect)value OBJC_DESIGNATED_INITIALIZER;
+@property (nonatomic, readonly) id _Nullable value;
+- (nullable instancetype)initWithString:(NSString * _Nonnull)string error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
+- (nullable instancetype)initWithDouble:(double)double_ error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
+- (nullable instancetype)initWithCgFloat:(CGFloat)cgFloat error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
+- (nullable instancetype)initWithInt:(NSInteger)int_ error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
+- (nullable instancetype)initWithUint:(NSUInteger)uint error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
+- (nullable instancetype)initWithBool:(BOOL)bool_ error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
+- (nullable instancetype)initWithAny:(id _Nonnull)any error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
+@end
+
+
 @interface NSObject (SWIFT_EXTENSION(FRESwift))
 - (FREObject _Nullable)callSwiftFunctionWithName:(NSString * _Nonnull)name ctx:(FREContext _Nonnull)ctx argc:(uint32_t)argc argv:(FREObject _Nullable * _Null_unspecified)argv SWIFT_WARN_UNUSED_RESULT;
 @end

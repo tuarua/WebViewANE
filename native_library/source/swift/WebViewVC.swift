@@ -112,7 +112,7 @@ class WebViewVC: WKWebView {
 
     func setPositionAndSize(viewPort: CGRect) {
 #if os(iOS)
-        let realY = _viewPort.origin.y
+        let realY = viewPort.origin.y
         var frame: CGRect = self.frame
         frame.origin.x = viewPort.origin.x
         frame.origin.y = realY
@@ -242,9 +242,10 @@ class WebViewVC: WKWebView {
         self.removeObserver(self, forKeyPath: "canGoBack")
         self.removeObserver(self, forKeyPath: "canGoForward")
     }
-
+    #if os(OSX)
     override var isFlipped: Bool {
         return true
     }
+    #endif
 
 }

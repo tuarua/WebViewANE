@@ -36,10 +36,12 @@ import Cocoa
     private var _currentWebView: WebViewVC?
     private var _currentTab: Int = 0
     private var _tabList: NSMutableArray = NSMutableArray.init()
-    static var escListener: Any?
+    private static var escListener: Any?
+    private static let zoomIncrement:CGFloat = CGFloat.init(0.1)
     private var _initialUrl: String = ""
     private var _viewPort: CGRect = CGRect.init(x: 0, y: 0, width: 800, height: 600)
-
+    
+    
     public enum PopupBehaviour: Int {
         case block = 0
         case newWindow
@@ -48,6 +50,7 @@ import Cocoa
 
     private var _popupBehaviour: PopupBehaviour = PopupBehaviour.newWindow;
 #if os(iOS)
+    private var _bgColor = UIColor.white
 #else
     private var _popup: Popup!
 #endif
@@ -75,8 +78,8 @@ import Cocoa
         functionsToSet["goBack"] = goBack
         functionsToSet["goForward"] = goForward
         functionsToSet["allowsMagnification"] = allowsMagnification
-        functionsToSet["getMagnification"] = getMagnification
-        functionsToSet["setMagnification"] = setMagnification
+        functionsToSet["zoomIn"] = zoomIn
+        functionsToSet["zoomOut"] = zoomOut
         functionsToSet["setPositionAndSize"] = setPositionAndSize
         functionsToSet["showDevTools"] = showDevTools
         functionsToSet["closeDevTools"] = closeDevTools
@@ -217,52 +220,30 @@ import Cocoa
         }
         return nil
     }
-
-    func getMagnification(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
-        guard argc > 0,
-              let wv = _currentWebView
-          else {
-            traceError(message: "getMagnification - no webview", line: #line, column: #column, file: #file, freError: nil)
-            return nil
+    
+    func zoomIn(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
+        #if os(OSX)
+        guard let wv = _currentWebView
+            else {
+                traceError(message: "zoomIn - no webview", line: #line, column: #column, file: #file, freError: nil)
+                return nil
         }
-        var ret: FREObject? = nil
-#if os(iOS)
-#else
-        do {
-            ret = try FREObjectSwift.init(double: Double(wv.magnification)).rawValue
-        } catch {
-        }
-#endif
-        return ret
+        
+        wv.setMagnification(CGFloat.init(wv.magnification + WebViewANE.zoomIncrement), centeredAt: CGPoint.zero)
+        #endif
+        return nil
     }
 
-    func setMagnification(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
-#if os(iOS)
-#else
-        guard argc > 0,
-              let wv = _currentWebView,
-              let inFRE0 = argv[0],
-              let inFRE1 = argv[1]
-          else {
-            traceError(message: "setMagnification - no webview or incorrect arguments", line: #line, column: #column, file: #file, freError: nil)
-            return nil
+    func zoomOut(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
+        #if os(OSX)
+        guard let wv = _currentWebView
+            else {
+                traceError(message: "zoomIn - no webview", line: #line, column: #column, file: #file, freError: nil)
+                return nil
         }
-        let magFre = FREObjectSwift.init(freObject: inFRE0)
-        var magnification = CGFloat.init(1)
-        if FREObjectTypeSwift.int == magFre.getType() {
-            magnification = CGFloat.init(magFre.value as! Int)
-        }
-        if FREObjectTypeSwift.number == magFre.getType() {
-            magnification = CGFloat.init(magFre.value as! Double)
-        }
-
-        var centeredAt = CGPoint.init()
-        if let ca = FREPointSwift.init(freObject: inFRE1).value as? CGPoint {
-            centeredAt = ca
-        }
-
-        wv.setMagnification(magnification, centeredAt: centeredAt)
-#endif
+        
+        wv.setMagnification(CGFloat.init(wv.magnification - WebViewANE.zoomIncrement), centeredAt: CGPoint.zero)
+        #endif
         return nil
     }
 
@@ -501,17 +482,24 @@ import Cocoa
     }
 
     func addTab(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
+        #if os(iOS)
+            return nil
+        #endif
         guard argc > 0,
-              let wv = _currentWebView,
-              let inFRE0 = argv[0],
-              let url: String = FREObjectSwift(freObject: inFRE0).value as? String
+              let wv = _currentWebView
           else {
-            traceError(message: "addTab - no webview or incorrect arguments", line: #line, column: #column, file: #file, freError: nil)
+            traceError(message: "addTab - no webview", line: #line, column: #column, file: #file, freError: nil)
             return nil
         }
 
+        if let initialUrlFRE: FREObject = argv[0],
+            let initialUrl = FREObjectSwift.init(freObject: initialUrlFRE).value as? String {
+            _initialUrl = initialUrl
+        } else {
+            _initialUrl = ""
+        }
+        
         _currentTab = _tabList.count;
-        _initialUrl = url
 
         _currentWebView = createNewBrowser(frame: CGRect.init(x: wv.frame.origin.x, y: wv.frame.origin.y, width: _viewPort.size.width, height: _viewPort.size.height), tab: _tabList.count)
 
@@ -523,6 +511,9 @@ import Cocoa
     }
 
     func closeTab(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
+        #if os(iOS)
+            return nil
+        #endif
         guard argc > 0,
               let cwv = _currentWebView,
               let inFRE0 = argv[0],
@@ -541,7 +532,9 @@ import Cocoa
         if _tabList.count == 2 {
             _currentTab = 0
         }
-
+        if _currentTab < 0 {
+            _currentTab = 0
+        }
 
 
         var wvtc: WebViewVC? = _tabList.object(at: index) as? WebViewVC
@@ -582,6 +575,9 @@ import Cocoa
 
 
     func setCurrentTab(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
+        #if os(iOS)
+            return nil
+        #endif
         guard argc > 0,
               let cwv = _currentWebView,
               let inFRE0 = argv[0],
@@ -631,7 +627,6 @@ import Cocoa
         } catch {
         }
         return ret
-
     }
 
 
@@ -718,7 +713,6 @@ import Cocoa
         _viewPort = viewPortFre
         var realY = _viewPort.origin.y
 #if os(iOS)
-        var _bgColor = UIColor.white
         do {
             _bgColor = try FRESwiftHelper.toUIColor(freObject: inFRE4, alpha: inFRE5)
         } catch {
@@ -734,7 +728,8 @@ import Cocoa
                 mWin = allWindows[0]
             }
         } else {
-            trace("no window to attach to")
+            trace("Cannot find AIR window to attach webView to. Ensure you init the ANE AFTER your main Sprite is initialised. " +
+                "Please see https://forum.starling-framework.org/topic/webviewane-for-osx/page/7?replies=201#post-105524 for more details");
             return nil
         }
 
@@ -753,8 +748,7 @@ import Cocoa
             if let settingsDict = FREObjectSwift.init(freObject: settingsFRE).value as? Dictionary<String, AnyObject> {
                 _settings = Settings.init(dictionary: settingsDict)
 
-#if os(iOS)
-#else
+#if os(OSX)
                 if let popupSettings = settingsDict["popup"] {
                     _popup = Popup()
                     if let behaviour = popupSettings["behaviour"] as? Int {
