@@ -4,7 +4,7 @@
       <root url="jar://$PROJECT_DIR$/../native_extension/ane/WebViewANE.ane!/" />
     </CLASSES>
     <JAVADOC>
-      <root url="https://tuarua.github.io/asdocs/webviewane/" />
+      <root url="https://tuarua.github.io/asdocs/webviewane_0.0.25/" />
     </JAVADOC>
     <SOURCES />
   </library>
