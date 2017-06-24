@@ -14,7 +14,7 @@ import starling.events.TouchPhase;
 public class TabBar extends Sprite {
     private var bg:Quad = new Quad(1920, 32, 0xFFFFFF);
     private var newTabBtn:Image = new Image(Assets.getAtlas().getTexture("new-tab-btn"));
-    private var tabs:Vector.<Tab> = new <Tab>[];
+    public var tabs:Vector.<Tab> = new <Tab>[];
     private var tabHolder:Sprite = new Sprite();
 
     public function TabBar() {
@@ -66,6 +66,9 @@ public class TabBar extends Sprite {
             tabs[i].hasCloseButton = (l > 1);
         }
         tabHolder.removeChildAt(index, true);
+        if (tabs.length > 5) {
+            newTabBtn.visible = false;
+        }
     }
 
     public function setActiveTab(index:int):void {

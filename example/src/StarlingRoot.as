@@ -75,8 +75,9 @@ public class StarlingRoot extends Sprite {
     private var currentZoom:Number = 1.0;
     private var _appWidth:uint = 1280;
     private var _appHeight:uint = 800;
-    private var isDevToolsShowing:Boolean = false;
     private var tabBar:TabBar = new TabBar();
+    private static const newTabUrls:Vector.<String> = new <String>["http://www.bing.com", "http://www.bbc.co.uk",
+        "http://www.channel4.com", "https://www.github.com", "https://forum.starling-framework.org/"]
 
     public function StarlingRoot() {
         super();
@@ -262,29 +263,23 @@ public class StarlingRoot extends Sprite {
     }
 
     private function onNewTab(event:InteractionEvent):void {
-        trace("create new Tab");
-        fwdBtn.alpha = backBtn.alpha = 0.4
+        fwdBtn.alpha = backBtn.alpha = 0.4;
         fwdBtn.touchable = backBtn.touchable = false;
         progress.scaleX = 0.0;
         urlInput.text = "";
-        webView.addTab("http://www.bing.com/");
+        webView.addTab(newTabUrls[tabBar.tabs.length - 2]);
         tabBar.setActiveTab(webView.currentTab);
-        trace("webView.currentTab", webView.currentTab);
     }
 
     private function onSwitchTab(event:InteractionEvent):void {
-        trace("switch tab", event.params.index);
         webView.currentTab = event.params.index;
         tabBar.setActiveTab(webView.currentTab);
-        trace("webView.currentTab", webView.currentTab);
     }
 
     private function onCloseTab(event:InteractionEvent):void {
-        trace("close tab", event.params.index);
         webView.closeTab(event.params.index);
         tabBar.closeTab(event.params.index);
         tabBar.setActiveTab(webView.currentTab);
-        trace("webView.currentTab", webView.currentTab);
     }
 
 
@@ -400,16 +395,14 @@ public class StarlingRoot extends Sprite {
     private function onDevTools(event:TouchEvent):void {
         var touch:Touch = event.getTouch(devToolsBtn);
         if (touch != null && touch.phase == TouchPhase.ENDED) {
-            isDevToolsShowing = !isDevToolsShowing;
-            if (isDevToolsShowing) {
-                webView.showDevTools();
-            } else {
-                webView.closeDevTools();
-            }
+            webView.showDevTools(); //webView.closeDevTools();
         }
     }
 
     private function onPropertyChange(event:WebViewEvent):void {
+        // read list of tabs and their details like this:
+        // var tabList:Vector.<TabDetails> = webView.tabDetails;
+        // trace(tabList[webView.currentTab].index, tabList[webView.currentTab].title, tabList[webView.currentTab].url);
         switch (event.params.propertyName) {
             case "url":
                 if (event.params.tab == webView.currentTab) {
@@ -465,16 +458,14 @@ public class StarlingRoot extends Sprite {
     private function onZoomOut(event:TouchEvent):void {
         var touch:Touch = event.getTouch(zoomOutBtn);
         if (touch != null && touch.phase == TouchPhase.ENDED) {
-            currentZoom = currentZoom - .1;
-            webView.setMagnification(currentZoom, new Point(0, 0));
+            webView.zoomOut();
         }
     }
 
     private function onZoomIn(event:TouchEvent):void {
         var touch:Touch = event.getTouch(zoomInBtn);
         if (touch != null && touch.phase == TouchPhase.ENDED) {
-            currentZoom = currentZoom + .1;
-            webView.setMagnification(currentZoom, new Point(0, 0));
+            webView.zoomIn();
         }
     }
 
@@ -499,7 +490,6 @@ public class StarlingRoot extends Sprite {
     private function onForward(event:TouchEvent):void {
         var touch:Touch = event.getTouch(fwdBtn);
         if (touch != null && touch.phase == TouchPhase.ENDED) {
-            //trace("as3 _currentTab", _currentTab);
             webView.goForward();
 
             /*
@@ -540,16 +530,9 @@ public class StarlingRoot extends Sprite {
     private function onRefresh(event:TouchEvent):void {
         var touch:Touch = event.getTouch(refreshBtn);
         if (touch != null && touch.phase == TouchPhase.ENDED) {
-            //webView.visible = !webView.visible;
-
-            var tabList:Vector.<TabDetails> = webView.tabDetails;
-            //for (var i:int = 0, l:int = tabList.length; i < l; ++i) {
-            trace(tabList[webView.currentTab].index, tabList[webView.currentTab].title, tabList[webView.currentTab].url);
-            //}
-
-            //cancelBtn.visible = true;
-            //refreshBtn.visible = false;
-            //webView.reload();
+            cancelBtn.visible = true;
+            refreshBtn.visible = false;
+            webView.reload();
         }
     }
 

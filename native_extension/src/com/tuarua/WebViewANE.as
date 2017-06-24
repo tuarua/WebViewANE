@@ -523,8 +523,6 @@ public class WebViewANE extends EventDispatcher {
             ANEContext.ctx.call("reloadFromOrigin");
     }
 
-    //[Deprecated(message="handled by passing stage with init")]
-
     /**
      *
      * @param fs When going fullscreen set this to true, when coming out of fullscreen set to false
@@ -543,7 +541,7 @@ public class WebViewANE extends EventDispatcher {
      */
     public function allowsMagnification():Boolean {
         if (safetyCheck())
-            ANEContext.ctx.call("allowsMagnification");
+            return ANEContext.ctx.call("allowsMagnification");
         return false;
     }
 
@@ -552,16 +550,42 @@ public class WebViewANE extends EventDispatcher {
      * @return The current magnification level
      *
      */
+    [Deprecated(message="Not available")]
     public function getMagnification():Number {
-        if (safetyCheck())
-            return ANEContext.ctx.call("getMagnification") as Number;
         return 1.0;
     }
 
+    /**
+     *
+     * @param value
+     * @param centeredAt
+     * <p><strong>Ignored on iOS and Android.</strong></p>
+     */
+    [Deprecated(replacement="zoomIn")]
+    public function setMagnification(value:Number, centeredAt:Point):void {
+    }
+
+    /**
+     * Zooms in
+     *
+     */
+    public function zoomIn():void {
+        if (safetyCheck())
+            ANEContext.ctx.call("zoomIn");
+    }
+
+    /**
+     * Zooms out
+     *
+     */
+    public function zoomOut():void {
+        if (safetyCheck())
+            ANEContext.ctx.call("zoomOut");
+    }
 
     public function addTab(initialUrl:String = null):void {
         if (safetyCheck())
-            var ct:int = int(ANEContext.ctx.call("addTab", initialUrl));
+            ANEContext.ctx.call("addTab", initialUrl);
     }
 
     public function closeTab(index:int):void {
@@ -591,16 +615,7 @@ public class WebViewANE extends EventDispatcher {
     }
 
 
-    /**
-     *
-     * @param value
-     * @param centeredAt
-     * <p><strong>Ignored on iOS and Android.</strong></p>
-     */
-    public function setMagnification(value:Number, centeredAt:Point):void {
-        if (safetyCheck())
-            ANEContext.ctx.call("setMagnification", value, centeredAt);
-    }
+
 
     /**
      * This method is omitted from the output. * * @private

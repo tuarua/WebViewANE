@@ -60,16 +60,14 @@ namespace CefSharpLib {
         public bool ContextMenuEnabled { get; set; }
 
         public ChromiumWebBrowser CurrentBrowser;
-        private readonly ArrayList _browserTabs = new ArrayList();
-        private readonly Dictionary<int, TabDetails> _browserTabDetails = new Dictionary<int, TabDetails>();
+
+        private readonly ArrayList _tabs = new ArrayList();
+        private readonly ArrayList _tabDetails = new ArrayList();
+        public ArrayList TabDetails => _tabDetails;
+
         private bool _isLoaded;
         private string _initialHtml;
-        private string _address;
-        private string _title;
-        private bool _isLoading;
-        private bool _canGoBack;
-        private bool _canGoForward;
-        private int _currentTab;
+        public int CurrentTab { get; set; }
 
         public const string AsCallbackEvent = "TRWV.as.CALLBACK";
         private const string OnDownloadProgress = "WebView.OnDownloadProgress";
@@ -132,6 +130,7 @@ namespace CefSharpLib {
             // ReSharper disable once InvertIf
             if (Cef.Initialize(settings)) {
                 var browser = CreateNewBrowser();
+
                 CurrentBrowser = browser;
                 _host.Child = browser;
                 MainGrid.Children.Add(_host);
@@ -178,6 +177,7 @@ namespace CefSharpLib {
             browser.LoadError += OnLoadError;
             browser.IsBrowserInitializedChanged += OnBrowserInitialized;
             browser.StatusMessage += OnStatusMessage;
+            browser.DisplayHandler = new DisplayHandler();
 
             if (!ContextMenuEnabled)
                 browser.MenuHandler = new MenuHandler();
@@ -188,37 +188,69 @@ namespace CefSharpLib {
 
             browser.RequestHandler = rh;
 
-            _browserTabs.Add(browser);
+            _tabs.Add(browser);
+            _tabDetails.Add(new TabDetails());
+
             return browser;
         }
 
-        public int AddTab() {
-            _currentTab = _browserTabs.Count;
-            _host.Child = CreateNewBrowser();
-            return _currentTab;
+        public void AddTab() {
+            CurrentTab = _tabs.Count;
+            CurrentBrowser = CreateNewBrowser();
+            _host.Child = CurrentBrowser;
         }
 
-        public int SwitchTab(int index) {
-            if (index < 0 || index > _browserTabs.Count - 1) return -1;
+        public void SetCurrentTab(int index) {
+            if (index < 0 || index > _tabs.Count - 1) return;
+            CurrentTab = index;
+            CurrentBrowser = _tabs[CurrentTab] as ChromiumWebBrowser;
+            _host.Child = CurrentBrowser;
 
-            _currentTab = index;
-            var browser = _browserTabs[_currentTab] as ChromiumWebBrowser;
-            _host.Child = browser;
-
-            SendPropertyChange(@"title", _browserTabDetails[_currentTab].Title, _currentTab);
-            SendPropertyChange(@"url", _browserTabDetails[_currentTab].Address, _currentTab);
-            SendPropertyChange(@"isLoading", _browserTabDetails[_currentTab].IsLoading, _currentTab);
-            SendPropertyChange(@"canGoForward", _browserTabDetails[_currentTab].CanGoForward, _currentTab);
-            SendPropertyChange(@"canGoBack", _browserTabDetails[_currentTab].CanGoBack, _currentTab);
-            return _currentTab;
+            if (!(_tabDetails[CurrentTab] is TabDetails tabDetails)) return;
+            SendPropertyChange(@"title", tabDetails.Title, CurrentTab);
+            SendPropertyChange(@"url", tabDetails.Address, CurrentTab);
+            SendPropertyChange(@"isLoading", tabDetails.IsLoading, CurrentTab);
+            SendPropertyChange(@"canGoForward", tabDetails.CanGoForward, CurrentTab);
+            SendPropertyChange(@"canGoBack", tabDetails.CanGoBack, CurrentTab);
         }
+
+        public void CloseTab(int index) {
+            if (index < 0 || index > _tabs.Count - 1) {
+                return;
+            }
+
+            if (CurrentTab >= index) {
+                CurrentTab = CurrentTab - 1;
+            }
+            if (_tabs.Count == 2) {
+                CurrentTab = 0;
+            }
+            if (CurrentTab < 0) {
+                CurrentTab = 0;
+            }
+            var wvtc = _tabs[index] as ChromiumWebBrowser;
+            _tabs.RemoveAt(index);
+            _tabDetails.RemoveAt(index);
+            wvtc?.Dispose();
+
+            CurrentBrowser = _tabs[CurrentTab] as ChromiumWebBrowser;
+            _host.Child = CurrentBrowser;
+
+            if (!(_tabDetails[CurrentTab] is TabDetails tabDetails)) return;
+            SendPropertyChange(@"title", tabDetails.Title, CurrentTab);
+            SendPropertyChange(@"url", tabDetails.Address, CurrentTab);
+            SendPropertyChange(@"isLoading", tabDetails.IsLoading, CurrentTab);
+            SendPropertyChange(@"canGoForward", tabDetails.CanGoForward, CurrentTab);
+            SendPropertyChange(@"canGoBack", tabDetails.CanGoBack, CurrentTab);
+        }
+
 
         private void OnUrlBlockedFired(object sender, string e) {
             var sb = new StringBuilder();
             var sw = new StringWriter(sb);
             var writer = new JsonTextWriter(sw);
 
-            var tab = _browserTabs.IndexOf(sender);
+            var tab = _tabs.IndexOf(sender);
             tab = tab == -1 ? 0 : tab;
 
             writer.WriteStartObject();
@@ -242,67 +274,67 @@ namespace CefSharpLib {
             }
         }
 
+        private TabDetails GetTabDetails(int tab) {
+            return (TabDetails) _tabDetails[tab];
+        }
+
         private void OnBrowserAddressChanged(object sender, AddressChangedEventArgs e) {
-            if (_address == e.Address) return;
-            _address = e.Address;
-
-            var tab = _browserTabs.IndexOf(sender);
-            tab = tab == -1 ? 0 : tab;
-            var tabDetails = GetTabDetails(tab);
-            tabDetails.Address = _address;
-
-            SendPropertyChange(@"url", _address, tab);
+            for (var index = 0; index < _tabs.Count; index++) {
+                if (!_tabs[index].Equals(sender)) continue;
+                var tabDetails = GetTabDetails(index);
+                if (tabDetails.Address == e.Address) {
+                    return;
+                }
+                tabDetails.Address = e.Address;
+                SendPropertyChange(@"url", e.Address, index);
+            }
         }
 
         private void OnBrowserTitleChanged(object sender, TitleChangedEventArgs e) {
-            if (_title == e.Title) return;
-            _title = e.Title;
-
-            var tab = _browserTabs.IndexOf(sender);
-            tab = tab == -1 ? 0 : tab;
-            var tabDetails = GetTabDetails(tab);
-            tabDetails.Title = _title;
-
-            SendPropertyChange(@"title", _title, tab);
-        }
-
-        private TabDetails GetTabDetails(int tab) {
-            if (!_browserTabDetails.ContainsKey(tab)) {
-                _browserTabDetails[tab] = new TabDetails();
+            for (var index = 0; index < _tabs.Count; index++) {
+                if (!_tabs[index].Equals(sender)) continue;
+                var tabDetails = GetTabDetails(index);
+                if (tabDetails.Title == e.Title) {
+                    return;
+                }
+                tabDetails.Title = e.Title;
+                SendPropertyChange(@"title", e.Title, index);
             }
-            return _browserTabDetails[tab];
         }
 
         private void OnBrowserLoadingStateChanged(object sender, LoadingStateChangedEventArgs e) {
-            if (_isLoading == e.IsLoading) return;
-            _isLoading = e.IsLoading;
-            var tab = _browserTabs.IndexOf(sender);
-            tab = tab == -1 ? 0 : tab;
-            var tabDetails = GetTabDetails(tab);
-            tabDetails.IsLoading = _isLoading;
+            for (var index = 0; index < _tabs.Count; index++) {
+                if (!_tabs[index].Equals(sender)) continue;
+                var tabDetails = GetTabDetails(index);
+                if (tabDetails.IsLoading == e.IsLoading) {
+                    return;
+                }
+                tabDetails.IsLoading = e.IsLoading;
+                SendPropertyChange(@"isLoading", e.IsLoading, index);
+                if (!e.IsLoading) {
+                    CurrentBrowser.Focus();
+                }
 
-            SendPropertyChange(@"isLoading", _isLoading, tab);
+                if (tabDetails.CanGoForward != e.CanGoForward) {
+                    tabDetails.CanGoForward = e.CanGoForward;
+                    SendPropertyChange(@"canGoForward", e.CanGoForward, index);
+                }
 
-            if (!_isLoading) {
-                CurrentBrowser.Focus();
+                if (tabDetails.CanGoBack == e.CanGoBack) {
+                    return;
+                }
+
+                tabDetails.CanGoBack = e.CanGoBack;
+                SendPropertyChange(@"canGoBack", e.CanGoBack, index);
             }
-
-            if (_canGoForward != e.CanGoForward) {
-                _canGoForward = e.CanGoForward;
-                SendPropertyChange(@"canGoForward", _canGoForward, tab);
-            }
-
-            if (_canGoBack == e.CanGoBack) return;
-            _canGoBack = e.CanGoBack;
-            SendPropertyChange(@"canGoBack", _canGoBack, tab);
         }
 
-        private  void OnLoadError(object sender, LoadErrorEventArgs e) {
+        private void OnLoadError(object sender, LoadErrorEventArgs e) {
             var sb = new StringBuilder();
             var sw = new StringWriter(sb);
             var writer = new JsonTextWriter(sw);
 
-            var tab = _browserTabs.IndexOf(sender);
+            var tab = _tabs.IndexOf(sender);
             tab = tab == -1 ? 0 : tab;
 
             writer.WriteStartObject();
@@ -350,11 +382,15 @@ namespace CefSharpLib {
         }
 
         private void OnStatusMessage(object sender, StatusMessageEventArgs e) {
-            var tab = _browserTabs.IndexOf(sender);
-            tab = tab == -1 ? 0 : tab;
-            var tabDetails = GetTabDetails(tab);
-            tabDetails.StatusMessage = e.Value;
-            SendPropertyChange(@"statusMessage", e.Value, tab);
+            for (var index = 0; index < _tabs.Count; index++) {
+                if (!_tabs[index].Equals(sender)) continue;
+                var tabDetails = GetTabDetails(index);
+                if (tabDetails.StatusMessage == e.Value) {
+                    return;
+                }
+                tabDetails.StatusMessage = e.Value;
+                SendPropertyChange(@"statusMessage", e.Value, index);
+            }
         }
 
         private static void SendPropertyChange(string propName, bool value, int tab) {

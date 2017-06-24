@@ -63,8 +63,8 @@ extern "C" {
 			,{ (const uint8_t *) "stopLoading", "stopLoading", &callSharpFunction }
 			,{ (const uint8_t *) "backForwardList", "backForwardList", &callSharpFunction }
 			,{ (const uint8_t *) "allowsMagnification", "allowsMagnification", &callSharpFunction }
-			,{ (const uint8_t *) "getMagnification", "getMagnification", &callSharpFunction }
-			,{ (const uint8_t *) "setMagnification", "setMagnification", &callSharpFunction }
+			,{ (const uint8_t *) "zoomIn", "zoomIn", &callSharpFunction }
+			,{ (const uint8_t *) "zoomOut", "zoomOut", &callSharpFunction }
 			,{ (const uint8_t *) "focus", "focus", &callSharpFunction }
 			,{ (const uint8_t *) "loadHTMLString", "loadHTMLString", &callSharpFunction }
 			,{ (const uint8_t *) "setPositionAndSize", "setPositionAndSize", &callSharpFunction }
@@ -76,8 +76,11 @@ extern "C" {
 			,{ (const uint8_t *) "print", "print", &callSharpFunction }
 			,{ (const uint8_t *) "capture", "capture", &callSharpFunction }
 			,{ (const uint8_t *) "addTab", "addTab", &callSharpFunction }
-			,{ (const uint8_t *) "switchTab", "switchTab", &callSharpFunction }
-			
+			,{ (const uint8_t *) "closeTab", "closeTab", &callSharpFunction }
+			,{ (const uint8_t *) "setCurrentTab", "setCurrentTab", &callSharpFunction }
+			,{ (const uint8_t *) "getCurrentTab", "getCurrentTab", &callSharpFunction }
+			,{ (const uint8_t *) "getTabDetails", "getTabDetails", &callSharpFunction }
+
 		};
 
 		*numFunctionsToSet = sizeof(extensionFunctions) / sizeof(FRENamedFunction);

@@ -55,6 +55,7 @@ namespace CefSharpLib {
         private Hwnd _airWindow;
         private Hwnd _cefWindow;
         private Color _backgroundColor;
+        private const double ZoomIncrement = 0.10;
 
         public string[] GetFunctions() {
             FunctionsDict =
@@ -73,8 +74,8 @@ namespace CefSharpLib {
                     {"stopLoading", StopLoading},
                     {"backForwardList", BackForwardList},
                     {"allowsMagnification", AllowsMagnification},
-                    {"getMagnification", GetMagnification},
-                    {"setMagnification", SetMagnification},
+                    {"zoomIn", ZoomIn},
+                    {"zoomOut", ZoomOut},
                     {"focus", BrowserFocus},
                     {"showDevTools", ShowDevTools},
                     {"closeDevTools", CloseDevTools},
@@ -88,11 +89,16 @@ namespace CefSharpLib {
                     {"init", InitView},
                     {"capture", Capture},
                     {"addTab", AddTab},
-                    {"switchTab", SwitchTab},
+                    {"closeTab", CloseTab},
+                    {"setCurrentTab", SetCurrentTab},
+                    {"getCurrentTab", GetCurrentTab},
+                    {"getTabDetails", GetTabDetails},
+                    
                 };
 
             return FunctionsDict.Select(kvp => kvp.Key).ToArray();
         }
+
 
         private FREObject Capture(FREContext ctx, uint argc, FREObject[] argv) {
             var rect = new WinApi.Rect();
@@ -122,21 +128,33 @@ namespace CefSharpLib {
             return new FreObjectSharp(true).RawValue;
         }
 
-        private FREObject GetMagnification(FREContext ctx, uint argc, FREObject[] argv) {
+        private FREObject ZoomIn(FREContext ctx, uint argc, FREObject[] argv) {
             var task = _view.CurrentBrowser.GetZoomLevelAsync();
             task.ContinueWith(previous => {
                 if (previous.Status == TaskStatus.RanToCompletion) {
-                    return new FreObjectSharp(previous.Result).RawValue;
+                    var currentLevel = previous.Result;
+                    _view.CurrentBrowser.SetZoomLevel(currentLevel + ZoomIncrement);
                 }
-                throw new InvalidOperationException("Unexpected failure of calling CEF->GetZoomLevelAsync",
-                    previous.Exception);
+                else {
+                    throw new InvalidOperationException("Unexpected failure of calling CEF->GetZoomLevelAsync",
+                        previous.Exception);
+                }
             }, TaskContinuationOptions.ExecuteSynchronously);
-
-            return new FreObjectSharp(1.0).RawValue;
+            return FREObject.Zero;
         }
 
-        private FREObject SetMagnification(FREContext ctx, uint argc, FREObject[] argv) {
-            _view.CurrentBrowser.SetZoomLevel(Convert.ToDouble(new FreObjectSharp(argv[0]).Value));
+        private FREObject ZoomOut(FREContext ctx, uint argc, FREObject[] argv) {
+            var task = _view.CurrentBrowser.GetZoomLevelAsync();
+            task.ContinueWith(previous => {
+                if (previous.Status == TaskStatus.RanToCompletion) {
+                    var currentLevel = previous.Result;
+                    _view.CurrentBrowser.SetZoomLevel(currentLevel - ZoomIncrement);
+                }
+                else {
+                    throw new InvalidOperationException("Unexpected failure of calling CEF->GetZoomLevelAsync",
+                        previous.Exception);
+                }
+            }, TaskContinuationOptions.ExecuteSynchronously);
             return FREObject.Zero;
         }
 
@@ -163,6 +181,13 @@ namespace CefSharpLib {
 
         public FREObject InitView(FREContext ctx, uint argc, FREObject[] argv) {
             _airWindow = System.Diagnostics.Process.GetCurrentProcess().MainWindowHandle;
+            if (_airWindow == Hwnd.Zero) {
+                Trace("Cannot find AIR window to attach webView to. Ensure you init the ANE AFTER your main Sprite is initialised. " +
+                      "Please see https://forum.starling-framework.org/topic/webviewane-for-osx/page/7?replies=201#post-105524 for more details");
+                return FREObject.Zero;
+            }
+            
+
             var inFre1 = new FreRectangleSharp(argv[1]); //viewport
             var inFre2 = new FreObjectSharp(argv[2]); //settings
             var inFre4 = new FreObjectSharp(argv[4]); //backgroundColor
@@ -248,15 +273,37 @@ namespace CefSharpLib {
 
         public FREObject AddTab(FREContext ctx, uint argc, FREObject[] argv) {
             _view.InitialUrl = Convert.ToString(new FreObjectSharp(argv[0]).Value);
-            var tab = _view.AddTab();
-            return new FreObjectSharp(tab).RawValue;
+            _view.AddTab();
+            return FREObject.Zero;
         }
 
-        public FREObject SwitchTab(FREContext ctx, uint argc, FREObject[] argv) {
-            var tab = _view.SwitchTab(Convert.ToInt32(new FreObjectSharp(argv[0]).Value));
-            return new FreObjectSharp(tab).RawValue;
+        public FREObject CloseTab(FREContext ctx, uint argc, FREObject[] argv) {
+            _view.CloseTab(Convert.ToInt32(new FreObjectSharp(argv[0]).Value));
+            return FREObject.Zero;
         }
-        
+
+        public FREObject SetCurrentTab(FREContext ctx, uint argc, FREObject[] argv) {
+            _view.SetCurrentTab(Convert.ToInt32(new FreObjectSharp(argv[0]).Value));
+            return FREObject.Zero;
+        }
+
+        public FREObject GetCurrentTab(FREContext ctx, uint argc, FREObject[] argv) {
+            return new FreObjectSharp(_view.CurrentTab).RawValue;
+        }
+
+        public FREObject GetTabDetails(FREContext ctx, uint argc, FREObject[] argv) {
+            var tabDetails = _view.TabDetails;
+            var tmp = new FreObjectSharp("Vector.<com.tuarua.webview.TabDetails>", null);
+            var vecTabDetails = new FreArraySharp(tmp.RawValue);
+            for (var index = 0; index < tabDetails.Count; index++) {
+                var tabDetail = tabDetails[index] as TabDetails;
+                if (tabDetail == null) continue;
+                var currentTabFre = new FreObjectSharp("com.tuarua.webview.TabDetails", index, tabDetail.Address,
+                    tabDetail.Title, tabDetail.IsLoading, tabDetail.CanGoBack, tabDetail.CanGoForward, 1.0);
+                vecTabDetails.SetObjectAt(currentTabFre, (uint) index);
+            }
+            return vecTabDetails.RawValue;
+        }
 
         public FREObject AddToStage(FREContext ctx, uint argc, FREObject[] argv) {
             WinApi.ShowWindow(_cefWindow, ShowWindowCommands.SW_SHOWNORMAL);
