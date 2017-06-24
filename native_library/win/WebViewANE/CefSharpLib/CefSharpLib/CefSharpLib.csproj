@@ -90,6 +90,7 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DisplayHandler.cs" />
     <Compile Include="FreSharpController.cs" />
     <Compile Include="LifeSpanHandler.cs" />
     <Compile Include="MenuHandler.cs" />

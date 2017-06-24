@@ -297,25 +297,25 @@ public class StarlingRoot extends Sprite {
 
         switch (event.params.propertyName) {
             case "url":
-                urlInput.text = webView.url;
+                urlInput.text = event.params.value;
                 break;
             case "title":
-                titleTxt.text = webView.title;
+                titleTxt.text = event.params.value;
                 break;
             case "isLoading":
-                refreshBtn.visible = !webView.isLoading;
-                cancelBtn.visible = webView.isLoading;
+                refreshBtn.visible = !event.params.value;
+                cancelBtn.visible = event.params.value;
                 break;
             case "canGoBack":
-                backBtn.alpha = webView.canGoBack ? 1.0 : 0.4;
-                backBtn.touchable = webView.canGoBack;
+                backBtn.alpha = event.params.value ? 1.0 : 0.4;
+                backBtn.touchable = event.params.value;
                 break;
             case "canGoForward":
-                fwdBtn.alpha = webView.canGoForward ? 1.0 : 0.4;
-                fwdBtn.touchable = webView.canGoForward;
+                fwdBtn.alpha = event.params.value ? 1.0 : 0.4;
+                fwdBtn.touchable = event.params.value;
                 break;
             case "estimatedProgress":
-                var p:Number = webView.estimatedProgress;
+                var p:Number = event.params.value;
                 progress.scaleX = p;
                 if (p > 0.99) {
                     Starling.juggler.tween(progress, .5, {

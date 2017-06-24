@@ -1,5 +1,5 @@
 ### 0.0.25
-
+- WIN/OSX: Added multi-tab support
 - AND/iOS/WIN/OSX: BREAKING CHANGE!! - init() now takes the following params: 
 init(stage:Stage, viewPort:Rectangle, initialUrl:String, settings:Settings, scaleFactor:Number, backgroundColor:uint, backgroundAlpha:Number)
 - AND/iOS/WIN/OSX: BREAKING CHANGE!! - onPropertyChange now returns event.params as {propertyName, tab}
@@ -9,14 +9,18 @@ init(stage:Stage, viewPort:Rectangle, initialUrl:String, settings:Settings, scal
 - AND/iOS/WIN/OSX: deprecate removeFromStage() - use visible setter instead
 - AND/iOS/WIN/OSX: deprecate setBackgroundColor() - use params in init instead
 - AND/iOS/WIN/OSX: deprecate shutDown() - not needed
-- WIN/OSX: fix BUG in example when minimising maximising
+- AND/iOS/WIN/OSX: deprecate getMagnification() inconsistent behaviour
+- AND/iOS/WIN/OSX: deprecate setMagnification() inconsistent behaviour
+- AND/iOS/WIN/OSX: add zoomIn() and zoomOut() methods
+- AND/iOS/WIN/OSX: deprecate url, title, isLoading, canGoBack, canGoForward, estimatedProgress getters - call tabDetails getter instead
+- OSX: fix BUG in example when minimising maximising
 - OSX: add web page title to popup window
-- WIN: Added multi-tab support using methods addTab() and switchTab() 
 - iOS/OSX: fix BUG in go() method
 - AND/iOS/OSX: add whitelist to settings
 - AND: add WebViewEvent.ON_FAIL events
 - iOS/WIN/OSX: update example to AIR SDK 26
 - iOS/OSX: refactor
+- WIN/OSX: Add check that AIR window can be referenced before attaching the native view
 
 ### 0.0.24
 - WIN: Allow right click context menu to be disabled Issue #52
