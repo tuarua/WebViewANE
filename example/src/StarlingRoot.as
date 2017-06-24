@@ -266,8 +266,8 @@ public class StarlingRoot extends Sprite {
         fwdBtn.touchable = backBtn.touchable = false;
         progress.scaleX = 0.0;
         urlInput.text = "";
-        //webView.addTab(newTabUrls[tabBar.tabs.length - 2]);
-        webView.addTab();
+        webView.addTab(newTabUrls[tabBar.tabs.length - 2]);
+        //webView.addTab();
         tabBar.setActiveTab(webView.currentTab);
     }
 
