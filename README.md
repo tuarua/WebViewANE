@@ -46,6 +46,8 @@ The example project can be run on the Simulator from IntelliJ
 
 The example project needs to be built and signed in the correct manner.
 An AIR based packaging tool is provided at https://github.com/tuarua/AIR-iOS-Packager
+Here is a video [demonstrating how to use it](https://www.youtube.com/watch?v=H-G8WugNFQM&feature=youtu.be)
+[![youtube video](https://raw.githubusercontent.com/tuarua/WebViewANE/master/screenshots/ios-packaging.jpg)](https://www.youtube.com/watch?v=H-G8WugNFQM&feature=youtu.be)
 
 ## Android
 
