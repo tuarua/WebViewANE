@@ -122,14 +122,6 @@ class WebViewVC: WKWebView {
 #else
         let realY = ((NSApp.mainWindow?.contentLayoutRect.height)! - viewPort.size.height) - viewPort.origin.y;
 
-        /*
-            trace("NSApp.mainWindow?.contentLayoutRect", NSApp.mainWindow?.contentLayoutRect)
-            trace("viewPort.size.height", viewPort.size.height)
-            trace("viewPort.size.height", viewPort.origin.y)
-            trace("setPositionAndSize", viewPort.debugDescription)
-            trace("realY", realY)
-     */
-
         self.setFrameOrigin(NSPoint.init(x: viewPort.origin.x, y: realY))
         self.setFrameSize(NSSize.init(width: viewPort.size.width, height: viewPort.size.height))
 #endif
