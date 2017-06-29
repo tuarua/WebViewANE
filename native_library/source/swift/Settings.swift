@@ -36,6 +36,7 @@ public struct Settings {
     private var _configuration: Configuration
     private var _userAgent: String?
     private var _urlWhiteList: NSArray?
+    private var _urlBlackList: NSArray?
 
     public var configuration: Configuration {
         get {
@@ -54,6 +55,12 @@ public struct Settings {
             return _urlWhiteList
         }
     }
+    
+    public var urlBlackList: NSArray? {
+        get {
+            return _urlBlackList
+        }
+    }
 
     init(dictionary: Dictionary<String, AnyObject>) {
         _configuration = Configuration.init(dictionary: dictionary)
@@ -64,6 +71,10 @@ public struct Settings {
 
         if let uwl: NSArray = dictionary["urlWhiteList"] as? NSArray {
             _urlWhiteList = uwl
+        }
+        
+        if let ubl: NSArray = dictionary["urlBlackList"] as? NSArray {
+            _urlBlackList = ubl
         }
 
     }

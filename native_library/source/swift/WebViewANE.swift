@@ -126,23 +126,66 @@ import Cocoa
         return nil
     }
 
-    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-        guard let urlWhiteList = _settings.urlWhiteList,
-              urlWhiteList.count > 0,
-              let newUrl = navigationAction.request.url?.absoluteString.lowercased()
-          else {
-            decisionHandler(.allow)
-            return
+    
+    fileprivate func isWhiteListBlocked(url:String) -> Bool {
+        guard let list = _settings.urlWhiteList,
+            list.count > 0
+            else {
+                return false
         }
-
-        for url in urlWhiteList {
-            if newUrl.range(of: url as! String) != nil {
-                decisionHandler(.allow)
-                return
+        for item in list {
+            if url.range(of: item as! String) != nil {
+                return false
             }
         }
-        sendEvent(name: Constants.ON_URL_BLOCKED, value: newUrl)
-        decisionHandler(.cancel)
+        return true
+    }
+    
+    fileprivate func isBlackListBlocked(url:String) -> Bool {
+        guard let list = _settings.urlBlackList,
+            list.count > 0
+            else {
+                return false
+        }
+        
+        for item in list {
+            if url.range(of: item as! String) != nil {
+                return true
+            }
+        }
+        
+        return false
+    }
+    
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        guard let newUrl = navigationAction.request.url?.absoluteString.lowercased()
+            else {
+                decisionHandler(.allow)
+                return
+        }
+        
+        if isWhiteListBlocked(url: newUrl) || isBlackListBlocked(url: newUrl) {
+            var props: Dictionary<String, Any> = Dictionary()
+            props["url"] = newUrl
+            props["tab"] = 0
+
+            if let wv = webView as? WebViewVC {
+                for vc in _tabList {
+                    if let theVC = vc as? WebViewVC {
+                        if theVC.isEqual(wv) {
+                            props["tab"] = theVC.tab
+                            break
+                        }
+                    }
+                }
+            }
+            
+            let json = JSON(props)
+            sendEvent(name: Constants.ON_URL_BLOCKED, value: json.description)
+            decisionHandler(.cancel)
+        } else {
+            decisionHandler(.allow)
+        }
 
     }
 
@@ -266,7 +309,6 @@ import Cocoa
         }
 #else
         if let view = NSApp.mainWindow?.contentView {
-            //view.translateOrigin(to: NSPoint.init(x: 0, y: 200))
             view.addSubview(wv)
             _isAdded = true
         } else {
@@ -732,13 +774,6 @@ import Cocoa
                 "Please see https://forum.starling-framework.org/topic/webviewane-for-osx/page/7?replies=201#post-105524 for more details");
             return nil
         }
-
-
-        /*
-         let screenFrame = (NSScreen.main()?.frame)!
-         let flippedY = screenFrame.size.height - originalPoint.y
-         let convertedPoint = NSPoint(x: originalPoint.x, y: flippedY)
-         */
 
         realY = ((mWin?.contentLayoutRect.height)! - _viewPort.size.height) - _viewPort.origin.y
 #endif

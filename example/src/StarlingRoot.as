@@ -128,7 +128,8 @@ public class StarlingRoot extends Sprite {
         settings.cef.enableDownloads = true;
         settings.cef.contextMenu.enabled = false; //enable/disable right click
 
-        //settings.urlWhiteList.push("google.", "youtube.", "adobe.com","chrome-devtools://"); //to restrict urls - simple string matching
+        //settings.urlWhiteList.push("macromedia.","google.", "youtube.", "adobe.com","chrome-devtools://"); //to restrict urls - simple string matching
+        //settings.urlBlackList.push(".pdf");
 
         //to retrieve geolocation on Windows (CEF), follow the instructions on this page and set these vars
         //https://www.chromium.org/developers/how-tos/api-keys
@@ -284,7 +285,7 @@ public class StarlingRoot extends Sprite {
 
 
     private static function onUrlBlocked(event:WebViewEvent):void {
-        trace(event.params.url, "does not match our urlWhiteList", "tab is:", event.params.tab);
+        trace(event.params.url, "does not match our urlWhiteList or is on urlBlackList", "tab is:", event.params.tab);
     }
 
     private static function onPermissionResult(event:WebViewEvent):void {
