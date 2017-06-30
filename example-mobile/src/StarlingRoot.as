@@ -129,7 +129,8 @@ public class StarlingRoot extends Sprite {
         var settings:Settings = new Settings();
         settings.webkit.allowsInlineMediaPlayback = true;
 
-        //settings.urlWhiteList.push("github.", "google.", "youtube.", "adobe.com", "chrome-devtools://"); //to restrict urls - simple string matching
+        //settings.urlWhiteList.push("macromedia.", "github.", "google.", "youtube.", "adobe.com", "chrome-devtools://"); //to restrict urls - simple string matching
+        //settings.urlBlackList.push(".pdf");
 
         webView.addCallback("js_to_as", jsToAsCallback);
         var viewPort:Rectangle = new Rectangle(0, 80, stage.stageWidth, (stage.stageHeight - 80));
@@ -287,7 +288,7 @@ public class StarlingRoot extends Sprite {
     }
 
     private static function onUrlBlocked(event:WebViewEvent):void {
-        trace(event.params.url, "does not match our urlWhiteList");
+        trace(event.params.url, "does not match our urlWhiteList or is on urlBlackList");
     }
 
     private function onPropertyChange(event:WebViewEvent):void {
