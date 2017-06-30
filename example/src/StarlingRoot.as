@@ -27,7 +27,6 @@ import flash.events.NativeWindowDisplayStateEvent;
 import flash.filesystem.File;
 import flash.filesystem.FileMode;
 import flash.filesystem.FileStream;
-import flash.geom.Point;
 import flash.geom.Rectangle;
 import flash.system.Capabilities;
 import flash.text.TextFieldType;
@@ -76,7 +75,7 @@ public class StarlingRoot extends Sprite {
     private var _appHeight:uint = 800;
     private var tabBar:TabBar = new TabBar();
     private static const newTabUrls:Vector.<String> = new <String>["http://www.bing.com", "http://www.bbc.co.uk",
-        "http://www.channel4.com", "https://www.github.com", "https://forum.starling-framework.org/"]
+        "http://www.channel4.com", "https://www.github.com", "https://forum.starling-framework.org/"];
 
     public function StarlingRoot() {
         super();

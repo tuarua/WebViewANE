@@ -57,6 +57,7 @@ namespace CefSharpLib {
         public string UserAgent { get; set; }
         public Dictionary<string, string> CommandLineArgs { get; set; }
         public ArrayList WhiteList { get; set; }
+        public ArrayList BlackList { get; set; }
         public bool ContextMenuEnabled { get; set; }
 
         public ChromiumWebBrowser CurrentBrowser;
@@ -183,7 +184,7 @@ namespace CefSharpLib {
                 browser.MenuHandler = new MenuHandler();
 
             // ReSharper disable once UseObjectOrCollectionInitializer
-            var rh = new RequestHandler(WhiteList);
+            var rh = new RequestHandler(WhiteList, BlackList);
             rh.OnUrlBlockedFired += OnUrlBlockedFired;
 
             browser.RequestHandler = rh;
