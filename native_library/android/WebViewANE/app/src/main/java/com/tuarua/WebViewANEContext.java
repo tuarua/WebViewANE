@@ -101,7 +101,6 @@ class WebViewANEContext extends FREContext {
         functionsToSet.put("getTabDetails", new getTabDetails()); //TODO
 
 
-
         return functionsToSet;
     }
 
@@ -173,7 +172,7 @@ class WebViewANEContext extends FREContext {
                     super.onProgressChanged(view, newProgress);
                     JSONObject jsonObject = new JSONObject();
                     try {
-                        /*double */progress = ((double) newProgress) * 0.01;
+                        progress = ((double) newProgress) * 0.01;
                         jsonObject.put("propName", "estimatedProgress");
                         jsonObject.put("value", progress);
                         jsonObject.put("tab", 0);
@@ -237,33 +236,57 @@ class WebViewANEContext extends FREContext {
                     super.onReceivedHttpError(view, request, errorResponse);
                 }
 
-                @Override
-                public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
-                    ArrayList<String> whiteList = settings.getWhiteList();
-                    if (whiteList.isEmpty()) {
-                        return null;
+                private Boolean isWhiteListBlocked(String url) {
+                    ArrayList<String> list = settings.getWhiteList();
+                    if (list.isEmpty()) {
+                        return false;
                     }
-                    for (int i = 0, whiteListSize = whiteList.size(); i < whiteListSize; i++) {
-                        String s = whiteList.get(i);
-                        if (request.getUrl().toString().contains(s)) {
-                            return null;
+                    for (int i = 0, size = list.size(); i < size; i++) {
+                        String s = list.get(i);
+                        if (url.contains(s)) {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+
+                private Boolean isBlackListBlocked(String url) {
+                    ArrayList<String> list = settings.getBlackList();
+                    if (list.isEmpty()) {
+                        return false;
+                    }
+
+                    for (int i = 0, size = list.size(); i < size; i++) {
+                        String s = list.get(i);
+                        if (url.contains(s)) {
+                            return true;
                         }
                     }
 
-                    JSONObject jsonObject = new JSONObject();
-                    try {
-                        jsonObject.put("url", request.getUrl().toString());
-                        jsonObject.put("tab", 0);
-                        dispatchStatusEventAsync(jsonObject.toString(), ON_URL_BLOCKED);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                    return false;
+                }
+
+                @Override
+                public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
+                    String url = request.getUrl().toString();
+                    if (isWhiteListBlocked(url) || isBlackListBlocked(url)) {
+                        JSONObject jsonObject = new JSONObject();
+                        try {
+                            jsonObject.put("url", request.getUrl().toString());
+                            jsonObject.put("tab", 0);
+                            dispatchStatusEventAsync(jsonObject.toString(), ON_URL_BLOCKED);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        WebResourceResponse response = new WebResourceResponse("text/plain", "utf-8",
+                                new ByteArrayInputStream("".getBytes()));
+
+                        response.setStatusCodeAndReasonPhrase(403, "Blocked");
+                        return response;
+                    } else {
+                        return null;
                     }
-
-                    WebResourceResponse response = new WebResourceResponse("text/plain", "utf-8",
-                            new ByteArrayInputStream("".getBytes()));
-
-                    response.setStatusCodeAndReasonPhrase(403, "Blocked");
-                    return response;
                 }
 
                 @Override
@@ -363,16 +386,23 @@ class WebViewANEContext extends FREContext {
                 backgroundColor = argv[4].getAsInt();
                 backgroundAlpha = (int) Math.round(argv[5].getAsDouble() * 255.0);
 
-                FREArray arr = (FREArray) argv[2].getProperty("urlWhiteList");
+                FREArray arrWhiteListFre = (FREArray) argv[2].getProperty("urlWhiteList");
+                FREArray arrBlackListFre = (FREArray) argv[2].getProperty("urlBlackList");
                 FREObject freSettings = argv[2].getProperty("android");
 
-                ArrayList<String> arrayList = new ArrayList<>();
-                for (int i = 0, whiteListSize = (int) arr.getLength(); i < whiteListSize; i++) {
-                    arrayList.add(arr.getObjectAt(i).getAsString());
+                ArrayList<String> arrWhiteList = new ArrayList<>();
+                for (int i = 0, whiteListSize = (int) arrWhiteListFre.getLength(); i < whiteListSize; i++) {
+                    arrWhiteList.add(arrWhiteListFre.getObjectAt(i).getAsString());
+                }
+
+                ArrayList<String> arrBlackList = new ArrayList<>();
+                for (int i = 0, blackListSize = (int) arrBlackListFre.getLength(); i < blackListSize; i++) {
+                    arrBlackList.add(arrBlackListFre.getObjectAt(i).getAsString());
                 }
 
                 Settings settings = new Settings();
-                settings.setWhiteList(arrayList);
+                settings.setWhiteList(arrWhiteList);
+                settings.setBlackList(arrBlackList);
 
                 settings.setJavaScriptEnabled(
                         freSettings.getProperty("javaScriptEnabled").getAsBool());
@@ -757,7 +787,7 @@ class WebViewANEContext extends FREContext {
                 params[6] = progressFre;
 
                 FREObject currentTabFre = FREObject.newObject("com.tuarua.webview.TabDetails", params);
-                vecTabs.setObjectAt(0,currentTabFre);
+                vecTabs.setObjectAt(0, currentTabFre);
 
                 return vecTabs;
 

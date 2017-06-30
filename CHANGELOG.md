@@ -17,7 +17,7 @@ init(stage:Stage, viewPort:Rectangle, initialUrl:String, settings:Settings, scal
 - OSX: add web page title to popup window
 - iOS/OSX: fix BUG in go() method
 - AND/iOS/OSX: add whitelist to settings
-- iOS/OSX: add blacklist to settings
+- AND/iOS/WIN/OSX: add blacklist to settings
 - AND: add WebViewEvent.ON_FAIL events
 - WIN/OSX: update example to AIR SDK 26
 - iOS/OSX: refactor
