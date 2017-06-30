@@ -397,6 +397,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "WebViewANE/WebViewANE-Bridging-Header.h";
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "WebViewANE-Swift.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
@@ -434,6 +435,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "WebViewANE/WebViewANE-Bridging-Header.h";
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "WebViewANE-Swift.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
