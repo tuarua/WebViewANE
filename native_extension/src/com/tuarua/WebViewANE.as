@@ -537,7 +537,7 @@ public class WebViewANE extends EventDispatcher {
     /**
      *
      * @return Whether the page allows magnification functionality
-     * <p><strong>Ignored on iOS and Android.</strong></p>
+     * <p><strong>Ignored on iOS.</strong></p>
      */
     public function allowsMagnification():Boolean {
         if (safetyCheck())
@@ -559,7 +559,7 @@ public class WebViewANE extends EventDispatcher {
      *
      * @param value
      * @param centeredAt
-     * <p><strong>Ignored on iOS and Android.</strong></p>
+     * <p><strong>Ignored on iOS.</strong></p>
      */
     [Deprecated(replacement="zoomIn")]
     public function setMagnification(value:Number, centeredAt:Point):void {

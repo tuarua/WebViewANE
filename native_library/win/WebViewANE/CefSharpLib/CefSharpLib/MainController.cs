@@ -185,8 +185,7 @@ namespace CefSharpLib {
                 Trace("Cannot find AIR window to attach webView to. Ensure you init the ANE AFTER your main Sprite is initialised. " +
                       "Please see https://forum.starling-framework.org/topic/webviewane-for-osx/page/7?replies=201#post-105524 for more details");
                 return FREObject.Zero;
-            }
-            
+            }    
 
             var inFre1 = new FreRectangleSharp(argv[1]); //viewport
             var inFre2 = new FreObjectSharp(argv[2]); //settings
@@ -222,6 +221,7 @@ namespace CefSharpLib {
             }
 
             var whiteList = new FreArraySharp(inFre2.GetProperty("urlWhiteList").RawValue).GetAsArrayList();
+            var blackList = new FreArraySharp(inFre2.GetProperty("urlBlackList").RawValue).GetAsArrayList();
 
             var rgb = FreSharpHelper.GetAsUInt(inFre4.RawValue);
             _backgroundColor = Color.FromRgb(
@@ -247,6 +247,7 @@ namespace CefSharpLib {
                 UserAgent = Convert.ToString(inFre2.GetProperty("userAgent").Value),
                 CommandLineArgs = argsDict,
                 WhiteList = whiteList,
+                BlackList = blackList,
                 PopupBehaviour = (PopupBehaviour) inFre2.GetProperty("popup").GetProperty("behaviour").Value,
                 PopupDimensions = new Tuple<int, int>(
                     Convert.ToInt32(inFre2.GetProperty("popup").GetProperty("dimensions").GetProperty("width").Value),
