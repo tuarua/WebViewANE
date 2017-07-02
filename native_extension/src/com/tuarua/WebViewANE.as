@@ -22,28 +22,31 @@
  */
 
 package com.tuarua {
-import com.tuarua.fre.ANEContext;
 import com.tuarua.utils.GUID;
 import com.tuarua.webview.ActionscriptCallback;
 import com.tuarua.webview.BackForwardList;
 import com.tuarua.webview.DownloadProgress;
 import com.tuarua.webview.JavascriptResult;
 import com.tuarua.webview.Settings;
+import com.tuarua.webview.TabDetails;
 import com.tuarua.webview.WebViewEvent;
 
 import flash.display.BitmapData;
+import flash.display.Stage;
 
 import flash.events.EventDispatcher;
+import flash.events.FullScreenEvent;
 import flash.events.StatusEvent;
 import flash.external.ExtensionContext;
 import flash.geom.Point;
+import flash.geom.Rectangle;
 import flash.utils.Dictionary;
 
 public class WebViewANE extends EventDispatcher {
     private static const name:String = "WebViewANE";
     private var _isInited:Boolean = false;
     private var _isSupported:Boolean = false;
-
+    private var _viewPort:Rectangle;
     private var _url:String;
     private var _title:String;
     private var _isLoading:Boolean;
@@ -51,19 +54,18 @@ public class WebViewANE extends EventDispatcher {
     private var _canGoForward:Boolean;
     private var _estimatedProgress:Number;
     private var _statusMessage:String;
-    private var _x:int;
-    private var _y:int;
-    private var _height:int;
-    private var _width:int;
     private var asCallBacks:Dictionary = new Dictionary(); // as -> js -> as
     private var jsCallBacks:Dictionary = new Dictionary(); //js - > as -> js
     private static const AS_CALLBACK_PREFIX:String = "TRWV.as.";
     private static const JS_CALLBACK_PREFIX:String = "TRWV.js.";
     private static const JS_CALLBACK_EVENT:String = "TRWV.js.CALLBACK";
     private static const AS_CALLBACK_EVENT:String = "TRWV.as.CALLBACK";
-    private var backgroundColor:RGB = new RGB(0xFFFFFF);
     private var downloadProgress:DownloadProgress = new DownloadProgress();
-
+    private var _visible:Boolean;
+    private var _backgroundColor:uint = 0xFFFFFF;
+    private var _backgroundAlpha:Number = 1.0;
+    private var _stage:Stage;
+    private var ctx:ExtensionContext;
     public function WebViewANE() {
         initiate();
     }
@@ -77,9 +79,9 @@ public class WebViewANE extends EventDispatcher {
         if (_isSupported) {
             trace("[" + name + "] Initalizing ANE...");
             try {
-                ANEContext.ctx = ExtensionContext.createExtensionContext("com.tuarua." + name, null);
-                ANEContext.ctx.addEventListener(StatusEvent.STATUS, gotEvent);
-                _isSupported = ANEContext.ctx.call("isSupported");
+                ctx = ExtensionContext.createExtensionContext("com.tuarua." + name, null);
+                ctx.addEventListener(StatusEvent.STATUS, gotEvent);
+                _isSupported = ctx.call("isSupported");
             } catch (e:Error) {
                 trace("[" + name + "] ANE Not loaded properly.  Future calls will fail.");
             }
@@ -93,7 +95,7 @@ public class WebViewANE extends EventDispatcher {
      * This method is omitted from the output. * * @private
      */
     private function gotEvent(event:StatusEvent):void {
-        // trace("gotEvent",event);
+        //trace("gotEvent", event);
         var keyName:String;
         var argsAsJSON:Object;
         var pObj:Object;
@@ -104,23 +106,37 @@ public class WebViewANE extends EventDispatcher {
 
             case WebViewEvent.ON_PROPERTY_CHANGE:
                 pObj = JSON.parse(event.code);
-                if (pObj.propName == "url") {
-                    _url = pObj.value;
-                } else if (pObj.propName == "title") {
-                    _title = pObj.value;
-                } else if (pObj.propName == "isLoading") {
-                    _isLoading = pObj.value;
-                } else if (pObj.propName == "canGoBack") {
-                    _canGoBack = pObj.value;
-                } else if (pObj.propName == "canGoForward") {
-                    _canGoForward = pObj.value;
-                } else if (pObj.propName == "estimatedProgress") {
-                    _estimatedProgress = pObj.value;
-                } else if (pObj.propName == "statusMessage") {
-                    _statusMessage = pObj.value;
+
+                var tab:int = 0;
+                if (pObj.hasOwnProperty("tab")) {
+                    tab = pObj.tab;
                 }
 
-                dispatchEvent(new WebViewEvent(WebViewEvent.ON_PROPERTY_CHANGE, pObj.propName));
+                if (currentTab == tab) {
+                    if (pObj.propName == "url") {
+                        _url = pObj.value;
+                    } else if (pObj.propName == "title") {
+                        _title = pObj.value;
+                    } else if (pObj.propName == "isLoading") {
+                        _isLoading = pObj.value;
+                    } else if (pObj.propName == "canGoBack") {
+                        _canGoBack = pObj.value;
+                    } else if (pObj.propName == "canGoForward") {
+                        _canGoForward = pObj.value;
+                    } else if (pObj.propName == "estimatedProgress") {
+                        _estimatedProgress = pObj.value;
+                    } else if (pObj.propName == "statusMessage") {
+                        _statusMessage = pObj.value;
+                    }
+                }
+                //trace(event.code);
+
+
+                dispatchEvent(new WebViewEvent(WebViewEvent.ON_PROPERTY_CHANGE, {
+                    propertyName: pObj.propName,
+                    value: pObj.value,
+                    tab: tab
+                }));
                 break;
             case WebViewEvent.ON_FAIL:
                 dispatchEvent(new WebViewEvent(WebViewEvent.ON_FAIL, (event.code.length > 0)
@@ -166,7 +182,6 @@ public class WebViewANE extends EventDispatcher {
                         jsResult.message = argsAsJSON.message;
                         jsResult.success = argsAsJSON.success;
                         jsResult.result = argsAsJSON.result;
-
                         var tmpFunction2:Function = asCallBacks[keyAs] as Function;
                         tmpFunction2.call(null, jsResult);
                     }
@@ -186,7 +201,6 @@ public class WebViewANE extends EventDispatcher {
                     trace(e.message);
                     break;
                 }
-
                 break;
             case WebViewEvent.ON_DOWNLOAD_COMPLETE:
                 dispatchEvent(new WebViewEvent(WebViewEvent.ON_DOWNLOAD_COMPLETE, event.code));
@@ -198,7 +212,13 @@ public class WebViewANE extends EventDispatcher {
                 dispatchEvent(new WebViewEvent(WebViewEvent.ON_ESC_KEY, event.code));
                 break;
             case WebViewEvent.ON_URL_BLOCKED:
-                dispatchEvent(new WebViewEvent(WebViewEvent.ON_URL_BLOCKED, event.code));
+                try {
+                    argsAsJSON = JSON.parse(event.code);
+                } catch (e:Error) {
+                    trace(e.message);
+                    break;
+                }
+                dispatchEvent(new WebViewEvent(WebViewEvent.ON_URL_BLOCKED, argsAsJSON));
                 break;
             case WebViewEvent.ON_PERMISSION_RESULT:
                 try {
@@ -294,9 +314,9 @@ public class WebViewANE extends EventDispatcher {
             var js:String = functionName + "(" + finalArray.toString() + ");";
             if (closure != null) {
                 asCallBacks[AS_CALLBACK_PREFIX + functionName] = closure;
-                ANEContext.ctx.call("callJavascriptFunction", js, AS_CALLBACK_PREFIX + functionName);
+                ctx.call("callJavascriptFunction", js, AS_CALLBACK_PREFIX + functionName);
             } else {
-                ANEContext.ctx.call("callJavascriptFunction", js, null);
+                ctx.call("callJavascriptFunction", js, null);
             }
         }
     }
@@ -328,81 +348,79 @@ public class WebViewANE extends EventDispatcher {
             if (closure != null) {
                 var guid:String = GUID.create();
                 asCallBacks[AS_CALLBACK_PREFIX + guid] = closure;
-                ANEContext.ctx.call("evaluateJavaScript", code, AS_CALLBACK_PREFIX + guid);
+                ctx.call("evaluateJavaScript", code, AS_CALLBACK_PREFIX + guid);
             } else {
-                ANEContext.ctx.call("evaluateJavaScript", code, null);
+                ctx.call("evaluateJavaScript", code, null);
             }
         }
     }
 
     /**
      *
+     * @param stage
+     * @param viewPort
      * @param initialUrl Url to load when the view loads
-     * @param x
-     * @param y
-     * @param width
-     * @param height
      * @param settings
      * @param scaleFactor iOS and Android only
+     * @param backgroundColor value of the view's background color.
+     * @param backgroundAlpha set to 0.0 for transparent background. iOS and Android only
      *
-     * <p>Initialises the webView. The webView is not automatically added to the native stage.</p>
+     * <p>Initialises the webView. N.B. The webView is set to visible = false initially.</p>
      *
      */
-    public function init(initialUrl:String = null, x:int = 0, y:int = 0, width:int = 800, height:int = 600,
-                         settings:Settings = null, scaleFactor:int = 1):void {
-        this._x = x;
-        this._y = y;
-        this._width = width;
-        this._height = height;
+    public function init(stage:Stage, viewPort:Rectangle, initialUrl:String = null,
+                         settings:Settings = null, scaleFactor:Number = 1.0,
+                         backgroundColor:uint = 0xFFFFFF, backgroundAlpha:Number = 1.0):void {
+        _stage = stage;
+        //stage.addEventListener(FullScreenEvent.FULL_SCREEN, onFullScreenEvent);
+        _viewPort = viewPort;
+
+        //hasn't been set by setBackgroundColor
+        if (_backgroundColor == 0xFFFFFF) {
+            _backgroundColor = backgroundColor;
+        }
+        if (_backgroundAlpha == 1.0) {
+            _backgroundAlpha = backgroundAlpha;
+        }
 
         if (_isSupported) {
             var _settings:Settings = settings;
             if (_settings == null) {
                 _settings = new Settings();
             }
-            ANEContext.ctx.call("init", initialUrl, this._x, this._y, this._width, this._height, _settings, scaleFactor);
+
+            ctx.call("init", initialUrl, _viewPort, _settings, scaleFactor, _backgroundColor,
+                    _backgroundAlpha);
             _isInited = true;
         }
     }
 
-    /**
-     *
-     * @param x
-     * @param y
-     * @param width set to 0 to retain existing
-     * @param height  set to 0 to retain existing
-     *
-     * <p>Resizes and/or repositions the webView.</p>
-     *
-     */
-    public function setPositionAndSize(x:int = 0, y:int = 0, width:int = 0, height:int = 0):void {
-        this._x = x;
-        this._y = y;
-        if (width > 0) this._width = width;
-        if (height > 0) this._height = height;
+    private function onFullScreenEvent(event:FullScreenEvent):void {
+        //if (safetyCheck()) {
+        //ctx.call("onFullScreen", event.fullScreen);
+        //}
+    }
 
+    [Deprecated(replacement="viewPort")]
+    public function setPositionAndSize(x:int = 0, y:int = 0, width:int = 0, height:int = 0):void {
+        _viewPort = new Rectangle(x, y, width, height);
         if (safetyCheck()) {
-            ANEContext.ctx.call("setPositionAndSize", this._x, this._y, this._width, this._height);
+            ctx.call("setPositionAndSize", _viewPort);
         }
     }
 
-    /**
-     * <p>Adds the webView from the native stage.</p>
-     *
-     */
+    [Deprecated(replacement="visible")]
     public function addToStage():void {
         if (safetyCheck())
-            ANEContext.ctx.call("addToStage");
+            ctx.call("addToStage");
     }
 
-    /**
-     * <p>Removes the webView from the native stage.</p>
-     *
-     */
+    [Deprecated(replacement="visible")]
     public function removeFromStage():void {
         if (safetyCheck())
-            ANEContext.ctx.call("removeFromStage");
+            ctx.call("removeFromStage");
     }
+
 
     /**
      *
@@ -410,8 +428,10 @@ public class WebViewANE extends EventDispatcher {
      *
      */
     public function load(url:String):void {
-        if (safetyCheck())
-            ANEContext.ctx.call("load", url);
+        if (safetyCheck()) {
+            ctx.call("load", url);
+        }
+
     }
 
     /**
@@ -424,7 +444,7 @@ public class WebViewANE extends EventDispatcher {
      */
     public function loadHTMLString(html:String, baseUrl:String = ""):void {
         if (safetyCheck())
-            ANEContext.ctx.call("loadHTMLString", html, baseUrl);
+            ctx.call("loadHTMLString", html, baseUrl);
     }
 
     /**
@@ -437,7 +457,7 @@ public class WebViewANE extends EventDispatcher {
      */
     public function loadFileURL(url:String, allowingReadAccessTo:String):void {
         if (safetyCheck())
-            ANEContext.ctx.call("loadFileURL", url, allowingReadAccessTo);
+            ctx.call("loadFileURL", url, allowingReadAccessTo);
     }
 
     /**
@@ -445,7 +465,7 @@ public class WebViewANE extends EventDispatcher {
      */
     public function reload():void {
         if (safetyCheck())
-            ANEContext.ctx.call("reload");
+            ctx.call("reload");
     }
 
     /**
@@ -453,7 +473,7 @@ public class WebViewANE extends EventDispatcher {
      */
     public function stopLoading():void {
         if (safetyCheck())
-            ANEContext.ctx.call("stopLoading");
+            ctx.call("stopLoading");
     }
 
     /**
@@ -461,7 +481,7 @@ public class WebViewANE extends EventDispatcher {
      */
     public function goBack():void {
         if (safetyCheck())
-            ANEContext.ctx.call("goBack");
+            ctx.call("goBack");
     }
 
     /**
@@ -469,7 +489,7 @@ public class WebViewANE extends EventDispatcher {
      */
     public function goForward():void {
         if (safetyCheck())
-            ANEContext.ctx.call("goForward");
+            ctx.call("goForward");
     }
 
     /**
@@ -479,7 +499,7 @@ public class WebViewANE extends EventDispatcher {
      */
     public function go(offset:int = 1):void {
         if (safetyCheck())
-            ANEContext.ctx.call("go", offset);
+            ctx.call("go", offset);
     }
 
     /**
@@ -489,7 +509,7 @@ public class WebViewANE extends EventDispatcher {
      */
     public function backForwardList():BackForwardList {
         if (safetyCheck())
-            return ANEContext.ctx.call("backForwardList") as BackForwardList;
+            return ctx.call("backForwardList") as BackForwardList;
         return new BackForwardList();
     }
 
@@ -499,7 +519,7 @@ public class WebViewANE extends EventDispatcher {
      */
     public function reloadFromOrigin():void {
         if (safetyCheck())
-            ANEContext.ctx.call("reloadFromOrigin");
+            ctx.call("reloadFromOrigin");
     }
 
     /**
@@ -508,18 +528,19 @@ public class WebViewANE extends EventDispatcher {
      *
      */
     public function onFullScreen(fs:Boolean = false):void {
+        //trace(_stage.width, _stage.height, _stage.stageWidth, _stage.stageHeight)
         if (safetyCheck())
-            ANEContext.ctx.call("onFullScreen", fs);
+            ctx.call("onFullScreen", fs);
     }
 
     /**
      *
      * @return Whether the page allows magnification functionality
-     * <p><strong>Ignored on iOS and Android.</strong></p>
+     * <p><strong>Ignored on iOS.</strong></p>
      */
     public function allowsMagnification():Boolean {
         if (safetyCheck())
-            ANEContext.ctx.call("allowsMagnification");
+            return ctx.call("allowsMagnification");
         return false;
     }
 
@@ -528,9 +549,8 @@ public class WebViewANE extends EventDispatcher {
      * @return The current magnification level
      *
      */
+    [Deprecated(message="Not available")]
     public function getMagnification():Number {
-        if (safetyCheck())
-            return ANEContext.ctx.call("getMagnification") as Number;
         return 1.0;
     }
 
@@ -538,12 +558,63 @@ public class WebViewANE extends EventDispatcher {
      *
      * @param value
      * @param centeredAt
-     * <p><strong>Ignored on iOS and Android.</strong></p>
+     * <p><strong>Ignored on iOS.</strong></p>
      */
+    [Deprecated(replacement="zoomIn")]
     public function setMagnification(value:Number, centeredAt:Point):void {
-        if (safetyCheck())
-            ANEContext.ctx.call("setMagnification", value, centeredAt);
     }
+
+    /**
+     * Zooms in
+     *
+     */
+    public function zoomIn():void {
+        if (safetyCheck())
+            ctx.call("zoomIn");
+    }
+
+    /**
+     * Zooms out
+     *
+     */
+    public function zoomOut():void {
+        if (safetyCheck())
+            ctx.call("zoomOut");
+    }
+
+    public function addTab(initialUrl:String = null):void {
+        if (safetyCheck())
+            ctx.call("addTab", initialUrl);
+    }
+
+    public function closeTab(index:int):void {
+        if (safetyCheck())
+            ctx.call("closeTab", index);
+    }
+
+    public function set currentTab(value:int):void {
+        if (safetyCheck())
+            ctx.call("setCurrentTab", value);
+    }
+
+    public function get currentTab():int {
+        var ct:int = 0;
+        if (safetyCheck())
+            ct = int(ctx.call("getCurrentTab"));
+        return ct;
+    }
+
+    public function get tabDetails():Vector.<TabDetails> {
+        var ret:Vector.<TabDetails> = new Vector.<TabDetails>();
+        if (safetyCheck()) {
+            ret = Vector.<TabDetails>(ctx.call("getTabDetails"));
+        }
+        return ret;
+
+    }
+
+
+
 
     /**
      * This method is omitted from the output. * * @private
@@ -566,18 +637,25 @@ public class WebViewANE extends EventDispatcher {
     }
 
     /**
-     *
+     * <p>This cleans up the webview and all related processes.</p>
+     * <p><strong>It is important to call this when the app is exiting.</strong></p>
+     * @example
+     * <listing version="3.0">
+     NativeApplication.nativeApplication.addEventListener(flash.events.Event.EXITING, onExiting);
+     private function onExiting(event:Event):void {
+        webView.dispose();
+     }</listing>
      *
      */
     public function dispose():void {
-        if (!ANEContext.ctx) {
+        if (!ctx) {
             trace("[" + name + "] Error. ANE Already in a disposed or failed state...");
             return;
         }
         trace("[" + name + "] Unloading ANE...");
-        ANEContext.ctx.removeEventListener(StatusEvent.STATUS, gotEvent);
-        ANEContext.ctx.dispose();
-        ANEContext.ctx = null;
+        ctx.removeEventListener(StatusEvent.STATUS, gotEvent);
+        ctx.dispose();
+        ctx = null;
     }
 
     /**
@@ -585,6 +663,7 @@ public class WebViewANE extends EventDispatcher {
      * @return current url
      *
      */
+    [Deprecated(replacement="tabDetails")]
     public function get url():String {
         return _url;
     }
@@ -594,6 +673,7 @@ public class WebViewANE extends EventDispatcher {
      * @return current page title
      *
      */
+    [Deprecated(replacement="tabDetails")]
     public function get title():String {
         return _title;
     }
@@ -603,6 +683,7 @@ public class WebViewANE extends EventDispatcher {
      * @return whether the page is loading
      *
      */
+    [Deprecated(replacement="tabDetails")]
     public function get isLoading():Boolean {
         return _isLoading;
     }
@@ -614,6 +695,7 @@ public class WebViewANE extends EventDispatcher {
      * <p>A Boolean value indicating whether we can navigate back.</p>
      *
      */
+    [Deprecated(replacement="tabDetails")]
     public function get canGoBack():Boolean {
         return _canGoBack;
     }
@@ -625,6 +707,7 @@ public class WebViewANE extends EventDispatcher {
      * <p>A Boolean value indicating whether we can navigate forward.</p>
      *
      */
+    [Deprecated(replacement="tabDetails")]
     public function get canGoForward():Boolean {
         return _canGoForward;
     }
@@ -635,6 +718,7 @@ public class WebViewANE extends EventDispatcher {
      * Available on OSX only
      *
      */
+    [Deprecated(replacement="tabDetails")]
     public function get estimatedProgress():Number {
         return _estimatedProgress;
     }
@@ -646,7 +730,7 @@ public class WebViewANE extends EventDispatcher {
      */
     public function showDevTools():void {
         if (safetyCheck())
-            ANEContext.ctx.call("showDevTools");
+            ctx.call("showDevTools");
     }
 
     /**
@@ -656,21 +740,14 @@ public class WebViewANE extends EventDispatcher {
      */
     public function closeDevTools():void {
         if (safetyCheck())
-            ANEContext.ctx.call("closeDevTools");
+            ctx.call("closeDevTools");
     }
 
-    /**
-     *
-     * @param value hex value of the view's background color.
-     * <p>This should be set as the default is #000000 (black).</p>
-     * @param alpha set to 0.0 for transparent background. iOS and Android only.
-     *
-     * <p><strong>Ignored on OSX.</strong></p>
-     */
+
+    [Deprecated(message="combined into init params")]
     public function setBackgroundColor(value:uint, alpha:Number = 1.0):void {
-        backgroundColor.hexToRGB(value);
-        if (ANEContext.ctx)
-            ANEContext.ctx.call("setBackgroundColor", backgroundColor.red, backgroundColor.green, backgroundColor.blue, alpha);
+        _backgroundColor = value;
+        _backgroundAlpha = alpha;
     }
 
     /**
@@ -688,29 +765,18 @@ public class WebViewANE extends EventDispatcher {
      * <p><strong>Windows only.</strong></p>
      *
      */
+    [Deprecated(replacement="tabDetails")]
     public function get statusMessage():String {
         return _statusMessage;
     }
 
-    /**
-     * <p>This calls Cef.ShutDown() to clean up all Chromium Embedded Framework processes.</p>
-     * <p><strong>Applicable to Windows only.</strong></p>
-     * @example
-     * <listing version="3.0">
-     NativeApplication.nativeApplication.addEventListener(flash.events.Event.EXITING, onExiting);
-     private function onExiting(event:Event):void {
-        webView.shutDown();
-     }</listing>
-     *
-     */
+    [Deprecated(message="This is not needed any more as shutdown of CEF is automatically handled in the dispose method")]
     public function shutDown():void {
-        if (safetyCheck())
-            ANEContext.ctx.call("shutDown");
     }
 
     public function focus():void {
         if (safetyCheck())
-            ANEContext.ctx.call("focus");
+            ctx.call("focus");
     }
 
     /**
@@ -726,7 +792,7 @@ public class WebViewANE extends EventDispatcher {
 
     public function injectScript(code:String = null, scriptUrl:String = null, startLine:uint = 0):void {
         if (code != null || scriptUrl != null) {
-            ANEContext.ctx.call("injectScript", code, scriptUrl, startLine);
+            ctx.call("injectScript", code, scriptUrl, startLine);
         }
     }
 
@@ -738,7 +804,7 @@ public class WebViewANE extends EventDispatcher {
      *
      */
     public function print():void {
-        ANEContext.ctx.call("print");
+        ctx.call("print");
     }
 
     /**
@@ -753,24 +819,53 @@ public class WebViewANE extends EventDispatcher {
      *
      */
     public function capture(x:int = 0, y:int = 0, width:int = 0, height:int = 0):BitmapData {
-        return ANEContext.ctx.call("capture", x, y, width, height) as BitmapData;
+        return ctx.call("capture", x, y, width, height) as BitmapData;
     }
+
+    /**
+     *
+     * @param value
+     *
+     */
+    public function set visible(value:Boolean):void {
+        if (_visible == value) return;
+        _visible = value;
+        if (safetyCheck()) {
+            if (value) {
+                ctx.call("addToStage");
+            } else {
+                ctx.call("removeFromStage");
+            }
+        }
+    }
+
+    /**
+     *
+     * @return whether the webView is visible
+     *
+     */
+    public function get visible():Boolean {
+        return _visible;
+    }
+
+    public function get viewPort():Rectangle {
+        return _viewPort;
+    }
+
+    /**
+     *
+     * @param value
+     * <p>Sets the viewPort of the webView.</p>
+     *
+     */
+    public function set viewPort(value:Rectangle):void {
+        _viewPort = value;
+        if (safetyCheck()) {
+            ctx.call("setPositionAndSize", _viewPort);
+        }
+
+    }
+
 
 }
-}
-
-internal class RGB {
-    public var red:int = 255;
-    public var green:int = 255;
-    public var blue:int = 255;
-
-    public function RGB(hex:uint) {
-        hexToRGB(hex);
-    }
-
-    public function hexToRGB(hex:uint):void {
-        red = ((hex & 0xFF0000) >> 16);
-        green = ((hex & 0x00FF00) >> 8);
-        blue = ((hex & 0x0000FF));
-    }
 }

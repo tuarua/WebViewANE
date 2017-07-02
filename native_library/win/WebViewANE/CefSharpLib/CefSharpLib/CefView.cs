@@ -1,4 +1,5 @@
 #region License
+
 // Copyright 2017 Tua Rua Ltd.
 // 
 //  Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,6 +20,7 @@
 //  undertakes the same purpose as this software. That is, a WebView for Windows, 
 //  OSX and/or iOS and/or Android.
 //  All Rights Reserved. Tua Rua Ltd.
+
 #endregion
 
 using System;
@@ -55,16 +57,18 @@ namespace CefSharpLib {
         public string UserAgent { get; set; }
         public Dictionary<string, string> CommandLineArgs { get; set; }
         public ArrayList WhiteList { get; set; }
+        public ArrayList BlackList { get; set; }
         public bool ContextMenuEnabled { get; set; }
 
-        public ChromiumWebBrowser Browser;
+        public ChromiumWebBrowser CurrentBrowser;
+
+        private readonly ArrayList _tabs = new ArrayList();
+        private readonly ArrayList _tabDetails = new ArrayList();
+        public ArrayList TabDetails => _tabDetails;
+
         private bool _isLoaded;
         private string _initialHtml;
-        private string _address;
-        private string _title;
-        private bool _isLoading;
-        private bool _canGoBack;
-        private bool _canGoForward;
+        public int CurrentTab { get; set; }
 
         public const string AsCallbackEvent = "TRWV.as.CALLBACK";
         private const string OnDownloadProgress = "WebView.OnDownloadProgress";
@@ -122,69 +126,142 @@ namespace CefSharpLib {
                 settings.CefCommandLineArgs.Add(kvp.Key, kvp.Value);
             }
 
-            
 
             Cef.EnableHighDPISupport();
             // ReSharper disable once InvertIf
             if (Cef.Initialize(settings)) {
-                Browser = new ChromiumWebBrowser(InitialUrl) {
-                    Dock = DockStyle.Fill
-                };
+                var browser = CreateNewBrowser();
 
-                Browser.RegisterAsyncJsObject("webViewANE", new BoundObject(), BindingOptions.DefaultBinder);
-
-
-                // ReSharper disable once UseObjectOrCollectionInitializer
-                var dh = new DownloadHandler();
-                dh.OnDownloadUpdatedFired += OnDownloadUpdatedFired;
-                dh.OnBeforeDownloadFired += OnDownloadFired;
-
-                // ReSharper disable once UseObjectOrCollectionInitializer
-                var kh = new KeyboardHandler();
-                kh.OnKeyEventFired += OnKeyEventFired;
-
-                if (EnableDownloads)
-                    Browser.DownloadHandler = dh;
-                Browser.KeyboardHandler = kh;
-
-                // ReSharper disable once UseObjectOrCollectionInitializer
-                var gh = new GeolocationHandler();
-                gh.OnPermissionResult += OnPermissionResult;
-                Browser.GeolocationHandler = gh;
-
-
-                // ReSharper disable once UseObjectOrCollectionInitializer
-                var sh = new LifeSpanHandler(PopupBehaviour, PopupDimensions);
-                sh.OnPermissionPopup += OnPermissionPopup;
-
-                Browser.LifeSpanHandler = sh;
-                Browser.FrameLoadEnd += OnFrameLoaded;
-                Browser.AddressChanged += OnBrowserAddressChanged;
-                Browser.TitleChanged += OnBrowserTitleChanged;
-                Browser.LoadingStateChanged += OnBrowserLoadingStateChanged;
-                Browser.LoadError += OnLoadError;
-                Browser.IsBrowserInitializedChanged += OnBrowserInitialized;
-                Browser.StatusMessage += OnStatusMessage;
-
-                if(!ContextMenuEnabled)
-                    Browser.MenuHandler = new MenuHandler();
-
-                // ReSharper disable once UseObjectOrCollectionInitializer
-                var rh = new RequestHandler(WhiteList);
-                rh.OnUrlBlockedFired += OnUrlBlockedFired;
-
-                Browser.RequestHandler = rh;
-
-                _host.Child = Browser;
-
+                CurrentBrowser = browser;
+                _host.Child = browser;
                 MainGrid.Children.Add(_host);
-
             }
-
         }
 
-        private static void OnUrlBlockedFired(object sender, string e) {
-            FreSharpController.Context.DispatchEvent(OnUrlBlocked, e);
+        private ChromiumWebBrowser CreateNewBrowser() {
+            Console.WriteLine(@"CreateNewBrowser called");
+            // ReSharper disable once UseObjectOrCollectionInitializer
+            var browser = new ChromiumWebBrowser(InitialUrl) {
+                Dock = DockStyle.Fill
+            };
+
+            browser.RegisterAsyncJsObject("webViewANE", new BoundObject(), BindingOptions.DefaultBinder);
+
+            // ReSharper disable once UseObjectOrCollectionInitializer
+            var dh = new DownloadHandler();
+            dh.OnDownloadUpdatedFired += OnDownloadUpdatedFired;
+            dh.OnBeforeDownloadFired += OnDownloadFired;
+
+            // ReSharper disable once UseObjectOrCollectionInitializer
+            var kh = new KeyboardHandler();
+            kh.OnKeyEventFired += OnKeyEventFired;
+
+            if (EnableDownloads)
+                browser.DownloadHandler = dh;
+            browser.KeyboardHandler = kh;
+
+            // ReSharper disable once UseObjectOrCollectionInitializer
+            var gh = new GeolocationHandler();
+            gh.OnPermissionResult += OnPermissionResult;
+            browser.GeolocationHandler = gh;
+
+
+            // ReSharper disable once UseObjectOrCollectionInitializer
+            var sh = new LifeSpanHandler(PopupBehaviour, PopupDimensions);
+            sh.OnPermissionPopup += OnPermissionPopup;
+
+            browser.LifeSpanHandler = sh;
+            browser.FrameLoadEnd += OnFrameLoaded;
+            browser.AddressChanged += OnBrowserAddressChanged;
+            browser.TitleChanged += OnBrowserTitleChanged;
+            browser.LoadingStateChanged += OnBrowserLoadingStateChanged;
+            browser.LoadError += OnLoadError;
+            browser.IsBrowserInitializedChanged += OnBrowserInitialized;
+            browser.StatusMessage += OnStatusMessage;
+            browser.DisplayHandler = new DisplayHandler();
+
+            if (!ContextMenuEnabled)
+                browser.MenuHandler = new MenuHandler();
+
+            // ReSharper disable once UseObjectOrCollectionInitializer
+            var rh = new RequestHandler(WhiteList, BlackList);
+            rh.OnUrlBlockedFired += OnUrlBlockedFired;
+
+            browser.RequestHandler = rh;
+
+            _tabs.Add(browser);
+            _tabDetails.Add(new TabDetails());
+
+            return browser;
+        }
+
+        public void AddTab() {
+            CurrentTab = _tabs.Count;
+            CurrentBrowser = CreateNewBrowser();
+            _host.Child = CurrentBrowser;
+        }
+
+        public void SetCurrentTab(int index) {
+            if (index < 0 || index > _tabs.Count - 1) return;
+            CurrentTab = index;
+            CurrentBrowser = _tabs[CurrentTab] as ChromiumWebBrowser;
+            _host.Child = CurrentBrowser;
+
+            if (!(_tabDetails[CurrentTab] is TabDetails tabDetails)) return;
+            SendPropertyChange(@"title", tabDetails.Title, CurrentTab);
+            SendPropertyChange(@"url", tabDetails.Address, CurrentTab);
+            SendPropertyChange(@"isLoading", tabDetails.IsLoading, CurrentTab);
+            SendPropertyChange(@"canGoForward", tabDetails.CanGoForward, CurrentTab);
+            SendPropertyChange(@"canGoBack", tabDetails.CanGoBack, CurrentTab);
+        }
+
+        public void CloseTab(int index) {
+            if (index < 0 || index > _tabs.Count - 1) {
+                return;
+            }
+
+            if (CurrentTab >= index) {
+                CurrentTab = CurrentTab - 1;
+            }
+            if (_tabs.Count == 2) {
+                CurrentTab = 0;
+            }
+            if (CurrentTab < 0) {
+                CurrentTab = 0;
+            }
+            var wvtc = _tabs[index] as ChromiumWebBrowser;
+            _tabs.RemoveAt(index);
+            _tabDetails.RemoveAt(index);
+            wvtc?.Dispose();
+
+            CurrentBrowser = _tabs[CurrentTab] as ChromiumWebBrowser;
+            _host.Child = CurrentBrowser;
+
+            if (!(_tabDetails[CurrentTab] is TabDetails tabDetails)) return;
+            SendPropertyChange(@"title", tabDetails.Title, CurrentTab);
+            SendPropertyChange(@"url", tabDetails.Address, CurrentTab);
+            SendPropertyChange(@"isLoading", tabDetails.IsLoading, CurrentTab);
+            SendPropertyChange(@"canGoForward", tabDetails.CanGoForward, CurrentTab);
+            SendPropertyChange(@"canGoBack", tabDetails.CanGoBack, CurrentTab);
+        }
+
+
+        private void OnUrlBlockedFired(object sender, string e) {
+            var sb = new StringBuilder();
+            var sw = new StringWriter(sb);
+            var writer = new JsonTextWriter(sw);
+
+            var tab = _tabs.IndexOf(sender);
+            tab = tab == -1 ? 0 : tab;
+
+            writer.WriteStartObject();
+            writer.WritePropertyName("url");
+            writer.WriteValue(e);
+            writer.WritePropertyName("tab");
+            writer.WriteValue(tab);
+            writer.WriteEndObject();
+
+            FreSharpController.Context.DispatchEvent(OnUrlBlocked, sb.ToString());
         }
 
         private void OnPermissionPopup(object sender, string s) {
@@ -198,41 +275,69 @@ namespace CefSharpLib {
             }
         }
 
+        private TabDetails GetTabDetails(int tab) {
+            return (TabDetails) _tabDetails[tab];
+        }
+
         private void OnBrowserAddressChanged(object sender, AddressChangedEventArgs e) {
-            if (_address == e.Address) return;
-            _address = e.Address;
-            SendPropertyChange(@"url", _address);
+            for (var index = 0; index < _tabs.Count; index++) {
+                if (!_tabs[index].Equals(sender)) continue;
+                var tabDetails = GetTabDetails(index);
+                if (tabDetails.Address == e.Address) {
+                    return;
+                }
+                tabDetails.Address = e.Address;
+                SendPropertyChange(@"url", e.Address, index);
+            }
         }
 
         private void OnBrowserTitleChanged(object sender, TitleChangedEventArgs e) {
-            if (_title == e.Title) return;
-            _title = e.Title;
-            SendPropertyChange(@"title", _title);
+            for (var index = 0; index < _tabs.Count; index++) {
+                if (!_tabs[index].Equals(sender)) continue;
+                var tabDetails = GetTabDetails(index);
+                if (tabDetails.Title == e.Title) {
+                    return;
+                }
+                tabDetails.Title = e.Title;
+                SendPropertyChange(@"title", e.Title, index);
+            }
         }
 
         private void OnBrowserLoadingStateChanged(object sender, LoadingStateChangedEventArgs e) {
-            if (_isLoading == e.IsLoading) return;
-            _isLoading = e.IsLoading;
-            SendPropertyChange(@"isLoading", _isLoading);
+            for (var index = 0; index < _tabs.Count; index++) {
+                if (!_tabs[index].Equals(sender)) continue;
+                var tabDetails = GetTabDetails(index);
+                if (tabDetails.IsLoading == e.IsLoading) {
+                    return;
+                }
+                tabDetails.IsLoading = e.IsLoading;
+                SendPropertyChange(@"isLoading", e.IsLoading, index);
+                if (!e.IsLoading) {
+                    CurrentBrowser.Focus();
+                }
 
-            if (!_isLoading) {
-                Browser.Focus();
+                if (tabDetails.CanGoForward != e.CanGoForward) {
+                    tabDetails.CanGoForward = e.CanGoForward;
+                    SendPropertyChange(@"canGoForward", e.CanGoForward, index);
+                }
+
+                if (tabDetails.CanGoBack == e.CanGoBack) {
+                    return;
+                }
+
+                tabDetails.CanGoBack = e.CanGoBack;
+                SendPropertyChange(@"canGoBack", e.CanGoBack, index);
             }
-
-            if (_canGoForward != e.CanGoForward) {
-                _canGoForward = e.CanGoForward;
-                SendPropertyChange(@"canGoForward", _canGoForward);
-            }
-
-            if (_canGoBack == e.CanGoBack) return;
-            _canGoBack = e.CanGoBack;
-            SendPropertyChange(@"canGoBack", _canGoBack);
         }
 
-        private static void OnLoadError(object sender, LoadErrorEventArgs e) {
+        private void OnLoadError(object sender, LoadErrorEventArgs e) {
             var sb = new StringBuilder();
             var sw = new StringWriter(sb);
             var writer = new JsonTextWriter(sw);
+
+            var tab = _tabs.IndexOf(sender);
+            tab = tab == -1 ? 0 : tab;
+
             writer.WriteStartObject();
             writer.WritePropertyName("url");
             writer.WriteValue(e.FailedUrl);
@@ -240,6 +345,8 @@ namespace CefSharpLib {
             writer.WriteValue(e.ErrorCode);
             writer.WritePropertyName("errorText");
             writer.WriteValue(e.ErrorText);
+            writer.WritePropertyName("tab");
+            writer.WriteValue(tab);
             writer.WriteEndObject();
             FreSharpController.Context.DispatchEvent(OnFail, sb.ToString());
         }
@@ -247,36 +354,47 @@ namespace CefSharpLib {
         private void OnBrowserInitialized(object sender, IsBrowserInitializedChangedEventArgs e) {
             _isLoaded = e.IsBrowserInitialized;
             if (!_isLoaded) return;
-            if (!string.IsNullOrEmpty(Browser.Address)) return;
+            if (!string.IsNullOrEmpty(CurrentBrowser.Address)) return;
             if (!string.IsNullOrEmpty(_initialHtml)) {
                 LoadHtmlString(_initialHtml, InitialUrl);
-            } else if (!string.IsNullOrEmpty(InitialUrl)) {
+            }
+            else if (!string.IsNullOrEmpty(InitialUrl)) {
                 Load(InitialUrl);
             }
         }
 
         public void Load(string url) {
             if (_isLoaded) {
-                Browser.Load(url);
-            } else {
+                CurrentBrowser.Load(url);
+            }
+            else {
                 InitialUrl = url;
             }
         }
 
         public void LoadHtmlString(string html, string url) {
             if (_isLoaded) {
-                Browser.LoadHtml(html, url);
-            } else {
+                CurrentBrowser.LoadHtml(html, url);
+            }
+            else {
                 _initialHtml = html;
                 InitialUrl = url;
             }
         }
 
-        private static void OnStatusMessage(object sender, StatusMessageEventArgs e) {
-            SendPropertyChange(@"statusMessage", e.Value);
+        private void OnStatusMessage(object sender, StatusMessageEventArgs e) {
+            for (var index = 0; index < _tabs.Count; index++) {
+                if (!_tabs[index].Equals(sender)) continue;
+                var tabDetails = GetTabDetails(index);
+                if (tabDetails.StatusMessage == e.Value) {
+                    return;
+                }
+                tabDetails.StatusMessage = e.Value;
+                SendPropertyChange(@"statusMessage", e.Value, index);
+            }
         }
 
-        private static void SendPropertyChange(string propName, bool value) {
+        private static void SendPropertyChange(string propName, bool value, int tab) {
             var sb = new StringBuilder();
             var sw = new StringWriter(sb);
             var writer = new JsonTextWriter(sw);
@@ -285,11 +403,14 @@ namespace CefSharpLib {
             writer.WriteValue(propName);
             writer.WritePropertyName("value");
             writer.WriteValue(value);
+            writer.WritePropertyName("tab");
+            writer.WriteValue(tab);
             writer.WriteEndObject();
             FreSharpController.Context.DispatchEvent(OnPropertyChange, sb.ToString());
         }
 
-        private static void SendPropertyChange(string propName, string value) {
+
+        private static void SendPropertyChange(string propName, string value, int tab) {
             var sb = new StringBuilder();
             var sw = new StringWriter(sb);
             var writer = new JsonTextWriter(sw);
@@ -298,6 +419,8 @@ namespace CefSharpLib {
             writer.WriteValue(propName);
             writer.WritePropertyName("value");
             writer.WriteValue(value);
+            writer.WritePropertyName("tab");
+            writer.WriteValue(tab);
             writer.WriteEndObject();
             FreSharpController.Context.DispatchEvent(OnPropertyChange, sb.ToString());
         }
@@ -340,8 +463,7 @@ namespace CefSharpLib {
             FreSharpController.Context.DispatchEvent(OnDownloadProgress, sb.ToString());
         }
 
-        private static void OnDownloadFired(object sender, DownloadItem downloadItem) {
-        }
+        private static void OnDownloadFired(object sender, DownloadItem downloadItem) { }
 
         private static void OnKeyEventFired(object sender, int e) {
             FreSharpController.Context.DispatchEvent(OnEscKey, e.ToString());
@@ -360,10 +482,6 @@ namespace CefSharpLib {
             FreSharpController.Context.DispatchEvent(OnPermission, sb.ToString());
         }
 
-        private static void CefView_Loaded(object sender, RoutedEventArgs e) {
-        }
-
-
-
+        private static void CefView_Loaded(object sender, RoutedEventArgs e) { }
     }
 }

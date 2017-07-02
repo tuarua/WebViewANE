@@ -55,12 +55,15 @@ echo "Building Release."
 -swc "$pathtome/$PROJECT_NAME.swc" \
 -platform MacOS-x86-64 -C "$pathtome/platforms/mac/release" "$PROJECT_NAME.framework" "library.swf"
 
+zip "$pathtome/$PROJECT_NAME.ane" -u docs/*
 
 echo "Building Debug."
 "$AIR_SDK"/bin/adt -package \
 -target ane "$pathtome/$PROJECT_NAME-debug.ane" "$pathtome/extension_osx.xml" \
 -swc "$pathtome/$PROJECT_NAME.swc" \
 -platform MacOS-x86-64 -C "$pathtome/platforms/mac/debug" "$PROJECT_NAME.framework" "library.swf"
+
+zip "$pathtome/$PROJECT_NAME-debug.ane" -u docs/*
 
 if [[ -d "$pathtome/debug" ]]
 then

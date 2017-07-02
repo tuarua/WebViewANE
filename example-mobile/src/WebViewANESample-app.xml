@@ -4,7 +4,7 @@
     <id>com.tuarua.webviewane.example.mobile</id> <!-- Bundle Identifier. Required. -->
     <filename>WebViewANESample-mobile</filename> <!-- Used as the filename for the application. Required. -->
     <name>WebViewANESample-mobile</name> <!-- The name that is displayed below the app icon. -->
-    <versionNumber>0.0.2</versionNumber> <!-- Required. -->
+    <versionNumber>0.0.3</versionNumber> <!-- Required. -->
 
     <!-- Settings for the application's initial window. Required. -->
     <initialWindow>

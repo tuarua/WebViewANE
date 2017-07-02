@@ -33,7 +33,7 @@ public class Settings extends Object {
 	 */	
     public var cef:CefSettings = new CefSettings();
 	/**
-	 * <p>Settings to use for WKWebView (OSX) version.</p>
+	 * <p>Settings to use for WKWebView (OSX / iOS) version.</p>
 	 */	
     public var webkit:WebkitSettings = new WebkitSettings();
     /**
@@ -48,9 +48,14 @@ public class Settings extends Object {
     public var popup:Popup = new Popup();
 
     /**
-     <p>Vector of urls to allow through, example google.com - This is a simple string match. There is no regex support. WIN, OSX, iOS only.</p>
+     <p>Vector of urls to allow through, example google.com - This uses a simple string match. There is no regex support.</p>
      */
     public var urlWhiteList:Vector.<String> = new <String>[];
+
+    /**
+     <p>Vector of urls to block example .pdf,.zip - This uses a simple string match. There is no regex support.</p>
+     */
+    public var urlBlackList:Vector.<String> = new <String>[];
 
     public function Settings() {
     }

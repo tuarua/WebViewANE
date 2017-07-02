@@ -18,6 +18,7 @@ public class WebViewANESample extends Sprite {
     public var mStarling:Starling;
     public static var target:WebViewANESample;
     private static var _app:StarlingRoot;
+
     public function WebViewANESample() {
 
         super();

@@ -10,8 +10,11 @@ import com.tuarua.webview.BackForwardListItem;
 import com.tuarua.webview.DownloadProgress;
 import com.tuarua.webview.JavascriptResult;
 import com.tuarua.webview.Settings;
+import com.tuarua.webview.TabDetails;
 import com.tuarua.webview.WebViewEvent;
 import com.tuarua.webview.popup.Behaviour;
+
+import events.InteractionEvent;
 
 import flash.desktop.NativeApplication;
 import flash.display.BitmapData;
@@ -24,7 +27,6 @@ import flash.events.NativeWindowDisplayStateEvent;
 import flash.filesystem.File;
 import flash.filesystem.FileMode;
 import flash.filesystem.FileStream;
-import flash.geom.Point;
 import flash.geom.Rectangle;
 import flash.system.Capabilities;
 import flash.text.TextFieldType;
@@ -45,6 +47,8 @@ import starling.text.TextField;
 import starling.text.TextFormat;
 import starling.utils.Align;
 
+import views.TabBar;
+
 import views.forms.Input;
 
 public class StarlingRoot extends Sprite {
@@ -64,24 +68,21 @@ public class StarlingRoot extends Sprite {
     private var as_js_as_Btn:Image = new Image(Assets.getAtlas().getTexture("as-js-as-btn"));
     private var eval_js_Btn:Image = new Image(Assets.getAtlas().getTexture("eval-js-btn"));
 
-
-    private var titleTxt:TextField;
     private var statusTxt:TextField;
     private var urlInput:Input;
     private var progress:Quad = new Quad(800, 2, 0x00A3D9);
-    private var currentZoom:Number = 1.0;
     private var _appWidth:uint = 1280;
     private var _appHeight:uint = 800;
-    private var isDevToolsShowing:Boolean = false;
+    private var tabBar:TabBar = new TabBar();
+    private static const newTabUrls:Vector.<String> = new <String>["http://www.bing.com", "http://www.bbc.co.uk",
+        null, "https://www.github.com", "https://forum.starling-framework.org/"];
 
     public function StarlingRoot() {
         super();
         TextField.registerCompositor(Fonts.getFont("fira-sans-semi-bold-13"), "Fira Sans Semi-Bold 13");
-
     }
 
     public function start():void {
-
         WebViewANESample.target.stage.addEventListener(FullScreenEvent.FULL_SCREEN, onFullScreenEvent);
         NativeApplication.nativeApplication.addEventListener(Event.EXITING, onExiting);
 
@@ -90,15 +91,12 @@ public class StarlingRoot extends Sprite {
                     NativeWindowDisplayStateEvent.DISPLAY_STATE_CHANGE, onWindowMiniMaxi);
         }
 
-        trace("webView.isSupported()", webView.isSupported())
-
         if (!webView.isSupported) {
             return;
         }
 
         webView.addCallback("js_to_as", jsToAsCallback);
         webView.addCallback("forceWebViewFocus", forceWebViewFocus); //for Windows touch - see jsTest.html
-
 
         webView.addEventListener(WebViewEvent.ON_PROPERTY_CHANGE, onPropertyChange);
         webView.addEventListener(WebViewEvent.ON_FAIL, onFail);
@@ -113,8 +111,8 @@ public class StarlingRoot extends Sprite {
         settings.popup.dimensions.width = 600;
         settings.popup.dimensions.height = 800;
 
-//         only use settings.userAgent if you are running your own site.
-//         google.com for eg displays different sites based on user agent
+        //only use settings.userAgent if you are running your own site.
+        //google.com for eg displays different sites based on user agent
         //settings.userAgent = "WebViewANE";
 
         // See https://github.com/cefsharp/CefSharp/blob/master/CefSharp.Example/CefExample.cs#L37 for more examples
@@ -129,7 +127,8 @@ public class StarlingRoot extends Sprite {
         settings.cef.enableDownloads = true;
         settings.cef.contextMenu.enabled = false; //enable/disable right click
 
-        //settings.urlWhiteList.push("google.", "youtube.", "adobe.com","chrome-devtools://"); //to restrict urls - simple string matching
+        //settings.urlWhiteList.push("macromedia.","google.", "youtube.", "adobe.com","chrome-devtools://"); //to restrict urls - simple string matching
+        //settings.urlBlackList.push(".pdf");
 
         //to retrieve geolocation on Windows (CEF), follow the instructions on this page and set these vars
         //https://www.chromium.org/developers/how-tos/api-keys
@@ -137,10 +136,9 @@ public class StarlingRoot extends Sprite {
 //        settings.cef.GOOGLE_DEFAULT_CLIENT_ID = "YOUR_VALUE";
 //        settings.cef.GOOGLE_DEFAULT_CLIENT_SECRET = "YOUR_VALUE";
 
-        webView.setBackgroundColor(0xF1F1F1);
-
-        webView.init("http://www.bbc.co.uk/", 0, 90, _appWidth, _appHeight - 140, settings);
-        webView.addToStage(); // webView.removeFromStage();
+        var viewPort:Rectangle = new Rectangle(0, 90, _appWidth, _appHeight - 140);
+        webView.init(WebViewANESample.target.stage, viewPort, "http://www.adobe.com", settings, 1.0, 0xF1F1F1);
+        webView.visible = true;
         webView.injectScript("function testInject(){console.log('yo yo')}");
 
         /*trace("loading html");
@@ -161,7 +159,6 @@ public class StarlingRoot extends Sprite {
 
         fwdBtn.x = 60;
         fwdBtn.addEventListener(TouchEvent.TOUCH, onForward);
-
         fwdBtn.alpha = backBtn.alpha = 0.4;
 
         refreshBtn.x = 100;
@@ -176,18 +173,14 @@ public class StarlingRoot extends Sprite {
         zoomOutBtn.x = zoomInBtn.x + 40;
         zoomOutBtn.addEventListener(TouchEvent.TOUCH, onZoomOut);
 
-
         fullscreenBtn.x = zoomOutBtn.x + 40;
         fullscreenBtn.addEventListener(TouchEvent.TOUCH, onFullScreen);
-
 
         devToolsBtn.y = fullscreenBtn.y = zoomInBtn.y = zoomOutBtn.y =
                 backBtn.y = fwdBtn.y = refreshBtn.y = cancelBtn.y = capureBtn.y = 50;
 
-
         devToolsBtn.x = fullscreenBtn.x + 40;
         devToolsBtn.addEventListener(TouchEvent.TOUCH, onDevTools);
-
 
         jsBtn.x = webBtn.x = devToolsBtn.x + 60;
         jsBtn.y = webBtn.y = 48;
@@ -207,20 +200,16 @@ public class StarlingRoot extends Sprite {
 
         as_js_as_Btn.addEventListener(TouchEvent.TOUCH, onAsJsAsBtn);
         eval_js_Btn.addEventListener(TouchEvent.TOUCH, onEvalJsBtn);
-
         as_js_as_Btn.x = 200;
         eval_js_Btn.x = as_js_as_Btn.x + 200;
-
         as_js_as_Btn.y = eval_js_Btn.y = 42;
         eval_js_Btn.useHandCursor = as_js_as_Btn.useHandCursor = true;
         as_js_as_Btn.visible = eval_js_Btn.visible = false;
-
 
         var tf:TextFormat = new TextFormat();
         tf.setTo("Fira Sans Semi-Bold 13", 13);
         tf.verticalAlign = Align.TOP;
         tf.color = 0x666666;
-
 
         urlInput = new Input(802, "");
         urlInput.type = TextFieldType.INPUT;
@@ -235,14 +224,6 @@ public class StarlingRoot extends Sprite {
         progress.x = 150;
         progress.y = 70;
 
-
-        titleTxt = new TextField(1280, 20, "");
-        titleTxt.format = tf;
-
-        titleTxt.batchable = true;
-        titleTxt.touchable = false;
-        titleTxt.y = 20;
-
         statusTxt = new TextField(1280, 20, "");
         statusTxt.format = tf;
         statusTxt.format.horizontalAlign = Align.LEFT;
@@ -253,7 +234,10 @@ public class StarlingRoot extends Sprite {
         statusTxt.y = _appHeight - 24;
 
 
-        addChild(titleTxt);
+        tabBar.addEventListener(InteractionEvent.ON_NEW_TAB, onNewTab);
+        tabBar.addEventListener(InteractionEvent.ON_SWITCH_TAB, onSwitchTab);
+        tabBar.addEventListener(InteractionEvent.ON_CLOSE_TAB, onCloseTab);
+        addChild(tabBar);
         addChild(statusTxt);
         addChild(backBtn);
         addChild(fwdBtn);
@@ -265,26 +249,42 @@ public class StarlingRoot extends Sprite {
         addChild(fullscreenBtn);
         if (Capabilities.os.toLowerCase().indexOf("windows") == 0) {
             addChild(devToolsBtn);
-
         }
 
-
         addChild(capureBtn);
-
         addChild(jsBtn);
         addChild(webBtn);
 
-
         addChild(as_js_as_Btn);
         addChild(eval_js_Btn);
-
         addChild(urlInput);
-
         addChild(progress);
     }
 
-    private function onUrlBlocked(event:WebViewEvent):void {
-        trace(event.params, "does not match our urlWhiteList");
+    private function onNewTab(event:InteractionEvent):void {
+        fwdBtn.alpha = backBtn.alpha = 0.4;
+        fwdBtn.touchable = backBtn.touchable = false;
+        progress.scaleX = 0.0;
+        urlInput.text = "";
+        webView.addTab(newTabUrls[tabBar.tabs.length - 2]);
+        //webView.addTab();
+        tabBar.setActiveTab(webView.currentTab);
+    }
+
+    private function onSwitchTab(event:InteractionEvent):void {
+        webView.currentTab = event.params.index;
+        tabBar.setActiveTab(webView.currentTab);
+    }
+
+    private function onCloseTab(event:InteractionEvent):void {
+        webView.closeTab(event.params.index);
+        tabBar.closeTab(event.params.index);
+        tabBar.setActiveTab(webView.currentTab);
+    }
+
+
+    private static function onUrlBlocked(event:WebViewEvent):void {
+        trace(event.params.url, "does not match our urlWhiteList or is on urlBlackList", "tab is:", event.params.tab);
     }
 
     private static function onPermissionResult(event:WebViewEvent):void {
@@ -296,9 +296,16 @@ public class StarlingRoot extends Sprite {
         /*
          !! Needed for OSX, restores webView when we restore from minimized state
          */
+
         if (event.beforeDisplayState == NativeWindowDisplayState.MINIMIZED) {
-            webView.removeFromStage();
-            webView.addToStage();
+            webView.visible = false;
+            webView.visible = true;
+            return;
+        }
+        if (event.afterDisplayState != NativeWindowDisplayState.MINIMIZED) {
+            _appWidth = event.target.width;
+            _appHeight = event.target.height - 17;
+            webView.viewPort = new Rectangle(0, 90, _appWidth, _appHeight - 140);
         }
     }
 
@@ -388,50 +395,62 @@ public class StarlingRoot extends Sprite {
     private function onDevTools(event:TouchEvent):void {
         var touch:Touch = event.getTouch(devToolsBtn);
         if (touch != null && touch.phase == TouchPhase.ENDED) {
-            isDevToolsShowing = !isDevToolsShowing;
-            if (isDevToolsShowing) {
-                webView.showDevTools();
-            } else {
-                webView.closeDevTools();
-            }
+            webView.showDevTools(); //webView.closeDevTools();
         }
     }
 
     private function onPropertyChange(event:WebViewEvent):void {
-        //trace(event.params,"has changed: ");
-        switch (event.params) {
+        // read list of tabs and their details like this:
+        // var tabList:Vector.<TabDetails> = webView.tabDetails;
+        // trace(tabList[webView.currentTab].index, tabList[webView.currentTab].title, tabList[webView.currentTab].url);
+        switch (event.params.propertyName) {
             case "url":
-                urlInput.text = webView.url;
-                break;
-            case "title":
-                titleTxt.text = webView.title;
-                break;
-            case "isLoading":
-                refreshBtn.visible = !webView.isLoading;
-                cancelBtn.visible = webView.isLoading;
-                break;
-            case "canGoBack":
-                backBtn.alpha = webView.canGoBack ? 1.0 : 0.4;
-                backBtn.touchable = webView.canGoBack;
-                break;
-            case "canGoForward":
-                fwdBtn.alpha = webView.canGoForward ? 1.0 : 0.4;
-                fwdBtn.touchable = webView.canGoForward;
-                break;
-            case "estimatedProgress":
-                var p:Number = webView.estimatedProgress;
-                progress.scaleX = p;
-                if (p > 0.99) {
-                    Starling.juggler.tween(progress, .5, {
-                        transition: Transitions.LINEAR,
-                        alpha: 0
-                    });
-                } else {
-                    progress.alpha = 1;
+                if (event.params.tab == webView.currentTab) {
+                    urlInput.text = event.params.value;
                 }
                 break;
+            case "title":
+                tabBar.setTabTitle(event.params.tab, event.params.value);
+                break;
+            case "isLoading":
+                if (event.params.tab == webView.currentTab) {
+                    refreshBtn.visible = !event.params.value;
+                    cancelBtn.visible = event.params.value;
+                }
+                break;
+            case "canGoBack":
+                if (event.params.tab == webView.currentTab) {
+                    backBtn.alpha = event.params.value ? 1.0 : 0.4;
+                    backBtn.touchable = event.params.value;
+                }
+
+                break;
+            case "canGoForward":
+                if (event.params.tab == webView.currentTab) {
+                    fwdBtn.alpha = event.params.value ? 1.0 : 0.4;
+                    fwdBtn.touchable = event.params.value;
+                }
+
+                break;
+            case "estimatedProgress":
+                var p:Number = event.params.value;
+                if (event.params.tab == webView.currentTab) {
+                    progress.scaleX = p;
+                    if (p > 0.99) {
+                        Starling.juggler.tween(progress, .5, {
+                            transition: Transitions.LINEAR,
+                            alpha: 0
+                        });
+                    } else {
+                        progress.alpha = 1;
+                    }
+                }
+
+                break;
             case "statusMessage":
-                statusTxt.text = webView.statusMessage;
+                if (event.params.tab == webView.currentTab) {
+                    statusTxt.text = event.params.value;
+                }
                 break;
         }
     }
@@ -439,27 +458,23 @@ public class StarlingRoot extends Sprite {
     private function onZoomOut(event:TouchEvent):void {
         var touch:Touch = event.getTouch(zoomOutBtn);
         if (touch != null && touch.phase == TouchPhase.ENDED) {
-            currentZoom = currentZoom - .1;
-            webView.setMagnification(currentZoom, new Point(0, 0));
+            webView.zoomOut();
         }
     }
 
     private function onZoomIn(event:TouchEvent):void {
         var touch:Touch = event.getTouch(zoomInBtn);
         if (touch != null && touch.phase == TouchPhase.ENDED) {
-            currentZoom = currentZoom + .1;
-            webView.setMagnification(currentZoom, new Point(0, 0));
+            webView.zoomIn();
         }
     }
-
 
     private function onFullScreen(event:TouchEvent):void {
         var touch:Touch = event.getTouch(fullscreenBtn);
         if (touch != null && touch.phase == TouchPhase.ENDED) {
-            onMaximiseApp();
+            onFullScreenApp();
         }
     }
-
 
     private function onUrlEnter(event:FormEvent):void {
         webView.load(urlInput.text);
@@ -476,7 +491,6 @@ public class StarlingRoot extends Sprite {
         var touch:Touch = event.getTouch(fwdBtn);
         if (touch != null && touch.phase == TouchPhase.ENDED) {
             webView.goForward();
-
 
             /*
              var obj:BackForwardList = webView.backForwardList();
@@ -551,7 +565,6 @@ public class StarlingRoot extends Sprite {
             trace("we have a callbackName")
         }
 
-
         if (asCallback.callbackName) { //if we have a callbackName it means we have a further js call to make
             webView.callJavascriptFunction(asCallback.callbackName, null, paramA, paramB, paramC);
         }
@@ -573,45 +586,47 @@ public class StarlingRoot extends Sprite {
         trace(event.params.url);
         trace(event.params.errorCode);
         trace(event.params.errorText);
+        if (event.params.hasOwnProperty("tab")) {
+            trace(event.params.tab);
+        }
     }
 
     /**
-     * It's very important to call webView.shutDown(); when the app is exiting. This cleans up CEF on Windows.
+     * It's very important to call webView.dispose(); when the app is exiting.
      */
     private function onExiting(event:Event):void {
-
-        webView.shutDown();
         webView.dispose();
     }
 
-    public function onMaximiseApp():void {
-
+    public function onFullScreenApp():void {
         if (WebViewANESample.target.stage.displayState == StageDisplayState.FULL_SCREEN_INTERACTIVE) {
             WebViewANESample.target.stage.displayState = StageDisplayState.NORMAL;
             _appWidth = 1280;
             _appHeight = 800;
         } else {
-            _appWidth = WebViewANESample.target.stage.fullScreenWidth;
-            _appHeight = WebViewANESample.target.stage.fullScreenHeight;
+            //_appWidth = WebViewANESample.target.stage.fullScreenWidth;
+            //_appHeight = WebViewANESample.target.stage.fullScreenHeight;
 
-            WebViewANESample.target.stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
+            _appWidth = Capabilities.screenResolutionX;
+            _appHeight = Capabilities.screenResolutionY;
+
             WebViewANESample.target.stage.fullScreenSourceRect = new Rectangle(0, 0, _appWidth, _appHeight);
+            WebViewANESample.target.stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
+
         }
     }
 
     private function onFullScreenEvent(event:FullScreenEvent):void {
-        /*
-         !! Needed for OSX, ignored on Windows. Important - must tell the webView  we have gone in/out of fullscreen.
-         */
         if (webView) {
             webView.onFullScreen(event.fullScreen);
-            webView.setPositionAndSize(0, 90, _appWidth, _appHeight - 140);
+            webView.viewPort = new Rectangle(0, 90, _appWidth, _appHeight - 140);
         }
     }
 
     public function updateWebViewOnResize():void {
-        if (webView)
-            webView.setPositionAndSize(0, 90, _appWidth, _appHeight - 140);
+        if (webView) {
+            webView.viewPort = new Rectangle(0, 90, _appWidth, _appHeight - 140);
+        }
     }
 
     public function set appWidth(value:uint):void {
