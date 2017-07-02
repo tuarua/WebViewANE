@@ -46,5 +46,6 @@
     <orderEntry type="library" exported="" name="DesktopToastANE" level="project" />
     <orderEntry type="library" exported="" name="FiraSansSemiBold" level="project" />
     <orderEntry type="library" exported="" name="WebViewANE" level="project" />
+    <orderEntry type="library" exported="" name="WindowsHelperANE" level="project" />
   </component>
 </module>

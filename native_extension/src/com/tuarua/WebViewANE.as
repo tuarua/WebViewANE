@@ -22,7 +22,6 @@
  */
 
 package com.tuarua {
-import com.tuarua.fre.ANEContext;
 import com.tuarua.utils.GUID;
 import com.tuarua.webview.ActionscriptCallback;
 import com.tuarua.webview.BackForwardList;
@@ -66,7 +65,7 @@ public class WebViewANE extends EventDispatcher {
     private var _backgroundColor:uint = 0xFFFFFF;
     private var _backgroundAlpha:Number = 1.0;
     private var _stage:Stage;
-
+    private var ctx:ExtensionContext;
     public function WebViewANE() {
         initiate();
     }
@@ -80,9 +79,9 @@ public class WebViewANE extends EventDispatcher {
         if (_isSupported) {
             trace("[" + name + "] Initalizing ANE...");
             try {
-                ANEContext.ctx = ExtensionContext.createExtensionContext("com.tuarua." + name, null);
-                ANEContext.ctx.addEventListener(StatusEvent.STATUS, gotEvent);
-                _isSupported = ANEContext.ctx.call("isSupported");
+                ctx = ExtensionContext.createExtensionContext("com.tuarua." + name, null);
+                ctx.addEventListener(StatusEvent.STATUS, gotEvent);
+                _isSupported = ctx.call("isSupported");
             } catch (e:Error) {
                 trace("[" + name + "] ANE Not loaded properly.  Future calls will fail.");
             }
@@ -315,9 +314,9 @@ public class WebViewANE extends EventDispatcher {
             var js:String = functionName + "(" + finalArray.toString() + ");";
             if (closure != null) {
                 asCallBacks[AS_CALLBACK_PREFIX + functionName] = closure;
-                ANEContext.ctx.call("callJavascriptFunction", js, AS_CALLBACK_PREFIX + functionName);
+                ctx.call("callJavascriptFunction", js, AS_CALLBACK_PREFIX + functionName);
             } else {
-                ANEContext.ctx.call("callJavascriptFunction", js, null);
+                ctx.call("callJavascriptFunction", js, null);
             }
         }
     }
@@ -349,9 +348,9 @@ public class WebViewANE extends EventDispatcher {
             if (closure != null) {
                 var guid:String = GUID.create();
                 asCallBacks[AS_CALLBACK_PREFIX + guid] = closure;
-                ANEContext.ctx.call("evaluateJavaScript", code, AS_CALLBACK_PREFIX + guid);
+                ctx.call("evaluateJavaScript", code, AS_CALLBACK_PREFIX + guid);
             } else {
-                ANEContext.ctx.call("evaluateJavaScript", code, null);
+                ctx.call("evaluateJavaScript", code, null);
             }
         }
     }
@@ -390,7 +389,7 @@ public class WebViewANE extends EventDispatcher {
                 _settings = new Settings();
             }
 
-            ANEContext.ctx.call("init", initialUrl, _viewPort, _settings, scaleFactor, _backgroundColor,
+            ctx.call("init", initialUrl, _viewPort, _settings, scaleFactor, _backgroundColor,
                     _backgroundAlpha);
             _isInited = true;
         }
@@ -398,7 +397,7 @@ public class WebViewANE extends EventDispatcher {
 
     private function onFullScreenEvent(event:FullScreenEvent):void {
         //if (safetyCheck()) {
-        //ANEContext.ctx.call("onFullScreen", event.fullScreen);
+        //ctx.call("onFullScreen", event.fullScreen);
         //}
     }
 
@@ -406,20 +405,20 @@ public class WebViewANE extends EventDispatcher {
     public function setPositionAndSize(x:int = 0, y:int = 0, width:int = 0, height:int = 0):void {
         _viewPort = new Rectangle(x, y, width, height);
         if (safetyCheck()) {
-            ANEContext.ctx.call("setPositionAndSize", _viewPort);
+            ctx.call("setPositionAndSize", _viewPort);
         }
     }
 
     [Deprecated(replacement="visible")]
     public function addToStage():void {
         if (safetyCheck())
-            ANEContext.ctx.call("addToStage");
+            ctx.call("addToStage");
     }
 
     [Deprecated(replacement="visible")]
     public function removeFromStage():void {
         if (safetyCheck())
-            ANEContext.ctx.call("removeFromStage");
+            ctx.call("removeFromStage");
     }
 
 
@@ -430,7 +429,7 @@ public class WebViewANE extends EventDispatcher {
      */
     public function load(url:String):void {
         if (safetyCheck()) {
-            ANEContext.ctx.call("load", url);
+            ctx.call("load", url);
         }
 
     }
@@ -445,7 +444,7 @@ public class WebViewANE extends EventDispatcher {
      */
     public function loadHTMLString(html:String, baseUrl:String = ""):void {
         if (safetyCheck())
-            ANEContext.ctx.call("loadHTMLString", html, baseUrl);
+            ctx.call("loadHTMLString", html, baseUrl);
     }
 
     /**
@@ -458,7 +457,7 @@ public class WebViewANE extends EventDispatcher {
      */
     public function loadFileURL(url:String, allowingReadAccessTo:String):void {
         if (safetyCheck())
-            ANEContext.ctx.call("loadFileURL", url, allowingReadAccessTo);
+            ctx.call("loadFileURL", url, allowingReadAccessTo);
     }
 
     /**
@@ -466,7 +465,7 @@ public class WebViewANE extends EventDispatcher {
      */
     public function reload():void {
         if (safetyCheck())
-            ANEContext.ctx.call("reload");
+            ctx.call("reload");
     }
 
     /**
@@ -474,7 +473,7 @@ public class WebViewANE extends EventDispatcher {
      */
     public function stopLoading():void {
         if (safetyCheck())
-            ANEContext.ctx.call("stopLoading");
+            ctx.call("stopLoading");
     }
 
     /**
@@ -482,7 +481,7 @@ public class WebViewANE extends EventDispatcher {
      */
     public function goBack():void {
         if (safetyCheck())
-            ANEContext.ctx.call("goBack");
+            ctx.call("goBack");
     }
 
     /**
@@ -490,7 +489,7 @@ public class WebViewANE extends EventDispatcher {
      */
     public function goForward():void {
         if (safetyCheck())
-            ANEContext.ctx.call("goForward");
+            ctx.call("goForward");
     }
 
     /**
@@ -500,7 +499,7 @@ public class WebViewANE extends EventDispatcher {
      */
     public function go(offset:int = 1):void {
         if (safetyCheck())
-            ANEContext.ctx.call("go", offset);
+            ctx.call("go", offset);
     }
 
     /**
@@ -510,7 +509,7 @@ public class WebViewANE extends EventDispatcher {
      */
     public function backForwardList():BackForwardList {
         if (safetyCheck())
-            return ANEContext.ctx.call("backForwardList") as BackForwardList;
+            return ctx.call("backForwardList") as BackForwardList;
         return new BackForwardList();
     }
 
@@ -520,7 +519,7 @@ public class WebViewANE extends EventDispatcher {
      */
     public function reloadFromOrigin():void {
         if (safetyCheck())
-            ANEContext.ctx.call("reloadFromOrigin");
+            ctx.call("reloadFromOrigin");
     }
 
     /**
@@ -531,7 +530,7 @@ public class WebViewANE extends EventDispatcher {
     public function onFullScreen(fs:Boolean = false):void {
         //trace(_stage.width, _stage.height, _stage.stageWidth, _stage.stageHeight)
         if (safetyCheck())
-            ANEContext.ctx.call("onFullScreen", fs);
+            ctx.call("onFullScreen", fs);
     }
 
     /**
@@ -541,7 +540,7 @@ public class WebViewANE extends EventDispatcher {
      */
     public function allowsMagnification():Boolean {
         if (safetyCheck())
-            return ANEContext.ctx.call("allowsMagnification");
+            return ctx.call("allowsMagnification");
         return false;
     }
 
@@ -571,7 +570,7 @@ public class WebViewANE extends EventDispatcher {
      */
     public function zoomIn():void {
         if (safetyCheck())
-            ANEContext.ctx.call("zoomIn");
+            ctx.call("zoomIn");
     }
 
     /**
@@ -580,35 +579,35 @@ public class WebViewANE extends EventDispatcher {
      */
     public function zoomOut():void {
         if (safetyCheck())
-            ANEContext.ctx.call("zoomOut");
+            ctx.call("zoomOut");
     }
 
     public function addTab(initialUrl:String = null):void {
         if (safetyCheck())
-            ANEContext.ctx.call("addTab", initialUrl);
+            ctx.call("addTab", initialUrl);
     }
 
     public function closeTab(index:int):void {
         if (safetyCheck())
-            ANEContext.ctx.call("closeTab", index);
+            ctx.call("closeTab", index);
     }
 
     public function set currentTab(value:int):void {
         if (safetyCheck())
-            ANEContext.ctx.call("setCurrentTab", value);
+            ctx.call("setCurrentTab", value);
     }
 
     public function get currentTab():int {
         var ct:int = 0;
         if (safetyCheck())
-            ct = int(ANEContext.ctx.call("getCurrentTab"));
+            ct = int(ctx.call("getCurrentTab"));
         return ct;
     }
 
     public function get tabDetails():Vector.<TabDetails> {
         var ret:Vector.<TabDetails> = new Vector.<TabDetails>();
         if (safetyCheck()) {
-            ret = Vector.<TabDetails>(ANEContext.ctx.call("getTabDetails"));
+            ret = Vector.<TabDetails>(ctx.call("getTabDetails"));
         }
         return ret;
 
@@ -649,14 +648,14 @@ public class WebViewANE extends EventDispatcher {
      *
      */
     public function dispose():void {
-        if (!ANEContext.ctx) {
+        if (!ctx) {
             trace("[" + name + "] Error. ANE Already in a disposed or failed state...");
             return;
         }
         trace("[" + name + "] Unloading ANE...");
-        ANEContext.ctx.removeEventListener(StatusEvent.STATUS, gotEvent);
-        ANEContext.ctx.dispose();
-        ANEContext.ctx = null;
+        ctx.removeEventListener(StatusEvent.STATUS, gotEvent);
+        ctx.dispose();
+        ctx = null;
     }
 
     /**
@@ -731,7 +730,7 @@ public class WebViewANE extends EventDispatcher {
      */
     public function showDevTools():void {
         if (safetyCheck())
-            ANEContext.ctx.call("showDevTools");
+            ctx.call("showDevTools");
     }
 
     /**
@@ -741,7 +740,7 @@ public class WebViewANE extends EventDispatcher {
      */
     public function closeDevTools():void {
         if (safetyCheck())
-            ANEContext.ctx.call("closeDevTools");
+            ctx.call("closeDevTools");
     }
 
 
@@ -777,7 +776,7 @@ public class WebViewANE extends EventDispatcher {
 
     public function focus():void {
         if (safetyCheck())
-            ANEContext.ctx.call("focus");
+            ctx.call("focus");
     }
 
     /**
@@ -793,7 +792,7 @@ public class WebViewANE extends EventDispatcher {
 
     public function injectScript(code:String = null, scriptUrl:String = null, startLine:uint = 0):void {
         if (code != null || scriptUrl != null) {
-            ANEContext.ctx.call("injectScript", code, scriptUrl, startLine);
+            ctx.call("injectScript", code, scriptUrl, startLine);
         }
     }
 
@@ -805,7 +804,7 @@ public class WebViewANE extends EventDispatcher {
      *
      */
     public function print():void {
-        ANEContext.ctx.call("print");
+        ctx.call("print");
     }
 
     /**
@@ -820,7 +819,7 @@ public class WebViewANE extends EventDispatcher {
      *
      */
     public function capture(x:int = 0, y:int = 0, width:int = 0, height:int = 0):BitmapData {
-        return ANEContext.ctx.call("capture", x, y, width, height) as BitmapData;
+        return ctx.call("capture", x, y, width, height) as BitmapData;
     }
 
     /**
@@ -833,9 +832,9 @@ public class WebViewANE extends EventDispatcher {
         _visible = value;
         if (safetyCheck()) {
             if (value) {
-                ANEContext.ctx.call("addToStage");
+                ctx.call("addToStage");
             } else {
-                ANEContext.ctx.call("removeFromStage");
+                ctx.call("removeFromStage");
             }
         }
     }
@@ -862,7 +861,7 @@ public class WebViewANE extends EventDispatcher {
     public function set viewPort(value:Rectangle):void {
         _viewPort = value;
         if (safetyCheck()) {
-            ANEContext.ctx.call("setPositionAndSize", _viewPort);
+            ctx.call("setPositionAndSize", _viewPort);
         }
 
     }
