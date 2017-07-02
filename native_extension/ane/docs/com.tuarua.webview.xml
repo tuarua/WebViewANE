@@ -10,6 +10,10 @@
      A Boolean value indicating whether HTML5 videos can play picture-in-picture.
      </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>true</apiData><apiType value="Boolean"/></apiValueDef><apiDesc>
      <p>A Boolean value indicating whether HTML5 videos can play picture-in-picture.</p>
+     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:WebkitSettings:bounces"><apiName>bounces</apiName><shortdesc>
+     A Boolean value indicating whether the webview bounces past edge of content and back again.
+     </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>true</apiData><apiType value="Boolean"/></apiValueDef><apiDesc>
+     <p>A Boolean value indicating whether the webview bounces past edge of content and back again.</p>
      </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:WebkitSettings:ignoresViewportScaleLimits"><apiName>ignoresViewportScaleLimits</apiName><shortdesc>
      A Boolean value that determines whether a WKWeb​View object should always allow scaling of the webpage.
      </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>false</apiData><apiType value="Boolean"/></apiValueDef><apiDesc>
