@@ -128,6 +128,7 @@ public class StarlingRoot extends Sprite {
 
         var settings:Settings = new Settings();
         settings.webkit.allowsInlineMediaPlayback = true;
+        settings.webkit.bounces = false;
 
         //settings.urlWhiteList.push("macromedia.", "github.", "google.", "youtube.", "adobe.com", "chrome-devtools://"); //to restrict urls - simple string matching
         //settings.urlBlackList.push(".pdf");

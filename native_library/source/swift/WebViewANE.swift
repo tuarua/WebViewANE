@@ -518,15 +518,13 @@ import Cocoa
         return nil
     }
 
-    func capture(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? { //TODO
+    func capture(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? { //TODO - when 10.13 comes out
         trace("capture is Windows only at the moment");
         return nil
     }
 
     func addTab(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
-        #if os(iOS)
-            return nil
-        #endif
+#if os(OSX)
         guard argc > 0,
               let wv = _currentWebView
           else {
@@ -548,14 +546,12 @@ import Cocoa
         _ = removeFromStage(ctx: ctx, argc: argc, argv: argv)
         _ = addToStage(ctx: ctx, argc: argc, argv: argv)
 
-
+#endif
         return nil
     }
 
     func closeTab(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
-        #if os(iOS)
-            return nil
-        #endif
+#if os(OSX)
         guard argc > 0,
               let cwv = _currentWebView,
               let inFRE0 = argv[0],
@@ -611,15 +607,13 @@ import Cocoa
         _ = removeFromStage(ctx: ctx, argc: argc, argv: argv)
         _ = addToStage(ctx: ctx, argc: argc, argv: argv)
 
-
+#endif
         return nil
     }
 
 
     func setCurrentTab(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
-        #if os(iOS)
-            return nil
-        #endif
+#if os(OSX)
         guard argc > 0,
               let cwv = _currentWebView,
               let inFRE0 = argv[0],
@@ -649,7 +643,7 @@ import Cocoa
         wv.switchTabTo()
         _ = removeFromStage(ctx: ctx, argc: argc, argv: argv)
         _ = addToStage(ctx: ctx, argc: argc, argv: argv)
-
+#endif
         return nil
     }
 

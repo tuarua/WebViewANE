@@ -28,18 +28,34 @@ import WebKit
 #endif
 
 open class Configuration: WKWebViewConfiguration {
+    
+    private var _bounces: Bool = true
+    
+    public var doesBounce: Bool {
+        get {
+            return _bounces
+        }
+    }
+    
+    public required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    override init() {
+        super.init()
+    }
+    
     convenience init(dictionary: Dictionary<String, AnyObject>) {
         self.init()
         if let settingsWK = dictionary["webkit"] {
 #if os(iOS)
-
             if let allowsInlineMediaPlayback: Bool = settingsWK["allowsInlineMediaPlayback"] as? Bool {
                 self.allowsInlineMediaPlayback = allowsInlineMediaPlayback
             }
             if let allowsPictureInPictureMediaPlayback: Bool = settingsWK["allowsPictureInPictureMediaPlayback"] as? Bool {
                 self.allowsPictureInPictureMediaPlayback = allowsPictureInPictureMediaPlayback
             }
-
+    
             if #available(iOS 10.0, *) {
                 if let ignoresViewportScaleLimits: Bool = settingsWK["ignoresViewportScaleLimits"] as? Bool {
                     self.ignoresViewportScaleLimits = ignoresViewportScaleLimits
@@ -72,6 +88,10 @@ open class Configuration: WKWebViewConfiguration {
 
             if let minimumFontSize: Double = settingsWK["minimumFontSize"] as? Double {
                 self.preferences.minimumFontSize = CGFloat.init(minimumFontSize)
+            }
+            
+            if let bounces: Bool = settingsWK["bounces"] as? Bool {
+                self._bounces = bounces
             }
 
         }
