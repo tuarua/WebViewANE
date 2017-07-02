@@ -9,7 +9,6 @@ import flash.filesystem.File;
 import flash.filesystem.FileMode;
 import flash.filesystem.FileStream;
 import flash.geom.Rectangle;
-import flash.system.Capabilities;
 import flash.text.ReturnKeyLabel;
 import flash.text.SoftKeyboardType;
 import flash.text.StageText;
@@ -122,19 +121,23 @@ public class StarlingRoot extends Sprite {
 
         addChild(titleTxt);
 
-        trace(Capabilities.os.toLowerCase());
-
         webView = new WebViewANE();
         webView.addEventListener(WebViewEvent.ON_PROPERTY_CHANGE, onPropertyChange);
+        webView.addEventListener(WebViewEvent.ON_URL_BLOCKED, onUrlBlocked);
+        webView.addEventListener(WebViewEvent.ON_FAIL, onUrlFail);
 
         var settings:Settings = new Settings();
         settings.webkit.allowsInlineMediaPlayback = true;
+        settings.webkit.bounces = false;
 
-        webView.setBackgroundColor(0xF1F1F1, 0);
+        //settings.urlWhiteList.push("macromedia.", "github.", "google.", "youtube.", "adobe.com", "chrome-devtools://"); //to restrict urls - simple string matching
+        //settings.urlBlackList.push(".pdf");
+
         webView.addCallback("js_to_as", jsToAsCallback);
-        webView.init("https://github.com/tuarua/WebViewANE", 0, 80, stage.stageWidth, (stage.stageHeight - 80),
-                settings, Starling.current.contentScaleFactor);
-        webView.addToStage();
+        var viewPort:Rectangle = new Rectangle(0, 80, stage.stageWidth, (stage.stageHeight - 80));
+        webView.init(Starling.current.nativeStage, viewPort, "https://github.com/tuarua/WebViewANE",
+                settings, Starling.current.contentScaleFactor, 0xF1F1F1, 0.0);
+        webView.visible = true;
 
         webView.showDevTools();  //open chrome://inspect in Chrome for Android - ignored on iOS
 
@@ -159,7 +162,14 @@ public class StarlingRoot extends Sprite {
         copyHTMLFiles();
     }
 
-    private function copyHTMLFiles():void {
+    private function onUrlFail(event:WebViewEvent):void {
+        var error:Object = event.params;
+        trace("error.url", error.url);
+        trace("error.errorCode", error.errorCode);
+        trace("error.errorText", error.errorText);
+    }
+
+    private static function copyHTMLFiles():void {
 
         var inFile1:File = File.applicationDirectory.resolvePath("jsTest.html");
         var inStream1:FileStream = new FileStream();
@@ -278,32 +288,36 @@ public class StarlingRoot extends Sprite {
 
     }
 
+    private static function onUrlBlocked(event:WebViewEvent):void {
+        trace(event.params.url, "does not match our urlWhiteList or is on urlBlackList");
+    }
+
     private function onPropertyChange(event:WebViewEvent):void {
         // trace("");
-        //trace(event.params,"has changed: ");
+        //trace(event.params.propertyName,"has changed: ");
         // trace("------");
 
-        switch (event.params) {
+        switch (event.params.propertyName) {
             case "url":
-                urlInput.text = webView.url;
+                urlInput.text = event.params.value;
                 break;
             case "title":
-                titleTxt.text = webView.title;
+                titleTxt.text = event.params.value;
                 break;
             case "isLoading":
-                refreshBtn.visible = !webView.isLoading;
-                cancelBtn.visible = webView.isLoading;
+                refreshBtn.visible = !event.params.value;
+                cancelBtn.visible = event.params.value;
                 break;
             case "canGoBack":
-                backBtn.alpha = webView.canGoBack ? 1.0 : 0.4;
-                backBtn.touchable = webView.canGoBack;
+                backBtn.alpha = event.params.value ? 1.0 : 0.4;
+                backBtn.touchable = event.params.value;
                 break;
             case "canGoForward":
-                fwdBtn.alpha = webView.canGoForward ? 1.0 : 0.4;
-                fwdBtn.touchable = webView.canGoForward;
+                fwdBtn.alpha = event.params.value ? 1.0 : 0.4;
+                fwdBtn.touchable = event.params.value;
                 break;
             case "estimatedProgress":
-                var p:Number = webView.estimatedProgress;
+                var p:Number = event.params.value;
                 progress.scaleX = p;
                 if (p > 0.99) {
                     Starling.juggler.tween(progress, .5, {
@@ -333,7 +347,7 @@ public class StarlingRoot extends Sprite {
 
         progress.width = inputBG.width - 2;
 
-        webView.setPositionAndSize(0, 80, stage.stageWidth, stage.stageHeight - 80);
+        webView.viewPort = new Rectangle(0, 80, stage.stageWidth, stage.stageHeight - 80);
 
         titleTxt.width = stage.stageWidth - 20;
         urlInput.viewPort = new Rectangle((inputBG.x + 5) * Starling.current.contentScaleFactor,

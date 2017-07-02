@@ -134,16 +134,60 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 #if defined(__has_feature) && __has_feature(modules)
 @import ObjectiveC;
 @import CoreGraphics;
+@import WebKit;
 @import Foundation;
 @import AppKit;
-@import WebKit;
 #endif
 
 #import "/Users/User/flash/WebViewANE/native_library/mac/WebViewANE/WebViewANE/WebViewANE-Bridging-Header.h"
 
 #pragma clang diagnostic ignored "-Wproperty-attribute-mismatch"
 #pragma clang diagnostic ignored "-Wduplicate-method-arg"
-@class FREObjectSwift;
+@class FREArraySwift;
+
+SWIFT_CLASS("_TtC10WebViewANE14FREObjectSwift")
+@interface FREObjectSwift : NSObject
+@property (nonatomic) FREObject _Nullable rawValue;
+@property (nonatomic, readonly) id _Nullable value;
+- (nonnull instancetype)initWithFreObject:(FREObject _Nullable)freObject OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithString:(NSString * _Nonnull)string error:(NSError * _Nullable * _Nullable)error OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithDouble:(double)double_ error:(NSError * _Nullable * _Nullable)error OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCgFloat:(CGFloat)cgFloat error:(NSError * _Nullable * _Nullable)error OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithInt:(NSInteger)int_ error:(NSError * _Nullable * _Nullable)error OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithUint:(NSUInteger)uint error:(NSError * _Nullable * _Nullable)error OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithBool:(BOOL)bool_ error:(NSError * _Nullable * _Nullable)error OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithAny:(id _Nonnull)any error:(NSError * _Nullable * _Nullable)error OBJC_DESIGNATED_INITIALIZER;
+- (BOOL)setPropertyWithName:(NSString * _Nonnull)name prop:(FREObjectSwift * _Nullable)prop error:(NSError * _Nullable * _Nullable)error;
+- (BOOL)setPropertyWithName:(NSString * _Nonnull)name array:(FREArraySwift * _Nullable)array error:(NSError * _Nullable * _Nullable)error;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
+@end
+
+@class WKWebView;
+
+SWIFT_CLASS("_TtC10WebViewANE15BackForwardList")
+@interface BackForwardList : FREObjectSwift
+- (nonnull instancetype)initWithWebView:(WKWebView * _Nonnull)webView;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithFreObject:(FREObject _Nullable)freObject SWIFT_UNAVAILABLE;
+- (nullable instancetype)initWithString:(NSString * _Nonnull)string error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
+- (nullable instancetype)initWithDouble:(double)double_ error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
+- (nullable instancetype)initWithCgFloat:(CGFloat)cgFloat error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
+- (nullable instancetype)initWithInt:(NSInteger)int_ error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
+- (nullable instancetype)initWithUint:(NSUInteger)uint error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
+- (nullable instancetype)initWithBool:(BOOL)bool_ error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
+- (nullable instancetype)initWithAny:(id _Nonnull)any error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
+@end
+
+@class NSCoder;
+
+SWIFT_CLASS("_TtC10WebViewANE13Configuration")
+@interface Configuration : WKWebViewConfiguration
+@property (nonatomic, readonly) BOOL doesBounce;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithDictionary:(NSDictionary<NSString *, id> * _Nonnull)dictionary;
+@end
+
 
 SWIFT_CLASS("_TtC10WebViewANE13FREArraySwift")
 @interface FREArraySwift : NSObject
@@ -201,20 +245,34 @@ SWIFT_CLASS("_TtC10WebViewANE15FREContextSwift")
 @end
 
 
-SWIFT_CLASS("_TtC10WebViewANE14FREObjectSwift")
-@interface FREObjectSwift : NSObject
-@property (nonatomic) FREObject _Nullable rawValue;
+
+SWIFT_CLASS("_TtC10WebViewANE13FREPointSwift")
+@interface FREPointSwift : FREObjectSwift
+- (nonnull instancetype)initWithFreObject:(FREObject _Nullable)freObject OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithValue:(CGPoint)value OBJC_DESIGNATED_INITIALIZER;
 @property (nonatomic, readonly) id _Nullable value;
-- (nonnull instancetype)initWithFreObject:(FREObject _Nonnull)freObject OBJC_DESIGNATED_INITIALIZER;
-- (nullable instancetype)initWithString:(NSString * _Nonnull)string error:(NSError * _Nullable * _Nullable)error OBJC_DESIGNATED_INITIALIZER;
-- (nullable instancetype)initWithDouble:(double)double_ error:(NSError * _Nullable * _Nullable)error OBJC_DESIGNATED_INITIALIZER;
-- (nullable instancetype)initWithInt:(NSInteger)int_ error:(NSError * _Nullable * _Nullable)error OBJC_DESIGNATED_INITIALIZER;
-- (nullable instancetype)initWithUint:(NSUInteger)uint error:(NSError * _Nullable * _Nullable)error OBJC_DESIGNATED_INITIALIZER;
-- (nullable instancetype)initWithBool:(BOOL)bool_ error:(NSError * _Nullable * _Nullable)error OBJC_DESIGNATED_INITIALIZER;
-- (nullable instancetype)initWithAny:(id _Nonnull)any error:(NSError * _Nullable * _Nullable)error OBJC_DESIGNATED_INITIALIZER;
-- (BOOL)setPropertyWithName:(NSString * _Nonnull)name prop:(FREObjectSwift * _Nullable)prop error:(NSError * _Nullable * _Nullable)error;
-- (BOOL)setPropertyWithName:(NSString * _Nonnull)name array:(FREArraySwift * _Nullable)array error:(NSError * _Nullable * _Nullable)error;
-- (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nullable instancetype)initWithString:(NSString * _Nonnull)string error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
+- (nullable instancetype)initWithDouble:(double)double_ error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
+- (nullable instancetype)initWithCgFloat:(CGFloat)cgFloat error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
+- (nullable instancetype)initWithInt:(NSInteger)int_ error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
+- (nullable instancetype)initWithUint:(NSUInteger)uint error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
+- (nullable instancetype)initWithBool:(BOOL)bool_ error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
+- (nullable instancetype)initWithAny:(id _Nonnull)any error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
+@end
+
+
+SWIFT_CLASS("_TtC10WebViewANE17FRERectangleSwift")
+@interface FRERectangleSwift : FREObjectSwift
+- (nonnull instancetype)initWithFreObject:(FREObject _Nullable)freObject OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithValue:(CGRect)value OBJC_DESIGNATED_INITIALIZER;
+@property (nonatomic, readonly) id _Nullable value;
+- (nullable instancetype)initWithString:(NSString * _Nonnull)string error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
+- (nullable instancetype)initWithDouble:(double)double_ error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
+- (nullable instancetype)initWithCgFloat:(CGFloat)cgFloat error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
+- (nullable instancetype)initWithInt:(NSInteger)int_ error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
+- (nullable instancetype)initWithUint:(NSUInteger)uint error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
+- (nullable instancetype)initWithBool:(BOOL)bool_ error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
+- (nullable instancetype)initWithAny:(id _Nonnull)any error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
 @end
 
 
@@ -230,25 +288,24 @@ SWIFT_CLASS("_TtC10WebViewANE14FREObjectSwift")
 
 SWIFT_CLASS("_TtC10WebViewANE5Popup")
 @interface Popup : NSObject <NSWindowDelegate>
-- (void)createPopupWindowWithUrl:(NSURLRequest * _Nonnull)url;
+- (void)createPopupWindowWithUrl:(NSURLRequest * _Nonnull)url configuration:(WKWebViewConfiguration * _Nonnull)configuration;
 - (void)windowWillClose:(NSNotification * _Nonnull)notification;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
 @class NSBundle;
-@class NSCoder;
 
 SWIFT_CLASS("_TtC10WebViewANE7PopupVC")
 @interface PopupVC : NSViewController <WKUIDelegate, WKNavigationDelegate>
-- (nonnull instancetype)initWithRequest:(NSURLRequest * _Nonnull)request width:(NSInteger)width height:(NSInteger)height;
+- (nonnull instancetype)initWithRequest:(NSURLRequest * _Nonnull)request width:(NSInteger)width height:(NSInteger)height configuration:(WKWebViewConfiguration * _Nonnull)configuration;
+- (void)dispose;
 - (void)viewDidLoad;
 - (void)loadView;
+- (void)observeValueForKeyPath:(NSString * _Nullable)keyPath ofObject:(id _Nullable)object change:(NSDictionary<NSKeyValueChangeKey, id> * _Nullable)change context:(void * _Nullable)context;
 - (nullable instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil OBJC_DESIGNATED_INITIALIZER;
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
 @end
 
-@class WKWebView;
-@class WKWebViewConfiguration;
 @class WKNavigationAction;
 @class WKWindowFeatures;
 @class WKNavigation;
@@ -257,28 +314,18 @@ SWIFT_CLASS("_TtC10WebViewANE7PopupVC")
 
 SWIFT_CLASS("_TtC10WebViewANE10WebViewANE")
 @interface WebViewANE : NSObject <WKUIDelegate, WKNavigationDelegate, WKScriptMessageHandler>
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class) id _Nullable escListener;)
-+ (id _Nullable)escListener SWIFT_WARN_UNUSED_RESULT;
-+ (void)setEscListener:(id _Nullable)value;
 - (NSArray<NSString *> * _Nonnull)getFunctions SWIFT_WARN_UNUSED_RESULT;
 - (WKWebView * _Nullable)webView:(WKWebView * _Nonnull)webView createWebViewWithConfiguration:(WKWebViewConfiguration * _Nonnull)configuration forNavigationAction:(WKNavigationAction * _Nonnull)navigationAction windowFeatures:(WKWindowFeatures * _Nonnull)windowFeatures SWIFT_WARN_UNUSED_RESULT;
 - (void)webView:(WKWebView * _Nonnull)webView decidePolicyForNavigationAction:(WKNavigationAction * _Nonnull)navigationAction decisionHandler:(void (^ _Nonnull)(WKNavigationActionPolicy))decisionHandler;
-- (void)webView:(WKWebView * _Nonnull)webView didStartProvisionalNavigation:(WKNavigation * _Null_unspecified)navigation;
-- (void)webView:(WKWebView * _Nonnull)webView didCommitNavigation:(WKNavigation * _Null_unspecified)navigation;
-- (void)webView:(WKWebView * _Nonnull)webView didFinishNavigation:(WKNavigation * _Null_unspecified)navigation;
-- (void)webViewWebContentProcessDidTerminate:(WKWebView * _Nonnull)webView;
 - (void)webView:(WKWebView * _Nonnull)webView didFailNavigation:(WKNavigation * _Null_unspecified)navigation withError:(NSError * _Nonnull)withError;
-- (void)webView:(WKWebView * _Nonnull)webView didFailProvisionalNavigation:(WKNavigation * _Null_unspecified)navigation withError:(NSError * _Nonnull)withError;
-- (void)webView:(WKWebView * _Nonnull)webView didReceiveServerRedirectForProvisionalNavigation:(WKNavigation * _Null_unspecified)navigation;
 - (FREObject _Nullable)isSupportedWithCtx:(FREContext _Nonnull)ctx argc:(uint32_t)argc argv:(FREObject _Nullable * _Null_unspecified)argv SWIFT_WARN_UNUSED_RESULT;
 - (FREObject _Nullable)allowsMagnificationWithCtx:(FREContext _Nonnull)ctx argc:(uint32_t)argc argv:(FREObject _Nullable * _Null_unspecified)argv SWIFT_WARN_UNUSED_RESULT;
 - (FREObject _Nullable)backForwardListWithCtx:(FREContext _Nonnull)ctx argc:(uint32_t)argc argv:(FREObject _Nullable * _Null_unspecified)argv SWIFT_WARN_UNUSED_RESULT;
 - (FREObject _Nullable)goWithCtx:(FREContext _Nonnull)ctx argc:(uint32_t)argc argv:(FREObject _Nullable * _Null_unspecified)argv SWIFT_WARN_UNUSED_RESULT;
-- (FREObject _Nullable)getMagnificationWithCtx:(FREContext _Nonnull)ctx argc:(uint32_t)argc argv:(FREObject _Nullable * _Null_unspecified)argv SWIFT_WARN_UNUSED_RESULT;
-- (FREObject _Nullable)setMagnificationWithCtx:(FREContext _Nonnull)ctx argc:(uint32_t)argc argv:(FREObject _Nullable * _Null_unspecified)argv SWIFT_WARN_UNUSED_RESULT;
+- (FREObject _Nullable)zoomInCtx:(FREContext _Nonnull)ctx argc:(uint32_t)argc argv:(FREObject _Nullable * _Null_unspecified)argv SWIFT_WARN_UNUSED_RESULT;
+- (FREObject _Nullable)zoomOutWithCtx:(FREContext _Nonnull)ctx argc:(uint32_t)argc argv:(FREObject _Nullable * _Null_unspecified)argv SWIFT_WARN_UNUSED_RESULT;
 - (FREObject _Nullable)showDevToolsWithCtx:(FREContext _Nonnull)ctx argc:(uint32_t)argc argv:(FREObject _Nullable * _Null_unspecified)argv SWIFT_WARN_UNUSED_RESULT;
 - (FREObject _Nullable)closeDevToolsWithCtx:(FREContext _Nonnull)ctx argc:(uint32_t)argc argv:(FREObject _Nullable * _Null_unspecified)argv SWIFT_WARN_UNUSED_RESULT;
-- (FREObject _Nullable)shutDownWithCtx:(FREContext _Nonnull)ctx argc:(uint32_t)argc argv:(FREObject _Nullable * _Null_unspecified)argv SWIFT_WARN_UNUSED_RESULT;
 - (FREObject _Nullable)addToStageWithCtx:(FREContext _Nonnull)ctx argc:(uint32_t)argc argv:(FREObject _Nullable * _Null_unspecified)argv SWIFT_WARN_UNUSED_RESULT;
 - (FREObject _Nullable)removeFromStageWithCtx:(FREContext _Nonnull)ctx argc:(uint32_t)argc argv:(FREObject _Nullable * _Null_unspecified)argv SWIFT_WARN_UNUSED_RESULT;
 - (FREObject _Nullable)setPositionAndSizeWithCtx:(FREContext _Nonnull)ctx argc:(uint32_t)argc argv:(FREObject _Nullable * _Null_unspecified)argv SWIFT_WARN_UNUSED_RESULT;
@@ -297,12 +344,34 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class) id _Nullable escListener;)
 - (FREObject _Nullable)focusWebViewWithCtx:(FREContext _Nonnull)ctx argc:(uint32_t)argc argv:(FREObject _Nullable * _Null_unspecified)argv SWIFT_WARN_UNUSED_RESULT;
 - (FREObject _Nullable)printWithCtx:(FREContext _Nonnull)ctx argc:(uint32_t)argc argv:(FREObject _Nullable * _Null_unspecified)argv SWIFT_WARN_UNUSED_RESULT;
 - (FREObject _Nullable)captureWithCtx:(FREContext _Nonnull)ctx argc:(uint32_t)argc argv:(FREObject _Nullable * _Null_unspecified)argv SWIFT_WARN_UNUSED_RESULT;
+- (FREObject _Nullable)addTabWithCtx:(FREContext _Nonnull)ctx argc:(uint32_t)argc argv:(FREObject _Nullable * _Null_unspecified)argv SWIFT_WARN_UNUSED_RESULT;
+- (FREObject _Nullable)closeTabWithCtx:(FREContext _Nonnull)ctx argc:(uint32_t)argc argv:(FREObject _Nullable * _Null_unspecified)argv SWIFT_WARN_UNUSED_RESULT;
+- (FREObject _Nullable)setCurrentTabWithCtx:(FREContext _Nonnull)ctx argc:(uint32_t)argc argv:(FREObject _Nullable * _Null_unspecified)argv SWIFT_WARN_UNUSED_RESULT;
+- (FREObject _Nullable)getTabDetailsWithCtx:(FREContext _Nonnull)ctx argc:(uint32_t)argc argv:(FREObject _Nullable * _Null_unspecified)argv SWIFT_WARN_UNUSED_RESULT;
+- (FREObject _Nullable)getCurrentTabWithCtx:(FREContext _Nonnull)ctx argc:(uint32_t)argc argv:(FREObject _Nullable * _Null_unspecified)argv SWIFT_WARN_UNUSED_RESULT;
 - (void)userContentController:(WKUserContentController * _Nonnull)userContentController didReceiveScriptMessage:(WKScriptMessage * _Nonnull)message SWIFT_AVAILABILITY(macos,introduced=10.10);
-- (FREObject _Nullable)setBackgroundColorWithCtx:(FREContext _Nonnull)ctx argc:(uint32_t)argc argv:(FREObject _Nullable * _Null_unspecified)argv SWIFT_WARN_UNUSED_RESULT;
 - (FREObject _Nullable)initWebViewWithCtx:(FREContext _Nonnull)ctx argc:(uint32_t)argc argv:(FREObject _Nullable * _Null_unspecified)argv SWIFT_METHOD_FAMILY(none) SWIFT_WARN_UNUSED_RESULT;
-- (void)observeValueForKeyPath:(NSString * _Nullable)keyPath ofObject:(id _Nullable)object change:(NSDictionary<NSKeyValueChangeKey, id> * _Nullable)change context:(void * _Nullable)context;
 - (void)setFREContextWithCtx:(FREContext _Nonnull)ctx;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+SWIFT_CLASS("_TtC10WebViewANE9WebViewVC")
+@interface WebViewVC : WKWebView
+@property (nonatomic) NSInteger tab;
+- (nonnull instancetype)initWithFrame:(CGRect)frame configuration:(Configuration * _Nonnull)configuration tab:(NSInteger)tab;
+- (nonnull instancetype)initWithFrame:(CGRect)frame configuration:(WKWebViewConfiguration * _Nonnull)configuration OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
+- (void)loadWithUrl:(NSString * _Nonnull)url;
+- (void)loadWithHtml:(NSString * _Nonnull)html;
+- (void)loadWithFileUrl:(NSString * _Nonnull)fileUrl allowingReadAccessTo:(NSString * _Nonnull)allowingReadAccessTo;
+- (void)evaluateJavaScriptWithJs:(NSString * _Nonnull)js;
+- (void)evaluateJavaScriptWithJs:(NSString * _Nonnull)js callback:(NSString * _Nonnull)callback;
+- (void)setPositionAndSizeWithViewPort:(CGRect)viewPort;
+- (void)switchTabTo;
+- (void)observeValueForKeyPath:(NSString * _Nullable)keyPath ofObject:(id _Nullable)object change:(NSDictionary<NSKeyValueChangeKey, id> * _Nullable)change context:(void * _Nullable)context;
+- (void)dispose;
+@property (nonatomic, readonly, getter=isFlipped) BOOL flipped;
 @end
 
 #pragma clang diagnostic pop

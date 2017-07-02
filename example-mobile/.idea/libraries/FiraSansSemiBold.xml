@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="FiraSansSemiBold" type="flex">
+    <CLASSES>
+      <root url="jar://$DOCUMENTS$/WebViewANE/example/libs/FiraSansSemiBold.swc!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

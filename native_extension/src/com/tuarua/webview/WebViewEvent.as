@@ -34,7 +34,7 @@ public class WebViewEvent extends Event {
     public static const ON_FAIL:String = "WebView.OnFail";
     /**
      * Dispatched when one of the following is updated url, title, isLoading, canGoBack, canGoForward,
-     * estimatedProgress, statusMessage
+     * estimatedProgress, statusMessage. This returns an object with 2 properties:  propertyName, tab
      */
     public static const ON_PROPERTY_CHANGE:String = "WebView.OnPropertyChange";
     /**
@@ -69,7 +69,7 @@ public class WebViewEvent extends Event {
 
     /**
      * Dispatched when a url is blocked (due to settings.urlWhiteList).
-     * <p><strong>Windows, OSX, iOS only.</strong></p>
+     *
      */
     public static const ON_URL_BLOCKED:String = "WebView.OnUrlBlocked";
 

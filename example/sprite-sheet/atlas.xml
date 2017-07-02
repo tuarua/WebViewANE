@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
-<!-- $TexturePacker:SmartUpdate:0858bb1ece3043fb64d186887cd10725:3885a45d628aeab0e8c2515a92485888:cde709370900f12288f3449eded86f07$ -->
+<!-- $TexturePacker:SmartUpdate:84baef539db147c2661049565515f3ce:adbfa014cbef728abd7297f48ed7b298:cde709370900f12288f3449eded86f07$ -->
 <TextureAtlas imagePath="atlas.png" width="194" height="313">
     <SubTexture name="as-js-as-btn" x="1" y="1" width="192" height="35"/>
     <SubTexture name="as-js-btn" x="1" y="40" width="192" height="35"/>
-    <SubTexture name="back-btn" x="165" y="174" width="20" height="20"/>
-    <SubTexture name="cancel-btn" x="137" y="175" width="20" height="20"/>
-    <SubTexture name="capture-btn" x="166" y="118" width="24" height="24"/>
-    <SubTexture name="dev-tools-btn" x="161" y="198" width="20" height="20"/>
+    <SubTexture name="back-btn" x="173" y="118" width="20" height="20"/>
+    <SubTexture name="cancel-btn" x="173" y="142" width="20" height="20"/>
+    <SubTexture name="capture-btn" x="166" y="166" width="24" height="24"/>
+    <SubTexture name="close-tab-btn" x="137" y="211" width="20" height="20"/>
+    <SubTexture name="dev-tools-btn" x="161" y="222" width="20" height="20"/>
     <SubTexture name="eval-js-btn" x="1" y="79" width="192" height="35"/>
     <SubTexture name="fira-sans-semi-bold-13" x="1" y="118" width="132" height="194"/>
-    <SubTexture name="fullscreen-btn" x="137" y="199" width="20" height="20"/>
-    <SubTexture name="fwd-btn" x="161" y="222" width="20" height="20"/>
-    <SubTexture name="input-bg" x="137" y="118" width="25" height="25"/>
-    <SubTexture name="js-btn" x="166" y="146" width="24" height="24"/>
-    <SubTexture name="refresh-btn" x="137" y="223" width="20" height="20"/>
-    <SubTexture name="web-btn" x="137" y="147" width="24" height="24"/>
-    <SubTexture name="zoomin-btn" x="161" y="246" width="20" height="20"/>
-    <SubTexture name="zoomout-btn" x="137" y="247" width="20" height="20"/>
+    <SubTexture name="fullscreen-btn" x="137" y="235" width="20" height="20"/>
+    <SubTexture name="fwd-btn" x="161" y="246" width="20" height="20"/>
+    <SubTexture name="input-bg" x="137" y="154" width="25" height="25"/>
+    <SubTexture name="js-btn" x="137" y="183" width="24" height="24"/>
+    <SubTexture name="new-tab-btn" x="137" y="118" width="32" height="32"/>
+    <SubTexture name="refresh-btn" x="137" y="259" width="20" height="20"/>
+    <SubTexture name="web-btn" x="165" y="194" width="24" height="24"/>
+    <SubTexture name="zoomin-btn" x="137" y="283" width="20" height="20"/>
+    <SubTexture name="zoomout-btn" x="161" y="270" width="20" height="20"/>
 </TextureAtlas>

@@ -1,5 +1,7 @@
 package com.tuarua.webviewane;
 
+import java.util.ArrayList;
+
 /**
  * Created by Eoin Landy on 26/03/2017.
  */
@@ -15,6 +17,8 @@ public class Settings {
     private Boolean allowUniversalAccessFromFileURLs = true;
     private Boolean allowFileAccessFromFileURLs = true;
     private Boolean geolocationEnabled = false;
+    private ArrayList<String> whiteList;
+    private ArrayList<String> blackList;
 
     public Boolean getJavaScriptEnabled() {
         return javaScriptEnabled;
@@ -98,6 +102,13 @@ public class Settings {
         geolocationEnabled = b;
     }
 
+    public ArrayList<String> getWhiteList() {return whiteList;}
+
+    public ArrayList<String> getBlackList() {return blackList;}
+
+    public void setWhiteList(ArrayList<String> whiteList) {this.whiteList = whiteList;}
+
+    public void setBlackList(ArrayList<String> blackList) {this.blackList = blackList;}
     /*
     @Override
     public void setSupportZoom(boolean b) {

@@ -4,9 +4,11 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.Xml;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.webkit.CookieManager;
@@ -17,17 +19,20 @@ import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.RelativeLayout;
 
 import com.adobe.fre.FREASErrorException;
+import com.adobe.fre.FREArray;
 import com.adobe.fre.FREContext;
 import com.adobe.fre.FREFunction;
 import com.adobe.fre.FREInvalidObjectException;
 import com.adobe.fre.FRENoSuchNameException;
 import com.adobe.fre.FREObject;
+import com.adobe.fre.FREReadOnlyException;
 import com.adobe.fre.FRETypeMismatchException;
 import com.adobe.fre.FREWrongThreadException;
 import com.tuarua.webviewane.Settings;
@@ -35,14 +40,10 @@ import com.tuarua.webviewane.Settings;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayInputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
-import static android.webkit.PermissionRequest.RESOURCE_VIDEO_CAPTURE;
-
-/**
- * Created by Eoin Landy on 21/03/2017.
- */
 
 class WebViewANEContext extends FREContext {
 
@@ -51,17 +52,15 @@ class WebViewANEContext extends FREContext {
     private int _y;
     private int _width;
     private int _height;
-    private int _scaleFactor;
-
-    private int bg_r = 255;
-    private int bg_g = 255;
-    private int bg_b = 255;
-    private int bg_a = 255;
-
+    private double _scaleFactor;
+    private int backgroundColor;
+    private int backgroundAlpha;
     private WebView webView;
     private RelativeLayout container;
     ViewGroup airView;
-
+    private static final String TRACE = "TRACE";
+    private double progress = 0.0;
+    private boolean isLoading = false;
     public WebViewANEContext() {
     }
 
@@ -82,21 +81,25 @@ class WebViewANEContext extends FREContext {
         functionsToSet.put("stopLoading", new stopLoading());
         functionsToSet.put("reloadFromOrigin", new reloadFromOrigin());
         functionsToSet.put("allowsMagnification", new allowsMagnification());
-        functionsToSet.put("getMagnification", new getMagnification());
-        functionsToSet.put("setMagnification", new setMagnification());
+        functionsToSet.put("zoomIn", new zoomIn());
+        functionsToSet.put("zoomOut", new zoomOut());
         functionsToSet.put("loadHTMLString", new loadHTMLString());
         functionsToSet.put("setPositionAndSize", new setPositionAndSize());
         functionsToSet.put("showDevTools", new showDevTools());
         functionsToSet.put("closeDevTools", new closeDevTools());
-        functionsToSet.put("onFullScreen", new onFullScreen());
+        functionsToSet.put("onFullScreen", new notImplemented());
         functionsToSet.put("callJavascriptFunction", new callJavascriptFunction());
         functionsToSet.put("evaluateJavaScript", new evaluateJavaScript());
-        functionsToSet.put("setBackgroundColor", new setBackgroundColor());
-        functionsToSet.put("shutDown", new shutDown());
-        functionsToSet.put("injectScript", new injectScript());
-        functionsToSet.put("print", new print());
-        functionsToSet.put("focus", new focus());
-        functionsToSet.put("capture", new capture());
+        functionsToSet.put("injectScript", new notImplemented());
+        functionsToSet.put("print", new notImplemented());
+        functionsToSet.put("focus", new notImplemented());
+        functionsToSet.put("capture", new notImplemented());
+        functionsToSet.put("addTab", new notImplemented());
+        functionsToSet.put("closeTab", new notImplemented());
+        functionsToSet.put("setCurrentTab", new notImplemented());
+        functionsToSet.put("getCurrentTab", new getCurrentTab());
+        functionsToSet.put("getTabDetails", new getTabDetails()); //TODO
+
 
         return functionsToSet;
     }
@@ -131,21 +134,17 @@ class WebViewANEContext extends FREContext {
     }
 
     public class AirWebView extends RelativeLayout {
-        private static final String TRACE = "TRACE";
         public static final String AS_CALLBACK_EVENT = "TRWV.as.CALLBACK";
         public static final String JS_CALLBACK_EVENT = "TRWV.js.CALLBACK";
-        private static final String ON_DOWNLOAD_PROGRESS = "WebView.OnDownloadProgress";
-        private static final String ON_DOWNLOAD_COMPLETE = "WebView.OnDownloadComplete";
-        private static final String ON_DOWNLOAD_CANCEL = "WebView.OnDownloadCancel";
         private static final String ON_PROPERTY_CHANGE = "WebView.OnPropertyChange";
         private static final String ON_FAIL = "WebView.OnFail";
+        private static final String ON_URL_BLOCKED = "WebView.OnUrlBlocked";
 
-
-        public AirWebView(Context context, Settings settings) {
+        public AirWebView(Context context, final Settings settings) {
             super(context);
             webView = new WebView(context);
 
-            WebSettings webSettings = webView.getSettings();
+            final WebSettings webSettings = webView.getSettings();
             webSettings.setJavaScriptEnabled(settings.getJavaScriptEnabled());
             webSettings.setMediaPlaybackRequiresUserGesture(settings.getMediaPlaybackRequiresUserGesture());
             webSettings.setUserAgentString(settings.getUserAgent());
@@ -173,9 +172,10 @@ class WebViewANEContext extends FREContext {
                     super.onProgressChanged(view, newProgress);
                     JSONObject jsonObject = new JSONObject();
                     try {
-                        double progress = ((double) newProgress) * 0.01;
+                        progress = ((double) newProgress) * 0.01;
                         jsonObject.put("propName", "estimatedProgress");
                         jsonObject.put("value", progress);
+                        jsonObject.put("tab", 0);
                         dispatchStatusEventAsync(jsonObject.toString(), ON_PROPERTY_CHANGE);
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -189,6 +189,7 @@ class WebViewANEContext extends FREContext {
                     try {
                         jsonObject.put("propName", "title");
                         jsonObject.put("value", title);
+                        jsonObject.put("tab", 0);
                         dispatchStatusEventAsync(jsonObject.toString(), ON_PROPERTY_CHANGE);
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -221,8 +222,71 @@ class WebViewANEContext extends FREContext {
             });
             webView.setWebViewClient(new WebViewClient() {
                 @Override
-                public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
-                    super.onReceivedError(view, request, error);
+                public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
+                    JSONObject jsonObject = new JSONObject();
+                    try {
+                        jsonObject.put("url", request.getUrl().toString());
+                        jsonObject.put("tab", 0);
+                        jsonObject.put("errorCode", errorResponse.getStatusCode());
+                        jsonObject.put("errorText", errorResponse.getReasonPhrase());
+                        dispatchStatusEventAsync(jsonObject.toString(), ON_FAIL);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    super.onReceivedHttpError(view, request, errorResponse);
+                }
+
+                private Boolean isWhiteListBlocked(String url) {
+                    ArrayList<String> list = settings.getWhiteList();
+                    if (list.isEmpty()) {
+                        return false;
+                    }
+                    for (int i = 0, size = list.size(); i < size; i++) {
+                        String s = list.get(i);
+                        if (url.contains(s)) {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+
+                private Boolean isBlackListBlocked(String url) {
+                    ArrayList<String> list = settings.getBlackList();
+                    if (list.isEmpty()) {
+                        return false;
+                    }
+
+                    for (int i = 0, size = list.size(); i < size; i++) {
+                        String s = list.get(i);
+                        if (url.contains(s)) {
+                            return true;
+                        }
+                    }
+
+                    return false;
+                }
+
+                @Override
+                public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
+                    String url = request.getUrl().toString();
+                    if (isWhiteListBlocked(url) || isBlackListBlocked(url)) {
+                        JSONObject jsonObject = new JSONObject();
+                        try {
+                            jsonObject.put("url", request.getUrl().toString());
+                            jsonObject.put("tab", 0);
+                            dispatchStatusEventAsync(jsonObject.toString(), ON_URL_BLOCKED);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        WebResourceResponse response = new WebResourceResponse("text/plain", "utf-8",
+                                new ByteArrayInputStream("".getBytes()));
+
+                        response.setStatusCodeAndReasonPhrase(403, "Blocked");
+                        return response;
+                    } else {
+                        return null;
+                    }
                 }
 
                 @Override
@@ -230,8 +294,9 @@ class WebViewANEContext extends FREContext {
                     super.onPageStarted(view, url, favicon);
                     JSONObject jsonObject = new JSONObject();
                     try {
+                        isLoading = true;
                         jsonObject.put("propName", "isLoading");
-                        jsonObject.put("value", true);
+                        jsonObject.put("value", isLoading);
                         dispatchStatusEventAsync(jsonObject.toString(), ON_PROPERTY_CHANGE);
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -241,6 +306,7 @@ class WebViewANEContext extends FREContext {
                     try {
                         jsonObject.put("propName", "url");
                         jsonObject.put("value", url);
+                        jsonObject.put("tab", 0);
                         dispatchStatusEventAsync(jsonObject.toString(), ON_PROPERTY_CHANGE);
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -252,8 +318,10 @@ class WebViewANEContext extends FREContext {
                     super.onPageFinished(view, url);
                     JSONObject jsonObject = new JSONObject();
                     try {
+                        isLoading = false;
                         jsonObject.put("propName", "isLoading");
-                        jsonObject.put("value", false);
+                        jsonObject.put("value", isLoading);
+                        jsonObject.put("tab", 0);
                         dispatchStatusEventAsync(jsonObject.toString(), ON_PROPERTY_CHANGE);
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -263,6 +331,7 @@ class WebViewANEContext extends FREContext {
                     try {
                         jsonObject.put("propName", "canGoBack");
                         jsonObject.put("value", webView.canGoBack());
+                        jsonObject.put("tab", 0);
                         dispatchStatusEventAsync(jsonObject.toString(), ON_PROPERTY_CHANGE);
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -272,6 +341,7 @@ class WebViewANEContext extends FREContext {
                     try {
                         jsonObject.put("propName", "canGoForward");
                         jsonObject.put("value", webView.canGoForward());
+                        jsonObject.put("tab", 0);
                         dispatchStatusEventAsync(jsonObject.toString(), ON_PROPERTY_CHANGE);
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -279,7 +349,11 @@ class WebViewANEContext extends FREContext {
 
                 }
             });
-            webView.setBackgroundColor((bg_a == 0) ? Color.TRANSPARENT : Color.argb(bg_a, bg_r, bg_g, bg_b));
+
+            webView.setBackgroundColor((backgroundAlpha == 0.0) ? Color.TRANSPARENT
+                    : Color.argb(backgroundAlpha,
+                    Color.red(backgroundColor), Color.green(backgroundColor),
+                    Color.blue(backgroundColor)));
             webView.addJavascriptInterface(new BoundObject(), "webViewANE");
 
             if (!TextUtils.isEmpty(_initialUrl)) {
@@ -287,11 +361,9 @@ class WebViewANEContext extends FREContext {
             }
 
             RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(_width, _height);
-
             webView.setLayoutParams(layoutParams);
-
             layoutParams.setMargins(_x, _y, 0, 0);
-            super.setGravity(Gravity.TOP | Gravity.LEFT);
+            super.setGravity(Gravity.TOP | Gravity.START);
             super.addView(webView, layoutParams);
 
         }
@@ -303,24 +375,40 @@ class WebViewANEContext extends FREContext {
         @Override
         public FREObject call(FREContext freContext, FREObject[] argv) {
             try {
+
                 _initialUrl = argv[0].getAsString();
-                _scaleFactor = argv[6].getAsInt();
-                _x = Math.round(argv[1].getAsInt() * _scaleFactor);
-                _y = Math.round(argv[2].getAsInt() * _scaleFactor);
-                _width = Math.round(argv[3].getAsInt() * _scaleFactor);
-                _height = Math.round(argv[4].getAsInt() * _scaleFactor);
+                _scaleFactor = argv[3].getAsDouble();
+                _x = (int) Math.round((double) argv[1].getProperty("x").getAsInt() * _scaleFactor);
+                _y = (int) Math.round((double) argv[1].getProperty("y").getAsInt() * _scaleFactor);
+                _width = (int) Math.round((double) argv[1].getProperty("width").getAsInt() * _scaleFactor);
+                _height = (int) Math.round((double) argv[1].getProperty("height").getAsInt() * _scaleFactor);
 
+                backgroundColor = argv[4].getAsInt();
+                backgroundAlpha = (int) Math.round(argv[5].getAsDouble() * 255.0);
 
-                FREObject freSettings = argv[5].getProperty("android");
+                FREArray arrWhiteListFre = (FREArray) argv[2].getProperty("urlWhiteList");
+                FREArray arrBlackListFre = (FREArray) argv[2].getProperty("urlBlackList");
+                FREObject freSettings = argv[2].getProperty("android");
 
+                ArrayList<String> arrWhiteList = new ArrayList<>();
+                for (int i = 0, whiteListSize = (int) arrWhiteListFre.getLength(); i < whiteListSize; i++) {
+                    arrWhiteList.add(arrWhiteListFre.getObjectAt(i).getAsString());
+                }
 
-                //TODO settings [5]
+                ArrayList<String> arrBlackList = new ArrayList<>();
+                for (int i = 0, blackListSize = (int) arrBlackListFre.getLength(); i < blackListSize; i++) {
+                    arrBlackList.add(arrBlackListFre.getObjectAt(i).getAsString());
+                }
+
                 Settings settings = new Settings();
+                settings.setWhiteList(arrWhiteList);
+                settings.setBlackList(arrBlackList);
+
                 settings.setJavaScriptEnabled(
                         freSettings.getProperty("javaScriptEnabled").getAsBool());
                 settings.setMediaPlaybackRequiresUserGesture(
                         freSettings.getProperty("mediaPlaybackRequiresUserGesture").getAsBool());
-                settings.setUserAgent(argv[5].getProperty("userAgent").getAsString());
+                settings.setUserAgent(argv[2].getProperty("userAgent").getAsString());
 
                 settings.setJavaScriptCanOpenWindowsAutomatically(
                         freSettings.getProperty("javaScriptCanOpenWindowsAutomatically").getAsBool());
@@ -340,10 +428,7 @@ class WebViewANEContext extends FREContext {
                 airView = (ViewGroup) airView.getChildAt(0);
                 container = new AirWebView(getActivity(), settings);
 
-            } catch (FRETypeMismatchException | FREWrongThreadException | FREInvalidObjectException e) {
-                trace(e.toString());
-                e.printStackTrace();
-            } catch (FREASErrorException | FRENoSuchNameException e) {
+            } catch (FRETypeMismatchException | FREWrongThreadException | FREInvalidObjectException | FREASErrorException | FRENoSuchNameException e) {
                 trace(e.toString());
                 e.printStackTrace();
             }
@@ -363,7 +448,6 @@ class WebViewANEContext extends FREContext {
     private class removeFromStage implements FREFunction {
         @Override
         public FREObject call(FREContext freContext, FREObject[] freObjects) {
-            // webDialog.dismiss();
             airView.removeView(container);
             return null;
         }
@@ -473,21 +557,18 @@ class WebViewANEContext extends FREContext {
         }
     }
 
-    private class getMagnification implements FREFunction {
+    private class zoomIn implements FREFunction {
         @Override
         public FREObject call(FREContext ctx, FREObject[] argv) {
+            webView.zoomIn();
             return null;
         }
     }
 
-    private class setMagnification implements FREFunction {
+    private class zoomOut implements FREFunction {
         @Override
         public FREObject call(FREContext ctx, FREObject[] argv) {
-            try {
-                webView.zoomBy((float) argv[0].getAsDouble());
-            } catch (FRETypeMismatchException | FREInvalidObjectException | FREWrongThreadException e) {
-                e.printStackTrace();
-            }
+            webView.zoomOut();
             return null;
         }
     }
@@ -510,10 +591,10 @@ class WebViewANEContext extends FREContext {
         public FREObject call(FREContext ctx, FREObject[] argv) {
 
             try {
-                int tmp_x = argv[0].getAsInt() * _scaleFactor;
-                int tmp_y = argv[1].getAsInt() * _scaleFactor;
-                int tmp_width = argv[2].getAsInt() * _scaleFactor;
-                int tmp_height = argv[3].getAsInt() * _scaleFactor;
+                int tmp_x = (int) ((double) argv[0].getProperty("x").getAsInt() * _scaleFactor);
+                int tmp_y = (int) ((double) argv[0].getProperty("y").getAsInt() * _scaleFactor);
+                int tmp_width = (int) ((double) argv[0].getProperty("width").getAsInt() * _scaleFactor);
+                int tmp_height = (int) ((double) argv[0].getProperty("height").getAsInt() * _scaleFactor);
 
                 Boolean updateWidth = false;
                 Boolean updateHeight = false;
@@ -548,7 +629,8 @@ class WebViewANEContext extends FREContext {
                     webView.setLayoutParams(layoutParams);
                 }
 
-            } catch (FRETypeMismatchException | FREInvalidObjectException | FREWrongThreadException e) {
+            } catch (FRETypeMismatchException | FREInvalidObjectException | FREWrongThreadException |
+                    FRENoSuchNameException | FREASErrorException e) {
                 e.printStackTrace();
             }
 
@@ -559,8 +641,7 @@ class WebViewANEContext extends FREContext {
     private class showDevTools implements FREFunction {
         @Override
         public FREObject call(FREContext ctx, FREObject[] argv) {
-            if (webView != null)
-                webView.setWebContentsDebuggingEnabled(true);
+            WebView.setWebContentsDebuggingEnabled(true);
             return null;
         }
     }
@@ -568,18 +649,11 @@ class WebViewANEContext extends FREContext {
     private class closeDevTools implements FREFunction {
         @Override
         public FREObject call(FREContext ctx, FREObject[] argv) {
-            if (webView != null)
-                webView.setWebContentsDebuggingEnabled(false);
+            WebView.setWebContentsDebuggingEnabled(false);
             return null;
         }
     }
 
-    private class onFullScreen implements FREFunction {
-        @Override
-        public FREObject call(FREContext ctx, FREObject[] argv) {
-            return null;
-        }
-    }
 
     private class callJavascriptFunction implements FREFunction {
         @Override
@@ -645,68 +719,18 @@ class WebViewANEContext extends FREContext {
         }
     }
 
-    private class setBackgroundColor implements FREFunction {
-        @Override
-        public FREObject call(FREContext ctx, FREObject[] argv) {
-            try {
-                bg_r = argv[0].getAsInt();
-                bg_g = argv[1].getAsInt();
-                bg_b = argv[2].getAsInt();
-                bg_a = (int) (argv[3].getAsDouble() * 255);
-
-                if (webView != null) {
-                    webView.setBackgroundColor((bg_a == 0) ? Color.TRANSPARENT : Color.argb(bg_a, bg_r, bg_g, bg_b));
-                }
-
-            } catch (FRETypeMismatchException | FREInvalidObjectException | FREWrongThreadException e) {
-                trace(e.toString());
-                e.printStackTrace();
-            }
-            return null;
-        }
-    }
-
-    private class shutDown implements FREFunction {
+    private class notImplemented implements FREFunction {
         @Override
         public FREObject call(FREContext freContext, FREObject[] freObjects) {
             return null;
         }
     }
 
-    private class injectScript implements FREFunction {
-        @Override
-        public FREObject call(FREContext freContext, FREObject[] freObjects) {
-            return null;
-        }
-    }
-
-    private class print implements FREFunction {
-        @Override
-        public FREObject call(FREContext freContext, FREObject[] freObjects) {
-            trace("print is only available on Windows");
-            return null;
-        }
-    }
-
-    private class focus implements FREFunction {
-        @Override
-        public FREObject call(FREContext freContext, FREObject[] freObjects) {
-            return null;
-        }
-    }
-
-    private class capture implements FREFunction {
-        @Override
-        public FREObject call(FREContext freContext, FREObject[] freObjects) {
-            trace("capture is only available on Windows");
-            return null;
-        }
-    }
 
     private void trace(String msg) {
         //if(logLevel > LogLevel.QUIET){
         Log.i("com.tuarua.WebViewANE", String.valueOf(msg));
-        dispatchStatusEventAsync(msg, "TRACE");
+        dispatchStatusEventAsync(msg, TRACE);
         // }
 
     }
@@ -714,17 +738,76 @@ class WebViewANEContext extends FREContext {
     private void trace(int msg) {
         //if(logLevel > LogLevel.QUIET) {
         Log.i("com.tuarua.WebViewANE", String.valueOf(msg));
-        dispatchStatusEventAsync(String.valueOf(msg), "TRACE");
+        dispatchStatusEventAsync(String.valueOf(msg), TRACE);
         // }
     }
 
     private void trace(boolean msg) {
         // if(logLevel > LogLevel.QUIET) {
         Log.i("com.tuarua.WebViewANE", String.valueOf(msg));
-        dispatchStatusEventAsync(String.valueOf(msg), "TRACE");
+        dispatchStatusEventAsync(String.valueOf(msg), TRACE);
         //  }
     }
 
+    private class getTabDetails implements FREFunction {
+        @Override
+        public FREObject call(FREContext freContext, FREObject[] freObjects) {
+
+            FREObject result = null;
+            try {
+                FREArray vecTabs = (FREArray) FREObject.newObject("Vector.<com.tuarua.webview.TabDetails>",
+                        null);
+                vecTabs.setLength(1);
 
 
+                //index,
+                // tabDetail.Address,
+                //tabDetail.Title,
+                // tabDetail.IsLoading,
+                // tabDetail.CanGoBack,
+                // tabDetail.CanGoForward,
+                // 1.0
+
+                FREObject[] params = new FREObject[7];
+                FREObject index = FREObject.newObject(0);
+                FREObject address = FREObject.newObject(webView.getUrl());
+                FREObject title = FREObject.newObject(webView.getTitle());
+                FREObject isLoadingFre = FREObject.newObject(false);
+                FREObject canGoBack = FREObject.newObject(webView.canGoBack());
+                FREObject canGoForward = FREObject.newObject(webView.canGoForward());
+                FREObject progressFre = FREObject.newObject(progress);
+
+
+                params[0] = index;
+                params[1] = address;
+                params[2] = title;
+                params[3] = isLoadingFre;
+                params[4] = canGoBack;
+                params[5] = canGoForward;
+                params[6] = progressFre;
+
+                FREObject currentTabFre = FREObject.newObject("com.tuarua.webview.TabDetails", params);
+                vecTabs.setObjectAt(0, currentTabFre);
+
+                return vecTabs;
+
+            } catch (FRETypeMismatchException | FREWrongThreadException | FRENoSuchNameException | FREASErrorException | FREInvalidObjectException | FREReadOnlyException e) {
+                e.printStackTrace();
+            }
+            return result;
+        }
+    }
+
+    private class getCurrentTab implements FREFunction {
+        @Override
+        public FREObject call(FREContext freContext, FREObject[] freObjects) {
+            FREObject result = null;
+            try {
+                result = FREObject.newObject(0);
+            } catch (FREWrongThreadException e) {
+                e.printStackTrace();
+            }
+            return result;
+        }
+    }
 }

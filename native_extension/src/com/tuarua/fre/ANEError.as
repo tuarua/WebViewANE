@@ -21,9 +21,6 @@
  *  All Rights Reserved. Tua Rua Ltd.
  */
 
-/**
- * Created by Eoin Landy on 29/04/2017.
- */
 package com.tuarua.fre {
 [RemoteClass(alias="com.tuarua.fre.ANEError")]
 public class ANEError extends Error {

@@ -1,9 +1,35 @@
+### 0.0.25
+- WIN/OSX: Added multi-tab support
+- AND/iOS/WIN/OSX: BREAKING CHANGE!! - init() now takes the following params: 
+init(stage:Stage, viewPort:Rectangle, initialUrl:String, settings:Settings, scaleFactor:Number, backgroundColor:uint, backgroundAlpha:Number)
+- AND/iOS/WIN/OSX: BREAKING CHANGE!! - onPropertyChange now returns event.params as {propertyName, tab, value}
+- AND/iOS/WIN/OSX: BREAKING CHANGE!! - onUrlBlocked now returns event.params as {url, tab}
+- AND/iOS/WIN/OSX: deprecate setPositionAndSize() - use viewPort setter instead
+- AND/iOS/WIN/OSX: deprecate addToStage() - use visible setter instead
+- AND/iOS/WIN/OSX: deprecate removeFromStage() - use visible setter instead
+- AND/iOS/WIN/OSX: deprecate setBackgroundColor() - use params in init instead
+- AND/iOS/WIN/OSX: deprecate shutDown() - not needed
+- AND/WIN/OSX: deprecate getMagnification() due to inconsistent behaviour
+- AND/WIN/OSX: deprecate setMagnification() due to inconsistent behaviour
+- AND/WIN/OSX: add zoomIn() and zoomOut() methods
+- AND/iOS/WIN/OSX: deprecate url, title, isLoading, canGoBack, canGoForward, estimatedProgress getters - call tabDetails getter instead
+- OSX: fix BUG in example when minimising maximising
+- OSX: add web page title to popup window
+- iOS: add property settings.webkit.bounces true/false
+- iOS/OSX: fix BUG in go() method
+- AND/iOS/OSX: add whitelist to settings
+- AND/iOS/WIN/OSX: add blacklist to settings
+- AND: add WebViewEvent.ON_FAIL events
+- WIN/OSX: update example to AIR SDK 26
+- iOS/OSX: refactor
+- WIN/OSX: Add check that AIR window can be referenced before attaching the native view
+
 ### 0.0.24
 - WIN: Allow right click context menu to be disabled Issue #52
 - WIN: BUG fix - capture method Issue #54
 
 ### 0.0.23
-- WIN: add whitelist to cefsettings
+- WIN: add whitelist to settings
 - WIN: upgrade to using FreSharp 1.0.7
 
 ### 0.0.22
