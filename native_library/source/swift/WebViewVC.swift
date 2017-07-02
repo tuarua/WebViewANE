@@ -44,8 +44,12 @@ class WebViewVC: WKWebView {
         }
     }
 
-    convenience init(frame: CGRect, configuration: WKWebViewConfiguration, tab: Int) {
+    convenience init(frame: CGRect, configuration: Configuration, tab: Int) {
         self.init(frame: frame, configuration: configuration)
+        
+#if os(iOS)
+        self.scrollView.bounces = configuration.doesBounce
+#endif
         _tab = tab
     }
 

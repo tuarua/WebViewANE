@@ -15,6 +15,7 @@ init(stage:Stage, viewPort:Rectangle, initialUrl:String, settings:Settings, scal
 - AND/iOS/WIN/OSX: deprecate url, title, isLoading, canGoBack, canGoForward, estimatedProgress getters - call tabDetails getter instead
 - OSX: fix BUG in example when minimising maximising
 - OSX: add web page title to popup window
+- iOS: add property settings.webkit.bounces true/false
 - iOS/OSX: fix BUG in go() method
 - AND/iOS/OSX: add whitelist to settings
 - AND/iOS/WIN/OSX: add blacklist to settings
