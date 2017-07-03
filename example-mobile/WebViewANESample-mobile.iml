@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="Flex" version="4">
-  <component name="FlexBuildConfigurationManager" active="WebViewANESample-mobile iOS Device">
+  <component name="FlexBuildConfigurationManager" active="WebViewANESample-mobile iOS simulator">
     <configurations>
       <configuration name="WebViewANESample-mobile iOS simulator" target-platform="Mobile" pure-as="true" main-class="WebViewANESample" output-file="WebViewANESample-mobile.swf" output-folder="$MODULE_DIR$/bin-debug">
         <dependencies>

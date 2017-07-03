@@ -94,6 +94,7 @@ import Cocoa
         functionsToSet["setCurrentTab"] = setCurrentTab
         functionsToSet["getCurrentTab"] = getCurrentTab
         functionsToSet["getTabDetails"] = getTabDetails
+        functionsToSet["shutDown"] = shutDown
 
 
         var arr: Array<String> = []
@@ -514,14 +515,19 @@ import Cocoa
     }
 
     func print(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? { //TODO
-        trace("print is Windows only at the moment");
+        trace("print is Windows only at the moment")
         return nil
     }
 
     func capture(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? { //TODO - when 10.13 comes out
-        trace("capture is Windows only at the moment");
+        trace("capture is Windows only at the moment")
         return nil
     }
+    
+    func shutDown(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
+        return nil
+    }
+    
 
     func addTab(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
 #if os(OSX)
