@@ -97,6 +97,7 @@ class WebViewANEContext extends FREContext {
         functionsToSet.put("addTab", new notImplemented());
         functionsToSet.put("closeTab", new notImplemented());
         functionsToSet.put("setCurrentTab", new notImplemented());
+        functionsToSet.put("shutDown", new notImplemented());
         functionsToSet.put("getCurrentTab", new getCurrentTab());
         functionsToSet.put("getTabDetails", new getTabDetails()); //TODO
 

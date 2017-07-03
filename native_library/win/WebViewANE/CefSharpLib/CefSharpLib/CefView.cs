@@ -139,7 +139,6 @@ namespace CefSharpLib {
         }
 
         private ChromiumWebBrowser CreateNewBrowser() {
-            Console.WriteLine(@"CreateNewBrowser called");
             // ReSharper disable once UseObjectOrCollectionInitializer
             var browser = new ChromiumWebBrowser(InitialUrl) {
                 Dock = DockStyle.Fill

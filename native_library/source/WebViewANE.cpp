@@ -80,6 +80,7 @@ extern "C" {
 			,{ (const uint8_t *) "setCurrentTab", "setCurrentTab", &callSharpFunction }
 			,{ (const uint8_t *) "getCurrentTab", "getCurrentTab", &callSharpFunction }
 			,{ (const uint8_t *) "getTabDetails", "getTabDetails", &callSharpFunction }
+			,{ (const uint8_t *) "shutDown", "shutDown", &callSharpFunction }
 
 		};
 
