@@ -654,6 +654,9 @@ public class WebViewANE extends EventDispatcher {
         }
         trace("[" + name + "] Unloading ANE...");
         ctx.removeEventListener(StatusEvent.STATUS, gotEvent);
+        if (safetyCheck()) {
+            ctx.call("shutDown");
+        }
         ctx.dispose();
         ctx = null;
     }
