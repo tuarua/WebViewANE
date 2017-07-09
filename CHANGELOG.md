@@ -1,3 +1,10 @@
+### 0.0.26
+- OSX: Add dev tools support
+- OSX: Deprecate onFullScreen() method, handled internally
+- OSX: Deprecate ON_ESC_KEY event, handled internally
+- AND/iOS/WIN/OSX: added cacheEnabled to settings
+- iOS/OSX: added clearCache() method
+
 ### 0.0.25
 - WIN/OSX: Added multi-tab support
 - AND/iOS/WIN/OSX: BREAKING CHANGE!! - init() now takes the following params: 

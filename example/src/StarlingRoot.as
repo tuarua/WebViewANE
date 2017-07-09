@@ -86,10 +86,8 @@ public class StarlingRoot extends Sprite {
         WebViewANESample.target.stage.addEventListener(FullScreenEvent.FULL_SCREEN, onFullScreenEvent);
         NativeApplication.nativeApplication.addEventListener(Event.EXITING, onExiting);
 
-        if (Capabilities.os.toLowerCase().indexOf("mac") == 0) {
-            NativeApplication.nativeApplication.activeWindow.addEventListener(
-                    NativeWindowDisplayStateEvent.DISPLAY_STATE_CHANGE, onWindowMiniMaxi);
-        }
+        NativeApplication.nativeApplication.activeWindow.addEventListener(
+                NativeWindowDisplayStateEvent.DISPLAY_STATE_CHANGE, onWindowMiniMaxi);
 
         if (!webView.isSupported) {
             return;
@@ -102,7 +100,6 @@ public class StarlingRoot extends Sprite {
         webView.addEventListener(WebViewEvent.ON_FAIL, onFail);
         webView.addEventListener(WebViewEvent.ON_DOWNLOAD_PROGRESS, onDownloadProgress);
         webView.addEventListener(WebViewEvent.ON_DOWNLOAD_COMPLETE, onDownloadComplete);
-        webView.addEventListener(WebViewEvent.ON_ESC_KEY, onEscKey);
         webView.addEventListener(WebViewEvent.ON_PERMISSION_RESULT, onPermissionResult);
         webView.addEventListener(WebViewEvent.ON_URL_BLOCKED, onUrlBlocked);
 
@@ -123,6 +120,7 @@ public class StarlingRoot extends Sprite {
         var kvp:Object = {};
         kvp.key = "disable-direct-write";
         kvp.value = "1";
+        settings.cacheEnabled = true;
         settings.cef.commandLineArgs.push(kvp);
         settings.cef.enableDownloads = true;
         settings.cef.contextMenu.enabled = false; //enable/disable right click
@@ -247,9 +245,7 @@ public class StarlingRoot extends Sprite {
         addChild(zoomInBtn);
         addChild(zoomOutBtn);
         addChild(fullscreenBtn);
-        if (Capabilities.os.toLowerCase().indexOf("windows") == 0) {
-            addChild(devToolsBtn);
-        }
+        addChild(devToolsBtn);
 
         addChild(capureBtn);
         addChild(jsBtn);
@@ -293,27 +289,8 @@ public class StarlingRoot extends Sprite {
     }
 
     private function onWindowMiniMaxi(event:NativeWindowDisplayStateEvent):void {
-        /*
-         !! Needed for OSX, restores webView when we restore from minimized state
-         */
-
-        if (event.beforeDisplayState == NativeWindowDisplayState.MINIMIZED) {
-            webView.visible = false;
-            webView.visible = true;
-            return;
-        }
         if (event.afterDisplayState != NativeWindowDisplayState.MINIMIZED) {
-            _appWidth = event.target.width;
-            _appHeight = event.target.height - 17;
             webView.viewPort = new Rectangle(0, 90, _appWidth, _appHeight - 140);
-        }
-    }
-
-    private function onEscKey(event:WebViewEvent):void {
-        if (WebViewANESample.target.stage.displayState == StageDisplayState.FULL_SCREEN_INTERACTIVE) {
-            WebViewANESample.target.stage.displayState = StageDisplayState.NORMAL;
-            _appWidth = 1280;
-            _appHeight = 800;
         }
     }
 
@@ -591,12 +568,6 @@ public class StarlingRoot extends Sprite {
         }
     }
 
-    /**
-     * It's very important to call webView.dispose(); when the app is exiting.
-     */
-    private function onExiting(event:Event):void {
-        webView.dispose();
-    }
 
     public function onFullScreenApp():void {
         if (WebViewANESample.target.stage.displayState == StageDisplayState.FULL_SCREEN_INTERACTIVE) {
@@ -604,21 +575,14 @@ public class StarlingRoot extends Sprite {
             _appWidth = 1280;
             _appHeight = 800;
         } else {
-            //_appWidth = WebViewANESample.target.stage.fullScreenWidth;
-            //_appHeight = WebViewANESample.target.stage.fullScreenHeight;
-
             _appWidth = Capabilities.screenResolutionX;
             _appHeight = Capabilities.screenResolutionY;
-
-            WebViewANESample.target.stage.fullScreenSourceRect = new Rectangle(0, 0, _appWidth, _appHeight);
             WebViewANESample.target.stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
-
         }
     }
 
     private function onFullScreenEvent(event:FullScreenEvent):void {
         if (webView) {
-            webView.onFullScreen(event.fullScreen);
             webView.viewPort = new Rectangle(0, 90, _appWidth, _appHeight - 140);
         }
     }
@@ -636,6 +600,14 @@ public class StarlingRoot extends Sprite {
     public function set appHeight(value:uint):void {
         _appHeight = value;
     }
+
+    /**
+     * It's very important to call webView.dispose(); when the app is exiting.
+     */
+    private function onExiting(event:Event):void {
+        webView.dispose();
+    }
+
 
 }
 }

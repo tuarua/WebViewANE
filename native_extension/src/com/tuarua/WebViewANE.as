@@ -31,15 +31,21 @@ import com.tuarua.webview.Settings;
 import com.tuarua.webview.TabDetails;
 import com.tuarua.webview.WebViewEvent;
 
+import flash.desktop.NativeApplication;
+
 import flash.display.BitmapData;
+import flash.display.NativeWindowDisplayState;
 import flash.display.Stage;
+import flash.display.StageDisplayState;
 
 import flash.events.EventDispatcher;
 import flash.events.FullScreenEvent;
+import flash.events.NativeWindowDisplayStateEvent;
 import flash.events.StatusEvent;
 import flash.external.ExtensionContext;
 import flash.geom.Point;
 import flash.geom.Rectangle;
+import flash.system.Capabilities;
 import flash.utils.Dictionary;
 
 public class WebViewANE extends EventDispatcher {
@@ -60,12 +66,15 @@ public class WebViewANE extends EventDispatcher {
     private static const JS_CALLBACK_PREFIX:String = "TRWV.js.";
     private static const JS_CALLBACK_EVENT:String = "TRWV.js.CALLBACK";
     private static const AS_CALLBACK_EVENT:String = "TRWV.as.CALLBACK";
+    private static const ON_ESC_KEY:String = "WebView.OnEscKey";
     private var downloadProgress:DownloadProgress = new DownloadProgress();
     private var _visible:Boolean;
     private var _backgroundColor:uint = 0xFFFFFF;
     private var _backgroundAlpha:Number = 1.0;
     private var _stage:Stage;
+    private var _settings:Settings;
     private var ctx:ExtensionContext;
+
     public function WebViewANE() {
         initiate();
     }
@@ -73,7 +82,7 @@ public class WebViewANE extends EventDispatcher {
     /**
      * This method is omitted from the output. * * @private
      */
-    protected function initiate():void {
+    private function initiate():void {
         _isSupported = true;
 
         if (_isSupported) {
@@ -208,8 +217,8 @@ public class WebViewANE extends EventDispatcher {
             case WebViewEvent.ON_DOWNLOAD_CANCEL:
                 dispatchEvent(new WebViewEvent(WebViewEvent.ON_DOWNLOAD_CANCEL, event.code));
                 break;
-            case WebViewEvent.ON_ESC_KEY:
-                dispatchEvent(new WebViewEvent(WebViewEvent.ON_ESC_KEY, event.code));
+            case ON_ESC_KEY:
+                _stage.displayState = StageDisplayState.NORMAL;
                 break;
             case WebViewEvent.ON_URL_BLOCKED:
                 try {
@@ -372,8 +381,13 @@ public class WebViewANE extends EventDispatcher {
                          settings:Settings = null, scaleFactor:Number = 1.0,
                          backgroundColor:uint = 0xFFFFFF, backgroundAlpha:Number = 1.0):void {
         _stage = stage;
-        //stage.addEventListener(FullScreenEvent.FULL_SCREEN, onFullScreenEvent);
         _viewPort = viewPort;
+
+        if (Capabilities.os.toLowerCase().indexOf("mac") == 0) {
+            NativeApplication.nativeApplication.activeWindow.addEventListener(
+                    NativeWindowDisplayStateEvent.DISPLAY_STATE_CHANGE, onWindowMiniMaxi, false, 1000);
+        }
+        stage.addEventListener(FullScreenEvent.FULL_SCREEN, onFullScreenEvent, false, 1000);
 
         //hasn't been set by setBackgroundColor
         if (_backgroundColor == 0xFFFFFF) {
@@ -384,7 +398,7 @@ public class WebViewANE extends EventDispatcher {
         }
 
         if (_isSupported) {
-            var _settings:Settings = settings;
+            _settings = settings;
             if (_settings == null) {
                 _settings = new Settings();
             }
@@ -395,10 +409,22 @@ public class WebViewANE extends EventDispatcher {
         }
     }
 
+    private function onWindowMiniMaxi(event:NativeWindowDisplayStateEvent):void {
+        /*
+         !! Needed for OSX, restores webView when we restore from minimized state
+         */
+        if (event.beforeDisplayState == NativeWindowDisplayState.MINIMIZED) {
+            visible = false;
+            visible = true;
+            return;
+        }
+
+    }
+
     private function onFullScreenEvent(event:FullScreenEvent):void {
-        //if (safetyCheck()) {
-        //ctx.call("onFullScreen", event.fullScreen);
-        //}
+        if (safetyCheck()) {
+            ctx.call("onFullScreen", event.fullScreen);
+        }
     }
 
     [Deprecated(replacement="viewPort")]
@@ -523,14 +549,32 @@ public class WebViewANE extends EventDispatcher {
     }
 
     /**
-     *
-     * @param fs When going fullscreen set this to true, when coming out of fullscreen set to false
+     * Clears the browser cache.
      *
      */
+    public function clearCache():void {
+        if (Capabilities.os.toLowerCase().indexOf("win") == 0) {
+            //cannot clear the cache of CEF directly
+            if (_isInited) {
+                trace("You cannot clear the cache on Windows WebView when it is running, only before init of after dispose")
+            } else {
+                //TODO remove the cache folder as per settings.cef
+                if (_settings.cef.cachePath.length > 0) {
+                    trace("TODO clear this cache folder", _settings.cef.cachePath)
+                }
+
+            }
+        } else {
+            if (safetyCheck())
+                ctx.call("clearCache");
+        }
+
+
+    }
+
+
+    [Deprecated(message="Not needed any more, handled internally")]
     public function onFullScreen(fs:Boolean = false):void {
-        //trace(_stage.width, _stage.height, _stage.stageWidth, _stage.stageHeight)
-        if (safetyCheck())
-            ctx.call("onFullScreen", fs);
     }
 
     /**
@@ -544,22 +588,11 @@ public class WebViewANE extends EventDispatcher {
         return false;
     }
 
-    /**
-     *
-     * @return The current magnification level
-     *
-     */
     [Deprecated(message="Not available")]
     public function getMagnification():Number {
         return 1.0;
     }
 
-    /**
-     *
-     * @param value
-     * @param centeredAt
-     * <p><strong>Ignored on iOS.</strong></p>
-     */
     [Deprecated(replacement="zoomIn")]
     public function setMagnification(value:Number, centeredAt:Point):void {
     }
@@ -612,8 +645,6 @@ public class WebViewANE extends EventDispatcher {
         return ret;
 
     }
-
-
 
 
     /**
@@ -728,6 +759,7 @@ public class WebViewANE extends EventDispatcher {
 
     /**
      * <p>Shows the Chromium dev tools on Windows</p>
+     * <p>Enables Inspect Element on right click on OSX</p>
      * <p>On Android use Chrome on connected computer and navigate to chrome://inspect</p>
      *
      */
@@ -738,6 +770,7 @@ public class WebViewANE extends EventDispatcher {
 
     /**
      * <p>Close the Chromium dev tools</p>
+     * <p>Disables Inspect Element on right click on OSX</p>
      * <p>On Android disconnects from chrome://inspect</p>
      *
      */

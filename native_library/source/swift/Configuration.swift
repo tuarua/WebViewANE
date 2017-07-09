@@ -65,6 +65,10 @@ open class Configuration: WKWebViewConfiguration {
             if let allowsAirPlayForMediaPlayback: Bool = settingsWK["allowsAirPlayForMediaPlayback"] as? Bool {
                 self.allowsAirPlayForMediaPlayback = allowsAirPlayForMediaPlayback
             }
+    
+            if let bounces: Bool = settingsWK["bounces"] as? Bool {
+                self._bounces = bounces
+            }
 
 #else
             if let plugInsEnabled: Bool = settingsWK["plugInsEnabled"] as? Bool {
@@ -90,10 +94,6 @@ open class Configuration: WKWebViewConfiguration {
                 self.preferences.minimumFontSize = CGFloat.init(minimumFontSize)
             }
             
-            if let bounces: Bool = settingsWK["bounces"] as? Bool {
-                self._bounces = bounces
-            }
-
         }
 
 

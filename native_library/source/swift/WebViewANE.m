@@ -57,15 +57,6 @@ FRE_FUNCTION(callSwiftFunction) {
 void contextInitializer(void *extData, const uint8_t *ctxType, FREContext ctx, uint32_t *numFunctionsToSet,
                         const FRENamedFunction **functionsToSet) {
     
-    /******* MAKE SURE TO SET NUM OF FUNCTIONS MANUALLY *****/
-    /********************************************************/
-    
-    const int numFunctions = 33;
-    
-    /********************************************************/
-    /********************************************************/
-
-    
 #ifdef _WIN32
 #elif __APPLE__
 #if (TARGET_IPHONE_SIMULATOR) || (TARGET_OS_IPHONE)
@@ -84,12 +75,52 @@ void contextInitializer(void *extData, const uint8_t *ctxType, FREContext ctx, u
     [swft setFREContextWithCtx:ctx];
     
     funcArray = [swft getFunctions];
-    static FRENamedFunction extensionFunctions[numFunctions] = {};
-    for (int i = 0; i < [funcArray count]; ++i) {
-        NSString * nme = [funcArray objectAtIndex:i];
-        FRENamedFunction nf = {(const uint8_t *) [nme UTF8String], (__bridge void *)(nme), &callSwiftFunction};
-        extensionFunctions[i] = nf;
-    }
+    /**************************************************************************/
+    /********************* DO NO MODIFY ABOVE THIS LINE ***********************/
+    /**************************************************************************/
+    
+    /******* MAKE SURE TO ADD FUNCTIONS HERE THE SAME AS SWIFT CONTROLLER *****/
+    /**************************************************************************/
+    static FRENamedFunction extensionFunctions[] =
+    {
+        { (const uint8_t*) "reload", (__bridge void *)@"reload", &callSwiftFunction }
+        ,{ (const uint8_t*) "load", (__bridge void *)@"load", &callSwiftFunction }
+        ,{ (const uint8_t*) "init", (__bridge void *)@"init", &callSwiftFunction }
+        ,{ (const uint8_t*) "isSupported", (__bridge void *)@"isSupported", &callSwiftFunction }
+        ,{ (const uint8_t*) "addToStage", (__bridge void *)@"addToStage", &callSwiftFunction }
+        ,{ (const uint8_t*) "removeFromStage", (__bridge void *)@"removeFromStage", &callSwiftFunction }
+        ,{ (const uint8_t*) "loadHTMLString", (__bridge void *)@"loadHTMLString", &callSwiftFunction }
+        ,{ (const uint8_t*) "loadFileURL", (__bridge void *)@"loadFileURL", &callSwiftFunction }
+        ,{ (const uint8_t*) "onFullScreen", (__bridge void *)@"onFullScreen", &callSwiftFunction }
+        ,{ (const uint8_t*) "reloadFromOrigin", (__bridge void *)@"reloadFromOrigin", &callSwiftFunction }
+        ,{ (const uint8_t*) "stopLoading", (__bridge void *)@"stopLoading", &callSwiftFunction }
+        ,{ (const uint8_t*) "backForwardList", (__bridge void *)@"backForwardList", &callSwiftFunction }
+        ,{ (const uint8_t*) "go", (__bridge void *)@"go", &callSwiftFunction }
+        ,{ (const uint8_t*) "goBack", (__bridge void *)@"goBack", &callSwiftFunction }
+        ,{ (const uint8_t*) "goForward", (__bridge void *)@"goForward", &callSwiftFunction }
+        ,{ (const uint8_t*) "allowsMagnification", (__bridge void *)@"allowsMagnification", &callSwiftFunction }
+        ,{ (const uint8_t*) "zoomIn", (__bridge void *)@"zoomIn", &callSwiftFunction }
+        ,{ (const uint8_t*) "zoomOut", (__bridge void *)@"zoomOut", &callSwiftFunction }
+        ,{ (const uint8_t*) "setPositionAndSize", (__bridge void *)@"setPositionAndSize", &callSwiftFunction }
+        ,{ (const uint8_t*) "showDevTools", (__bridge void *)@"showDevTools", &callSwiftFunction }
+        ,{ (const uint8_t*) "closeDevTools", (__bridge void *)@"closeDevTools", &callSwiftFunction }
+        ,{ (const uint8_t*) "callJavascriptFunction", (__bridge void *)@"callJavascriptFunction", &callSwiftFunction }
+        ,{ (const uint8_t*) "evaluateJavaScript", (__bridge void *)@"evaluateJavaScript", &callSwiftFunction }
+        ,{ (const uint8_t*) "injectScript", (__bridge void *)@"injectScript", &callSwiftFunction }
+        ,{ (const uint8_t*) "focus", (__bridge void *)@"focus", &callSwiftFunction }
+        ,{ (const uint8_t*) "print", (__bridge void *)@"print", &callSwiftFunction }
+        ,{ (const uint8_t*) "capture", (__bridge void *)@"capture", &callSwiftFunction }
+        ,{ (const uint8_t*) "addTab", (__bridge void *)@"addTab", &callSwiftFunction }
+        ,{ (const uint8_t*) "closeTab", (__bridge void *)@"closeTab", &callSwiftFunction }
+        ,{ (const uint8_t*) "setCurrentTab", (__bridge void *)@"setCurrentTab", &callSwiftFunction }
+        ,{ (const uint8_t*) "getCurrentTab", (__bridge void *)@"getCurrentTab", &callSwiftFunction }
+        ,{ (const uint8_t*) "getTabDetails", (__bridge void *)@"getTabDetails", &callSwiftFunction }
+        ,{ (const uint8_t*) "shutDown", (__bridge void *)@"shutDown", &callSwiftFunction }
+        ,{ (const uint8_t*) "clearCache", (__bridge void *)@"clearCache", &callSwiftFunction }
+    };
+    /**************************************************************************/
+    /**************************************************************************/
+    
     
     *numFunctionsToSet = sizeof(extensionFunctions) / sizeof(FRENamedFunction);
     *functionsToSet = extensionFunctions;

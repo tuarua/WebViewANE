@@ -59,12 +59,13 @@ import Cocoa
     private var _userController: WKUserContentController = WKUserContentController()
 
     // must have this function !!
-    // Must set const numFunctions in WebViewANE.m to the length of this Array
+    // Make sure these funcs match those in WebViewANE.m
     func getFunctions() -> Array<String> {
 
         functionsToSet["reload"] = reload
         functionsToSet["load"] = load
         functionsToSet["init"] = initWebView
+        functionsToSet["clearCache"] = clearCache
         functionsToSet["isSupported"] = isSupported
         functionsToSet["addToStage"] = addToStage
         functionsToSet["removeFromStage"] = removeFromStage
@@ -292,10 +293,26 @@ import Cocoa
     }
 
     func showDevTools(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
+        #if os(OSX)
+            guard let wv = _currentWebView
+                else {
+                    traceError(message: "zoomIn - no webview", line: #line, column: #column, file: #file, freError: nil)
+                    return nil
+            }
+        wv.configuration.preferences.setValue(true, forKey: "developerExtrasEnabled")
+        #endif
         return nil
     }
 
     func closeDevTools(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
+        #if os(OSX)
+            guard let wv = _currentWebView
+                else {
+                    traceError(message: "zoomIn - no webview", line: #line, column: #column, file: #file, freError: nil)
+                    return nil
+            }
+            wv.configuration.preferences.setValue(false, forKey: "developerExtrasEnabled")
+        #endif
         return nil
     }
 
@@ -528,6 +545,23 @@ import Cocoa
         return nil
     }
     
+    
+    func clearCache(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
+#if os(OSX)
+        if #available(OSX 10.11, *) {
+            let websiteDataTypes = NSSet(array: [WKWebsiteDataTypeDiskCache, WKWebsiteDataTypeMemoryCache])
+            WKWebsiteDataStore.default().removeData(ofTypes: websiteDataTypes as! Set<String>, modifiedSince: NSDate(timeIntervalSince1970: 0) as Date, completionHandler: {})
+            
+        }
+#else
+        if #available(iOS 9.0, *) {
+            let websiteDataTypes = NSSet(array: [WKWebsiteDataTypeDiskCache, WKWebsiteDataTypeMemoryCache])
+            WKWebsiteDataStore.default().removeData(ofTypes: websiteDataTypes as! Set<String>, modifiedSince: NSDate(timeIntervalSince1970: 0) as Date, completionHandler: {})
+            
+        }
+#endif
+        return nil
+    }
 
     func addTab(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
 #if os(OSX)
@@ -537,6 +571,7 @@ import Cocoa
             traceError(message: "addTab - no webview", line: #line, column: #column, file: #file, freError: nil)
             return nil
         }
+    
 
         if let initialUrlFRE: FREObject = argv[0],
             let initialUrl = FREObjectSwift.init(freObject: initialUrlFRE).value as? String {

@@ -64,6 +64,13 @@ public struct Settings {
 
     init(dictionary: Dictionary<String, AnyObject>) {
         _configuration = Configuration.init(dictionary: dictionary)
+        if #available(OSX 10.11, *) {
+            if let ce: Bool = dictionary["cacheEnabled"] as? Bool {
+                _configuration.websiteDataStore = ce ? WKWebsiteDataStore.default() : WKWebsiteDataStore.nonPersistent()
+            }
+        } else {
+            // Fallback on earlier versions
+        }
 
         if let ua: String = dictionary["userAgent"] as? String {
             _userAgent = ua

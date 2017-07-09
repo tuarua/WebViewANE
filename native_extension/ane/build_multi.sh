@@ -78,7 +78,7 @@ echo "Building Release."
 -platform MacOS-x86-64 -C "$pathtome/platforms/mac/release" "$PROJECT_NAME.framework" "library.swf" \
 -platform Windows-x86 -C "$pathtome/platforms/win/release" "$PROJECT_NAME.dll" "library.swf"
 
-zip "$pathtome/$PROJECT_NAME.ane" -u docs/*
+
 
 echo "Building Debug."
 "$AIR_SDK"/bin/adt -package \
@@ -87,7 +87,7 @@ echo "Building Debug."
 -platform MacOS-x86-64 -C "$pathtome/platforms/mac/debug" "$PROJECT_NAME.framework" "library.swf" \
 -platform Windows-x86 -C "$pathtome/platforms/win/debug" "$PROJECT_NAME.dll" "library.swf"
 
-zip "$pathtome/$PROJECT_NAME-debug.ane" -u docs/*
+
 
 if [[ -d "$pathtome/debug" ]]
 then
@@ -103,3 +103,8 @@ rm "$pathtome/$PROJECT_NAME.swc"
 rm "$pathtome/library.swf"
 rm "$pathtome/$PROJECT_NAME-debug.ane"
 
+echo "Packaging docs into ANE."
+#cd $pathtome
+zip "$pathtome/$PROJECT_NAME.ane" -u docs/*
+zip "$pathtome/$PROJECT_NAME-debug.ane" -u docs/*
+echo "DONE!"
