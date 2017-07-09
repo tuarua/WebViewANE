@@ -45,6 +45,7 @@ namespace CefSharpLib {
         public int ViewHeight { get; set; }
         public int RemoteDebuggingPort { get; set; }
         public string CachePath { get; set; }
+        public bool CacheEnabled { get; set; }
         public int LogLevel { get; set; }
         public string BrowserSubprocessPath { get; set; }
         public bool EnableDownloads { get; set; }
@@ -63,12 +64,12 @@ namespace CefSharpLib {
         public ChromiumWebBrowser CurrentBrowser;
 
         private readonly ArrayList _tabs = new ArrayList();
-        private readonly ArrayList _tabDetails = new ArrayList();
-        public ArrayList TabDetails => _tabDetails;
+        public ArrayList TabDetails { get; } = new ArrayList();
 
         private bool _isLoaded;
         private string _initialHtml;
         public int CurrentTab { get; set; }
+        
 
         public const string AsCallbackEvent = "TRWV.as.CALLBACK";
         private const string OnDownloadProgress = "WebView.OnDownloadProgress";
@@ -90,12 +91,14 @@ namespace CefSharpLib {
             Loaded += CefView_Loaded;
             var settings = new CefSettings {
                 RemoteDebuggingPort = RemoteDebuggingPort,
-                CachePath = CachePath,
+                CachePath = CacheEnabled ? CachePath : "",
                 UserAgent = UserAgent
             };
 
+        
             CefSharpSettings.ShutdownOnExit = false;
-
+        
+        
             switch (LogLevel) {
                 case 0:
                     settings.LogSeverity = LogSeverity.Default;
@@ -189,7 +192,7 @@ namespace CefSharpLib {
             browser.RequestHandler = rh;
 
             _tabs.Add(browser);
-            _tabDetails.Add(new TabDetails());
+            TabDetails.Add(new TabDetails());
 
             return browser;
         }
@@ -206,7 +209,7 @@ namespace CefSharpLib {
             CurrentBrowser = _tabs[CurrentTab] as ChromiumWebBrowser;
             _host.Child = CurrentBrowser;
 
-            if (!(_tabDetails[CurrentTab] is TabDetails tabDetails)) return;
+            if (!(TabDetails[CurrentTab] is TabDetails tabDetails)) return;
             SendPropertyChange(@"title", tabDetails.Title, CurrentTab);
             SendPropertyChange(@"url", tabDetails.Address, CurrentTab);
             SendPropertyChange(@"isLoading", tabDetails.IsLoading, CurrentTab);
@@ -230,13 +233,13 @@ namespace CefSharpLib {
             }
             var wvtc = _tabs[index] as ChromiumWebBrowser;
             _tabs.RemoveAt(index);
-            _tabDetails.RemoveAt(index);
+            TabDetails.RemoveAt(index);
             wvtc?.Dispose();
 
             CurrentBrowser = _tabs[CurrentTab] as ChromiumWebBrowser;
             _host.Child = CurrentBrowser;
 
-            if (!(_tabDetails[CurrentTab] is TabDetails tabDetails)) return;
+            if (!(TabDetails[CurrentTab] is TabDetails tabDetails)) return;
             SendPropertyChange(@"title", tabDetails.Title, CurrentTab);
             SendPropertyChange(@"url", tabDetails.Address, CurrentTab);
             SendPropertyChange(@"isLoading", tabDetails.IsLoading, CurrentTab);
@@ -275,7 +278,7 @@ namespace CefSharpLib {
         }
 
         private TabDetails GetTabDetails(int tab) {
-            return (TabDetails) _tabDetails[tab];
+            return (TabDetails) TabDetails[tab];
         }
 
         private void OnBrowserAddressChanged(object sender, AddressChangedEventArgs e) {

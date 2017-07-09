@@ -7,6 +7,7 @@ import java.util.ArrayList;
  */
 
 public class Settings {
+    private Boolean appCacheEnabled = false;
     private Boolean javaScriptEnabled = false;
     private Boolean mediaPlaybackRequiresUserGesture = false;
     private String userAgent;
@@ -19,6 +20,10 @@ public class Settings {
     private Boolean geolocationEnabled = false;
     private ArrayList<String> whiteList;
     private ArrayList<String> blackList;
+
+    public void setAppCacheEnabled(Boolean b) {appCacheEnabled = b;}
+
+    public Boolean getAppCacheEnabled() {return appCacheEnabled;}
 
     public Boolean getJavaScriptEnabled() {
         return javaScriptEnabled;
@@ -389,15 +394,7 @@ public class Settings {
 
     }
 
-    @Override
-    public void setAppCacheEnabled(boolean b) {
 
-    }
-
-    @Override
-    public void setAppCachePath(String s) {
-
-    }
 
     @Override
     public void setAppCacheMaxSize(long l) {

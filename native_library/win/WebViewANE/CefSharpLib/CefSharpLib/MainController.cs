@@ -63,6 +63,7 @@ namespace CefSharpLib {
                     {"isSupported", IsSupported},
                     {"injectScript", InjectScript},
                     {"shutDown", ShutDown},
+                    {"clearCache", ClearCache},
                     {"go", Go},
                     {"goBack", GoBack},
                     {"goForward", GoForward},
@@ -239,6 +240,7 @@ namespace CefSharpLib {
                 ViewHeight = viewPort.Height,
                 RemoteDebuggingPort = Convert.ToInt32(cefSettingsFre.GetProperty("remoteDebuggingPort").Value),
                 CachePath = Convert.ToString(cefSettingsFre.GetProperty("cachePath").Value),
+                CacheEnabled = Convert.ToBoolean(inFre2.GetProperty("cacheEnabled").Value),
                 LogLevel = Convert.ToInt32(cefSettingsFre.GetProperty("logSeverity").Value),
                 BrowserSubprocessPath = Convert.ToString(cefSettingsFre.GetProperty("browserSubprocessPath").Value),
                 ContextMenuEnabled = Convert.ToBoolean(cefSettingsFre.GetProperty("contextMenu").GetProperty("enabled")
@@ -425,6 +427,15 @@ namespace CefSharpLib {
             _view.CurrentBrowser.CloseDevTools();
             return FREObject.Zero;
         }
+        public FREObject ClearCache(FREContext ctx, uint argc, FREObject[] argv) {
+            Trace("You cannot clear the cache on Windows while CEF is running. This is a known limitation. " +
+                  "You can delete the contents of the value of your settings.cef.cachePath " +
+                  "(default File.applicationDirectory.resolvePath(\"cache\")) using Actionscript only " +
+                  "before you call .init(). Calling after .dispose() may cause issues as the " +
+                  "files may still be 'owned' by the CEF process");
+            return FREObject.Zero;
+        }
+        
 
         public FREObject OnFullScreen(FREContext ctx, uint argc, FREObject[] argv) {
             return FREObject.Zero;

@@ -549,27 +549,17 @@ public class WebViewANE extends EventDispatcher {
     }
 
     /**
-     * Clears the browser cache.
+     * <p>Clears the browser cache. Available on iOS/OSX/Android only</p>
+     * <p><strong>Ignored on Windows.</strong></p>
+     * <p>You cannot clear the cache on Windows while CEF is running. This is a known limitation.
+     * You can delete the contents of the value of your settings.cef.cachePath using Actionscript
+     * only before you call .init(). Calling after .dispose() may cause file locks as the files may
+     * still be 'owned' by the CEF process</p>
      *
      */
     public function clearCache():void {
-        if (Capabilities.os.toLowerCase().indexOf("win") == 0) {
-            //cannot clear the cache of CEF directly
-            if (_isInited) {
-                trace("You cannot clear the cache on Windows WebView when it is running, only before init of after dispose")
-            } else {
-                //TODO remove the cache folder as per settings.cef
-                if (_settings.cef.cachePath.length > 0) {
-                    trace("TODO clear this cache folder", _settings.cef.cachePath)
-                }
-
-            }
-        } else {
-            if (safetyCheck())
-                ctx.call("clearCache");
-        }
-
-
+        if (safetyCheck())
+            ctx.call("clearCache");
     }
 
 
@@ -646,7 +636,6 @@ public class WebViewANE extends EventDispatcher {
 
     }
 
-
     /**
      * This method is omitted from the output. * * @private
      */
@@ -690,6 +679,7 @@ public class WebViewANE extends EventDispatcher {
         }
         ctx.dispose();
         ctx = null;
+        _isInited = false;
     }
 
     /**
