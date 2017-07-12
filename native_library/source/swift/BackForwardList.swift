@@ -21,31 +21,31 @@
 
 import Foundation
 import WebKit
-#if os(iOS)
-    import FRESwift
-#else
+import FreSwift
+#if os(OSX)
     import Cocoa
 #endif
 
-class BackForwardList: FREObjectSwift {
-
-    convenience init(webView: WKWebView) {
+class BackForwardList: FreObjectSwift {
+    private var context: FreContextSwift!
+    convenience init(ctx:FreContextSwift, webView: WKWebView) {
         self.init()
+        context = ctx
         do {
-            if let ci = webView.backForwardList.currentItem, let freCurrentItem = try? FREObjectSwift.init(className: "com.tuarua.webview.BackForwardListItem") {
-                try freCurrentItem.setProperty(name: "url", prop: FREObjectSwift.init(string: ci.url.absoluteString))
-                try freCurrentItem.setProperty(name: "title", prop: FREObjectSwift.init(string: ci.title!))
-                try freCurrentItem.setProperty(name: "initialURL", prop: FREObjectSwift.init(string: ci.initialURL.absoluteString))
+            if let ci = webView.backForwardList.currentItem, let freCurrentItem = try? FreObjectSwift.init(className: "com.tuarua.webview.BackForwardListItem") {
+                try freCurrentItem.setProperty(name: "url", prop: FreObjectSwift.init(string: ci.url.absoluteString))
+                try freCurrentItem.setProperty(name: "title", prop: FreObjectSwift.init(string: ci.title!))
+                try freCurrentItem.setProperty(name: "initialURL", prop: FreObjectSwift.init(string: ci.initialURL.absoluteString))
                 try self.setProperty(name: "currentItem", prop: freCurrentItem)
             }
 
             var i = 0
-            if let freBackList = try? FREArraySwift.init(className: "Vector.<com.tuarua.webview.BackForwardListItem>") {
+            if let freBackList = try? FreArraySwift.init(className: "Vector.<com.tuarua.webview.BackForwardListItem>") {
                 for item in webView.backForwardList.backList {
-                    if let freItem = try? FREObjectSwift.init(className: "com.tuarua.webview.BackForwardListItem") {
-                        try freItem.setProperty(name: "url", prop: FREObjectSwift.init(string: item.url.absoluteString))
-                        try freItem.setProperty(name: "title", prop: FREObjectSwift.init(string: item.title!))
-                        try freItem.setProperty(name: "initialURL", prop: FREObjectSwift.init(string: item.initialURL.absoluteString))
+                    if let freItem = try? FreObjectSwift.init(className: "com.tuarua.webview.BackForwardListItem") {
+                        try freItem.setProperty(name: "url", prop: FreObjectSwift.init(string: item.url.absoluteString))
+                        try freItem.setProperty(name: "title", prop: FreObjectSwift.init(string: item.title!))
+                        try freItem.setProperty(name: "initialURL", prop: FreObjectSwift.init(string: item.initialURL.absoluteString))
                         try freBackList.setObjectAt(index: UInt(i), object: freItem)
                         i = i + 1
                     }
@@ -55,12 +55,12 @@ class BackForwardList: FREObjectSwift {
 
             i = 0
 
-            if let freForwardList = try? FREArraySwift.init(className: "Vector.<com.tuarua.webview.BackForwardListItem>") {
+            if let freForwardList = try? FreArraySwift.init(className: "Vector.<com.tuarua.webview.BackForwardListItem>") {
                 for item in webView.backForwardList.forwardList {
-                    if let freItem = try? FREObjectSwift.init(className: "com.tuarua.webview.BackForwardListItem") {
-                        try freItem.setProperty(name: "url", prop: FREObjectSwift.init(string: item.url.absoluteString))
-                        try freItem.setProperty(name: "title", prop: FREObjectSwift.init(string: item.title!))
-                        try freItem.setProperty(name: "initialURL", prop: FREObjectSwift.init(string: item.initialURL.absoluteString))
+                    if let freItem = try? FreObjectSwift.init(className: "com.tuarua.webview.BackForwardListItem") {
+                        try freItem.setProperty(name: "url", prop: FreObjectSwift.init(string: item.url.absoluteString))
+                        try freItem.setProperty(name: "title", prop: FreObjectSwift.init(string: item.title!))
+                        try freItem.setProperty(name: "initialURL", prop: FreObjectSwift.init(string: item.initialURL.absoluteString))
                         try freForwardList.setObjectAt(index: UInt(i), object: freItem)
                         i = i + 1
                     }
@@ -68,8 +68,8 @@ class BackForwardList: FREObjectSwift {
                 try self.setProperty(name: "forwardList", array: freForwardList)
             }
 
-        } catch let e as FREError {
-            traceError(message: "backForwardList error", line: #line, column: #column, file: #file, freError: e)
+        } catch let e as FreError {
+            traceError(ctx: context, message: "backForwardList error", line: #line, column: #column, file: #file, freError: e)
         } catch {
         }
 
@@ -78,7 +78,7 @@ class BackForwardList: FREObjectSwift {
 
     public init() {
         var freObject: FREObject? = nil
-        if let freClass = try? FREObjectSwift.init(className: "com.tuarua.webview.BackForwardList") {
+        if let freClass = try? FreObjectSwift.init(className: "com.tuarua.webview.BackForwardList") {
             if let rv = freClass.rawValue {
                 freObject = rv
             }

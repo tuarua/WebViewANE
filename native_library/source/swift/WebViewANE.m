@@ -30,8 +30,8 @@
 #import "FlashRuntimeExtensionsBridge.h"
 #import "WebViewANE_FW-Swift.h"
 
-FlashRuntimeExtensionsBridge *freBridge; // this runs the native FRE calls and returns to Swift
-FRESwiftBridge *swftBridge; // this is the bridge from Swift back to ObjectiveC
+FlashRuntimeExtensionsBridge *TRWV_freBridge; // this runs the native FRE calls and returns to Swift
+FreSwiftBridge *TRWV_swftBridge; // this is the bridge from Swift back to ObjectiveC
 
 #elif TARGET_OS_MAC
 
@@ -45,101 +45,98 @@ FRESwiftBridge *swftBridge; // this is the bridge from Swift back to ObjectiveC
 #endif
 #endif
 
-WebViewANE *swft; // our main Swift Controller
-NSArray * funcArray;
-#define FRE_FUNCTION(fn) FREObject (fn)(FREContext context, void* functionData, uint32_t argc, FREObject argv[])
+WebViewANE *TRWV_swft; // our main Swift Controller
+NSArray * TRWV_funcArray;
 
-FRE_FUNCTION(callSwiftFunction) {
-    NSString* fName = (__bridge NSString *)(functionData);
-    return [swft callSwiftFunctionWithName:fName ctx:context argc:argc argv:argv];
+/****************************************************************************/
+/****************** USE PREFIX TRWV_ TO PREVENT CLASHES  ********************/
+/****************************************************************************/
+
+#define FRE_FUNCTION(fn) FREObject (fn)(FREContext context, void* functionData, uint32_t argc, FREObject argv[])
+#define MAP_FUNCTION(fn, data) { (const uint8_t*)(#fn), (__bridge void *)(data), &TRWV_callSwiftFunction }
+
+FRE_FUNCTION(TRWV_callSwiftFunction) {
+    static NSString *const prefix = @"TRWV_";
+    NSString* name = (__bridge NSString *)(functionData);
+    NSString* fName = [NSString stringWithFormat:@"%@%@", prefix, name];
+    return [TRWV_swft callSwiftFunctionWithName:fName ctx:context argc:argc argv:argv];
 }
 
-void contextInitializer(void *extData, const uint8_t *ctxType, FREContext ctx, uint32_t *numFunctionsToSet,
+void TRWV_contextInitializer(void *extData, const uint8_t *ctxType, FREContext ctx, uint32_t *numFunctionsToSet,
                         const FRENamedFunction **functionsToSet) {
     
 #ifdef _WIN32
 #elif __APPLE__
 #if (TARGET_IPHONE_SIMULATOR) || (TARGET_OS_IPHONE)
-    freBridge = [[FlashRuntimeExtensionsBridge alloc] init];
-    swftBridge = [[FRESwiftBridge alloc] init];
-    [swftBridge setDelegateWithBridge:freBridge];
-    
-#elif TARGET_OS_MAC
-    
-#else
-#   error "Unknown Apple platform"
+    TRWV_freBridge = [[FlashRuntimeExtensionsBridge alloc] init];
+    TRWV_swftBridge = [[FreSwiftBridge alloc] init];
+    [TRWV_swftBridge setDelegateWithBridge:TRWV_freBridge];
 #endif
 #endif
     
-    swft = [[WebViewANE alloc] init];
-    [swft setFREContextWithCtx:ctx];
+    TRWV_swft = [[WebViewANE alloc] init];
+    [TRWV_swft setFREContextWithCtx:ctx];
     
-    funcArray = [swft getFunctions];
-    /**************************************************************************/
-    /********************* DO NO MODIFY ABOVE THIS LINE ***********************/
-    /**************************************************************************/
+    TRWV_funcArray = [TRWV_swft getFunctionsWithPrefix:@"TRWV_"];
     
+    /**************************************************************************/
     /******* MAKE SURE TO ADD FUNCTIONS HERE THE SAME AS SWIFT CONTROLLER *****/
     /**************************************************************************/
     static FRENamedFunction extensionFunctions[] =
     {
-        { (const uint8_t*) "reload", (__bridge void *)@"reload", &callSwiftFunction }
-        ,{ (const uint8_t*) "load", (__bridge void *)@"load", &callSwiftFunction }
-        ,{ (const uint8_t*) "init", (__bridge void *)@"init", &callSwiftFunction }
-        ,{ (const uint8_t*) "isSupported", (__bridge void *)@"isSupported", &callSwiftFunction }
-        ,{ (const uint8_t*) "addToStage", (__bridge void *)@"addToStage", &callSwiftFunction }
-        ,{ (const uint8_t*) "removeFromStage", (__bridge void *)@"removeFromStage", &callSwiftFunction }
-        ,{ (const uint8_t*) "loadHTMLString", (__bridge void *)@"loadHTMLString", &callSwiftFunction }
-        ,{ (const uint8_t*) "loadFileURL", (__bridge void *)@"loadFileURL", &callSwiftFunction }
-        ,{ (const uint8_t*) "onFullScreen", (__bridge void *)@"onFullScreen", &callSwiftFunction }
-        ,{ (const uint8_t*) "reloadFromOrigin", (__bridge void *)@"reloadFromOrigin", &callSwiftFunction }
-        ,{ (const uint8_t*) "stopLoading", (__bridge void *)@"stopLoading", &callSwiftFunction }
-        ,{ (const uint8_t*) "backForwardList", (__bridge void *)@"backForwardList", &callSwiftFunction }
-        ,{ (const uint8_t*) "go", (__bridge void *)@"go", &callSwiftFunction }
-        ,{ (const uint8_t*) "goBack", (__bridge void *)@"goBack", &callSwiftFunction }
-        ,{ (const uint8_t*) "goForward", (__bridge void *)@"goForward", &callSwiftFunction }
-        ,{ (const uint8_t*) "allowsMagnification", (__bridge void *)@"allowsMagnification", &callSwiftFunction }
-        ,{ (const uint8_t*) "zoomIn", (__bridge void *)@"zoomIn", &callSwiftFunction }
-        ,{ (const uint8_t*) "zoomOut", (__bridge void *)@"zoomOut", &callSwiftFunction }
-        ,{ (const uint8_t*) "setPositionAndSize", (__bridge void *)@"setPositionAndSize", &callSwiftFunction }
-        ,{ (const uint8_t*) "showDevTools", (__bridge void *)@"showDevTools", &callSwiftFunction }
-        ,{ (const uint8_t*) "closeDevTools", (__bridge void *)@"closeDevTools", &callSwiftFunction }
-        ,{ (const uint8_t*) "callJavascriptFunction", (__bridge void *)@"callJavascriptFunction", &callSwiftFunction }
-        ,{ (const uint8_t*) "evaluateJavaScript", (__bridge void *)@"evaluateJavaScript", &callSwiftFunction }
-        ,{ (const uint8_t*) "injectScript", (__bridge void *)@"injectScript", &callSwiftFunction }
-        ,{ (const uint8_t*) "focus", (__bridge void *)@"focus", &callSwiftFunction }
-        ,{ (const uint8_t*) "print", (__bridge void *)@"print", &callSwiftFunction }
-        ,{ (const uint8_t*) "capture", (__bridge void *)@"capture", &callSwiftFunction }
-        ,{ (const uint8_t*) "addTab", (__bridge void *)@"addTab", &callSwiftFunction }
-        ,{ (const uint8_t*) "closeTab", (__bridge void *)@"closeTab", &callSwiftFunction }
-        ,{ (const uint8_t*) "setCurrentTab", (__bridge void *)@"setCurrentTab", &callSwiftFunction }
-        ,{ (const uint8_t*) "getCurrentTab", (__bridge void *)@"getCurrentTab", &callSwiftFunction }
-        ,{ (const uint8_t*) "getTabDetails", (__bridge void *)@"getTabDetails", &callSwiftFunction }
-        ,{ (const uint8_t*) "shutDown", (__bridge void *)@"shutDown", &callSwiftFunction }
-        ,{ (const uint8_t*) "clearCache", (__bridge void *)@"clearCache", &callSwiftFunction }
+         MAP_FUNCTION(reload, @"reload")
+        ,MAP_FUNCTION(load, @"load")
+        ,MAP_FUNCTION(init, @"init")
+        ,MAP_FUNCTION(isSupported, @"isSupported")
+        ,MAP_FUNCTION(addToStage, @"addToStage")
+        ,MAP_FUNCTION(removeFromStage, @"removeFromStage")
+        ,MAP_FUNCTION(loadHTMLString, @"loadHTMLString")
+        ,MAP_FUNCTION(loadFileURL, @"loadFileURL")
+        ,MAP_FUNCTION(onFullScreen, @"onFullScreen")
+        ,MAP_FUNCTION(reloadFromOrigin, @"reloadFromOrigin")
+        ,MAP_FUNCTION(stopLoading, @"stopLoading")
+        ,MAP_FUNCTION(backForwardList, @"backForwardList")
+        ,MAP_FUNCTION(go, @"go")
+        ,MAP_FUNCTION(goBack, @"goBack")
+        ,MAP_FUNCTION(goForward, @"goForward")
+        ,MAP_FUNCTION(allowsMagnification, @"allowsMagnification")
+        ,MAP_FUNCTION(zoomIn, @"zoomIn")
+        ,MAP_FUNCTION(zoomOut, @"zoomOut")
+        ,MAP_FUNCTION(setPositionAndSize, @"setPositionAndSize")
+        ,MAP_FUNCTION(showDevTools, @"showDevTools")
+        ,MAP_FUNCTION(closeDevTools, @"closeDevTools")
+        ,MAP_FUNCTION(callJavascriptFunction, @"callJavascriptFunction")
+        ,MAP_FUNCTION(evaluateJavaScript, @"evaluateJavaScript")
+        ,MAP_FUNCTION(injectScript, @"injectScript")
+        ,MAP_FUNCTION(focus, @"focus")
+        ,MAP_FUNCTION(print, @"print")
+        ,MAP_FUNCTION(capture, @"capture")
+        ,MAP_FUNCTION(addTab, @"addTab")
+        ,MAP_FUNCTION(closeTab, @"closeTab")
+        ,MAP_FUNCTION(setCurrentTab, @"setCurrentTab")
+        ,MAP_FUNCTION(getCurrentTab, @"getCurrentTab")
+        ,MAP_FUNCTION(getTabDetails, @"getTabDetails")
+        ,MAP_FUNCTION(shutDown, @"shutDown")
+        ,MAP_FUNCTION(clearCache, @"clearCache")
     };
     /**************************************************************************/
     /**************************************************************************/
-    
     
     *numFunctionsToSet = sizeof(extensionFunctions) / sizeof(FRENamedFunction);
     *functionsToSet = extensionFunctions;
     
 }
 
-void contextFinalizer(FREContext ctx) {
-    return;
-}
+void TRWV_contextFinalizer(FREContext ctx) {}
 
 void TRWVExtInizer(void **extData, FREContextInitializer *ctxInitializer, FREContextFinalizer *ctxFinalizer) {
-    *ctxInitializer = &contextInitializer;
-    *ctxFinalizer = &contextFinalizer;
+    *ctxInitializer = &TRWV_contextInitializer;
+    *ctxFinalizer = &TRWV_contextFinalizer;
 }
 
 void TRWVExtFinizer(void *extData) {
-    FREContext nullCTX;
-    nullCTX = 0;
-    contextFinalizer(nullCTX);
+    FREContext nullCTX = 0;
+    TRWV_contextFinalizer(nullCTX);
     return;
 }
 

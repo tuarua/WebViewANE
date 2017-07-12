@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="Flex" version="4">
-  <component name="FlexBuildConfigurationManager" active="WebViewANESample-mobile Android Device">
+  <component name="FlexBuildConfigurationManager" active="WebViewANESample-mobile iOS simulator">
     <configurations>
       <configuration name="WebViewANESample-mobile iOS simulator" target-platform="Mobile" pure-as="true" main-class="WebViewANESample" output-file="WebViewANESample-mobile.swf" output-folder="$MODULE_DIR$/bin-debug">
         <dependencies>
@@ -15,6 +15,9 @@
               <dependency linkage="Merged" />
             </entry>
             <entry library-name="FiraSansSemiBold" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-name="SwiftIOSANE-ios" library-level="project">
               <dependency linkage="Merged" />
             </entry>
           </entries>
@@ -38,6 +41,7 @@
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/system" path-in-package="." />
             <FilePathAndPathInPackage file-path="$DOCUMENTS$/WebViewANE/native_extension/ane/platforms/ios/simulator/Frameworks/FRESwift.framework" path-in-package="FRESwift.framework" />
             <FilePathAndPathInPackage file-path="$DOCUMENTS$/WebViewANE/native_extension/ane/platforms/ios/simulator/Frameworks/WebViewANE_FW.framework" path-in-package="WebViewANE_FW.framework" />
+            <FilePathAndPathInPackage file-path="$DOCUMENTS$/Swift-IOS-ANE/native_extension/ane/platforms/ios/simulator/Frameworks/SwiftIOSANE_FW.framework" path-in-package="SwiftIOSANE_FW.framework" />
           </files-to-package>
           <AirSigningOptions sdk="/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk" keystore-path="$USER_HOME$/Documents/appleCertsProv/2017/dev/tuarua_dev.p12" provisioning-profile-path="$USER_HOME$/Documents/appleCertsProv/2017/dev/Tua_Rua_Dev_Provisioning.mobileprovision" />
         </packaging-ios>
@@ -52,6 +56,9 @@
               <dependency linkage="Merged" />
             </entry>
             <entry library-name="FiraSansSemiBold" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-name="SwiftIOSANE-ios" library-level="project">
               <dependency linkage="Merged" />
             </entry>
           </entries>
@@ -140,7 +147,8 @@
     </orderEntry>
     <orderEntry type="library" exported="" name="starling" level="project" />
     <orderEntry type="library" exported="" name="WebViewANE-ios" level="project" />
-    <orderEntry type="library" exported="" name="WebViewANE-mobile" level="project" />
     <orderEntry type="library" exported="" name="FiraSansSemiBold" level="project" />
+    <orderEntry type="library" exported="" name="SwiftIOSANE-ios" level="project" />
+    <orderEntry type="library" exported="" name="WebViewANE-mobile" level="project" />
   </component>
 </module>

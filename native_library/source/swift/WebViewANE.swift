@@ -21,18 +21,18 @@
 
 import Foundation
 import WebKit
-
-#if os(iOS)
-
-import FRESwift
-
-#else
-
+import FreSwift
+#if os(OSX)
 import Cocoa
-
 #endif
 
-@objc class WebViewANE: FRESwiftController, WKUIDelegate, WKNavigationDelegate, WKScriptMessageHandler {
+@objc class WebViewANE: FreSwiftController, WKUIDelegate, WKNavigationDelegate, WKScriptMessageHandler {
+    
+    private var context: FreContextSwift!
+    private func trace(_ value: Any...){
+        freTrace(ctx: context, value: value)
+    }
+    
     private var _currentWebView: WebViewVC?
     private var _currentTab: Int = 0
     private var _tabList: NSMutableArray = NSMutableArray.init()
@@ -40,7 +40,6 @@ import Cocoa
     private static let zoomIncrement:CGFloat = CGFloat.init(0.1)
     private var _initialUrl: String = ""
     private var _viewPort: CGRect = CGRect.init(x: 0, y: 0, width: 800, height: 600)
-    
     
     public enum PopupBehaviour: Int {
         case block = 0
@@ -60,48 +59,48 @@ import Cocoa
 
     // must have this function !!
     // Make sure these funcs match those in WebViewANE.m
-    func getFunctions() -> Array<String> {
-
-        functionsToSet["reload"] = reload
-        functionsToSet["load"] = load
-        functionsToSet["init"] = initWebView
-        functionsToSet["clearCache"] = clearCache
-        functionsToSet["isSupported"] = isSupported
-        functionsToSet["addToStage"] = addToStage
-        functionsToSet["removeFromStage"] = removeFromStage
-        functionsToSet["loadHTMLString"] = loadHTMLString
-        functionsToSet["loadFileURL"] = loadFileURL
-        functionsToSet["onFullScreen"] = onFullScreen
-        functionsToSet["reloadFromOrigin"] = reloadFromOrigin
-        functionsToSet["stopLoading"] = stopLoading
-        functionsToSet["backForwardList"] = backForwardList
-        functionsToSet["go"] = go
-        functionsToSet["goBack"] = goBack
-        functionsToSet["goForward"] = goForward
-        functionsToSet["allowsMagnification"] = allowsMagnification
-        functionsToSet["zoomIn"] = zoomIn
-        functionsToSet["zoomOut"] = zoomOut
-        functionsToSet["setPositionAndSize"] = setPositionAndSize
-        functionsToSet["showDevTools"] = showDevTools
-        functionsToSet["closeDevTools"] = closeDevTools
-        functionsToSet["callJavascriptFunction"] = callJavascriptFunction
-        functionsToSet["evaluateJavaScript"] = evaluateJavaScript
-        functionsToSet["injectScript"] = injectScript
-        functionsToSet["focus"] = focusWebView
-        functionsToSet["print"] = print
-        functionsToSet["capture"] = capture
-        functionsToSet["addTab"] = addTab
-        functionsToSet["closeTab"] = closeTab
-        functionsToSet["setCurrentTab"] = setCurrentTab
-        functionsToSet["getCurrentTab"] = getCurrentTab
-        functionsToSet["getTabDetails"] = getTabDetails
-        functionsToSet["shutDown"] = shutDown
-
+    func getFunctions(prefix: String) -> Array<String> {
+        
+        functionsToSet["\(prefix)reload"] = reload
+        functionsToSet["\(prefix)load"] = load
+        functionsToSet["\(prefix)init"] = initWebView
+        functionsToSet["\(prefix)clearCache"] = clearCache
+        functionsToSet["\(prefix)isSupported"] = isSupported
+        functionsToSet["\(prefix)addToStage"] = addToStage
+        functionsToSet["\(prefix)removeFromStage"] = removeFromStage
+        functionsToSet["\(prefix)loadHTMLString"] = loadHTMLString
+        functionsToSet["\(prefix)loadFileURL"] = loadFileURL
+        functionsToSet["\(prefix)onFullScreen"] = onFullScreen
+        functionsToSet["\(prefix)reloadFromOrigin"] = reloadFromOrigin
+        functionsToSet["\(prefix)stopLoading"] = stopLoading
+        functionsToSet["\(prefix)backForwardList"] = backForwardList
+        functionsToSet["\(prefix)go"] = go
+        functionsToSet["\(prefix)goBack"] = goBack
+        functionsToSet["\(prefix)goForward"] = goForward
+        functionsToSet["\(prefix)allowsMagnification"] = allowsMagnification
+        functionsToSet["\(prefix)zoomIn"] = zoomIn
+        functionsToSet["\(prefix)zoomOut"] = zoomOut
+        functionsToSet["\(prefix)setPositionAndSize"] = setPositionAndSize
+        functionsToSet["\(prefix)showDevTools"] = showDevTools
+        functionsToSet["\(prefix)closeDevTools"] = closeDevTools
+        functionsToSet["\(prefix)callJavascriptFunction"] = callJavascriptFunction
+        functionsToSet["\(prefix)evaluateJavaScript"] = evaluateJavaScript
+        functionsToSet["\(prefix)injectScript"] = injectScript
+        functionsToSet["\(prefix)focus"] = focusWebView
+        functionsToSet["\(prefix)print"] = print
+        functionsToSet["\(prefix)capture"] = capture
+        functionsToSet["\(prefix)addTab"] = addTab
+        functionsToSet["\(prefix)closeTab"] = closeTab
+        functionsToSet["\(prefix)setCurrentTab"] = setCurrentTab
+        functionsToSet["\(prefix)getCurrentTab"] = getCurrentTab
+        functionsToSet["\(prefix)getTabDetails"] = getTabDetails
+        functionsToSet["\(prefix)shutDown"] = shutDown
 
         var arr: Array<String> = []
         for key in functionsToSet.keys {
             arr.append(key)
         }
+        
         return arr
     }
 
@@ -183,7 +182,7 @@ import Cocoa
             }
             
             let json = JSON(props)
-            sendEvent(name: Constants.ON_URL_BLOCKED, value: json.description)
+            sendEvent(ctx: context, name: Constants.ON_URL_BLOCKED, value: json.description)
             decisionHandler(.cancel)
         } else {
             decisionHandler(.allow)
@@ -197,7 +196,7 @@ import Cocoa
         props["errorCode"] = 0
         props["errorText"] = withError.localizedDescription
         let json = JSON(props)
-        sendEvent(name: Constants.ON_FAIL, value: json.description)
+        sendEvent(ctx: context, name: Constants.ON_FAIL, value: json.description)
     }
 
     func isSupported(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
@@ -214,7 +213,7 @@ import Cocoa
 
         var ret: FREObject? = nil
         do {
-            ret = try FREObjectSwift.init(bool: isSupported).rawValue
+            ret = try FreObjectSwift.init(bool: isSupported).rawValue
         } catch {
         }
         return ret
@@ -224,10 +223,10 @@ import Cocoa
         var ret: FREObject? = nil
         do {
 #if os(iOS)
-            ret = try FREObjectSwift.init(bool: false).rawValue
+            ret = try FreObjectSwift.init(bool: false).rawValue
 #else
             if let wv = _currentWebView {
-                ret = try FREObjectSwift.init(bool: wv.allowsMagnification).rawValue
+                ret = try FreObjectSwift.init(bool: wv.allowsMagnification).rawValue
             }
 #endif
         } catch {
@@ -238,11 +237,11 @@ import Cocoa
     func backForwardList(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
         guard let wv = _currentWebView
           else {
-            traceError(message: "no webview", line: #line, column: #column, file: #file, freError: nil)
+            traceError(ctx: context, message: "no webview", line: #line, column: #column, file: #file, freError: nil)
             return nil
         }
 
-        let bfList = BackForwardList.init(webView: wv)
+        let bfList = BackForwardList.init(ctx: context, webView: wv)
         if let rv = bfList.rawValue {
             return rv
         }
@@ -254,9 +253,9 @@ import Cocoa
         guard argc > 0,
               let wv = _currentWebView,
               let inFRE0 = argv[0],
-              let i = FREObjectSwift.init(freObject: inFRE0).value as? Int
+              let i = FreObjectSwift.init(freObject: inFRE0).value as? Int
           else {
-            traceError(message: "go - no webview or incorrect arguments", line: #line, column: #column, file: #file, freError: nil)
+            traceError(ctx: context, message: "go - no webview or incorrect arguments", line: #line, column: #column, file: #file, freError: nil)
             return nil
         }
 
@@ -270,7 +269,7 @@ import Cocoa
         #if os(OSX)
         guard let wv = _currentWebView
             else {
-                traceError(message: "zoomIn - no webview", line: #line, column: #column, file: #file, freError: nil)
+                traceError(ctx: context, message: "zoomIn - no webview", line: #line, column: #column, file: #file, freError: nil)
                 return nil
         }
         
@@ -283,7 +282,7 @@ import Cocoa
         #if os(OSX)
         guard let wv = _currentWebView
             else {
-                traceError(message: "zoomIn - no webview", line: #line, column: #column, file: #file, freError: nil)
+                traceError(ctx: context, message: "zoomIn - no webview", line: #line, column: #column, file: #file, freError: nil)
                 return nil
         }
         
@@ -296,7 +295,7 @@ import Cocoa
         #if os(OSX)
             guard let wv = _currentWebView
                 else {
-                    traceError(message: "zoomIn - no webview", line: #line, column: #column, file: #file, freError: nil)
+                    traceError(ctx: context, message: "zoomIn - no webview", line: #line, column: #column, file: #file, freError: nil)
                     return nil
             }
         wv.configuration.preferences.setValue(true, forKey: "developerExtrasEnabled")
@@ -308,7 +307,7 @@ import Cocoa
         #if os(OSX)
             guard let wv = _currentWebView
                 else {
-                    traceError(message: "zoomIn - no webview", line: #line, column: #column, file: #file, freError: nil)
+                    traceError(ctx: context, message: "zoomIn - no webview", line: #line, column: #column, file: #file, freError: nil)
                     return nil
             }
             wv.configuration.preferences.setValue(false, forKey: "developerExtrasEnabled")
@@ -357,9 +356,9 @@ import Cocoa
         guard argc > 0,
               let wv = _currentWebView,
               let inFRE0 = argv[0],
-              let viewPortFre = FRERectangleSwift.init(freObject: inFRE0).value as? CGRect
+              let viewPortFre = FreRectangleSwift.init(freObject: inFRE0).value as? CGRect
           else {
-            traceError(message: "setPositionAndSize - no webview or incorrect arguments", line: #line, column: #column, file: #file, freError: nil)
+            traceError(ctx: context, message: "setPositionAndSize - no webview or incorrect arguments", line: #line, column: #column, file: #file, freError: nil)
             return nil
         }
 
@@ -372,9 +371,9 @@ import Cocoa
         guard argc > 0,
               let wv = _currentWebView,
               let inFRE0 = argv[0],
-              let url: String = FREObjectSwift(freObject: inFRE0).value as? String,
+              let url: String = FreObjectSwift(freObject: inFRE0).value as? String,
               !url.isEmpty else {
-            traceError(message: "load - no webview or incorrect arguments", line: #line, column: #column, file: #file, freError: nil)
+            traceError(ctx: context, message: "load - no webview or incorrect arguments", line: #line, column: #column, file: #file, freError: nil)
             return nil
         }
         wv.load(url: url)
@@ -385,9 +384,9 @@ import Cocoa
         guard argc > 0,
               let wv = _currentWebView,
               let inFRE0 = argv[0],
-              let html: String = FREObjectSwift(freObject: inFRE0).value as? String
+              let html: String = FreObjectSwift(freObject: inFRE0).value as? String
           else {
-            traceError(message: "loadHTMLString - no webview or incorrect arguments", line: #line, column: #column, file: #file, freError: nil)
+            traceError(ctx: context, message: "loadHTMLString - no webview or incorrect arguments", line: #line, column: #column, file: #file, freError: nil)
             return nil
         }
         wv.load(html: html)
@@ -399,10 +398,10 @@ import Cocoa
               let wv = _currentWebView,
               let inFRE0 = argv[0],
               let inFRE1 = argv[1],
-              let url: String = FREObjectSwift(freObject: inFRE0).value as? String,
-              let allowingReadAccessTo: String = FREObjectSwift(freObject: inFRE1).value as? String
+              let url: String = FreObjectSwift(freObject: inFRE0).value as? String,
+              let allowingReadAccessTo: String = FreObjectSwift(freObject: inFRE1).value as? String
           else {
-            traceError(message: "loadFileURL - no webview or incorrect arguments", line: #line, column: #column, file: #file, freError: nil)
+            traceError(ctx: context, message: "loadFileURL - no webview or incorrect arguments", line: #line, column: #column, file: #file, freError: nil)
             return nil
         }
         wv.load(fileUrl: url, allowingReadAccessTo: allowingReadAccessTo)
@@ -413,11 +412,11 @@ import Cocoa
 #if os(iOS)
 #else
         guard argc > 0, let inFRE0 = argv[0] else {
-            traceError(message: "onFullScreen - incorrect arguments", line: #line, column: #column, file: #file, freError: nil)
+            traceError(ctx: context, message: "onFullScreen - incorrect arguments", line: #line, column: #column, file: #file, freError: nil)
             return nil
         }
 
-        let fullScreen: Bool = FREObjectSwift.init(freObject: inFRE0).value as! Bool
+        let fullScreen: Bool = FreObjectSwift.init(freObject: inFRE0).value as! Bool
 
         let tmpIsAdded = _isAdded
         for win in NSApp.windows {
@@ -430,7 +429,7 @@ import Cocoa
                         let realY = ((NSApp.mainWindow?.contentLayoutRect.height)! - self._viewPort.size.height) - self._viewPort.origin.y
                         if (event.keyCode == 53 && theX > self._viewPort.origin.x && theX < (self._viewPort.size.width - self._viewPort.origin.x)
                           && theY > realY && theY < (realY + self._viewPort.size.height)) {
-                            sendEvent(name: Constants.ON_ESC_KEY, value: "")
+                            sendEvent(ctx: self.context, name: Constants.ON_ESC_KEY, value: "")
                         }
                         return event
                     }
@@ -491,15 +490,15 @@ import Cocoa
         guard argc > 0,
               let wv = _currentWebView,
               let inFRE0 = argv[0],
-              let js: String = FREObjectSwift(freObject: inFRE0).value as? String
+              let js: String = FreObjectSwift(freObject: inFRE0).value as? String
           else {
-            traceError(message: "evaluateJavaScript - no webview or incorrect arguments", line: #line, column: #column, file: #file, freError: nil)
+            traceError(ctx: context, message: "evaluateJavaScript - no webview or incorrect arguments", line: #line, column: #column, file: #file, freError: nil)
             return nil
         }
 
         if let inFRE1 = argv[1] {
-            let callbackFre = FREObjectSwift.init(freObject: inFRE1)
-            if FREObjectTypeSwift.string == callbackFre.getType(), let callback: String = callbackFre.value as? String {
+            let callbackFre = FreObjectSwift.init(freObject: inFRE1)
+            if FreObjectTypeSwift.string == callbackFre.getType(), let callback: String = callbackFre.value as? String {
                 wv.evaluateJavaScript(js: js, callback: callback)
                 return nil
             }
@@ -516,9 +515,9 @@ import Cocoa
     func injectScript(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
         guard argc > 0,
               let inFRE0 = argv[0],
-              let injectCode: String = FREObjectSwift(freObject: inFRE0).value as? String
+              let injectCode: String = FreObjectSwift(freObject: inFRE0).value as? String
           else {
-            traceError(message: "injectScript - no webview or incorrect arguments", line: #line, column: #column, file: #file, freError: nil)
+            traceError(ctx: context, message: "injectScript - no webview or incorrect arguments", line: #line, column: #column, file: #file, freError: nil)
             return nil
         }
 
@@ -568,13 +567,13 @@ import Cocoa
         guard argc > 0,
               let wv = _currentWebView
           else {
-            traceError(message: "addTab - no webview", line: #line, column: #column, file: #file, freError: nil)
+            traceError(ctx: context, message: "addTab - no webview", line: #line, column: #column, file: #file, freError: nil)
             return nil
         }
     
 
         if let initialUrlFRE: FREObject = argv[0],
-            let initialUrl = FREObjectSwift.init(freObject: initialUrlFRE).value as? String {
+            let initialUrl = FreObjectSwift.init(freObject: initialUrlFRE).value as? String {
             _initialUrl = initialUrl
         } else {
             _initialUrl = ""
@@ -596,11 +595,11 @@ import Cocoa
         guard argc > 0,
               let cwv = _currentWebView,
               let inFRE0 = argv[0],
-              let index: Int = FREObjectSwift(freObject: inFRE0).value as? Int,
+              let index: Int = FreObjectSwift(freObject: inFRE0).value as? Int,
               index > -1,
               index < (_tabList.count)
           else {
-            traceError(message: "closeTab - no webview or incorrect arguments", line: #line, column: #column, file: #file, freError: nil)
+            traceError(ctx: context, message: "closeTab - no webview or incorrect arguments", line: #line, column: #column, file: #file, freError: nil)
             return nil
         }
 
@@ -658,12 +657,12 @@ import Cocoa
         guard argc > 0,
               let cwv = _currentWebView,
               let inFRE0 = argv[0],
-              let index: Int = FREObjectSwift(freObject: inFRE0).value as? Int,
+              let index: Int = FreObjectSwift(freObject: inFRE0).value as? Int,
               index > -1,
               index < (_tabList.count),
               index != _currentTab
           else {
-            traceError(message: "setCurrentTab - no webview or current is already index or incorrect arguments", line: #line, column: #column, file: #file, freError: nil)
+            traceError(ctx: context, message: "setCurrentTab - no webview or current is already index or incorrect arguments", line: #line, column: #column, file: #file, freError: nil)
             return nil
         }
 
@@ -691,12 +690,12 @@ import Cocoa
     func getTabDetails(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
         var ret: FREObject? = nil
         do {
-            let airArray: FREArraySwift = try FREArraySwift.init(className: "Vector.<com.tuarua.webview.TabDetails>")
+            let airArray: FreArraySwift = try FreArraySwift.init(className: "Vector.<com.tuarua.webview.TabDetails>")
             ret = airArray.rawValue
             var cnt = 0
             for vc in _tabList {
                 if let theVC = vc as? WebViewVC {
-                    let currentTabFre = try FREObjectSwift.init(className: "com.tuarua.webview.TabDetails", args: theVC.tab, theVC.url!.absoluteString, theVC.title!, theVC.isLoading, theVC.canGoBack, theVC.canGoForward, theVC.estimatedProgress)
+                    let currentTabFre = try FreObjectSwift.init(className: "com.tuarua.webview.TabDetails", args: theVC.tab, theVC.url!.absoluteString, theVC.title!, theVC.isLoading, theVC.canGoBack, theVC.canGoForward, theVC.estimatedProgress)
                     try airArray.setObjectAt(index: UInt(cnt), object: currentTabFre)
                     cnt = cnt + 1
                 }
@@ -710,7 +709,7 @@ import Cocoa
     func getCurrentTab(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
         var ret: FREObject? = nil
         do {
-            ret = try FREObjectSwift.init(int: _currentTab).rawValue
+            ret = try FreObjectSwift.init(int: _currentTab).rawValue
         } catch {
         }
         return ret
@@ -722,7 +721,7 @@ import Cocoa
     public func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         if let messageBody: NSDictionary = message.body as? NSDictionary {
             let json = JSON(messageBody)
-            sendEvent(name: Constants.JS_CALLBACK_EVENT, value: json.description)
+            sendEvent(ctx: context, name: Constants.JS_CALLBACK_EVENT, value: json.description)
         }
     }
 
@@ -732,7 +731,7 @@ import Cocoa
     public func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         if let messageBody: NSDictionary = message.body as? NSDictionary {
             let json = JSON(messageBody)
-            sendEvent(name: Constants.JS_CALLBACK_EVENT, value: json.description)
+            sendEvent(ctx: context, name: Constants.JS_CALLBACK_EVENT, value: json.description)
         }
     }
 
@@ -740,7 +739,7 @@ import Cocoa
 
 
     fileprivate func createNewBrowser(frame: CGRect, tab: Int) -> WebViewVC {
-        let wv = WebViewVC(frame: frame, configuration: _settings.configuration, tab: tab)
+        let wv = WebViewVC(ctx: context, frame: frame, configuration: _settings.configuration, tab: tab)
 
         wv.translatesAutoresizingMaskIntoConstraints = false
         wv.navigationDelegate = self
@@ -777,13 +776,13 @@ import Cocoa
               let inFRE1 = argv[1],
               let inFRE4 = argv[4],
               let inFRE5 = argv[5],
-              let viewPortFre = FRERectangleSwift.init(freObject: inFRE1).value as? CGRect
+              let viewPortFre = FreRectangleSwift.init(freObject: inFRE1).value as? CGRect
           else {
-            traceError(message: "initWebView - incorrect arguments", line: #line, column: #column, file: #file, freError: nil)
+            traceError(ctx: context, message: "initWebView - incorrect arguments", line: #line, column: #column, file: #file, freError: nil)
             return nil
         }
         if let initialUrlFRE: FREObject = argv[0],
-           let initialUrl = FREObjectSwift.init(freObject: initialUrlFRE).value as? String {
+           let initialUrl = FreObjectSwift.init(freObject: initialUrlFRE).value as? String {
             _initialUrl = initialUrl
         }
 
@@ -791,7 +790,7 @@ import Cocoa
         var realY = _viewPort.origin.y
 #if os(iOS)
         do {
-            _bgColor = try FRESwiftHelper.toUIColor(freObject: inFRE4, alpha: inFRE5)
+            _bgColor = try FreSwiftHelper.toUIColor(freObject: inFRE4, alpha: inFRE5)
         } catch {
         }
 #else
@@ -815,7 +814,7 @@ import Cocoa
 
 
         if let settingsFRE: FREObject = argv[2] {
-            if let settingsDict = FREObjectSwift.init(freObject: settingsFRE).value as? Dictionary<String, AnyObject> {
+            if let settingsDict = FreObjectSwift.init(freObject: settingsFRE).value as? Dictionary<String, AnyObject> {
                 _settings = Settings.init(dictionary: settingsDict)
 
 #if os(OSX)
@@ -844,7 +843,7 @@ import Cocoa
     }
 
     func setFREContext(ctx: FREContext) {
-        context = FREContextSwift.init(freContext: ctx)
+        context = FreContextSwift.init(freContext: ctx)
     }
 
 }

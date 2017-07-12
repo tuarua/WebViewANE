@@ -96,6 +96,7 @@
 
     <extensions>
         <extensionID>com.tuarua.WebViewANE</extensionID>
+        <extensionID>com.tuarua.SwiftIOSANE</extensionID>
     </extensions>
 
 </application>

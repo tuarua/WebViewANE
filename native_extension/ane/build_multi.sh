@@ -57,13 +57,8 @@ cp -R -L "$pathtome/../../native_library/mac/$PROJECT_NAME/$PROJECT_NAME/$PROJEC
 cp -R -L "$pathtome/../../native_library/mac/$PROJECT_NAME/Build/Products/Release/$PROJECT_NAME.framework" "$pathtome/platforms/mac/release"
 cp -R -L "$pathtome/../../native_library/mac/$PROJECT_NAME/Build/Products/Debug/$PROJECT_NAME.framework" "$pathtome/platforms/mac/debug"
 
-mv "$pathtome/platforms/mac/debug/$PROJECT_NAME.framework/Versions/A/Frameworks" "$pathtome/platforms/mac/debug/$PROJECT_NAME.framework"
-mv "$pathtome/platforms/mac/release/$PROJECT_NAME.framework/Versions/A/Frameworks" "$pathtome/platforms/mac/release/$PROJECT_NAME.framework"
-
 rm -r "$pathtome/platforms/mac/debug/$PROJECT_NAME.framework/Versions"
 rm -r "$pathtome/platforms/mac/release/$PROJECT_NAME.framework/Versions"
-
-
 
 if [ -d "$pathtome/../../native_library/win/$PROJECT_NAME/Release" ]; then
 cp -R -L "$pathtome/../../native_library/win/$PROJECT_NAME/Release/$PROJECT_NAME.dll" "$pathtome/platforms/win/release"

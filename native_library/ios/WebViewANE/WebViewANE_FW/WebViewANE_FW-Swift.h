@@ -135,7 +135,7 @@ SWIFT_CLASS("_TtC13WebViewANE_FW10WebViewANE")
 @interface WebViewANE : NSObject
 //Must have these 3 functions
 - (void)setFREContextWithCtx:(FREContext _Nonnull)ctx;
-- (NSArray *_Nonnull) getFunctions;
+- (NSArray *_Nonnull) getFunctionsWithPrefix:(NSString * _Nonnull)prefix;
 - (FREObject _Nullable)callSwiftFunctionWithName:(NSString * _Nonnull)name
                                              ctx:(FREContext _Nonnull)ctx
                                             argc:(uint32_t)argc

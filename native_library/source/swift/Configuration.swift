@@ -21,9 +21,8 @@
 
 import Foundation
 import WebKit
-#if os(iOS)
-    import FRESwift
-#else
+import FreSwift
+#if os(OSX)
     import Cocoa
 #endif
 

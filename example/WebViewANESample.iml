@@ -14,6 +14,9 @@
             <entry library-name="WebViewANE" library-level="project">
               <dependency linkage="Merged" />
             </entry>
+            <entry library-name="CommonDependencies" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
           </entries>
           <sdk name="AIRSDK_26" />
         </dependencies>
@@ -47,5 +50,6 @@
     <orderEntry type="library" exported="" name="FiraSansSemiBold" level="project" />
     <orderEntry type="library" exported="" name="WebViewANE" level="project" />
     <orderEntry type="library" exported="" name="WindowsHelperANE" level="project" />
+    <orderEntry type="library" exported="" name="CommonDependencies" level="project" />
   </component>
 </module>

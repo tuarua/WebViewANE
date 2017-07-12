@@ -3,6 +3,7 @@
  */
 
 package {
+import com.tuarua.CommonDependencies;
 import com.tuarua.WebViewANE;
 import com.tuarua.webview.ActionscriptCallback;
 import com.tuarua.webview.BackForwardList;
@@ -52,6 +53,7 @@ import views.TabBar;
 import views.forms.Input;
 
 public class StarlingRoot extends Sprite {
+    private var commonDependenciesANE:CommonDependencies = new CommonDependencies();//must create before all others
     private var webView:WebViewANE = new WebViewANE();
     private var backBtn:Image = new Image(Assets.getAtlas().getTexture("back-btn"));
     private var fwdBtn:Image = new Image(Assets.getAtlas().getTexture("fwd-btn"));
@@ -606,6 +608,7 @@ public class StarlingRoot extends Sprite {
      */
     private function onExiting(event:Event):void {
         webView.dispose();
+        commonDependenciesANE.dispose();
     }
 
 

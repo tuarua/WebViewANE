@@ -8,10 +8,6 @@
 		<data>
 		gPQtdp3Ik3WzMau/tHvNG0bN9G4=
 		</data>
-		<key>Frameworks/libswiftCoreFoundation.dylib</key>
-		<data>
-		OsD98ZxvsXrWq9+YKLUmDK3QGiw=
-		</data>
 		<key>Frameworks/libswiftCoreGraphics.dylib</key>
 		<data>
 		ivszBo5T83JzHf/wsXZnabbLjbk=
@@ -44,45 +40,41 @@
 		<data>
 		McgM+8MzubvqMEZdVuW7jHMYYV4=
 		</data>
-		<key>Frameworks/libswiftos.dylib</key>
-		<data>
-		JrOVRyAyGLL534KYrCxSVIZ8R2g=
-		</data>
-		<key>Headers/FRESwift-Swift.h</key>
-		<data>
-		r3OH/9T9Yuz1pBwjPiqte93JIws=
-		</data>
-		<key>Headers/FRESwift.h</key>
-		<data>
-		l+arm3cBBRXl9r8o71skRLsq9TI=
-		</data>
 		<key>Headers/FlashRuntimeExtensions.h</key>
 		<data>
 		Q5TJLXHp3ThyB7djK/cHK+MtS1M=
 		</data>
+		<key>Headers/FreSwift-Swift.h</key>
+		<data>
+		LGiVv1gyoTgLlaYnHmidvuefYYo=
+		</data>
+		<key>Headers/FreSwift.h</key>
+		<data>
+		qkXv7r8Il45hjwaj40tIi8FaTFI=
+		</data>
 		<key>Info.plist</key>
 		<data>
-		BzTK5KmotuevhpdEQyEJDourEM0=
+		KoL+zp5nh3aoOYq1OdsdUekvEAA=
 		</data>
-		<key>Modules/FRESwift.swiftmodule/i386.swiftdoc</key>
+		<key>Modules/FreSwift.swiftmodule/i386.swiftdoc</key>
 		<data>
 		YtrnKP+wc/E95Xl5ogIHwtnn5mM=
 		</data>
-		<key>Modules/FRESwift.swiftmodule/i386.swiftmodule</key>
+		<key>Modules/FreSwift.swiftmodule/i386.swiftmodule</key>
 		<data>
-		o6HpVPc56BQxQ1Akp1tOdXkNPUw=
+		eFuQI7byKvlzr/8YsOftKyDysKQ=
 		</data>
-		<key>Modules/FRESwift.swiftmodule/x86_64.swiftdoc</key>
+		<key>Modules/FreSwift.swiftmodule/x86_64.swiftdoc</key>
 		<data>
 		/9co+HImCHvlKmIWVs3E9seK7uI=
 		</data>
-		<key>Modules/FRESwift.swiftmodule/x86_64.swiftmodule</key>
+		<key>Modules/FreSwift.swiftmodule/x86_64.swiftmodule</key>
 		<data>
-		32EycovMSGNuO2n8UiNRsc6s/mU=
+		KfbuFch/nDPrYojpuyRlr2wNIME=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
-		5M9ME5GwW/qUcRXNYJb/cSlI3Dc=
+		RxjatPdzjkh4Ftc7D4fH/xkncFo=
 		</data>
 		<key>libswiftRemoteMirror.dylib</key>
 		<data>
@@ -100,17 +92,6 @@
 			<key>hash2</key>
 			<data>
 			FMczgXVb/3R/gAGqUFDJz2lK+TjOG2h02bnkjH6HUrk=
-			</data>
-		</dict>
-		<key>Frameworks/libswiftCoreFoundation.dylib</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			OsD98ZxvsXrWq9+YKLUmDK3QGiw=
-			</data>
-			<key>hash2</key>
-			<data>
-			doDcfN3xLuH72A7FAw8fGYli5h5YCsnpu01KQ/BMuU0=
 			</data>
 		</dict>
 		<key>Frameworks/libswiftCoreGraphics.dylib</key>
@@ -201,39 +182,6 @@
 			ROSIwfDt3skQEuNVDpcbuXCfF7csJv31U6bsVo0ztcw=
 			</data>
 		</dict>
-		<key>Frameworks/libswiftos.dylib</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			JrOVRyAyGLL534KYrCxSVIZ8R2g=
-			</data>
-			<key>hash2</key>
-			<data>
-			g38UaCsaEcudIzCggTikExq5D8ud4vFXXV4rSzxfzfk=
-			</data>
-		</dict>
-		<key>Headers/FRESwift-Swift.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			r3OH/9T9Yuz1pBwjPiqte93JIws=
-			</data>
-			<key>hash2</key>
-			<data>
-			FKHXCqFYso1mhAyYUxa18iu9wxJEjpiOu4k9k9/OgKk=
-			</data>
-		</dict>
-		<key>Headers/FRESwift.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			l+arm3cBBRXl9r8o71skRLsq9TI=
-			</data>
-			<key>hash2</key>
-			<data>
-			6datFw7tA4zu86EyXYNdkWZt5Allj3Kea4vTCCOOXDg=
-			</data>
-		</dict>
 		<key>Headers/FlashRuntimeExtensions.h</key>
 		<dict>
 			<key>hash</key>
@@ -245,7 +193,29 @@
 			XT7E9Z1YC4dl1sdsGdFvALhgLhBQ5lSTdjnKwfrMduY=
 			</data>
 		</dict>
-		<key>Modules/FRESwift.swiftmodule/i386.swiftdoc</key>
+		<key>Headers/FreSwift-Swift.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			LGiVv1gyoTgLlaYnHmidvuefYYo=
+			</data>
+			<key>hash2</key>
+			<data>
+			cQKvEk13OyDYOfECyUk2Bnd1nxrrEMD8Mb1tGN2rDXE=
+			</data>
+		</dict>
+		<key>Headers/FreSwift.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			qkXv7r8Il45hjwaj40tIi8FaTFI=
+			</data>
+			<key>hash2</key>
+			<data>
+			ZANO5biJkYi9YH4WF151RMkSaf205QkccK08PcVbA2s=
+			</data>
+		</dict>
+		<key>Modules/FreSwift.swiftmodule/i386.swiftdoc</key>
 		<dict>
 			<key>hash</key>
 			<data>
@@ -256,18 +226,18 @@
 			0No+3n1mwEzPXFudvHiMDyeRyB5IN0hNillRY0SdRe8=
 			</data>
 		</dict>
-		<key>Modules/FRESwift.swiftmodule/i386.swiftmodule</key>
+		<key>Modules/FreSwift.swiftmodule/i386.swiftmodule</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			o6HpVPc56BQxQ1Akp1tOdXkNPUw=
+			eFuQI7byKvlzr/8YsOftKyDysKQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			GQ6vRteqhrNSxgSNtwhlkT3B4XP/EvVBnyitSF3FdWQ=
+			/hIEwCk0ob7eHY3NW/Ai7SIrwXbiG8iQylTsZnnZCsk=
 			</data>
 		</dict>
-		<key>Modules/FRESwift.swiftmodule/x86_64.swiftdoc</key>
+		<key>Modules/FreSwift.swiftmodule/x86_64.swiftdoc</key>
 		<dict>
 			<key>hash</key>
 			<data>
@@ -278,26 +248,26 @@
 			t8IdDnoyDkf15Fn/+c2QlBOAMx+d4SVwhIGwPXhpioc=
 			</data>
 		</dict>
-		<key>Modules/FRESwift.swiftmodule/x86_64.swiftmodule</key>
+		<key>Modules/FreSwift.swiftmodule/x86_64.swiftmodule</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			32EycovMSGNuO2n8UiNRsc6s/mU=
+			KfbuFch/nDPrYojpuyRlr2wNIME=
 			</data>
 			<key>hash2</key>
 			<data>
-			tDcf1nhENwDstldk+lKQURJ1j3JjwzA+MlHPTRb7SuE=
+			4ue+HyeJdCMa1hXo7P7FfiwUi0b57efqpcTMfDajXtk=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			5M9ME5GwW/qUcRXNYJb/cSlI3Dc=
+			RxjatPdzjkh4Ftc7D4fH/xkncFo=
 			</data>
 			<key>hash2</key>
 			<data>
-			Pi8NDF64AFiHgMC67g2yAuoGYk00zv48PjXN77nAGm0=
+			E6S3uBBtiqrQmv9wK642QpK6yeHJCkcbBsCD+9IhHQQ=
 			</data>
 		</dict>
 		<key>libswiftRemoteMirror.dylib</key>

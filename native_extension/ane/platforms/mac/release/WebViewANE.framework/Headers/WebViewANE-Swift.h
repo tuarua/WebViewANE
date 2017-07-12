@@ -143,7 +143,7 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 SWIFT_CLASS("_TtC10WebViewANE10WebViewANE")
 @interface WebViewANE : NSObject
 - (void)setFREContextWithCtx:(FREContext _Nonnull)ctx;
-- (NSArray *_Nonnull) getFunctions;
+- (NSArray *_Nonnull) getFunctionsWithPrefix:(NSString * _Nonnull)prefix;
 - (FREObject _Nullable)callSwiftFunctionWithName:(NSString * _Nonnull)name
                                              ctx:(FREContext _Nonnull)ctx
                                             argc:(uint32_t)argc

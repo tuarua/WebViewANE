@@ -1,10 +1,10 @@
-framework module FRESwift {
-  umbrella header "FRESwift.h"
+framework module FreSwift {
+  umbrella header "FreSwift.h"
 
   export *
   module * { export * }
 }
 
-module FRESwift.Swift {
-    header "FRESwift-Swift.h"
+module FreSwift.Swift {
+    header "FreSwift-Swift.h"
 }
