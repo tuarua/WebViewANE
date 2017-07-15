@@ -12,7 +12,7 @@ PROJECTNAME=WebViewANE
 fwSuffix="_FW"
 libSuffix="_LIB"
 
-AIR_SDK="/Users/User/sdks/AIR/AIRSDK_25"
+AIR_SDK="/Users/User/sdks/AIR/AIRSDK_26"
 echo $AIR_SDK
 
 #Setup the directory.
@@ -64,10 +64,10 @@ echo "Copying native libraries into place."
 cp -R -L "$pathtome/../../native_library/ios/$PROJECTNAME/Build/Products/Release-iphonesimulator/lib$PROJECTNAME$libSuffix.a" "$pathtome/platforms/ios/simulator/lib$PROJECTNAME.a"
 cp -R -L "$pathtome/../../native_library/ios/$PROJECTNAME/Build/Products/Release-iphoneos/lib$PROJECTNAME$libSuffix.a" "$pathtome/platforms/ios/device/lib$PROJECTNAME.a"
 
-cp -R -L "$pathtome/../../native_library/ios/$PROJECTNAME/FRESwift/FRESwift-Swift.h" "$pathtome/../../native_library/ios/$PROJECTNAME/Build/Products/Release-iphonesimulator/FRESwift.framework/Headers/FRESwift-Swift.h"
-cp -R -L "$pathtome/../../native_library/ios/$PROJECTNAME/FRESwift/FRESwift-Swift.h" "$pathtome/../../native_library/ios/$PROJECTNAME/Build/Products/Release-iphoneos/FRESwift.framework/Headers/FRESwift-Swift.h"
-cp -R -L "$pathtome/../../native_library/ios/$PROJECTNAME/FRESwift/FRESwift-Swift.h" "$pathtome/../../native_library/ios/$PROJECTNAME/Build/Products/Debug-iphonesimulator/FRESwift.framework/Headers/FRESwift-Swift.h"
-cp -R -L "$pathtome/../../native_library/ios/$PROJECTNAME/FRESwift/FRESwift-Swift.h" "$pathtome/../../native_library/ios/$PROJECTNAME/Build/Products/Debug-iphoneos/FRESwift.framework/Headers/FRESwift-Swift.h"
+cp -R -L "$pathtome/../../native_library/ios/$PROJECTNAME/FRESwift/FRESwift-iOS-Swift.h" "$pathtome/../../native_library/ios/$PROJECTNAME/Build/Products/Release-iphonesimulator/FRESwift.framework/Headers/FRESwift-Swift.h"
+cp -R -L "$pathtome/../../native_library/ios/$PROJECTNAME/FRESwift/FRESwift-iOS-Swift.h" "$pathtome/../../native_library/ios/$PROJECTNAME/Build/Products/Release-iphoneos/FRESwift.framework/Headers/FRESwift-Swift.h"
+cp -R -L "$pathtome/../../native_library/ios/$PROJECTNAME/FRESwift/FRESwift-iOS-Swift.h" "$pathtome/../../native_library/ios/$PROJECTNAME/Build/Products/Debug-iphonesimulator/FRESwift.framework/Headers/FRESwift-Swift.h"
+cp -R -L "$pathtome/../../native_library/ios/$PROJECTNAME/FRESwift/FRESwift-iOS-Swift.h" "$pathtome/../../native_library/ios/$PROJECTNAME/Build/Products/Debug-iphoneos/FRESwift.framework/Headers/FRESwift-Swift.h"
 
 
 cp -R -L "$pathtome/../../native_library/ios/$PROJECTNAME/Build/Products/Release-iphonesimulator/FRESwift.framework" "$pathtome/platforms/ios/simulator/Frameworks"
@@ -93,10 +93,10 @@ echo "Generating ANE."
 -swc "$pathtome/$PROJECTNAME.swc" \
 -platform Android-ARM \
 -C "$pathtome/platforms/android" "library.swf" "classes.jar" \
--platformoptions "platforms/android/platform.xml" "res/values/strings.xml" \
+-platformoptions "$pathtome/platforms/android/platform.xml" "res/values/strings.xml" \
 -platform Android-x86 \
 -C "$pathtome/platforms/android" "library.swf" "classes.jar" \
--platformoptions "platforms/android/platform.xml" "res/values/strings.xml" \
+-platformoptions "$pathtome/platforms/android/platform.xml" "res/values/strings.xml" \
 -platform iPhone-x86  -C "$pathtome/platforms/ios/simulator" "library.swf" "lib$PROJECTNAME.a" \
 -platformoptions "$pathtome/platforms/ios/platform.xml" \
 -C $pathtome/platforms/ios/simulator/Frameworks/ . \
@@ -105,7 +105,6 @@ echo "Generating ANE."
 -C $pathtome/platforms/ios/device/Frameworks/ . \
 -platform default -C "$pathtome/platforms/default" "library.swf"
 
-zip "$pathtome/mobile/$PROJECTNAME-mobile.ane" -u docs/*
 
 rm -r "$pathtome/platforms/default"
 rm "$pathtome/$PROJECTNAME.swc"
@@ -113,4 +112,7 @@ rm "$pathtome/library.swf"
 rm "$pathtome/platforms/android/library.swf"
 rm "$pathtome/platforms/android/classes.jar"
 
+echo "Packaging docs into ANE."
+#cd $pathtome
+zip "$pathtome/mobile/$PROJECTNAME-mobile.ane" -u docs/*
 echo "DONE!"

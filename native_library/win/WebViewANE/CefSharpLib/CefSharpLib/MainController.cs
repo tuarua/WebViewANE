@@ -63,6 +63,7 @@ namespace CefSharpLib {
                     {"isSupported", IsSupported},
                     {"injectScript", InjectScript},
                     {"shutDown", ShutDown},
+                    {"clearCache", ClearCache},
                     {"go", Go},
                     {"goBack", GoBack},
                     {"goForward", GoForward},
@@ -98,7 +99,6 @@ namespace CefSharpLib {
 
             return FunctionsDict.Select(kvp => kvp.Key).ToArray();
         }
-
 
         private FREObject Capture(FREContext ctx, uint argc, FREObject[] argv) {
             var rect = new WinApi.Rect();
@@ -239,6 +239,7 @@ namespace CefSharpLib {
                 ViewHeight = viewPort.Height,
                 RemoteDebuggingPort = Convert.ToInt32(cefSettingsFre.GetProperty("remoteDebuggingPort").Value),
                 CachePath = Convert.ToString(cefSettingsFre.GetProperty("cachePath").Value),
+                CacheEnabled = Convert.ToBoolean(inFre2.GetProperty("cacheEnabled").Value),
                 LogLevel = Convert.ToInt32(cefSettingsFre.GetProperty("logSeverity").Value),
                 BrowserSubprocessPath = Convert.ToString(cefSettingsFre.GetProperty("browserSubprocessPath").Value),
                 ContextMenuEnabled = Convert.ToBoolean(cefSettingsFre.GetProperty("contextMenu").GetProperty("enabled")
@@ -423,6 +424,9 @@ namespace CefSharpLib {
 
         public FREObject CloseDevTools(FREContext ctx, uint argc, FREObject[] argv) {
             _view.CurrentBrowser.CloseDevTools();
+            return FREObject.Zero;
+        }
+        public FREObject ClearCache(FREContext ctx, uint argc, FREObject[] argv) {
             return FREObject.Zero;
         }
 

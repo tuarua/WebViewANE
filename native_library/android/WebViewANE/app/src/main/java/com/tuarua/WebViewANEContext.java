@@ -1,14 +1,10 @@
 package com.tuarua;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Rect;
-import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.Xml;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.webkit.CookieManager;
@@ -17,7 +13,6 @@ import android.webkit.JavascriptInterface;
 import android.webkit.PermissionRequest;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
-import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
@@ -57,7 +52,7 @@ class WebViewANEContext extends FREContext {
     private int backgroundAlpha;
     private WebView webView;
     private RelativeLayout container;
-    ViewGroup airView;
+    private ViewGroup airView;
     private static final String TRACE = "TRACE";
     private double progress = 0.0;
     private boolean isLoading = false;
@@ -69,6 +64,7 @@ class WebViewANEContext extends FREContext {
         Map<String, FREFunction> functionsToSet = new HashMap<>();
         functionsToSet.put("init", new init());
         functionsToSet.put("isSupported", new isSupported());
+        functionsToSet.put("clearCache", new clearCache());
         functionsToSet.put("addToStage", new addToStage());
         functionsToSet.put("removeFromStage", new removeFromStage());
         functionsToSet.put("load", new load());
@@ -158,11 +154,11 @@ class WebViewANEContext extends FREContext {
             webSettings.setAllowFileAccessFromFileURLs(settings.getAllowFileAccessFromFileURLs());
             webSettings.setAllowUniversalAccessFromFileURLs(settings.getAllowUniversalAccessFromFileURLs());
             webSettings.setGeolocationEnabled(settings.getGeolocationEnabled());
+            webSettings.setAppCacheEnabled(settings.getAppCacheEnabled());
 
             // AppRTC requires third party cookies to work
             CookieManager cookieManager = CookieManager.getInstance();
             cookieManager.setAcceptThirdPartyCookies(webView, true);
-
             //webSettings.setBuiltInZoomControls(true);
 
             webView.setHorizontalScrollBarEnabled(false);
@@ -410,7 +406,7 @@ class WebViewANEContext extends FREContext {
                 settings.setMediaPlaybackRequiresUserGesture(
                         freSettings.getProperty("mediaPlaybackRequiresUserGesture").getAsBool());
                 settings.setUserAgent(argv[2].getProperty("userAgent").getAsString());
-
+                settings.setAppCacheEnabled(argv[2].getProperty("cacheEnabled").getAsBool());
                 settings.setJavaScriptCanOpenWindowsAutomatically(
                         freSettings.getProperty("javaScriptCanOpenWindowsAutomatically").getAsBool());
                 settings.setBlockNetworkImage(freSettings.getProperty("blockNetworkImage").getAsBool());
@@ -761,9 +757,9 @@ class WebViewANEContext extends FREContext {
                 vecTabs.setLength(1);
 
 
-                //index,
+                // index,
                 // tabDetail.Address,
-                //tabDetail.Title,
+                // tabDetail.Title,
                 // tabDetail.IsLoading,
                 // tabDetail.CanGoBack,
                 // tabDetail.CanGoForward,
@@ -809,6 +805,14 @@ class WebViewANEContext extends FREContext {
                 e.printStackTrace();
             }
             return result;
+        }
+    }
+
+    private class clearCache implements FREFunction {
+        @Override
+        public FREObject call(FREContext freContext, FREObject[] freObjects) {
+            webView.clearCache(true);
+            return null;
         }
     }
 }

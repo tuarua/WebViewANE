@@ -56,11 +56,7 @@ public class WebViewEvent extends Event {
      * <p><strong>Windows only.</strong></p>
      */
     public static const ON_DOWNLOAD_CANCEL:String = "WebView.OnDownloadCancel";
-    /**
-     * Dispatched when Esc key is pressed. Use this to exit fullscreen.
-     * <p><strong>Windows and OSX only.</strong></p>
-     */
-    public static const ON_ESC_KEY:String = "WebView.OnEscKey";
+
     /**
      * Dispatched when permission is granted / denied.
      * <p><strong>Windows only.</strong></p>

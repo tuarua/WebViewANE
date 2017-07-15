@@ -21,15 +21,9 @@
 
 import Foundation
 import WebKit
-
-#if os(iOS)
-
-import FRESwift
-
-#else
-
-import Cocoa
-
+import FreSwift
+#if os(OSX)
+    import Cocoa
 #endif
 
 public struct Settings {
@@ -64,6 +58,19 @@ public struct Settings {
 
     init(dictionary: Dictionary<String, AnyObject>) {
         _configuration = Configuration.init(dictionary: dictionary)
+        #if os(iOS)
+            if let ce: Bool = dictionary["cacheEnabled"] as? Bool {
+                _configuration.websiteDataStore = ce ? WKWebsiteDataStore.default() : WKWebsiteDataStore.nonPersistent()
+            }
+        #else
+            if #available(OSX 10.11, *) {
+                if let ce: Bool = dictionary["cacheEnabled"] as? Bool {
+                    _configuration.websiteDataStore = ce ? WKWebsiteDataStore.default() : WKWebsiteDataStore.nonPersistent()
+                }
+            } else {
+                // Fallback on earlier versions
+            }
+        #endif
 
         if let ua: String = dictionary["userAgent"] as? String {
             _userAgent = ua

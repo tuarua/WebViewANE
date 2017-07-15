@@ -168,6 +168,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\include\FreSharpMacros.h" />
     <ClInclude Include="..\..\..\include\stdafx.h" />
     <ClInclude Include="..\..\..\include\WebViewANE.h" />
     <ClInclude Include="..\..\..\source\FreNamespace.h" />

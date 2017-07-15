@@ -3,7 +3,7 @@
 	<id>com.tuarua.WebViewANE</id>
 	<name>WebView ANE</name>
 	<copyright>This work is licensed under Apache License, Copyright (c) 2017 Tua Rua Ltd.</copyright>
-	<versionNumber>0.0.25</versionNumber>
+	<versionNumber>0.0.26</versionNumber>
 	<platforms>
 	<platform name="MacOS-x86-64">
 		<applicationDeployment>

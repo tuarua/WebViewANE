@@ -19,6 +19,7 @@
 //  OSX and/or iOS and/or Android.
 //  All Rights Reserved. Tua Rua Ltd.
 
+#include "FreSharpMacros.h"
 #include "WebViewANE.h"
 #include "FlashRuntimeExtensions.h"
 #include "stdafx.h"
@@ -38,71 +39,58 @@ extern "C" {
 		return true;
 	}
 
-	void contextInitializer(void* extData, const uint8_t* ctxType, FREContext ctx, uint32_t* numFunctionsToSet, const FRENamedFunction** functionsToSet) {
+	CONTEXT_INIT(TRWV) {
 		
 		FreSharpBridge::InitController();
 		FreSharpBridge::SetFREContext(ctx);
 		FreSharpBridge::GetFunctions();
 		
-
-		//TODO how to pass functionData without losing the string reference
-
 		static FRENamedFunction extensionFunctions[] = {
-			{ (const uint8_t *) "isSupported","isSupported", &callSharpFunction }
-			,{ (const uint8_t *) "init","init", &callSharpFunction }
-			,{ (const uint8_t *) "addToStage", "addToStage", &callSharpFunction }
-			,{ (const uint8_t *) "removeFromStage", "removeFromStage", &callSharpFunction }
-			,{ (const uint8_t *) "injectScript", "injectScript", &callSharpFunction }
-			,{ (const uint8_t *) "load","load", &callSharpFunction }
-			,{ (const uint8_t *) "loadFileURL", "loadFileURL", &callSharpFunction }
-			,{ (const uint8_t *) "reload", "reload", &callSharpFunction }
-			,{ (const uint8_t *) "reloadFromOrigin", "reloadFromOrigin", &callSharpFunction }
-			,{ (const uint8_t *) "go", "go", &callSharpFunction }
-			,{ (const uint8_t *) "goBack", "goBack", &callSharpFunction }
-			,{ (const uint8_t *) "goForward", "goForward", &callSharpFunction }
-			,{ (const uint8_t *) "stopLoading", "stopLoading", &callSharpFunction }
-			,{ (const uint8_t *) "backForwardList", "backForwardList", &callSharpFunction }
-			,{ (const uint8_t *) "allowsMagnification", "allowsMagnification", &callSharpFunction }
-			,{ (const uint8_t *) "zoomIn", "zoomIn", &callSharpFunction }
-			,{ (const uint8_t *) "zoomOut", "zoomOut", &callSharpFunction }
-			,{ (const uint8_t *) "focus", "focus", &callSharpFunction }
-			,{ (const uint8_t *) "loadHTMLString", "loadHTMLString", &callSharpFunction }
-			,{ (const uint8_t *) "setPositionAndSize", "setPositionAndSize", &callSharpFunction }
-			,{ (const uint8_t *) "showDevTools", "showDevTools", &callSharpFunction }
-			,{ (const uint8_t *) "closeDevTools", "closeDevTools", &callSharpFunction }
-			,{ (const uint8_t *) "onFullScreen", "onFullScreen", &callSharpFunction }
-			,{ (const uint8_t *) "callJavascriptFunction", "callJavascriptFunction", &callSharpFunction }
-			,{ (const uint8_t *) "evaluateJavaScript", "evaluateJavaScript", &callSharpFunction }
-			,{ (const uint8_t *) "print", "print", &callSharpFunction }
-			,{ (const uint8_t *) "capture", "capture", &callSharpFunction }
-			,{ (const uint8_t *) "addTab", "addTab", &callSharpFunction }
-			,{ (const uint8_t *) "closeTab", "closeTab", &callSharpFunction }
-			,{ (const uint8_t *) "setCurrentTab", "setCurrentTab", &callSharpFunction }
-			,{ (const uint8_t *) "getCurrentTab", "getCurrentTab", &callSharpFunction }
-			,{ (const uint8_t *) "getTabDetails", "getTabDetails", &callSharpFunction }
-			,{ (const uint8_t *) "shutDown", "shutDown", &callSharpFunction }
-
+			 MAP_FUNCTION(isSupported)
+			,MAP_FUNCTION(init)
+			,MAP_FUNCTION(addToStage)
+			,MAP_FUNCTION(removeFromStage)
+			,MAP_FUNCTION(injectScript)
+			,MAP_FUNCTION(load)
+			,MAP_FUNCTION(loadFileURL)
+			,MAP_FUNCTION(reload)
+			,MAP_FUNCTION(reloadFromOrigin)
+			,MAP_FUNCTION(go)
+			,MAP_FUNCTION(goBack)
+			,MAP_FUNCTION(goForward)
+			,MAP_FUNCTION(stopLoading)
+			,MAP_FUNCTION(backForwardList)
+			,MAP_FUNCTION(allowsMagnification)
+			,MAP_FUNCTION(zoomIn)
+			,MAP_FUNCTION(zoomOut)
+			,MAP_FUNCTION(focus)
+			,MAP_FUNCTION(loadHTMLString)
+			,MAP_FUNCTION(setPositionAndSize)
+			,MAP_FUNCTION(showDevTools)
+			,MAP_FUNCTION(closeDevTools)
+			,MAP_FUNCTION(onFullScreen)
+			,MAP_FUNCTION(callJavascriptFunction)
+			,MAP_FUNCTION(evaluateJavaScript)
+			,MAP_FUNCTION(print)
+			,MAP_FUNCTION(capture)
+			,MAP_FUNCTION(addTab)
+			,MAP_FUNCTION(closeTab)
+			,MAP_FUNCTION(setCurrentTab)
+			,MAP_FUNCTION(getCurrentTab)
+			,MAP_FUNCTION(getTabDetails)
+			,MAP_FUNCTION(shutDown)
+			,MAP_FUNCTION(clearCache)
 		};
 
-		*numFunctionsToSet = sizeof(extensionFunctions) / sizeof(FRENamedFunction);
-		*functionsToSet = extensionFunctions;
-		
+		SET_FUNCTIONS
 	}
 
-	void contextFinalizer(FREContext ctx) {
-		return;
-	}
-
-	void TRWVExtInizer(void** extData, FREContextInitializer* ctxInitializer, FREContextFinalizer* ctxFinalizer) {
-		*ctxInitializer = &contextInitializer;
-		*ctxFinalizer = &contextFinalizer;
-	}
-
-	void TRWVExtFinizer(void* extData) {
-		FREContext nullCTX;
-		nullCTX = 0;
+	CONTEXT_FIN(TRWV) {
 		FreSharpBridge::GetController()->ShutDown();
-		contextFinalizer(nullCTX);
-		return;
 	}
+
+	EXTENSION_INIT(TRWV)
+		 
+	EXTENSION_FIN(TRWV)
+
 }

@@ -21,9 +21,8 @@
 
 import Foundation
 import WebKit
-#if os(iOS)
-    import FRESwift
-#else
+import FreSwift
+#if os(OSX)
     import Cocoa
 #endif
 
@@ -65,6 +64,10 @@ open class Configuration: WKWebViewConfiguration {
             if let allowsAirPlayForMediaPlayback: Bool = settingsWK["allowsAirPlayForMediaPlayback"] as? Bool {
                 self.allowsAirPlayForMediaPlayback = allowsAirPlayForMediaPlayback
             }
+    
+            if let bounces: Bool = settingsWK["bounces"] as? Bool {
+                self._bounces = bounces
+            }
 
 #else
             if let plugInsEnabled: Bool = settingsWK["plugInsEnabled"] as? Bool {
@@ -90,10 +93,6 @@ open class Configuration: WKWebViewConfiguration {
                 self.preferences.minimumFontSize = CGFloat.init(minimumFontSize)
             }
             
-            if let bounces: Bool = settingsWK["bounces"] as? Bool {
-                self._bounces = bounces
-            }
-
         }
 
 

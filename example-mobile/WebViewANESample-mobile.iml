@@ -140,7 +140,8 @@
     </orderEntry>
     <orderEntry type="library" exported="" name="starling" level="project" />
     <orderEntry type="library" exported="" name="WebViewANE-ios" level="project" />
-    <orderEntry type="library" exported="" name="WebViewANE-mobile" level="project" />
     <orderEntry type="library" exported="" name="FiraSansSemiBold" level="project" />
+    <orderEntry type="library" exported="" name="SwiftIOSANE-ios" level="project" />
+    <orderEntry type="library" exported="" name="WebViewANE-mobile" level="project" />
   </component>
 </module>

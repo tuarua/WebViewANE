@@ -12,24 +12,23 @@
 		CE39808E1E58BAA90062485B /* WebViewANE_FW.h in Headers */ = {isa = PBXBuildFile; fileRef = CE39808C1E58BAA90062485B /* WebViewANE_FW.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE39809A1E58BC3B0062485B /* WebViewANE_FW-Swift.h in Headers */ = {isa = PBXBuildFile; fileRef = CE3980991E58BC3B0062485B /* WebViewANE_FW-Swift.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE3980AD1E58BF3F0062485B /* WebViewANE_FW.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE39808A1E58BAA90062485B /* WebViewANE_FW.framework */; };
-		CE53818B1E7D8E3000C09DA2 /* FRESwift.h in Headers */ = {isa = PBXBuildFile; fileRef = CE5381891E7D8E3000C09DA2 /* FRESwift.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE53818B1E7D8E3000C09DA2 /* FreSwift.h in Headers */ = {isa = PBXBuildFile; fileRef = CE5381891E7D8E3000C09DA2 /* FreSwift.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE5381921E7D8F6D00C09DA2 /* FlashRuntimeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE53818F1E7D8F6D00C09DA2 /* FlashRuntimeExtensions.swift */; };
-		CE5381931E7D8F6D00C09DA2 /* FRESwiftBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5381901E7D8F6D00C09DA2 /* FRESwiftBridge.swift */; };
+		CE5381931E7D8F6D00C09DA2 /* FreSwiftBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5381901E7D8F6D00C09DA2 /* FreSwiftBridge.swift */; };
 		CE5381941E7D8F6D00C09DA2 /* FlashRuntimeExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = CE5381911E7D8F6D00C09DA2 /* FlashRuntimeExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CE5381961E7D90BA00C09DA2 /* FRESwift-Swift.h in Headers */ = {isa = PBXBuildFile; fileRef = CE5381951E7D90BA00C09DA2 /* FRESwift-Swift.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CE5381991E7D938F00C09DA2 /* FRESwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE5381871E7D8E3000C09DA2 /* FRESwift.framework */; };
-		CE53819C1E7DFFD400C09DA2 /* FlashRuntimeExtensionsBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 285FEC93B40FBCDF5C7C0984 /* FlashRuntimeExtensionsBridge.m */; };
-		CE53819D1E7DFFE100C09DA2 /* FlashRuntimeExtensionsBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = CEA437FE1E78361D0099F463 /* FlashRuntimeExtensionsBridge.h */; };
-		CE59BDDF1EEF38C600F698DE /* WebViewANE.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE59BDDA1EEF38C600F698DE /* WebViewANE.swift */; };
+		CE5381991E7D938F00C09DA2 /* FreSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE5381871E7D8E3000C09DA2 /* FreSwift.framework */; };
 		CE59BDE01EEF38C600F698DE /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE59BDDB1EEF38C600F698DE /* Constants.swift */; };
 		CE59BDE11EEF38C600F698DE /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE59BDDC1EEF38C600F698DE /* Settings.swift */; };
 		CE59BDE21EEF38C600F698DE /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE59BDDD1EEF38C600F698DE /* Configuration.swift */; };
 		CE59BDE31EEF38C600F698DE /* BackForwardList.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE59BDDE1EEF38C600F698DE /* BackForwardList.swift */; };
-		CE62328E1EF08B4A00FC9691 /* FRERectangleSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE62328D1EF08B4A00FC9691 /* FRERectangleSwift.swift */; };
-		CE6232901EF08C7000FC9691 /* FREPointSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE62328F1EF08C7000FC9691 /* FREPointSwift.swift */; };
+		CE62328E1EF08B4A00FC9691 /* FreRectangleSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE62328D1EF08B4A00FC9691 /* FreRectangleSwift.swift */; };
+		CE6232901EF08C7000FC9691 /* FrePointSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE62328F1EF08C7000FC9691 /* FrePointSwift.swift */; };
 		CEA438051E78A2C00099F463 /* SwiftyJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = CEA438031E78A2C00099F463 /* SwiftyJSON.h */; };
 		CEA438061E78A2C00099F463 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA438041E78A2C00099F463 /* SwiftyJSON.swift */; };
 		CEC13D411EFEE651003BDA4A /* WebViewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC13D401EFEE651003BDA4A /* WebViewVC.swift */; };
+		CEFE5BEB1F1A27A9007BFBF2 /* SwiftController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFE5BEA1F1A27A9007BFBF2 /* SwiftController.swift */; };
+		CEFE5BED1F1A27CD007BFBF2 /* FreMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = CEFE5BEC1F1A27CD007BFBF2 /* FreMacros.h */; };
+		CEFE5BEF1F1A2828007BFBF2 /* FreSwift-iOS-Swift.h in Headers */ = {isa = PBXBuildFile; fileRef = CEFE5BEE1F1A2828007BFBF2 /* FreSwift-iOS-Swift.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,30 +70,29 @@
 /* Begin PBXFileReference section */
 		285FE6D7F3D6356FA03A26C0 /* WebViewANE.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WebViewANE.m; path = ../../../source/swift/WebViewANE.m; sourceTree = "<group>"; };
 		285FEBB3CADF8D704FAB5E4D /* WebViewANE_oc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WebViewANE_oc.h; path = ../../../include/WebViewANE_oc.h; sourceTree = "<group>"; };
-		285FEC93B40FBCDF5C7C0984 /* FlashRuntimeExtensionsBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlashRuntimeExtensionsBridge.m; sourceTree = "<group>"; };
 		CE39808A1E58BAA90062485B /* WebViewANE_FW.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WebViewANE_FW.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE39808C1E58BAA90062485B /* WebViewANE_FW.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WebViewANE_FW.h; sourceTree = "<group>"; };
 		CE39808D1E58BAA90062485B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CE3980991E58BC3B0062485B /* WebViewANE_FW-Swift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WebViewANE_FW-Swift.h"; sourceTree = "<group>"; };
 		CE39809F1E58BEE10062485B /* libWebViewANE_LIB.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libWebViewANE_LIB.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		CE5381871E7D8E3000C09DA2 /* FRESwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FRESwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		CE5381891E7D8E3000C09DA2 /* FRESwift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FRESwift.h; sourceTree = "<group>"; };
+		CE5381871E7D8E3000C09DA2 /* FreSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FreSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE5381891E7D8E3000C09DA2 /* FreSwift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FreSwift.h; sourceTree = "<group>"; };
 		CE53818A1E7D8E3000C09DA2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CE53818F1E7D8F6D00C09DA2 /* FlashRuntimeExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlashRuntimeExtensions.swift; sourceTree = "<group>"; };
-		CE5381901E7D8F6D00C09DA2 /* FRESwiftBridge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FRESwiftBridge.swift; sourceTree = "<group>"; };
+		CE5381901E7D8F6D00C09DA2 /* FreSwiftBridge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FreSwiftBridge.swift; sourceTree = "<group>"; };
 		CE5381911E7D8F6D00C09DA2 /* FlashRuntimeExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlashRuntimeExtensions.h; sourceTree = "<group>"; };
-		CE5381951E7D90BA00C09DA2 /* FRESwift-Swift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FRESwift-Swift.h"; sourceTree = "<group>"; };
-		CE59BDDA1EEF38C600F698DE /* WebViewANE.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebViewANE.swift; path = ../../../source/swift/WebViewANE.swift; sourceTree = "<group>"; };
 		CE59BDDB1EEF38C600F698DE /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = ../../../source/swift/Constants.swift; sourceTree = "<group>"; };
 		CE59BDDC1EEF38C600F698DE /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Settings.swift; path = ../../../source/swift/Settings.swift; sourceTree = "<group>"; };
 		CE59BDDD1EEF38C600F698DE /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Configuration.swift; path = ../../../source/swift/Configuration.swift; sourceTree = "<group>"; };
 		CE59BDDE1EEF38C600F698DE /* BackForwardList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BackForwardList.swift; path = ../../../source/swift/BackForwardList.swift; sourceTree = "<group>"; };
-		CE62328D1EF08B4A00FC9691 /* FRERectangleSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FRERectangleSwift.swift; path = Geom/FRERectangleSwift.swift; sourceTree = "<group>"; };
-		CE62328F1EF08C7000FC9691 /* FREPointSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FREPointSwift.swift; path = Geom/FREPointSwift.swift; sourceTree = "<group>"; };
-		CEA437FE1E78361D0099F463 /* FlashRuntimeExtensionsBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlashRuntimeExtensionsBridge.h; sourceTree = "<group>"; };
+		CE62328D1EF08B4A00FC9691 /* FreRectangleSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FreRectangleSwift.swift; path = Geom/FreRectangleSwift.swift; sourceTree = "<group>"; };
+		CE62328F1EF08C7000FC9691 /* FrePointSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FrePointSwift.swift; path = Geom/FrePointSwift.swift; sourceTree = "<group>"; };
 		CEA438031E78A2C00099F463 /* SwiftyJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SwiftyJSON.h; path = ../../../dependencies/SwiftyJSON.h; sourceTree = "<group>"; };
 		CEA438041E78A2C00099F463 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftyJSON.swift; path = ../../../dependencies/SwiftyJSON.swift; sourceTree = "<group>"; };
 		CEC13D401EFEE651003BDA4A /* WebViewVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebViewVC.swift; path = ../../../source/swift/WebViewVC.swift; sourceTree = "<group>"; };
+		CEFE5BEA1F1A27A9007BFBF2 /* SwiftController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftController.swift; sourceTree = "<group>"; };
+		CEFE5BEC1F1A27CD007BFBF2 /* FreMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FreMacros.h; path = FreSwift/FreMacros.h; sourceTree = SOURCE_ROOT; };
+		CEFE5BEE1F1A2828007BFBF2 /* FreSwift-iOS-Swift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "FreSwift-iOS-Swift.h"; path = "FreSwift/FreSwift-iOS-Swift.h"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,7 +107,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE5381991E7D938F00C09DA2 /* FRESwift.framework in Frameworks */,
+				CE5381991E7D938F00C09DA2 /* FreSwift.framework in Frameworks */,
 				CE3980AD1E58BF3F0062485B /* WebViewANE_FW.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -129,7 +127,7 @@
 			children = (
 				CE39808B1E58BAA90062485B /* WebViewANE_FW */,
 				CE3980A01E58BEE10062485B /* WebViewANE_LIB */,
-				CE5381881E7D8E3000C09DA2 /* FRESwift */,
+				CE5381881E7D8E3000C09DA2 /* FreSwift */,
 				CE39806C1E58BA7F0062485B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -139,7 +137,7 @@
 			children = (
 				CE39808A1E58BAA90062485B /* WebViewANE_FW.framework */,
 				CE39809F1E58BEE10062485B /* libWebViewANE_LIB.a */,
-				CE5381871E7D8E3000C09DA2 /* FRESwift.framework */,
+				CE5381871E7D8E3000C09DA2 /* FreSwift.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -147,8 +145,8 @@
 		CE39808B1E58BAA90062485B /* WebViewANE_FW */ = {
 			isa = PBXGroup;
 			children = (
+				CEFE5BEA1F1A27A9007BFBF2 /* SwiftController.swift */,
 				CEC13D401EFEE651003BDA4A /* WebViewVC.swift */,
-				CE59BDDA1EEF38C600F698DE /* WebViewANE.swift */,
 				CE59BDDB1EEF38C600F698DE /* Constants.swift */,
 				CE59BDDC1EEF38C600F698DE /* Settings.swift */,
 				CE59BDDD1EEF38C600F698DE /* Configuration.swift */,
@@ -168,26 +166,26 @@
 			path = WebViewANE_LIB;
 			sourceTree = "<group>";
 		};
-		CE5381881E7D8E3000C09DA2 /* FRESwift */ = {
+		CE5381881E7D8E3000C09DA2 /* FreSwift */ = {
 			isa = PBXGroup;
 			children = (
 				CE62328C1EF08B3400FC9691 /* Geom */,
 				CE53819F1E7E005500C09DA2 /* Misc */,
 				CE53819E1E7E003600C09DA2 /* Headers */,
-				285FEC93B40FBCDF5C7C0984 /* FlashRuntimeExtensionsBridge.m */,
 				CE53818F1E7D8F6D00C09DA2 /* FlashRuntimeExtensions.swift */,
-				CE5381901E7D8F6D00C09DA2 /* FRESwiftBridge.swift */,
+				CE5381901E7D8F6D00C09DA2 /* FreSwiftBridge.swift */,
 			);
+			name = FreSwift;
 			path = FRESwift;
 			sourceTree = "<group>";
 		};
 		CE53819E1E7E003600C09DA2 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
-				CEA437FE1E78361D0099F463 /* FlashRuntimeExtensionsBridge.h */,
-				CE5381951E7D90BA00C09DA2 /* FRESwift-Swift.h */,
+				CEFE5BEE1F1A2828007BFBF2 /* FreSwift-iOS-Swift.h */,
+				CEFE5BEC1F1A27CD007BFBF2 /* FreMacros.h */,
 				CE5381911E7D8F6D00C09DA2 /* FlashRuntimeExtensions.h */,
-				CE5381891E7D8E3000C09DA2 /* FRESwift.h */,
+				CE5381891E7D8E3000C09DA2 /* FreSwift.h */,
 			);
 			name = Headers;
 			sourceTree = "<group>";
@@ -203,8 +201,8 @@
 		CE62328C1EF08B3400FC9691 /* Geom */ = {
 			isa = PBXGroup;
 			children = (
-				CE62328F1EF08C7000FC9691 /* FREPointSwift.swift */,
-				CE62328D1EF08B4A00FC9691 /* FRERectangleSwift.swift */,
+				CE62328F1EF08C7000FC9691 /* FrePointSwift.swift */,
+				CE62328D1EF08B4A00FC9691 /* FreRectangleSwift.swift */,
 			);
 			name = Geom;
 			sourceTree = "<group>";
@@ -237,7 +235,9 @@
 			files = (
 				CE39809A1E58BC3B0062485B /* WebViewANE_FW-Swift.h in Headers */,
 				CEA438051E78A2C00099F463 /* SwiftyJSON.h in Headers */,
+				CEFE5BEF1F1A2828007BFBF2 /* FreSwift-iOS-Swift.h in Headers */,
 				CE39808E1E58BAA90062485B /* WebViewANE_FW.h in Headers */,
+				CEFE5BED1F1A27CD007BFBF2 /* FreMacros.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -246,7 +246,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				285FE3EB871F2DD420623AEE /* WebViewANE_oc.h in Headers */,
-				CE53819D1E7DFFE100C09DA2 /* FlashRuntimeExtensionsBridge.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -255,8 +254,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE5381941E7D8F6D00C09DA2 /* FlashRuntimeExtensions.h in Headers */,
-				CE5381961E7D90BA00C09DA2 /* FRESwift-Swift.h in Headers */,
-				CE53818B1E7D8E3000C09DA2 /* FRESwift.h in Headers */,
+				CE53818B1E7D8E3000C09DA2 /* FreSwift.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -304,9 +302,9 @@
 			productReference = CE39809F1E58BEE10062485B /* libWebViewANE_LIB.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		CE5381861E7D8E3000C09DA2 /* FRESwift */ = {
+		CE5381861E7D8E3000C09DA2 /* FreSwift */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CE53818C1E7D8E3000C09DA2 /* Build configuration list for PBXNativeTarget "FRESwift" */;
+			buildConfigurationList = CE53818C1E7D8E3000C09DA2 /* Build configuration list for PBXNativeTarget "FreSwift" */;
 			buildPhases = (
 				CE5381821E7D8E3000C09DA2 /* Sources */,
 				CE5381831E7D8E3000C09DA2 /* Frameworks */,
@@ -317,9 +315,9 @@
 			);
 			dependencies = (
 			);
-			name = FRESwift;
+			name = FreSwift;
 			productName = FRESwift;
-			productReference = CE5381871E7D8E3000C09DA2 /* FRESwift.framework */;
+			productReference = CE5381871E7D8E3000C09DA2 /* FreSwift.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -364,7 +362,7 @@
 			targets = (
 				CE3980891E58BAA90062485B /* WebViewANE_FW */,
 				CE39809E1E58BEE10062485B /* WebViewANE_LIB */,
-				CE5381861E7D8E3000C09DA2 /* FRESwift */,
+				CE5381861E7D8E3000C09DA2 /* FreSwift */,
 			);
 		};
 /* End PBXProject section */
@@ -396,14 +394,14 @@
 /* Begin PBXShellScriptBuildPhase section */
 		CEC00F3D1E8DA49E0062311C /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 8;
+			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = ../../../native_extension/ane/build_mobile.sh;
 		};
@@ -414,7 +412,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE59BDDF1EEF38C600F698DE /* WebViewANE.swift in Sources */,
+				CEFE5BEB1F1A27A9007BFBF2 /* SwiftController.swift in Sources */,
 				CE59BDE21EEF38C600F698DE /* Configuration.swift in Sources */,
 				CE59BDE31EEF38C600F698DE /* BackForwardList.swift in Sources */,
 				CEC13D411EFEE651003BDA4A /* WebViewVC.swift in Sources */,
@@ -429,7 +427,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				285FECB67C2311471C2CD119 /* WebViewANE.m in Sources */,
-				CE53819C1E7DFFD400C09DA2 /* FlashRuntimeExtensionsBridge.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -437,9 +434,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE62328E1EF08B4A00FC9691 /* FRERectangleSwift.swift in Sources */,
-				CE5381931E7D8F6D00C09DA2 /* FRESwiftBridge.swift in Sources */,
-				CE6232901EF08C7000FC9691 /* FREPointSwift.swift in Sources */,
+				CE62328E1EF08B4A00FC9691 /* FreRectangleSwift.swift in Sources */,
+				CE5381931E7D8F6D00C09DA2 /* FreSwiftBridge.swift in Sources */,
+				CE6232901EF08C7000FC9691 /* FrePointSwift.swift in Sources */,
 				CE5381921E7D8F6D00C09DA2 /* FlashRuntimeExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -454,12 +451,12 @@
 		};
 		CE5381981E7D923800C09DA2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = CE5381861E7D8E3000C09DA2 /* FRESwift */;
+			target = CE5381861E7D8E3000C09DA2 /* FreSwift */;
 			targetProxy = CE5381971E7D923800C09DA2 /* PBXContainerItemProxy */;
 		};
 		CE53819B1E7D964E00C09DA2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = CE5381861E7D8E3000C09DA2 /* FRESwift */;
+			target = CE5381861E7D8E3000C09DA2 /* FreSwift */;
 			targetProxy = CE53819A1E7D964E00C09DA2 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -669,17 +666,17 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_BITCODE = NO;
-				INFOPLIST_FILE = FRESwift/Info.plist;
+				INFOPLIST_FILE = FreSwift/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.tuarua.FRESwift;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tuarua.FreSwift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_OBJC_INTERFACE_HEADER_NAME = "FRESwift-Swift.h";
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "FreSwift-iOS-Swift.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -701,16 +698,16 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_BITCODE = NO;
-				INFOPLIST_FILE = FRESwift/Info.plist;
+				INFOPLIST_FILE = FreSwift/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.tuarua.FRESwift;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tuarua.FreSwift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_OBJC_INTERFACE_HEADER_NAME = "FRESwift-Swift.h";
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "FreSwift-iOS-Swift.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -748,7 +745,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CE53818C1E7D8E3000C09DA2 /* Build configuration list for PBXNativeTarget "FRESwift" */ = {
+		CE53818C1E7D8E3000C09DA2 /* Build configuration list for PBXNativeTarget "FreSwift" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CE53818D1E7D8E3000C09DA2 /* Debug */,
