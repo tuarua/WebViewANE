@@ -4,6 +4,8 @@ import com.tuarua.webview.ActionscriptCallback;
 import com.tuarua.webview.Settings;
 import com.tuarua.webview.WebViewEvent;
 
+import flash.desktop.NativeApplication;
+
 import flash.events.KeyboardEvent;
 import flash.filesystem.File;
 import flash.filesystem.FileMode;
@@ -13,13 +15,12 @@ import flash.text.ReturnKeyLabel;
 import flash.text.SoftKeyboardType;
 import flash.text.StageText;
 import flash.ui.Keyboard;
-
+import flash.events.Event;
 import starling.animation.Transitions;
 import starling.core.Starling;
 import starling.display.Image;
 import starling.display.Quad;
 import starling.display.Sprite;
-import starling.events.Event;
 import starling.events.ResizeEvent;
 import starling.events.Touch;
 import starling.events.TouchEvent;
@@ -47,6 +48,7 @@ public class StarlingRoot extends Sprite {
     }
 
     public function start(assets:AssetManager):void {
+        NativeApplication.nativeApplication.addEventListener(flash.events.Event.EXITING, onExiting);
         var _assets:AssetManager = assets;
 
         backBtn = new Image(_assets.getTexture("back-btn"));
@@ -355,6 +357,12 @@ public class StarlingRoot extends Sprite {
                 (inputBG.width - 10) * Starling.current.contentScaleFactor,
                 (inputBG.height - 3) * Starling.current.contentScaleFactor);
 
+    }
+    /**
+     * It's very important to call webView.dispose(); when the app is exiting.
+     */
+    private function onExiting(event:flash.events.Event):void {
+        webView.dispose();
     }
 }
 }

@@ -4,13 +4,9 @@
 <dict>
 	<key>files</key>
 	<dict>
-		<key>.DS_Store</key>
-		<data>
-		j6KjqyBkx1+UDoVKMzOhF/8Tx+s=
-		</data>
 		<key>Headers/WebViewANE_FW-Swift.h</key>
 		<data>
-		+Rpf9hePBKIhhUPRh0q2Yaw0NP8=
+		89BQw3Mo/6X49LlTDMwGyknrIEA=
 		</data>
 		<key>Headers/WebViewANE_FW.h</key>
 		<data>
@@ -26,7 +22,7 @@
 		</data>
 		<key>Modules/WebViewANE_FW.swiftmodule/i386.swiftmodule</key>
 		<data>
-		jqzW4wpCvUbr80MMKbuB1gb3qg0=
+		Rj2JEsnjCDG/brgCXD8/DpjDvDg=
 		</data>
 		<key>Modules/WebViewANE_FW.swiftmodule/x86_64.swiftdoc</key>
 		<data>
@@ -34,7 +30,7 @@
 		</data>
 		<key>Modules/WebViewANE_FW.swiftmodule/x86_64.swiftmodule</key>
 		<data>
-		xLMkzKy7IQBUcleR4zmbwdN/N1g=
+		3C6CGxLaPQT+RiYp4k3+UzHlxkQ=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -47,11 +43,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			+Rpf9hePBKIhhUPRh0q2Yaw0NP8=
+			89BQw3Mo/6X49LlTDMwGyknrIEA=
 			</data>
 			<key>hash2</key>
 			<data>
-			n/qd8KJuF2n7Nsg3z1pslqtVye2ozcSs+IdMAIAfUEo=
+			95ZlewwSvLwK8fOHx630XpDGiDnxMhJpmKW4fYvYGvw=
 			</data>
 		</dict>
 		<key>Headers/WebViewANE_FW.h</key>
@@ -80,11 +76,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			jqzW4wpCvUbr80MMKbuB1gb3qg0=
+			Rj2JEsnjCDG/brgCXD8/DpjDvDg=
 			</data>
 			<key>hash2</key>
 			<data>
-			ISsjeTrV3Hz/LKaAEqh3bDvOvky230JG+DJWJWTRU4U=
+			YNQLwn5UfhqCntN9btAv91z73Q/Nag33cBTginxRVOM=
 			</data>
 		</dict>
 		<key>Modules/WebViewANE_FW.swiftmodule/x86_64.swiftdoc</key>
@@ -102,11 +98,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			xLMkzKy7IQBUcleR4zmbwdN/N1g=
+			3C6CGxLaPQT+RiYp4k3+UzHlxkQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			Fbp159QMIR+Ype92Jk0E2CN2tpCsOnLL+/g68C0jl54=
+			bmz9EvgC8rT5wTCfbCWV48Qxeh1IQuW3BS4cWEiXA4g=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

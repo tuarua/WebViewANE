@@ -228,5 +228,6 @@
   <!-- End of the schema for adding the android specific tags in AndroidManifest.xml file -->
   <extensions>
     <extensionID>com.tuarua.WebViewANE</extensionID>
+    <extensionID>com.tuarua.CommonDependencies</extensionID>
   </extensions>
 </application>

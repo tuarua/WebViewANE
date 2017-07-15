@@ -8,6 +8,21 @@ Sample client included
 
 [![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5UR2T52J633RC)
 
+## !! Version 0.0.26+
+There is now a new dependency ANE.   
+This is included in \native_extension\ane\CommonDependencies.ane.   
+It must be included along with the WebView ANE in your projects.   
+ It also must be created before the webView.   
+````xml
+<extensions>
+    <extensionID>com.tuarua.WebViewANE</extensionID>
+    <extensionID>com.tuarua.CommonDependencies</extensionID>
+</extensions>
+`````
+````actionscript
+private var commonDependenciesANE:CommonDependencies = new CommonDependencies();
+private var webView:WebViewANE = new WebViewANE();
+`````
 
 ## Windows
 The Windows version utilises the [CefSharp WinForms](https://github.com/cefsharp/CefSharp) version of Chromium Embedded Framework.
