@@ -12,7 +12,7 @@ PROJECTNAME=WebViewANE
 fwSuffix="_FW"
 libSuffix="_LIB"
 
-AIR_SDK="/Users/User/sdks/AIR/AIRSDK_25"
+AIR_SDK="/Users/User/sdks/AIR/AIRSDK_26"
 echo $AIR_SDK
 
 #Setup the directory.
