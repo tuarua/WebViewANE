@@ -100,7 +100,6 @@ namespace CefSharpLib {
             return FunctionsDict.Select(kvp => kvp.Key).ToArray();
         }
 
-
         private FREObject Capture(FREContext ctx, uint argc, FREObject[] argv) {
             var rect = new WinApi.Rect();
             WinApi.GetWindowRect(_cefWindow, ref rect);
@@ -428,14 +427,8 @@ namespace CefSharpLib {
             return FREObject.Zero;
         }
         public FREObject ClearCache(FREContext ctx, uint argc, FREObject[] argv) {
-            Trace("You cannot clear the cache on Windows while CEF is running. This is a known limitation. " +
-                  "You can delete the contents of the value of your settings.cef.cachePath " +
-                  "(default File.applicationDirectory.resolvePath(\"cache\")) using Actionscript only " +
-                  "before you call .init(). Calling after .dispose() may cause issues as the " +
-                  "files may still be 'owned' by the CEF process");
             return FREObject.Zero;
         }
-        
 
         public FREObject OnFullScreen(FREContext ctx, uint argc, FREObject[] argv) {
             return FREObject.Zero;

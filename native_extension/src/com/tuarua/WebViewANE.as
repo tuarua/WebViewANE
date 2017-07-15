@@ -43,6 +43,7 @@ import flash.events.FullScreenEvent;
 import flash.events.NativeWindowDisplayStateEvent;
 import flash.events.StatusEvent;
 import flash.external.ExtensionContext;
+import flash.filesystem.File;
 import flash.geom.Point;
 import flash.geom.Rectangle;
 import flash.system.Capabilities;
@@ -558,6 +559,35 @@ public class WebViewANE extends EventDispatcher {
      *
      */
     public function clearCache():void {
+        //Windows is special case.
+        if (Capabilities.os.toLowerCase().indexOf("win") == 0) {
+            trace("windows !!!!");
+            if(_isInited) {
+                trace("[" + name + "] You cannot clear the cache on Windows while CEF is running. This is a known limitation. " +
+                        "You can only call this method after .dispose() is called");
+                return;
+            }
+            try{
+                var cacheFolder:File = File.applicationDirectory.resolvePath(_settings.cef.cachePath);
+                if(cacheFolder.exists){
+                    var files:Array = cacheFolder.getDirectoryListing();
+                    for (var i:uint = 0; i < files.length; i++) {
+                        var file:File = files[i];
+                        trace("Deleting",file.name);// gets the name
+                        if(file.isDirectory){
+                            file.deleteDirectory(true);
+                        }else{
+                            file.deleteFile();
+                        }
+                    }
+                }
+            }catch(e:Error){
+                trace("[" + name + "] unable to delete cache files");
+            }
+            return;
+        }
+
+
         if (safetyCheck())
             ctx.call("clearCache");
     }

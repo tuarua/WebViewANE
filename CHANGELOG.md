@@ -3,7 +3,8 @@
 - OSX: Deprecate onFullScreen() method, handled internally
 - OSX: Deprecate ON_ESC_KEY event, handled internally
 - AND/iOS/WIN/OSX: added cacheEnabled to settings
-- AND/iOS/OSX: added clearCache() method
+- AND/iOS/WIN/OSX: added clearCache() method
+- OSX: Added CommonDependencies ANE requirement
 
 ### 0.0.25
 - WIN/OSX: Added multi-tab support

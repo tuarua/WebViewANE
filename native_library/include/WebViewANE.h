@@ -18,9 +18,11 @@
 //  undertakes the same purpose as this software. That is, a WebView for Windows, 
 //  OSX and/or iOS and/or Android.
 //  All Rights Reserved. Tua Rua Ltd.
+#include "FreSharpMacros.h"
 #include "FlashRuntimeExtensions.h"
 extern "C" {
-    __declspec(dllexport) void TRWVExtInizer(void** extData, FREContextInitializer* ctxInitializer, FREContextFinalizer* ctxFinalizer);
-    __declspec(dllexport) void TRWVExtFinizer(void* extData);
+    __declspec(dllexport) EXTENSION_INIT_DECL(TRWV);
+	__declspec(dllexport) EXTENSION_FIN_DECL(TRWV);
+	
 }
 

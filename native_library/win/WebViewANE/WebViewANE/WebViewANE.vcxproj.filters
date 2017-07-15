@@ -30,6 +30,9 @@
     <ClInclude Include="..\..\..\source\FreSharpBridge.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\FreSharpMacros.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\WebViewANE.cpp">
