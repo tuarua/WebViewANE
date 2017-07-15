@@ -131,8 +131,8 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
  * 13 means 13 characters in Framework name
  * 15 means 15 characters in Swift Class name
  */
-SWIFT_CLASS("_TtC13WebViewANE_FW10WebViewANE")
-@interface WebViewANE : NSObject
+SWIFT_CLASS("_TtC13WebViewANE_FW15SwiftController")
+@interface SwiftController : NSObject
 //Must have these 3 functions
 - (void)setFREContextWithCtx:(FREContext _Nonnull)ctx;
 - (NSArray *_Nonnull) getFunctionsWithPrefix:(NSString * _Nonnull)prefix;

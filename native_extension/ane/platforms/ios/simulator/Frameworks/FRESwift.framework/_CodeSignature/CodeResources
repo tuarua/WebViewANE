@@ -44,9 +44,9 @@
 		<data>
 		Q5TJLXHp3ThyB7djK/cHK+MtS1M=
 		</data>
-		<key>Headers/FreSwift-Swift.h</key>
+		<key>Headers/FreSwift-iOS-Swift.h</key>
 		<data>
-		LGiVv1gyoTgLlaYnHmidvuefYYo=
+		K+PWxrAx2oH2sXlQQwoGgUT9TeU=
 		</data>
 		<key>Headers/FreSwift.h</key>
 		<data>
@@ -54,7 +54,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		KoL+zp5nh3aoOYq1OdsdUekvEAA=
+		ZPW2ZxIJNbT5atpSqLGyLUZ3Omg=
 		</data>
 		<key>Modules/FreSwift.swiftmodule/i386.swiftdoc</key>
 		<data>
@@ -74,7 +74,7 @@
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
-		RxjatPdzjkh4Ftc7D4fH/xkncFo=
+		9i5roxf+EHKaZ4RkNZIhaGdJLCc=
 		</data>
 		<key>libswiftRemoteMirror.dylib</key>
 		<data>
@@ -193,15 +193,15 @@
 			XT7E9Z1YC4dl1sdsGdFvALhgLhBQ5lSTdjnKwfrMduY=
 			</data>
 		</dict>
-		<key>Headers/FreSwift-Swift.h</key>
+		<key>Headers/FreSwift-iOS-Swift.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			LGiVv1gyoTgLlaYnHmidvuefYYo=
+			K+PWxrAx2oH2sXlQQwoGgUT9TeU=
 			</data>
 			<key>hash2</key>
 			<data>
-			cQKvEk13OyDYOfECyUk2Bnd1nxrrEMD8Mb1tGN2rDXE=
+			LzFwsoNzwFsg2GO3Sly82Z9bIBmqiFKxTSiJyC3wPNI=
 			</data>
 		</dict>
 		<key>Headers/FreSwift.h</key>
@@ -263,11 +263,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			RxjatPdzjkh4Ftc7D4fH/xkncFo=
+			9i5roxf+EHKaZ4RkNZIhaGdJLCc=
 			</data>
 			<key>hash2</key>
 			<data>
-			E6S3uBBtiqrQmv9wK642QpK6yeHJCkcbBsCD+9IhHQQ=
+			p514C4gjaSOpVLslxDu7wWEbP7EvR3q9bIxVARUkuKU=
 			</data>
 		</dict>
 		<key>libswiftRemoteMirror.dylib</key>

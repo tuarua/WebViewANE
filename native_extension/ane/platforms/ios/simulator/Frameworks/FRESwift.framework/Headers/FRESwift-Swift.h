@@ -148,6 +148,7 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
  * 13 means 13 characters in Framework name
  * 20 means 20 characters in Swift Protocol name
  */
+
 SWIFT_PROTOCOL("_TtC8FreSwift22FreSwiftBridgeProtocol")
 @protocol FreSwiftBridgeProtocol
 - (FREResult)FRENewObjectFromBoolWithValue:(BOOL)value

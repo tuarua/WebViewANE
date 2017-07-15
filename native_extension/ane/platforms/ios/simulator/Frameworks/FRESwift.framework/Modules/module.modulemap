@@ -6,5 +6,5 @@ framework module FreSwift {
 }
 
 module FreSwift.Swift {
-    header "FreSwift-Swift.h"
+    header "FreSwift-iOS-Swift.h"
 }

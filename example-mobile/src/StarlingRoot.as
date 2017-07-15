@@ -1,5 +1,4 @@
 package {
-import com.tuarua.SwiftIOSANE;
 import com.tuarua.WebViewANE;
 import com.tuarua.webview.ActionscriptCallback;
 import com.tuarua.webview.Settings;
@@ -42,7 +41,6 @@ public class StarlingRoot extends Sprite {
     private var inputBG:Image;
     private var urlInput:StageText;
     private var titleTxt:TextField;
-    private var ane:SwiftIOSANE = new SwiftIOSANE();
     private var webView:WebViewANE;
 
     public function StarlingRoot() {

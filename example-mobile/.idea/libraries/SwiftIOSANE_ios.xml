@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="SwiftIOSANE-ios" type="flex">
-    <CLASSES>
-      <root url="jar://$DOCUMENTS$/Swift-IOS-ANE/native_extension/ane/SwiftIOSANE-ios.ane!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

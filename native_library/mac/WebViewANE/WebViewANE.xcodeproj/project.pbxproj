@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		285FE221A0881A06EF9342D3 /* WebViewANE.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285FE0612F3E80324C9E166A /* WebViewANE.swift */; };
+		285FE221A0881A06EF9342D3 /* SwiftController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285FE0612F3E80324C9E166A /* SwiftController.swift */; };
 		285FE67BD6D6ADA9B37C0549 /* Popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285FED7949ECEDCFD8666D9E /* Popup.swift */; };
 		285FED8981954D26132A4738 /* BackForwardList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285FE79ADD617339B126F104 /* BackForwardList.swift */; };
 		285FEF0F916CD0723F2C291C /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285FE36940402B8AC84FD751 /* Configuration.swift */; };
@@ -15,20 +15,22 @@
 		CE2E1B001F1589AB001B36BA /* Adobe AIR in Frameworks */ = {isa = PBXBuildFile; fileRef = CEF5C7091E1EE882004389CE /* Adobe AIR */; };
 		CE2E1B011F1589AB001B36BA /* Adobe AIR_64 in Frameworks */ = {isa = PBXBuildFile; fileRef = CEF5C7081E1EE882004389CE /* Adobe AIR_64 */; };
 		CE2E1B1E1F158B3B001B36BA /* FlashRuntimeExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = CE2E1B0E1F158B3B001B36BA /* FlashRuntimeExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CE2E1B221F158B3B001B36BA /* FreSwift-Swift.h in Headers */ = {isa = PBXBuildFile; fileRef = CE2E1B121F158B3B001B36BA /* FreSwift-Swift.h */; };
 		CE2E1B231F158B3B001B36BA /* FreSwift.h in Headers */ = {isa = PBXBuildFile; fileRef = CE2E1B131F158B3B001B36BA /* FreSwift.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE2E1B241F158B3B001B36BA /* FreSwift.m in Sources */ = {isa = PBXBuildFile; fileRef = CE2E1B141F158B3B001B36BA /* FreSwift.m */; };
 		CE2E1B251F158B3B001B36BA /* FreSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2E1B151F158B3B001B36BA /* FreSwift.swift */; };
 		CE2E1B261F158B3B001B36BA /* FreSwift_oc.h in Headers */ = {isa = PBXBuildFile; fileRef = CE2E1B161F158B3B001B36BA /* FreSwift_oc.h */; };
 		CE2E1B281F158B3B001B36BA /* FrePointSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2E1B191F158B3B001B36BA /* FrePointSwift.swift */; };
 		CE2E1B291F158B3B001B36BA /* FreRectangleSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2E1B1A1F158B3B001B36BA /* FreRectangleSwift.swift */; };
-		CE2E1B2A1F158B3B001B36BA /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE2E1B1B1F158B3B001B36BA /* Info.plist */; };
 		CE2E1B2D1F158C02001B36BA /* FlashRuntimeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2E1B0F1F158B3B001B36BA /* FlashRuntimeExtensions.swift */; };
 		CE2E1B301F158C40001B36BA /* FreSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE2E1B0B1F1589AB001B36BA /* FreSwift.framework */; };
 		CE59BDD41EEF28F300F698DE /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE59BDD31EEF28F300F698DE /* Settings.swift */; };
 		CE59BDD81EEF36BE00F698DE /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE59BDD71EEF36BE00F698DE /* Constants.swift */; };
 		CE59BDD91EEF36FC00F698DE /* WebViewANE.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF5C7121E1EE8CF004389CE /* WebViewANE.m */; };
 		CE6232981EF0A43800FC9691 /* WebViewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6232971EF0A43800FC9691 /* WebViewVC.swift */; };
+		CE7A71E11F1996E900FAFB77 /* FreSwift-OSX-Swift.h in Headers */ = {isa = PBXBuildFile; fileRef = CE7A71DF1F1996E900FAFB77 /* FreSwift-OSX-Swift.h */; };
+		CE7A71E21F1996E900FAFB77 /* FreMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = CE7A71E01F1996E900FAFB77 /* FreMacros.h */; };
+		CE7A71E31F19971A00FAFB77 /* FreSwift-OSX-Swift.h in Headers */ = {isa = PBXBuildFile; fileRef = CE7A71DF1F1996E900FAFB77 /* FreSwift-OSX-Swift.h */; };
+		CE7A71E41F19971C00FAFB77 /* FreMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = CE7A71E01F1996E900FAFB77 /* FreMacros.h */; };
 		CE89412A1E3440BF00191B38 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE8941291E3440BF00191B38 /* Cocoa.framework */; };
 		CE89412D1E3440E500191B38 /* SwiftyJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = CE89412B1E3440E500191B38 /* SwiftyJSON.h */; };
 		CE89412E1E3440E500191B38 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE89412C1E3440E500191B38 /* SwiftyJSON.swift */; };
@@ -36,7 +38,6 @@
 		CEF5C70B1E1EE882004389CE /* Adobe AIR_64 in Frameworks */ = {isa = PBXBuildFile; fileRef = CEF5C7081E1EE882004389CE /* Adobe AIR_64 */; };
 		CEF5C70C1E1EE882004389CE /* Adobe AIR in Frameworks */ = {isa = PBXBuildFile; fileRef = CEF5C7091E1EE882004389CE /* Adobe AIR */; };
 		CEF5C71B1E1EED3B004389CE /* WebViewANE_oc.h in Headers */ = {isa = PBXBuildFile; fileRef = CEF5C7161E1EE8E8004389CE /* WebViewANE_oc.h */; };
-		CEF5C71C1E1EED3C004389CE /* WebViewANE-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = CEF5C7171E1EE8E8004389CE /* WebViewANE-Bridging-Header.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,14 +51,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		285FE0612F3E80324C9E166A /* WebViewANE.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebViewANE.swift; path = ../../../source/swift/WebViewANE.swift; sourceTree = "<group>"; };
+		285FE0612F3E80324C9E166A /* SwiftController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftController.swift; path = ../../../source/swift/SwiftController.swift; sourceTree = "<group>"; };
 		285FE36940402B8AC84FD751 /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Configuration.swift; path = ../../../source/swift/Configuration.swift; sourceTree = "<group>"; };
 		285FE79ADD617339B126F104 /* BackForwardList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BackForwardList.swift; path = ../../../source/swift/BackForwardList.swift; sourceTree = "<group>"; };
 		285FED7949ECEDCFD8666D9E /* Popup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Popup.swift; path = ../../../source/swift/Popup.swift; sourceTree = "<group>"; };
 		CE2E1B0B1F1589AB001B36BA /* FreSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FreSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE2E1B0E1F158B3B001B36BA /* FlashRuntimeExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlashRuntimeExtensions.h; sourceTree = "<group>"; };
 		CE2E1B0F1F158B3B001B36BA /* FlashRuntimeExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlashRuntimeExtensions.swift; sourceTree = "<group>"; };
-		CE2E1B121F158B3B001B36BA /* FreSwift-Swift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FreSwift-Swift.h"; sourceTree = "<group>"; };
 		CE2E1B131F158B3B001B36BA /* FreSwift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FreSwift.h; sourceTree = "<group>"; };
 		CE2E1B141F158B3B001B36BA /* FreSwift.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FreSwift.m; sourceTree = "<group>"; };
 		CE2E1B151F158B3B001B36BA /* FreSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FreSwift.swift; sourceTree = "<group>"; };
@@ -68,6 +68,8 @@
 		CE59BDD31EEF28F300F698DE /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Settings.swift; path = ../../../source/swift/Settings.swift; sourceTree = "<group>"; };
 		CE59BDD71EEF36BE00F698DE /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = ../../../source/swift/Constants.swift; sourceTree = "<group>"; };
 		CE6232971EF0A43800FC9691 /* WebViewVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebViewVC.swift; path = ../../../source/swift/WebViewVC.swift; sourceTree = "<group>"; };
+		CE7A71DF1F1996E900FAFB77 /* FreSwift-OSX-Swift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FreSwift-OSX-Swift.h"; sourceTree = "<group>"; };
+		CE7A71E01F1996E900FAFB77 /* FreMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FreMacros.h; sourceTree = "<group>"; };
 		CE8941291E3440BF00191B38 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		CE89412B1E3440E500191B38 /* SwiftyJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SwiftyJSON.h; path = ../../../dependencies/SwiftyJSON.h; sourceTree = "<group>"; };
 		CE89412C1E3440E500191B38 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftyJSON.swift; path = ../../../dependencies/SwiftyJSON.swift; sourceTree = "<group>"; };
@@ -78,7 +80,6 @@
 		CEF5C7091E1EE882004389CE /* Adobe AIR */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "Adobe AIR"; path = "../../../../../sdks/AIR/AIRSDK_24/runtimes/air/mac/Adobe AIR.framework/Versions/1.0/Adobe AIR"; sourceTree = "<group>"; };
 		CEF5C7121E1EE8CF004389CE /* WebViewANE.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WebViewANE.m; path = ../../../source/swift/WebViewANE.m; sourceTree = "<group>"; };
 		CEF5C7161E1EE8E8004389CE /* WebViewANE_oc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WebViewANE_oc.h; path = ../../../include/WebViewANE_oc.h; sourceTree = "<group>"; };
-		CEF5C7171E1EE8E8004389CE /* WebViewANE-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WebViewANE-Bridging-Header.h"; sourceTree = "<group>"; };
 		CEF5C71D1E1EED5C004389CE /* WebViewANE-Swift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WebViewANE-Swift.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -110,13 +111,14 @@
 		CE2E1B0D1F158B3B001B36BA /* FreSwift */ = {
 			isa = PBXGroup;
 			children = (
+				CE7A71DF1F1996E900FAFB77 /* FreSwift-OSX-Swift.h */,
+				CE7A71E01F1996E900FAFB77 /* FreMacros.h */,
 				CE2E1B141F158B3B001B36BA /* FreSwift.m */,
 				CE2E1B161F158B3B001B36BA /* FreSwift_oc.h */,
 				CE2E1B151F158B3B001B36BA /* FreSwift.swift */,
 				CE2E1B0F1F158B3B001B36BA /* FlashRuntimeExtensions.swift */,
 				CE2E1B0E1F158B3B001B36BA /* FlashRuntimeExtensions.h */,
 				CE2E1B181F158B3B001B36BA /* Geom */,
-				CE2E1B121F158B3B001B36BA /* FreSwift-Swift.h */,
 				CE2E1B1B1F158B3B001B36BA /* Info.plist */,
 				CE2E1B131F158B3B001B36BA /* FreSwift.h */,
 			);
@@ -162,7 +164,7 @@
 				285FED7949ECEDCFD8666D9E /* Popup.swift */,
 				CEEA4EF61EBBBD1600F46A1C /* PopupVC.swift */,
 				CEF5C7121E1EE8CF004389CE /* WebViewANE.m */,
-				285FE0612F3E80324C9E166A /* WebViewANE.swift */,
+				285FE0612F3E80324C9E166A /* SwiftController.swift */,
 				CE6232971EF0A43800FC9691 /* WebViewVC.swift */,
 				CEF5C70F1E1EE8B6004389CE /* Headers */,
 				CEF5C70E1E1EE8AE004389CE /* Misc */,
@@ -195,7 +197,6 @@
 			children = (
 				CEF5C71D1E1EED5C004389CE /* WebViewANE-Swift.h */,
 				CEF5C7161E1EE8E8004389CE /* WebViewANE_oc.h */,
-				CEF5C7171E1EE8E8004389CE /* WebViewANE-Bridging-Header.h */,
 			);
 			name = Headers;
 			sourceTree = "<group>";
@@ -210,7 +211,8 @@
 				CE2E1B1E1F158B3B001B36BA /* FlashRuntimeExtensions.h in Headers */,
 				CE2E1B231F158B3B001B36BA /* FreSwift.h in Headers */,
 				CE2E1B261F158B3B001B36BA /* FreSwift_oc.h in Headers */,
-				CE2E1B221F158B3B001B36BA /* FreSwift-Swift.h in Headers */,
+				CE7A71E31F19971A00FAFB77 /* FreSwift-OSX-Swift.h in Headers */,
+				CE7A71E41F19971C00FAFB77 /* FreMacros.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -219,8 +221,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE89412D1E3440E500191B38 /* SwiftyJSON.h in Headers */,
+				CE7A71E21F1996E900FAFB77 /* FreMacros.h in Headers */,
+				CE7A71E11F1996E900FAFB77 /* FreSwift-OSX-Swift.h in Headers */,
 				CEF5C71B1E1EED3B004389CE /* WebViewANE_oc.h in Headers */,
-				CEF5C71C1E1EED3C004389CE /* WebViewANE-Bridging-Header.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -304,7 +307,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE2E1B2A1F158B3B001B36BA /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -354,7 +356,7 @@
 				CE59BDD81EEF36BE00F698DE /* Constants.swift in Sources */,
 				CE6232981EF0A43800FC9691 /* WebViewVC.swift in Sources */,
 				CEEA4EF71EBBBD1600F46A1C /* PopupVC.swift in Sources */,
-				285FE221A0881A06EF9342D3 /* WebViewANE.swift in Sources */,
+				285FE221A0881A06EF9342D3 /* SwiftController.swift in Sources */,
 				CE89412E1E3440E500191B38 /* SwiftyJSON.swift in Sources */,
 				285FE67BD6D6ADA9B37C0549 /* Popup.swift in Sources */,
 				CE59BDD41EEF28F300F698DE /* Settings.swift in Sources */,
@@ -403,7 +405,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
-				SWIFT_OBJC_INTERFACE_HEADER_NAME = "FreSwift-Swift.h";
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "FreSwift-OSX-Swift.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
@@ -438,7 +440,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
-				SWIFT_OBJC_INTERFACE_HEADER_NAME = "FreSwift-Swift.h";
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "FreSwift-OSX-Swift.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
@@ -568,7 +570,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.tuarua.WebViewANE;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "WebViewANE/WebViewANE-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "WebViewANE-Swift.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -603,7 +605,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.tuarua.WebViewANE;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "WebViewANE/WebViewANE-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "WebViewANE-Swift.h";
 				SWIFT_VERSION = 3.0;
 			};
