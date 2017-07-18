@@ -133,120 +133,154 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 #endif
 #if defined(__has_feature) && __has_feature(modules)
 @import ObjectiveC;
-@import CoreGraphics;
 #endif
 
-#import <FreSwift/FreSwift.h>
+#import <FreSwift/FlashRuntimeExtensions.h>
 
 #pragma clang diagnostic ignored "-Wproperty-attribute-mismatch"
 #pragma clang diagnostic ignored "-Wduplicate-method-arg"
-@class FreObjectSwift;
 
-SWIFT_CLASS("_TtC8FreSwift13FreArraySwift")
-@interface FreArraySwift : NSObject
-@property (nonatomic) FREObject _Nullable rawValue;
-- (nonnull instancetype)initWithFreObject:(FREObject _Nonnull)freObject OBJC_DESIGNATED_INITIALIZER;
-- (BOOL)setObjectAtIndex:(NSUInteger)index object:(FreObjectSwift * _Nonnull)object error:(NSError * _Nullable * _Nullable)error;
-@property (nonatomic, readonly) NSUInteger length;
-- (nonnull instancetype)init SWIFT_UNAVAILABLE;
+#if __APPLE__
+#include "TargetConditionals.h"
+#if (TARGET_IPHONE_SIMULATOR) || (TARGET_OS_IPHONE)
+
+/*
+ * 13 means 13 characters in Framework name
+ * 20 means 20 characters in Swift Protocol name
+ */
+
+SWIFT_PROTOCOL("_TtC8FreSwift22FreSwiftBridgeProtocol")
+@protocol FreSwiftBridgeProtocol
+- (FREResult)FRENewObjectFromBoolWithValue:(BOOL)value
+                                    object:(FREObject _Nullable)object;
+
+- (FREResult)FRENewObjectFromInt32WithValue:(int32_t)value
+                                     object:(FREObject _Nullable)object;
+
+- (FREResult)FRENewObjectFromUint32WithValue:(uint32_t)value
+                                      object:(FREObject _Nullable)object;
+
+- (FREResult)FRENewObjectFromDoubleWithValue:(double)value
+                                      object:(FREObject _Nullable)object;
+
+- (FREResult)FRENewObjectFromUTF8WithLength:(uint32_t)length
+                                      value:(NSString *_Nonnull)value
+                                     object:(FREObject _Nullable)object;
+
+- (FREResult)FREGetObjectAsBoolWithObject:(FREObject _Nonnull)object
+                                    value:(uint32_t *_Nullable)value;
+
+- (FREResult)FREGetObjectAsInt32WithObject:(FREObject _Nonnull)object
+                                     value:(int32_t *_Nullable)value;
+
+- (FREResult)FREGetObjectAsUint32WithObject:(FREObject _Nonnull)object
+                                      value:(uint32_t *_Nullable)value;
+
+- (FREResult)FREGetObjectAsDoubleWithObject:(FREObject _Nonnull)object
+                                      value:(double *_Nullable)value;
+
+
+- (FREResult)FREGetObjectAsUTF8WithObject:(FREObject _Nonnull)object
+                                   length:(uint32_t *_Nullable)length
+                                    value:(const uint8_t *_Nullable *_Nullable)value;
+
+
+- (FREResult)FRENewObjectWithClassName:(NSString *_Nonnull)className
+                                  argc:(uint32_t)argc
+                                  argv:(NSPointerArray *_Nullable)argv
+                                object:(FREObject _Nonnull)object
+                       thrownException:(FREObject _Nullable)thrownException;
+
+- (FREResult)FRECallObjectMethodWithObject:(FREObject _Nonnull)object
+                                methodName:(NSString *_Nonnull)className
+                                      argc:(uint32_t)argc
+                                      argv:(NSPointerArray *_Nullable)argv
+                                    result:(FREObject _Nonnull)result
+                           thrownException:(FREObject _Nullable)thrownException;
+
+
+- (FREResult)FREGetObjectPropertyWithObject:(FREObject _Nonnull)object
+                               propertyName:(NSString *_Nonnull)propertyName
+                              propertyValue:(FREObject _Nonnull)propertyValue
+                            thrownException:(FREObject _Nullable)thrownException;
+
+- (FREResult)FRESetObjectPropertyWithObject:(FREObject _Nonnull)object
+                               propertyName:(NSString *_Nonnull)propertyName
+                              propertyValue:(FREObject _Nonnull)propertyValue
+                            thrownException:(FREObject _Nullable)thrownException;
+
+- (FREResult)FREDispatchStatusEventAsyncWithCtx:(FREContext _Nonnull)ctx
+                                           code:(NSString *_Nonnull)code
+                                          level:(NSString *_Nonnull)level;
+
+- (FREResult)FREGetObjectTypeWithObject:(FREObject _Nullable)object
+                             objectType:(FREObjectType *_Nullable)objectType;//pointer
+
+- (FREResult)FRESetArrayElementAWithArrayOrVector:(FREObject _Nonnull)arrayOrVector
+                                            index:(uint32_t)index
+                                            value:(FREObject _Nonnull)value;
+
+- (FREResult)FREGetArrayElementAWithArrayOrVector:(FREObject _Nonnull)arrayOrVector
+                                            index:(uint32_t)index
+                                            value:(FREObject _Nullable)value;
+
+- (FREResult)FREGetArrayLengthWithArrayOrVector:(FREObject _Nonnull)arrayOrVector
+                                         length:(uint32_t *_Nullable)length;
+
+- (FREResult)FRESetArrayLengthWithArrayOrVector:(FREObject _Nonnull)arrayOrVector
+                                         length:(uint32_t)length;
+
+- (FREResult)FREAcquireBitmapData2WithObject:(FREObject _Nonnull)object
+                             descriptorToSet:(FREBitmapData2 *_Nullable)descriptorToSet;
+
+- (FREResult)FREReleaseBitmapDataWithObject:(FREObject _Nonnull)object;
+
+- (FREResult)FREAcquireByteArrayWithObject:(FREObject _Nonnull)object
+                            byteArrayToSet:(FREByteArray *_Nullable)byteArrayToSet;
+
+- (FREResult)FREReleaseByteArrayWithObject:(FREObject _Nonnull)object;
+
+- (FREResult)FRESetContextActionScriptDataWithCtx:(FREContext _Nonnull)ctx
+                                 actionScriptData:(FREObject _Nullable)actionScriptData;
+
+- (FREResult)FREGetContextActionScriptDataWithCtx:(FREContext _Nonnull)ctx
+                                 actionScriptData:(FREObject _Nullable)actionScriptData;
+
+- (FREResult)FREInvalidateBitmapDataRectWithObject:(FREObject _Nonnull)object
+                                                 x:(uint32_t)x
+                                                 y:(uint32_t)y
+                                             width:(uint32_t)width
+                                            height:(uint32_t)height;
+
+- (FREResult) FRESetContextNativeDataWithCtx:(FREContext _Nonnull)ctx
+                                  nativeData:(void *_Nullable)nativeData;
+
+- (FREResult) FREGetContextNativeDataWithCtx:(FREContext _Nonnull)ctx
+                                  nativeData:(void *_Nullable *_Nullable)nativeData;
 @end
 
 
-SWIFT_CLASS("_TtC8FreSwift18FreBitmapDataSwift")
-@interface FreBitmapDataSwift : NSObject
-@property (nonatomic) FREObject _Nullable rawValue;
-@property (nonatomic) NSInteger width;
-@property (nonatomic) NSInteger height;
-@property (nonatomic) BOOL hasAlpha;
-@property (nonatomic) BOOL isPremultiplied;
-@property (nonatomic) BOOL isInvertedY;
-@property (nonatomic) NSUInteger lineStride32;
-@property (nonatomic) uint32_t * _Null_unspecified bits32;
-- (nonnull instancetype)initWithFreObject:(FREObject _Nonnull)freObject OBJC_DESIGNATED_INITIALIZER;
-- (nonnull instancetype)initWithCgImage:(CGImageRef _Nonnull)cgImage OBJC_DESIGNATED_INITIALIZER;
-- (BOOL)acquireAndReturnError:(NSError * _Nullable * _Nullable)error;
-- (void)releaseData;
-- (BOOL)setPixelsWithCgImage:(CGImageRef _Nonnull)cgImage error:(NSError * _Nullable * _Nullable)error;
-- (BOOL)invalidateRectWithX:(NSUInteger)x y:(NSUInteger)y width:(NSUInteger)width height:(NSUInteger)height error:(NSError * _Nullable * _Nullable)error;
-- (nonnull instancetype)init SWIFT_UNAVAILABLE;
+SWIFT_CLASS("_TtC8FreSwift14FreSwiftBridge")
+@interface FreSwiftBridge : NSObject
+- (void)setDelegateWithBridge:(id _Nonnull)bridge;
 @end
 
-@class NSData;
+#elif TARGET_OS_MAC
 
-SWIFT_CLASS("_TtC8FreSwift17FreByteArraySwift")
-@interface FreByteArraySwift : NSObject
-@property (nonatomic) FREObject _Nullable rawValue;
-@property (nonatomic) uint8_t * _Null_unspecified bytes;
-@property (nonatomic) NSUInteger length;
-- (nonnull instancetype)initWithFreByteArray:(FREObject _Nonnull)freByteArray OBJC_DESIGNATED_INITIALIZER;
-- (nonnull instancetype)initWithData:(NSData * _Nonnull)data OBJC_DESIGNATED_INITIALIZER;
-- (BOOL)acquireAndReturnError:(NSError * _Nullable * _Nullable)error;
-- (void)releaseBytes;
-@property (nonatomic, readonly, strong) NSData * _Nullable value;
-- (nonnull instancetype)init SWIFT_UNAVAILABLE;
+SWIFT_CLASS("_TtC8FreSwift8FreSwift")
+@interface FreSwift : NSObject
+- (FREObject _Nullable)initFreSwiftWithCtx:(FREContext _Nonnull)ctx
+                                      argc:(uint32_t)argc
+                                      argv:(FREObject _Nullable * _Nonnull)argv;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+
 @end
 
+#else
+#   error "Unknown Apple platform"
+#endif
 
-SWIFT_CLASS("_TtC8FreSwift15FreContextSwift")
-@interface FreContextSwift : NSObject
-@property (nonatomic) FREContext _Nullable rawValue;
-- (nonnull instancetype)initWithFreContext:(FREContext _Nonnull)freContext OBJC_DESIGNATED_INITIALIZER;
-- (BOOL)dispatchStatusEventAsyncWithCode:(NSString * _Nonnull)code level:(NSString * _Nonnull)level error:(NSError * _Nullable * _Nullable)error;
-- (BOOL)setActionScriptDataWithObject:(FREObject _Nonnull)object error:(NSError * _Nullable * _Nullable)error;
-- (nonnull instancetype)init SWIFT_UNAVAILABLE;
-@end
+#endif
 
-
-SWIFT_CLASS("_TtC8FreSwift14FreObjectSwift")
-@interface FreObjectSwift : NSObject
-@property (nonatomic) FREObject _Nullable rawValue;
-@property (nonatomic, readonly) id _Nullable value;
-- (nonnull instancetype)initWithFreObject:(FREObject _Nullable)freObject OBJC_DESIGNATED_INITIALIZER;
-- (nullable instancetype)initWithString:(NSString * _Nonnull)string error:(NSError * _Nullable * _Nullable)error OBJC_DESIGNATED_INITIALIZER;
-- (nullable instancetype)initWithDouble:(double)double_ error:(NSError * _Nullable * _Nullable)error OBJC_DESIGNATED_INITIALIZER;
-- (nullable instancetype)initWithCgFloat:(CGFloat)cgFloat error:(NSError * _Nullable * _Nullable)error OBJC_DESIGNATED_INITIALIZER;
-- (nullable instancetype)initWithInt:(NSInteger)int_ error:(NSError * _Nullable * _Nullable)error OBJC_DESIGNATED_INITIALIZER;
-- (nullable instancetype)initWithUint:(NSUInteger)uint error:(NSError * _Nullable * _Nullable)error OBJC_DESIGNATED_INITIALIZER;
-- (nullable instancetype)initWithBool:(BOOL)bool_ error:(NSError * _Nullable * _Nullable)error OBJC_DESIGNATED_INITIALIZER;
-- (nullable instancetype)initWithAny:(id _Nonnull)any error:(NSError * _Nullable * _Nullable)error OBJC_DESIGNATED_INITIALIZER;
-- (BOOL)setPropertyWithName:(NSString * _Nonnull)name prop:(FreObjectSwift * _Nullable)prop error:(NSError * _Nullable * _Nullable)error;
-- (BOOL)setPropertyWithName:(NSString * _Nonnull)name array:(FreArraySwift * _Nullable)array error:(NSError * _Nullable * _Nullable)error;
-- (nonnull instancetype)init SWIFT_UNAVAILABLE;
-@end
-
-
-SWIFT_CLASS("_TtC8FreSwift13FrePointSwift")
-@interface FrePointSwift : FreObjectSwift
-- (nonnull instancetype)initWithFreObject:(FREObject _Nullable)freObject OBJC_DESIGNATED_INITIALIZER;
-- (nonnull instancetype)initWithValue:(CGPoint)value OBJC_DESIGNATED_INITIALIZER;
-@property (nonatomic, readonly) id _Nullable value;
-- (nullable instancetype)initWithString:(NSString * _Nonnull)string error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
-- (nullable instancetype)initWithDouble:(double)double_ error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
-- (nullable instancetype)initWithCgFloat:(CGFloat)cgFloat error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
-- (nullable instancetype)initWithInt:(NSInteger)int_ error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
-- (nullable instancetype)initWithUint:(NSUInteger)uint error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
-- (nullable instancetype)initWithBool:(BOOL)bool_ error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
-- (nullable instancetype)initWithAny:(id _Nonnull)any error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
-@end
-
-
-SWIFT_CLASS("_TtC8FreSwift17FreRectangleSwift")
-@interface FreRectangleSwift : FreObjectSwift
-- (nonnull instancetype)initWithFreObject:(FREObject _Nullable)freObject OBJC_DESIGNATED_INITIALIZER;
-- (nonnull instancetype)initWithValue:(CGRect)value OBJC_DESIGNATED_INITIALIZER;
-@property (nonatomic, readonly) id _Nullable value;
-- (nullable instancetype)initWithString:(NSString * _Nonnull)string error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
-- (nullable instancetype)initWithDouble:(double)double_ error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
-- (nullable instancetype)initWithCgFloat:(CGFloat)cgFloat error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
-- (nullable instancetype)initWithInt:(NSInteger)int_ error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
-- (nullable instancetype)initWithUint:(NSUInteger)uint error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
-- (nullable instancetype)initWithBool:(BOOL)bool_ error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
-- (nullable instancetype)initWithAny:(id _Nonnull)any error:(NSError * _Nullable * _Nullable)error SWIFT_UNAVAILABLE;
-@end
-
-
-@interface NSObject (SWIFT_EXTENSION(FreSwift))
-- (FREObject _Nullable)callSwiftFunctionWithName:(NSString * _Nonnull)name ctx:(FREContext _Nonnull)ctx argc:(uint32_t)argc argv:(FREObject _Nullable * _Null_unspecified)argv SWIFT_WARN_UNUSED_RESULT;
-@end
 
 #pragma clang diagnostic pop
