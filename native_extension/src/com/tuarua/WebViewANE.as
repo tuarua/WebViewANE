@@ -91,7 +91,6 @@ public class WebViewANE extends EventDispatcher {
             try {
                 ctx = ExtensionContext.createExtensionContext("com.tuarua." + name, null);
                 ctx.addEventListener(StatusEvent.STATUS, gotEvent);
-                trace(ctx);
                 _isSupported = ctx.call("isSupported");
             } catch (e:Error) {
                 trace(e.name);

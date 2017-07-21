@@ -103,6 +103,8 @@ import Cocoa
         
         return arr
     }
+    
+    
 
     // this handles target=_blank links by opening them in the same view
     func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration,
@@ -110,6 +112,14 @@ import Cocoa
         if navigationAction.targetFrame == nil {
             switch _popupBehaviour {
             case .block:
+                var props: Dictionary<String, Any> = Dictionary()
+                props["url"] = ""
+                if let url = navigationAction.request.url?.absoluteString {
+                    props["url"] = url
+                }
+                props["tab"] = getCurrentTab(webView)
+                let json = JSON(props)
+                sendEvent(ctx: context, name: Constants.ON_POPUP_BLOCKED, value: json.description)
                 break
             case .newWindow:
 #if os(iOS)
@@ -128,36 +138,6 @@ import Cocoa
     }
 
     
-    fileprivate func isWhiteListBlocked(url:String) -> Bool {
-        guard let list = _settings.urlWhiteList,
-            list.count > 0
-            else {
-                return false
-        }
-        for item in list {
-            if url.range(of: item as! String) != nil {
-                return false
-            }
-        }
-        return true
-    }
-    
-    fileprivate func isBlackListBlocked(url:String) -> Bool {
-        guard let list = _settings.urlBlackList,
-            list.count > 0
-            else {
-                return false
-        }
-        
-        for item in list {
-            if url.range(of: item as! String) != nil {
-                return true
-            }
-        }
-        
-        return false
-    }
-    
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         guard let newUrl = navigationAction.request.url?.absoluteString.lowercased()
             else {
@@ -168,19 +148,8 @@ import Cocoa
         if isWhiteListBlocked(url: newUrl) || isBlackListBlocked(url: newUrl) {
             var props: Dictionary<String, Any> = Dictionary()
             props["url"] = newUrl
-            props["tab"] = 0
+            props["tab"] = getCurrentTab(webView)
 
-            if let wv = webView as? WebViewVC {
-                for vc in _tabList {
-                    if let theVC = vc as? WebViewVC {
-                        if theVC.isEqual(wv) {
-                            props["tab"] = theVC.tab
-                            break
-                        }
-                    }
-                }
-            }
-            
             let json = JSON(props)
             sendEvent(ctx: context, name: Constants.ON_URL_BLOCKED, value: json.description)
             decisionHandler(.cancel)
@@ -841,6 +810,51 @@ import Cocoa
 
         return nil
     }
+    
+    
+    fileprivate func getCurrentTab(_ webView: WKWebView?) -> Int {
+        if let wv = webView as? WebViewVC {
+            for vc in _tabList {
+                if let theVC = vc as? WebViewVC {
+                    if theVC.isEqual(wv) {
+                        return theVC.tab
+                    }
+                }
+            }
+        }
+        return 0
+    }
+    
+    fileprivate func isWhiteListBlocked(url:String) -> Bool {
+        guard let list = _settings.urlWhiteList,
+            list.count > 0
+            else {
+                return false
+        }
+        for item in list {
+            if url.range(of: item as! String) != nil {
+                return false
+            }
+        }
+        return true
+    }
+    
+    fileprivate func isBlackListBlocked(url:String) -> Bool {
+        guard let list = _settings.urlBlackList,
+            list.count > 0
+            else {
+                return false
+        }
+        
+        for item in list {
+            if url.range(of: item as! String) != nil {
+                return true
+            }
+        }
+        
+        return false
+    }
+
 
     func setFREContext(ctx: FREContext) {
         context = FreContextSwift.init(freContext: ctx)
