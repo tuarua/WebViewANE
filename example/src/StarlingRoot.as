@@ -10,6 +10,7 @@ import com.tuarua.webview.BackForwardList;
 import com.tuarua.webview.BackForwardListItem;
 import com.tuarua.webview.DownloadProgress;
 import com.tuarua.webview.JavascriptResult;
+import com.tuarua.webview.LogSeverity;
 import com.tuarua.webview.Settings;
 import com.tuarua.webview.TabDetails;
 import com.tuarua.webview.WebViewEvent;
@@ -24,6 +25,7 @@ import flash.display.PNGEncoderOptions;
 import flash.display.StageDisplayState;
 import flash.events.Event;
 import flash.events.FullScreenEvent;
+import flash.events.MouseEvent;
 import flash.events.NativeWindowDisplayStateEvent;
 import flash.filesystem.File;
 import flash.filesystem.FileMode;
@@ -104,6 +106,7 @@ public class StarlingRoot extends Sprite {
         webView.addEventListener(WebViewEvent.ON_DOWNLOAD_COMPLETE, onDownloadComplete);
         webView.addEventListener(WebViewEvent.ON_PERMISSION_RESULT, onPermissionResult);
         webView.addEventListener(WebViewEvent.ON_URL_BLOCKED, onUrlBlocked);
+        webView.addEventListener(WebViewEvent.ON_POPUP_BLOCKED, onPopupBlocked);
 
         var settings:Settings = new Settings();
         settings.popup.behaviour = Behaviour.NEW_WINDOW;  //Behaviour.BLOCK //Behaviour.SAME_WINDOW
@@ -126,6 +129,8 @@ public class StarlingRoot extends Sprite {
         settings.cef.commandLineArgs.push(kvp);
         settings.cef.enableDownloads = true;
         settings.cef.contextMenu.enabled = false; //enable/disable right click
+        settings.cef.logSeverity = LogSeverity.DISABLE;
+
 
         //settings.urlWhiteList.push("macromedia.","google.", "youtube.", "adobe.com","chrome-devtools://"); //to restrict urls - simple string matching
         //settings.urlBlackList.push(".pdf");
@@ -137,7 +142,7 @@ public class StarlingRoot extends Sprite {
 //        settings.cef.GOOGLE_DEFAULT_CLIENT_SECRET = "YOUR_VALUE";
 
         var viewPort:Rectangle = new Rectangle(0, 90, _appWidth, _appHeight - 140);
-        webView.init(WebViewANESample.target.stage, viewPort, "http://www.adobe.com", settings, 1.0, 0xF1F1F1);
+        webView.init(WebViewANESample.target.stage, viewPort, "http://www.youtube.com", settings, 1.0, 0xF1F1F1, 1.0);
         webView.visible = true;
         webView.injectScript("function testInject(){console.log('yo yo')}");
 
@@ -259,6 +264,10 @@ public class StarlingRoot extends Sprite {
         addChild(progress);
     }
 
+    private function onPopupBlocked(event:WebViewEvent):void {
+        Starling.current.nativeStage.dispatchEvent(new MouseEvent(MouseEvent.CLICK)); //this prevents touch getting trapped on Windows
+    }
+
     private function onNewTab(event:InteractionEvent):void {
         fwdBtn.alpha = backBtn.alpha = 0.4;
         fwdBtn.touchable = backBtn.touchable = false;
@@ -283,6 +292,7 @@ public class StarlingRoot extends Sprite {
 
     private static function onUrlBlocked(event:WebViewEvent):void {
         trace(event.params.url, "does not match our urlWhiteList or is on urlBlackList", "tab is:", event.params.tab);
+        //Starling.current.
     }
 
     private static function onPermissionResult(event:WebViewEvent):void {

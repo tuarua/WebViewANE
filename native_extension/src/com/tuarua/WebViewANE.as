@@ -91,8 +91,13 @@ public class WebViewANE extends EventDispatcher {
             try {
                 ctx = ExtensionContext.createExtensionContext("com.tuarua." + name, null);
                 ctx.addEventListener(StatusEvent.STATUS, gotEvent);
+                trace(ctx);
                 _isSupported = ctx.call("isSupported");
             } catch (e:Error) {
+                trace(e.name);
+                trace(e.message);
+                trace(e.getStackTrace());
+                trace(e.errorID);
                 trace("[" + name + "] ANE Not loaded properly.  Future calls will fail.");
             }
         } else {
@@ -229,6 +234,15 @@ public class WebViewANE extends EventDispatcher {
                     break;
                 }
                 dispatchEvent(new WebViewEvent(WebViewEvent.ON_URL_BLOCKED, argsAsJSON));
+                break;
+            case WebViewEvent.ON_POPUP_BLOCKED:
+                try {
+                    argsAsJSON = JSON.parse(event.code);
+                } catch (e:Error) {
+                    trace(e.message);
+                    break;
+                }
+                dispatchEvent(new WebViewEvent(WebViewEvent.ON_POPUP_BLOCKED, argsAsJSON));
                 break;
             case WebViewEvent.ON_PERMISSION_RESULT:
                 try {
