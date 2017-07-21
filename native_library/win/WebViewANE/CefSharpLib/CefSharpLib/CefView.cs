@@ -80,7 +80,7 @@ namespace CefSharpLib {
         private const string OnFail = "WebView.OnFail";
         private const string OnPermission = "WebView.OnPermissionResult";
         private const string OnUrlBlocked = "WebView.OnUrlBlocked";
-
+        private const string OnPopupBlocked = "WebView.OnPopupBlocked";
         public void Init() {
             InitializeComponent();
             IsManipulationEnabled = true;
@@ -171,6 +171,7 @@ namespace CefSharpLib {
             // ReSharper disable once UseObjectOrCollectionInitializer
             var sh = new LifeSpanHandler(PopupBehaviour, PopupDimensions);
             sh.OnPermissionPopup += OnPermissionPopup;
+            sh.OnPopupBlock += OnPopupBlock;
 
             browser.LifeSpanHandler = sh;
             browser.FrameLoadEnd += OnFrameLoaded;
@@ -195,6 +196,24 @@ namespace CefSharpLib {
             TabDetails.Add(new TabDetails());
 
             return browser;
+        }
+
+        private void OnPopupBlock(object sender, string e) {
+            var sb = new StringBuilder();
+            var sw = new StringWriter(sb);
+            var writer = new JsonTextWriter(sw);
+
+            var tab = _tabs.IndexOf(sender);
+            tab = tab == -1 ? 0 : tab;
+
+            writer.WriteStartObject();
+            writer.WritePropertyName("url");
+            writer.WriteValue(e);
+            writer.WritePropertyName("tab");
+            writer.WriteValue(tab);
+            writer.WriteEndObject();
+
+            FreSharpController.Context.DispatchEvent(OnPopupBlocked, sb.ToString());
         }
 
         public void AddTab() {

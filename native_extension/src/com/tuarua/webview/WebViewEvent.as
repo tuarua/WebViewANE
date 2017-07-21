@@ -69,6 +69,11 @@ public class WebViewEvent extends Event {
      */
     public static const ON_URL_BLOCKED:String = "WebView.OnUrlBlocked";
 
+    /**
+     * Dispatched when a pop is blocked (due to settings.popup.behaviour).
+     *
+     */
+    public static const ON_POPUP_BLOCKED:String = "WebView.OnPopupBlocked";
     public var params:*;
 
 
