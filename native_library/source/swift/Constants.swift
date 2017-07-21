@@ -23,6 +23,7 @@ import Foundation
 
 public struct Constants {
     public static let ON_URL_BLOCKED: String = "WebView.OnUrlBlocked"
+    public static let ON_POPUP_BLOCKED: String = "WebView.OnPopupBlocked"
     public static let ON_FAIL: String = "WebView.OnFail"
     public static let ON_ESC_KEY: String = "WebView.OnEscKey"
     public static let ON_PROPERTY_CHANGE: String = "WebView.OnPropertyChange"
