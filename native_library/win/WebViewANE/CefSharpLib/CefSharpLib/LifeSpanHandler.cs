@@ -4,6 +4,7 @@ using CefSharp;
 namespace CefSharpLib {
     public class LifeSpanHandler : ILifeSpanHandler {
         public event EventHandler<string> OnPermissionPopup;
+        public event EventHandler<string> OnPopupBlock;
         private readonly PopupBehaviour _popupBehaviour;
         private readonly Tuple<int, int> _popupDimensions;
 
@@ -24,6 +25,8 @@ namespace CefSharpLib {
 
             // ReSharper disable once ConvertIfStatementToSwitchStatement
             if (_popupBehaviour == PopupBehaviour.Block) {
+                var handler = OnPopupBlock;
+                handler?.Invoke(this, targetUrl);
                 return true;
             }
             

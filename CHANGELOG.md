@@ -1,3 +1,6 @@
+### 0.0.27
+- WIN/OSX: added ON_POPUP_BLOCKED event Issue #45
+
 ### 0.0.26
 - OSX: Add dev tools support
 - OSX: Deprecate onFullScreen() method, handled internally
