@@ -4,9 +4,15 @@
 WebView Adobe Air Native Extension for OSX 10.10+, Windows Desktop, iOS 9.0+ and Android21+.
 This ANE provides access to a more modern webview from AIR.
 
-Sample client included
+[ASDocs Documentation](https://tuarua.github.io/asdocs/webviewane/)
+
+-------------
+
+Much time, skill and effort has gone into this. Help support the project
 
 [![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5UR2T52J633RC)
+
+-------------
 
 ## !! Version 0.0.26+
 There is now a new dependency ANE.   
