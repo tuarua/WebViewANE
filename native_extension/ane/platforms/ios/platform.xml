@@ -10,7 +10,7 @@
     </linkerOptions>
     
     <packagedDependencies>
-        <packagedDependency>FRESwift.framework</packagedDependency>
+        <packagedDependency>FreSwift.framework</packagedDependency>
         <packagedDependency>WebViewANE_FW.framework</packagedDependency>
     </packagedDependencies>
     

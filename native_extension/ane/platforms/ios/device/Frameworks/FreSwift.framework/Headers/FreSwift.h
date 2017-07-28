@@ -24,12 +24,12 @@
 
 #endif
 
-//! Project version number for FRESwift.
+//! Project version number for FreSwift.
 FOUNDATION_EXPORT double FreSwiftVersionNumber;
 
-//! Project version string for FRESwift.
+//! Project version string for FreSwift.
 FOUNDATION_EXPORT const unsigned char FreSwiftVersionString[];
 
-// In this header, you should import all the public headers of your framework using statements like #import <FRESwift/PublicHeader.h>
+// In this header, you should import all the public headers of your framework using statements like #import <FreSwift/PublicHeader.h>
 
 #import <FreSwift/FlashRuntimeExtensions.h>
