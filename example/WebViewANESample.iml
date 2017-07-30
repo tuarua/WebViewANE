@@ -31,13 +31,12 @@
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/src/jsTest.html" path-in-package="jsTest.html" />
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/src/localTest.html" path-in-package="localTest.html" />
           </files-to-package>
-<<<<<<< HEAD
-          <AirSigningOptions keystore-path="$DOCUMENTS$/TuaRua2017.p12" />
+          <AirSigningOptions keystore-path="$DOCUMENTS$/TuaRua2017.p12" use-temp-certificate="false" />
         </packaging-air-desktop>
         <packaging-android />
         <packaging-ios />
       </configuration>
-      <configuration name="WebViewANE Sample 64bit" target-platform="Desktop" pure-as="true" main-class="WebViewANESample" output-file="WebViewANESample_64.swf" output-folder="$MODULE_DIR$/bin-debug">
+      <configuration name="webView ANE Sample 64bit" target-platform="Desktop" pure-as="true" main-class="WebViewANESample" output-file="webView_ANE_Sample_64bit.swf" output-folder="$MODULE_DIR$/bin-debug">
         <dependencies>
           <entries>
             <entry library-name="starling" library-level="project">
@@ -61,13 +60,11 @@
             <entry key="compiler.locale" value="en_US" />
           </map>
         </compiler-options>
-        <packaging-air-desktop use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/src/WebViewANESample-app.xml" package-file-name="WebViewANE_Sample_64bit">
+        <packaging-air-desktop use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/src/WebViewANESample-app.xml" package-file-name="webView_ANE_Sample_64bit">
           <files-to-package>
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/src/jsTest.html" path-in-package="jsTest.html" />
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/src/localTest.html" path-in-package="localTest.html" />
           </files-to-package>
-=======
->>>>>>> master
           <AirSigningOptions keystore-path="$DOCUMENTS$/TuaRua2017.p12" use-temp-certificate="false" />
         </packaging-air-desktop>
         <packaging-android />
