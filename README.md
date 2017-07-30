@@ -34,7 +34,7 @@ private var webView:WebViewANE = new WebViewANE();
 The Windows version utilises the [CefSharp WinForms](https://github.com/cefsharp/CefSharp) version of Chromium Embedded Framework.
 
 ##### Windows Installation - Important!
-* Download cef_binaries_x86.zip from the latest [release tag]https://github.com/tuarua/WebViewANE/releases
+* Download cef_binaries_x86.zip from the latest [release tag](https://github.com/tuarua/WebViewANE/releases)
 * Unzip the contents of cef_binaries_x86.zip into the bin folder of your AIRSDK. 
 * Copy the contents of the "cef_sharp_libs_x86" folder into the bin folder of your AIRSDK. 
 
