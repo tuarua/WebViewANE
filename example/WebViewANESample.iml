@@ -31,6 +31,7 @@
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/src/jsTest.html" path-in-package="jsTest.html" />
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/src/localTest.html" path-in-package="localTest.html" />
           </files-to-package>
+<<<<<<< HEAD
           <AirSigningOptions keystore-path="$DOCUMENTS$/TuaRua2017.p12" />
         </packaging-air-desktop>
         <packaging-android />
@@ -65,6 +66,8 @@
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/src/jsTest.html" path-in-package="jsTest.html" />
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/src/localTest.html" path-in-package="localTest.html" />
           </files-to-package>
+=======
+>>>>>>> master
           <AirSigningOptions keystore-path="$DOCUMENTS$/TuaRua2017.p12" use-temp-certificate="false" />
         </packaging-air-desktop>
         <packaging-android />
