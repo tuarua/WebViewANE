@@ -3,8 +3,8 @@
     <id>com.tuarua.WebViewANE</id>
     <name>WebView ANE</name>
     <copyright>This work is licensed under Apache License, Copyright (c) 2017 Tua Rua Ltd.</copyright>
-    <versionNumber>0.0.27</versionNumber>
-	<platforms>
+    <versionNumber>0.0.28</versionNumber>
+    <platforms>
         <platform name="Windows-x86">
             <applicationDeployment>
                 <nativeLibrary>WebViewANE.dll</nativeLibrary>
@@ -12,5 +12,12 @@
                 <finalizer>TRWVExtFinizer</finalizer>
             </applicationDeployment>
         </platform>
-	</platforms>
+        <platform name="Windows-x86-64">
+            <applicationDeployment>
+                <nativeLibrary>WebViewANE.dll</nativeLibrary>
+                <initializer>TRWVExtInizer</initializer>
+                <finalizer>TRWVExtFinizer</finalizer>
+            </applicationDeployment>
+        </platform>
+    </platforms>
 </extension>
