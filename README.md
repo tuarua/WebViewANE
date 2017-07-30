@@ -34,9 +34,9 @@ private var webView:WebViewANE = new WebViewANE();
 The Windows version utilises the [CefSharp WinForms](https://github.com/cefsharp/CefSharp) version of Chromium Embedded Framework.
 
 ##### Windows Installation - Important!
-
-* Unzip the contents of cef_binaries.zip into the bin folder of your AIRSDK. 
-* Copy the contents of the "cef_sharp_libs" folder into the bin folder of your AIRSDK. 
+* Download cef_binaries_x86.zip from the latest release tag
+* Unzip the contents of cef_binaries_x86.zip into the bin folder of your AIRSDK. 
+* Copy the contents of the "cef_sharp_libs_x86" folder into the bin folder of your AIRSDK. 
 
 The location of this will vary depending on your IDE. These dlls and other cef files need to reside in the folder where adl.exe is run from.
 * CEF was built with MS Visual Studio 2013. As such your machine (and user's machines) will need to have Microsoft Visual C++ 2013 Redistributable (x86) runtime installed.
@@ -48,11 +48,18 @@ https://www.microsoft.com/en-us/download/details.aspx?id=48145
 * This ANE also uses .NET 4.6 Framework. As such your machine (and user's machines) will need to have to have this installed.
 https://www.microsoft.com/en-us/download/details.aspx?id=48130
 
-* For release builds, the cef_binaries and cef_sharp_libs files need to be packaged in the same folder as your exe.  
+* For release builds, the cef_binaries_x86 and cef_sharp_libs_x86 files need to be packaged in the same folder as your exe.  
 It is highly recommended you package your app for release using an installer.  
 Please see the win_installer folder for an example Inno Setup project which handles .NET 4.6 and MSVC2013 and MSV2015 dependencies.
 
 * The Cef view and processes can only be attached once to your app. Therefore only one instance can be created and used.
+
+##### Windows 64bit
+
+The Adobe AIRSDK 64bit BETA is available here:
+https://fpdownload.macromedia.com/pub/labs/flashruntimes/air/win64SDK/AIRSDK_Compiler.zip
+
+If you are using the 64bit version follow the above instructions replacing x86 with x64 where applicable
 
 ## OSX
 
@@ -76,7 +83,7 @@ Here is a video [demonstrating how to use it](https://www.youtube.com/watch?v=H-
 [![youtube video](https://raw.githubusercontent.com/tuarua/WebViewANE/master/screenshots/ios-packaging.jpg)](https://www.youtube.com/watch?v=H-G8WugNFQM&feature=youtu.be)
 
 ## Android Important!
-AIRSDK 26 is not supported. Please use AIRSDK 25 
+AIRSDK 26 is not yet supported. Please use AIRSDK 25 
 The Android version utilises the native WebView. 
 
 

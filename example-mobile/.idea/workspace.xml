@@ -23,8 +23,8 @@
       <file leaf-file-name="WebViewANESample.as" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/WebViewANESample.as">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="53" column="23" lean-forward="false" selection-start-line="53" selection-start-column="23" selection-end-line="53" selection-end-column="23" />
+            <state relative-caret-position="17">
+              <caret line="40" column="57" lean-forward="false" selection-start-line="40" selection-start-column="57" selection-end-line="40" selection-end-column="57" />
               <folding>
                 <element signature="e#10#49#0" expanded="true" />
               </folding>
@@ -35,7 +35,7 @@
       <file leaf-file-name="StarlingRoot.as" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/StarlingRoot.as">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1635">
+            <state relative-caret-position="1853">
               <caret line="138" column="11" lean-forward="false" selection-start-line="138" selection-start-column="11" selection-end-line="138" selection-end-column="11" />
               <folding>
                 <element signature="e#10#39#0" expanded="true" />
@@ -47,7 +47,7 @@
       <file leaf-file-name="WebViewANESample-app.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/WebViewANESample-app.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
+            <state relative-caret-position="119">
               <caret line="7" column="0" lean-forward="false" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
               <folding />
             </state>
@@ -145,10 +145,10 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scratches" />
       <pane id="Scope" />
       <pane id="ProjectPane" />
+      <pane id="PackagesPane" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -173,7 +173,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Bash.Prepare for iOS Device Packaging">
+  <component name="RunManager" selected="Flash App.WebViewANESample-mobile ios - simulator">
     <configuration name="Prepare for Build" type="BashConfigurationType" factoryName="Bash">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="INTERPRETER_PATH" value="/bin/bash" />
@@ -324,32 +324,6 @@
       <module name="" />
       <envs />
     </configuration>
-    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
-      <node-interpreter>project</node-interpreter>
-      <node-options />
-      <gulpfile />
-      <tasks />
-      <arguments />
-      <envs />
-    </configuration>
-    <configuration default="true" type="JetRunConfigurationType" factoryName="Kotlin">
-      <option name="MAIN_CLASS_NAME" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="Starling-Scaffold-Mobile" />
-      <envs />
-    </configuration>
-    <configuration default="true" type="Remote" factoryName="Remote">
-      <option name="USE_SOCKET_TRANSPORT" value="true" />
-      <option name="SERVER_MODE" value="false" />
-      <option name="SHMEM_ADDRESS" value="javadebug" />
-      <option name="HOST" value="localhost" />
-      <option name="PORT" value="5005" />
-    </configuration>
     <configuration default="true" type="BashConfigurationType" factoryName="Bash">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="INTERPRETER_PATH" value="/bin/bash" />
@@ -406,6 +380,32 @@
       </option>
       <option name="moduleName" value="" />
       <option name="trusted" value="true" />
+    </configuration>
+    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <arguments />
+      <envs />
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType" factoryName="Kotlin">
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="Starling-Scaffold-Mobile" />
+      <envs />
+    </configuration>
+    <configuration default="true" type="Remote" factoryName="Remote">
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" value="javadebug" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
     </configuration>
     <configuration name="&lt;template&gt;" type="JUnit" default="true" selected="false">
       <option name="MAIN_CLASS_NAME" />
@@ -545,26 +545,25 @@
       <workItem from="1500402388641" duration="222000" />
       <workItem from="1500405065841" duration="155000" />
       <workItem from="1500589533471" duration="9000" />
-      <workItem from="1501216979650" duration="424000" />
-      <workItem from="1501266915551" duration="45000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="89222000" />
+    <option name="totallyTimeSpent" value="88753000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="14" y="63" width="1675" height="949" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3290398" sideWeight="0.35211268" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.39606395" sideWeight="0.49846908" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3290398" sideWeight="0.64788735" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32905483" sideWeight="0.6509492" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.36068586" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.35232198" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3969555" sideWeight="0.50153095" order="3" side_tool="false" content_ui="tabs" />
@@ -881,7 +880,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/StarlingRoot.as">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1635">
+        <state relative-caret-position="1853">
           <caret line="138" column="11" lean-forward="false" selection-start-line="138" selection-start-column="11" selection-end-line="138" selection-end-column="11" />
           <folding>
             <element signature="e#10#39#0" expanded="true" />
@@ -891,7 +890,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/WebViewANESample-app.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
+        <state relative-caret-position="119">
           <caret line="7" column="0" lean-forward="false" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
           <folding />
         </state>
@@ -899,8 +898,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/WebViewANESample.as">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="53" column="23" lean-forward="false" selection-start-line="53" selection-start-column="23" selection-end-line="53" selection-end-column="23" />
+        <state relative-caret-position="17">
+          <caret line="40" column="57" lean-forward="false" selection-start-line="40" selection-start-column="57" selection-end-line="40" selection-end-column="57" />
           <folding>
             <element signature="e#10#49#0" expanded="true" />
           </folding>

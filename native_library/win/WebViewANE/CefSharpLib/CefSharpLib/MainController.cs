@@ -103,6 +103,10 @@ namespace CefSharpLib {
         private FREObject Capture(FREContext ctx, uint argc, FREObject[] argv) {
             var rect = new WinApi.Rect();
             WinApi.GetWindowRect(_cefWindow, ref rect);
+            if (Environment.Is64BitProcess) {
+                Trace("Capture is not yet available on 64bit Windows.");
+                return FREObject.Zero;
+            }
 
             var freX = Convert.ToInt32(new FreObjectSharp(argv[0]).Value);
             var freY = Convert.ToInt32(new FreObjectSharp(argv[1]).Value);

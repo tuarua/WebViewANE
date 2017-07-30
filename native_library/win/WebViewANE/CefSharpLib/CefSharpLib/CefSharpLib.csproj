@@ -1,5 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\packages\TuaRua.FreSharp.1.0.9\build\TuaRua.FreSharp.props" Condition="Exists('..\..\packages\TuaRua.FreSharp.1.0.9\build\TuaRua.FreSharp.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <Import Project="..\..\packages\CefSharp.WinForms.57.0.0\build\CefSharp.WinForms.props" Condition="Exists('..\..\packages\CefSharp.WinForms.57.0.0\build\CefSharp.WinForms.props')" />
   <Import Project="..\..\packages\CefSharp.Common.57.0.0\build\CefSharp.Common.props" Condition="Exists('..\..\packages\CefSharp.Common.57.0.0\build\CefSharp.Common.props')" />
   <PropertyGroup>
@@ -12,29 +14,8 @@
     <AssemblyName>CefSharpLib</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <WarningLevel>4</WarningLevel>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -44,6 +25,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -53,14 +35,35 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>
+    </DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+    <DocumentationFile>
+    </DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>
+    </DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FreSharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <HintPath>..\..\packages\TuaRua.FreSharp.1.0.7\lib\net46\FreSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="FreSharpCore, Version=0.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <HintPath>..\..\packages\TuaRua.FreSharp.1.0.7\lib\net46\FreSharpCore.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -135,9 +138,6 @@
     </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
-  <ItemGroup>
-    <Resource Include="README.txt" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -149,11 +149,14 @@
     <Error Condition="!Exists('..\..\packages\CefSharp.Common.57.0.0\build\CefSharp.Common.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\CefSharp.Common.57.0.0\build\CefSharp.Common.targets'))" />
     <Error Condition="!Exists('..\..\packages\CefSharp.WinForms.57.0.0\build\CefSharp.WinForms.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\CefSharp.WinForms.57.0.0\build\CefSharp.WinForms.props'))" />
     <Error Condition="!Exists('..\..\packages\CefSharp.WinForms.57.0.0\build\CefSharp.WinForms.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\CefSharp.WinForms.57.0.0\build\CefSharp.WinForms.targets'))" />
+    <Error Condition="!Exists('..\..\packages\TuaRua.FreSharp.1.0.9\build\TuaRua.FreSharp.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\TuaRua.FreSharp.1.0.9\build\TuaRua.FreSharp.props'))" />
+    <Error Condition="!Exists('..\..\packages\TuaRua.FreSharp.1.0.9\build\TuaRua.FreSharp.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\TuaRua.FreSharp.1.0.9\build\TuaRua.FreSharp.targets'))" />
   </Target>
   <Import Project="..\..\packages\cef.redist.x64.3.2987.1601\build\cef.redist.x64.targets" Condition="Exists('..\..\packages\cef.redist.x64.3.2987.1601\build\cef.redist.x64.targets')" />
   <Import Project="..\..\packages\cef.redist.x86.3.2987.1601\build\cef.redist.x86.targets" Condition="Exists('..\..\packages\cef.redist.x86.3.2987.1601\build\cef.redist.x86.targets')" />
   <Import Project="..\..\packages\CefSharp.Common.57.0.0\build\CefSharp.Common.targets" Condition="Exists('..\..\packages\CefSharp.Common.57.0.0\build\CefSharp.Common.targets')" />
   <Import Project="..\..\packages\CefSharp.WinForms.57.0.0\build\CefSharp.WinForms.targets" Condition="Exists('..\..\packages\CefSharp.WinForms.57.0.0\build\CefSharp.WinForms.targets')" />
+  <Import Project="..\..\packages\TuaRua.FreSharp.1.0.9\build\TuaRua.FreSharp.targets" Condition="Exists('..\..\packages\TuaRua.FreSharp.1.0.9\build\TuaRua.FreSharp.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

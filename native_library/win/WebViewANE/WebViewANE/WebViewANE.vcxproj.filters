@@ -15,30 +15,30 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="C:\Program Files\Adobe\Adobe Flash Builder 4.7 (64 Bit)\sdks\4.6.0\include\FlashRuntimeExtensions.h">
+    <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\WebViewANE.h">
+    <ClInclude Include="FreSharpMacros.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\stdafx.h">
+    <ClInclude Include="WebViewANE.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\source\FreNamespace.h">
+    <ClInclude Include="..\..\..\..\..\..\sdks\AIR\4.6.0_26\include\FlashRuntimeExtensions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\source\FreSharpBridge.h">
+    <ClInclude Include="FreNamespace.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\FreSharpMacros.h">
+    <ClInclude Include="FreSharpBridge.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\source\WebViewANE.cpp">
+    <ClCompile Include="FreSharpBridge.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\source\FreSharpBridge.cpp">
+    <ClCompile Include="WebViewANE.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

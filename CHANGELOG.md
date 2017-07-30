@@ -1,3 +1,6 @@
+### 0.0.28
+- WIN: 64bit added
+
 ### 0.0.27
 - WIN/OSX: added ON_POPUP_BLOCKED event Issue #45
 
