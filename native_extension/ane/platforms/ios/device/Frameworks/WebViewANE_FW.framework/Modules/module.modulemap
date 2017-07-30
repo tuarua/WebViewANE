@@ -7,4 +7,5 @@ framework module WebViewANE_FW {
 
 module WebViewANE_FW.Swift {
     header "WebViewANE_FW-Swift.h"
+    requires objc
 }

@@ -38,8 +38,8 @@ namespace CefSharpLib {
             Context = new FreContextSharp(freContext);
         }
 
-        public void Trace(string value) {
-            Context.DispatchEvent("TRACE", value);
+        public void Trace(object value) {
+            Context.DispatchEvent("TRACE", value.ToString());
         }
 
     }

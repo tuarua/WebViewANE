@@ -888,7 +888,10 @@ public class WebViewANE extends EventDispatcher {
      *
      */
     public function capture(x:int = 0, y:int = 0, width:int = 0, height:int = 0):BitmapData {
-        return ctx.call("capture", x, y, width, height) as BitmapData;
+        if (safetyCheck()) {
+            return ctx.call("capture", x, y, width, height) as BitmapData;
+        }
+        return null;
     }
 
     /**
