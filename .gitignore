@@ -28,5 +28,7 @@ xcuserdata/
 *.DS_Store
 /native_library_bak
 /cef_binaries
+/cef_binaries_x64
+/cef_binaries_x86
 native_library/win/WebViewANE/WebViewANE/README.txt
 native_extension/ane/build_asdocs.bat

@@ -3,16 +3,19 @@
     
 - **What version of the product are you using?**
     - What version are you using?
-e.g. 0.0.12
+e.g. 0.0.27
 
 - **On what operating system?**
     - OSX, Win7, Win 8, Win10, etc?
+    
+- **If Windows is it?**
+    - 32bit or 64bit
 
 - **Which IDE are you using?**
     - IntelliJ, Flash Builder, Animate, cmd line, Flash Develop etc?
 
 - **Which version of AIR are you using?**
-- 19,20.. etc?
+    - 19,20.. etc?
 
 - **What steps will reproduce the problem?**
     - Please provide detailed information here, enough for someone else to reprodce your problem.
