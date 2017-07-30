@@ -4,17 +4,21 @@
 <dict>
 	<key>files</key>
 	<dict>
+		<key>.DS_Store</key>
+		<data>
+		+/pSlzmIV0TU1eDLCOaZ05Jnb1E=
+		</data>
 		<key>Headers/WebViewANE_FW-Swift.h</key>
 		<data>
-		89BQw3Mo/6X49LlTDMwGyknrIEA=
+		pTgxz4qWk77X87aYoqSe3qZueVA=
 		</data>
 		<key>Headers/WebViewANE_FW.h</key>
 		<data>
-		uare+f03V04SIV5RE3s5RhR/ld4=
+		vg0ViMcnAL/4i3IKCop6Mb7RpQg=
 		</data>
 		<key>Info.plist</key>
 		<data>
-		HM0b3ZxMbx9GMVwvrjUv4/tC5gw=
+		ZdGcO9jTYqMtfIZffwvZsMbuDdE=
 		</data>
 		<key>Modules/WebViewANE_FW.swiftmodule/i386.swiftdoc</key>
 		<data>
@@ -22,7 +26,7 @@
 		</data>
 		<key>Modules/WebViewANE_FW.swiftmodule/i386.swiftmodule</key>
 		<data>
-		Rj2JEsnjCDG/brgCXD8/DpjDvDg=
+		CIJ+laAoMD8ZY/V3dpZ5DseKo8o=
 		</data>
 		<key>Modules/WebViewANE_FW.swiftmodule/x86_64.swiftdoc</key>
 		<data>
@@ -30,7 +34,7 @@
 		</data>
 		<key>Modules/WebViewANE_FW.swiftmodule/x86_64.swiftmodule</key>
 		<data>
-		3C6CGxLaPQT+RiYp4k3+UzHlxkQ=
+		OEj+Y7//Cyf6GLZeqMCW72HDslA=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -43,22 +47,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			89BQw3Mo/6X49LlTDMwGyknrIEA=
+			pTgxz4qWk77X87aYoqSe3qZueVA=
 			</data>
 			<key>hash2</key>
 			<data>
-			95ZlewwSvLwK8fOHx630XpDGiDnxMhJpmKW4fYvYGvw=
+			0G3u4ekEZMl4ja5YxwbxU6BFJP56ztYeQEXbYhxIn80=
 			</data>
 		</dict>
 		<key>Headers/WebViewANE_FW.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			uare+f03V04SIV5RE3s5RhR/ld4=
+			vg0ViMcnAL/4i3IKCop6Mb7RpQg=
 			</data>
 			<key>hash2</key>
 			<data>
-			5i1vE4FNdkdtS2xRCgfIcKVDdVIqcimB405Yzco1C2M=
+			panC1r+uAOtvlhIrS0nNm8+s0laGUsvp2HvSmfMaeGc=
 			</data>
 		</dict>
 		<key>Modules/WebViewANE_FW.swiftmodule/i386.swiftdoc</key>
@@ -76,11 +80,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Rj2JEsnjCDG/brgCXD8/DpjDvDg=
+			CIJ+laAoMD8ZY/V3dpZ5DseKo8o=
 			</data>
 			<key>hash2</key>
 			<data>
-			YNQLwn5UfhqCntN9btAv91z73Q/Nag33cBTginxRVOM=
+			iGu8ma3/Fu+PS1KIQYjoFfH+Kink+/xZjjF/oqt2zf8=
 			</data>
 		</dict>
 		<key>Modules/WebViewANE_FW.swiftmodule/x86_64.swiftdoc</key>
@@ -98,11 +102,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			3C6CGxLaPQT+RiYp4k3+UzHlxkQ=
+			OEj+Y7//Cyf6GLZeqMCW72HDslA=
 			</data>
 			<key>hash2</key>
 			<data>
-			bmz9EvgC8rT5wTCfbCWV48Qxeh1IQuW3BS4cWEiXA4g=
+			gRQ9Bf1NIF1wMj79GTW8bh7Ca5sbgtXAP0lzSEo9GAM=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

@@ -23,12 +23,12 @@
 		CE59BDE31EEF38C600F698DE /* BackForwardList.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE59BDDE1EEF38C600F698DE /* BackForwardList.swift */; };
 		CE62328E1EF08B4A00FC9691 /* FreRectangleSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE62328D1EF08B4A00FC9691 /* FreRectangleSwift.swift */; };
 		CE6232901EF08C7000FC9691 /* FrePointSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE62328F1EF08C7000FC9691 /* FrePointSwift.swift */; };
+		CE9656F61F2BEFDA00663C5F /* FreSwift-iOS-Swift.h in Headers */ = {isa = PBXBuildFile; fileRef = CEFE5BEE1F1A2828007BFBF2 /* FreSwift-iOS-Swift.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CEA438051E78A2C00099F463 /* SwiftyJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = CEA438031E78A2C00099F463 /* SwiftyJSON.h */; };
 		CEA438061E78A2C00099F463 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA438041E78A2C00099F463 /* SwiftyJSON.swift */; };
 		CEC13D411EFEE651003BDA4A /* WebViewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC13D401EFEE651003BDA4A /* WebViewVC.swift */; };
 		CEFE5BEB1F1A27A9007BFBF2 /* SwiftController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFE5BEA1F1A27A9007BFBF2 /* SwiftController.swift */; };
 		CEFE5BED1F1A27CD007BFBF2 /* FreMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = CEFE5BEC1F1A27CD007BFBF2 /* FreMacros.h */; };
-		CEFE5BEF1F1A2828007BFBF2 /* FreSwift-iOS-Swift.h in Headers */ = {isa = PBXBuildFile; fileRef = CEFE5BEE1F1A2828007BFBF2 /* FreSwift-iOS-Swift.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -235,7 +235,6 @@
 			files = (
 				CE39809A1E58BC3B0062485B /* WebViewANE_FW-Swift.h in Headers */,
 				CEA438051E78A2C00099F463 /* SwiftyJSON.h in Headers */,
-				CEFE5BEF1F1A2828007BFBF2 /* FreSwift-iOS-Swift.h in Headers */,
 				CE39808E1E58BAA90062485B /* WebViewANE_FW.h in Headers */,
 				CEFE5BED1F1A27CD007BFBF2 /* FreMacros.h in Headers */,
 			);
@@ -255,6 +254,7 @@
 			files = (
 				CE5381941E7D8F6D00C09DA2 /* FlashRuntimeExtensions.h in Headers */,
 				CE53818B1E7D8E3000C09DA2 /* FreSwift.h in Headers */,
+				CE9656F61F2BEFDA00663C5F /* FreSwift-iOS-Swift.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
