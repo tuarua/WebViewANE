@@ -7,4 +7,5 @@ framework module FreSwift {
 
 module FreSwift.Swift {
     header "FreSwift-iOS-Swift.h"
+    requires objc
 }
