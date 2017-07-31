@@ -76,7 +76,7 @@
             <FilePathAndPathInPackage file-path="$DOCUMENTS$/WebViewANE/native_extension/ane/platforms/ios/device/Frameworks/WebViewANE_FW.framework" path-in-package="WebViewANE_FW.framework" />
             <FilePathAndPathInPackage file-path="$DOCUMENTS$/WebViewANE/native_extension/ane/platforms/ios/device/Frameworks/FreSwift.framework" path-in-package="FreSwift.framework" />
           </files-to-package>
-          <AirSigningOptions sdk="/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk" keystore-path="$USER_HOME$/Documents/appleCertsProv/2017/dev/tuarua_dev.p12" provisioning-profile-path="$USER_HOME$/Documents/appleCertsProv/2017/dev/Tua_Rua_Dev_Provisioning.mobileprovision" />
+          <AirSigningOptions sdk="/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk" keystore-path="$USER_HOME$/Documents/appleCertsProv/2017/dev/tuarua_dev.p12" provisioning-profile-path="$USER_HOME$/Documents/appleCertsProv/2017/dev/Tua_Ru_Break_Provisioning.mobileprovision" />
         </packaging-ios>
       </configuration>
       <configuration name="WebViewANESample-mobile Android Device" target-platform="Mobile" pure-as="true" main-class="WebViewANESample" output-file="WebViewANESample-mobile_Android_Device.swf" output-folder="$MODULE_DIR$/bin-release/device">
