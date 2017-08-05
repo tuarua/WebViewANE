@@ -73,14 +73,20 @@ The iOS version is written in Swift and uses a new way of writing ANEs for iOS. 
 
 ### Running on Simulator
 
-The example project can be run on the Simulator from IntelliJ
+The example project can be run on the Simulator from IntelliJ using AIR 26. AIR 27 beta contains a bug when packaging.
 
-### Running on Device !
+### Running on Device
 
-The example project needs to be built and signed in the correct manner.
-An AIR based packaging tool is provided at https://github.com/tuarua/AIR-iOS-Packager   
-Here is a video [demonstrating how to use it](https://www.youtube.com/watch?v=H-G8WugNFQM&feature=youtu.be)   
-[![youtube video](https://raw.githubusercontent.com/tuarua/WebViewANE/master/screenshots/ios-packaging.jpg)](https://www.youtube.com/watch?v=H-G8WugNFQM&feature=youtu.be)
+The example project can be run on the device from IntelliJ using AIR27 Beta.
+AIR 27 now correctly signs the included Swift frameworks and therefore no resigning tool is needed.
+
+### Prerequisites
+
+You will need
+
+- Xcode 8.3 / AppCode
+- IntelliJ IDEA
+- AIR 26 RC and AIR 27 Beta
 
 ## Android Important!
 AIRSDK 26 is not yet supported. Please use AIRSDK 25 

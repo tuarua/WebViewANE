@@ -32,9 +32,6 @@
     <option name="screenWidth" value="0" />
     <option name="url" value="http://" />
     <option name="usbDebugPort" value="7936" />
-    <method>
-      <option name="RunConfigurationTask" enabled="true" run_configuration_name="Prepare for Build" run_configuration_type="BashConfigurationType" />
-      <option name="Make" enabled="true" />
-    </method>
+    <method />
   </configuration>
 </component>
