@@ -6,12 +6,12 @@
         <option>-lstdc++</option>
         <option>-w</option>
         <option>-ObjC</option>
-        <option>-rpath @executable_path</option>
+        <option>-rpath @executable_path/Frameworks</option>
     </linkerOptions>
     
     <packagedDependencies>
-        <packagedDependency>FreSwift.framework</packagedDependency>
-        <packagedDependency>WebViewANE_FW.framework</packagedDependency>
+        <packagedDependency>Frameworks/FreSwift.framework</packagedDependency>
+        <packagedDependency>Frameworks/WebViewANE_FW.framework</packagedDependency>
     </packagedDependencies>
     
    </platform>
