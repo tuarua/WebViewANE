@@ -18,7 +18,7 @@
               <dependency linkage="Merged" />
             </entry>
           </entries>
-          <sdk name="AIRSDK_25" />
+          <sdk name="AIRSDK_26" />
         </dependencies>
         <compiler-options>
           <map>
@@ -32,14 +32,13 @@
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/assets" path-in-package="." />
           </files-to-package>
         </packaging-android>
-        <packaging-ios enabled="true" use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/src/WebViewANESample-app.xml" package-file-name="WebViewANESample-mobile">
+        <packaging-ios enabled="true" use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/src/WebViewANESample-app-26.xml" package-file-name="WebViewANESample-mobile">
           <files-to-package>
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/assets" path-in-package="." />
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/system" path-in-package="." />
-            <FilePathAndPathInPackage file-path="$DOCUMENTS$/WebViewANE/native_extension/ane/platforms/ios/simulator/Frameworks/FreSwift.framework" path-in-package="FreSwift.framework" />
-            <FilePathAndPathInPackage file-path="$DOCUMENTS$/WebViewANE/native_extension/ane/platforms/ios/simulator/Frameworks/WebViewANE_FW.framework" path-in-package="WebViewANE_FW.framework" />
+            <FilePathAndPathInPackage file-path="$MODULE_DIR$/native/simulator" path-in-package="." />
           </files-to-package>
-          <AirSigningOptions sdk="/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk" keystore-path="$USER_HOME$/Documents/appleCertsProv/2017/dev/tuarua_dev.p12" provisioning-profile-path="$USER_HOME$/Documents/appleCertsProv/2017/dev/Tua_Rua_Dev_Provisioning.mobileprovision" />
+          <AirSigningOptions keystore-path="$USER_HOME$/Documents/appleCertsProv/2017/dev/tuarua_dev.p12" provisioning-profile-path="$USER_HOME$/Documents/appleCertsProv/2017/dev/Tua_Rua_Dev_Provisioning.mobileprovision" />
         </packaging-ios>
       </configuration>
       <configuration name="WebViewANESample-mobile iOS Device" target-platform="Mobile" pure-as="true" main-class="WebViewANESample" output-file="WebViewANESample-mobile.swf" output-folder="$MODULE_DIR$/bin-release/device">
@@ -55,12 +54,13 @@
               <dependency linkage="Merged" />
             </entry>
           </entries>
-          <sdk name="AIRSDK_25" />
+          <sdk name="AIRSDK_27_B" />
         </dependencies>
         <compiler-options>
           <map>
             <entry key="compiler.locale" value="en_US" />
           </map>
+          <option name="additionalOptions" value="-swf-version=38" />
         </compiler-options>
         <packaging-air-desktop />
         <packaging-android use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/src/WebViewANESample-app.xml" package-file-name="WebViewANESample-mobile_device">
@@ -69,14 +69,13 @@
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/assets" path-in-package="." />
           </files-to-package>
         </packaging-android>
-        <packaging-ios enabled="true" use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/src/WebViewANESample-app.xml" package-file-name="WebViewANESample-mobile_device">
+        <packaging-ios enabled="true" use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/src/WebViewANESample-app-27.xml" package-file-name="WebViewANESample-mobile_device">
           <files-to-package>
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/system" path-in-package="." />
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/assets" path-in-package="." />
-            <FilePathAndPathInPackage file-path="$DOCUMENTS$/WebViewANE/native_extension/ane/platforms/ios/device/Frameworks/WebViewANE_FW.framework" path-in-package="WebViewANE_FW.framework" />
-            <FilePathAndPathInPackage file-path="$DOCUMENTS$/WebViewANE/native_extension/ane/platforms/ios/device/Frameworks/FreSwift.framework" path-in-package="FreSwift.framework" />
+            <FilePathAndPathInPackage file-path="$MODULE_DIR$/native/device" path-in-package="." />
           </files-to-package>
-          <AirSigningOptions sdk="/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk" keystore-path="$USER_HOME$/Documents/appleCertsProv/2017/dev/tuarua_dev.p12" provisioning-profile-path="$USER_HOME$/Documents/appleCertsProv/2017/dev/Tua_Ru_Break_Provisioning.mobileprovision" />
+          <AirSigningOptions keystore-path="$USER_HOME$/Documents/appleCertsProv/2017/dev/tuarua_dev.p12" provisioning-profile-path="$USER_HOME$/Documents/appleCertsProv/2017/dev/Tua_Rua_Dev_Provisioning-2.mobileprovision" />
         </packaging-ios>
       </configuration>
       <configuration name="WebViewANESample-mobile Android Device" target-platform="Mobile" pure-as="true" main-class="WebViewANESample" output-file="WebViewANESample-mobile_Android_Device.swf" output-folder="$MODULE_DIR$/bin-release/device">
@@ -100,11 +99,12 @@
           </map>
         </compiler-options>
         <packaging-air-desktop />
-        <packaging-android enabled="true" use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/src/WebViewANESample-app.xml" package-file-name="WebViewANESample-mobile_Android_Device">
+        <packaging-android enabled="true" use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/src/WebViewANESample-app-25.xml" package-file-name="WebViewANESample-mobile_Android_Device">
           <files-to-package>
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/system" path-in-package="." />
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/assets" path-in-package="." />
           </files-to-package>
+          <AirSigningOptions keystore-path="$DOCUMENTS$/tuaruaWin.p12" use-temp-certificate="false" />
         </packaging-android>
         <packaging-ios use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/src/WebViewANESample-app.xml" package-file-name="WebViewANESample-mobile_Android_Device">
           <files-to-package>
@@ -126,7 +126,7 @@
       <sourceFolder url="file://$MODULE_DIR$/system" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/assets" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="AIRSDK_25" jdkType="Flex SDK Type (new)" />
+    <orderEntry type="jdk" jdkName="AIRSDK_27_B&#9;AIRSDK_25&#9;AIRSDK_26" jdkType="__CompositeFlexSdk__" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library" exported="">
       <library type="flex">

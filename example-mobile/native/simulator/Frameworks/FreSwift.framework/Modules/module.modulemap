@@ -1,0 +1,10 @@
+framework module FreSwift {
+  umbrella header "FreSwift.h"
+
+  export *
+  module * { export * }
+}
+
+module FreSwift.Swift {
+    header "FreSwift-iOS-Swift.h"
+}

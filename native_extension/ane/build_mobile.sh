@@ -6,14 +6,13 @@ pathtome=$0
 pathtome="${pathtome%/*}"
 
 
-echo $pathtome
+echo "Setting up directories"
 
 PROJECTNAME=WebViewANE
 fwSuffix="_FW"
 libSuffix="_LIB"
 
-AIR_SDK="/Users/User/sdks/AIR/AIRSDK_26"
-echo $AIR_SDK
+AIR_SDK="/Users/User/sdks/AIR/AIRSDK_27_B"
 
 #Setup the directory.
 echo "Making directories."
@@ -97,13 +96,39 @@ echo "Generating ANE."
 -platform Android-x86 \
 -C "$pathtome/platforms/android" "library.swf" "classes.jar" \
 -platformoptions "$pathtome/platforms/android/platform.xml" "res/values/strings.xml" \
--platform iPhone-x86  -C "$pathtome/platforms/ios/simulator" "library.swf" "lib$PROJECTNAME.a" \
+-platform iPhone-x86  -C "$pathtome/platforms/ios/simulator" "library.swf" "Frameworks" "lib$PROJECTNAME.a" \
 -platformoptions "$pathtome/platforms/ios/platform.xml" \
--C $pathtome/platforms/ios/simulator/Frameworks/ . \
--platform iPhone-ARM  -C "$pathtome/platforms/ios/device" "library.swf" "lib$PROJECTNAME.a" \
+-platform iPhone-ARM  -C "$pathtome/platforms/ios/device" "library.swf" "Frameworks" "lib$PROJECTNAME.a" \
 -platformoptions "$pathtome/platforms/ios/platform.xml" \
--C $pathtome/platforms/ios/device/Frameworks/ . \
 -platform default -C "$pathtome/platforms/default" "library.swf"
+
+
+#create folders if they don't exist
+if [ ! -d "$pathtome/../../example-mobile/native" ]; then
+mkdir "$pathtome/../../example-mobile/native"
+fi
+if [ ! -d "$pathtome/../../example-mobile/native/device" ]; then
+mkdir "$pathtome/../../example-mobile/native/device"
+fi
+if [ ! -d "$pathtome/../../example-mobile/native/device/Frameworks" ]; then
+mkdir "$pathtome/../../example-mobile/native/device/Frameworks"
+fi
+if [ ! -d "$pathtome/../../example-mobile/native/simulator" ]; then
+mkdir "$pathtome/../../example-mobile/native/simulator"
+fi
+if [ ! -d "$pathtome/../../example-mobile/native/simulator/Frameworks" ]; then
+mkdir "$pathtome/../../example-mobile/native/simulator/Frameworks"
+fi
+
+#copy frameworks folder to src
+cp -R -L "$pathtome/platforms/ios/device/Frameworks/FreSwift.framework" "$pathtome/../../example-mobile/native/device/Frameworks"
+cp -R -L "$pathtome/platforms/ios/device/Frameworks/$PROJECTNAME$fwSuffix.framework" "$pathtome/../../example-mobile/native/device/Frameworks"
+cp -R -L "$pathtome/platforms/ios/simulator/Frameworks/FreSwift.framework" "$pathtome/../../example-mobile/native/simulator/Frameworks"
+cp -R -L "$pathtome/platforms/ios/simulator/Frameworks/$PROJECTNAME$fwSuffix.framework" "$pathtome/../../example-mobile/native/simulator/Frameworks"
+
+#remove the frameworks from sim and device, as not needed any more
+rm -r "$pathtome/platforms/ios/simulator"
+rm -r "$pathtome/platforms/ios/device"
 
 
 rm -r "$pathtome/platforms/default"
@@ -112,7 +137,60 @@ rm "$pathtome/library.swf"
 rm "$pathtome/platforms/android/library.swf"
 rm "$pathtome/platforms/android/classes.jar"
 
-echo "Packaging docs into ANE."
 #cd $pathtome
 zip "$pathtome/mobile/$PROJECTNAME-mobile.ane" -u docs/*
-echo "DONE!"
+
+#move the swift dylibs into root of "$pathtome/platforms/ios/device/Frameworks" as per Adobe docs for AIR27
+#Device
+
+#FreSwift
+if [ -e "$pathtome/../../example-mobile/native/device/Frameworks/FreSwift.framework/Frameworks" ]
+then
+for dylib in "$pathtome/../../example-mobile/native/device/Frameworks/FreSwift.framework/Frameworks/*"
+do
+mv -f $dylib "$pathtome/../../example-mobile/native/device/Frameworks"
+done
+rm -r "$pathtome/../../example-mobile/native/device/Frameworks/FreSwift.framework/Frameworks"
+fi
+if [ -f "$pathtome/../../example-mobile/native/device/Frameworks/FreSwift.framework/libswiftRemoteMirror.dylib" ]; then
+rm "$pathtome/../../example-mobile/native/device/Frameworks/FreSwift.framework/libswiftRemoteMirror.dylib"
+fi
+#Project
+if [ -e "$pathtome/../../example-mobile/native/device/Frameworks/$PROJECTNAME$fwSuffix.framework/Frameworks" ]
+then
+for dylib in "$pathtome/../../example-mobile/native/device/Frameworks/$PROJECTNAME$fwSuffix.framework/Frameworks/*"
+do
+mv -f $dylib "$pathtome/../../example-mobile/native/device/Frameworks"
+done
+rm -r "$pathtome/../../example-mobile/native/device/Frameworks/$PROJECTNAME$fwSuffix.framework/Frameworks"
+fi
+if [ -f "$pathtome/../../examexample-mobileple/native/device/Frameworks/$PROJECTNAME$fwSuffix.framework/libswiftRemoteMirror.dylib" ]; then
+rm "$pathtome/../../example-mobile/native/device/Frameworks/$PROJECTNAME$fwSuffix.framework/libswiftRemoteMirror.dylib"
+fi
+
+#Simulator
+
+if [ -e "$pathtome/../../example-mobile/native/simulator/Frameworks/FreSwift.framework/Frameworks" ]
+then
+for dylib in "$pathtome/../../example-mobile/native/simulator/Frameworks/FreSwift.framework/Frameworks/*"
+do
+mv -f $dylib "$pathtome/../../example-mobile/native/simulator/Frameworks"
+done
+rm -r "$pathtome/../../example-mobile/native/simulator/Frameworks/FreSwift.framework/Frameworks"
+fi
+if [ -f "$pathtome/../../example-mobile/native/simulator/Frameworks/FreSwift.framework/libswiftRemoteMirror.dylib" ]; then
+rm "$pathtome/../../example-mobile/native/simulator/Frameworks/FreSwift.framework/libswiftRemoteMirror.dylib"
+fi
+
+if [ -e "$pathtome/../../example-mobile/native/simulator/Frameworks/$PROJECTNAME$fwSuffix.framework/Frameworks" ]
+then
+for dylib in "$pathtome/../../example-mobile/native/simulator/Frameworks/$PROJECTNAME$fwSuffix.framework/Frameworks/*"
+do
+mv -f $dylib "$pathtome/../../example-mobile/native/simulator/Frameworks"
+done
+rm -r "$pathtome/../../example-mobile/native/simulator/Frameworks/$PROJECTNAME$fwSuffix.framework/Frameworks"
+fi
+if [ -f "$pathtome/../../example-mobile/native/simulator/Frameworks/$PROJECTNAME$fwSuffix.framework/libswiftRemoteMirror.dylib" ]; then
+rm "$pathtome/../../example-mobile/native/simulator/Frameworks/$PROJECTNAME$fwSuffix.framework/libswiftRemoteMirror.dylib"
+fi
+

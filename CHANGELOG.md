@@ -1,3 +1,6 @@
+### 0.0.29
+- iOS: Upgrade to AIR 27 Beta. Removes need for external signing tool to run on device.
+
 ### 0.0.28
 - WIN: 64bit added
 
