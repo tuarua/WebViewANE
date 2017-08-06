@@ -1,0 +1,37 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="WebView Sample 64bit" type="FlashRunConfigurationType" factoryName="Flash App">
+    <option name="BCName" value="webView ANE Sample 64bit" />
+    <option name="IOSSimulatorSdkPath" value="" />
+    <option name="adlOptions" value="" />
+    <option name="airProgramParameters" value="" />
+    <option name="appDescriptorForEmulator" value="Android" />
+    <option name="debugTransport" value="USB" />
+    <option name="debuggerSdkRaw" value="BC SDK" />
+    <option name="emulator" value="NexusOne" />
+    <option name="emulatorAdlOptions" value="" />
+    <option name="fastPackaging" value="true" />
+    <option name="fullScreenHeight" value="0" />
+    <option name="fullScreenWidth" value="0" />
+    <option name="launchUrl" value="false" />
+    <option name="launcherParameters">
+      <LauncherParameters>
+        <option name="browser" value="a7bb68e0-33c0-4d6f-a81a-aac1fdb870c8" />
+        <option name="launcherType" value="OSDefault" />
+        <option name="newPlayerInstance" value="false" />
+        <option name="playerPath" value="FlashPlayerDebugger.exe" />
+      </LauncherParameters>
+    </option>
+    <option name="mobileRunTarget" value="Emulator" />
+    <option name="moduleName" value="WebViewANESample" />
+    <option name="overriddenMainClass" value="" />
+    <option name="overriddenOutputFileName" value="" />
+    <option name="overrideMainClass" value="false" />
+    <option name="runTrusted" value="true" />
+    <option name="screenDpi" value="0" />
+    <option name="screenHeight" value="0" />
+    <option name="screenWidth" value="0" />
+    <option name="url" value="http://" />
+    <option name="usbDebugPort" value="7936" />
+    <method />
+  </configuration>
+</component>
