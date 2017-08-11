@@ -58,7 +58,8 @@ echo "Building Release."
 -swc "$pathtome/$PROJECT_NAME.swc" \
 -platform MacOS-x86-64 -C "$pathtome/platforms/mac/release" "$PROJECT_NAME.framework" "library.swf" \
 -platform Windows-x86 -C "$pathtome/platforms/win/x86/release" "$PROJECT_NAME.dll" "library.swf" \
--platform Windows-x86-64 -C "$pathtome/platforms/win/x64/release" "$PROJECT_NAME.dll" "library.swf"
+-platform Windows-x86-64 -C "$pathtome/platforms/win/x64/release" "$PROJECT_NAME.dll" "library.swf" \
+-platform default "library.swf"
 
 
 rm "$pathtome/$PROJECT_NAME.swc"
