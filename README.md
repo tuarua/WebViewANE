@@ -88,7 +88,7 @@ You will need
 - IntelliJ IDEA
 - AIR 26 RC and AIR 27 Beta
 
-## Android Important!
+## Android
 The Android version utilises the native WebView. 
 
 
