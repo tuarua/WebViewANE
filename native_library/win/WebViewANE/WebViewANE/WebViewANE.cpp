@@ -39,6 +39,7 @@ extern "C" {
 		return true;
 	}
 
+
 	CONTEXT_INIT(TRWV) {
 		
 		FreSharpBridge::InitController();
@@ -48,8 +49,7 @@ extern "C" {
 		static FRENamedFunction extensionFunctions[] = {
 			 MAP_FUNCTION(isSupported)
 			,MAP_FUNCTION(init)
-			,MAP_FUNCTION(addToStage)
-			,MAP_FUNCTION(removeFromStage)
+			,MAP_FUNCTION(setVisible)
 			,MAP_FUNCTION(injectScript)
 			,MAP_FUNCTION(load)
 			,MAP_FUNCTION(loadFileURL)
@@ -65,7 +65,7 @@ extern "C" {
 			,MAP_FUNCTION(zoomOut)
 			,MAP_FUNCTION(focus)
 			,MAP_FUNCTION(loadHTMLString)
-			,MAP_FUNCTION(setPositionAndSize)
+			,MAP_FUNCTION(setViewPort)
 			,MAP_FUNCTION(showDevTools)
 			,MAP_FUNCTION(closeDevTools)
 			,MAP_FUNCTION(onFullScreen)
