@@ -77,6 +77,7 @@ namespace CefSharpLib {
         private const string OnDownloadCancel = "WebView.OnDownloadCancel";
         private const string OnPropertyChange = "WebView.OnPropertyChange";
         private const string OnEscKey = "WebView.OnEscKey";
+        
         private const string OnFail = "WebView.OnFail";
         private const string OnPermission = "WebView.OnPermissionResult";
         private const string OnUrlBlocked = "WebView.OnUrlBlocked";
@@ -155,7 +156,7 @@ namespace CefSharpLib {
             dh.OnBeforeDownloadFired += OnDownloadFired;
 
             // ReSharper disable once UseObjectOrCollectionInitializer
-            var kh = new KeyboardHandler();
+            var kh = new KeyboardHandler(FreSharpController.Context);
             kh.OnKeyEventFired += OnKeyEventFired;
 
             if (EnableDownloads)

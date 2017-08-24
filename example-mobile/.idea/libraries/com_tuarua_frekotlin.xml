@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="com.tuarua.frekotlin" type="flex">
+    <CLASSES>
+      <root url="jar://$DOCUMENTS$/WebViewANE/native_extension/ane/mobile/com.tuarua.frekotlin.ane!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

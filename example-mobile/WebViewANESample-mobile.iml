@@ -90,8 +90,11 @@
             <entry library-name="FiraSansSemiBold" library-level="project">
               <dependency linkage="Merged" />
             </entry>
+            <entry library-name="com.tuarua.frekotlin" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
           </entries>
-          <sdk name="AIRSDK_25" />
+          <sdk name="AIRSDK_26" />
         </dependencies>
         <compiler-options>
           <map>
@@ -99,7 +102,7 @@
           </map>
         </compiler-options>
         <packaging-air-desktop />
-        <packaging-android enabled="true" use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/src/WebViewANESample-app-25.xml" package-file-name="WebViewANESample-mobile_Android_Device">
+        <packaging-android enabled="true" use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/src/WebViewANESample-app-26.xml" package-file-name="WebViewANESample-mobile_Android_Device">
           <files-to-package>
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/system" path-in-package="." />
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/assets" path-in-package="." />
@@ -126,7 +129,7 @@
       <sourceFolder url="file://$MODULE_DIR$/system" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/assets" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="AIRSDK_27_B&#9;AIRSDK_25&#9;AIRSDK_26" jdkType="__CompositeFlexSdk__" />
+    <orderEntry type="jdk" jdkName="AIRSDK_27_B&#9;AIRSDK_26" jdkType="__CompositeFlexSdk__" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library" exported="">
       <library type="flex">
@@ -143,5 +146,6 @@
     <orderEntry type="library" exported="" name="FiraSansSemiBold" level="project" />
     <orderEntry type="library" exported="" name="SwiftIOSANE-ios" level="project" />
     <orderEntry type="library" exported="" name="WebViewANE-mobile" level="project" />
+    <orderEntry type="library" exported="" name="com.tuarua.frekotlin" level="project" />
   </component>
 </module>

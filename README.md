@@ -89,7 +89,6 @@ You will need
 - AIR 26 RC and AIR 27 Beta
 
 ## Android Important!
-AIRSDK 26 is not yet supported. Please use AIRSDK 25 
 The Android version utilises the native WebView. 
 
 
