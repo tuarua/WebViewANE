@@ -11,6 +11,8 @@ namespace CefSharpLib {
         private const string OnKeyUp = "WebView.OnKeyUp";
         private const string OnKeyDown = "WebView.OnKeyDown";
         private readonly FreContextSharp _context;
+        public bool HasKeyUp { set; get; }
+        public bool HasKeyDown { set; get; }
 
         public KeyboardHandler(FreContextSharp context) {
             _context = context;
@@ -27,19 +29,23 @@ namespace CefSharpLib {
             var sb = new StringBuilder();
             var sw = new StringWriter(sb);
             var writer = new JsonTextWriter(sw);
-            writer.WriteStartObject();
-            writer.WritePropertyName("type");
-            writer.WriteValue(type);
-            writer.WritePropertyName("keyCode");
-            writer.WriteValue(windowsKeyCode);
-            writer.WritePropertyName("nativeKeyCode");
-            writer.WriteValue(nativeKeyCode);
-            writer.WritePropertyName("modifiers");
-            writer.WriteValue(modifiers.ToString());
-            writer.WritePropertyName("isSystemKey");
-            writer.WriteValue(isSystemKey);
-            writer.WriteEndObject();
-            _context.DispatchEvent(KeyType.KeyUp == type ? OnKeyUp : OnKeyDown, sb.ToString());
+            if ((HasKeyUp && KeyType.KeyUp == type) || (HasKeyDown && KeyType.RawKeyDown == type)) {
+                
+                writer.WriteStartObject();
+                writer.WritePropertyName("type");
+                writer.WriteValue(type);
+                writer.WritePropertyName("keyCode");
+                writer.WriteValue(windowsKeyCode);
+                writer.WritePropertyName("nativeKeyCode");
+                writer.WriteValue(nativeKeyCode);
+                writer.WritePropertyName("modifiers");
+                writer.WriteValue(modifiers.ToString());
+                writer.WritePropertyName("isSystemKey");
+                writer.WriteValue(isSystemKey);
+                writer.WriteEndObject();
+                _context.DispatchEvent(KeyType.KeyUp == type ? OnKeyUp : OnKeyDown, sb.ToString());
+            }
+
             if (windowsKeyCode != 27) return false;
             var handler = OnKeyEventFired;
             handler?.Invoke(this, windowsKeyCode);

@@ -24,6 +24,7 @@
 package com.tuarua {
 import com.tuarua.fre.ANEError;
 import com.tuarua.utils.GUID;
+import com.tuarua.utils.os;
 import com.tuarua.webview.ActionscriptCallback;
 import com.tuarua.webview.BackForwardList;
 import com.tuarua.webview.DownloadProgress;
@@ -256,6 +257,24 @@ public class WebViewANE extends EventDispatcher {
         }
     }
 
+    override public function addEventListener(type:String, listener:Function, useCapture:Boolean = false, priority:int = 0, useWeakReference:Boolean = false):void {
+        super.addEventListener(type, listener, useCapture, priority, useWeakReference);
+        if (_isInited && (KeyboardEvent.KEY_UP == type || KeyboardEvent.KEY_DOWN == type) && (os.isWindows || os.isOSX)) {
+            if (this.hasEventListener(type)) {
+                ctx.call("addEventListener", type);
+            }
+        }
+    }
+
+    override public function removeEventListener(type:String, listener:Function, useCapture:Boolean = false):void {
+        if (_isInited && (KeyboardEvent.KEY_UP == type || KeyboardEvent.KEY_DOWN == type) && (os.isWindows || os.isOSX)) {
+            if (this.hasEventListener(type)) {
+                ctx.call("removeEventListener", type);
+            }
+        }
+        super.removeEventListener(type, listener, useCapture);
+    }
+
     /**
      *
      * @param functionName name of the function as called from Javascript
@@ -284,7 +303,6 @@ public class WebViewANE extends EventDispatcher {
             throw new ArgumentError("functionName cannot be null");
         }
     }
-
 
     /**
      *
@@ -414,7 +432,7 @@ public class WebViewANE extends EventDispatcher {
         _stage = stage;
         _viewPort = viewPort;
 
-        if (Capabilities.os.toLowerCase().indexOf("mac") == 0) {
+        if (os.isOSX) {
             NativeApplication.nativeApplication.activeWindow.addEventListener(
                     NativeWindowDisplayStateEvent.DISPLAY_STATE_CHANGE, onWindowMiniMaxi, false, 1000);
         }
@@ -439,6 +457,18 @@ public class WebViewANE extends EventDispatcher {
             if (theRet is ANEError) {
                 throw theRet as ANEError;
             }
+
+            if ((os.isWindows || os.isOSX)) {
+                if (this.hasEventListener(KeyboardEvent.KEY_UP)) {
+                    trace("adding before init", KeyboardEvent.KEY_UP);
+                    ctx.call("addEventListener", KeyboardEvent.KEY_UP);
+                }
+                if (this.hasEventListener(KeyboardEvent.KEY_DOWN)) {
+                    trace("adding before init", KeyboardEvent.KEY_DOWN);
+                    ctx.call("addEventListener", KeyboardEvent.KEY_DOWN);
+                }
+            }
+
             _isInited = true;
         }
     }
@@ -591,7 +621,7 @@ public class WebViewANE extends EventDispatcher {
      */
     public function clearCache():void {
         //Windows is special case.
-        if (Capabilities.os.toLowerCase().indexOf("win") == 0) {
+        if (os.isWindows) {
             if (_isInited) {
                 trace("[" + name + "] You cannot clear the cache on Windows while CEF is running. This is a known limitation. " +
                         "You can only call this method after .dispose() is called");

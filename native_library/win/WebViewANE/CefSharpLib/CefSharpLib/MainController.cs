@@ -94,6 +94,8 @@ namespace CefSharpLib {
                     {"setCurrentTab", SetCurrentTab},
                     {"getCurrentTab", GetCurrentTab},
                     {"getTabDetails", GetTabDetails},
+                    {"addEventListener", AddEventListener},
+                    {"removeEventListener", RemoveEventListener},
                 };
 
             return FunctionsDict.Select(kvp => kvp.Key).ToArray();
@@ -653,6 +655,28 @@ namespace CefSharpLib {
 
         public FREObject Print(FREContext ctx, uint argc, FREObject[] argv) {
             _view.CurrentBrowser.Print();
+            return FREObject.Zero;
+        }
+
+        public FREObject AddEventListener(FREContext ctx, uint argc, FREObject[] argv) {
+            var type = Convert.ToString(new FreObjectSharp(argv[0]).Value);
+            if (type == "keyUp") {
+                _view.KeyboardHandler.HasKeyUp = true;
+            }
+            else if (type == "keyDown") {
+                _view.KeyboardHandler.HasKeyDown = true;
+            }
+            return FREObject.Zero;
+        }
+
+        public FREObject RemoveEventListener(FREContext ctx, uint argc, FREObject[] argv) {
+            var type = Convert.ToString(new FreObjectSharp(argv[0]).Value);
+            if (type == "keyUp") {
+                _view.KeyboardHandler.HasKeyUp = false;
+            }
+            else if (type == "keyDown") {
+                _view.KeyboardHandler.HasKeyDown = false;
+            }
             return FREObject.Zero;
         }
 
