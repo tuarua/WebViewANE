@@ -5,6 +5,7 @@
 - AND: Upgrade to AIR 26.
 - AND/iOS/WIN/OSX: remove deprecated methods.
 - AND/iOS/WIN/OSX: improve error capture.
+- WIN: updated Json.NET to 10.0.3
 
 ### 0.0.29
 - iOS: Upgrade to AIR 27 Beta. Removes need for external signing tool to run on device.

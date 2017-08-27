@@ -103,8 +103,8 @@ public class StarlingRoot extends Sprite {
         webView.addEventListener(WebViewEvent.ON_URL_BLOCKED, onUrlBlocked);
         webView.addEventListener(WebViewEvent.ON_POPUP_BLOCKED, onPopupBlocked);
 
-        webView.addEventListener(KeyboardEvent.KEY_UP, onKeyUp); //KeyboardEvent of webview captured
-        webView.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown); //KeyboardEvent of webview captured
+        /*webView.addEventListener(KeyboardEvent.KEY_UP, onKeyUp); //KeyboardEvent of webview captured
+        webView.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown); //KeyboardEvent of webview captured*/
 
         var settings:Settings = new Settings();
         settings.popup.behaviour = Behaviour.NEW_WINDOW;  //Behaviour.BLOCK //Behaviour.SAME_WINDOW
@@ -263,11 +263,11 @@ public class StarlingRoot extends Sprite {
     }
 
     private function onKeyDown(event:KeyboardEvent):void {
-        //trace(event);
+        trace(event);
     }
 
     private function onKeyUp(event:KeyboardEvent):void {
-        //trace(event);
+        trace(event);
     }
 
     private static function onPopupBlocked(event:WebViewEvent):void {
@@ -510,13 +510,11 @@ public class StarlingRoot extends Sprite {
                 var ba:ByteArray = new ByteArray();
                 var encodingOptions:PNGEncoderOptions = new PNGEncoderOptions(true);
                 bmd.encode(new Rectangle(0, 0, bmd.width, bmd.height), encodingOptions, ba);
-
                 var file:File = File.desktopDirectory.resolvePath("webViewANE_capture.png");
                 var fs:FileStream = new FileStream();
                 fs.open(file, FileMode.WRITE);
                 fs.writeBytes(ba);
                 fs.close();
-                trace("webview captured");
             }
 
         }

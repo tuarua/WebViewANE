@@ -80,6 +80,8 @@ extern "C" {
 			,MAP_FUNCTION(getTabDetails)
 			,MAP_FUNCTION(shutDown)
 			,MAP_FUNCTION(clearCache)
+			,MAP_FUNCTION(addEventListener)
+			,MAP_FUNCTION(removeEventListener)
 		};
 
 		SET_FUNCTIONS
