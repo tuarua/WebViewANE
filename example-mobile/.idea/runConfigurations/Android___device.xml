@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="WebViewANESample-mobile ios - device" type="FlashRunConfigurationType" factoryName="Flash App">
-    <option name="BCName" value="WebViewANESample-mobile iOS Device" />
+  <configuration default="false" name="Android - device" type="FlashRunConfigurationType" factoryName="Flash App">
+    <option name="BCName" value="WebViewANESample-mobile Android Device" />
     <option name="IOSSimulatorSdkPath" value="/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk" />
     <option name="adlOptions" value="" />
     <option name="airProgramParameters" value="" />
@@ -21,7 +21,7 @@
         <option name="playerPath" value="/Applications/Flash Player Debugger.app" />
       </LauncherParameters>
     </option>
-    <option name="mobileRunTarget" value="iOSDevice" />
+    <option name="mobileRunTarget" value="AndroidDevice" />
     <option name="moduleName" value="WebViewANESample-mobile" />
     <option name="overriddenMainClass" value="" />
     <option name="overriddenOutputFileName" value="" />
