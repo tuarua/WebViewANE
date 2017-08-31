@@ -24,7 +24,6 @@ package com.tuarua.webviewane
 
 import android.graphics.Rect
 import android.os.Build
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.CookieManager
@@ -32,23 +31,20 @@ import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import android.widget.FrameLayout
 import com.adobe.fre.FREContext
+import com.tuarua.frekotlin.FreKotlinController
 import com.tuarua.frekotlin.sendEvent
-import com.tuarua.frekotlin.trace
 import org.json.JSONException
 import org.json.JSONObject
 
+class WebViewController(override var context: FREContext?, initialUrl: String?, viewPort: Rect, private var settings: Settings,
+                        private var backgroundColor: Int) : FreKotlinController {
 
-class WebViewController(private var context: FREContext, initialUrl: String?, viewPort: Rect, settings: Settings,
-                        private var backgroundColor: Int) {
     private var _visible: Boolean = false
     private var _viewPort: Rect = viewPort
     private var _initialUrl: String? = initialUrl
     private var airView: ViewGroup? = null
     private var container: FrameLayout? = null
-
     private var webView: WebView? = null
-    private var settings: Settings = settings
-
     var visible: Boolean
         set(value) {
             this._visible = value
@@ -72,11 +68,12 @@ class WebViewController(private var context: FREContext, initialUrl: String?, vi
 
     fun add() {
         val newId = View.generateViewId()
+        val ctx = this.context ?: return
 
-        airView = context.activity.findViewById(android.R.id.content) as ViewGroup
+        airView = ctx.activity.findViewById(android.R.id.content) as ViewGroup
         airView = (airView as ViewGroup).getChildAt(0) as ViewGroup
 
-        container = FrameLayout(context.activity)
+        container = FrameLayout(ctx.activity)
 
         val frame = container ?: return
         frame.layoutParams = FrameLayout.LayoutParams(viewPort.width(), viewPort.height())
@@ -85,7 +82,7 @@ class WebViewController(private var context: FREContext, initialUrl: String?, vi
         frame.id = newId
         (airView as ViewGroup).addView(frame)
 
-        webView = WebView(context.activity.applicationContext)
+        webView = WebView(ctx.activity.applicationContext)
         val wv = webView ?: return
         wv.settings.allowContentAccess = settings.allowContentAccess
         wv.settings.setAppCacheEnabled(settings.appCacheEnabled)
@@ -102,8 +99,8 @@ class WebViewController(private var context: FREContext, initialUrl: String?, vi
         wv.settings.allowFileAccessFromFileURLs = settings.allowFileAccessFromFileURLs
         wv.settings.setGeolocationEnabled(false)
 
-        chromeClient = ChromeClient(context)
-        viewClient = ViewClient(context, settings)
+        chromeClient = ChromeClient(ctx)
+        viewClient = ViewClient(ctx, settings)
         wv.isHorizontalScrollBarEnabled = false
         wv.setWebChromeClient(chromeClient)
         wv.setWebViewClient(viewClient)
@@ -130,7 +127,7 @@ class WebViewController(private var context: FREContext, initialUrl: String?, vi
         @JavascriptInterface
         fun postMessage(json: String?) {
             if (json != null) {
-                context.sendEvent(Constants.JS_CALLBACK_EVENT, json)
+                context?.sendEvent(Constants.JS_CALLBACK_EVENT, json)
             }
         }
     }
@@ -198,26 +195,12 @@ class WebViewController(private var context: FREContext, initialUrl: String?, vi
                     props.put("result", result)
                     sendEvent(Constants.AS_CALLBACK_EVENT, props.toString())
                 } catch (e: JSONException) {
-                    Log.e(TAG, e.toString())
                     e.printStackTrace()
                 }
             }
         } else {
             wv.evaluateJavascript(js, null)
         }
-
-    }
-
-    private fun trace(vararg value: Any?) {
-        context.trace(TAG, value)
-    }
-
-    private fun sendEvent(name: String, value: String) {
-        context.sendEvent(name, value)
-    }
-
-    companion object {
-        private var TAG = WebViewController::class.java.canonicalName
     }
 
     val url: String?
@@ -245,4 +228,7 @@ class WebViewController(private var context: FREContext, initialUrl: String?, vi
             return chromeClient.progress
         }
 
+
+    override val TAG: String
+        get() = this::class.java.canonicalName
 }

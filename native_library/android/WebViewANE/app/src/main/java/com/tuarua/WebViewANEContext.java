@@ -27,12 +27,12 @@ import com.adobe.air.TRActivityResultCallback;
 import com.adobe.air.AndroidActivityWrapper;
 import com.adobe.air.TRStateChangeCallback;
 import com.tuarua.frekotlin.FreKotlinContext;
-import com.tuarua.frekotlin.FreKotlinController;
+import com.tuarua.frekotlin.FreKotlinMainController;
 public class WebViewANEContext extends FreKotlinContext implements TRActivityResultCallback, TRStateChangeCallback {
 
     private AndroidActivityWrapper aaw;
-    private FreKotlinController controller;
-    public WebViewANEContext(String name, FreKotlinController controller, String[] functions) {
+    private FreKotlinMainController controller;
+    public WebViewANEContext(String name, FreKotlinMainController controller, String[] functions) {
         super(name, controller, functions);
         this.controller = controller;
         aaw = AndroidActivityWrapper.GetAndroidActivityWrapper();

@@ -37,13 +37,9 @@ import java.util.ArrayList
 typealias FREArgv = ArrayList<FREObject>
 
 @Suppress("unused", "UNUSED_PARAMETER", "UNCHECKED_CAST")
-class KotlinController : FreKotlinController {
-    private var context: FREContext? = null
-    private val TRACE = "TRACE"
-
+class KotlinController : FreKotlinMainController {
     private var isAdded: Boolean = false
     private var scaleFactor: Double = 1.0
-
     private var webViewController: WebViewController? = null
 
     fun isSupported(ctx: FREContext, argv: FREArgv): FREObject? {
@@ -78,7 +74,7 @@ class KotlinController : FreKotlinController {
             }
             webViewController = WebViewController(ctx, initialUrl, scaleViewPort(viewPort), settings, backgroundColor)
 
-        }catch (e:FreException){
+        } catch (e: FreException) {
             Log.e(TAG, e.message)
         }
         return null
@@ -263,20 +259,13 @@ class KotlinController : FreKotlinController {
         super.onDestroyed()
     }
 
-    override fun setFREContext(context: FREContext) {
-        this.context = context
-    }
-
-    private fun trace(vararg value: Any?) {
-        context?.trace(TAG, value)
-    }
-
-    private fun sendEvent(name: String, value: String) {
-        context?.sendEvent(name, value)
-    }
-
-    companion object {
-        private var TAG = KotlinController::class.java.canonicalName
-    }
+    override val TAG: String
+        get() = this::class.java.canonicalName
+    private var _context: FREContext? = null
+    override var context: FREContext?
+        get() = _context
+        set(value) {
+            _context = value
+        }
 
 }
