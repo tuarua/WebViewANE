@@ -353,8 +353,8 @@ public class StarlingRoot extends Sprite {
 
         progress.width = inputBG.width - 2;
 
-        trace("onResize", "stage.stageWidth:", stage.stageWidth);
-        trace("onResize", "progress.width:", progress.width);
+        //trace("onResize", "stage.stageWidth:", stage.stageWidth);
+        //trace("onResize", "progress.width:", progress.width);
 
         webView.viewPort = new Rectangle(0, 80, stage.stageWidth, stage.stageHeight - 80);
 
