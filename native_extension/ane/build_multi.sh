@@ -38,7 +38,6 @@ unzip "$pathtome/$PROJECT_NAME.swc" "library.swf" -d "$pathtome"
 
 #Copy library.swf to folders.
 echo "Copying library.swf into place."
-cp "$pathtome/library.swf" "$pathtome/platforms/default"
 cp "$pathtome/library.swf" "$pathtome/platforms/mac/release"
 cp "$pathtome/library.swf" "$pathtome/platforms/win/x86/release"
 cp "$pathtome/library.swf" "$pathtome/platforms/win/x64/release"
@@ -61,12 +60,12 @@ echo "Building Release."
 -platform MacOS-x86-64 -C "$pathtome/platforms/mac/release" "$PROJECT_NAME.framework" "library.swf" \
 -platform Windows-x86 -C "$pathtome/platforms/win/x86/release" "$PROJECT_NAME.dll" "library.swf" \
 -platform Windows-x86-64 -C "$pathtome/platforms/win/x64/release" "$PROJECT_NAME.dll" "library.swf" \
--platform default -C "$pathtome/platforms/default" "library.swf"
+-platform default -C "$pathtome" "library.swf"
 
 
 rm "$pathtome/$PROJECT_NAME.swc"
 rm "$pathtome/library.swf"
 
-#echo "Packaging docs into ANE."
-#zip "$pathtome/$PROJECT_NAME.ane" -u docs/*
+echo "Packaging docs into ANE."
+zip "$pathtome/$PROJECT_NAME.ane" -u docs/*
 echo "DONE!"
