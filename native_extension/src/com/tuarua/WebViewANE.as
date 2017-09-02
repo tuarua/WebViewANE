@@ -49,6 +49,7 @@ import flash.external.ExtensionContext;
 import flash.filesystem.File;
 import flash.geom.Rectangle;
 import flash.system.Capabilities;
+import flash.ui.Keyboard;
 import flash.utils.Dictionary;
 
 public class WebViewANE extends EventDispatcher {
@@ -121,9 +122,12 @@ public class WebViewANE extends EventDispatcher {
                     var modifiersDown:String = (argsAsJSON.modifiers as String).toLowerCase();
                     var shiftDown:Boolean = modifiersDown.indexOf("shift") > -1;
                     var controlDown:Boolean = modifiersDown.indexOf("control") > -1;
+                    var commandDown:Boolean = modifiersDown.indexOf("command") > -1;
                     var altDown:Boolean = modifiersDown.indexOf("alt") > -1 && !systemKeyDown;
-                    this.dispatchEvent(new KeyboardEvent(KeyboardEvent.KEY_DOWN, true, false, 0, argsAsJSON.keyCode, 0, controlDown, altDown, shiftDown, false, false));
+                    this.dispatchEvent(new KeyboardEvent(KeyboardEvent.KEY_DOWN, true, false, 0, argsAsJSON.keyCode, 0,
+                            controlDown, altDown, shiftDown, controlDown, commandDown));
                 } catch (e:Error) {
+                    trace(e.getStackTrace());
                     break;
                 }
                 break;
@@ -134,9 +138,12 @@ public class WebViewANE extends EventDispatcher {
                     var modifiersUp:String = (argsAsJSON.modifiers as String).toLowerCase();
                     var shiftUp:Boolean = modifiersUp.indexOf("shift") > -1;
                     var controlUp:Boolean = modifiersUp.indexOf("control") > -1;
+                    var commandUp:Boolean = modifiersUp.indexOf("command") > -1;
                     var altUp:Boolean = modifiersUp.indexOf("alt") > -1 && !systemKeyUp;
-                    this.dispatchEvent(new KeyboardEvent(KeyboardEvent.KEY_UP, true, false, 0, argsAsJSON.keyCode, 0, controlUp, altUp, shiftUp, false, false));
+                    this.dispatchEvent(new KeyboardEvent(KeyboardEvent.KEY_UP, true, false, 0, argsAsJSON.keyCode, 0,
+                            controlUp, altUp, shiftUp, controlUp, commandUp));
                 } catch (e:Error) {
+                    trace(e.message);
                     break;
                 }
                 break;
@@ -594,8 +601,9 @@ public class WebViewANE extends EventDispatcher {
      * <p><strong>Ignored on Windows and Android.</strong></p>
      */
     public function backForwardList():BackForwardList {
-        if (safetyCheck())
+        if (safetyCheck()) {
             return ctx.call("backForwardList") as BackForwardList;
+        }
         return new BackForwardList();
     }
 
@@ -668,8 +676,9 @@ public class WebViewANE extends EventDispatcher {
      *
      */
     public function zoomIn():void {
-        if (safetyCheck())
+        if (safetyCheck()) {
             ctx.call("zoomIn");
+        }
     }
 
     /**
@@ -677,8 +686,9 @@ public class WebViewANE extends EventDispatcher {
      *
      */
     public function zoomOut():void {
-        if (safetyCheck())
+        if (safetyCheck()) {
             ctx.call("zoomOut");
+        }
     }
 
     public function addTab(initialUrl:String = null):void {
