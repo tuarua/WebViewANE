@@ -182,10 +182,6 @@ using the "remote-debugging-port" command-line switch.</p>
      </shortdesc><prolog/><apiValueDetail><apiValueDef><apiAccess value="public"/><apiStatic/><apiData>WebView.OnDownloadProgress</apiData><apiType value="String"/></apiValueDef><apiDesc>
      Dispatched when download progress changes
      <p><b>Windows only.</b></p>
-     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:WebViewEvent:ON_ESC_KEY"><apiName>ON_ESC_KEY</apiName><shortdesc>
-     Dispatched when Esc key is pressed.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiAccess value="public"/><apiStatic/><apiData>WebView.OnEscKey</apiData><apiType value="String"/></apiValueDef><apiDesc>
-     Dispatched when Esc key is pressed. Use this to exit fullscreen.
-     <p><b>Windows and OSX only.</b></p>
      </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:WebViewEvent:ON_FAIL"><apiName>ON_FAIL</apiName><shortdesc>
      
      </shortdesc><prolog/><apiValueDetail><apiValueDef><apiAccess value="public"/><apiStatic/><apiData>WebView.OnFail</apiData><apiType value="String"/></apiValueDef><apiDesc>
@@ -194,6 +190,10 @@ using the "remote-debugging-port" command-line switch.</p>
      Dispatched when permission is granted / denied.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiAccess value="public"/><apiStatic/><apiData>WebView.OnPermissionResult</apiData><apiType value="String"/></apiValueDef><apiDesc>
      Dispatched when permission is granted / denied.
      <p><b>Windows only.</b></p>
+     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:WebViewEvent:ON_POPUP_BLOCKED"><apiName>ON_POPUP_BLOCKED</apiName><shortdesc>
+     Dispatched when a pop is blocked (due to settings.popup.behaviour).</shortdesc><prolog/><apiValueDetail><apiValueDef><apiAccess value="public"/><apiStatic/><apiData>WebView.OnPopupBlocked</apiData><apiType value="String"/></apiValueDef><apiDesc>
+     Dispatched when a pop is blocked (due to settings.popup.behaviour).
+     
      </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:WebViewEvent:ON_PROPERTY_CHANGE"><apiName>ON_PROPERTY_CHANGE</apiName><shortdesc>
      Dispatched when one of the following is updated url, title, isLoading, canGoBack, canGoForward,
      estimatedProgress, statusMessage.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiAccess value="public"/><apiStatic/><apiData>WebView.OnPropertyChange</apiData><apiType value="String"/></apiValueDef><apiDesc>
@@ -259,6 +259,10 @@ using the "remote-debugging-port" command-line switch.</p>
      Settings to use for Android version.
      </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>unknown</apiData><apiValueClassifier>com.tuarua.webview:AndroidSettings</apiValueClassifier></apiValueDef><apiDesc>
      <p>Settings to use for Android version.</p>
+     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:Settings:cacheEnabled"><apiName>cacheEnabled</apiName><shortdesc>
+     Enables browser cache.
+     </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>true</apiData><apiType value="Boolean"/></apiValueDef><apiDesc>
+     <p>Enables browser cache.</p>
      </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:Settings:cef"><apiName>cef</apiName><shortdesc>
 	 Settings to use for CEF (Windows) version.
 	 </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>unknown</apiData><apiValueClassifier>com.tuarua.webview:CefSettings</apiValueClassifier></apiValueDef><apiDesc>
