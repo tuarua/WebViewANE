@@ -83,8 +83,8 @@
     <orderEntry type="library" exported="" name="starling" level="project" />
     <orderEntry type="library" exported="" name="DesktopToastANE" level="project" />
     <orderEntry type="library" exported="" name="FiraSansSemiBold" level="project" />
-    <orderEntry type="library" exported="" name="WebViewANE" level="project" />
     <orderEntry type="library" exported="" name="WindowsHelperANE" level="project" />
     <orderEntry type="library" exported="" name="CommonDependencies" level="project" />
+    <orderEntry type="library" exported="" name="WebViewANE" level="project" />
   </component>
 </module>

@@ -6,16 +6,14 @@ package {
 import com.tuarua.CommonDependencies;
 import com.tuarua.WebViewANE;
 import com.tuarua.webview.ActionscriptCallback;
-import com.tuarua.webview.BackForwardList;
-import com.tuarua.webview.BackForwardListItem;
 import com.tuarua.webview.DownloadProgress;
 import com.tuarua.webview.JavascriptResult;
 import com.tuarua.webview.LogSeverity;
 import com.tuarua.webview.Settings;
-import com.tuarua.webview.TabDetails;
 import com.tuarua.webview.WebViewEvent;
 import com.tuarua.webview.popup.Behaviour;
 
+import events.FormEvent;
 import events.InteractionEvent;
 
 import flash.desktop.NativeApplication;
@@ -25,6 +23,7 @@ import flash.display.PNGEncoderOptions;
 import flash.display.StageDisplayState;
 import flash.events.Event;
 import flash.events.FullScreenEvent;
+import flash.events.KeyboardEvent;
 import flash.events.MouseEvent;
 import flash.events.NativeWindowDisplayStateEvent;
 import flash.filesystem.File;
@@ -33,9 +32,6 @@ import flash.filesystem.FileStream;
 import flash.geom.Rectangle;
 import flash.system.Capabilities;
 import flash.text.TextFieldType;
-
-import events.FormEvent;
-
 import flash.utils.ByteArray;
 
 import starling.animation.Transitions;
@@ -51,7 +47,6 @@ import starling.text.TextFormat;
 import starling.utils.Align;
 
 import views.TabBar;
-
 import views.forms.Input;
 
 public class StarlingRoot extends Sprite {
@@ -108,6 +103,9 @@ public class StarlingRoot extends Sprite {
         webView.addEventListener(WebViewEvent.ON_URL_BLOCKED, onUrlBlocked);
         webView.addEventListener(WebViewEvent.ON_POPUP_BLOCKED, onPopupBlocked);
 
+        /*webView.addEventListener(KeyboardEvent.KEY_UP, onKeyUp); //KeyboardEvent of webview captured
+        webView.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown); //KeyboardEvent of webview captured*/
+
         var settings:Settings = new Settings();
         settings.popup.behaviour = Behaviour.NEW_WINDOW;  //Behaviour.BLOCK //Behaviour.SAME_WINDOW
         settings.popup.dimensions.width = 600;
@@ -141,7 +139,7 @@ public class StarlingRoot extends Sprite {
 //        settings.cef.GOOGLE_DEFAULT_CLIENT_ID = "YOUR_VALUE";
 //        settings.cef.GOOGLE_DEFAULT_CLIENT_SECRET = "YOUR_VALUE";
 
-        var viewPort:Rectangle = new Rectangle(0, 90, _appWidth, _appHeight - 140);
+        var viewPort:Rectangle = new Rectangle(0, 90.5, _appWidth, _appHeight - 140);
         webView.init(WebViewANESample.target.stage, viewPort, "http://www.youtube.com", settings, 1.0, 0xF1F1F1, 1.0);
         webView.visible = true;
         webView.injectScript("function testInject(){console.log('yo yo')}");
@@ -264,7 +262,15 @@ public class StarlingRoot extends Sprite {
         addChild(progress);
     }
 
-    private function onPopupBlocked(event:WebViewEvent):void {
+    private function onKeyDown(event:KeyboardEvent):void {
+        trace(event);
+    }
+
+    private function onKeyUp(event:KeyboardEvent):void {
+        trace(event);
+    }
+
+    private static function onPopupBlocked(event:WebViewEvent):void {
         Starling.current.nativeStage.dispatchEvent(new MouseEvent(MouseEvent.CLICK)); //this prevents touch getting trapped on Windows
     }
 
@@ -504,13 +510,11 @@ public class StarlingRoot extends Sprite {
                 var ba:ByteArray = new ByteArray();
                 var encodingOptions:PNGEncoderOptions = new PNGEncoderOptions(true);
                 bmd.encode(new Rectangle(0, 0, bmd.width, bmd.height), encodingOptions, ba);
-
                 var file:File = File.desktopDirectory.resolvePath("webViewANE_capture.png");
                 var fs:FileStream = new FileStream();
                 fs.open(file, FileMode.WRITE);
                 fs.writeBytes(ba);
                 fs.close();
-                trace("webview captured");
             }
 
         }

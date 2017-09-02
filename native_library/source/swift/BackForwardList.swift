@@ -26,11 +26,11 @@ import FreSwift
     import Cocoa
 #endif
 
-class BackForwardList: FreObjectSwift {
-    private var context: FreContextSwift!
-    convenience init(ctx:FreContextSwift, webView: WKWebView) {
+class BackForwardList: FreObjectSwift, FreSwiftController {
+    internal var context: FreContextSwift!
+    convenience init(context:FreContextSwift, webView: WKWebView) {
         self.init()
-        context = ctx
+        self.context = context
         do {
             if let ci = webView.backForwardList.currentItem, let freCurrentItem = try? FreObjectSwift.init(className: "com.tuarua.webview.BackForwardListItem") {
                 try freCurrentItem.setProperty(name: "url", prop: FreObjectSwift.init(string: ci.url.absoluteString))
@@ -69,7 +69,7 @@ class BackForwardList: FreObjectSwift {
             }
 
         } catch let e as FreError {
-            traceError(ctx: context, message: "backForwardList error", line: #line, column: #column, file: #file, freError: e)
+            traceError(message: "backForwardList error", line: #line, column: #column, file: #file, freError: e)
         } catch {
         }
 

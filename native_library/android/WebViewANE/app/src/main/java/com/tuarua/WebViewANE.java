@@ -1,14 +1,72 @@
+/*
+ * Copyright 2017 Tua Rua Ltd.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * Additional Terms
+ * No part, or derivative of this Air Native Extensions's code is permitted
+ * to be sold as the basis of a commercially packaged Air Native Extension which
+ * undertakes the same purpose as this software. That is, a WebView for Windows,
+ * OSX and/or iOS and/or Android.
+ * All Rights Reserved. Tua Rua Ltd.
+ */
 package com.tuarua;
 
 import com.adobe.fre.FREContext;
 import com.adobe.fre.FREExtension;
-
-/**
- * Created by Eoin Landy on 21/03/2017.
- */
+import com.tuarua.webviewane.KotlinController;
 
 public class WebViewANE implements FREExtension {
+    private String NAME = "com.tuarua.WebViewANE";
+    private static final String[] FUNCTIONS = {
+             "init"
+            ,"isSupported"
+            ,"clearCache"
+            ,"setVisible"
+            ,"load"
+            ,"loadFileURL"
+            ,"reload"
+            ,"backForwardList"
+            ,"go"
+            ,"goBack"
+            ,"goForward"
+            ,"stopLoading"
+            ,"reloadFromOrigin"
+            ,"allowsMagnification"
+            ,"zoomIn"
+            ,"zoomOut"
+            ,"loadHTMLString"
+            ,"setViewPort"
+            ,"showDevTools"
+            ,"closeDevTools"
+            ,"onFullScreen"
+            ,"callJavascriptFunction"
+            ,"evaluateJavaScript"
+            ,"injectScript"
+            ,"print"
+            ,"focus"
+            ,"capture"
+            ,"addTab"
+            ,"closeTab"
+            ,"setCurrentTab"
+            ,"shutDown"
+            ,"getCurrentTab"
+            ,"getTabDetails"
+
+    };
+
     public static WebViewANEContext extensionContext;
+
     @Override
     public void initialize() {
 
@@ -16,11 +74,11 @@ public class WebViewANE implements FREExtension {
 
     @Override
     public FREContext createContext(String s) {
-        return extensionContext = new WebViewANEContext();
+        return extensionContext = new WebViewANEContext(NAME, new KotlinController(), FUNCTIONS);
     }
 
     @Override
     public void dispose() {
-
+        extensionContext.dispose();
     }
 }

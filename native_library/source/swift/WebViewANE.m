@@ -59,8 +59,8 @@ CONTEXT_INIT(TRWV) {
         ,MAP_FUNCTION(TRWV, load)
         ,MAP_FUNCTION(TRWV, init)
         ,MAP_FUNCTION(TRWV, isSupported)
-        ,MAP_FUNCTION(TRWV, addToStage)
-        ,MAP_FUNCTION(TRWV, removeFromStage)
+        ,MAP_FUNCTION(TRWV, setVisible)
+        //,MAP_FUNCTION(TRWV, removeFromStage)
         ,MAP_FUNCTION(TRWV, loadHTMLString)
         ,MAP_FUNCTION(TRWV, loadFileURL)
         ,MAP_FUNCTION(TRWV, onFullScreen)
@@ -73,7 +73,7 @@ CONTEXT_INIT(TRWV) {
         ,MAP_FUNCTION(TRWV, allowsMagnification)
         ,MAP_FUNCTION(TRWV, zoomIn)
         ,MAP_FUNCTION(TRWV, zoomOut)
-        ,MAP_FUNCTION(TRWV, setPositionAndSize)
+        ,MAP_FUNCTION(TRWV, setViewPort)
         ,MAP_FUNCTION(TRWV, showDevTools)
         ,MAP_FUNCTION(TRWV, closeDevTools)
         ,MAP_FUNCTION(TRWV, callJavascriptFunction)
@@ -89,12 +89,14 @@ CONTEXT_INIT(TRWV) {
         ,MAP_FUNCTION(TRWV, getTabDetails)
         ,MAP_FUNCTION(TRWV, shutDown)
         ,MAP_FUNCTION(TRWV, clearCache)
+        ,MAP_FUNCTION(TRWV, addEventListener)
+        ,MAP_FUNCTION(TRWV, removeEventListener)
     };
     /**************************************************************************/
     /**************************************************************************/
     
     SET_FUNCTIONS
-    
+
 }
 
 CONTEXT_FIN(TRWV) {

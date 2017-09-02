@@ -27,6 +27,7 @@ mkdir "$pathtome/platforms/mac"
 mkdir "$pathtome/platforms/mac/release"
 fi
 
+
 #Copy SWC into place.
 echo "Copying SWC into place."
 cp "$pathtome/../bin/$PROJECT_NAME.swc" "$pathtome/"
@@ -59,7 +60,7 @@ echo "Building Release."
 -platform MacOS-x86-64 -C "$pathtome/platforms/mac/release" "$PROJECT_NAME.framework" "library.swf" \
 -platform Windows-x86 -C "$pathtome/platforms/win/x86/release" "$PROJECT_NAME.dll" "library.swf" \
 -platform Windows-x86-64 -C "$pathtome/platforms/win/x64/release" "$PROJECT_NAME.dll" "library.swf" \
--platform default "library.swf"
+-platform default -C "$pathtome" "library.swf"
 
 
 rm "$pathtome/$PROJECT_NAME.swc"

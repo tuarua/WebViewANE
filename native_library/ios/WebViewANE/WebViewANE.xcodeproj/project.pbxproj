@@ -90,7 +90,7 @@
 		CEA438031E78A2C00099F463 /* SwiftyJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SwiftyJSON.h; path = ../../../dependencies/SwiftyJSON.h; sourceTree = "<group>"; };
 		CEA438041E78A2C00099F463 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftyJSON.swift; path = ../../../dependencies/SwiftyJSON.swift; sourceTree = "<group>"; };
 		CEC13D401EFEE651003BDA4A /* WebViewVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebViewVC.swift; path = ../../../source/swift/WebViewVC.swift; sourceTree = "<group>"; };
-		CEFE5BEA1F1A27A9007BFBF2 /* SwiftController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftController.swift; sourceTree = "<group>"; };
+		CEFE5BEA1F1A27A9007BFBF2 /* SwiftController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftController.swift; path = ../../../source/swift/SwiftController.swift; sourceTree = "<group>"; };
 		CEFE5BEC1F1A27CD007BFBF2 /* FreMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FreMacros.h; path = FreSwift/FreMacros.h; sourceTree = SOURCE_ROOT; };
 		CEFE5BEE1F1A2828007BFBF2 /* FreSwift-iOS-Swift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "FreSwift-iOS-Swift.h"; path = "FreSwift/FreSwift-iOS-Swift.h"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */

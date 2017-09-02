@@ -7,7 +7,7 @@
      
      </apiDesc></apiParam></apiOperationDef><apiDesc>
      
-     </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:addTab"><apiName>addTab</apiName><shortdesc/><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn><apiParam><apiItemName>initialUrl</apiItemName><apiType value="String"/><apiData>null</apiData></apiParam></apiOperationDef></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:addToStage"><apiName>addToStage</apiName><shortdesc/><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn><apiDeprecated replacement="visible"/></apiOperationDef></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:allowsMagnification"><apiName>allowsMagnification</apiName><shortdesc>
+     </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:addEventListener"><apiName>addEventListener</apiName><shortdesc/><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiIsOverride/><apiReturn><apiType value="void"/></apiReturn><apiParam><apiItemName>type</apiItemName><apiType value="String"/></apiParam><apiParam><apiItemName>listener</apiItemName><apiType value="Function"/></apiParam><apiParam><apiItemName>useCapture</apiItemName><apiType value="Boolean"/><apiData>false</apiData></apiParam><apiParam><apiItemName>priority</apiItemName><apiType value="int"/><apiData>0</apiData></apiParam><apiParam><apiItemName>useWeakReference</apiItemName><apiType value="Boolean"/><apiData>false</apiData></apiParam></apiOperationDef></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:addTab"><apiName>addTab</apiName><shortdesc/><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn><apiParam><apiItemName>initialUrl</apiItemName><apiType value="String"/><apiData>null</apiData></apiParam></apiOperationDef></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:allowsMagnification"><apiName>allowsMagnification</apiName><shortdesc>
      
      </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiDesc>Whether the page allows magnification functionality
      <p><b>Ignored on iOS.</b></p>
@@ -76,12 +76,23 @@
      
      </apiDesc></apiParam></apiOperationDef><apiDesc>
      
+     </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:clearCache"><apiName>clearCache</apiName><shortdesc>
+     Clears the browser cache.</shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn></apiOperationDef><apiDesc>
+     <p>Clears the browser cache. Available on iOS/OSX/Android only</p>
+     <p><b>Ignored on Windows.</b></p>
+     <p>You cannot clear the cache on Windows while CEF is running. This is a known limitation.
+     You can delete the contents of the value of your settings.cef.cachePath using Actionscript
+     only before you call .init(). Calling after .dispose() may cause file locks as the files may
+     still be 'owned' by the CEF process</p>
+     
      </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:closeDevTools"><apiName>closeDevTools</apiName><shortdesc>
      Close the Chromium dev tools
+     Disables Inspect Element on right click on OSX
      On Android disconnects from chrome://inspect
      
      </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn></apiOperationDef><apiDesc>
      <p>Close the Chromium dev tools</p>
+     <p>Disables Inspect Element on right click on OSX</p>
      <p>On Android disconnects from chrome://inspect</p>
      
      </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:closeTab"><apiName>closeTab</apiName><shortdesc/><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn><apiParam><apiItemName>index</apiItemName><apiType value="int"/></apiParam></apiOperationDef></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:dispose"><apiName>dispose</apiName><shortdesc>
@@ -119,13 +130,7 @@
 }
      </codeblock>
      
-     </example></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:focus"><apiName>focus</apiName><shortdesc/><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn></apiOperationDef></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:getMagnification"><apiName>getMagnification</apiName><shortdesc>
-     
-     </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiDesc>The current magnification level
-     
-     </apiDesc><apiType value="Number"/></apiReturn><apiDeprecated><apiDesc>Not available</apiDesc></apiDeprecated></apiOperationDef><apiDesc>
-     
-     </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:goBack"><apiName>goBack</apiName><shortdesc>
+     </example></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:focus"><apiName>focus</apiName><shortdesc/><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn></apiOperationDef></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:goBack"><apiName>goBack</apiName><shortdesc>
      Navigates back.
      </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn></apiOperationDef><apiDesc>
      <p>Navigates back.</p>
@@ -190,12 +195,6 @@
      </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn><apiParam><apiItemName>url</apiItemName><apiType value="String"/><apiDesc>    
      </apiDesc></apiParam></apiOperationDef><apiDesc>
      
-     </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:onFullScreen"><apiName>onFullScreen</apiName><shortdesc>
-     
-     </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn><apiParam><apiItemName>fs</apiItemName><apiType value="Boolean"/><apiData>false</apiData><apiDesc>When going fullscreen set this to true, when coming out of fullscreen set to false
-     
-     </apiDesc></apiParam></apiOperationDef><apiDesc>
-     
      </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:print"><apiName>print</apiName><shortdesc>
      
      prints the webView.
@@ -220,20 +219,17 @@
      
      </apiDesc></apiParam></apiOperationDef><apiDesc>
      
-     </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:removeFromStage"><apiName>removeFromStage</apiName><shortdesc/><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn><apiDeprecated replacement="visible"/></apiOperationDef></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:setBackgroundColor"><apiName>setBackgroundColor</apiName><shortdesc/><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn><apiParam><apiItemName>value</apiItemName><apiType value="uint"/></apiParam><apiParam><apiItemName>alpha</apiItemName><apiType value="Number"/><apiData>1.0</apiData></apiParam><apiDeprecated><apiDesc>combined into init params</apiDesc></apiDeprecated></apiOperationDef></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:setMagnification"><apiName>setMagnification</apiName><shortdesc>
-     
-     </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn><apiParam><apiItemName>value</apiItemName><apiType value="Number"/><apiDesc>    </apiDesc></apiParam><apiParam><apiItemName>centeredAt</apiItemName><apiType value="flash.geom:Point"/><apiDesc>    <p><b>Ignored on iOS.</b></p>
-     </apiDesc></apiParam><apiDeprecated replacement="zoomIn"/></apiOperationDef><apiDesc>
-     
-     </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:setPositionAndSize"><apiName>setPositionAndSize</apiName><shortdesc/><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn><apiParam><apiItemName>x</apiItemName><apiType value="int"/><apiData>0</apiData></apiParam><apiParam><apiItemName>y</apiItemName><apiType value="int"/><apiData>0</apiData></apiParam><apiParam><apiItemName>width</apiItemName><apiType value="int"/><apiData>0</apiData></apiParam><apiParam><apiItemName>height</apiItemName><apiType value="int"/><apiData>0</apiData></apiParam><apiDeprecated replacement="viewPort"/></apiOperationDef></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:showDevTools"><apiName>showDevTools</apiName><shortdesc>
+     </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:removeEventListener"><apiName>removeEventListener</apiName><shortdesc/><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiIsOverride/><apiReturn><apiType value="void"/></apiReturn><apiParam><apiItemName>type</apiItemName><apiType value="String"/></apiParam><apiParam><apiItemName>listener</apiItemName><apiType value="Function"/></apiParam><apiParam><apiItemName>useCapture</apiItemName><apiType value="Boolean"/><apiData>false</apiData></apiParam></apiOperationDef></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:showDevTools"><apiName>showDevTools</apiName><shortdesc>
      Shows the Chromium dev tools on Windows
+     Enables Inspect Element on right click on OSX
      On Android use Chrome on connected computer and navigate to chrome://inspect
      
      </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn></apiOperationDef><apiDesc>
      <p>Shows the Chromium dev tools on Windows</p>
+     <p>Enables Inspect Element on right click on OSX</p>
      <p>On Android use Chrome on connected computer and navigate to chrome://inspect</p>
      
-     </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:shutDown"><apiName>shutDown</apiName><shortdesc/><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn><apiDeprecated><apiDesc>This is not needed any more as shutdown of CEF is automatically handled in the dispose method</apiDesc></apiDeprecated></apiOperationDef></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:stopLoading"><apiName>stopLoading</apiName><shortdesc>
+     </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:stopLoading"><apiName>stopLoading</apiName><shortdesc>
      Stops loading the current page.
      </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn></apiOperationDef><apiDesc>
      <p>Stops loading the current page.</p>
@@ -249,39 +245,11 @@
      </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn></apiOperationDef><apiDesc>
      Zooms out
      
-     </apiDesc></apiOperationDetail></apiOperation><apiValue id="com.tuarua:WebViewANE:canGoBack:get"><apiName>canGoBack</apiName><shortdesc>
-     
-     </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiValueAccess value="read"/><apiType value="Boolean"/><apiDeprecated replacement="tabDetails"/></apiValueDef><apiDesc>
-     
-     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua:WebViewANE:canGoForward:get"><apiName>canGoForward</apiName><shortdesc>
-     
-     </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiValueAccess value="read"/><apiType value="Boolean"/><apiDeprecated replacement="tabDetails"/></apiValueDef><apiDesc>
-     
-     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua:WebViewANE:currentTab:get"><apiName>currentTab</apiName><shortdesc/><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiValueAccess value="readwrite"/><apiType value="int"/></apiValueDef></apiValueDetail></apiValue><apiValue id="com.tuarua:WebViewANE:estimatedProgress:get"><apiName>estimatedProgress</apiName><shortdesc>
-     
-     </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiValueAccess value="read"/><apiType value="Number"/><apiDeprecated replacement="tabDetails"/></apiValueDef><apiDesc>
-     
-     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua:WebViewANE:isInited:get"><apiName>isInited</apiName><shortdesc>
+     </apiDesc></apiOperationDetail></apiOperation><apiValue id="com.tuarua:WebViewANE:currentTab:get"><apiName>currentTab</apiName><shortdesc/><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiValueAccess value="readwrite"/><apiType value="int"/></apiValueDef></apiValueDetail></apiValue><apiValue id="com.tuarua:WebViewANE:isInited:get"><apiName>isInited</apiName><shortdesc>
      
      </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiValueAccess value="read"/><apiType value="Boolean"/></apiValueDef><apiDesc>
      
-     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua:WebViewANE:isLoading:get"><apiName>isLoading</apiName><shortdesc>
-     
-     </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiValueAccess value="read"/><apiType value="Boolean"/><apiDeprecated replacement="tabDetails"/></apiValueDef><apiDesc>
-     
-     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua:WebViewANE:statusMessage:get"><apiName>statusMessage</apiName><shortdesc>
-     
-     </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiValueAccess value="read"/><apiType value="String"/><apiDeprecated replacement="tabDetails"/></apiValueDef><apiDesc>
-     
-     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua:WebViewANE:tabDetails:get"><apiName>tabDetails</apiName><shortdesc/><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiValueAccess value="read"/><apiType value="Vector$com.tuarua.webview:TabDetails"/></apiValueDef></apiValueDetail></apiValue><apiValue id="com.tuarua:WebViewANE:title:get"><apiName>title</apiName><shortdesc>
-     
-     </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiValueAccess value="read"/><apiType value="String"/><apiDeprecated replacement="tabDetails"/></apiValueDef><apiDesc>
-     
-     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua:WebViewANE:url:get"><apiName>url</apiName><shortdesc>
-     
-     </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiValueAccess value="read"/><apiType value="String"/><apiDeprecated replacement="tabDetails"/></apiValueDef><apiDesc>
-     
-     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua:WebViewANE:viewPort:get"><apiName>viewPort</apiName><shortdesc/><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiValueAccess value="readwrite"/><apiType value="flash.geom:Rectangle"/></apiValueDef></apiValueDetail></apiValue><apiValue id="com.tuarua:WebViewANE:visible:get"><apiName>visible</apiName><shortdesc>
+     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua:WebViewANE:tabDetails:get"><apiName>tabDetails</apiName><shortdesc/><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiValueAccess value="read"/><apiType value="Vector$com.tuarua.webview:TabDetails"/></apiValueDef></apiValueDetail></apiValue><apiValue id="com.tuarua:WebViewANE:viewPort:get"><apiName>viewPort</apiName><shortdesc/><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiValueAccess value="readwrite"/><apiType value="flash.geom:Rectangle"/></apiValueDef></apiValueDetail></apiValue><apiValue id="com.tuarua:WebViewANE:visible:get"><apiName>visible</apiName><shortdesc>
      
      </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiValueAccess value="readwrite"/><apiType value="Boolean"/></apiValueDef><apiDesc>
      
