@@ -88,8 +88,7 @@ You will need
 - IntelliJ IDEA
 - AIR 26 RC and AIR 27 Beta
 
-## Android Important!
-AIRSDK 26 is not yet supported. Please use AIRSDK 25 
+## Android
 The Android version utilises the native WebView. 
 
 

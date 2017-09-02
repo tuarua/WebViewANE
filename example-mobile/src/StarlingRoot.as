@@ -7,6 +7,7 @@ import com.tuarua.webview.WebViewEvent;
 import flash.desktop.NativeApplication;
 
 import flash.events.KeyboardEvent;
+import flash.events.SoftKeyboardEvent;
 import flash.filesystem.File;
 import flash.filesystem.FileMode;
 import flash.filesystem.FileStream;
@@ -16,6 +17,7 @@ import flash.text.SoftKeyboardType;
 import flash.text.StageText;
 import flash.ui.Keyboard;
 import flash.events.Event;
+
 import starling.animation.Transitions;
 import starling.core.Starling;
 import starling.display.Image;
@@ -43,6 +45,7 @@ public class StarlingRoot extends Sprite {
     private var urlInput:StageText;
     private var titleTxt:TextField;
     private var webView:WebViewANE;
+    private var urlEntered:Boolean = false;
 
     public function StarlingRoot() {
     }
@@ -144,6 +147,7 @@ public class StarlingRoot extends Sprite {
         webView.showDevTools();  //open chrome://inspect in Chrome for Android - ignored on iOS
 
         urlInput = new StageText();
+
         urlInput.returnKeyLabel = ReturnKeyLabel.GO;
         urlInput.stage = Starling.current.nativeStage;
         urlInput.fontFamily = "FiraSansEmbed";
@@ -151,8 +155,7 @@ public class StarlingRoot extends Sprite {
         urlInput.color = 0x666666;
         urlInput.text = "http://github.com/tuarua/WebViewANE";
         urlInput.softKeyboardType = SoftKeyboardType.URL;
-        urlInput.addEventListener(KeyboardEvent.KEY_UP, onUrlEnter);
-
+        urlInput.addEventListener(KeyboardEvent.KEY_DOWN, onUrlEnter); //KEY_DOWN is important, KEY_UP causes issues in AIR 26 on Android
         urlInput.viewPort = new Rectangle((inputBG.x + 5) * Starling.current.contentScaleFactor,
                 (inputBG.y + 4) * Starling.current.contentScaleFactor,
                 (inputBG.width - 10) * Starling.current.contentScaleFactor,
@@ -258,12 +261,12 @@ public class StarlingRoot extends Sprite {
         }
     }
 
-
     private function onUrlEnter(event:KeyboardEvent):void {
+        event.preventDefault(); //Android needs this. We need to programmatically close the keyboard then.
+        urlInput.stage.focus = null;
         if (event.keyCode == Keyboard.ENTER) {
             webView.load(urlInput.text);
         }
-
     }
 
     public function jsToAsCallback(asCallback:ActionscriptCallback):void {
@@ -296,7 +299,7 @@ public class StarlingRoot extends Sprite {
 
     private function onPropertyChange(event:WebViewEvent):void {
         // trace("");
-        //trace(event.params.propertyName,"has changed: ");
+        //trace(event.params.propertyName, "has changed:", "to", event.params.value);
         // trace("------");
 
         switch (event.params.propertyName) {
@@ -347,7 +350,11 @@ public class StarlingRoot extends Sprite {
         jsBtn.x = webBtn.x = stage.stageWidth - 40;
         inputBG.width = stage.stageWidth - 108 - 50;
 
+
         progress.width = inputBG.width - 2;
+
+        //trace("onResize", "stage.stageWidth:", stage.stageWidth);
+        //trace("onResize", "progress.width:", progress.width);
 
         webView.viewPort = new Rectangle(0, 80, stage.stageWidth, stage.stageHeight - 80);
 
@@ -358,6 +365,7 @@ public class StarlingRoot extends Sprite {
                 (inputBG.height - 3) * Starling.current.contentScaleFactor);
 
     }
+
     /**
      * It's very important to call webView.dispose(); when the app is exiting.
      */

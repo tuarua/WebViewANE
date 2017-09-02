@@ -42,6 +42,7 @@ using Color = System.Windows.Media.Color;
 using FREObject = System.IntPtr;
 using FREContext = System.IntPtr;
 using Hwnd = System.IntPtr;
+using TuaRua.FreSharp.Exceptions;
 
 namespace CefSharpLib {
     public enum PopupBehaviour {
@@ -84,9 +85,8 @@ namespace CefSharpLib {
                     {"callJavascriptFunction", CallJavascriptFunction},
                     {"evaluateJavaScript", EvaluateJavaScript},
                     {"print", Print},
-                    {"addToStage", AddToStage},
-                    {"removeFromStage", RemoveFromStage},
-                    {"setPositionAndSize", SetPositionAndSize},
+                    {"setVisible", SetVisible},
+                    {"setViewPort", SetViewPort},
                     {"init", InitView},
                     {"capture", Capture},
                     {"addTab", AddTab},
@@ -94,7 +94,8 @@ namespace CefSharpLib {
                     {"setCurrentTab", SetCurrentTab},
                     {"getCurrentTab", GetCurrentTab},
                     {"getTabDetails", GetTabDetails},
-                    
+                    {"addEventListener", AddEventListener},
+                    {"removeEventListener", RemoveEventListener},
                 };
 
             return FunctionsDict.Select(kvp => kvp.Key).ToArray();
@@ -107,21 +108,25 @@ namespace CefSharpLib {
                 Trace("Capture is not yet available on 64bit Windows.");
                 return FREObject.Zero;
             }
+            try {
+                var freX = Convert.ToInt32(new FreObjectSharp(argv[0]).Value);
+                var freY = Convert.ToInt32(new FreObjectSharp(argv[1]).Value);
+                var freW = Convert.ToInt32(new FreObjectSharp(argv[2]).Value);
+                var freH = Convert.ToInt32(new FreObjectSharp(argv[3]).Value);
 
-            var freX = Convert.ToInt32(new FreObjectSharp(argv[0]).Value);
-            var freY = Convert.ToInt32(new FreObjectSharp(argv[1]).Value);
-            var freW = Convert.ToInt32(new FreObjectSharp(argv[2]).Value);
-            var freH = Convert.ToInt32(new FreObjectSharp(argv[3]).Value);
+                var width = freW > 0 ? freW : rect.right - rect.left;
+                var height = freH > 0 ? freH : rect.bottom - rect.top;
 
-            var width = freW > 0 ? freW : rect.right - rect.left;
-            var height = freH > 0 ? freH : rect.bottom - rect.top;
-
-            var bmp = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-            var graphics = Graphics.FromImage(bmp);
-            graphics.CopyFromScreen(rect.left + freX, rect.top + freY, 0, 0, new Size(width, height),
-                CopyPixelOperation.SourceCopy);
-            var ret = new FreBitmapDataSharp(bmp);
-            return ret.RawValue;
+                var bmp = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                var graphics = Graphics.FromImage(bmp);
+                graphics.CopyFromScreen(rect.left + freX, rect.top + freY, 0, 0, new Size(width, height),
+                    CopyPixelOperation.SourceCopy);
+                var ret = new FreBitmapDataSharp(bmp);
+                return ret.RawValue;
+            }
+            catch (Exception e) {
+                return new FreException(e).RawValue;
+            }
         }
 
         private static FREObject IsSupported(FREContext ctx, uint argc, FREObject[] argv) {
@@ -168,99 +173,111 @@ namespace CefSharpLib {
         }
 
         public FREObject InjectScript(FREContext ctx, uint argc, FREObject[] argv) {
-            var injectCodeFre = new FreObjectSharp(argv[0]);
-            var injectScriptUrlFre = new FreObjectSharp(argv[1]);
-            var injectStartLineFre = new FreObjectSharp(argv[2]);
-
-            if (FreObjectTypeSharp.String == injectCodeFre.GetType()) {
-                _view.InjectCode = Convert.ToString(injectCodeFre.Value);
+            try {
+                var injectCodeFre = new FreObjectSharp(argv[0]);
+                var injectScriptUrlFre = new FreObjectSharp(argv[1]);
+                var injectStartLineFre = new FreObjectSharp(argv[2]);
+                if (FreObjectTypeSharp.String == injectCodeFre.GetType()) {
+                    _view.InjectCode = Convert.ToString(injectCodeFre.Value);
+                }
+                if (FreObjectTypeSharp.String == injectScriptUrlFre.GetType()) {
+                    _view.InjectScriptUrl = Convert.ToString(injectScriptUrlFre.Value);
+                }
+                _view.InjectStartLine = Convert.ToInt32(injectStartLineFre.Value);
             }
-            if (FreObjectTypeSharp.String == injectScriptUrlFre.GetType()) {
-                _view.InjectScriptUrl = Convert.ToString(injectScriptUrlFre.Value);
+            catch (Exception e) {
+                return new FreException(e).RawValue;
             }
-            _view.InjectStartLine = Convert.ToInt32(injectStartLineFre.Value);
-
             return FREObject.Zero;
         }
 
         public FREObject InitView(FREContext ctx, uint argc, FREObject[] argv) {
             _airWindow = System.Diagnostics.Process.GetCurrentProcess().MainWindowHandle;
             if (_airWindow == Hwnd.Zero) {
-                Trace("Cannot find AIR window to attach webView to. Ensure you init the ANE AFTER your main Sprite is initialised. " +
-                      "Please see https://forum.starling-framework.org/topic/webviewane-for-osx/page/7?replies=201#post-105524 for more details");
-                return FREObject.Zero;
-            }    
-
-            var inFre1 = new FreRectangleSharp(argv[1]); //viewport
-            var inFre2 = new FreObjectSharp(argv[2]); //settings
-            var inFre4 = new FreObjectSharp(argv[4]); //backgroundColor
-            var cefSettingsFre = inFre2.GetProperty("cef");
-
-            var googleApiKeyFre = cefSettingsFre.GetProperty("GOOGLE_API_KEY");
-            var googleDefaultClientIdFre = cefSettingsFre.GetProperty("GOOGLE_DEFAULT_CLIENT_ID");
-            var googleDefaultClientSecretFre = cefSettingsFre.GetProperty("GOOGLE_DEFAULT_CLIENT_SECRET");
-
-            if (FreObjectTypeSharp.String == googleApiKeyFre.GetType()) {
-                Environment.SetEnvironmentVariable("GOOGLE_API_KEY", Convert.ToString(googleApiKeyFre.Value));
-            }
-            if (FreObjectTypeSharp.String == googleDefaultClientIdFre.GetType()) {
-                Environment.SetEnvironmentVariable("GOOGLE_DEFAULT_CLIENT_ID",
-                    Convert.ToString(googleDefaultClientIdFre.Value));
-            }
-            if (FreObjectTypeSharp.String == googleDefaultClientSecretFre.GetType()) {
-                Environment.SetEnvironmentVariable("GOOGLE_DEFAULT_CLIENT_SECRET",
-                    Convert.ToString(googleDefaultClientSecretFre.Value));
+                var e = new Exception(
+                    "Cannot find AIR window to attach webView to. Ensure you init the ANE AFTER your main Sprite is initialised. " +
+                    "Please see https://forum.starling-framework.org/topic/webviewane-for-osx/page/7?replies=201#post-105524 for more details");
+                return new FreException(e).RawValue;
             }
 
-            var clArr = new FreArraySharp(cefSettingsFre.GetProperty("commandLineArgs").RawValue);
-            var argsDict = new Dictionary<string, string>();
+            try {
+                var inFre1 = new FreRectangleSharp(argv[1]); //viewport
+                var inFre2 = new FreObjectSharp(argv[2]); //settings
+                var inFre4 = new FreObjectSharp(argv[4]); //backgroundColor
+                var cefSettingsFre = inFre2.GetProperty("cef");
 
-            uint i;
-            for (i = 0; i < clArr.Length; ++i) {
-                var argFre = clArr.GetObjectAt(i);
-                var key = Convert.ToString(argFre.GetProperty("key").Value);
-                var val = Convert.ToString(argFre.GetProperty("value").Value);
-                if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(val)) continue;
-                argsDict.Add(key, val);
+                var googleApiKeyFre = cefSettingsFre.GetProperty("GOOGLE_API_KEY");
+                var googleDefaultClientIdFre = cefSettingsFre.GetProperty("GOOGLE_DEFAULT_CLIENT_ID");
+                var googleDefaultClientSecretFre = cefSettingsFre.GetProperty("GOOGLE_DEFAULT_CLIENT_SECRET");
+
+                if (FreObjectTypeSharp.String == googleApiKeyFre.GetType()) {
+                    Environment.SetEnvironmentVariable("GOOGLE_API_KEY", Convert.ToString(googleApiKeyFre.Value));
+                }
+                if (FreObjectTypeSharp.String == googleDefaultClientIdFre.GetType()) {
+                    Environment.SetEnvironmentVariable("GOOGLE_DEFAULT_CLIENT_ID",
+                        Convert.ToString(googleDefaultClientIdFre.Value));
+                }
+                if (FreObjectTypeSharp.String == googleDefaultClientSecretFre.GetType()) {
+                    Environment.SetEnvironmentVariable("GOOGLE_DEFAULT_CLIENT_SECRET",
+                        Convert.ToString(googleDefaultClientSecretFre.Value));
+                }
+
+                var clArr = new FreArraySharp(cefSettingsFre.GetProperty("commandLineArgs").RawValue);
+                var argsDict = new Dictionary<string, string>();
+
+                uint i;
+                for (i = 0; i < clArr.Length; ++i) {
+                    var argFre = clArr.GetObjectAt(i);
+                    var key = Convert.ToString(argFre.GetProperty("key").Value);
+                    var val = Convert.ToString(argFre.GetProperty("value").Value);
+                    if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(val)) continue;
+                    argsDict.Add(key, val);
+                }
+
+                var whiteList = new FreArraySharp(inFre2.GetProperty("urlWhiteList").RawValue).GetAsArrayList();
+                var blackList = new FreArraySharp(inFre2.GetProperty("urlBlackList").RawValue).GetAsArrayList();
+
+                var rgb = FreSharpHelper.GetAsUInt(inFre4.RawValue);
+                _backgroundColor = Color.FromRgb(
+                    Convert.ToByte((rgb >> 16) & 0xff),
+                    Convert.ToByte((rgb >> 8) & 0xff),
+                    Convert.ToByte((rgb >> 0) & 0xff));
+
+                var viewPort = inFre1.Value;
+                _view = new CefView {
+                    InitialUrl = Convert.ToString(new FreObjectSharp(argv[0]).Value),
+                    Background = new SolidColorBrush(_backgroundColor),
+                    X = Convert.ToInt32(viewPort.X),
+                    Y = Convert.ToInt32(viewPort.Y),
+                    ViewWidth = Convert.ToInt32(viewPort.Width),
+                    ViewHeight = Convert.ToInt32(viewPort.Height),
+                    RemoteDebuggingPort = Convert.ToInt32(cefSettingsFre.GetProperty("remoteDebuggingPort").Value),
+                    CachePath = Convert.ToString(cefSettingsFre.GetProperty("cachePath").Value),
+                    CacheEnabled = Convert.ToBoolean(inFre2.GetProperty("cacheEnabled").Value),
+                    LogLevel = Convert.ToInt32(cefSettingsFre.GetProperty("logSeverity").Value),
+                    BrowserSubprocessPath = Convert.ToString(cefSettingsFre.GetProperty("browserSubprocessPath").Value),
+                    ContextMenuEnabled = Convert.ToBoolean(cefSettingsFre.GetProperty("contextMenu")
+                        .GetProperty("enabled")
+                        .Value),
+                    EnableDownloads = Convert.ToBoolean(cefSettingsFre.GetProperty("enableDownloads").Value),
+                    UserAgent = Convert.ToString(inFre2.GetProperty("userAgent").Value),
+                    CommandLineArgs = argsDict,
+                    WhiteList = whiteList,
+                    BlackList = blackList,
+                    PopupBehaviour = (PopupBehaviour) inFre2.GetProperty("popup").GetProperty("behaviour").Value,
+                    PopupDimensions = new Tuple<int, int>(
+                        Convert.ToInt32(
+                            inFre2.GetProperty("popup").GetProperty("dimensions").GetProperty("width").Value),
+                        Convert.ToInt32(inFre2.GetProperty("popup").GetProperty("dimensions").GetProperty("height")
+                            .Value)
+                    )
+                };
+
+                _view.Init();
             }
-
-            var whiteList = new FreArraySharp(inFre2.GetProperty("urlWhiteList").RawValue).GetAsArrayList();
-            var blackList = new FreArraySharp(inFre2.GetProperty("urlBlackList").RawValue).GetAsArrayList();
-
-            var rgb = FreSharpHelper.GetAsUInt(inFre4.RawValue);
-            _backgroundColor = Color.FromRgb(
-                Convert.ToByte((rgb >> 16) & 0xff),
-                Convert.ToByte((rgb >> 8) & 0xff),
-                Convert.ToByte((rgb >> 0) & 0xff));
-
-            var viewPort = inFre1.Value;
-            _view = new CefView {
-                InitialUrl = Convert.ToString(new FreObjectSharp(argv[0]).Value),
-                Background = new SolidColorBrush(_backgroundColor),
-                X = viewPort.X,
-                Y = viewPort.Y,
-                ViewWidth = viewPort.Width,
-                ViewHeight = viewPort.Height,
-                RemoteDebuggingPort = Convert.ToInt32(cefSettingsFre.GetProperty("remoteDebuggingPort").Value),
-                CachePath = Convert.ToString(cefSettingsFre.GetProperty("cachePath").Value),
-                CacheEnabled = Convert.ToBoolean(inFre2.GetProperty("cacheEnabled").Value),
-                LogLevel = Convert.ToInt32(cefSettingsFre.GetProperty("logSeverity").Value),
-                BrowserSubprocessPath = Convert.ToString(cefSettingsFre.GetProperty("browserSubprocessPath").Value),
-                ContextMenuEnabled = Convert.ToBoolean(cefSettingsFre.GetProperty("contextMenu").GetProperty("enabled")
-                    .Value),
-                EnableDownloads = Convert.ToBoolean(cefSettingsFre.GetProperty("enableDownloads").Value),
-                UserAgent = Convert.ToString(inFre2.GetProperty("userAgent").Value),
-                CommandLineArgs = argsDict,
-                WhiteList = whiteList,
-                BlackList = blackList,
-                PopupBehaviour = (PopupBehaviour) inFre2.GetProperty("popup").GetProperty("behaviour").Value,
-                PopupDimensions = new Tuple<int, int>(
-                    Convert.ToInt32(inFre2.GetProperty("popup").GetProperty("dimensions").GetProperty("width").Value),
-                    Convert.ToInt32(inFre2.GetProperty("popup").GetProperty("dimensions").GetProperty("height").Value)
-                )
-            };
-
-            _view.Init();
+            catch (Exception e) {
+                return new FreException(e).RawValue; //return as3 error and throw in swc
+            }
 
             var parameters = new HwndSourceParameters();
             parameters.SetPosition(_view.X, _view.Y);
@@ -278,18 +295,33 @@ namespace CefSharpLib {
         }
 
         public FREObject AddTab(FREContext ctx, uint argc, FREObject[] argv) {
-            _view.InitialUrl = Convert.ToString(new FreObjectSharp(argv[0]).Value);
-            _view.AddTab();
+            try {
+                _view.InitialUrl = Convert.ToString(new FreObjectSharp(argv[0]).Value);
+                _view.AddTab();
+            }
+            catch (Exception e) {
+                return new FreException(e).RawValue;
+            }
             return FREObject.Zero;
         }
 
         public FREObject CloseTab(FREContext ctx, uint argc, FREObject[] argv) {
-            _view.CloseTab(Convert.ToInt32(new FreObjectSharp(argv[0]).Value));
+            try {
+                _view.CloseTab(Convert.ToInt32(new FreObjectSharp(argv[0]).Value));
+            }
+            catch (Exception e) {
+                return new FreException(e).RawValue;
+            }
             return FREObject.Zero;
         }
 
         public FREObject SetCurrentTab(FREContext ctx, uint argc, FREObject[] argv) {
-            _view.SetCurrentTab(Convert.ToInt32(new FreObjectSharp(argv[0]).Value));
+            try {
+                _view.SetCurrentTab(Convert.ToInt32(new FreObjectSharp(argv[0]).Value));
+            }
+            catch (Exception e) {
+                return new FreException(e).RawValue;
+            }
             return FREObject.Zero;
         }
 
@@ -299,37 +331,48 @@ namespace CefSharpLib {
 
         public FREObject GetTabDetails(FREContext ctx, uint argc, FREObject[] argv) {
             var tabDetails = _view.TabDetails;
-            var tmp = new FreObjectSharp("Vector.<com.tuarua.webview.TabDetails>", null);
-            var vecTabDetails = new FreArraySharp(tmp.RawValue);
-            for (var index = 0; index < tabDetails.Count; index++) {
-                var tabDetail = tabDetails[index] as TabDetails;
-                if (tabDetail == null) continue;
-                var currentTabFre = new FreObjectSharp("com.tuarua.webview.TabDetails", index, tabDetail.Address,
-                    tabDetail.Title, tabDetail.IsLoading, tabDetail.CanGoBack, tabDetail.CanGoForward, 1.0);
-                vecTabDetails.SetObjectAt(currentTabFre, (uint) index);
+            try {
+                var tmp = new FreObjectSharp("Vector.<com.tuarua.webview.TabDetails>", null);
+                var vecTabDetails = new FreArraySharp(tmp.RawValue);
+                for (var index = 0; index < tabDetails.Count; index++) {
+                    var tabDetail = tabDetails[index] as TabDetails;
+                    if (tabDetail == null) continue;
+                    var currentTabFre = new FreObjectSharp("com.tuarua.webview.TabDetails", index, tabDetail.Address,
+                        tabDetail.Title, tabDetail.IsLoading, tabDetail.CanGoBack, tabDetail.CanGoForward, 1.0);
+                    vecTabDetails.SetObjectAt(currentTabFre, (uint) index);
+                }
+                return vecTabDetails.RawValue;
             }
-            return vecTabDetails.RawValue;
+            catch (Exception e) {
+                return new FreException(e).RawValue;
+            }
         }
 
-        public FREObject AddToStage(FREContext ctx, uint argc, FREObject[] argv) {
-            WinApi.ShowWindow(_cefWindow, ShowWindowCommands.SW_SHOWNORMAL);
-            WinApi.UpdateWindow(_cefWindow);
+        public FREObject SetVisible(FREContext ctx, uint argc, FREObject[] argv) {
+            try {
+                var visible = Convert.ToBoolean(new FreObjectSharp(argv[0]).Value);
+                WinApi.ShowWindow(_cefWindow, visible ? ShowWindowCommands.SW_SHOWNORMAL : ShowWindowCommands.SW_HIDE);
+                WinApi.UpdateWindow(_cefWindow);
+            }
+            catch (Exception e) {
+                return new FreException(e).RawValue;
+            }
             return FREObject.Zero;
         }
 
-        public FREObject RemoveFromStage(FREContext ctx, uint argc, FREObject[] argv) {
-            WinApi.ShowWindow(_cefWindow, ShowWindowCommands.SW_HIDE);
-            WinApi.UpdateWindow(_cefWindow);
-            return FREObject.Zero;
-        }
+        public FREObject SetViewPort(FREContext ctx, uint argc, FREObject[] argv) {
+            System.Windows.Rect viewPort;
+            try {
+                viewPort = new FreRectangleSharp(argv[0]).Value;
+            }
+            catch (Exception e) {
+                return new FreException(e).RawValue;
+            }
 
-        public FREObject SetPositionAndSize(FREContext ctx, uint argc, FREObject[] argv) {
-            var viewPort = new FreRectangleSharp(argv[0]).Value;
-
-            var tmpX = viewPort.X;
-            var tmpY = viewPort.Y;
-            var tmpWidth = viewPort.Width;
-            var tmpHeight = viewPort.Height;
+            var tmpX = Convert.ToInt32(viewPort.X);
+            var tmpY = Convert.ToInt32(viewPort.Y);
+            var tmpWidth = Convert.ToInt32(viewPort.Width);
+            var tmpHeight = Convert.ToInt32(viewPort.Height);
 
             var updateWidth = false;
             var updateHeight = false;
@@ -370,14 +413,24 @@ namespace CefSharpLib {
         }
 
         public FREObject Load(FREContext ctx, uint argc, FREObject[] argv) {
-            _view.Load(Convert.ToString(new FreObjectSharp(argv[0]).Value));
+            try {
+                _view.Load(Convert.ToString(new FreObjectSharp(argv[0]).Value));
+            }
+            catch (Exception e) {
+                return new FreException(e).RawValue;
+            }
             return FREObject.Zero;
         }
 
         public FREObject LoadHtmlString(FREContext ctx, uint argc, FREObject[] argv) {
-            _view.LoadHtmlString(
-                Convert.ToString(new FreObjectSharp(argv[0]).Value),
-                Convert.ToString(new FreObjectSharp(argv[1]).Value));
+            try {
+                _view.LoadHtmlString(
+                    Convert.ToString(new FreObjectSharp(argv[0]).Value),
+                    Convert.ToString(new FreObjectSharp(argv[1]).Value));
+            }
+            catch (Exception e) {
+                return new FreException(e).RawValue;
+            }
             return FREObject.Zero;
         }
 
@@ -405,14 +458,16 @@ namespace CefSharpLib {
         }
 
         public FREObject GoBack(FREContext ctx, uint argc, FREObject[] argv) {
-            if (_view.CurrentBrowser.CanGoBack)
+            if (_view.CurrentBrowser.CanGoBack) {
                 _view.CurrentBrowser.Back();
+            }
             return FREObject.Zero;
         }
 
         public FREObject GoForward(FREContext ctx, uint argc, FREObject[] argv) {
-            if (_view.CurrentBrowser.CanGoForward)
+            if (_view.CurrentBrowser.CanGoForward) {
                 _view.CurrentBrowser.Forward();
+            }
             return FREObject.Zero;
         }
 
@@ -430,6 +485,7 @@ namespace CefSharpLib {
             _view.CurrentBrowser.CloseDevTools();
             return FREObject.Zero;
         }
+
         public FREObject ClearCache(FREContext ctx, uint argc, FREObject[] argv) {
             return FREObject.Zero;
         }
@@ -439,29 +495,38 @@ namespace CefSharpLib {
         }
 
         public FREObject EvaluateJavaScript(FREContext ctx, uint argc, FREObject[] argv) {
-            var js = Convert.ToString(new FreObjectSharp(argv[0]).Value);
-            var callbackFre = new FreObjectSharp(argv[1]);
+            try {
+                var js = Convert.ToString(new FreObjectSharp(argv[0]).Value);
+                var callbackFre = new FreObjectSharp(argv[1]);
 
-            if (FreObjectTypeSharp.Null == callbackFre.GetType()) {
-                EvaluateJavaScript(js);
+                if (FreObjectTypeSharp.Null == callbackFre.GetType()) {
+                    EvaluateJavaScript(js);
+                }
+                else {
+                    var callback = Convert.ToString(callbackFre.Value);
+                    EvaluateJavaScript(js, callback);
+                }
             }
-            else {
-                var callback = Convert.ToString(callbackFre.Value);
-                EvaluateJavaScript(js, callback);
+            catch (Exception e) {
+                return new FreException(e).RawValue;
             }
             return FREObject.Zero;
         }
 
         public FREObject CallJavascriptFunction(FREContext ctx, uint argc, FREObject[] argv) {
-            var js = Convert.ToString(new FreObjectSharp(argv[0]).Value);
-            var callbackFre = new FreObjectSharp(argv[1]);
-
-            if (FreObjectTypeSharp.Null == callbackFre.GetType()) {
-                CallJavascriptFunction(js);
+            try {
+                var js = Convert.ToString(new FreObjectSharp(argv[0]).Value);
+                var callbackFre = new FreObjectSharp(argv[1]);
+                if (FreObjectTypeSharp.Null == callbackFre.GetType()) {
+                    CallJavascriptFunction(js);
+                }
+                else {
+                    var callback = Convert.ToString(callbackFre.Value);
+                    CallJavascriptFunction(js, callback);
+                }
             }
-            else {
-                var callback = Convert.ToString(callbackFre.Value);
-                CallJavascriptFunction(js, callback);
+            catch (Exception e) {
+                return new FreException(e).RawValue;
             }
             return FREObject.Zero;
         }
@@ -590,6 +655,28 @@ namespace CefSharpLib {
 
         public FREObject Print(FREContext ctx, uint argc, FREObject[] argv) {
             _view.CurrentBrowser.Print();
+            return FREObject.Zero;
+        }
+
+        public FREObject AddEventListener(FREContext ctx, uint argc, FREObject[] argv) {
+            var type = Convert.ToString(new FreObjectSharp(argv[0]).Value);
+            if (type == "keyUp") {
+                _view.KeyboardHandler.HasKeyUp = true;
+            }
+            else if (type == "keyDown") {
+                _view.KeyboardHandler.HasKeyDown = true;
+            }
+            return FREObject.Zero;
+        }
+
+        public FREObject RemoveEventListener(FREContext ctx, uint argc, FREObject[] argv) {
+            var type = Convert.ToString(new FreObjectSharp(argv[0]).Value);
+            if (type == "keyUp") {
+                _view.KeyboardHandler.HasKeyUp = false;
+            }
+            else if (type == "keyDown") {
+                _view.KeyboardHandler.HasKeyDown = false;
+            }
             return FREObject.Zero;
         }
 

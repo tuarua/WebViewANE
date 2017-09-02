@@ -69,7 +69,7 @@ namespace CefSharpLib {
         private bool _isLoaded;
         private string _initialHtml;
         public int CurrentTab { get; set; }
-        
+
 
         public const string AsCallbackEvent = "TRWV.as.CALLBACK";
         private const string OnDownloadProgress = "WebView.OnDownloadProgress";
@@ -77,10 +77,14 @@ namespace CefSharpLib {
         private const string OnDownloadCancel = "WebView.OnDownloadCancel";
         private const string OnPropertyChange = "WebView.OnPropertyChange";
         private const string OnEscKey = "WebView.OnEscKey";
+
         private const string OnFail = "WebView.OnFail";
         private const string OnPermission = "WebView.OnPermissionResult";
         private const string OnUrlBlocked = "WebView.OnUrlBlocked";
         private const string OnPopupBlocked = "WebView.OnPopupBlocked";
+        public KeyboardHandler KeyboardHandler;
+
+
         public void Init() {
             InitializeComponent();
             IsManipulationEnabled = true;
@@ -95,10 +99,10 @@ namespace CefSharpLib {
                 UserAgent = UserAgent
             };
 
-        
+
             CefSharpSettings.ShutdownOnExit = false;
-        
-        
+
+
             switch (LogLevel) {
                 case 0:
                     settings.LogSeverity = LogSeverity.Default;
@@ -155,12 +159,13 @@ namespace CefSharpLib {
             dh.OnBeforeDownloadFired += OnDownloadFired;
 
             // ReSharper disable once UseObjectOrCollectionInitializer
-            var kh = new KeyboardHandler();
-            kh.OnKeyEventFired += OnKeyEventFired;
+            KeyboardHandler = new KeyboardHandler(FreSharpController.Context); //TODO
+            KeyboardHandler.OnKeyEventFired += OnKeyEventFired;
 
-            if (EnableDownloads)
+            if (EnableDownloads) {
                 browser.DownloadHandler = dh;
-            browser.KeyboardHandler = kh;
+            }
+            browser.KeyboardHandler = KeyboardHandler;
 
             // ReSharper disable once UseObjectOrCollectionInitializer
             var gh = new GeolocationHandler();

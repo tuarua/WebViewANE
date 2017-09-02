@@ -26,21 +26,21 @@ import FreSwift
 import Cocoa
 #endif
 
-@objc class SwiftController: FreSwiftController, WKUIDelegate, WKNavigationDelegate, WKScriptMessageHandler {
-    
-    private var context: FreContextSwift!
-    private func trace(_ value: Any...){
-        freTrace(ctx: context, value: value)
-    }
-    
+@objc class SwiftController: NSObject, FreSwiftMainController, WKUIDelegate, WKNavigationDelegate, WKScriptMessageHandler {
+
+    internal var context: FreContextSwift!
+    var functionsToSet: FREFunctionMap = [:]
+
     private var _currentWebView: WebViewVC?
     private var _currentTab: Int = 0
     private var _tabList: NSMutableArray = NSMutableArray.init()
     private static var escListener: Any?
-    private static let zoomIncrement:CGFloat = CGFloat.init(0.1)
+    private static var keyUpListener: Any?
+    private static var keyDownListener: Any?
+    private static let zoomIncrement: CGFloat = CGFloat.init(0.1)
     private var _initialUrl: String = ""
-    private var _viewPort: CGRect = CGRect.init(x: 0, y: 0, width: 800, height: 600)
-    
+    private var _viewPort: CGRect = CGRect.init(x: 0.0, y: 0.0, width: 800.0, height: 600.0)
+
     public enum PopupBehaviour: Int {
         case block = 0
         case newWindow
@@ -60,14 +60,14 @@ import Cocoa
     // must have this function !!
     // Make sure these funcs match those in WebViewANE.m
     func getFunctions(prefix: String) -> Array<String> {
-        
+
         functionsToSet["\(prefix)reload"] = reload
         functionsToSet["\(prefix)load"] = load
         functionsToSet["\(prefix)init"] = initWebView
         functionsToSet["\(prefix)clearCache"] = clearCache
         functionsToSet["\(prefix)isSupported"] = isSupported
-        functionsToSet["\(prefix)addToStage"] = addToStage
-        functionsToSet["\(prefix)removeFromStage"] = removeFromStage
+        functionsToSet["\(prefix)setVisible"] = setVisible
+        //functionsToSet["\(prefix)removeFromStage"] = removeFromStage
         functionsToSet["\(prefix)loadHTMLString"] = loadHTMLString
         functionsToSet["\(prefix)loadFileURL"] = loadFileURL
         functionsToSet["\(prefix)onFullScreen"] = onFullScreen
@@ -80,7 +80,7 @@ import Cocoa
         functionsToSet["\(prefix)allowsMagnification"] = allowsMagnification
         functionsToSet["\(prefix)zoomIn"] = zoomIn
         functionsToSet["\(prefix)zoomOut"] = zoomOut
-        functionsToSet["\(prefix)setPositionAndSize"] = setPositionAndSize
+        functionsToSet["\(prefix)setViewPort"] = setViewPort
         functionsToSet["\(prefix)showDevTools"] = showDevTools
         functionsToSet["\(prefix)closeDevTools"] = closeDevTools
         functionsToSet["\(prefix)callJavascriptFunction"] = callJavascriptFunction
@@ -95,16 +95,17 @@ import Cocoa
         functionsToSet["\(prefix)getCurrentTab"] = getCurrentTab
         functionsToSet["\(prefix)getTabDetails"] = getTabDetails
         functionsToSet["\(prefix)shutDown"] = shutDown
+        functionsToSet["\(prefix)addEventListener"] = addEventListener
+        functionsToSet["\(prefix)removeEventListener"] = removeEventListener
 
         var arr: Array<String> = []
         for key in functionsToSet.keys {
             arr.append(key)
         }
-        
+
         return arr
     }
-    
-    
+
 
     // this handles target=_blank links by opening them in the same view
     func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration,
@@ -119,7 +120,7 @@ import Cocoa
                 }
                 props["tab"] = getCurrentTab(webView)
                 let json = JSON(props)
-                sendEvent(ctx: context, name: Constants.ON_POPUP_BLOCKED, value: json.description)
+                sendEvent(name: Constants.ON_POPUP_BLOCKED, value: json.description)
                 break
             case .newWindow:
 #if os(iOS)
@@ -137,21 +138,21 @@ import Cocoa
         return nil
     }
 
-    
+
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         guard let newUrl = navigationAction.request.url?.absoluteString.lowercased()
-            else {
-                decisionHandler(.allow)
-                return
+          else {
+            decisionHandler(.allow)
+            return
         }
-        
+
         if isWhiteListBlocked(url: newUrl) || isBlackListBlocked(url: newUrl) {
             var props: Dictionary<String, Any> = Dictionary()
             props["url"] = newUrl
             props["tab"] = getCurrentTab(webView)
 
             let json = JSON(props)
-            sendEvent(ctx: context, name: Constants.ON_URL_BLOCKED, value: json.description)
+            sendEvent(name: Constants.ON_URL_BLOCKED, value: json.description)
             decisionHandler(.cancel)
         } else {
             decisionHandler(.allow)
@@ -165,7 +166,140 @@ import Cocoa
         props["errorCode"] = 0
         props["errorText"] = withError.localizedDescription
         let json = JSON(props)
-        sendEvent(ctx: context, name: Constants.ON_FAIL, value: json.description)
+        sendEvent(name: Constants.ON_FAIL, value: json.description)
+    }
+
+    private func addKeyListener(type: String) {
+#if os(OSX)
+        let eventMask: NSEventMask = type == "keyUp" ? .keyUp : .keyDown
+        var listener: Any? = type == "keyUp" ? SwiftController.keyUpListener : SwiftController.keyDownListener
+        if (listener == nil) {
+            listener = NSEvent.addLocalMonitorForEvents(matching: [eventMask]) { (event: NSEvent) -> NSEvent? in
+                var modifiers: String = ""
+                switch event.modifierFlags.intersection(.deviceIndependentFlagsMask) {
+                case [.shift]:
+                    modifiers = "shift"
+                    break
+                case [.control]:
+                    modifiers = "control"
+                    break
+                case [.option]:
+                    modifiers = "alt"
+                    break
+                case [.command]:
+                    modifiers = "command"
+                    break
+                case [.control, .shift]:
+                    modifiers = "control-shift"
+                    break
+                case [.option, .shift]:
+                    modifiers = "option-shift"
+                    break
+                case [.command, .shift]:
+                    modifiers = "command-shift"
+                    break
+                case [.control, .shift]:
+                    modifiers = "control-shift"
+                    break
+                case [.control, .command]:
+                    modifiers = "control-command"
+                    break
+                case [.option, .command]:
+                    modifiers = "alt-command"
+                    break
+                case [.shift, .control, .option]:
+                    modifiers = "shift-control-option"
+                    break
+                case [.shift, .control, .command]:
+                    modifiers = "shift-control-command"
+                    break
+                case [.shift, .option, .command]:
+                    modifiers = "shift-alt-command"
+                    break
+                case [.shift, .command, .option]:
+                    modifiers = "shift-command-alt"
+                    break
+                default:
+                    break
+                }
+
+                if let characters = event.charactersIgnoringModifiers {
+                    let s = characters.uppercased().unicodeScalars
+                    var keyValue: UInt32 = 0
+                    switch event.keyCode {
+                    case 51: //BACKSPACE
+                        keyValue = 8
+                        break
+                    case 53: //ESC
+                        keyValue = 27
+                        break
+                    case 123: //LEFT
+                        keyValue = 37
+                        break
+                    case 124: //RIGHT
+                        keyValue = 39
+                        break
+                    case 125: //DOWN
+                        keyValue = 40
+                        break
+                    case 126: //UP
+                        keyValue = 38
+                        break
+                    default:
+                        keyValue = s[s.startIndex].value
+                        break
+                    }
+                    //self.trace("keyUp \(event.keyCode) first: \(event.charactersIgnoringModifiers) \(characters) char: \(keyValue)")
+                    var props: Dictionary<String, Any> = Dictionary()
+                    props["keyCode"] = keyValue
+                    props["nativeKeyCode"] = event.keyCode
+                    props["modifiers"] = modifiers
+                    props["isSystemKey"] = false
+                    let json = JSON(props)
+                    self.sendEvent(name: event.type == .keyUp ? Constants.ON_KEY_UP : Constants.ON_KEY_DOWN, value: json.description)
+
+                }
+
+                return event
+            }
+        }
+#endif
+    }
+
+    func addEventListener(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
+#if os(OSX)
+        guard argc > 0,
+              let inFRE0 = argv[0],
+              let type = FreObjectSwift.init(freObject: inFRE0).value as? String
+          else {
+            return FreError(stackTrace: "",
+              message: "addEventListener - incorrect arguments",
+              type: FreError.Code.invalidArgument).getError(#file, #line, #column)
+        }
+        if type == "keyUp" || type == "keyDown" {
+            addKeyListener(type: type)
+        }
+#endif
+        return nil
+    }
+
+    func removeEventListener(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
+#if os(OSX)
+        guard argc > 0,
+              let inFRE0 = argv[0],
+              let type = FreObjectSwift.init(freObject: inFRE0).value as? String
+          else {
+            return FreError(stackTrace: "",
+              message: "removeEventListener - incorrect arguments",
+              type: FreError.Code.invalidArgument).getError(#file, #line, #column)
+        }
+
+        let listener: Any? = type == "keyUp" ? SwiftController.keyUpListener : SwiftController.keyDownListener
+        if let lstnr = listener {
+            NSEvent.removeMonitor(lstnr)
+        }
+#endif
+        return nil
     }
 
     func isSupported(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
@@ -206,11 +340,11 @@ import Cocoa
     func backForwardList(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
         guard let wv = _currentWebView
           else {
-            traceError(ctx: context, message: "no webview", line: #line, column: #column, file: #file, freError: nil)
+            traceError(message: "no webview", line: #line, column: #column, file: #file, freError: nil)
             return nil
         }
 
-        let bfList = BackForwardList.init(ctx: context, webView: wv)
+        let bfList = BackForwardList.init(context: context, webView: wv)
         if let rv = bfList.rawValue {
             return rv
         }
@@ -224,7 +358,7 @@ import Cocoa
               let inFRE0 = argv[0],
               let i = FreObjectSwift.init(freObject: inFRE0).value as? Int
           else {
-            traceError(ctx: context, message: "go - no webview or incorrect arguments", line: #line, column: #column, file: #file, freError: nil)
+            traceError(message: "go - no webview or incorrect arguments", line: #line, column: #column, file: #file, freError: nil)
             return nil
         }
 
@@ -233,60 +367,78 @@ import Cocoa
         }
         return nil
     }
-    
+
     func zoomIn(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
-        #if os(OSX)
+#if os(OSX)
         guard let wv = _currentWebView
-            else {
-                traceError(ctx: context, message: "zoomIn - no webview", line: #line, column: #column, file: #file, freError: nil)
-                return nil
+          else {
+            traceError(message: "zoomIn - no webview", line: #line, column: #column, file: #file, freError: nil)
+            return nil
         }
-        
+
         wv.setMagnification(CGFloat.init(wv.magnification + SwiftController.zoomIncrement), centeredAt: CGPoint.zero)
-        #endif
+#endif
         return nil
     }
 
     func zoomOut(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
-        #if os(OSX)
+#if os(OSX)
         guard let wv = _currentWebView
-            else {
-                traceError(ctx: context, message: "zoomIn - no webview", line: #line, column: #column, file: #file, freError: nil)
-                return nil
+          else {
+            traceError(message: "zoomIn - no webview", line: #line, column: #column, file: #file, freError: nil)
+            return nil
         }
-        
+
         wv.setMagnification(CGFloat.init(wv.magnification - SwiftController.zoomIncrement), centeredAt: CGPoint.zero)
-        #endif
+#endif
         return nil
     }
 
     func showDevTools(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
-        #if os(OSX)
-            guard let wv = _currentWebView
-                else {
-                    traceError(ctx: context, message: "zoomIn - no webview", line: #line, column: #column, file: #file, freError: nil)
-                    return nil
-            }
+#if os(OSX)
+        guard let wv = _currentWebView
+          else {
+            traceError(message: "zoomIn - no webview", line: #line, column: #column, file: #file, freError: nil)
+            return nil
+        }
         wv.configuration.preferences.setValue(true, forKey: "developerExtrasEnabled")
-        #endif
+#endif
         return nil
     }
 
     func closeDevTools(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
-        #if os(OSX)
-            guard let wv = _currentWebView
-                else {
-                    traceError(ctx: context, message: "zoomIn - no webview", line: #line, column: #column, file: #file, freError: nil)
-                    return nil
-            }
-            wv.configuration.preferences.setValue(false, forKey: "developerExtrasEnabled")
-        #endif
+#if os(OSX)
+        guard let wv = _currentWebView
+          else {
+            traceError(message: "zoomIn - no webview", line: #line, column: #column, file: #file, freError: nil)
+            return nil
+        }
+        wv.configuration.preferences.setValue(false, forKey: "developerExtrasEnabled")
+#endif
         return nil
     }
 
-    func addToStage(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
+    func setVisible(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
+        guard argc > 0,
+              let wv = _currentWebView,
+              let inFRE0 = argv[0]
+          else {
+            return FreError(stackTrace: "",
+              message: "setVisible - no webview or incorrect arguments",
+              type: FreError.Code.invalidArgument).getError(#file, #line, #column)
+        }
+
+        let visible = FreObjectSwift.init(freObject: inFRE0).value as! Bool
+        if (!_isAdded) {
+            addToStage()
+        }
+        wv.isHidden = !visible
+        return nil
+    }
+
+    private func addToStage() {
         guard let wv = _currentWebView else {
-            return nil
+            return
         }
 #if os(iOS)
         if let rootViewController = UIApplication.shared.keyWindow?.rootViewController {
@@ -309,26 +461,25 @@ import Cocoa
             }
         }
 #endif
-        return nil
     }
 
-    func removeFromStage(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
+    private func removeFromStage() {
         guard let wv = _currentWebView else {
-            return nil
+            return
         }
         wv.removeFromSuperview()
         _isAdded = false
-        return nil
     }
 
-    func setPositionAndSize(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
+    func setViewPort(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
         guard argc > 0,
               let wv = _currentWebView,
               let inFRE0 = argv[0],
               let viewPortFre = FreRectangleSwift.init(freObject: inFRE0).value as? CGRect
           else {
-            traceError(ctx: context, message: "setPositionAndSize - no webview or incorrect arguments", line: #line, column: #column, file: #file, freError: nil)
-            return nil
+            return FreError(stackTrace: "",
+              message: "setViewPort - no webview or incorrect arguments",
+              type: FreError.Code.invalidArgument).getError(#file, #line, #column)
         }
 
         _viewPort = viewPortFre
@@ -342,8 +493,9 @@ import Cocoa
               let inFRE0 = argv[0],
               let url: String = FreObjectSwift(freObject: inFRE0).value as? String,
               !url.isEmpty else {
-            traceError(ctx: context, message: "load - no webview or incorrect arguments", line: #line, column: #column, file: #file, freError: nil)
-            return nil
+            return FreError(stackTrace: "",
+              message: "load - no webview or incorrect arguments",
+              type: FreError.Code.invalidArgument).getError(#file, #line, #column)
         }
         wv.load(url: url)
         return nil
@@ -355,8 +507,9 @@ import Cocoa
               let inFRE0 = argv[0],
               let html: String = FreObjectSwift(freObject: inFRE0).value as? String
           else {
-            traceError(ctx: context, message: "loadHTMLString - no webview or incorrect arguments", line: #line, column: #column, file: #file, freError: nil)
-            return nil
+            return FreError(stackTrace: "",
+              message: "loadHTMLString - no webview or incorrect arguments",
+              type: FreError.Code.invalidArgument).getError(#file, #line, #column)
         }
         wv.load(html: html)
         return nil
@@ -370,8 +523,9 @@ import Cocoa
               let url: String = FreObjectSwift(freObject: inFRE0).value as? String,
               let allowingReadAccessTo: String = FreObjectSwift(freObject: inFRE1).value as? String
           else {
-            traceError(ctx: context, message: "loadFileURL - no webview or incorrect arguments", line: #line, column: #column, file: #file, freError: nil)
-            return nil
+            return FreError(stackTrace: "",
+              message: "loadFileURL - no webview or incorrect arguments",
+              type: FreError.Code.invalidArgument).getError(#file, #line, #column)
         }
         wv.load(fileUrl: url, allowingReadAccessTo: allowingReadAccessTo)
         return nil
@@ -381,16 +535,16 @@ import Cocoa
 #if os(iOS)
 #else
         guard argc > 0, let inFRE0 = argv[0] else {
-            traceError(ctx: context, message: "onFullScreen - incorrect arguments", line: #line, column: #column, file: #file, freError: nil)
+            traceError(message: "onFullScreen - incorrect arguments", line: #line, column: #column, file: #file, freError: nil)
             return nil
         }
 
         let fullScreen: Bool = FreObjectSwift.init(freObject: inFRE0).value as! Bool
-
         let tmpIsAdded = _isAdded
         for win in NSApp.windows {
             if (fullScreen && win.canBecomeMain && win.className.contains("AIR_FullScreen")) {
                 win.makeMain()
+                //TODO copy this keycode stuff for addEventListener
                 if (SwiftController.escListener == nil) {
                     SwiftController.escListener = NSEvent.addLocalMonitorForEvents(matching: [.keyUp]) { (event: NSEvent) -> NSEvent? in
                         let theX = event.locationInWindow.x
@@ -398,7 +552,7 @@ import Cocoa
                         let realY = ((NSApp.mainWindow?.contentLayoutRect.height)! - self._viewPort.size.height) - self._viewPort.origin.y
                         if (event.keyCode == 53 && theX > self._viewPort.origin.x && theX < (self._viewPort.size.width - self._viewPort.origin.x)
                           && theY > realY && theY < (realY + self._viewPort.size.height)) {
-                            sendEvent(ctx: self.context, name: Constants.ON_ESC_KEY, value: "")
+                            self.sendEvent(name: Constants.ON_ESC_KEY, value: "")
                         }
                         return event
                     }
@@ -412,8 +566,8 @@ import Cocoa
         }
 
         if (tmpIsAdded) {
-            _ = removeFromStage(ctx: ctx, argc: argc, argv: argv)
-            _ = addToStage(ctx: ctx, argc: argc, argv: argv)
+            _ = removeFromStage()
+            _ = addToStage()
         }
 
 #endif
@@ -461,8 +615,9 @@ import Cocoa
               let inFRE0 = argv[0],
               let js: String = FreObjectSwift(freObject: inFRE0).value as? String
           else {
-            traceError(ctx: context, message: "evaluateJavaScript - no webview or incorrect arguments", line: #line, column: #column, file: #file, freError: nil)
-            return nil
+            return FreError(stackTrace: "",
+              message: "evaluateJavaScript - no webview or incorrect arguments",
+              type: FreError.Code.invalidArgument).getError(#file, #line, #column)
         }
 
         if let inFRE1 = argv[1] {
@@ -486,7 +641,7 @@ import Cocoa
               let inFRE0 = argv[0],
               let injectCode: String = FreObjectSwift(freObject: inFRE0).value as? String
           else {
-            traceError(ctx: context, message: "injectScript - no webview or incorrect arguments", line: #line, column: #column, file: #file, freError: nil)
+            traceError(message: "injectScript - no webview or incorrect arguments", line: #line, column: #column, file: #file, freError: nil)
             return nil
         }
 
@@ -500,32 +655,32 @@ import Cocoa
     }
 
     func print(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? { //TODO
-        trace("print is Windows only at the moment")
+        trace("WARNING: print is Windows only at the moment")
         return nil
     }
 
     func capture(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? { //TODO - when 10.13 comes out
-        trace("capture is Windows only at the moment")
+        trace("WARNING: capture is Windows only at the moment")
         return nil
     }
-    
+
     func shutDown(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
         return nil
     }
-    
-    
+
+
     func clearCache(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
 #if os(OSX)
         if #available(OSX 10.11, *) {
             let websiteDataTypes = NSSet(array: [WKWebsiteDataTypeDiskCache, WKWebsiteDataTypeMemoryCache])
             WKWebsiteDataStore.default().removeData(ofTypes: websiteDataTypes as! Set<String>, modifiedSince: NSDate(timeIntervalSince1970: 0) as Date, completionHandler: {})
-            
+
         }
 #else
         if #available(iOS 9.0, *) {
             let websiteDataTypes = NSSet(array: [WKWebsiteDataTypeDiskCache, WKWebsiteDataTypeMemoryCache])
             WKWebsiteDataStore.default().removeData(ofTypes: websiteDataTypes as! Set<String>, modifiedSince: NSDate(timeIntervalSince1970: 0) as Date, completionHandler: {})
-            
+
         }
 #endif
         return nil
@@ -536,24 +691,27 @@ import Cocoa
         guard argc > 0,
               let wv = _currentWebView
           else {
-            traceError(ctx: context, message: "addTab - no webview", line: #line, column: #column, file: #file, freError: nil)
-            return nil
+            return FreError(stackTrace: "",
+              message: "addTab - no webview",
+              type: FreError.Code.invalidArgument).getError(#file, #line, #column)
         }
-    
+
 
         if let initialUrlFRE: FREObject = argv[0],
-            let initialUrl = FreObjectSwift.init(freObject: initialUrlFRE).value as? String {
+           let initialUrl = FreObjectSwift.init(freObject: initialUrlFRE).value as? String {
             _initialUrl = initialUrl
         } else {
             _initialUrl = ""
         }
-        
+
         _currentTab = _tabList.count;
 
-        _currentWebView = createNewBrowser(frame: CGRect.init(x: wv.frame.origin.x, y: wv.frame.origin.y, width: _viewPort.size.width, height: _viewPort.size.height), tab: _tabList.count)
+        _currentWebView = createNewBrowser(
+          frame: CGRect.init(x: wv.frame.origin.x, y: wv.frame.origin.y, width: _viewPort.size.width, height: _viewPort.size.height),
+          tab: _tabList.count)
 
-        _ = removeFromStage(ctx: ctx, argc: argc, argv: argv)
-        _ = addToStage(ctx: ctx, argc: argc, argv: argv)
+        _ = removeFromStage()
+        _ = addToStage()
 
 #endif
         return nil
@@ -568,8 +726,9 @@ import Cocoa
               index > -1,
               index < (_tabList.count)
           else {
-            traceError(ctx: context, message: "closeTab - no webview or incorrect arguments", line: #line, column: #column, file: #file, freError: nil)
-            return nil
+            return FreError(stackTrace: "",
+              message: "closeTab - no webview",
+              type: FreError.Code.invalidArgument).getError(#file, #line, #column)
         }
 
         let doRefresh = (_currentTab >= index)
@@ -613,8 +772,8 @@ import Cocoa
         }
         wv.frame = currentFrame
         wv.switchTabTo()
-        _ = removeFromStage(ctx: ctx, argc: argc, argv: argv)
-        _ = addToStage(ctx: ctx, argc: argc, argv: argv)
+        _ = removeFromStage()
+        _ = addToStage()
 
 #endif
         return nil
@@ -631,8 +790,9 @@ import Cocoa
               index < (_tabList.count),
               index != _currentTab
           else {
-            traceError(ctx: context, message: "setCurrentTab - no webview or current is already index or incorrect arguments", line: #line, column: #column, file: #file, freError: nil)
-            return nil
+            return FreError(stackTrace: "",
+              message: "setCurrentTab - no webview or current is already index or incorrect arguments",
+              type: FreError.Code.invalidArgument).getError(#file, #line, #column)
         }
 
         for vc in _tabList {
@@ -650,8 +810,8 @@ import Cocoa
         }
         wv.frame = currentFrame
         wv.switchTabTo()
-        _ = removeFromStage(ctx: ctx, argc: argc, argv: argv)
-        _ = addToStage(ctx: ctx, argc: argc, argv: argv)
+        _ = removeFromStage()
+        _ = addToStage()
 #endif
         return nil
     }
@@ -690,7 +850,7 @@ import Cocoa
     public func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         if let messageBody: NSDictionary = message.body as? NSDictionary {
             let json = JSON(messageBody)
-            sendEvent(ctx: context, name: Constants.JS_CALLBACK_EVENT, value: json.description)
+            sendEvent(name: Constants.JS_CALLBACK_EVENT, value: json.description)
         }
     }
 
@@ -700,7 +860,7 @@ import Cocoa
     public func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         if let messageBody: NSDictionary = message.body as? NSDictionary {
             let json = JSON(messageBody)
-            sendEvent(ctx: context, name: Constants.JS_CALLBACK_EVENT, value: json.description)
+            sendEvent(name: Constants.JS_CALLBACK_EVENT, value: json.description)
         }
     }
 
@@ -708,7 +868,7 @@ import Cocoa
 
 
     fileprivate func createNewBrowser(frame: CGRect, tab: Int) -> WebViewVC {
-        let wv = WebViewVC(ctx: context, frame: frame, configuration: _settings.configuration, tab: tab)
+        let wv = WebViewVC(context: context, frame: frame, configuration: _settings.configuration, tab: tab)
 
         wv.translatesAutoresizingMaskIntoConstraints = false
         wv.navigationDelegate = self
@@ -747,8 +907,7 @@ import Cocoa
               let inFRE5 = argv[5],
               let viewPortFre = FreRectangleSwift.init(freObject: inFRE1).value as? CGRect
           else {
-            traceError(ctx: context, message: "initWebView - incorrect arguments", line: #line, column: #column, file: #file, freError: nil)
-            return nil
+            return FreError(stackTrace: "", message: "initWebView - incorrect arguments", type: FreError.Code.invalidArgument).getError(#file, #line, #column)
         }
         if let initialUrlFRE: FREObject = argv[0],
            let initialUrl = FreObjectSwift.init(freObject: initialUrlFRE).value as? String {
@@ -773,9 +932,8 @@ import Cocoa
                 mWin = allWindows[0]
             }
         } else {
-            trace("Cannot find AIR window to attach webView to. Ensure you init the ANE AFTER your main Sprite is initialised. " +
-                "Please see https://forum.starling-framework.org/topic/webviewane-for-osx/page/7?replies=201#post-105524 for more details");
-            return nil
+            return FreError(stackTrace: "", message: "Cannot find AIR window to attach webView to. Ensure you init the ANE AFTER your main Sprite is initialised. " +
+              "Please see https://forum.starling-framework.org/topic/webviewane-for-osx/page/7?replies=201#post-105524 for more details", type: FreError.Code.ok).getError(#file, #line, #column)
         }
 
         realY = ((mWin?.contentLayoutRect.height)! - _viewPort.size.height) - _viewPort.origin.y
@@ -810,8 +968,8 @@ import Cocoa
 
         return nil
     }
-    
-    
+
+
     fileprivate func getCurrentTab(_ webView: WKWebView?) -> Int {
         if let wv = webView as? WebViewVC {
             for vc in _tabList {
@@ -824,12 +982,12 @@ import Cocoa
         }
         return 0
     }
-    
-    fileprivate func isWhiteListBlocked(url:String) -> Bool {
+
+    fileprivate func isWhiteListBlocked(url: String) -> Bool {
         guard let list = _settings.urlWhiteList,
-            list.count > 0
-            else {
-                return false
+              list.count > 0
+          else {
+            return false
         }
         for item in list {
             if url.range(of: item as! String) != nil {
@@ -838,26 +996,34 @@ import Cocoa
         }
         return true
     }
-    
-    fileprivate func isBlackListBlocked(url:String) -> Bool {
+
+    fileprivate func isBlackListBlocked(url: String) -> Bool {
         guard let list = _settings.urlBlackList,
-            list.count > 0
-            else {
-                return false
+              list.count > 0
+          else {
+            return false
         }
-        
+
         for item in list {
             if url.range(of: item as! String) != nil {
                 return true
             }
         }
-        
+
         return false
     }
 
 
+    // Must have this function. It exposes the methods to our entry ObjC.
+    func callSwiftFunction(name: String, ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
+        if let fm = functionsToSet[name] {
+            return fm(ctx, argc, argv)
+        }
+        return nil
+    }
+
     func setFREContext(ctx: FREContext) {
-        context = FreContextSwift.init(freContext: ctx)
+        self.context = FreContextSwift.init(freContext: ctx)
     }
 
 }

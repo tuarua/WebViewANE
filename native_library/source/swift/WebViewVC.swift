@@ -26,8 +26,8 @@ import FreSwift
 import Cocoa
 #endif
 
-class WebViewVC: WKWebView {
-    private var ctx: FreContextSwift!
+class WebViewVC: WKWebView, FreSwiftController {
+    internal var context: FreContextSwift!
     private var _tab: Int = 0
     public var tab: Int {
         get {
@@ -38,10 +38,10 @@ class WebViewVC: WKWebView {
         }
     }
 
-    convenience init(ctx:FreContextSwift, frame: CGRect, configuration: Configuration, tab: Int) {
+    convenience init(context: FreContextSwift, frame: CGRect, configuration: Configuration, tab: Int) {
         self.init(frame: frame, configuration: configuration)
-        self.ctx = ctx
-        
+        self.context = context
+
 #if os(iOS)
         self.scrollView.bounces = configuration.doesBounce
 #endif
@@ -105,7 +105,7 @@ class WebViewVC: WKWebView {
             }
             props["result"] = result
             let json = JSON(props)
-            sendEvent(ctx: self.ctx, name: Constants.AS_CALLBACK_EVENT, value: json.description)
+            self.sendEvent(name: Constants.AS_CALLBACK_EVENT, value: json.description)
         })
     }
 
@@ -136,7 +136,7 @@ class WebViewVC: WKWebView {
                 props["value"] = val
                 props["tab"] = _tab
                 json = JSON(props)
-                sendEvent(ctx: self.ctx, name: Constants.ON_PROPERTY_CHANGE, value: json.description)
+                sendEvent(name: Constants.ON_PROPERTY_CHANGE, value: json.description)
             }
         }
 
@@ -147,7 +147,7 @@ class WebViewVC: WKWebView {
                 props["value"] = val
                 props["tab"] = _tab
                 json = JSON(props)
-                sendEvent(ctx: self.ctx, name: Constants.ON_PROPERTY_CHANGE, value: json.description)
+                sendEvent(name: Constants.ON_PROPERTY_CHANGE, value: json.description)
             }
         }
 
@@ -155,19 +155,19 @@ class WebViewVC: WKWebView {
         props["value"] = self.canGoBack
         props["tab"] = _tab
         json = JSON(props)
-        sendEvent(ctx: self.ctx, name: Constants.ON_PROPERTY_CHANGE, value: json.description)
+        sendEvent(name: Constants.ON_PROPERTY_CHANGE, value: json.description)
 
         props["propName"] = "canGoForward"
         props["value"] = self.canGoForward
         props["tab"] = _tab
         json = JSON(props)
-        sendEvent(ctx: self.ctx, name: Constants.ON_PROPERTY_CHANGE, value: json.description)
+        sendEvent(name: Constants.ON_PROPERTY_CHANGE, value: json.description)
 
         props["propName"] = "isLoading"
         props["value"] = self.isLoading
         props["tab"] = _tab
         json = JSON(props)
-        sendEvent(ctx: self.ctx, name: Constants.ON_PROPERTY_CHANGE, value: json.description)
+        sendEvent(name: Constants.ON_PROPERTY_CHANGE, value: json.description)
     }
 
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
@@ -219,7 +219,7 @@ class WebViewVC: WKWebView {
         props["tab"] = _tab
         let json = JSON(props)
         if ((props["propName"]) != nil) {
-            sendEvent(ctx: ctx, name: Constants.ON_PROPERTY_CHANGE, value: json.description)
+            sendEvent(name: Constants.ON_PROPERTY_CHANGE, value: json.description)
         }
         return
     }
@@ -233,10 +233,11 @@ class WebViewVC: WKWebView {
         self.removeObserver(self, forKeyPath: "canGoBack")
         self.removeObserver(self, forKeyPath: "canGoForward")
     }
-    #if os(OSX)
+
+#if os(OSX)
     override var isFlipped: Bool {
         return true
     }
-    #endif
+#endif
 
 }
