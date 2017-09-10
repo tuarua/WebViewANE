@@ -27,6 +27,7 @@ import FreSwift
 #endif
 
 class BackForwardList: FreObjectSwift, FreSwiftController {
+    var TAG: String? = "WebViewANE"
     internal var context: FreContextSwift!
     convenience init(context:FreContextSwift, webView: WKWebView) {
         self.init()

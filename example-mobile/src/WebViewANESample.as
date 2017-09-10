@@ -20,7 +20,7 @@ import utils.ProgressBar;
 import utils.ScreenSetup;
 [SWF(width="320", height="480", frameRate="60", backgroundColor="#F1F1F1")]
 public class WebViewANESample extends Sprite {
-    [Embed(source="fira-sans-embed.ttf", embedAsCFF="false", fontFamily="Fira Sans", fontWeight="SemiBold")]
+    [Embed(source="ttf/fira-sans-embed.ttf", embedAsCFF="false", fontFamily="Fira Sans", fontWeight="SemiBold")]
     private static const firaSansEmbedded:Class;
 
     private var mStarling:Starling;
