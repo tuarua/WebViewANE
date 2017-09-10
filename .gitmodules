@@ -1,3 +1,0 @@
-[submodule "native_library/ios/WebViewANE/FreSwift"]
-	path = native_library/ios/WebViewANE/FreSwift
-	url = https://github.com/tuarua/FreSwift.git

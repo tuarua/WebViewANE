@@ -1,0 +1,4 @@
+*.dylib
+*.framework
+*.bundle
+

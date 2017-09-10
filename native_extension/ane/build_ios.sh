@@ -63,7 +63,6 @@ unzip "$pathtome/$PROJECTNAME.swc" "library.swf" -d "$pathtome"
 echo "Copying library.swf into place."
 cp "$pathtome/library.swf" "$pathtome/platforms/ios/simulator"
 cp "$pathtome/library.swf" "$pathtome/platforms/ios/device"
-cp "$pathtome/library.swf" "$pathtome/platforms/android"
 cp "$pathtome/library.swf" "$pathtome/platforms/default"
 
 #Copy native libraries into place.
@@ -78,13 +77,6 @@ cp -R -L "$pathtome/../../example-mobile/ios_dependencies/device/Frameworks/FreS
 
 cp -R -L "$pathtome/../../native_library/ios/$PROJECTNAME/Build/Products/Release-iphonesimulator/$PROJECTNAME$fwSuffix.framework" "$pathtome/platforms/ios/simulator/Frameworks"
 cp -R -L "$pathtome/../../native_library/ios/$PROJECTNAME/Build/Products/Release-iphoneos/$PROJECTNAME$fwSuffix.framework" "$pathtome/platforms/ios/device/Frameworks"
-
-
-echo "COPYING Android aars into place"
-cp "$pathtome/../../native_library/android/$PROJECTNAME/app/build/outputs/aar/app-release.aar" "$pathtome/platforms/android/app-release.aar"
-
-echo "getting Android jars"
-unzip "$pathtome/platforms/android/app-release.aar" "classes.jar" -d "$pathtome/platforms/android"
 
 
 #move the swift dylibs into root of "$pathtome/platforms/ios/ios_dependencies/Frameworks" as per Adobe docs for AIR27
@@ -133,14 +125,8 @@ cp -R -L "$pathtome/platforms/ios/device/Frameworks/$PROJECTNAME$fwSuffix.framew
 #Run the build command.
 echo "Building ANE."
 "$AIR_SDK"/bin/adt -package \
--target ane "$pathtome/mobile/$PROJECTNAME-mobile.ane" "$pathtome/extension_mobile.xml" \
+-target ane "$pathtome/mobile/$PROJECTNAME-mobile.ane" "$pathtome/extension_ios.xml" \
 -swc "$pathtome/$PROJECTNAME.swc" \
--platform Android-ARM \
--C "$pathtome/platforms/android" "library.swf" "classes.jar" \
--platformoptions "$pathtome/platforms/android/platform.xml" "res/values/strings.xml" \
--platform Android-x86 \
--C "$pathtome/platforms/android" "library.swf" "classes.jar" \
--platformoptions "$pathtome/platforms/android/platform.xml" "res/values/strings.xml" \
 -platform iPhone-x86  -C "$pathtome/platforms/ios/simulator" "library.swf" "Frameworks" "lib$PROJECTNAME.a" \
 -platformoptions "$pathtome/platforms/ios/platform.xml" \
 -platform iPhone-ARM  -C "$pathtome/platforms/ios/device" "library.swf" "Frameworks" "lib$PROJECTNAME.a" \
@@ -148,9 +134,6 @@ echo "Building ANE."
 -platform default -C "$pathtome/platforms/default" "library.swf"
 
 #remove the frameworks from sim and device, as not needed any more
-rm "$pathtome/platforms/android/classes.jar"
-rm "$pathtome/platforms/android/app-release.aar"
-rm "$pathtome/platforms/android/library.swf"
 rm -r "$pathtome/platforms/ios/simulator"
 rm -r "$pathtome/platforms/ios/device"
 rm -r "$pathtome/platforms/default"

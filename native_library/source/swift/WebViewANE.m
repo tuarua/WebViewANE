@@ -24,12 +24,13 @@
 #import <Foundation/Foundation.h>
 //#endif
 
-#import <FreSwift/FlashRuntimeExtensions.h>
+//#import <FreSwift/FlashRuntimeExtensions.h>
 
 #import "WebViewANE_oc.h"
 #ifdef OSX
 #import "WebViewANE-Swift.h"
 #else
+#import <FreSwift/FreSwift-iOS-Swift.h>
 #import "WebViewANE_FW-Swift.h"
 #define FRE_OBJC_BRIDGE TRWV_FlashRuntimeExtensionsBridge // use unique prefix throughout to prevent clashes with other ANEs
 @interface FRE_OBJC_BRIDGE : NSObject<FreSwiftBridgeProtocol>

@@ -22,7 +22,6 @@
  */
 package com.tuarua.webviewane
 
-import android.graphics.Rect
 import android.os.Build
 import android.view.View
 import android.view.ViewGroup
@@ -33,6 +32,7 @@ import android.widget.FrameLayout
 import com.adobe.fre.FREContext
 import com.tuarua.frekotlin.FreKotlinController
 import com.tuarua.frekotlin.sendEvent
+import com.tuarua.frekotlin.geom.Rect
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -57,9 +57,9 @@ class WebViewController(override var context: FREContext?, initialUrl: String?, 
         set(value) {
             this._viewPort = value
             val frame = container ?: return
-            frame.layoutParams = FrameLayout.LayoutParams(viewPort.width(), viewPort.height())
-            frame.x = viewPort.left.toFloat()
-            frame.y = viewPort.top.toFloat()
+            frame.layoutParams = FrameLayout.LayoutParams(viewPort.width.toInt(), viewPort.height.toInt())
+            frame.x = viewPort.x.toFloat()
+            frame.y = viewPort.y.toFloat()
         }
         get() = _viewPort
 
@@ -76,9 +76,9 @@ class WebViewController(override var context: FREContext?, initialUrl: String?, 
         container = FrameLayout(ctx.activity)
 
         val frame = container ?: return
-        frame.layoutParams = FrameLayout.LayoutParams(viewPort.width(), viewPort.height())
-        frame.x = viewPort.left.toFloat()
-        frame.y = viewPort.top.toFloat()
+        frame.layoutParams = FrameLayout.LayoutParams(viewPort.width.toInt(), viewPort.height.toInt())
+        frame.x = viewPort.x.toFloat()
+        frame.y = viewPort.y.toFloat()
         frame.id = newId
         (airView as ViewGroup).addView(frame)
 
