@@ -27,6 +27,7 @@ import Cocoa
 #endif
 
 class WebViewVC: WKWebView, FreSwiftController {
+    var TAG: String? = "WebViewANE"
     internal var context: FreContextSwift!
     private var _tab: Int = 0
     public var tab: Int {

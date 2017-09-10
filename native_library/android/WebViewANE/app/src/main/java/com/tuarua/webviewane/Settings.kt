@@ -22,9 +22,11 @@
  */
 package com.tuarua.webviewane
 
+import com.tuarua.frekotlin.Boolean
 import com.tuarua.frekotlin.FreArrayKotlin
 import com.tuarua.frekotlin.FreObjectKotlin
 import java.util.ArrayList
+import com.tuarua.frekotlin.String
 
 class Settings() {
     var appCacheEnabled: Boolean = false
@@ -44,17 +46,18 @@ class Settings() {
     constructor(freObjectKotlin: FreObjectKotlin?) : this() {
         val o = freObjectKotlin ?: return
         val androidSettings: FreObjectKotlin? = o.getProperty("android")
-        this.appCacheEnabled = o.getProperty("cacheEnabled")?.value as Boolean
-        this.javaScriptEnabled = androidSettings?.getProperty("javaScriptEnabled")?.value as Boolean
-        this.mediaPlaybackRequiresUserGesture = androidSettings.getProperty("mediaPlaybackRequiresUserGesture")?.value as Boolean
-        this.javaScriptCanOpenWindowsAutomatically = androidSettings.getProperty("javaScriptCanOpenWindowsAutomatically")?.value as Boolean
-        this.blockNetworkImage = androidSettings.getProperty("blockNetworkImage")?.value as Boolean
-        this.allowFileAccess = androidSettings.getProperty("allowFileAccess")?.value as Boolean
-        this.allowContentAccess = androidSettings.getProperty("allowContentAccess")?.value as Boolean
-        this.allowUniversalAccessFromFileURLs = androidSettings.getProperty("allowUniversalAccessFromFileURLs")?.value as Boolean
-        this.allowFileAccessFromFileURLs = androidSettings.getProperty("allowFileAccessFromFileURLs")?.value as Boolean
-        this.geolocationEnabled = androidSettings.getProperty("geolocationEnabled")?.value as Boolean
-        this.userAgent = o.getProperty("userAgent")?.value as String
+
+        this.appCacheEnabled = Boolean(o.getProperty("cacheEnabled")) == true
+        this.javaScriptEnabled = Boolean(androidSettings?.getProperty("javaScriptEnabled")) == true
+        this.mediaPlaybackRequiresUserGesture = Boolean(androidSettings?.getProperty("mediaPlaybackRequiresUserGesture")) == true
+        this.javaScriptCanOpenWindowsAutomatically = Boolean(androidSettings?.getProperty("javaScriptCanOpenWindowsAutomatically")) == true
+        this.blockNetworkImage = Boolean(androidSettings?.getProperty("blockNetworkImage")) == true
+        this.allowFileAccess = Boolean(androidSettings?.getProperty("allowFileAccess")) == true
+        this.allowContentAccess = Boolean(androidSettings?.getProperty("allowContentAccess")) == true
+        this.allowUniversalAccessFromFileURLs = Boolean(androidSettings?.getProperty("allowUniversalAccessFromFileURLs")) == true
+        this.allowFileAccessFromFileURLs = Boolean(androidSettings?.getProperty("allowFileAccessFromFileURLs")) == true
+        this.geolocationEnabled = Boolean(androidSettings?.getProperty("geolocationEnabled")) == true
+        this.userAgent = String(o.getProperty("userAgent"))
 
         val whiteListFreK = o.getProperty("urlWhiteList")
         val whiteListFre = whiteListFreK?.rawValue

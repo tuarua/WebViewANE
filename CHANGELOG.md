@@ -1,3 +1,8 @@
+### 0.0.31
+- AND/iOS Refactor
+- OSX/iOS Compiled FreSwift as external framework
+- AND/iOS Remove Swift dependencies from Git - now included with release tags
+
 ### 0.0.30
 - WIN: add KeyboardEvent support. Issue #66
 - WIN: update to FreSharp 1.1.0. Issue #76
