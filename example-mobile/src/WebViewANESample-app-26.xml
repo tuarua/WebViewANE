@@ -47,7 +47,7 @@
     <embedFonts>
         <font>
             <fontName>FiraSansEmbed</fontName>
-            <fontPath>fira-sans-embed.ttf</fontPath>
+            <fontPath>/ttf/fira-sans-embed.ttf</fontPath>
         </font>
     </embedFonts>
 
