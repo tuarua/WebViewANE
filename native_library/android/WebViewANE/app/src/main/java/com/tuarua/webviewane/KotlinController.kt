@@ -116,7 +116,7 @@ class KotlinController : FreKotlinMainController {
         argv.takeIf { argv.size > 0 } ?: return ArgCountException().getError(Thread.currentThread().stackTrace)
         val data = String(argv[0])
         if (data != null) {
-            webViewController?.loadUrl(data)
+            webViewController?.loadHTMLString(data)
         }
         return null
     }

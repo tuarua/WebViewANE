@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\TuaRua.FreSharp.1.1.0\build\TuaRua.FreSharp.props" Condition="Exists('..\packages\TuaRua.FreSharp.1.1.0\build\TuaRua.FreSharp.props')" />
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -220,6 +221,18 @@
       <Project>{bf6fe16c-113a-4578-8e16-d3302d82ceae}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\TuaRua.FreSharp.1.1.0\build\TuaRua.FreSharp.targets" Condition="Exists('..\packages\TuaRua.FreSharp.1.1.0\build\TuaRua.FreSharp.targets')" />
+  </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\TuaRua.FreSharp.1.1.0\build\TuaRua.FreSharp.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\TuaRua.FreSharp.1.1.0\build\TuaRua.FreSharp.props'))" />
+    <Error Condition="!Exists('..\packages\TuaRua.FreSharp.1.1.0\build\TuaRua.FreSharp.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\TuaRua.FreSharp.1.1.0\build\TuaRua.FreSharp.targets'))" />
+  </Target>
 </Project>
