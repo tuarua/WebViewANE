@@ -35,3 +35,5 @@ cef_binaries_x64.zip
 cef_binaries_x86.zip
 native_library/win/WebViewANE/WebViewANE/README.txt
 native_extension/ane/build_asdocs.bat
+
+/release/

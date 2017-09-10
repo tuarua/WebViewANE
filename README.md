@@ -15,7 +15,7 @@ Much time, skill and effort has gone into this. Help support the project
 -------------
 
 ## !! Version 0.0.26+
-There is now a new dependency ANE.   
+There is now a new dependency ANE for Windows and OSX.   
 This is included in \native_extension\ane\CommonDependencies.ane.   
 It must be included along with the WebView ANE in your projects.   
  It also must be created before the webView.   
@@ -68,8 +68,11 @@ The OSX version utilises the native WKWebView.
 
 ## iOS
 
-The iOS version utilises the native WKWebView.
-The iOS version is written in Swift and uses a new way of writing ANEs for iOS. See this repo for more details https://github.com/tuarua/Swift-IOS-ANE
+**Dependencies**   
+From the command line cd into /example-mobile and run:
+````shell
+bash get_ios_dependencies.sh
+`````
 
 ### Running on Simulator
 
