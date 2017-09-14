@@ -243,6 +243,14 @@ using the "remote-debugging-port" command-line switch.</p>
      Sets whether Geolocation is enabled.
      </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>false</apiData><apiType value="Boolean"/></apiValueDef><apiDesc>
      <p>Sets whether Geolocation is enabled.</p>
+     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:AndroidSettings:databaseEnabled"><apiName>databaseEnabled</apiName><shortdesc>
+     Sets whether the database storage API is enabled.
+     </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>true</apiData><apiType value="Boolean"/></apiValueDef><apiDesc>
+     <p>Sets whether the database storage API is enabled.</p>
+     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:AndroidSettings:domStorageEnabled"><apiName>domStorageEnabled</apiName><shortdesc>
+     Sets whether the database storage API is enabled.
+     </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>true</apiData><apiType value="Boolean"/></apiValueDef><apiDesc>
+     <p>Sets whether the database storage API is enabled.</p>
      </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:AndroidSettings:javaScriptCanOpenWindowsAutomatically"><apiName>javaScriptCanOpenWindowsAutomatically</apiName><shortdesc>
      A Boolean value indicating whether JavaScript can open windows without user interaction.
      </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>true</apiData><apiType value="Boolean"/></apiValueDef><apiDesc>
