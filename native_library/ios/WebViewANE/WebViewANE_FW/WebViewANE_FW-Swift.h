@@ -133,7 +133,8 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
  */
 SWIFT_CLASS("_TtC13WebViewANE_FW15SwiftController")
 @interface SwiftController : NSObject
-//Must have these 3 functions
+//Must have these 4 functions
+- (void) onLoad;
 - (void)setFREContextWithCtx:(FREContext _Nonnull)ctx;
 - (NSArray *_Nonnull) getFunctionsWithPrefix:(NSString * _Nonnull)prefix;
 - (FREObject _Nullable)callSwiftFunctionWithName:(NSString * _Nonnull)name

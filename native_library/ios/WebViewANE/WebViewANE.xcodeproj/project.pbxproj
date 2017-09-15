@@ -282,14 +282,14 @@
 /* Begin PBXShellScriptBuildPhase section */
 		CEC00F3D1E8DA49E0062311C /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 8;
+			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = ../../../native_extension/ane/build_ios.sh;
 		};

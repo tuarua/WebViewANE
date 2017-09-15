@@ -24,11 +24,11 @@
 
 #include "TargetConditionals.h"
 
-#if (TARGET_IPHONE_SIMULATOR) || (TARGET_OS_IPHONE)
-
 #import <Foundation/Foundation.h>
-@interface WebViewANE_oc : NSObject
+@interface WEBVIEWANE_LIB : NSObject
 @end
+
+#if (TARGET_IPHONE_SIMULATOR) || (TARGET_OS_IPHONE)
 
 #elif TARGET_OS_MAC
 #ifndef WEBVIEWANE_WebViewANE_H
