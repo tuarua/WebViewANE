@@ -266,8 +266,7 @@ import Cocoa
     func addEventListener(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
 #if os(OSX)
         guard argc > 0,
-              let inFRE0 = argv[0],
-              let type = FreObjectSwift.init(freObject: inFRE0).value as? String
+              let type = String(argv[0])
           else {
              return ArgCountError(message: "addEventListener").getError(#file, #line, #column)
         }
@@ -761,13 +760,14 @@ import Cocoa
     func getTabDetails(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
         var ret: FREObject? = nil
         do {
-            let airArray: FreArraySwift = try FreArraySwift.init(className: "Vector.<com.tuarua.webview.TabDetails>")
+            let airArray: FREArray = try FREArray.init(className: "Vector.<com.tuarua.webview.TabDetails>")
             ret = airArray.rawValue
             var cnt = 0
             for vc in _tabList {
                 if let theVC = vc as? WebViewVC {
-                    let currentTabFre = try FreObjectSwift.init(className: "com.tuarua.webview.TabDetails", args: theVC.tab, theVC.url!.absoluteString, theVC.title!, theVC.isLoading, theVC.canGoBack, theVC.canGoForward, theVC.estimatedProgress)
-                    try airArray.setObjectAt(index: UInt(cnt), object: currentTabFre)
+                    if let currentTabFre = try FREObject.init(className: "com.tuarua.webview.TabDetails", args: theVC.tab, theVC.url!.absoluteString, theVC.title!, theVC.isLoading, theVC.canGoBack, theVC.canGoForward, theVC.estimatedProgress) {
+                        try airArray.set(index: UInt(cnt), value: currentTabFre)
+                    }
                     cnt = cnt + 1
                 }
             }
@@ -776,11 +776,9 @@ import Cocoa
         return ret
     }
 
-
     func getCurrentTab(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
         return _currentTab.toFREObject()
     }
-
 
 #if os(iOS)
 
@@ -802,7 +800,6 @@ import Cocoa
     }
 
 #endif
-
 
     fileprivate func createNewBrowser(frame: CGRect, tab: Int) -> WebViewVC {
         let wv = WebViewVC(context: context, frame: frame, configuration: _settings.configuration, tab: tab)
@@ -873,7 +870,8 @@ import Cocoa
 
 
         if let settingsFRE: FREObject = argv[2] {
-            if let settingsDict = FreObjectSwift.init(freObject: settingsFRE).value as? Dictionary<String, AnyObject> {
+            //if let settingsDict = FreObjectSwift.init(freObject: settingsFRE).value as? Dictionary<String, AnyObject> {
+            if let settingsDict = Dictionary.init(settingsFRE) {
                 _settings = Settings.init(dictionary: settingsDict)
 
 #if os(OSX)
@@ -956,6 +954,9 @@ import Cocoa
     
     @objc public func setFREContext(ctx: FREContext) {
         self.context = FreContextSwift.init(freContext: ctx)
+    }
+    
+    @objc public func onLoad() {
     }
 
 }
