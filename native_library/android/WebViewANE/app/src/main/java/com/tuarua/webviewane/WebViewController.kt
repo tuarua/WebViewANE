@@ -97,7 +97,9 @@ class WebViewController(override var context: FREContext?, initialUrl: String?, 
         wv.settings.allowContentAccess = settings.allowContentAccess
         wv.settings.allowUniversalAccessFromFileURLs = settings.allowUniversalAccessFromFileURLs
         wv.settings.allowFileAccessFromFileURLs = settings.allowFileAccessFromFileURLs
-        wv.settings.setGeolocationEnabled(false)
+        wv.settings.setGeolocationEnabled(settings.geolocationEnabled)
+        wv.settings.setDatabaseEnabled(settings.databaseEnabled)
+        wv.settings.setDomStorageEnabled(settings.domStorageEnabled)
 
         chromeClient = ChromeClient(ctx)
         viewClient = ViewClient(ctx, settings)

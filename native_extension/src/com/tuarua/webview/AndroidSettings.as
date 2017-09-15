@@ -68,6 +68,17 @@ public class AndroidSettings {
      */
     public var geolocationEnabled:Boolean = false;
 
+    /**
+     * <p>Sets whether the database storage API is enabled.</p>
+     */
+    public var databaseEnabled:Boolean = true;
+
+    /**
+     * <p>Sets whether the DOM storage API is enabled.</p>
+     */
+    public var domStorageEnabled:Boolean = true;
+    
+
     public function AndroidSettings() {
     }
 }

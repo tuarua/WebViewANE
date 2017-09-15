@@ -40,6 +40,8 @@ class Settings() {
     var allowUniversalAccessFromFileURLs: Boolean = true
     var allowFileAccessFromFileURLs: Boolean = true
     var geolocationEnabled: Boolean = false
+    var databaseEnabled: Boolean = false
+    var domStorageEnabled: Boolean = false
     var whiteList: ArrayList<String>? = null
     var blackList: ArrayList<String>? = null
 
@@ -57,6 +59,9 @@ class Settings() {
         this.allowUniversalAccessFromFileURLs = Boolean(androidSettings?.getProperty("allowUniversalAccessFromFileURLs")) == true
         this.allowFileAccessFromFileURLs = Boolean(androidSettings?.getProperty("allowFileAccessFromFileURLs")) == true
         this.geolocationEnabled = Boolean(androidSettings?.getProperty("geolocationEnabled")) == true
+        this.databaseEnabled = Boolean(androidSettings?.getProperty("databaseEnabled")) == true
+        this.domStorageEnabled = Boolean(androidSettings?.getProperty("domStorageEnabled")) == true
+
         this.userAgent = String(o.getProperty("userAgent"))
 
         val whiteListFreK = o.getProperty("urlWhiteList")
