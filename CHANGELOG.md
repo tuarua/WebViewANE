@@ -1,3 +1,8 @@
+### 0.0.32
+- AND/iOS/WIN/OSX: Refactor
+- Updated FreSwift
+- Updated FreKotlin
+
 ### 0.0.31
 - AND/iOS Refactor
 - OSX/iOS Compiled FreSwift as external framework
