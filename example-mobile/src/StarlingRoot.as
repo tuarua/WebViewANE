@@ -45,7 +45,6 @@ public class StarlingRoot extends Sprite {
     private var urlInput:StageText;
     private var titleTxt:TextField;
     private var webView:WebViewANE;
-    private var urlEntered:Boolean = false;
 
     public function StarlingRoot() {
     }
@@ -84,8 +83,7 @@ public class StarlingRoot extends Sprite {
 
         webBtn.visible = false;
         cancelBtn.visible = false;
-
-
+        
         inputBG = new Image(_assets.getTexture("input-bg"));
         inputBG.scale9Grid = new Rectangle(4, 4, 16, 16);
         inputBG.width = stage.stageWidth - 108 - 50;
