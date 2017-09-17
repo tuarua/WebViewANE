@@ -18,7 +18,7 @@
               <dependency linkage="Merged" />
             </entry>
           </entries>
-          <sdk name="AIRSDK_26" />
+          <sdk name="AIRSDK_27" />
         </dependencies>
         <compiler-options>
           <map>
@@ -60,7 +60,7 @@
             <entry key="compiler.locale" value="en_US" />
           </map>
         </compiler-options>
-        <packaging-air-desktop use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/src/WebViewANESample-app.xml" package-file-name="webView_ANE_Sample_64bit">
+        <packaging-air-desktop use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/src/WebViewANESample-app-64.xml" package-file-name="webView_ANE_Sample_64bit">
           <files-to-package>
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/src/jsTest.html" path-in-package="jsTest.html" />
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/src/localTest.html" path-in-package="localTest.html" />
@@ -78,7 +78,7 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="AIRSDK_26_64&#9;AIRSDK_26" jdkType="__CompositeFlexSdk__" />
+    <orderEntry type="jdk" jdkName="AIRSDK_26_64&#9;AIRSDK_27" jdkType="__CompositeFlexSdk__" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="starling" level="project" />
     <orderEntry type="library" exported="" name="DesktopToastANE" level="project" />

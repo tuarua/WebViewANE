@@ -32,7 +32,6 @@ import com.adobe.fre.FREObject
 import com.tuarua.frekotlin.*
 import com.tuarua.frekotlin.geom.Rect
 import java.util.ArrayList
-
 typealias FREArgv = ArrayList<FREObject>
 
 @Suppress("unused", "UNUSED_PARAMETER", "UNCHECKED_CAST")
@@ -55,7 +54,6 @@ class KotlinController : FreKotlinMainController {
         backgroundAlpha:Number
         */
         argv.takeIf { argv.size > 5 } ?: return ArgCountException().getError(Thread.currentThread().stackTrace)
-
         try {
             val initialUrl = String(argv[0])
             val viewPort = Rect(argv[1])
@@ -63,17 +61,18 @@ class KotlinController : FreKotlinMainController {
             if (_scaleFactor != null) {
                 scaleFactor = _scaleFactor
             }
-            val settings = Settings(FreObjectKotlin(argv[2]))
-            val backgroundColorFre = FreObjectKotlin(argv[3])
+            val settings = Settings(argv[2])
+            val backgroundColorFre = argv[3]
             val fillAlpha = Double(argv[5])
             var backgroundColor = Color.TRANSPARENT
-            if (fillAlpha!= null && fillAlpha > 0) {
+            if (fillAlpha != null && fillAlpha > 0) {
                 backgroundColor = backgroundColorFre.toColor((255 * fillAlpha).toInt())
             }
             webViewController = WebViewController(ctx, initialUrl, scaleViewPort(viewPort), settings, backgroundColor)
 
         } catch (e: FreException) {
             Log.e(TAG, e.message)
+            return e.getError(Thread.currentThread().stackTrace)
         }
         return null
     }
@@ -213,21 +212,24 @@ class KotlinController : FreKotlinMainController {
     }
 
     fun getTabDetails(ctx: FREContext, argv: FREArgv): FREObject? {
-        val obj: FreObjectKotlin = FreObjectKotlin(name = "Vector.<com.tuarua.webview.TabDetails>").guard { return null }
-        val freObject = obj.rawValue ?: return FreException("Can't create TabDetails Vector").getError(Thread
-                .currentThread().stackTrace)
-        val vecTabs = FreArrayKotlin(freObject)
-        vecTabs.rawValue?.length = 1
-        val currentTabFre = FreObjectKotlin("com.tuarua.webview.TabDetails", 0,
-                webViewController?.url ?: ""
-                , webViewController?.title ?: ""
-                , webViewController?.isLoading ?: false
-                , webViewController?.canGoBack ?: false
-                , webViewController?.canGoForward ?: false
-                , webViewController?.progress ?: 0.0
-        )
-        vecTabs.setObjectAt(0, currentTabFre)
-        return vecTabs.rawValue
+        try {
+            val o = FREObject("Vector.<com.tuarua.webview.TabDetails>")
+            val vecTabs = FREArray(o)
+            vecTabs.length = 1
+            val currentTabFre = FREObject("com.tuarua.webview.TabDetails", 0,
+                    webViewController?.url ?: ""
+                    , webViewController?.title ?: ""
+                    , webViewController?.isLoading ?: false
+                    , webViewController?.canGoBack ?: false
+                    , webViewController?.canGoForward ?: false
+                    , webViewController?.progress ?: 0.0
+            )
+            vecTabs.set(0, currentTabFre)
+            return vecTabs
+        } catch (e: FreException) {
+            Log.e(TAG, e.message)
+        }
+        return null
     }
 
     fun backForwardList(ctx: FREContext, argv: FREArgv): FREObject? = null

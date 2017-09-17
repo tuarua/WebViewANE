@@ -22,11 +22,9 @@
  */
 package com.tuarua.webviewane
 
-import com.tuarua.frekotlin.Boolean
-import com.tuarua.frekotlin.FreArrayKotlin
-import com.tuarua.frekotlin.FreObjectKotlin
-import java.util.ArrayList
-import com.tuarua.frekotlin.String
+import com.adobe.fre.FREArray
+import com.adobe.fre.FREObject
+import com.tuarua.frekotlin.*
 
 class Settings() {
     var appCacheEnabled: Boolean = false
@@ -42,48 +40,37 @@ class Settings() {
     var geolocationEnabled: Boolean = false
     var databaseEnabled: Boolean = false
     var domStorageEnabled: Boolean = false
-    var whiteList: ArrayList<String>? = null
-    var blackList: ArrayList<String>? = null
+    var whiteList: List<String>? = null
+    var blackList: List<String>? = null
 
-    constructor(freObjectKotlin: FreObjectKotlin?) : this() {
-        val o = freObjectKotlin ?: return
-        val androidSettings: FreObjectKotlin? = o.getProperty("android")
+    constructor(freObject: FREObject?) : this() {
+        val o = freObject ?: return
+        val androidSettings: FREObject? = o.getProp("android")
 
-        this.appCacheEnabled = Boolean(o.getProperty("cacheEnabled")) == true
-        this.javaScriptEnabled = Boolean(androidSettings?.getProperty("javaScriptEnabled")) == true
-        this.mediaPlaybackRequiresUserGesture = Boolean(androidSettings?.getProperty("mediaPlaybackRequiresUserGesture")) == true
-        this.javaScriptCanOpenWindowsAutomatically = Boolean(androidSettings?.getProperty("javaScriptCanOpenWindowsAutomatically")) == true
-        this.blockNetworkImage = Boolean(androidSettings?.getProperty("blockNetworkImage")) == true
-        this.allowFileAccess = Boolean(androidSettings?.getProperty("allowFileAccess")) == true
-        this.allowContentAccess = Boolean(androidSettings?.getProperty("allowContentAccess")) == true
-        this.allowUniversalAccessFromFileURLs = Boolean(androidSettings?.getProperty("allowUniversalAccessFromFileURLs")) == true
-        this.allowFileAccessFromFileURLs = Boolean(androidSettings?.getProperty("allowFileAccessFromFileURLs")) == true
-        this.geolocationEnabled = Boolean(androidSettings?.getProperty("geolocationEnabled")) == true
-        this.databaseEnabled = Boolean(androidSettings?.getProperty("databaseEnabled")) == true
-        this.domStorageEnabled = Boolean(androidSettings?.getProperty("domStorageEnabled")) == true
+        this.appCacheEnabled = Boolean(o.getProp("cacheEnabled")) == true
+        this.javaScriptEnabled = Boolean(androidSettings?.getProp("javaScriptEnabled")) == true
+        this.mediaPlaybackRequiresUserGesture = Boolean(androidSettings?.getProp("mediaPlaybackRequiresUserGesture")) == true
+        this.javaScriptCanOpenWindowsAutomatically = Boolean(androidSettings?.getProp("javaScriptCanOpenWindowsAutomatically")) == true
+        this.blockNetworkImage = Boolean(androidSettings?.getProp("blockNetworkImage")) == true
+        this.allowFileAccess = Boolean(androidSettings?.getProp("allowFileAccess")) == true
+        this.allowContentAccess = Boolean(androidSettings?.getProp("allowContentAccess")) == true
+        this.allowUniversalAccessFromFileURLs = Boolean(androidSettings?.getProp("allowUniversalAccessFromFileURLs")) == true
+        this.allowFileAccessFromFileURLs = Boolean(androidSettings?.getProp("allowFileAccessFromFileURLs")) == true
+        this.geolocationEnabled = Boolean(androidSettings?.getProp("geolocationEnabled")) == true
+        this.databaseEnabled = Boolean(androidSettings?.getProp("databaseEnabled")) == true
+        this.domStorageEnabled = Boolean(androidSettings?.getProp("domStorageEnabled")) == true
+        this.userAgent = String(o.getProp("userAgent"))
 
-        this.userAgent = String(o.getProperty("userAgent"))
-
-        val whiteListFreK = o.getProperty("urlWhiteList")
-        val whiteListFre = whiteListFreK?.rawValue
-
+        val whiteListFre = o.getProp("urlWhiteList")
         if (whiteListFre != null) {
-            val aList = FreArrayKotlin(whiteListFre).value
-            this.whiteList = ArrayList<String>()
-            for (any in aList) {
-                this.whiteList?.add(any as String)
-            }
+            val whiteListArr: FREArray? = FREArray(freObject = whiteListFre)
+            this.whiteList = List<String>(whiteListArr)
         }
 
-        val blackListFreK = o.getProperty("urlBlackList")
-        val blackListFre = blackListFreK?.rawValue
+        val blackListFre = o.getProperty("urlBlackList")
         if (blackListFre != null) {
-            val aList = FreArrayKotlin(blackListFre).value
-            this.blackList = ArrayList<String>()
-            for (any in aList) {
-                this.blackList?.add(any as String)
-            }
+            val blackListArr: FREArray? = FREArray(freObject = blackListFre)
+            this.blackList = List<String>(blackListArr)
         }
-
     }
 }

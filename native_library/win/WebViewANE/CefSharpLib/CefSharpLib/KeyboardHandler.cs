@@ -43,7 +43,7 @@ namespace CefSharpLib {
                 writer.WritePropertyName("isSystemKey");
                 writer.WriteValue(isSystemKey);
                 writer.WriteEndObject();
-                _context.DispatchEvent(KeyType.KeyUp == type ? OnKeyUp : OnKeyDown, sb.ToString());
+                _context.SendEvent(KeyType.KeyUp == type ? OnKeyUp : OnKeyDown, sb.ToString());
             }
 
             if (windowsKeyCode != 27) return false;

@@ -6,6 +6,7 @@ package {
 import com.tuarua.CommonDependencies;
 import com.tuarua.WebViewANE;
 import com.tuarua.webview.ActionscriptCallback;
+import com.tuarua.webview.BackForwardList;
 import com.tuarua.webview.DownloadProgress;
 import com.tuarua.webview.JavascriptResult;
 import com.tuarua.webview.LogSeverity;
@@ -487,11 +488,10 @@ public class StarlingRoot extends Sprite {
         if (touch != null && touch.phase == TouchPhase.ENDED) {
             webView.goForward();
 
-            /*
-             var obj:BackForwardList = webView.backForwardList();
+             /*var obj:BackForwardList = webView.backForwardList();
              trace("back list length",obj.backList.length)
-             trace("forward list length",obj.forwardList.length)
-             */
+             trace("forward list length",obj.forwardList.length)*/
+
         }
     }
 
