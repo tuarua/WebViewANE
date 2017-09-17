@@ -266,8 +266,7 @@ import Cocoa
     func addEventListener(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
 #if os(OSX)
         guard argc > 0,
-              let inFRE0 = argv[0],
-              let type = FreObjectSwift.init(freObject: inFRE0).value as? String
+              let type = String(argv[0])
           else {
              return ArgCountError(message: "addEventListener").getError(#file, #line, #column)
         }
@@ -296,16 +295,9 @@ import Cocoa
 
     func isSupported(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
         var isSupported: Bool = false
-#if os(iOS)
-        if #available(iOS 9.0, *) {
+        if #available(iOS 9.0, OSX 10.10, *) {
             isSupported = true
         }
-#else
-        if #available(OSX 10.10, *) {
-            isSupported = true
-        }
-#endif
-
         return isSupported.toFREObject()
     }
 
@@ -622,19 +614,11 @@ import Cocoa
 
 
     func clearCache(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
-#if os(OSX)
-        if #available(OSX 10.11, *) {
+        if #available(iOS 9.0, OSX 10.11, *) {
             let websiteDataTypes = NSSet(array: [WKWebsiteDataTypeDiskCache, WKWebsiteDataTypeMemoryCache])
             WKWebsiteDataStore.default().removeData(ofTypes: websiteDataTypes as! Set<String>, modifiedSince: NSDate(timeIntervalSince1970: 0) as Date, completionHandler: {})
 
         }
-#else
-        if #available(iOS 9.0, *) {
-            let websiteDataTypes = NSSet(array: [WKWebsiteDataTypeDiskCache, WKWebsiteDataTypeMemoryCache])
-            WKWebsiteDataStore.default().removeData(ofTypes: websiteDataTypes as! Set<String>, modifiedSince: NSDate(timeIntervalSince1970: 0) as Date, completionHandler: {})
-
-        }
-#endif
         return nil
     }
 
@@ -761,13 +745,14 @@ import Cocoa
     func getTabDetails(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
         var ret: FREObject? = nil
         do {
-            let airArray: FreArraySwift = try FreArraySwift.init(className: "Vector.<com.tuarua.webview.TabDetails>")
+            let airArray: FREArray = try FREArray.init(className: "Vector.<com.tuarua.webview.TabDetails>")
             ret = airArray.rawValue
             var cnt = 0
             for vc in _tabList {
                 if let theVC = vc as? WebViewVC {
-                    let currentTabFre = try FreObjectSwift.init(className: "com.tuarua.webview.TabDetails", args: theVC.tab, theVC.url!.absoluteString, theVC.title!, theVC.isLoading, theVC.canGoBack, theVC.canGoForward, theVC.estimatedProgress)
-                    try airArray.setObjectAt(index: UInt(cnt), object: currentTabFre)
+                    if let currentTabFre = try FREObject.init(className: "com.tuarua.webview.TabDetails", args: theVC.tab, theVC.url!.absoluteString, theVC.title!, theVC.isLoading, theVC.canGoBack, theVC.canGoForward, theVC.estimatedProgress) {
+                        try airArray.set(index: UInt(cnt), value: currentTabFre)
+                    }
                     cnt = cnt + 1
                 }
             }
@@ -776,11 +761,9 @@ import Cocoa
         return ret
     }
 
-
     func getCurrentTab(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
         return _currentTab.toFREObject()
     }
-
 
 #if os(iOS)
 
@@ -802,7 +785,6 @@ import Cocoa
     }
 
 #endif
-
 
     fileprivate func createNewBrowser(frame: CGRect, tab: Int) -> WebViewVC {
         let wv = WebViewVC(context: context, frame: frame, configuration: _settings.configuration, tab: tab)
@@ -873,7 +855,8 @@ import Cocoa
 
 
         if let settingsFRE: FREObject = argv[2] {
-            if let settingsDict = FreObjectSwift.init(freObject: settingsFRE).value as? Dictionary<String, AnyObject> {
+            //if let settingsDict = FreObjectSwift.init(freObject: settingsFRE).value as? Dictionary<String, AnyObject> {
+            if let settingsDict = Dictionary.init(settingsFRE) {
                 _settings = Settings.init(dictionary: settingsDict)
 
 #if os(OSX)
@@ -956,6 +939,9 @@ import Cocoa
     
     @objc public func setFREContext(ctx: FREContext) {
         self.context = FreContextSwift.init(freContext: ctx)
+    }
+    
+    @objc public func onLoad() {
     }
 
 }

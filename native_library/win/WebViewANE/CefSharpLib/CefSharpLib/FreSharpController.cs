@@ -39,7 +39,7 @@ namespace CefSharpLib {
         }
 
         public void Trace(object value) {
-            Context.DispatchEvent("TRACE", value.ToString());
+            Context.SendEvent("TRACE", value.ToString());
         }
 
     }

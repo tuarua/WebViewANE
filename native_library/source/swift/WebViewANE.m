@@ -20,12 +20,7 @@
 //  All Rights Reserved. Tua Rua Ltd.
 
 #import "FreMacros.h"
-//#ifdef OSX
 #import <Foundation/Foundation.h>
-//#endif
-
-//#import <FreSwift/FlashRuntimeExtensions.h>
-
 #import "WebViewANE_oc.h"
 #ifdef OSX
 #import "WebViewANE-Swift.h"
@@ -39,13 +34,9 @@
 }
 FRE_OBJC_BRIDGE_FUNCS
 @end
-
-
-
 #endif
 
-
-
+@implementation WEBVIEWANE_LIB
 SWIFT_DECL(TRWV) // use unique prefix throughout to prevent clashes with other ANEs
 
 CONTEXT_INIT(TRWV) {
@@ -61,7 +52,6 @@ CONTEXT_INIT(TRWV) {
         ,MAP_FUNCTION(TRWV, init)
         ,MAP_FUNCTION(TRWV, isSupported)
         ,MAP_FUNCTION(TRWV, setVisible)
-        //,MAP_FUNCTION(TRWV, removeFromStage)
         ,MAP_FUNCTION(TRWV, loadHTMLString)
         ,MAP_FUNCTION(TRWV, loadFileURL)
         ,MAP_FUNCTION(TRWV, onFullScreen)
@@ -105,6 +95,4 @@ CONTEXT_FIN(TRWV) {
 }
 EXTENSION_INIT(TRWV)
 EXTENSION_FIN(TRWV)
-
-
-
+@end

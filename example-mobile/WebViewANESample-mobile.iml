@@ -54,7 +54,7 @@
               <dependency linkage="Merged" />
             </entry>
           </entries>
-          <sdk name="AIRSDK_27_B" />
+          <sdk name="AIRSDK_27" />
         </dependencies>
         <compiler-options>
           <map>
@@ -129,7 +129,7 @@
       <sourceFolder url="file://$MODULE_DIR$/system" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/assets" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="AIRSDK_27_B&#9;AIRSDK_26" jdkType="__CompositeFlexSdk__" />
+    <orderEntry type="jdk" jdkName="AIRSDK_26&#9;AIRSDK_27" jdkType="__CompositeFlexSdk__" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library" exported="">
       <library type="flex">
