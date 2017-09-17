@@ -15,7 +15,7 @@ Much time, skill and effort has gone into this. Help support the project
 -------------
 
 ## !! Version 0.0.26+
-There is now a new dependency ANE for Windows and OSX.   
+There is now a new dependency ANE for OSX (required Swift libraries). This can be included on Windows without effect.
 This is included in \native_extension\ane\CommonDependencies.ane.   
 It must be included along with the WebView ANE in your projects.   
  It also must be created before the webView.   
@@ -76,11 +76,11 @@ bash get_ios_dependencies.sh
 
 ### Running on Simulator
 
-The example project can be run on the Simulator from IntelliJ using AIR 26. AIR 27 beta contains a bug when packaging.
+The example project can be run on the Simulator from IntelliJ using AIR 26. AIR 27 contains a bug when packaging.
 
 ### Running on Device
 
-The example project can be run on the device from IntelliJ using AIR27 Beta.
+The example project can be run on the device from IntelliJ using AIR 27.
 AIR 27 now correctly signs the included Swift frameworks and therefore no resigning tool is needed.
 
 ### Prerequisites
@@ -89,7 +89,7 @@ You will need
 
 - Xcode 8.3 / AppCode
 - IntelliJ IDEA
-- AIR 26 RC and AIR 27 Beta
+- AIR 26 and AIR 27
 
 ## Android
 The Android version utilises the native WebView. 

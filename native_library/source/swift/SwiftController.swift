@@ -295,16 +295,9 @@ import Cocoa
 
     func isSupported(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
         var isSupported: Bool = false
-#if os(iOS)
-        if #available(iOS 9.0, *) {
+        if #available(iOS 9.0, OSX 10.10, *) {
             isSupported = true
         }
-#else
-        if #available(OSX 10.10, *) {
-            isSupported = true
-        }
-#endif
-
         return isSupported.toFREObject()
     }
 
@@ -621,19 +614,11 @@ import Cocoa
 
 
     func clearCache(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
-#if os(OSX)
-        if #available(OSX 10.11, *) {
+        if #available(iOS 9.0, OSX 10.11, *) {
             let websiteDataTypes = NSSet(array: [WKWebsiteDataTypeDiskCache, WKWebsiteDataTypeMemoryCache])
             WKWebsiteDataStore.default().removeData(ofTypes: websiteDataTypes as! Set<String>, modifiedSince: NSDate(timeIntervalSince1970: 0) as Date, completionHandler: {})
 
         }
-#else
-        if #available(iOS 9.0, *) {
-            let websiteDataTypes = NSSet(array: [WKWebsiteDataTypeDiskCache, WKWebsiteDataTypeMemoryCache])
-            WKWebsiteDataStore.default().removeData(ofTypes: websiteDataTypes as! Set<String>, modifiedSince: NSDate(timeIntervalSince1970: 0) as Date, completionHandler: {})
-
-        }
-#endif
         return nil
     }
 
