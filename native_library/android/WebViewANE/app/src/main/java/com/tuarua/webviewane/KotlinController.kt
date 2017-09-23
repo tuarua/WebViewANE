@@ -27,11 +27,14 @@ package com.tuarua.webviewane
 import android.graphics.Color
 import android.util.Log
 import android.webkit.WebView
+import com.adobe.fre.FREBitmapData
 import com.adobe.fre.FREContext
 import com.adobe.fre.FREObject
 import com.tuarua.frekotlin.*
+import com.tuarua.frekotlin.display.FreBitmapDataKotlin
 import com.tuarua.frekotlin.geom.Rect
 import java.util.ArrayList
+
 typealias FREArgv = ArrayList<FREObject>
 
 @Suppress("unused", "UNUSED_PARAMETER", "UNCHECKED_CAST")
@@ -234,7 +237,30 @@ class KotlinController : FreKotlinMainController {
 
     fun backForwardList(ctx: FREContext, argv: FREArgv): FREObject? = null
     fun setCurrentTab(ctx: FREContext, argv: FREArgv): FREObject? = null
-    fun capture(ctx: FREContext, argv: FREArgv): FREObject? = null
+    fun capture(ctx: FREContext, argv: FREArgv): FREObject? {
+        argv.takeIf { argv.size > 3 } ?: return ArgCountException().getError(Thread.currentThread().stackTrace)
+        val xFre = Int(argv[0])
+        val yFre = Int(argv[1])
+        val wFre = Int(argv[2])
+        val hFre = Int(argv[3])
+
+        if (xFre != null && yFre != null && wFre != null && hFre != null) {
+            val x: Int = (xFre * scaleFactor).toInt()
+            val y: Int = (yFre * scaleFactor).toInt()
+            val w: Int = (wFre * scaleFactor).toInt()
+            val h: Int = (hFre * scaleFactor).toInt()
+
+            val bmp = webViewController?.capture(x, y, w, h)
+            if (bmp != null) {
+                val bmd = FreBitmapDataKotlin(bmp)
+                return bmd.rawValue
+
+            }
+        }
+
+        return null
+    }
+
     fun addTab(ctx: FREContext, argv: FREArgv): FREObject? = null
     fun closeTab(ctx: FREContext, argv: FREArgv): FREObject? = null
     fun injectScript(ctx: FREContext, argv: FREArgv): FREObject? = null
@@ -279,7 +305,7 @@ class KotlinController : FreKotlinMainController {
     }
 
     override val TAG: String
-        get() = this::class.java.canonicalName
+        get() = this::class.java.simpleName
     private var _context: FREContext? = null
     override var context: FREContext?
         get() = _context

@@ -53,7 +53,7 @@ import flash.ui.Keyboard;
 import flash.utils.Dictionary;
 
 public class WebViewANE extends EventDispatcher {
-    private static const name:String = "WebViewANE";
+    private static const NAME:String = "WebViewANE";
     private var _isInited:Boolean = false;
     private var _isSupported:Boolean = false;
     private var _viewPort:Rectangle;
@@ -85,9 +85,9 @@ public class WebViewANE extends EventDispatcher {
         _isSupported = true;
 
         if (_isSupported) {
-            trace("[" + name + "] Initalizing ANE...");
+            trace("[" + NAME + "] Initalizing ANE...");
             try {
-                ctx = ExtensionContext.createExtensionContext("com.tuarua." + name, null);
+                ctx = ExtensionContext.createExtensionContext("com.tuarua." + NAME, null);
                 ctx.addEventListener(StatusEvent.STATUS, gotEvent);
                 _isSupported = ctx.call("isSupported");
             } catch (e:Error) {
@@ -95,10 +95,10 @@ public class WebViewANE extends EventDispatcher {
                 trace(e.message);
                 trace(e.getStackTrace());
                 trace(e.errorID);
-                trace("[" + name + "] ANE Not loaded properly.  Future calls will fail.");
+                trace("[" + NAME + "] ANE Not loaded properly.  Future calls will fail.");
             }
         } else {
-            trace("[" + name + "] Can't initialize.");
+            trace("[" + NAME + "] Can't initialize.");
         }
 
     }
@@ -113,7 +113,7 @@ public class WebViewANE extends EventDispatcher {
         var pObj:Object;
         switch (event.level) {
             case "TRACE":
-                trace(event.code);
+                trace("[" + NAME + "]", event.code);
                 break;
             case ON_KEY_DOWN:
                 try {
@@ -631,7 +631,7 @@ public class WebViewANE extends EventDispatcher {
         //Windows is special case.
         if (os.isWindows) {
             if (_isInited) {
-                trace("[" + name + "] You cannot clear the cache on Windows while CEF is running. This is a known limitation. " +
+                trace("[" + NAME + "] You cannot clear the cache on Windows while CEF is running. This is a known limitation. " +
                         "You can only call this method after .dispose() is called");
                 return;
             }
@@ -649,7 +649,7 @@ public class WebViewANE extends EventDispatcher {
                     }
                 }
             } catch (e:Error) {
-                trace("[" + name + "] unable to delete cache files");
+                trace("[" + NAME + "] unable to delete cache files");
             }
             return;
         }
@@ -772,10 +772,10 @@ public class WebViewANE extends EventDispatcher {
      */
     public function dispose():void {
         if (!ctx) {
-            trace("[" + name + "] Error. ANE Already in a disposed or failed state...");
+            trace("[" + NAME + "] Error. ANE Already in a disposed or failed state...");
             return;
         }
-        trace("[" + name + "] Unloading ANE...");
+        trace("[" + NAME + "] Unloading ANE...");
         ctx.removeEventListener(StatusEvent.STATUS, gotEvent);
         if (safetyCheck()) {
             ctx.call("shutDown");
@@ -864,7 +864,11 @@ public class WebViewANE extends EventDispatcher {
      */
     public function capture(x:int = 0, y:int = 0, width:int = 0, height:int = 0):BitmapData {
         if (safetyCheck()) {
-            return ctx.call("capture", x, y, width, height) as BitmapData;
+            var theRet:* = ctx.call("capture", x, y, width, height) as BitmapData;
+            if (theRet is ANEError) {
+                throw theRet as ANEError;
+            }
+            return theRet;
         }
         return null;
     }
