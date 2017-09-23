@@ -22,6 +22,7 @@
  */
 package com.tuarua.webviewane
 
+import android.graphics.*
 import android.os.Build
 import android.view.View
 import android.view.ViewGroup
@@ -35,6 +36,7 @@ import com.tuarua.frekotlin.sendEvent
 import com.tuarua.frekotlin.geom.Rect
 import org.json.JSONException
 import org.json.JSONObject
+
 
 class WebViewController(override var context: FREContext?, initialUrl: String?, viewPort: Rect, private var settings: Settings,
                         private var backgroundColor: Int) : FreKotlinController {
@@ -184,6 +186,14 @@ class WebViewController(override var context: FREContext?, initialUrl: String?, 
         webView?.stopLoading()
     }
 
+    fun capture(x: Int, y: Int, w: Int, h: Int): Bitmap? {
+        val wv = webView ?: return null
+        val bitmap = Bitmap.createBitmap(w + x, h + y, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        wv.draw(canvas)
+        return Bitmap.createBitmap(bitmap, x, y, w, h)
+    }
+
     fun evaluateJavascript(js: String, callback: String?) {
         val wv = webView ?: return
         if (callback is String) {
@@ -232,5 +242,8 @@ class WebViewController(override var context: FREContext?, initialUrl: String?, 
 
 
     override val TAG: String
-        get() = this::class.java.canonicalName
+        get() = this::class.java.simpleName
+
+
 }
+
