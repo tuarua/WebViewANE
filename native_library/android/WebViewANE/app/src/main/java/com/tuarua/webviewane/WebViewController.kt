@@ -188,10 +188,25 @@ class WebViewController(override var context: FREContext?, initialUrl: String?, 
 
     fun capture(x: Int, y: Int, w: Int, h: Int): Bitmap? {
         val wv = webView ?: return null
-        val bitmap = Bitmap.createBitmap(w + x, h + y, Bitmap.Config.ARGB_8888)
+        var theX:Int = x
+        var theY:Int = y
+        var theW:Int = w
+        var theH:Int = h
+
+        val bitmap: Bitmap
+        if (w > 0 && h > 0) {
+            bitmap = Bitmap.createBitmap(w + x, h + y, Bitmap.Config.ARGB_8888)
+        } else {
+            theX = 0
+            theY = 0
+            theW = wv.width
+            theH = wv.height
+            bitmap = Bitmap.createBitmap(theW, theH, Bitmap.Config.ARGB_8888)
+        }
+
         val canvas = Canvas(bitmap)
         wv.draw(canvas)
-        return Bitmap.createBitmap(bitmap, x, y, w, h)
+        return Bitmap.createBitmap(bitmap, theX, theY, theW, theH)
     }
 
     fun evaluateJavascript(js: String, callback: String?) {

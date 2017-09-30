@@ -66,18 +66,20 @@ class WebViewVC: WKWebView, FreSwiftController {
     
     public func capture() -> CGImage? {
 #if os(iOS)
-        UIGraphicsBeginImageContextWithOptions(self.bounds.size, true, UIScreen.main.scale )
+        UIGraphicsBeginImageContextWithOptions(self.bounds.size, false, UIScreen.main.scale )
         self.drawHierarchy(in: self.bounds, afterScreenUpdates: true)
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         if let ui = newImage {
             if let ci = CIImage.init(image: ui) {
                 let context = CIContext(options: nil)
-                return context.createCGImage(ci, from: ci.extent)
+                if let cg = context.createCGImage(ci, from: ci.extent) {
+                    if let ret = cg.copy(colorSpace: CGColorSpaceCreateDeviceRGB()) {
+                        return ret
+                    }
+                }
             }
-        }
-#else
-    
+        } 
 #endif
         return nil
     }

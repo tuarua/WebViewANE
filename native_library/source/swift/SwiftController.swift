@@ -603,7 +603,7 @@ import Cocoa
         return nil
     }
 
-    func capture(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? { //TODO - when 10.13 comes out
+    func capture(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
         guard argc > 3,
             let xFre = Int(argv[0]),
             let yFre = Int(argv[1]),
@@ -619,9 +619,8 @@ import Cocoa
             let w = wFre * Int(UIScreen.main.scale)
             let h = hFre * Int(UIScreen.main.scale)
             do {
-                if let freObject = try FREObject.init(className: "flash.display.BitmapData", args: cg.width, cg.height, false),
-                    let destBmd = try FREObject.init(className: "flash.display.BitmapData", args: w, h, false) {
-                    
+                if let freObject = try FREObject.init(className: "flash.display.BitmapData", args: cg.width, cg.height, false)
+                     {
                     let asBitmapData = FreBitmapDataSwift.init(freObject: freObject)
                     defer {
                         asBitmapData.releaseData()
@@ -630,12 +629,17 @@ import Cocoa
                         try asBitmapData.acquire()
                         try asBitmapData.setPixels(cgImage: cg)
                         asBitmapData.releaseData()
-                        
-                        let rect = FreRectangleSwift.init(value: CGRect.init(x: x, y: y, width: w, height: h))
-                        let pt = FrePointSwift.init(value: CGPoint.zero)
-                        if let bmd = asBitmapData.rawValue, let sourceRect = rect.rawValue, let destPoint = pt.rawValue {
-                            _ = try destBmd.call(method: "copyPixels", args: bmd, sourceRect, destPoint)
-                            return destBmd
+                        if (w > 0 && h > 0) {
+                            if let destBmd = try FREObject.init(className: "flash.display.BitmapData", args: w, h, false) {
+                                let rect = FreRectangleSwift.init(value: CGRect.init(x: x, y: y, width: w, height: h))
+                                let pt = FrePointSwift.init(value: CGPoint.zero)
+                                if let bmd = asBitmapData.rawValue, let sourceRect = rect.rawValue, let destPoint = pt.rawValue {
+                                    _ = try destBmd.call(method: "copyPixels", args: bmd, sourceRect, destPoint)
+                                    return destBmd
+                                }
+                            }
+                        } else {
+                            return asBitmapData.rawValue
                         }
                     } catch let e as FreError {
                         return e.getError(#file, #line, #column)
@@ -647,7 +651,7 @@ import Cocoa
             }
         }
 #else
-        warning("capture is Windows only at the moment")
+        warning("capture is Windows, iOS, Android only at the moment")
 #endif
         return nil
     }
