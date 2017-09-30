@@ -1,5 +1,5 @@
 ### 0.0.33
-- AND/iOS: added capture method
+- AND/iOS: added capture method Issue #88
 
 ### 0.0.32
 - AND/iOS/WIN/OSX: Refactor
