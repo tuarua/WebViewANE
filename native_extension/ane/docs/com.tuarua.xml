@@ -72,7 +72,7 @@
      </apiDesc></apiParam><apiParam><apiItemName>height</apiItemName><apiType value="int"/><apiData>0</apiData><apiDesc>leaving as default of 0 captures the full height
      
      <p>Captures the webView to BitmapData.</p>
-     <p><b>Windows only.</b></p>
+     <p><b>Windows, iOS, Android only.</b></p>
      
      </apiDesc></apiParam></apiOperationDef><apiDesc>
      

@@ -859,7 +859,7 @@ public class WebViewANE extends EventDispatcher {
      * @param height leaving as default of 0 captures the full height
      *
      * <p>Captures the webView to BitmapData.</p>
-     * <p><strong>Windows only.</strong></p>
+     * <p><strong>Windows, iOS, Android only.</strong></p>
      *
      */
     public function capture(x:int = 0, y:int = 0, width:int = 0, height:int = 0):BitmapData {
