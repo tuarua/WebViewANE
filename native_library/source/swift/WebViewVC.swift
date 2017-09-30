@@ -48,6 +48,7 @@ class WebViewVC: WKWebView, FreSwiftController {
 #endif
         _tab = tab
     }
+    
 
     public override init(frame: CGRect, configuration: WKWebViewConfiguration) {
         super.init(frame: frame, configuration: configuration)
@@ -61,6 +62,26 @@ class WebViewVC: WKWebView, FreSwiftController {
 
     public required init?(coder: NSCoder) {
         super.init(coder: coder)
+    }
+    
+    public func capture() -> CGImage? {
+#if os(iOS)
+        UIGraphicsBeginImageContextWithOptions(self.bounds.size, false, UIScreen.main.scale )
+        self.drawHierarchy(in: self.bounds, afterScreenUpdates: true)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        if let ui = newImage {
+            if let ci = CIImage.init(image: ui) {
+                let context = CIContext(options: nil)
+                if let cg = context.createCGImage(ci, from: ci.extent) {
+                    if let ret = cg.copy(colorSpace: CGColorSpaceCreateDeviceRGB()) {
+                        return ret
+                    }
+                }
+            }
+        } 
+#endif
+        return nil
     }
 
     func load(url: String) {
