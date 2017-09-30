@@ -603,8 +603,56 @@ import Cocoa
         return nil
     }
 
-    func capture(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? { //TODO - when 10.13 comes out
-        warning("capture is Windows only at the moment")
+    func capture(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
+        guard argc > 3,
+            let xFre = Int(argv[0]),
+            let yFre = Int(argv[1]),
+            let wFre = Int(argv[2]),
+            let hFre = Int(argv[3]),
+            let wvc = _currentWebView else {
+                return ArgCountError(message: "capture").getError(#file, #line, #column)
+        }
+#if os(iOS)
+        if let cg = wvc.capture() {
+            let x = xFre * Int(UIScreen.main.scale)
+            let y = yFre * Int(UIScreen.main.scale)
+            let w = wFre * Int(UIScreen.main.scale)
+            let h = hFre * Int(UIScreen.main.scale)
+            do {
+                if let freObject = try FREObject.init(className: "flash.display.BitmapData", args: cg.width, cg.height, false)
+                     {
+                    let asBitmapData = FreBitmapDataSwift.init(freObject: freObject)
+                    defer {
+                        asBitmapData.releaseData()
+                    }
+                    do {
+                        try asBitmapData.acquire()
+                        try asBitmapData.setPixels(cgImage: cg)
+                        asBitmapData.releaseData()
+                        if (w > 0 && h > 0) {
+                            if let destBmd = try FREObject.init(className: "flash.display.BitmapData", args: w, h, false) {
+                                let rect = FreRectangleSwift.init(value: CGRect.init(x: x, y: y, width: w, height: h))
+                                let pt = FrePointSwift.init(value: CGPoint.zero)
+                                if let bmd = asBitmapData.rawValue, let sourceRect = rect.rawValue, let destPoint = pt.rawValue {
+                                    _ = try destBmd.call(method: "copyPixels", args: bmd, sourceRect, destPoint)
+                                    return destBmd
+                                }
+                            }
+                        } else {
+                            return asBitmapData.rawValue
+                        }
+                    } catch let e as FreError {
+                        return e.getError(#file, #line, #column)
+                    } catch {}
+                }
+            } catch let e as FreError {
+                return e.getError(#file, #line, #column)
+            } catch {
+            }
+        }
+#else
+        warning("capture is Windows, iOS, Android only at the moment")
+#endif
         return nil
     }
 

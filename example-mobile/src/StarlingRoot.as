@@ -5,12 +5,15 @@ import com.tuarua.webview.Settings;
 import com.tuarua.webview.WebViewEvent;
 
 import flash.desktop.NativeApplication;
+import flash.display.Bitmap;
+import flash.display.BitmapData;
 
 import flash.events.KeyboardEvent;
 import flash.events.SoftKeyboardEvent;
 import flash.filesystem.File;
 import flash.filesystem.FileMode;
 import flash.filesystem.FileStream;
+import flash.geom.Point;
 import flash.geom.Rectangle;
 import flash.text.ReturnKeyLabel;
 import flash.text.SoftKeyboardType;
@@ -83,7 +86,7 @@ public class StarlingRoot extends Sprite {
 
         webBtn.visible = false;
         cancelBtn.visible = false;
-        
+
         inputBG = new Image(_assets.getTexture("input-bg"));
         inputBG.scale9Grid = new Rectangle(4, 4, 16, 16);
         inputBG.width = stage.stageWidth - 108 - 50;

@@ -22,7 +22,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation files('libs/FlashRuntimeExtensions.jar')
     implementation files('libs/runtimeClasses.jar')
-    implementation files("libs/frekotlin-1.1.4-3.jar")
+    implementation files("libs/frekotlin-1.1.50.jar")
 
 }
 repositories {
