@@ -100,8 +100,10 @@ class WebViewController(override var context: FREContext?, initialUrl: String?, 
         wv.settings.allowUniversalAccessFromFileURLs = settings.allowUniversalAccessFromFileURLs
         wv.settings.allowFileAccessFromFileURLs = settings.allowFileAccessFromFileURLs
         wv.settings.setGeolocationEnabled(settings.geolocationEnabled)
-        wv.settings.setDatabaseEnabled(settings.databaseEnabled)
-        wv.settings.setDomStorageEnabled(settings.domStorageEnabled)
+        wv.settings.databaseEnabled = settings.databaseEnabled
+        wv.settings.domStorageEnabled = settings.domStorageEnabled
+        wv.settings.builtInZoomControls = settings.builtInZoomControls
+        wv.settings.displayZoomControls = settings.displayZoomControls
 
         chromeClient = ChromeClient(ctx)
         viewClient = ViewClient(ctx, settings)
@@ -109,6 +111,7 @@ class WebViewController(override var context: FREContext?, initialUrl: String?, 
         wv.setWebChromeClient(chromeClient)
         wv.setWebViewClient(viewClient)
         wv.setBackgroundColor(backgroundColor)
+
 
         wv.addJavascriptInterface(BoundObject(), "webViewANE")
 
