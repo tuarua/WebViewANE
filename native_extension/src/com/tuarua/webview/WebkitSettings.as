@@ -66,6 +66,10 @@ public class WebkitSettings {
      * <p>A Boolean value indicating whether the webview bounces past edge of content and back again.</p>
      */
     public var bounces:Boolean = true;
+    /**
+     * <p>A Boolean value indicating whether the webview responds to pinch zoom gestures.</p>
+     */
+    public var useZoomGestures:Boolean = true;
     public function WebkitSettings() {
     }
 }

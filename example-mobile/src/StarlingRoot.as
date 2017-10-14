@@ -136,6 +136,10 @@ public class StarlingRoot extends Sprite {
         settings.webkit.allowsInlineMediaPlayback = true;
         settings.webkit.bounces = false;
 
+
+        //settings.webkit.useZoomGestures = false; //disable pinch zoom iOS
+        //settings.android.builtInZoomControls = false; //disable pinch zoom Android
+
         //settings.urlWhiteList.push("macromedia.", "github.", "google.", "youtube.", "adobe.com", "chrome-devtools://"); //to restrict urls - simple string matching
         //settings.urlBlackList.push(".pdf");
 
