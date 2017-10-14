@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <application xmlns="http://ns.adobe.com/air/application/27.0">
 
-    <id>com.tuarua.webviewane.example.mobile</id> <!-- Bundle Identifier. Required. -->
+    <id>com.eoinlandy.webview</id> <!-- Bundle Identifier. Required. -->
     <filename>WebViewANESample-mobile</filename> <!-- Used as the filename for the application. Required. -->
     <name>WebViewANESample-mobile</name> <!-- The name that is displayed below the app icon. -->
-    <versionNumber>0.0.5</versionNumber> <!-- Required. -->
+    <versionNumber>0.0.6</versionNumber> <!-- Required. -->
 
     <!-- Settings for the application's initial window. Required. -->
     <initialWindow>
@@ -40,8 +40,11 @@
     <icon>
         <image57x57>icon57.png</image57x57>
         <image72x72>icon72.png</image72x72>
+        <image76x76>icon76.png</image76x76>
         <image114x114>icon114.png</image114x114>
+        <image120x120>icon120.png</image120x120>
         <image144x144>icon144.png</image144x144>
+        <image152x152>icon152.png</image152x152>
     </icon>
 
     <embedFonts>
@@ -56,7 +59,7 @@
         <!-- A list of plist key/value pairs to be added to the application Info.plist -->
         <!-- UIDeviceFamily: 1 - iPhone/iPod Touch; 2 - iPad; both: universal app -->
 
-        <InfoAdditions><![CDATA[            
+        <InfoAdditions><![CDATA[
             <key>UIDeviceFamily</key>
             <array>
                 <string>1</string>
@@ -65,6 +68,23 @@
             <key>MinimumOSVersion</key>
             <string>9.0</string>
         ]]></InfoAdditions>
+
+        <!--<Entitlements>
+            <![CDATA[
+                <key>application-identifier</key>
+	            <string>FWEQJ32FGC.com.eoinlandy.webview</string>
+	            <key>beta-reports-active</key>
+	            <true/>
+	            <key>com.apple.developer.team-identifier</key>
+	            <string>FWEQJ32FGC</string>
+	            <key>get-task-allow</key>
+	            <false/>
+	            <key>keychain-access-groups</key>
+	            <array>
+		            <string>FWEQJ32FGC.*</string>
+	            </array>
+            ]]>
+        </Entitlements>-->
 
         <!-- Display Resolution for the app ("standard" or "high"). Optional. Default "standard" -->
         <requestedDisplayResolution>high</requestedDisplayResolution>

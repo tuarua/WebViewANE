@@ -30,6 +30,7 @@ class WebViewVC: WKWebView, FreSwiftController {
     var TAG: String? = "WebViewANE"
     internal var context: FreContextSwift!
     private var _tab: Int = 0
+    var _configuration:Configuration!
     public var tab: Int {
         get {
             return _tab
@@ -41,15 +42,16 @@ class WebViewVC: WKWebView, FreSwiftController {
 
     convenience init(context: FreContextSwift, frame: CGRect, configuration: Configuration, tab: Int) {
         self.init(frame: frame, configuration: configuration)
+        _configuration = configuration
         self.context = context
 
 #if os(iOS)
         self.scrollView.bounces = configuration.doesBounce
+        self.scrollView.delegate = self
 #endif
         _tab = tab
     }
     
-
     public override init(frame: CGRect, configuration: WKWebViewConfiguration) {
         super.init(frame: frame, configuration: configuration)
         self.addObserver(self, forKeyPath: "loading", options: .new, context: nil)
@@ -263,3 +265,18 @@ class WebViewVC: WKWebView, FreSwiftController {
 #endif
 
 }
+#if os(iOS)
+extension WebViewVC: UIScrollViewDelegate {
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        if _configuration.useZoomGestures {
+            for sv in scrollView.subviews {
+                if let c = NSClassFromString("WKContentView"), sv.isKind(of: c) {
+                    return sv
+                }
+            }
+        }
+        return nil
+    }
+}
+#endif
+

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="Flex" version="4">
-  <component name="FlexBuildConfigurationManager" active="WebViewANESample-mobile Android Device">
+  <component name="FlexBuildConfigurationManager" active="WebViewANESample-mobile iOS Device">
     <configurations>
       <configuration name="WebViewANESample-mobile iOS simulator" target-platform="Mobile" pure-as="true" main-class="WebViewANESample" output-file="WebViewANESample-mobile.swf" output-folder="$MODULE_DIR$/bin-debug">
         <dependencies>
@@ -117,6 +117,43 @@
             <FilePathAndPathInPackage file-path="$DOCUMENTS$/WebViewANE/native_extension/ane/platforms/ios/simulator/Frameworks/FRESwift.framework" path-in-package="FRESwift.framework" />
           </files-to-package>
           <AirSigningOptions sdk="/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk" keystore-path="$USER_HOME$/Documents/appleCertsProv/2017/dev/tuarua_dev.p12" provisioning-profile-path="$USER_HOME$/Documents/appleCertsProv/2017/dev/Tua_Rua_Dev_Provisioning.mobileprovision" />
+        </packaging-ios>
+      </configuration>
+      <configuration name="WebViewANESample-mobile iOS Store" target-platform="Mobile" pure-as="true" main-class="WebViewANESample" output-file="WebViewANESample-mobile_iOS_Store.swf" output-folder="$MODULE_DIR$/bin-release/appstore">
+        <dependencies>
+          <entries>
+            <entry library-name="WebViewANE-mobile" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-name="starling" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-name="FiraSansSemiBold" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+          </entries>
+          <sdk name="AIRSDK_27" />
+        </dependencies>
+        <compiler-options>
+          <map>
+            <entry key="compiler.locale" value="en_US" />
+          </map>
+          <option name="additionalOptions" value="-swf-version=38" />
+        </compiler-options>
+        <packaging-air-desktop />
+        <packaging-android use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/src/WebViewANESample-app.xml" package-file-name="WebViewANESample-mobile_iOS_Store">
+          <files-to-package>
+            <FilePathAndPathInPackage file-path="$MODULE_DIR$/system" path-in-package="." />
+            <FilePathAndPathInPackage file-path="$MODULE_DIR$/assets" path-in-package="." />
+          </files-to-package>
+        </packaging-android>
+        <packaging-ios enabled="true" use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/src/WebViewANESample-app-27.xml" package-file-name="WebViewANESample-mobile_iOS_Store">
+          <files-to-package>
+            <FilePathAndPathInPackage file-path="$MODULE_DIR$/system" path-in-package="." />
+            <FilePathAndPathInPackage file-path="$MODULE_DIR$/assets" path-in-package="." />
+            <FilePathAndPathInPackage file-path="$MODULE_DIR$/ios_dependencies/device" path-in-package="." />
+          </files-to-package>
+          <AirSigningOptions keystore-path="$USER_HOME$/Documents/appleCertsProv/2017/prod/tuarua_prod.p12" provisioning-profile-path="$USER_HOME$/Documents/appleCertsProv/2017/prod/Tua_Rua_Dist_Provisioning_WebView-2.mobileprovision" />
         </packaging-ios>
       </configuration>
     </configurations>
