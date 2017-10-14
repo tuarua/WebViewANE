@@ -36,7 +36,11 @@
 	 </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:WebkitSettings:plugInsEnabled"><apiName>plugInsEnabled</apiName><shortdesc>
 	 A Boolean value indicating whether plug-ins are enabled.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>true</apiData><apiType value="Boolean"/></apiValueDef><apiDesc>
 	 <p>A Boolean value indicating whether plug-ins are enabled. OSX only.</p>
-	 </apiDesc></apiValueDetail></apiValue></apiClassifier><apiClassifier id="com.tuarua.webview:TabDetails"><apiName>TabDetails</apiName><shortdesc/><prolog><asMetadata/></prolog><apiClassifierDetail><apiClassifierDef><apiAccess value="public"/><apiStatic/><apiBaseClassifier>Object</apiBaseClassifier></apiClassifierDef></apiClassifierDetail><apiConstructor id="com.tuarua.webview:TabDetails:TabDetails"><apiName>TabDetails</apiName><shortdesc/><prolog/><apiConstructorDetail><apiConstructorDef><apiAccess value="public"/><apiParam><apiItemName>index</apiItemName><apiType value="int"/></apiParam><apiParam><apiItemName>url</apiItemName><apiType value="String"/></apiParam><apiParam><apiItemName>title</apiItemName><apiType value="String"/></apiParam><apiParam><apiItemName>isLoading</apiItemName><apiType value="Boolean"/></apiParam><apiParam><apiItemName>canGoBack</apiItemName><apiType value="Boolean"/></apiParam><apiParam><apiItemName>canGoForward</apiItemName><apiType value="Boolean"/></apiParam><apiParam><apiItemName>estimatedProgress</apiItemName><apiType value="Number"/></apiParam></apiConstructorDef></apiConstructorDetail></apiConstructor><apiValue id="com.tuarua.webview:TabDetails:canGoBack"><apiName>canGoBack</apiName><shortdesc>
+	 </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:WebkitSettings:useZoomGestures"><apiName>useZoomGestures</apiName><shortdesc>
+     A Boolean value indicating whether the webview responds to pinch zoom gestures.
+     </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>true</apiData><apiType value="Boolean"/></apiValueDef><apiDesc>
+     <p>A Boolean value indicating whether the webview responds to pinch zoom gestures.</p>
+     </apiDesc></apiValueDetail></apiValue></apiClassifier><apiClassifier id="com.tuarua.webview:TabDetails"><apiName>TabDetails</apiName><shortdesc/><prolog><asMetadata/></prolog><apiClassifierDetail><apiClassifierDef><apiAccess value="public"/><apiStatic/><apiBaseClassifier>Object</apiBaseClassifier></apiClassifierDef></apiClassifierDetail><apiConstructor id="com.tuarua.webview:TabDetails:TabDetails"><apiName>TabDetails</apiName><shortdesc/><prolog/><apiConstructorDetail><apiConstructorDef><apiAccess value="public"/><apiParam><apiItemName>index</apiItemName><apiType value="int"/></apiParam><apiParam><apiItemName>url</apiItemName><apiType value="String"/></apiParam><apiParam><apiItemName>title</apiItemName><apiType value="String"/></apiParam><apiParam><apiItemName>isLoading</apiItemName><apiType value="Boolean"/></apiParam><apiParam><apiItemName>canGoBack</apiItemName><apiType value="Boolean"/></apiParam><apiParam><apiItemName>canGoForward</apiItemName><apiType value="Boolean"/></apiParam><apiParam><apiItemName>estimatedProgress</apiItemName><apiType value="Number"/></apiParam></apiConstructorDef></apiConstructorDetail></apiConstructor><apiValue id="com.tuarua.webview:TabDetails:canGoBack"><apiName>canGoBack</apiName><shortdesc>
      
      </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value="Boolean"/></apiValueDef><apiDesc>
      
@@ -239,18 +243,28 @@ using the "remote-debugging-port" command-line switch.</p>
      A Boolean value indicating whether the WebView should not load image resources from the network.
      </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>false</apiData><apiType value="Boolean"/></apiValueDef><apiDesc>
      <p>A Boolean value indicating whether the WebView should not load image resources from the network.</p>
-     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:AndroidSettings:geolocationEnabled"><apiName>geolocationEnabled</apiName><shortdesc>
-     Sets whether Geolocation is enabled.
-     </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>false</apiData><apiType value="Boolean"/></apiValueDef><apiDesc>
-     <p>Sets whether Geolocation is enabled.</p>
+     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:AndroidSettings:builtInZoomControls"><apiName>builtInZoomControls</apiName><shortdesc>
+     Sets whether the WebView should use its built-in zoom mechanisms.
+     </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>true</apiData><apiType value="Boolean"/></apiValueDef><apiDesc>
+     <p>Sets whether the WebView should use its built-in zoom mechanisms.</p>
      </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:AndroidSettings:databaseEnabled"><apiName>databaseEnabled</apiName><shortdesc>
      Sets whether the database storage API is enabled.
      </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>true</apiData><apiType value="Boolean"/></apiValueDef><apiDesc>
      <p>Sets whether the database storage API is enabled.</p>
+     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:AndroidSettings:displayZoomControls"><apiName>displayZoomControls</apiName><shortdesc>
+     Sets whether the WebView should display on-screen zoom controls when
+     using the built-in zoom mechanisms.
+     </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>false</apiData><apiType value="Boolean"/></apiValueDef><apiDesc>
+     <p>Sets whether the WebView should display on-screen zoom controls when
+     using the built-in zoom mechanisms.</p>
      </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:AndroidSettings:domStorageEnabled"><apiName>domStorageEnabled</apiName><shortdesc>
-     Sets whether the database storage API is enabled.
+     Sets whether the DOM storage API is enabled.
      </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>true</apiData><apiType value="Boolean"/></apiValueDef><apiDesc>
-     <p>Sets whether the database storage API is enabled.</p>
+     <p>Sets whether the DOM storage API is enabled.</p>
+     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:AndroidSettings:geolocationEnabled"><apiName>geolocationEnabled</apiName><shortdesc>
+     Sets whether Geolocation is enabled.
+     </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>false</apiData><apiType value="Boolean"/></apiValueDef><apiDesc>
+     <p>Sets whether Geolocation is enabled.</p>
      </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:AndroidSettings:javaScriptCanOpenWindowsAutomatically"><apiName>javaScriptCanOpenWindowsAutomatically</apiName><shortdesc>
      A Boolean value indicating whether JavaScript can open windows without user interaction.
      </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>true</apiData><apiType value="Boolean"/></apiValueDef><apiDesc>
