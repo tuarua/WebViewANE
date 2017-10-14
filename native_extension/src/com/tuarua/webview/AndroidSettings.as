@@ -77,7 +77,17 @@ public class AndroidSettings {
      * <p>Sets whether the DOM storage API is enabled.</p>
      */
     public var domStorageEnabled:Boolean = true;
-    
+
+    /**
+     * <p>Sets whether the WebView should display on-screen zoom controls when
+     * using the built-in zoom mechanisms.</p>
+     */
+    public var displayZoomControls: Boolean = false;
+
+    /**
+     * <p>Sets whether the WebView should use its built-in zoom mechanisms.</p>
+     */
+    public var builtInZoomControls: Boolean = true;
 
     public function AndroidSettings() {
     }

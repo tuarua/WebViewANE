@@ -40,6 +40,8 @@ class Settings() {
     var geolocationEnabled: Boolean = false
     var databaseEnabled: Boolean = false
     var domStorageEnabled: Boolean = false
+    var displayZoomControls: Boolean = false
+    var builtInZoomControls: Boolean = true
     var whiteList: List<String>? = null
     var blackList: List<String>? = null
 
@@ -59,6 +61,9 @@ class Settings() {
         this.geolocationEnabled = Boolean(androidSettings?.getProp("geolocationEnabled")) == true
         this.databaseEnabled = Boolean(androidSettings?.getProp("databaseEnabled")) == true
         this.domStorageEnabled = Boolean(androidSettings?.getProp("domStorageEnabled")) == true
+        this.displayZoomControls = Boolean(androidSettings?.getProp("displayZoomControls")) == true
+        this.builtInZoomControls = Boolean(androidSettings?.getProp("builtInZoomControls")) == true
+
         this.userAgent = String(o.getProp("userAgent"))
 
         val whiteListFre = o.getProp("urlWhiteList")
@@ -73,4 +78,6 @@ class Settings() {
             this.blackList = List<String>(blackListArr)
         }
     }
+
+
 }
