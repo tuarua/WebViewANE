@@ -47,14 +47,7 @@ class WebViewVC: WKWebView, FreSwiftController {
 
 #if os(iOS)
         self.scrollView.bounces = configuration.doesBounce
-        //if configuration.useZoomGestures {
-            //trace("Setting scrollView del to nil")
-            //self.scrollView.delegate = nil
-        //} else {
-            //trace("Setting scrollView del to self")
-            self.scrollView.delegate = self
-        //}
-    
+        self.scrollView.delegate = self
 #endif
         _tab = tab
     }
