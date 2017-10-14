@@ -27,12 +27,16 @@ import FreSwift
 #endif
 
 open class Configuration: WKWebViewConfiguration {
-    
     private var _bounces: Bool = true
-    
+    private var _useZoomGestures = true
     public var doesBounce: Bool {
         get {
             return _bounces
+        }
+    }
+    public var useZoomGestures: Bool {
+        get {
+            return _useZoomGestures
         }
     }
     
@@ -67,6 +71,10 @@ open class Configuration: WKWebViewConfiguration {
     
             if let bounces: Bool = settingsWK["bounces"] as? Bool {
                 self._bounces = bounces
+            }
+    
+            if let useZoomGestures: Bool = settingsWK["useZoomGestures"] as? Bool {
+                self._useZoomGestures = useZoomGestures
             }
 
 #else
