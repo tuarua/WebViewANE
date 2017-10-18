@@ -147,7 +147,7 @@
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/assets" path-in-package="." />
           </files-to-package>
         </packaging-android>
-        <packaging-ios enabled="true" use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/src/WebViewANESample-app-27.xml" package-file-name="WebViewANESample-mobile_iOS_Store">
+        <packaging-ios enabled="true" use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/src/WebViewANESample-app-27.xml" package-file-name="WebViewANESamplemobile">
           <files-to-package>
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/system" path-in-package="." />
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/assets" path-in-package="." />
