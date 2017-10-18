@@ -84,8 +84,8 @@ The example project can be run on the device from IntelliJ using AIR 27.
 AIR 27 now correctly signs the included Swift frameworks and therefore no resigning tool is needed.
 
 ### Submitting to AppStore
-ADT is not currently applying correct entitlements to dynamic frameworks when packaged for the AppStore.  
-Please check out this repo and follow the instructions to [Package for AppStore Submission](https://github.com/tuarua/Adobe-AIR-Project-AppStore-Preparation)   
+ADT is not currently producing a valid ipa for the AppStore.  
+Please see the [README](/example-mobile/package_for_ios_appstore/README.md)  in /example-mobile/package_for_ios_appstore    
 This is a minor inconvenience and only needs to be done when your app is ready to go to the AppStore.
 
 
