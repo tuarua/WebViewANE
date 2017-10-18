@@ -85,7 +85,7 @@ AIR 27 now correctly signs the included Swift frameworks and therefore no resign
 
 ### Submitting to AppStore
 ADT is not currently producing a valid ipa for the AppStore.  
-Please see the [README](/example-mobile/package_for_ios_appstore/README.md)  in /example-mobile/package_for_ios_appstore    
+Please see the [README](/example-mobile/package_for_ios_appstore/)  in /example-mobile/package_for_ios_appstore    
 This is a minor inconvenience and only needs to be done when your app is ready to go to the AppStore.
 
 
