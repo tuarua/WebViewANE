@@ -9,7 +9,7 @@
 
     ```bash
     cd [this directory]
-    bash resign.sh
+    ./resign.sh
     ```
 5. Upload the resulting ipa to the App Store using Application Loader
 
