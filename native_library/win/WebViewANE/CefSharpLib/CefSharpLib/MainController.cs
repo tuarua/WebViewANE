@@ -31,6 +31,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Interop;
+using System.Runtime.InteropServices;
 using System.Windows.Media;
 using CefSharp;
 using Newtonsoft.Json;
@@ -52,11 +53,13 @@ namespace CefSharpLib {
     }
 
     public class MainController : FreSharpController {
+        private const string Gdi32 = "gdi32";
         private CefView _view;
         private Hwnd _airWindow;
         private Hwnd _cefWindow;
         private Color _backgroundColor;
         private const double ZoomIncrement = 0.10;
+        private double scaleFactor = 1.0;
 
         public string[] GetFunctions() {
             FunctionsDict =
@@ -191,6 +194,34 @@ namespace CefSharpLib {
             return FREObject.Zero;
         }
 
+        [DllImport(Gdi32, ExactSpelling = true)]
+        public static extern int GetDeviceCaps(Hwnd hdc, int nIndex);
+
+        [Flags]
+        public enum DeviceCap {
+            VERTRES = 10,
+            DESKTOPVERTRES = 117,
+            LOGPIXELSY = 90
+        }
+
+        private double getScaleFactor() {
+            Graphics g = Graphics.FromHwnd(Hwnd.Zero);
+            Hwnd desktop = g.GetHdc();
+            int LogicalScreenHeight = GetDeviceCaps(desktop, (int)DeviceCap.VERTRES);
+            int PhysicalScreenHeight = GetDeviceCaps(desktop, (int)DeviceCap.DESKTOPVERTRES);
+            int Ydpi = GetDeviceCaps(desktop, (int)DeviceCap.LOGPIXELSY);
+            double dpiScale = Ydpi / 96.0 ;
+            g.ReleaseHdc();
+            if (dpiScale > 1.0) {
+                return dpiScale;
+            } else if (PhysicalScreenHeight / (double)LogicalScreenHeight > 1.0) {
+                return PhysicalScreenHeight / (double)LogicalScreenHeight;
+            } else {
+                return 1.0;
+            }
+        }
+
+
         public FREObject InitView(FREContext ctx, uint argc, FREObject[] argv) {
             _airWindow = System.Diagnostics.Process.GetCurrentProcess().MainWindowHandle;
             if (_airWindow == Hwnd.Zero) {
@@ -205,6 +236,7 @@ namespace CefSharpLib {
                 var inFre2 = argv[2]; //settings
                 var inFre4 = argv[4]; //backgroundColor
                 var cefSettingsFre = inFre2.GetProp("cef");
+                var inFre6 = argv[6];
 
                 var googleApiKeyFre = cefSettingsFre.GetProp("GOOGLE_API_KEY");
                 var googleDefaultClientIdFre = cefSettingsFre.GetProp("GOOGLE_DEFAULT_CLIENT_ID");
@@ -244,14 +276,17 @@ namespace CefSharpLib {
                     Convert.ToByte((rgb >> 8) & 0xff),
                     Convert.ToByte((rgb >> 0) & 0xff));
 
+                var useHiDPI = inFre6.AsBool();
+                scaleFactor = useHiDPI ? getScaleFactor() : 1.0;
+
                 var viewPort = inFre1.Value;
                 _view = new CefView {
                     InitialUrl = Convert.ToString(new FreObjectSharp(argv[0]).Value),
                     Background = new SolidColorBrush(_backgroundColor),
-                    X = Convert.ToInt32(viewPort.X),
-                    Y = Convert.ToInt32(viewPort.Y),
-                    ViewWidth = Convert.ToInt32(viewPort.Width),
-                    ViewHeight = Convert.ToInt32(viewPort.Height),
+                    X = Convert.ToInt32(viewPort.X * scaleFactor),
+                    Y = Convert.ToInt32(viewPort.Y * scaleFactor),
+                    ViewWidth = Convert.ToInt32(viewPort.Width * scaleFactor),
+                    ViewHeight = Convert.ToInt32(viewPort.Height * scaleFactor),
                     RemoteDebuggingPort = cefSettingsFre.GetProp("remoteDebuggingPort").AsInt(),
                     CachePath = cefSettingsFre.GetProp("cachePath").AsString(),
                     CacheEnabled = inFre2.GetProp("cacheEnabled").AsBool(),
@@ -367,10 +402,10 @@ namespace CefSharpLib {
                 return new FreException(e).RawValue;
             }
 
-            var tmpX = Convert.ToInt32(viewPort.X);
-            var tmpY = Convert.ToInt32(viewPort.Y);
-            var tmpWidth = Convert.ToInt32(viewPort.Width);
-            var tmpHeight = Convert.ToInt32(viewPort.Height);
+            var tmpX = Convert.ToInt32(viewPort.X * scaleFactor);
+            var tmpY = Convert.ToInt32(viewPort.Y * scaleFactor);
+            var tmpWidth = Convert.ToInt32(viewPort.Width * scaleFactor);
+            var tmpHeight = Convert.ToInt32(viewPort.Height * scaleFactor);
 
             var updateWidth = false;
             var updateHeight = false;

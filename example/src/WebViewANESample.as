@@ -47,6 +47,7 @@ public class WebViewANESample extends Sprite {
         mStarling.enableErrorChecking = false;
         mStarling.antiAliasing = 16;
         mStarling.skipUnchangedFrames = true;
+        mStarling.supportHighResolutions = true;
 
 
         NativeApplication.nativeApplication.executeInBackground = true;
