@@ -48,8 +48,6 @@ import flash.events.StatusEvent;
 import flash.external.ExtensionContext;
 import flash.filesystem.File;
 import flash.geom.Rectangle;
-import flash.system.Capabilities;
-import flash.ui.Keyboard;
 import flash.utils.Dictionary;
 
 public class WebViewANE extends EventDispatcher {
@@ -60,7 +58,6 @@ public class WebViewANE extends EventDispatcher {
     private var asCallBacks:Dictionary = new Dictionary(); // as -> js -> as
     private var jsCallBacks:Dictionary = new Dictionary(); //js - > as -> js
     private static const AS_CALLBACK_PREFIX:String = "TRWV.as.";
-    private static const JS_CALLBACK_PREFIX:String = "TRWV.js.";
     private static const JS_CALLBACK_EVENT:String = "TRWV.js.CALLBACK";
     private static const AS_CALLBACK_EVENT:String = "TRWV.as.CALLBACK";
     private static const ON_ESC_KEY:String = "WebView.OnEscKey";
@@ -264,6 +261,7 @@ public class WebViewANE extends EventDispatcher {
         }
     }
 
+    //noinspection ReservedWordAsName
     override public function addEventListener(type:String, listener:Function, useCapture:Boolean = false, priority:int = 0, useWeakReference:Boolean = false):void {
         super.addEventListener(type, listener, useCapture, priority, useWeakReference);
         if (_isInited && (KeyboardEvent.KEY_UP == type || KeyboardEvent.KEY_DOWN == type) && (os.isWindows || os.isOSX)) {
@@ -273,6 +271,7 @@ public class WebViewANE extends EventDispatcher {
         }
     }
 
+    //noinspection ReservedWordAsName
     override public function removeEventListener(type:String, listener:Function, useCapture:Boolean = false):void {
         if (_isInited && (KeyboardEvent.KEY_UP == type || KeyboardEvent.KEY_DOWN == type) && (os.isWindows || os.isOSX)) {
             if (this.hasEventListener(type)) {
@@ -373,6 +372,9 @@ public class WebViewANE extends EventDispatcher {
             } else {
                 theRet = ctx.call("callJavascriptFunction", js, null);
             }
+            if (theRet is ANEError) {
+                throw theRet as ANEError;
+            }
         }
     }
 
@@ -423,16 +425,17 @@ public class WebViewANE extends EventDispatcher {
      * @param viewPort
      * @param initialUrl Url to load when the view loads
      * @param settings
-     * @param scaleFactor iOS and Android only
+     * @param scaleFactor iOS, Android only
      * @param backgroundColor value of the view's background color.
-     * @param backgroundAlpha set to 0.0 for transparent background. iOS and Android only
+     * @param backgroundAlpha set to 0.0 for transparent background. iOS, Android only
+     * @param useHiDPI set true if using <requestedDisplayResolution>high</requestedDisplayResolution> in your app xml - Windows, OSX only
      *
      * <p>Initialises the webView. N.B. The webView is set to visible = false initially.</p>
      *
      */
     public function init(stage:Stage, viewPort:Rectangle, initialUrl:String = null,
                          settings:Settings = null, scaleFactor:Number = 1.0,
-                         backgroundColor:uint = 0xFFFFFF, backgroundAlpha:Number = 1.0):void {
+                         backgroundColor:uint = 0xFFFFFF, backgroundAlpha:Number = 1.0, useHiDPI:Boolean = false):void {
         if (viewPort == null) {
             throw new ArgumentError("viewPort cannot be null");
         }
@@ -460,7 +463,7 @@ public class WebViewANE extends EventDispatcher {
             }
 
             var theRet:* = ctx.call("init", initialUrl, _viewPort, _settings, scaleFactor, _backgroundColor,
-                    _backgroundAlpha);
+                    _backgroundAlpha, useHiDPI);
             if (theRet is ANEError) {
                 throw theRet as ANEError;
             }
@@ -487,9 +490,7 @@ public class WebViewANE extends EventDispatcher {
         if (event.beforeDisplayState == NativeWindowDisplayState.MINIMIZED) {
             visible = false;
             visible = true;
-            return;
         }
-
     }
 
     private function onFullScreenEvent(event:FullScreenEvent):void {
@@ -619,7 +620,7 @@ public class WebViewANE extends EventDispatcher {
     }
 
     /**
-     * <p>Clears the browser cache. Available on iOS/OSX/Android only</p>
+     * <p>Clears the browser cache. Available on iOS, OSX, Android only</p>
      * <p><strong>Ignored on Windows.</strong></p>
      * <p>You cannot clear the cache on Windows while CEF is running. This is a known limitation.
      * You can delete the contents of the value of your settings.cef.cachePath using Actionscript
@@ -691,6 +692,10 @@ public class WebViewANE extends EventDispatcher {
         }
     }
 
+    /**
+     * Windows + OSX only
+     *
+     */
     public function addTab(initialUrl:String = null):void {
         if (safetyCheck()) {
             var theRet:* = ctx.call("addTab", initialUrl);
@@ -700,6 +705,10 @@ public class WebViewANE extends EventDispatcher {
         }
     }
 
+    /**
+     * Windows + OSX only
+     *
+     */
     public function closeTab(index:int):void {
         if (safetyCheck()) {
             var theRet:* = ctx.call("closeTab", index);
@@ -709,6 +718,10 @@ public class WebViewANE extends EventDispatcher {
         }
     }
 
+    /**
+     * Windows + OSX only
+     *
+     */
     public function set currentTab(value:int):void {
         if (safetyCheck()) {
             var theRet:* = ctx.call("setCurrentTab", value);
@@ -718,6 +731,9 @@ public class WebViewANE extends EventDispatcher {
         }
     }
 
+    /**
+     * Windows + OSX only
+     */
     public function get currentTab():int {
         var ct:int = 0;
         if (safetyCheck()) {
@@ -752,7 +768,7 @@ public class WebViewANE extends EventDispatcher {
 
     /**
      *
-     * @return true if the device is Windows 7+, OSX 10.10+ or iOS 9.0+
+     * @return true if the device is Windows 7+, OSX 10.10+, Android,  or iOS 9.0+
      *
      */
     public function isSupported():Boolean {

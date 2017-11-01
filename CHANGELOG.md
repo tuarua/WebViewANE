@@ -1,4 +1,7 @@
 ### 0.0.35
+- Updated FreKotlin
+- WIN: support HiDPI
+- AND: minor updates
 
 ### 0.0.34
 - AND/iOS: allow pinch zoom to be enabled/disabled Issue #92
