@@ -7,7 +7,13 @@
      
      </apiDesc></apiParam></apiOperationDef><apiDesc>
      
-     </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:addEventListener"><apiName>addEventListener</apiName><shortdesc/><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiIsOverride/><apiReturn><apiType value="void"/></apiReturn><apiParam><apiItemName>type</apiItemName><apiType value="String"/></apiParam><apiParam><apiItemName>listener</apiItemName><apiType value="Function"/></apiParam><apiParam><apiItemName>useCapture</apiItemName><apiType value="Boolean"/><apiData>false</apiData></apiParam><apiParam><apiItemName>priority</apiItemName><apiType value="int"/><apiData>0</apiData></apiParam><apiParam><apiItemName>useWeakReference</apiItemName><apiType value="Boolean"/><apiData>false</apiData></apiParam></apiOperationDef></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:addTab"><apiName>addTab</apiName><shortdesc/><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn><apiParam><apiItemName>initialUrl</apiItemName><apiType value="String"/><apiData>null</apiData></apiParam></apiOperationDef></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:allowsMagnification"><apiName>allowsMagnification</apiName><shortdesc>
+     </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:addEventListener"><apiName>addEventListener</apiName><shortdesc/><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiIsOverride/><apiReturn><apiType value="void"/></apiReturn><apiParam><apiItemName>type</apiItemName><apiType value="String"/></apiParam><apiParam><apiItemName>listener</apiItemName><apiType value="Function"/></apiParam><apiParam><apiItemName>useCapture</apiItemName><apiType value="Boolean"/><apiData>false</apiData></apiParam><apiParam><apiItemName>priority</apiItemName><apiType value="int"/><apiData>0</apiData></apiParam><apiParam><apiItemName>useWeakReference</apiItemName><apiType value="Boolean"/><apiData>false</apiData></apiParam></apiOperationDef></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:addTab"><apiName>addTab</apiName><shortdesc>
+     Windows + OSX only
+     
+     </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn><apiParam><apiItemName>initialUrl</apiItemName><apiType value="String"/><apiData>null</apiData></apiParam></apiOperationDef><apiDesc>
+     Windows + OSX only
+     
+     </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:allowsMagnification"><apiName>allowsMagnification</apiName><shortdesc>
      
      </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiDesc>Whether the page allows magnification functionality
      <p><b>Ignored on iOS.</b></p>
@@ -78,7 +84,7 @@
      
      </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:clearCache"><apiName>clearCache</apiName><shortdesc>
      Clears the browser cache.</shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn></apiOperationDef><apiDesc>
-     <p>Clears the browser cache. Available on iOS/OSX/Android only</p>
+     <p>Clears the browser cache. Available on iOS, OSX, Android only</p>
      <p><b>Ignored on Windows.</b></p>
      <p>You cannot clear the cache on Windows while CEF is running. This is a known limitation.
      You can delete the contents of the value of your settings.cef.cachePath using Actionscript
@@ -95,7 +101,13 @@
      <p>Disables Inspect Element on right click on OSX</p>
      <p>On Android disconnects from chrome://inspect</p>
      
-     </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:closeTab"><apiName>closeTab</apiName><shortdesc/><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn><apiParam><apiItemName>index</apiItemName><apiType value="int"/></apiParam></apiOperationDef></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:dispose"><apiName>dispose</apiName><shortdesc>
+     </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:closeTab"><apiName>closeTab</apiName><shortdesc>
+     Windows + OSX only
+     
+     </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn><apiParam><apiItemName>index</apiItemName><apiType value="int"/></apiParam></apiOperationDef><apiDesc>
+     Windows + OSX only
+     
+     </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:dispose"><apiName>dispose</apiName><shortdesc>
      This cleans up the webview and all related processes.
      It is important to call this when the app is exiting.
      </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn></apiOperationDef><apiDesc>
@@ -147,9 +159,10 @@
      </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:init"><apiName>init</apiName><shortdesc>
      
      </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn><apiParam><apiItemName>stage</apiItemName><apiType value="flash.display:Stage"/><apiDesc>    </apiDesc></apiParam><apiParam><apiItemName>viewPort</apiItemName><apiType value="flash.geom:Rectangle"/><apiDesc>    </apiDesc></apiParam><apiParam><apiItemName>initialUrl</apiItemName><apiType value="String"/><apiData>null</apiData><apiDesc>Url to load when the view loads
-     </apiDesc></apiParam><apiParam><apiItemName>settings</apiItemName><apiOperationClassifier>com.tuarua.webview:Settings</apiOperationClassifier><apiData>null</apiData><apiDesc>    </apiDesc></apiParam><apiParam><apiItemName>scaleFactor</apiItemName><apiType value="Number"/><apiData>1.0</apiData><apiDesc>iOS and Android only
+     </apiDesc></apiParam><apiParam><apiItemName>settings</apiItemName><apiOperationClassifier>com.tuarua.webview:Settings</apiOperationClassifier><apiData>null</apiData><apiDesc>    </apiDesc></apiParam><apiParam><apiItemName>scaleFactor</apiItemName><apiType value="Number"/><apiData>1.0</apiData><apiDesc>iOS, Android only
      </apiDesc></apiParam><apiParam><apiItemName>backgroundColor</apiItemName><apiType value="uint"/><apiData>0xFFFFFF</apiData><apiDesc>value of the view's background color.
-     </apiDesc></apiParam><apiParam><apiItemName>backgroundAlpha</apiItemName><apiType value="Number"/><apiData>1.0</apiData><apiDesc>set to 0.0 for transparent background. iOS and Android only
+     </apiDesc></apiParam><apiParam><apiItemName>backgroundAlpha</apiItemName><apiType value="Number"/><apiData>1.0</apiData><apiDesc>set to 0.0 for transparent background. iOS, Android only
+     </apiDesc></apiParam><apiParam><apiItemName>useHiDPI</apiItemName><apiType value="Boolean"/><apiData>false</apiData><apiDesc>set true if using <requestedDisplayResolution>high</requestedDisplayResolution> in your app xml - Windows, OSX only
      
      <p>Initialises the webView. N.B. The webView is set to visible = false initially.</p>
      
@@ -168,7 +181,7 @@
      
      </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:isSupported"><apiName>isSupported</apiName><shortdesc>
      
-     </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiDesc>true if the device is Windows 7+, OSX 10.10+ or iOS 9.0+
+     </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiDesc>true if the device is Windows 7+, OSX 10.10+, Android,  or iOS 9.0+
      
      </apiDesc><apiType value="Boolean"/></apiReturn></apiOperationDef><apiDesc>
      
@@ -245,7 +258,11 @@
      </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn></apiOperationDef><apiDesc>
      Zooms out
      
-     </apiDesc></apiOperationDetail></apiOperation><apiValue id="com.tuarua:WebViewANE:currentTab:get"><apiName>currentTab</apiName><shortdesc/><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiValueAccess value="readwrite"/><apiType value="int"/></apiValueDef></apiValueDetail></apiValue><apiValue id="com.tuarua:WebViewANE:isInited:get"><apiName>isInited</apiName><shortdesc>
+     </apiDesc></apiOperationDetail></apiOperation><apiValue id="com.tuarua:WebViewANE:currentTab:get"><apiName>currentTab</apiName><shortdesc>
+     Windows + OSX only
+     </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiValueAccess value="readwrite"/><apiType value="int"/></apiValueDef><apiDesc>
+     Windows + OSX only
+     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua:WebViewANE:isInited:get"><apiName>isInited</apiName><shortdesc>
      
      </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiValueAccess value="read"/><apiType value="Boolean"/></apiValueDef><apiDesc>
      
