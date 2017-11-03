@@ -85,6 +85,8 @@ cp "$pathtome/../../native_library/android/$PROJECTNAME/app/build/outputs/aar/ap
 
 echo "getting Android jars"
 unzip "$pathtome/platforms/android/app-release.aar" "classes.jar" -d "$pathtome/platforms/android"
+unzip "$pathtome/platforms/android/app-release.aar" "res/*" -d "$pathtome/platforms/android"
+mv "$pathtome/platforms/android/res" "$pathtome/platforms/android/com.tuarua.$PROJECTNAME-res"
 
 
 #move the swift dylibs into root of "$pathtome/platforms/ios/ios_dependencies/Frameworks" as per Adobe docs for AIR27
@@ -137,10 +139,12 @@ echo "Building ANE."
 -swc "$pathtome/$PROJECTNAME.swc" \
 -platform Android-ARM \
 -C "$pathtome/platforms/android" "library.swf" "classes.jar" \
--platformoptions "$pathtome/platforms/android/platform.xml" "res/values/strings.xml" \
+com.tuarua.$PROJECTNAME-res/. \
+-platformoptions "$pathtome/platforms/android/platform.xml" \
 -platform Android-x86 \
 -C "$pathtome/platforms/android" "library.swf" "classes.jar" \
--platformoptions "$pathtome/platforms/android/platform.xml" "res/values/strings.xml" \
+com.tuarua.$PROJECTNAME-res/. \
+-platformoptions "$pathtome/platforms/android/platform.xml" \
 -platform iPhone-x86  -C "$pathtome/platforms/ios/simulator" "library.swf" "Frameworks" "lib$PROJECTNAME.a" \
 -platformoptions "$pathtome/platforms/ios/platform.xml" \
 -platform iPhone-ARM  -C "$pathtome/platforms/ios/device" "library.swf" "Frameworks" "lib$PROJECTNAME.a" \
@@ -156,7 +160,7 @@ rm -r "$pathtome/platforms/ios/device"
 rm -r "$pathtome/platforms/default"
 rm "$pathtome/$PROJECTNAME.swc"
 rm "$pathtome/library.swf"
-
+rm -r "$pathtome/platforms/android/com.tuarua.$PROJECTNAME-res"
 
 echo "Packaging docs into ANE."
 zip "$pathtome/mobile/$PROJECTNAME-mobile.ane" -u docs/*
