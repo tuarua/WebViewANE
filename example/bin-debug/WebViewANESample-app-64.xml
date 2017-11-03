@@ -118,17 +118,17 @@
         <!-- <softKeyboardBehavior></softKeyboardBehavior> -->
 
         <!-- Display Resolution for the app (either "standard" or "high"). Optional, OSX-only. Default "standard" -->
-    <!--<requestedDisplayResolution>high</requestedDisplayResolution>--> <!-- This also applies to Windows 10 and display settings scaling, eg 125% breaks the cefview-->
-    <depthAndStencil>true</depthAndStencil>
-    <renderMode>direct</renderMode>
-    <autoOrients>false</autoOrients>
-    <fullScreen>true</fullScreen>
-    <visible>true</visible>
-</initialWindow>
+        <requestedDisplayResolution>high</requestedDisplayResolution> <!-- This also applies to Windows 10 also -->
+        <depthAndStencil>true</depthAndStencil>
+        <renderMode>direct</renderMode>
+        <autoOrients>false</autoOrients>
+        <fullScreen>true</fullScreen>
+        <visible>true</visible>
+    </initialWindow>
 
-<supportedProfiles>extendedDesktop</supportedProfiles>
+    <supportedProfiles>extendedDesktop</supportedProfiles>
 
-<!-- We recommend omitting the supportedProfiles element, -->
+    <!-- We recommend omitting the supportedProfiles element, -->
     <!-- which in turn permits your application to be deployed to all -->
     <!-- devices supported by AIR. If you wish to restrict deployment -->
     <!-- (i.e., to only mobile devices) then add this element and list -->
