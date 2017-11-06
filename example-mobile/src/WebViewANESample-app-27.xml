@@ -69,23 +69,6 @@
             <string>9.0</string>
         ]]></InfoAdditions>
 
-        <!--<Entitlements>
-            <![CDATA[
-                <key>application-identifier</key>
-	            <string>FWEQJ32FGC.com.eoinlandy.webview</string>
-	            <key>beta-reports-active</key>
-	            <true/>
-	            <key>com.apple.developer.team-identifier</key>
-	            <string>FWEQJ32FGC</string>
-	            <key>get-task-allow</key>
-	            <false/>
-	            <key>keychain-access-groups</key>
-	            <array>
-		            <string>FWEQJ32FGC.*</string>
-	            </array>
-            ]]>
-        </Entitlements>-->
-
         <!-- Display Resolution for the app ("standard" or "high"). Optional. Default "standard" -->
         <requestedDisplayResolution>high</requestedDisplayResolution>
     </iPhone>
