@@ -26,10 +26,10 @@ import FreSwift
 import Cocoa
 #endif
 
-@objc class SwiftController: NSObject, FreSwiftMainController, WKUIDelegate, WKNavigationDelegate, WKScriptMessageHandler {
+public class SwiftController: NSObject, FreSwiftMainController, WKUIDelegate, WKNavigationDelegate, WKScriptMessageHandler {
     public var TAG: String? = "WebViewANE"
     public var context: FreContextSwift!
-    var functionsToSet: FREFunctionMap = [:]
+    public var functionsToSet: FREFunctionMap = [:]
 
     private var _currentWebView: WebViewVC?
     private var _currentTab: Int = 0
@@ -59,7 +59,7 @@ import Cocoa
 
     // must have this function !!
     // Make sure these funcs match those in WebViewANE.m
-    func getFunctions(prefix: String) -> Array<String> {
+    @objc public func getFunctions(prefix: String) -> Array<String> {
         functionsToSet["\(prefix)reload"] = reload
         functionsToSet["\(prefix)load"] = load
         functionsToSet["\(prefix)init"] = initWebView
@@ -106,7 +106,7 @@ import Cocoa
 
 
     // this handles target=_blank links by opening them in the same view
-    func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration,
+    public func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration,
                  for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
         if navigationAction.targetFrame == nil {
             switch _popupBehaviour {
@@ -137,7 +137,7 @@ import Cocoa
     }
 
 
-    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+    public func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         guard let newUrl = navigationAction.request.url?.absoluteString.lowercased()
           else {
             decisionHandler(.allow)
@@ -158,7 +158,7 @@ import Cocoa
 
     }
 
-    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError: Error) {
+    public func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError: Error) {
         var props: Dictionary<String, Any> = Dictionary()
         props["url"] = webView.url!.absoluteString
         props["errorCode"] = 0
@@ -903,8 +903,7 @@ import Cocoa
 
 
         if let settingsFRE: FREObject = argv[2] {
-            //if let settingsDict = FreObjectSwift.init(freObject: settingsFRE).value as? Dictionary<String, AnyObject> {
-            if let settingsDict = Dictionary.init(settingsFRE) {
+            if let settingsDict:Dictionary<String, AnyObject> = Dictionary.init(settingsFRE) {
                 _settings = Settings.init(dictionary: settingsDict)
 
 #if os(OSX)

@@ -93,7 +93,7 @@ This is a minor inconvenience and only needs to be done when your app is ready t
 
 You will need
 
-- Xcode 8.3 / AppCode
+- Xcode 8.3.3 / AppCode
 - IntelliJ IDEA
 - AIR 26 and AIR 27
 
