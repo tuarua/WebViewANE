@@ -12,7 +12,7 @@ This ANE provides access to a more modern webview from AIR.
 
 [![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5UR2T52J633RC)
 
-##### IDE Software provided by Jetbrains
+##### IDE Software provided by JetBrains
 [![Jetbrains](https://raw.githubusercontent.com/tuarua/WebViewANE/master/screenshots/jetbrains.png)](https://www.jetbrains.com)
 
 -------------
