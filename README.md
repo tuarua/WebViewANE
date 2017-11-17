@@ -113,4 +113,4 @@ The Android version utilises the native WebView.
 
 
 ### IDE Software provided by Jetbrains
-[![Jetbrains](https://www.jetbrains.com)](screenshots/jetbrains.png)
+[![Jetbrains](https://raw.githubusercontent.com/tuarua/WebViewANE/master/screenshots/jetbrains.png)](https://www.jetbrains.com)
