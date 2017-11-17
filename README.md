@@ -110,3 +110,7 @@ The Android version utilises the native WebView.
 ### References
 * [https://developer.apple.com/reference/webkit/wkwebview]
 * [https://github.com/cefsharp/CefSharp]
+
+
+### IDE Software provided by Jetbrains
+[![Jetbrains](https://www.jetbrains.com)](screenshots/jetbrains.png)
