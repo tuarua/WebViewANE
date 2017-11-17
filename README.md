@@ -12,6 +12,9 @@ Much time, skill and effort has gone into this. Help support the project
 
 [![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5UR2T52J633RC)
 
+##### IDE Software provided by Jetbrains
+[![Jetbrains](https://raw.githubusercontent.com/tuarua/WebViewANE/master/screenshots/jetbrains.png)](https://www.jetbrains.com)
+
 -------------
 
 ## !! Version 0.0.26+
@@ -112,5 +115,4 @@ The Android version utilises the native WebView.
 * [https://github.com/cefsharp/CefSharp]
 
 
-### IDE Software provided by Jetbrains
-[![Jetbrains](https://raw.githubusercontent.com/tuarua/WebViewANE/master/screenshots/jetbrains.png)](https://www.jetbrains.com)
+
