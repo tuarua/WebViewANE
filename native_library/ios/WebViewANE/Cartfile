@@ -1,1 +1,1 @@
-binary "https://github.com/tuarua/Swift-IOS-ANE/releases/download/1.3.0/FreSwift.json" ~> 1.3.0
+binary "https://github.com/tuarua/Swift-IOS-ANE/releases/download/1.3.0/FreSwift.json" == 1.3.0
