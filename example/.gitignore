@@ -21,7 +21,7 @@ cache/
 .tps
 
 # build files
-*.sh
+# *.sh
 
 # my google api keys
 googlekeys.txt
