@@ -1,3 +1,5 @@
+### 1.0.0
+
 ### 0.0.36
 - OSX/iOS: Updated to FreSwift 1.3.0
 - OSX/iOS: Updated to Xcode 8.3.3

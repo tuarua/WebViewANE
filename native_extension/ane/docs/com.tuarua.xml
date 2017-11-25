@@ -208,6 +208,15 @@
      </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn><apiParam><apiItemName>url</apiItemName><apiType value="String"/><apiDesc>    
      </apiDesc></apiParam></apiOperationDef><apiDesc>
      
+     </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:printToPdf"><apiName>printToPdf</apiName><shortdesc>
+     
+     </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn><apiParam><apiItemName>savePath</apiItemName><apiType value="String"/><apiDesc>path to save the pdf to.
+     
+     <p>prints the webView to a pdf.</p>
+     <p><b>Windows only.</b></p>
+     
+     </apiDesc></apiParam></apiOperationDef><apiDesc>
+     
      </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:print"><apiName>print</apiName><shortdesc>
      
      prints the webView.

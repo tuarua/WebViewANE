@@ -59,7 +59,7 @@ namespace CefSharpLib {
         private Hwnd _cefWindow;
         private Color _backgroundColor;
         private const double ZoomIncrement = 0.10;
-        private double scaleFactor = 1.0;
+        private double _scaleFactor = 1.0;
 
         public string[] GetFunctions() {
             FunctionsDict =
@@ -88,6 +88,7 @@ namespace CefSharpLib {
                     {"callJavascriptFunction", CallJavascriptFunction},
                     {"evaluateJavaScript", EvaluateJavaScript},
                     {"print", Print},
+                    {"printToPdf", PrintToPdf},
                     {"setVisible", SetVisible},
                     {"setViewPort", SetViewPort},
                     {"init", InitView},
@@ -112,10 +113,10 @@ namespace CefSharpLib {
                 return FREObject.Zero;
             }
             try {
-                var freX = Convert.ToInt32(new FreObjectSharp(argv[0]).Value);
-                var freY = Convert.ToInt32(new FreObjectSharp(argv[1]).Value);
-                var freW = Convert.ToInt32(new FreObjectSharp(argv[2]).Value);
-                var freH = Convert.ToInt32(new FreObjectSharp(argv[3]).Value);
+                var freX = argv[0].AsInt();
+                var freY = argv[1].AsInt();
+                var freW = argv[2].AsInt();
+                var freH = argv[3].AsInt();
 
                 var width = freW > 0 ? freW : rect.right - rect.left;
                 var height = freH > 0 ? freH : rect.bottom - rect.top;
@@ -204,21 +205,21 @@ namespace CefSharpLib {
             LOGPIXELSY = 90
         }
 
-        private double getScaleFactor() {
-            Graphics g = Graphics.FromHwnd(Hwnd.Zero);
-            Hwnd desktop = g.GetHdc();
-            int LogicalScreenHeight = GetDeviceCaps(desktop, (int)DeviceCap.VERTRES);
-            int PhysicalScreenHeight = GetDeviceCaps(desktop, (int)DeviceCap.DESKTOPVERTRES);
-            int Ydpi = GetDeviceCaps(desktop, (int)DeviceCap.LOGPIXELSY);
-            double dpiScale = Ydpi / 96.0 ;
+        private static double GetScaleFactor() {
+            var g = Graphics.FromHwnd(Hwnd.Zero);
+            var desktop = g.GetHdc();
+            var logicalScreenHeight = GetDeviceCaps(desktop, (int)DeviceCap.VERTRES);
+            var physicalScreenHeight = GetDeviceCaps(desktop, (int)DeviceCap.DESKTOPVERTRES);
+            var ydpi = GetDeviceCaps(desktop, (int)DeviceCap.LOGPIXELSY);
+            var dpiScale = ydpi / 96.0 ;
             g.ReleaseHdc();
             if (dpiScale > 1.0) {
                 return dpiScale;
-            } else if (PhysicalScreenHeight / (double)LogicalScreenHeight > 1.0) {
-                return PhysicalScreenHeight / (double)LogicalScreenHeight;
-            } else {
-                return 1.0;
             }
+            if (physicalScreenHeight / (double)logicalScreenHeight > 1.0) {
+                return physicalScreenHeight / (double)logicalScreenHeight;
+            }
+            return 1.0;
         }
 
 
@@ -276,17 +277,17 @@ namespace CefSharpLib {
                     Convert.ToByte((rgb >> 8) & 0xff),
                     Convert.ToByte((rgb >> 0) & 0xff));
 
-                var useHiDPI = inFre6.AsBool();
-                scaleFactor = useHiDPI ? getScaleFactor() : 1.0;
+                var useHiDpi = inFre6.AsBool();
+                _scaleFactor = useHiDpi ? GetScaleFactor() : 1.0;
 
                 var viewPort = inFre1.Value;
                 _view = new CefView {
-                    InitialUrl = Convert.ToString(new FreObjectSharp(argv[0]).Value),
+                    InitialUrl = argv[0].AsString(),
                     Background = new SolidColorBrush(_backgroundColor),
-                    X = Convert.ToInt32(viewPort.X * scaleFactor),
-                    Y = Convert.ToInt32(viewPort.Y * scaleFactor),
-                    ViewWidth = Convert.ToInt32(viewPort.Width * scaleFactor),
-                    ViewHeight = Convert.ToInt32(viewPort.Height * scaleFactor),
+                    X = Convert.ToInt32(viewPort.X * _scaleFactor),
+                    Y = Convert.ToInt32(viewPort.Y * _scaleFactor),
+                    ViewWidth = Convert.ToInt32(viewPort.Width * _scaleFactor),
+                    ViewHeight = Convert.ToInt32(viewPort.Height * _scaleFactor),
                     RemoteDebuggingPort = cefSettingsFre.GetProp("remoteDebuggingPort").AsInt(),
                     CachePath = cefSettingsFre.GetProp("cachePath").AsString(),
                     CacheEnabled = inFre2.GetProp("cacheEnabled").AsBool(),
@@ -328,7 +329,7 @@ namespace CefSharpLib {
 
         public FREObject AddTab(FREContext ctx, uint argc, FREObject[] argv) {
             try {
-                _view.InitialUrl = Convert.ToString(new FreObjectSharp(argv[0]).Value);
+                _view.InitialUrl = argv[0].AsString();
                 _view.AddTab();
             }
             catch (Exception e) {
@@ -339,7 +340,7 @@ namespace CefSharpLib {
 
         public FREObject CloseTab(FREContext ctx, uint argc, FREObject[] argv) {
             try {
-                _view.CloseTab(Convert.ToInt32(new FreObjectSharp(argv[0]).Value));
+                _view.CloseTab(argv[0].AsInt());
             }
             catch (Exception e) {
                 return new FreException(e).RawValue;
@@ -349,7 +350,7 @@ namespace CefSharpLib {
 
         public FREObject SetCurrentTab(FREContext ctx, uint argc, FREObject[] argv) {
             try {
-                _view.SetCurrentTab(Convert.ToInt32(new FreObjectSharp(argv[0]).Value));
+                _view.SetCurrentTab(argv[0].AsInt());
             }
             catch (Exception e) {
                 return new FreException(e).RawValue;
@@ -383,7 +384,7 @@ namespace CefSharpLib {
 
         public FREObject SetVisible(FREContext ctx, uint argc, FREObject[] argv) {
             try {
-                var visible = Convert.ToBoolean(new FreObjectSharp(argv[0]).Value);
+                var visible = argv[0].AsBool();
                 WinApi.ShowWindow(_cefWindow, visible ? ShowWindowCommands.SW_SHOWNORMAL : ShowWindowCommands.SW_HIDE);
                 WinApi.UpdateWindow(_cefWindow);
             }
@@ -402,10 +403,10 @@ namespace CefSharpLib {
                 return new FreException(e).RawValue;
             }
 
-            var tmpX = Convert.ToInt32(viewPort.X * scaleFactor);
-            var tmpY = Convert.ToInt32(viewPort.Y * scaleFactor);
-            var tmpWidth = Convert.ToInt32(viewPort.Width * scaleFactor);
-            var tmpHeight = Convert.ToInt32(viewPort.Height * scaleFactor);
+            var tmpX = Convert.ToInt32(viewPort.X * _scaleFactor);
+            var tmpY = Convert.ToInt32(viewPort.Y * _scaleFactor);
+            var tmpWidth = Convert.ToInt32(viewPort.Width * _scaleFactor);
+            var tmpHeight = Convert.ToInt32(viewPort.Height * _scaleFactor);
 
             var updateWidth = false;
             var updateHeight = false;
@@ -447,7 +448,7 @@ namespace CefSharpLib {
 
         public FREObject Load(FREContext ctx, uint argc, FREObject[] argv) {
             try {
-                _view.Load(Convert.ToString(new FreObjectSharp(argv[0]).Value));
+                _view.Load(argv[0].AsString());
             }
             catch (Exception e) {
                 return new FreException(e).RawValue;
@@ -458,8 +459,8 @@ namespace CefSharpLib {
         public FREObject LoadHtmlString(FREContext ctx, uint argc, FREObject[] argv) {
             try {
                 _view.LoadHtmlString(
-                    Convert.ToString(new FreObjectSharp(argv[0]).Value),
-                    Convert.ToString(new FreObjectSharp(argv[1]).Value));
+                    argv[0].AsString(),
+                    argv[1].AsString());
             }
             catch (Exception e) {
                 return new FreException(e).RawValue;
@@ -691,24 +692,39 @@ namespace CefSharpLib {
             return FREObject.Zero;
         }
 
-        public FREObject AddEventListener(FREContext ctx, uint argc, FREObject[] argv) {
-            var type = Convert.ToString(new FreObjectSharp(argv[0]).Value);
-            if (type == "keyUp") {
-                _view.KeyboardHandler.HasKeyUp = true;
+        public FREObject PrintToPdf(FREContext ctx, uint argc, FREObject[] argv) {
+            try {
+                var path = argv[0].AsString();
+                _view.CurrentBrowser.PrintToPdfAsync(path);
             }
-            else if (type == "keyDown") {
-                _view.KeyboardHandler.HasKeyDown = true;
+            catch (Exception e) {
+                return new FreException(e).RawValue;
+            }
+            return FREObject.Zero;
+        }
+
+        public FREObject AddEventListener(FREContext ctx, uint argc, FREObject[] argv) {
+            var type = argv[0].AsString();
+            switch (type) {
+                case "keyUp":
+                    _view.KeyboardHandler.HasKeyUp = true;
+                    break;
+                case "keyDown":
+                    _view.KeyboardHandler.HasKeyDown = true;
+                    break;
             }
             return FREObject.Zero;
         }
 
         public FREObject RemoveEventListener(FREContext ctx, uint argc, FREObject[] argv) {
-            var type = Convert.ToString(new FreObjectSharp(argv[0]).Value);
-            if (type == "keyUp") {
-                _view.KeyboardHandler.HasKeyUp = false;
-            }
-            else if (type == "keyDown") {
-                _view.KeyboardHandler.HasKeyDown = false;
+            var type = argv[0].AsString();
+            switch (type) {
+                case "keyUp":
+                    _view.KeyboardHandler.HasKeyUp = false;
+                    break;
+                case "keyDown":
+                    _view.KeyboardHandler.HasKeyDown = false;
+                    break;
             }
             return FREObject.Zero;
         }
