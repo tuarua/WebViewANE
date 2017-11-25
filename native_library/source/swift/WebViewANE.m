@@ -22,8 +22,11 @@
 #import "FreMacros.h"
 #import <Foundation/Foundation.h>
 #import "WebViewANE_oc.h"
+
+
 #ifdef OSX
-#import "WebViewANE-Swift.h"
+//#import "WebViewANE-Swift.h"
+#import <WebViewANE/WebViewANE-Swift.h>
 #else
 #import <FreSwift/FreSwift-iOS-Swift.h>
 #import "WebViewANE_FW-Swift.h"

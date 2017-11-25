@@ -30,7 +30,7 @@ class Popup: NSObject, NSWindowDelegate {
     public func createPopupWindow(url: URLRequest, configuration: WKWebViewConfiguration) {
         _popupWindow = NSWindow(contentRect: NSMakeRect(0, 0, CGFloat(popupDimensions.0), CGFloat(popupDimensions.1)),
                 styleMask: [.titled, .miniaturizable, .closable],
-                backing: NSBackingStoreType.buffered, defer: false)
+                backing: .buffered, defer: false)
 
         _popupWindow.center()
         _popupWindow.isReleasedWhenClosed = false
