@@ -48,14 +48,6 @@ class KotlinController : FreKotlinMainController {
     }
 
     fun init(ctx: FREContext, argv: FREArgv): FREObject? {
-        /*
-        initialUrl:String,
-        viewPort:Rectangle,
-        settings:Settings,
-        scaleFactor:Number,
-        backgroundColor:uint,
-        backgroundAlpha:Number
-        */
         argv.takeIf { argv.size > 5 } ?: return ArgCountException().getError(Thread.currentThread().stackTrace)
         try {
             val initialUrl = String(argv[0])
@@ -265,6 +257,7 @@ class KotlinController : FreKotlinMainController {
     fun closeTab(ctx: FREContext, argv: FREArgv): FREObject? = null
     fun injectScript(ctx: FREContext, argv: FREArgv): FREObject? = null
     fun print(ctx: FREContext, argv: FREArgv): FREObject? = null
+    fun printToPdf(ctx: FREContext, argv: FREArgv): FREObject? = null
     fun focus(ctx: FREContext, argv: FREArgv): FREObject? = null
     fun onFullScreen(ctx: FREContext, argv: FREArgv): FREObject? = null
     fun shutDown(ctx: FREContext, argv: FREArgv): FREObject? = null

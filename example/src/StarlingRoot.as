@@ -523,7 +523,6 @@ public class StarlingRoot extends Sprite {
                 fs.writeBytes(ba);
                 fs.close();
             }
-
         }
     }
 

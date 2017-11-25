@@ -105,6 +105,13 @@ public class SwiftController: NSObject, FreSwiftMainController, WKUIDelegate, WK
     }
 
 
+    public func webView(_ webView: WKWebView, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+        guard let serverTrust = challenge.protectionSpace.serverTrust else { return completionHandler(.useCredential, nil) }
+        let exceptions = SecTrustCopyExceptions(serverTrust)
+        SecTrustSetExceptions(serverTrust, exceptions)
+        completionHandler(.useCredential, URLCredential(trust: serverTrust))
+    }
+    
     // this handles target=_blank links by opening them in the same view
     public func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration,
                  for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
@@ -599,7 +606,12 @@ public class SwiftController: NSObject, FreSwiftMainController, WKUIDelegate, WK
     }
 
     func print(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? { //TODO
-        warning("print is Windows only at the moment")
+        warning("print is Windows only.")
+        return nil
+    }
+    
+    func printToPdf(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? { //TODO
+        warning("printToPdf is Windows only.")
         return nil
     }
 

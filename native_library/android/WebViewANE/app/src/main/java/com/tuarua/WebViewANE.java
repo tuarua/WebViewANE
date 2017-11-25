@@ -54,6 +54,7 @@ public class WebViewANE implements FREExtension {
             ,"evaluateJavaScript"
             ,"injectScript"
             ,"print"
+            ,"printToPdf"
             ,"focus"
             ,"capture"
             ,"addTab"

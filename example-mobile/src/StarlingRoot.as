@@ -145,7 +145,7 @@ public class StarlingRoot extends Sprite {
 
         webView.addCallback("js_to_as", jsToAsCallback);
         var viewPort:Rectangle = new Rectangle(0, 80, stage.stageWidth, (stage.stageHeight - 80));
-        webView.init(Starling.current.nativeStage, viewPort, "https://github.com/tuarua/WebViewANE",
+        webView.init(Starling.current.nativeStage, viewPort, "https://www.bbc.co.uk",
                 settings, Starling.current.contentScaleFactor, 0xF1F1F1, 0.0);
         webView.visible = true;
 
@@ -158,7 +158,7 @@ public class StarlingRoot extends Sprite {
         urlInput.fontFamily = "FiraSansEmbed";
         urlInput.fontSize = 13 * Starling.current.contentScaleFactor;
         urlInput.color = 0x666666;
-        urlInput.text = "http://github.com/tuarua/WebViewANE";
+        urlInput.text = "https://www.bbc.co.uk";
         urlInput.softKeyboardType = SoftKeyboardType.URL;
         urlInput.addEventListener(KeyboardEvent.KEY_DOWN, onUrlEnter); //KEY_DOWN is important, KEY_UP causes issues in AIR 26 on Android
         urlInput.viewPort = new Rectangle((inputBG.x + 5) * Starling.current.contentScaleFactor,
@@ -212,7 +212,7 @@ public class StarlingRoot extends Sprite {
             jsBtn.visible = true;
             webBtn.visible = false;
             progress.visible = true;
-            webView.load("http://www.adobe.com");
+            webView.load("https://www.adobe.com");
         }
     }
 
