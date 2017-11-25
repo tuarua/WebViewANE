@@ -695,7 +695,11 @@ namespace CefSharpLib {
         public FREObject PrintToPdf(FREContext ctx, uint argc, FREObject[] argv) {
             try {
                 var path = argv[0].AsString();
-                _view.CurrentBrowser.PrintToPdfAsync(path);
+                var printToPdf = _view.CurrentBrowser.PrintToPdfAsync(path);
+                printToPdf.ContinueWith(_ => {
+                    Context.SendEvent(CefView.OnPdfPrinted, "");
+                }, TaskContinuationOptions.OnlyOnRanToCompletion);
+
             }
             catch (Exception e) {
                 return new FreException(e).RawValue;

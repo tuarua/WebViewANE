@@ -1,4 +1,7 @@
 ### 1.0.0
+- OSX/iOS: Updated to FreSwift 2.0.0
+- OSX/iOS: Updated to Xcode 9.1
+- WIN: printToPdf() method added
 
 ### 0.0.36
 - OSX/iOS: Updated to FreSwift 1.3.0

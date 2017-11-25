@@ -103,6 +103,9 @@ public class StarlingRoot extends Sprite {
         webView.addEventListener(WebViewEvent.ON_PERMISSION_RESULT, onPermissionResult);
         webView.addEventListener(WebViewEvent.ON_URL_BLOCKED, onUrlBlocked);
         webView.addEventListener(WebViewEvent.ON_POPUP_BLOCKED, onPopupBlocked);
+        webView.addEventListener(WebViewEvent.ON_PDF_PRINTED, onPdfPrinted); //webView.printToPdf("C:\\path\\to\file.pdf");
+
+
 
         /*webView.addEventListener(KeyboardEvent.KEY_UP, onKeyUp); //KeyboardEvent of webview captured
         webView.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown); //KeyboardEvent of webview captured*/
@@ -261,6 +264,10 @@ public class StarlingRoot extends Sprite {
         addChild(eval_js_Btn);
         addChild(urlInput);
         addChild(progress);
+    }
+
+    private function onPdfPrinted(event:WebViewEvent):void {
+        trace(event);
     }
 
     private function onKeyDown(event:KeyboardEvent):void {

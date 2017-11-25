@@ -190,6 +190,10 @@ using the "remote-debugging-port" command-line switch.</p>
      
      </shortdesc><prolog/><apiValueDetail><apiValueDef><apiAccess value="public"/><apiStatic/><apiData>WebView.OnFail</apiData><apiType value="String"/></apiValueDef><apiDesc>
      
+     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:WebViewEvent:ON_PDF_PRINTED"><apiName>ON_PDF_PRINTED</apiName><shortdesc>
+     Dispatched when the pdf is saved after printToPdf() has been called.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiAccess value="public"/><apiStatic/><apiData>WebView.OnPdfPrinted</apiData><apiType value="String"/></apiValueDef><apiDesc>
+     Dispatched when the pdf is saved after printToPdf() has been called.
+     
      </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:WebViewEvent:ON_PERMISSION_RESULT"><apiName>ON_PERMISSION_RESULT</apiName><shortdesc>
      Dispatched when permission is granted / denied.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiAccess value="public"/><apiStatic/><apiData>WebView.OnPermissionResult</apiData><apiType value="String"/></apiValueDef><apiDesc>
      Dispatched when permission is granted / denied.
