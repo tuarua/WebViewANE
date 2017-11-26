@@ -17,6 +17,9 @@
             <entry library-name="FiraSansSemiBold" library-level="project">
               <dependency linkage="Merged" />
             </entry>
+            <entry library-name="com.tuarua.frekotlin" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
           </entries>
           <sdk name="AIRSDK_28_B" />
         </dependencies>
@@ -53,6 +56,9 @@
               <dependency linkage="Merged" />
             </entry>
             <entry library-name="FiraSansSemiBold" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-name="com.tuarua.frekotlin" library-level="project">
               <dependency linkage="Merged" />
             </entry>
           </entries>
@@ -131,6 +137,9 @@
               <dependency linkage="Merged" />
             </entry>
             <entry library-name="FiraSansSemiBold" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-name="com.tuarua.frekotlin" library-level="project">
               <dependency linkage="Merged" />
             </entry>
           </entries>

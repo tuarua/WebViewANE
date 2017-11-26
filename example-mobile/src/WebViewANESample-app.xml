@@ -70,7 +70,15 @@
             </array>
             <key>MinimumOSVersion</key>
             <string>9.0</string>
+            <key>NSAppTransportSecurity</key>
+            <dict>
+            <key>NSAllowsArbitraryLoads</key>
+            <true/>
+            </dict>
         ]]></InfoAdditions>
+
+        <!--  If some sites fail to load ensure NSAppTransportSecurity settings are set
+        https://ste.vn/2015/06/10/configuring-app-transport-security-ios-9-osx-10-11/-->
 
         <!-- Display Resolution for the app ("standard" or "high"). Optional. Default "standard" -->
         <requestedDisplayResolution>high</requestedDisplayResolution>
@@ -102,6 +110,7 @@
 
     <extensions>
         <extensionID>com.tuarua.WebViewANE</extensionID>
+        <extensionID>com.tuarua.frekotlin</extensionID>
     </extensions>
 
 </application>
