@@ -23,7 +23,7 @@ The Windows version utilises the [CefSharp WinForms](https://github.com/cefsharp
 ##### Dependencies
 From the command line cd into /example and run:
 ````shell
-bash get_dependencies.ps1
+PS get_dependencies.ps1
 `````
 
 ##### Windows Installation - Important!
