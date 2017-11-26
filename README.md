@@ -77,7 +77,7 @@ private var commonDependenciesANE:CommonDependencies = new CommonDependencies();
 
 The OSX version utilises the native WKWebView.
 
-**Dependencies**   
+**Dependencies**
 From the command line cd into /example-mobile and run:
 ````shell
 bash get_ios_dependencies.sh
@@ -104,7 +104,7 @@ You will need
 ## Android
 The Android version utilises the native WebView. 
 
-**Dependencies**
+**Dependencies**    
 From the command line cd into /example-mobile and run:
 ````shell
 bash get_android_dependencies.sh
