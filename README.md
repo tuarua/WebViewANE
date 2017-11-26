@@ -58,7 +58,7 @@ If you are using the 64bit version follow the above instructions replacing x86 w
 
 The OSX version utilises the native WKWebView.
 
-#### Dependencies
+##### Dependencies
 From the command line cd into /example and run:
 ````shell
 bash get_dependencies.sh
