@@ -74,8 +74,13 @@ public class WebViewEvent extends Event {
      *
      */
     public static const ON_POPUP_BLOCKED:String = "WebView.OnPopupBlocked";
-    public var params:*;
 
+    /**
+     * Dispatched when the pdf is saved after printToPdf() has been called.
+     *
+     */
+    public static const ON_PDF_PRINTED:String = "WebView.OnPdfPrinted";
+    public var params:*;
 
     public function WebViewEvent(type:String, params:* = null, bubbles:Boolean = false, cancelable:Boolean = false) {
         super(type, bubbles, cancelable);

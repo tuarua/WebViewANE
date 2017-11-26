@@ -105,6 +105,13 @@ public class SwiftController: NSObject, FreSwiftMainController, WKUIDelegate, WK
     }
 
 
+    public func webView(_ webView: WKWebView, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+        guard let serverTrust = challenge.protectionSpace.serverTrust else { return completionHandler(.useCredential, nil) }
+        let exceptions = SecTrustCopyExceptions(serverTrust)
+        SecTrustSetExceptions(serverTrust, exceptions)
+        completionHandler(.useCredential, URLCredential(trust: serverTrust))
+    }
+    
     // this handles target=_blank links by opening them in the same view
     public func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration,
                  for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
@@ -169,12 +176,12 @@ public class SwiftController: NSObject, FreSwiftMainController, WKUIDelegate, WK
 
     private func addKeyListener(type: String) {
 #if os(OSX)
-        let eventMask: NSEventMask = type == "keyUp" ? .keyUp : .keyDown
+        let eventMask: NSEvent.EventTypeMask = type == "keyUp" ? .keyUp : .keyDown
         var listener: Any? = type == "keyUp" ? SwiftController.keyUpListener : SwiftController.keyDownListener
         if (listener == nil) {
             listener = NSEvent.addLocalMonitorForEvents(matching: [eventMask]) { (event: NSEvent) -> NSEvent? in
                 var modifiers: String = ""
-                switch event.modifierFlags.intersection(.deviceIndependentFlagsMask) {
+                switch event.modifierFlags.intersection(NSEvent.ModifierFlags.deviceIndependentFlagsMask) {
                 case [.shift]:
                     modifiers = "shift"
                     break
@@ -498,7 +505,7 @@ public class SwiftController: NSObject, FreSwiftMainController, WKUIDelegate, WK
             if (fullScreen && win.canBecomeMain && win.className.contains("AIR_FullScreen")) {
                 win.makeMain()
                 if (SwiftController.escListener == nil) {
-                    SwiftController.escListener = NSEvent.addLocalMonitorForEvents(matching: [.keyUp]) { (event: NSEvent) -> NSEvent? in
+                    SwiftController.escListener = NSEvent.addLocalMonitorForEvents(matching: [NSEvent.EventTypeMask.keyUp]) { (event: NSEvent) -> NSEvent? in
                         let theX = event.locationInWindow.x
                         let theY = event.locationInWindow.y
                         let realY = ((NSApp.mainWindow?.contentLayoutRect.height)! - self._viewPort.size.height) - self._viewPort.origin.y
@@ -599,7 +606,12 @@ public class SwiftController: NSObject, FreSwiftMainController, WKUIDelegate, WK
     }
 
     func print(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? { //TODO
-        warning("print is Windows only at the moment")
+        warning("print is Windows only.")
+        return nil
+    }
+    
+    func printToPdf(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? { //TODO
+        warning("printToPdf is Windows only.")
         return nil
     }
 

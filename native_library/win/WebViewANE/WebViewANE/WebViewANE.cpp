@@ -72,6 +72,7 @@ extern "C" {
 			,MAP_FUNCTION(callJavascriptFunction)
 			,MAP_FUNCTION(evaluateJavaScript)
 			,MAP_FUNCTION(print)
+			,MAP_FUNCTION(printToPdf)
 			,MAP_FUNCTION(capture)
 			,MAP_FUNCTION(addTab)
 			,MAP_FUNCTION(closeTab)

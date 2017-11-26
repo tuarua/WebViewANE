@@ -17,24 +17,14 @@ This ANE provides access to a more modern webview from AIR.
 
 -------------
 
-## !! Version 0.0.26+
-There is now a new dependency ANE for OSX (required Swift libraries). This can be included on Windows without effect.
-This is included in \native_extension\ane\CommonDependencies.ane.   
-It must be included along with the WebView ANE in your projects.   
- It also must be created before the webView.   
-````xml
-<extensions>
-    <extensionID>com.tuarua.WebViewANE</extensionID>
-    <extensionID>com.tuarua.CommonDependencies</extensionID>
-</extensions>
-`````
-````actionscript
-private var commonDependenciesANE:CommonDependencies = new CommonDependencies();
-private var webView:WebViewANE = new WebViewANE();
-`````
-
 ## Windows
 The Windows version utilises the [CefSharp WinForms](https://github.com/cefsharp/CefSharp) version of Chromium Embedded Framework.
+
+##### Dependencies
+From the command line cd into /example and run:
+````shell
+bash get_dependencies.ps1
+`````
 
 ##### Windows Installation - Important!
 * Download cef_binaries_x86.zip from the latest [release tag](https://github.com/tuarua/WebViewANE/releases)
@@ -68,10 +58,26 @@ If you are using the 64bit version follow the above instructions replacing x86 w
 
 The OSX version utilises the native WKWebView.
 
+##### Dependencies
+From the command line cd into /example and run:
+````shell
+bash get_dependencies.sh
+`````
+
+````xml
+<extensions>
+<extensionID>com.tuarua.CommonDependencies</extensionID>
+</extensions>
+`````
+````actionscript
+private var commonDependenciesANE:CommonDependencies = new CommonDependencies();
+`````
 
 ## iOS
 
-**Dependencies**   
+The OSX version utilises the native WKWebView.
+
+##### Dependencies
 From the command line cd into /example-mobile and run:
 ````shell
 bash get_ios_dependencies.sh
@@ -79,32 +85,31 @@ bash get_ios_dependencies.sh
 
 ### Running on Simulator
 
-The example project can be run on the Simulator from IntelliJ using AIR 26. AIR 27 contains a bug when packaging.
+The example project can be run on the Simulator from IntelliJ using AIR 28.
 
 ### Running on Device
 
-The example project can be run on the device from IntelliJ using AIR 27.
-AIR 27 now correctly signs the included Swift frameworks and therefore no resigning tool is needed.
+The example project can be run on the device from IntelliJ using AIR 28.
 
-### Submitting to App Store
-ADT is not currently producing a valid ipa for the App Store.  
-Please see the [README here](/example-mobile/package_for_ios_appstore/) for package script         
-This is a minor inconvenience and only needs to be done when your app is ready to go to the App Store.
 
 
 ### Prerequisites
 
 You will need
 
-- Xcode 8.3.3 / AppCode
+- Xcode 9.1 / AppCode
 - IntelliJ IDEA
-- AIR 26 and AIR 27
+- AIR 28
 
 ## Android
 The Android version utilises the native WebView. 
 
+##### Dependencies
+From the command line cd into /example-mobile and run:
+````shell
+bash get_android_dependencies.sh
+`````
 
-##
 
 ![alt tag](https://raw.githubusercontent.com/tuarua/WebViewANE/master/screenshots/screenshot1.jpg)
 

@@ -82,6 +82,7 @@ namespace CefSharpLib {
         private const string OnPermission = "WebView.OnPermissionResult";
         private const string OnUrlBlocked = "WebView.OnUrlBlocked";
         private const string OnPopupBlocked = "WebView.OnPopupBlocked";
+        public const string OnPdfPrinted = "WebView.OnPdfPrinted";
         public KeyboardHandler KeyboardHandler;
 
 

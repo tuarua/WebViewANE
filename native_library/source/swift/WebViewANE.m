@@ -23,10 +23,10 @@
 #import <Foundation/Foundation.h>
 #import "WebViewANE_oc.h"
 #ifdef OSX
-#import "WebViewANE-Swift.h"
+#import <WebViewANE/WebViewANE-Swift.h>
 #else
 #import <FreSwift/FreSwift-iOS-Swift.h>
-#import "WebViewANE_FW-Swift.h"
+#import <WebViewANE_FW/WebViewANE_FW-Swift.h>
 #define FRE_OBJC_BRIDGE TRWV_FlashRuntimeExtensionsBridge // use unique prefix throughout to prevent clashes with other ANEs
 @interface FRE_OBJC_BRIDGE : NSObject<FreSwiftBridgeProtocol>
 @end
@@ -72,6 +72,7 @@ CONTEXT_INIT(TRWV) {
         ,MAP_FUNCTION(TRWV, injectScript)
         ,MAP_FUNCTION(TRWV, focus)
         ,MAP_FUNCTION(TRWV, print)
+        ,MAP_FUNCTION(TRWV, printToPdf)
         ,MAP_FUNCTION(TRWV, capture)
         ,MAP_FUNCTION(TRWV, addTab)
         ,MAP_FUNCTION(TRWV, closeTab)

@@ -23,7 +23,6 @@
 #elif __APPLE__
 
 #include "TargetConditionals.h"
-
 #import <Foundation/Foundation.h>
 @interface WEBVIEWANE_LIB : NSObject
 @end

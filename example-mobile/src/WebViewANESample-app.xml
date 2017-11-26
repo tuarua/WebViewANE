@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
-<application xmlns="http://ns.adobe.com/air/application/27.0">
+<application xmlns="http://ns.adobe.com/air/application/28.0">
 
     <id>com.eoinlandy.webview</id> <!-- Bundle Identifier. Required. -->
     <filename>WebViewANESampleMobile</filename> <!-- Used as the filename for the application. Required. -->
     <name>WebViewANESampleMobile</name> <!-- The name that is displayed below the app icon. -->
-    <versionNumber>0.0.10</versionNumber> <!-- Required. -->
+    <versionNumber>0.0.11</versionNumber> <!-- Required. -->
 
     <!-- Settings for the application's initial window. Required. -->
     <initialWindow>
@@ -45,6 +45,8 @@
         <image120x120>icon120.png</image120x120>
         <image144x144>icon144.png</image144x144>
         <image152x152>icon152.png</image152x152>
+        <image167x167>icon167.png</image167x167>
+        <image180x180>icon180.png</image180x180>
     </icon>
 
     <embedFonts>
@@ -58,7 +60,8 @@
     <iPhone>
         <!-- A list of plist key/value pairs to be added to the application Info.plist -->
         <!-- UIDeviceFamily: 1 - iPhone/iPod Touch; 2 - iPad; both: universal app -->
-
+        <!--<launchScreen>/system/LaunchScreen.storyboardc</launchScreen>-->
+        <assetsCar>Assets.car</assetsCar>
         <InfoAdditions><![CDATA[
             <key>UIDeviceFamily</key>
             <array>

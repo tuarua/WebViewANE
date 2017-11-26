@@ -2,3 +2,6 @@ debug/
 build-asdocs.bat
 build_asdocs.sh
 build_osx_debug.sh
+platforms/mac
+CommonDependencies.ane
+mobile/com.tuarua.frekotlin.ane

@@ -869,6 +869,23 @@ public class WebViewANE extends EventDispatcher {
 
     /**
      *
+     * @param savePath path to save the pdf to.
+     *
+     * <p>prints the webView to a pdf.</p>
+     * <p><strong>Windows only.</strong></p>
+     *
+     */
+    public function printToPdf(savePath:String):void {
+        if (safetyCheck()) {
+            var theRet:* = ctx.call("printToPdf", savePath);
+            if (theRet is ANEError) {
+                throw theRet as ANEError;
+            }
+        }
+    }
+
+    /**
+     *
      * @param x
      * @param y
      * @param width leaving as default of 0 captures the full width
