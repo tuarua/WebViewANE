@@ -20,7 +20,7 @@ This ANE provides access to a more modern webview from AIR.
 ## Windows
 The Windows version utilises the [CefSharp WinForms](https://github.com/cefsharp/CefSharp) version of Chromium Embedded Framework.
 
-**Dependencies**
+##### Dependencies
 From the command line cd into /example and run:
 ````shell
 bash get_dependencies.ps1
@@ -58,7 +58,7 @@ If you are using the 64bit version follow the above instructions replacing x86 w
 
 The OSX version utilises the native WKWebView.
 
-**Dependencies**
+#### Dependencies
 From the command line cd into /example and run:
 ````shell
 bash get_dependencies.sh
@@ -77,7 +77,7 @@ private var commonDependenciesANE:CommonDependencies = new CommonDependencies();
 
 The OSX version utilises the native WKWebView.
 
-**Dependencies**
+##### Dependencies
 From the command line cd into /example-mobile and run:
 ````shell
 bash get_ios_dependencies.sh
@@ -104,13 +104,12 @@ You will need
 ## Android
 The Android version utilises the native WebView. 
 
-**Dependencies**    
+##### Dependencies
 From the command line cd into /example-mobile and run:
 ````shell
 bash get_android_dependencies.sh
 `````
 
-##
 
 ![alt tag](https://raw.githubusercontent.com/tuarua/WebViewANE/master/screenshots/screenshot1.jpg)
 
