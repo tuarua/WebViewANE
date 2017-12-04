@@ -1,14 +1,17 @@
-; Polish localization of Inno Setup 'Ready for Install' step.
+﻿[Languages]
+Name: "pl"; MessagesFile: "compiler:Languages\Polish.isl"
 
 [CustomMessages]
-pl.depdownload_msg=Poni?sze aplikacje s? wymagane przed instalacj? aby moc kontynuowa?:%n%n%1%nCzy pobra? je i zainstalowa? teraz?
-pl.depdownload_memo_title=Pobierz zale?no?ci
-pl.depinstall_memo_title=Zainstaluj zale?no?ci
-pl.depinstall_title=Instalowanie zale?no?ci
-pl.depinstall_description=Instalator instaluje zale?no?ci na komputerze, czekaj.
+;http://www.microsoft.com/globaldev/reference/lcid-all.mspx
+pl.lcid=1045
+pl.depdownload_msg=Poniższe aplikacje są wymagane przed instalacją aby móc kontynuować:%n%n%1%nCzy pobrać je i zainstalować teraz?
+pl.depdownload_memo_title=Pobierz zależności
+pl.depinstall_memo_title=Zainstaluj zależności
+pl.depinstall_title=Instalowanie zależności
+pl.depinstall_description=Instalator instaluje zależności na komputerze, proszę czekać.
 pl.depinstall_status=Instalowanie %1....
-pl.depinstall_missing=%1 musi by? zainstalowany przed instalacj?, aby mog?a ona by? kontynuowana. Zainstaluj %1 i ponownie uruchom program instalacyjny.
-pl.depinstall_error=Wyst?pi? b??d podczas instalowania zale?no?ci. Uruchom ponownie komputer, a nastepnie ponownie uruchom program instalacyjny lub recznie zainstaluj nastepuj?ce programy:%n
+pl.depinstall_missing=%1 musi być zainstalowany przed instalacją, aby mogła ona być kontynuowana. Zainstaluj %1 i ponownie uruchom program instalacyjny.
+pl.depinstall_error=Wystąpił błąd podczas instalowania zależności. Uruchom ponownie komputer, a następnie ponownie uruchom program instalacyjny lub ręcznie zainstaluj następujące programy:%n
 
 pl.isxdl_langfile=polish.ini
 

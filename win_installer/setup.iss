@@ -25,7 +25,7 @@ AppPublisher=Tua Rua Ltd.
 OutputBaseFilename={#MyAppSetupName}-{#MyAppVersion}
 DefaultGroupName={#MyAppSetupName}
 DefaultDirName={pf}\{#MyAppSetupName}
-UninstallDisplayIcon={app}\WebViewANESample.exe
+UninstallDisplayIcon={app}\{#MyAppSetupName}.exe
 OutputDir=bin
 SourceDir=.
 AllowNoIcons=yes
@@ -60,7 +60,7 @@ Source: "src\META-INF\*.*"; DestDir: "{app}\META-INF"; Flags: replacesameversion
 Source: "src\locales\*.*"; DestDir: "{app}\locales"; Flags: replacesameversion recursesubdirs
 
 [Icons]
-Name: "{group}\{#MyAppSetupName}"; Filename: "{app}\WebViewANESample.exe"
+Name: "{group}\{#MyAppSetupName}"; Filename: "{app}\{#MyAppSetupName}.exe"
 Name: "{group}\{cm:UninstallProgram,{#MyAppSetupName}}"; Filename: "{uninstallexe}"
 Name: "{commondesktop}\{#MyAppSetupName}"; Filename: "{app}\{#MyAppSetupName}.exe"; Tasks: desktopicon
 
@@ -115,12 +115,12 @@ begin
 
 #ifdef use_vc2013
 	SetForceX86(true); // force 32-bit install of next products
-	vcredist2013();
+	vcredist2013('12');
 	//SetForceX86(false); // disable forced 32-bit install again
 #endif
 #ifdef use_vc2015
   SetForceX86(true);
-	vcredist2015();
+	vcredist2015('14');
 #endif
 
 
