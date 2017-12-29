@@ -1,3 +1,8 @@
+### 1.1.0
+- OSX: Updated to FreSwift 2.1.0
+- OSX: Add support for file input. Issue #111
+- Upgraded to AIR SDK 28
+
 ### 1.0.0
 - OSX/iOS: Updated to FreSwift 2.0.0
 - OSX/iOS: Updated to Xcode 9.1

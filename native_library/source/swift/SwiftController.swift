@@ -104,6 +104,19 @@ public class SwiftController: NSObject, FreSwiftMainController, WKUIDelegate, WK
         return arr
     }
 
+    @available(OSX 10.12, *)
+    public func webView(_ webView: WKWebView, runOpenPanelWith parameters: WKOpenPanelParameters, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping ([URL]?) -> Void) {
+        let openPanel = NSOpenPanel()
+        openPanel.canChooseFiles = true
+        openPanel.allowsMultipleSelection = true
+        openPanel.begin(completionHandler: {(result) in
+            if result.rawValue == NSFileHandlingPanelOKButton {
+                completionHandler(openPanel.urls)
+            }else{
+                completionHandler([])
+            }
+        })
+    }
 
     public func webView(_ webView: WKWebView, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
         guard let serverTrust = challenge.protectionSpace.serverTrust else { return completionHandler(.useCredential, nil) }
