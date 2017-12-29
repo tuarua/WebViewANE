@@ -31,13 +31,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Interop;
-using System.Runtime.InteropServices;
 using System.Windows.Media;
 using CefSharp;
 using Newtonsoft.Json;
 using TuaRua.FreSharp;
-using TuaRua.FreSharp.Display;
-using TuaRua.FreSharp.Geom;
 using TuaRua.FreSharp.Utils;
 using Color = System.Windows.Media.Color;
 using FREObject = System.IntPtr;
@@ -52,8 +49,7 @@ namespace CefSharpLib {
         SameWindow
     }
 
-    public class MainController : FreSharpController {
-        private const string Gdi32 = "gdi32";
+    public class MainController : FreSharpMainController {
         private CefView _view;
         private Hwnd _airWindow;
         private Hwnd _cefWindow;
@@ -108,10 +104,6 @@ namespace CefSharpLib {
         private FREObject Capture(FREContext ctx, uint argc, FREObject[] argv) {
             var rect = new WinApi.Rect();
             WinApi.GetWindowRect(_cefWindow, ref rect);
-            if (Environment.Is64BitProcess) {
-                Trace("Capture is not yet available on 64bit Windows.");
-                return FREObject.Zero;
-            }
             try {
                 var freX = argv[0].AsInt();
                 var freY = argv[1].AsInt();
@@ -125,8 +117,7 @@ namespace CefSharpLib {
                 var graphics = Graphics.FromImage(bmp);
                 graphics.CopyFromScreen(rect.left + freX, rect.top + freY, 0, 0, new Size(width, height),
                     CopyPixelOperation.SourceCopy);
-                var ret = new FreBitmapDataSharp(bmp);
-                return ret.RawValue;
+                return bmp.ToFREObject();
             }
             catch (Exception e) {
                 return new FreException(e).RawValue;
@@ -195,34 +186,6 @@ namespace CefSharpLib {
             return FREObject.Zero;
         }
 
-        [DllImport(Gdi32, ExactSpelling = true)]
-        public static extern int GetDeviceCaps(Hwnd hdc, int nIndex);
-
-        [Flags]
-        public enum DeviceCap {
-            VERTRES = 10,
-            DESKTOPVERTRES = 117,
-            LOGPIXELSY = 90
-        }
-
-        private static double GetScaleFactor() {
-            var g = Graphics.FromHwnd(Hwnd.Zero);
-            var desktop = g.GetHdc();
-            var logicalScreenHeight = GetDeviceCaps(desktop, (int)DeviceCap.VERTRES);
-            var physicalScreenHeight = GetDeviceCaps(desktop, (int)DeviceCap.DESKTOPVERTRES);
-            var ydpi = GetDeviceCaps(desktop, (int)DeviceCap.LOGPIXELSY);
-            var dpiScale = ydpi / 96.0 ;
-            g.ReleaseHdc();
-            if (dpiScale > 1.0) {
-                return dpiScale;
-            }
-            if (physicalScreenHeight / (double)logicalScreenHeight > 1.0) {
-                return physicalScreenHeight / (double)logicalScreenHeight;
-            }
-            return 1.0;
-        }
-
-
         public FREObject InitView(FREContext ctx, uint argc, FREObject[] argv) {
             _airWindow = System.Diagnostics.Process.GetCurrentProcess().MainWindowHandle;
             if (_airWindow == Hwnd.Zero) {
@@ -233,7 +196,7 @@ namespace CefSharpLib {
             }
 
             try {
-                var inFre1 = new FreRectangleSharp(argv[1]); //viewport
+                var viewPort = argv[1].AsRect(); //viewPort
                 var inFre2 = argv[2]; //settings
                 var inFre4 = argv[4]; //backgroundColor
                 var cefSettingsFre = inFre2.GetProp("cef");
@@ -269,18 +232,12 @@ namespace CefSharpLib {
 
                 var whiteList = inFre2.GetProp("urlWhiteList").ToArrayList();
                 var blackList = inFre2.GetProp("urlBlackList").ToArrayList();
-
-                var rgb = inFre4.AsUInt();
-
-                _backgroundColor = Color.FromRgb(
-                    Convert.ToByte((rgb >> 16) & 0xff),
-                    Convert.ToByte((rgb >> 8) & 0xff),
-                    Convert.ToByte((rgb >> 0) & 0xff));
+                _backgroundColor = inFre4.AsColor();
 
                 var useHiDpi = inFre6.AsBool();
-                _scaleFactor = useHiDpi ? GetScaleFactor() : 1.0;
-
-                var viewPort = inFre1.Value;
+                _scaleFactor = useHiDpi ? WinApi.GetScaleFactor() : 1.0;
+                
+                CefView.Context = Context;
                 _view = new CefView {
                     InitialUrl = argv[0].AsString(),
                     Background = new SolidColorBrush(_backgroundColor),
@@ -305,7 +262,6 @@ namespace CefSharpLib {
                         inFre2.GetProp("popup").GetProp("dimensions").GetProp("height").AsInt()
                     )
                 };
-
                 _view.Init();
             }
             catch (Exception e) {
@@ -397,7 +353,7 @@ namespace CefSharpLib {
         public FREObject SetViewPort(FREContext ctx, uint argc, FREObject[] argv) {
             System.Windows.Rect viewPort;
             try {
-                viewPort = new FreRectangleSharp(argv[0]).Value;
+                viewPort = argv[0].AsRect();
             }
             catch (Exception e) {
                 return new FreException(e).RawValue;
@@ -506,7 +462,7 @@ namespace CefSharpLib {
         }
 
         public FREObject ShutDown(FREContext ctx, uint argc, FREObject[] argv) {
-            ShutDown();
+            OnFinalize();
             return FREObject.Zero;
         }
 
@@ -696,10 +652,8 @@ namespace CefSharpLib {
             try {
                 var path = argv[0].AsString();
                 var printToPdf = _view.CurrentBrowser.PrintToPdfAsync(path);
-                printToPdf.ContinueWith(_ => {
-                    Context.SendEvent(CefView.OnPdfPrinted, "");
-                }, TaskContinuationOptions.OnlyOnRanToCompletion);
-
+                printToPdf.ContinueWith(_ => { Context.SendEvent(CefView.OnPdfPrinted, ""); },
+                    TaskContinuationOptions.OnlyOnRanToCompletion);
             }
             catch (Exception e) {
                 return new FreException(e).RawValue;
@@ -737,7 +691,7 @@ namespace CefSharpLib {
             return _view;
         }
 
-        public void ShutDown() {
+        public override void OnFinalize() {
             Cef.Shutdown();
         }
     }

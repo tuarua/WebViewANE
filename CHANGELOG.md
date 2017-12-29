@@ -1,6 +1,8 @@
 ### 1.1.0
 - OSX: Updated to FreSwift 2.1.0
+- WIN: Updated to FreSharp 1.3.0
 - OSX: Add support for file input. Issue #111
+- WIN: added capture for Win 64bit
 - Upgraded to AIR SDK 28
 
 ### 1.0.0

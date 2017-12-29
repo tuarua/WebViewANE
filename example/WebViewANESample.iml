@@ -59,12 +59,11 @@
             <entry key="compiler.locale" value="en_US" />
           </map>
         </compiler-options>
-        <packaging-air-desktop use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/src/WebViewANESample-app-64.xml" package-file-name="webView_ANE_Sample_64bit">
+        <packaging-air-desktop use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/src/WebViewANESample-app.xml" package-file-name="webView_ANE_Sample_64bit">
           <files-to-package>
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/src/jsTest.html" path-in-package="jsTest.html" />
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/src/localTest.html" path-in-package="localTest.html" />
           </files-to-package>
-          <AirSigningOptions keystore-path="$DOCUMENTS$/TuaRua2017.p12" use-temp-certificate="false" />
         </packaging-air-desktop>
         <packaging-android />
         <packaging-ios />
