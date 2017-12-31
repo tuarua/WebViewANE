@@ -200,7 +200,7 @@ namespace CefSharpLib {
                 var inFre2 = argv[2]; //settings
                 var inFre4 = argv[4]; //backgroundColor
                 var cefSettingsFre = inFre2.GetProp("cef");
-                var inFre6 = argv[6];
+                var useHiDpi = argv[5].AsBool();
 
                 var googleApiKeyFre = cefSettingsFre.GetProp("GOOGLE_API_KEY");
                 var googleDefaultClientIdFre = cefSettingsFre.GetProp("GOOGLE_DEFAULT_CLIENT_ID");
@@ -232,9 +232,7 @@ namespace CefSharpLib {
 
                 var whiteList = inFre2.GetProp("urlWhiteList").ToArrayList();
                 var blackList = inFre2.GetProp("urlBlackList").ToArrayList();
-                _backgroundColor = inFre4.AsColor();
-
-                var useHiDpi = inFre6.AsBool();
+                _backgroundColor = inFre4.AsColor(true);
                 _scaleFactor = useHiDpi ? WinApi.GetScaleFactor() : 1.0;
                 
                 CefView.Context = Context;
