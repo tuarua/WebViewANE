@@ -5,9 +5,6 @@
       <configuration name="WebViewANESample-mobile iOS simulator" target-platform="Mobile" pure-as="true" main-class="WebViewANESample" output-file="WebViewANESample-mobile.swf" output-folder="$MODULE_DIR$/bin-debug">
         <dependencies>
           <entries>
-            <entry library-id="b5f29767-2721-4f42-8d31-69ae3822cfed">
-              <dependency linkage="Merged" />
-            </entry>
             <entry library-name="WebViewANE-mobile" library-level="project">
               <dependency linkage="Merged" />
             </entry>
@@ -176,16 +173,6 @@
     </content>
     <orderEntry type="jdk" jdkName="AIRSDK_28" jdkType="Flex SDK Type (new)" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module-library" exported="">
-      <library type="flex">
-        <properties id="b5f29767-2721-4f42-8d31-69ae3822cfed" />
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/Starling/bin-debug/Starling.swc!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
     <orderEntry type="library" exported="" name="starling" level="project" />
     <orderEntry type="library" exported="" name="WebViewANE-ios" level="project" />
     <orderEntry type="library" exported="" name="FiraSansSemiBold" level="project" />
