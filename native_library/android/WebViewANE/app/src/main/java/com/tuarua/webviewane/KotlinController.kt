@@ -24,10 +24,8 @@
 
 package com.tuarua.webviewane
 
-import android.graphics.Color
 import android.util.Log
 import android.webkit.WebView
-import com.adobe.fre.FREBitmapData
 import com.adobe.fre.FREContext
 import com.adobe.fre.FREObject
 import com.tuarua.frekotlin.*
@@ -48,21 +46,17 @@ class KotlinController : FreKotlinMainController {
     }
 
     fun init(ctx: FREContext, argv: FREArgv): FREObject? {
-        argv.takeIf { argv.size > 5 } ?: return ArgCountException().getError(Thread.currentThread().stackTrace)
+        argv.takeIf { argv.size > 4 } ?: return ArgCountException().getError(Thread.currentThread().stackTrace)
         try {
             val initialUrl = String(argv[0])
             val viewPort = Rect(argv[1])
-            val _scaleFactor = Double(argv[3])
-            if (_scaleFactor != null) {
-                scaleFactor = _scaleFactor
-            }
             val settings = Settings(argv[2])
-            val backgroundColorFre = argv[3]
-            val fillAlpha = Double(argv[5])
-            var backgroundColor = Color.TRANSPARENT
-            if (fillAlpha != null && fillAlpha > 0) {
-                backgroundColor = backgroundColorFre.toColor((255 * fillAlpha).toInt())
+            val sf = Double(argv[3])
+            if (sf != null) {
+                scaleFactor = sf
             }
+            val backgroundColorFre = argv[4]
+            val backgroundColor = backgroundColorFre.toColor(true)
             webViewController = WebViewController(ctx, initialUrl, scaleViewPort(viewPort), settings, backgroundColor)
 
         } catch (e: FreException) {
@@ -219,7 +213,7 @@ class KotlinController : FreKotlinMainController {
                     , webViewController?.canGoForward ?: false
                     , webViewController?.progress ?: 0.0
             )
-            vecTabs.set(0, currentTabFre)
+            vecTabs[0] = currentTabFre
             return vecTabs
         } catch (e: FreException) {
             Log.e(TAG, e.message)
@@ -273,30 +267,7 @@ class KotlinController : FreKotlinMainController {
                 (rect.height * scaleFactor).toInt())
     }
 
-    override fun onStarted() {
-        super.onStarted()
-    }
-
-    override fun onRestarted() {
-        super.onRestarted()
-    }
-
-    override fun onResumed() {
-        super.onResumed()
-    }
-
-    override fun onPaused() {
-        super.onPaused()
-    }
-
-    override fun onStopped() {
-        super.onStopped()
-    }
-
-    override fun onDestroyed() {
-        super.onDestroyed()
-    }
-
+    @Suppress("PropertyName")
     override val TAG: String
         get() = this::class.java.simpleName
     private var _context: FREContext? = null

@@ -34,6 +34,7 @@ using System.Windows.Forms.Integration;
 using CefSharp;
 using CefSharp.WinForms;
 using Newtonsoft.Json;
+using TuaRua.FreSharp;
 
 namespace CefSharpLib {
     public partial class CefView {
@@ -70,21 +71,19 @@ namespace CefSharpLib {
         private string _initialHtml;
         public int CurrentTab { get; set; }
 
-
         public const string AsCallbackEvent = "TRWV.as.CALLBACK";
         private const string OnDownloadProgress = "WebView.OnDownloadProgress";
         private const string OnDownloadComplete = "WebView.OnDownloadComplete";
         private const string OnDownloadCancel = "WebView.OnDownloadCancel";
         private const string OnPropertyChange = "WebView.OnPropertyChange";
         private const string OnEscKey = "WebView.OnEscKey";
-
         private const string OnFail = "WebView.OnFail";
         private const string OnPermission = "WebView.OnPermissionResult";
         private const string OnUrlBlocked = "WebView.OnUrlBlocked";
         private const string OnPopupBlocked = "WebView.OnPopupBlocked";
         public const string OnPdfPrinted = "WebView.OnPdfPrinted";
         public KeyboardHandler KeyboardHandler;
-
+        public static FreContextSharp Context;
 
         public void Init() {
             InitializeComponent();
@@ -100,10 +99,8 @@ namespace CefSharpLib {
                 UserAgent = UserAgent
             };
 
-
             CefSharpSettings.ShutdownOnExit = false;
         
-
             switch (LogLevel) {
                 case 0:
                     settings.LogSeverity = LogSeverity.Default;
@@ -152,7 +149,7 @@ namespace CefSharpLib {
                 Dock = DockStyle.Fill
             };
 
-            browser.RegisterAsyncJsObject("webViewANE", new BoundObject(), BindingOptions.DefaultBinder);
+            browser.RegisterAsyncJsObject("webViewANE", new BoundObject(Context), BindingOptions.DefaultBinder);
 
             // ReSharper disable once UseObjectOrCollectionInitializer
             var dh = new DownloadHandler();
@@ -160,7 +157,7 @@ namespace CefSharpLib {
             dh.OnBeforeDownloadFired += OnDownloadFired;
 
             // ReSharper disable once UseObjectOrCollectionInitializer
-            KeyboardHandler = new KeyboardHandler(FreSharpController.Context); //TODO
+            KeyboardHandler = new KeyboardHandler(Context);
             KeyboardHandler.OnKeyEventFired += OnKeyEventFired;
 
             if (EnableDownloads) {
@@ -178,7 +175,6 @@ namespace CefSharpLib {
             var sh = new LifeSpanHandler(PopupBehaviour, PopupDimensions);
             sh.OnPermissionPopup += OnPermissionPopup;
             sh.OnPopupBlock += OnPopupBlock;
-
             browser.LifeSpanHandler = sh;
             browser.FrameLoadEnd += OnFrameLoaded;
             browser.AddressChanged += OnBrowserAddressChanged;
@@ -219,13 +215,14 @@ namespace CefSharpLib {
             writer.WriteValue(tab);
             writer.WriteEndObject();
 
-            FreSharpController.Context.SendEvent(OnPopupBlocked, sb.ToString());
+            Context.SendEvent(OnPopupBlocked, sb.ToString());
         }
 
         public void AddTab() {
             CurrentTab = _tabs.Count;
             CurrentBrowser = CreateNewBrowser();
             _host.Child = CurrentBrowser;
+
         }
 
         public void SetCurrentTab(int index) {
@@ -288,7 +285,7 @@ namespace CefSharpLib {
             writer.WriteValue(tab);
             writer.WriteEndObject();
 
-            FreSharpController.Context.SendEvent(OnUrlBlocked, sb.ToString());
+            Context.SendEvent(OnUrlBlocked, sb.ToString());
         }
 
         private void OnPermissionPopup(object sender, string s) {
@@ -375,7 +372,7 @@ namespace CefSharpLib {
             writer.WritePropertyName("tab");
             writer.WriteValue(tab);
             writer.WriteEndObject();
-            FreSharpController.Context.SendEvent(OnFail, sb.ToString());
+            Context.SendEvent(OnFail, sb.ToString());
         }
 
         private void OnBrowserInitialized(object sender, IsBrowserInitializedChangedEventArgs e) {
@@ -433,7 +430,7 @@ namespace CefSharpLib {
             writer.WritePropertyName("tab");
             writer.WriteValue(tab);
             writer.WriteEndObject();
-            FreSharpController.Context.SendEvent(OnPropertyChange, sb.ToString());
+            Context.SendEvent(OnPropertyChange, sb.ToString());
         }
 
 
@@ -449,7 +446,7 @@ namespace CefSharpLib {
             writer.WritePropertyName("tab");
             writer.WriteValue(tab);
             writer.WriteEndObject();
-            FreSharpController.Context.SendEvent(OnPropertyChange, sb.ToString());
+            Context.SendEvent(OnPropertyChange, sb.ToString());
         }
 
         private static void OnDownloadUpdatedFired(object sender, DownloadItem downloadItem) {
@@ -458,12 +455,12 @@ namespace CefSharpLib {
             var writer = new JsonTextWriter(sw);
 
             if (downloadItem.IsCancelled) {
-                FreSharpController.Context.SendEvent(OnDownloadCancel, downloadItem.Id.ToString());
+                Context.SendEvent(OnDownloadCancel, downloadItem.Id.ToString());
                 return;
             }
 
             if (downloadItem.IsComplete) {
-                FreSharpController.Context.SendEvent(OnDownloadComplete, downloadItem.Id.ToString());
+                Context.SendEvent(OnDownloadComplete, downloadItem.Id.ToString());
                 return;
             }
             writer.WriteStartObject();
@@ -487,13 +484,13 @@ namespace CefSharpLib {
             writer.WriteValue(downloadItem.TotalBytes);
 
             writer.WriteEndObject();
-            FreSharpController.Context.SendEvent(OnDownloadProgress, sb.ToString());
+            Context.SendEvent(OnDownloadProgress, sb.ToString());
         }
 
         private static void OnDownloadFired(object sender, DownloadItem downloadItem) { }
 
         private static void OnKeyEventFired(object sender, int e) {
-            FreSharpController.Context.SendEvent(OnEscKey, e.ToString());
+            Context.SendEvent(OnEscKey, e.ToString());
         }
 
         private static void OnPermissionResult(object sender, bool e) {
@@ -506,7 +503,7 @@ namespace CefSharpLib {
             writer.WritePropertyName("result");
             writer.WriteValue(e);
             writer.WriteEndObject();
-            FreSharpController.Context.SendEvent(OnPermission, sb.ToString());
+            Context.SendEvent(OnPermission, sb.ToString());
         }
 
         private static void CefView_Loaded(object sender, RoutedEventArgs e) { }

@@ -24,13 +24,13 @@
     <ClInclude Include="WebViewANE.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\sdks\AIR\4.6.0_26\include\FlashRuntimeExtensions.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="FreNamespace.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FreSharpBridge.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\sdks\AIR\AIRSDK_28\include\FlashRuntimeExtensions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

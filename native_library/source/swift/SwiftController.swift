@@ -103,8 +103,22 @@ public class SwiftController: NSObject, FreSwiftMainController, WKUIDelegate, WK
 
         return arr
     }
-
-
+#if os(OSX)
+    // this handles <input type="file"/>
+    @available(OSX 10.12, *)
+    public func webView(_ webView: WKWebView, runOpenPanelWith parameters: WKOpenPanelParameters, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping ([URL]?) -> Void) {
+        let openPanel = NSOpenPanel()
+        openPanel.canChooseFiles = true
+        openPanel.allowsMultipleSelection = true
+        openPanel.begin(completionHandler: {(result) in
+            if result.rawValue == NSFileHandlingPanelOKButton {
+                completionHandler(openPanel.urls)
+            }else{
+                completionHandler([])
+            }
+        })
+    }
+#endif
     public func webView(_ webView: WKWebView, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
         guard let serverTrust = challenge.protectionSpace.serverTrust else { return completionHandler(.useCredential, nil) }
         let exceptions = SecTrustCopyExceptions(serverTrust)
@@ -880,9 +894,8 @@ public class SwiftController: NSObject, FreSwiftMainController, WKUIDelegate, WK
     }
 
     func initWebView(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
-        guard argc > 0,
+        guard argc > 4,
               let inFRE4 = argv[4],
-              let inFRE5 = argv[5],
               let viewPortFre = CGRect(argv[1])
           else {
             return ArgCountError(message: "initWebView").getError(#file, #line, #column)
@@ -894,7 +907,10 @@ public class SwiftController: NSObject, FreSwiftMainController, WKUIDelegate, WK
         _viewPort = viewPortFre
         var realY = _viewPort.origin.y
 #if os(iOS)
-        _bgColor = UIColor.init(freObject: inFRE4, alpha: inFRE5)
+        _bgColor = UIColor.init(freObjectARGB: inFRE4) ?? UIColor.white
+        if _bgColor.cgColor.alpha == 0.0 {
+            _bgColor = UIColor.clear
+        }
 #else
         let allWindows = NSApp.windows
         var mWin: NSWindow?

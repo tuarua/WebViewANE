@@ -22,10 +22,16 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using Newtonsoft.Json;
+using TuaRua.FreSharp;
 
 namespace CefSharpLib {
     public class BoundObject {
         private const string JsCallbackEvent = "TRWV.js.CALLBACK";
+        private readonly FreContextSharp _context;
+
+        public BoundObject(FreContextSharp context) {
+            _context = context;
+        }
 
         public class JavascriptMessage {
             //public IJavascriptCallback Callback { get; set; }
@@ -65,7 +71,7 @@ namespace CefSharpLib {
                 writer.WriteNull();
             }
             writer.WriteEndObject();
-            FreSharpController.Context.SendEvent(JsCallbackEvent, sb.ToString());
+            _context.SendEvent(JsCallbackEvent, sb.ToString());
         }
 
     }

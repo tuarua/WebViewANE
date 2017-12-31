@@ -21,8 +21,6 @@
 
 #include "FreSharpMacros.h"
 #include "WebViewANE.h"
-#include "FlashRuntimeExtensions.h"
-#include "stdafx.h"
 #include "FreSharpBridge.h"
 
 extern "C" {
@@ -89,7 +87,7 @@ extern "C" {
 	}
 
 	CONTEXT_FIN(TRWV) {
-		FreSharpBridge::GetController()->ShutDown();
+		FreSharpBridge::GetController()->OnFinalize();
 	}
 
 	EXTENSION_INIT(TRWV)

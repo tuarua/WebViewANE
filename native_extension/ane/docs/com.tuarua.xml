@@ -160,8 +160,7 @@
      
      </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn><apiParam><apiItemName>stage</apiItemName><apiType value="flash.display:Stage"/><apiDesc>    </apiDesc></apiParam><apiParam><apiItemName>viewPort</apiItemName><apiType value="flash.geom:Rectangle"/><apiDesc>    </apiDesc></apiParam><apiParam><apiItemName>initialUrl</apiItemName><apiType value="String"/><apiData>null</apiData><apiDesc>Url to load when the view loads
      </apiDesc></apiParam><apiParam><apiItemName>settings</apiItemName><apiOperationClassifier>com.tuarua.webview:Settings</apiOperationClassifier><apiData>null</apiData><apiDesc>    </apiDesc></apiParam><apiParam><apiItemName>scaleFactor</apiItemName><apiType value="Number"/><apiData>1.0</apiData><apiDesc>iOS, Android only
-     </apiDesc></apiParam><apiParam><apiItemName>backgroundColor</apiItemName><apiType value="uint"/><apiData>0xFFFFFF</apiData><apiDesc>value of the view's background color.
-     </apiDesc></apiParam><apiParam><apiItemName>backgroundAlpha</apiItemName><apiType value="Number"/><apiData>1.0</apiData><apiDesc>set to 0.0 for transparent background. iOS, Android only
+     </apiDesc></apiParam><apiParam><apiItemName>backgroundColor</apiItemName><apiType value="uint"/><apiData>0xFFFFFFFF</apiData><apiDesc>value of the view's background color in ARGB format.
      </apiDesc></apiParam><apiParam><apiItemName>useHiDPI</apiItemName><apiType value="Boolean"/><apiData>false</apiData><apiDesc>set true if using <requestedDisplayResolution>high</requestedDisplayResolution> in your app xml - Windows, OSX only
      
      <p>Initialises the webView. N.B. The webView is set to visible = false initially.</p>

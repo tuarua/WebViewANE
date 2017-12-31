@@ -5,21 +5,16 @@ import com.tuarua.webview.Settings;
 import com.tuarua.webview.WebViewEvent;
 
 import flash.desktop.NativeApplication;
-import flash.display.Bitmap;
-import flash.display.BitmapData;
-
+import flash.events.Event;
 import flash.events.KeyboardEvent;
-import flash.events.SoftKeyboardEvent;
 import flash.filesystem.File;
 import flash.filesystem.FileMode;
 import flash.filesystem.FileStream;
-import flash.geom.Point;
 import flash.geom.Rectangle;
 import flash.text.ReturnKeyLabel;
 import flash.text.SoftKeyboardType;
 import flash.text.StageText;
 import flash.ui.Keyboard;
-import flash.events.Event;
 
 import starling.animation.Transitions;
 import starling.core.Starling;
@@ -53,7 +48,7 @@ public class StarlingRoot extends Sprite {
     }
 
     public function start(assets:AssetManager):void {
-        NativeApplication.nativeApplication.addEventListener(flash.events.Event.EXITING, onExiting);
+        NativeApplication.nativeApplication.addEventListener(Event.EXITING, onExiting);
         var _assets:AssetManager = assets;
 
         backBtn = new Image(_assets.getTexture("back-btn"));
@@ -146,7 +141,7 @@ public class StarlingRoot extends Sprite {
         webView.addCallback("js_to_as", jsToAsCallback);
         var viewPort:Rectangle = new Rectangle(0, 80, stage.stageWidth, (stage.stageHeight - 80));
         webView.init(Starling.current.nativeStage, viewPort, "https://www.bbc.co.uk",
-                settings, Starling.current.contentScaleFactor, 0xF1F1F1, 0.0);
+                settings, Starling.current.contentScaleFactor, 0x00F1F1F1);
         webView.visible = true;
 
         webView.showDevTools();  //open chrome://inspect in Chrome for Android - ignored on iOS
@@ -374,7 +369,7 @@ public class StarlingRoot extends Sprite {
     /**
      * It's very important to call webView.dispose(); when the app is exiting.
      */
-    private function onExiting(event:flash.events.Event):void {
+    private function onExiting(event:Event):void {
         webView.dispose();
     }
 }
