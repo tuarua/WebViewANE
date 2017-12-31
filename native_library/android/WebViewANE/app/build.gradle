@@ -3,12 +3,12 @@ apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "26.0.2"
+    buildToolsVersion "26.0.3"
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 25
         versionCode 1
-        versionName "1.0"
+        versionName "1.1.0"
     }
     buildTypes {
         release {
@@ -22,7 +22,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation files('libs/FlashRuntimeExtensions.jar')
     implementation files('libs/runtimeClasses.jar')
-    implementation files("libs/frekotlin-1.1.51.jar")
+    implementation files("libs/frekotlin-1.2.10.jar")
 
 }
 repositories {

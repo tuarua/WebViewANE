@@ -1,9 +1,11 @@
 ### 1.1.0
+- Color now passed to init in ARGB format eg 0xFF333666
 - OSX: Updated to FreSwift 2.1.0
 - WIN: Updated to FreSharp 1.3.0
+- Android: Updated to FreKotlin 1.0.0
 - OSX: Add support for file input. Issue #111
-- WIN: added capture for Win 64bit
-- Upgraded to AIR SDK 28
+- WIN: added capture method support for Win 64bit
+- Upgrade to AIR SDK 28
 
 ### 1.0.0
 - OSX/iOS: Updated to FreSwift 2.0.0

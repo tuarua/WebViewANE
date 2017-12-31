@@ -65,20 +65,11 @@ public class WebViewANE extends EventDispatcher {
     private static const ON_KEY_DOWN:String = "WebView.OnKeyDown";
     private var downloadProgress:DownloadProgress = new DownloadProgress();
     private var _visible:Boolean;
-    private var _backgroundColor:uint = 0xFFFFFF;
-    private var _backgroundAlpha:Number = 1.0;
     private var _stage:Stage;
     private var _settings:Settings;
     private var ctx:ExtensionContext;
 
     public function WebViewANE() {
-        initiate();
-    }
-
-    /**
-     * This method is omitted from the output. * * @private
-     */
-    private function initiate():void {
         _isSupported = true;
 
         if (_isSupported) {
@@ -97,7 +88,6 @@ public class WebViewANE extends EventDispatcher {
         } else {
             trace("[" + NAME + "] Can't initialize.");
         }
-
     }
 
     /**
@@ -426,8 +416,7 @@ public class WebViewANE extends EventDispatcher {
      * @param initialUrl Url to load when the view loads
      * @param settings
      * @param scaleFactor iOS, Android only
-     * @param backgroundColor value of the view's background color.
-     * @param backgroundAlpha set to 0.0 for transparent background. iOS, Android only
+     * @param backgroundColor value of the view's background color in ARGB format.
      * @param useHiDPI set true if using <requestedDisplayResolution>high</requestedDisplayResolution> in your app xml - Windows, OSX only
      *
      * <p>Initialises the webView. N.B. The webView is set to visible = false initially.</p>
@@ -435,7 +424,7 @@ public class WebViewANE extends EventDispatcher {
      */
     public function init(stage:Stage, viewPort:Rectangle, initialUrl:String = null,
                          settings:Settings = null, scaleFactor:Number = 1.0,
-                         backgroundColor:uint = 0xFFFFFF, backgroundAlpha:Number = 1.0, useHiDPI:Boolean = false):void {
+                         backgroundColor:uint = 0xFFFFFFFF, useHiDPI:Boolean = false):void {
         if (viewPort == null) {
             throw new ArgumentError("viewPort cannot be null");
         }
@@ -448,33 +437,22 @@ public class WebViewANE extends EventDispatcher {
         }
         stage.addEventListener(FullScreenEvent.FULL_SCREEN, onFullScreenEvent, false, 1000);
 
-        //hasn't been set by setBackgroundColor
-        if (_backgroundColor == 0xFFFFFF) {
-            _backgroundColor = backgroundColor;
-        }
-        if (_backgroundAlpha == 1.0) {
-            _backgroundAlpha = backgroundAlpha;
-        }
-
         if (_isSupported) {
             _settings = settings;
             if (_settings == null) {
                 _settings = new Settings();
             }
 
-            var theRet:* = ctx.call("init", initialUrl, _viewPort, _settings, scaleFactor, _backgroundColor,
-                    _backgroundAlpha, useHiDPI);
+            var theRet:* = ctx.call("init", initialUrl, _viewPort, _settings, scaleFactor, backgroundColor, useHiDPI);
             if (theRet is ANEError) {
                 throw theRet as ANEError;
             }
 
             if ((os.isWindows || os.isOSX)) {
                 if (this.hasEventListener(KeyboardEvent.KEY_UP)) {
-                    trace("adding before init", KeyboardEvent.KEY_UP);
                     ctx.call("addEventListener", KeyboardEvent.KEY_UP);
                 }
                 if (this.hasEventListener(KeyboardEvent.KEY_DOWN)) {
-                    trace("adding before init", KeyboardEvent.KEY_DOWN);
                     ctx.call("addEventListener", KeyboardEvent.KEY_DOWN);
                 }
             }

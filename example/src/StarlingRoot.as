@@ -144,7 +144,7 @@ public class StarlingRoot extends Sprite {
 //        settings.cef.GOOGLE_DEFAULT_CLIENT_SECRET = "YOUR_VALUE";
 
         var viewPort:Rectangle = new Rectangle(0, 90, _appWidth, _appHeight - 140);
-        webView.init(WebViewANESample.target.stage, viewPort, "http://www.youtube.com", settings, 1.0, 0xF1F1F1, 1.0, true);
+        webView.init(WebViewANESample.target.stage, viewPort, "http://www.youtube.com", settings, 1.0, 0xFFF1F1F1, true);
         webView.visible = true;
         webView.injectScript("function testInject(){console.log('yo yo')}");
 

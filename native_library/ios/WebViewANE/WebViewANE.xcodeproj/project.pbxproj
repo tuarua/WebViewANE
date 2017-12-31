@@ -59,8 +59,8 @@
 		CE59BDDC1EEF38C600F698DE /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Settings.swift; path = ../../../source/swift/Settings.swift; sourceTree = "<group>"; };
 		CE59BDDD1EEF38C600F698DE /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Configuration.swift; path = ../../../source/swift/Configuration.swift; sourceTree = "<group>"; };
 		CE59BDDE1EEF38C600F698DE /* BackForwardList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BackForwardList.swift; path = ../../../source/swift/BackForwardList.swift; sourceTree = "<group>"; };
-		CEA438031E78A2C00099F463 /* SwiftyJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SwiftyJSON.h; path = ../../../dependencies/SwiftyJSON.h; sourceTree = "<group>"; };
-		CEA438041E78A2C00099F463 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftyJSON.swift; path = ../../../dependencies/SwiftyJSON.swift; sourceTree = "<group>"; };
+		CEA438031E78A2C00099F463 /* SwiftyJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SwiftyJSON.h; path = ../../../source/swift/SwiftyJSON.h; sourceTree = "<group>"; };
+		CEA438041E78A2C00099F463 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftyJSON.swift; path = ../../../source/swift/SwiftyJSON.swift; sourceTree = "<group>"; };
 		CEC13D401EFEE651003BDA4A /* WebViewVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebViewVC.swift; path = ../../../source/swift/WebViewVC.swift; sourceTree = "<group>"; };
 		CEFE5BEA1F1A27A9007BFBF2 /* SwiftController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftController.swift; path = ../../../source/swift/SwiftController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
