@@ -233,6 +233,13 @@ class WebViewController(override var context: FREContext?, initialUrl: String?, 
         }
     }
 
+    fun dispose() {
+        (airView as ViewGroup).removeView(container)
+        container = null
+        webView = null
+
+    }
+
     val url: String?
         get() {
             return webView?.url
@@ -261,6 +268,8 @@ class WebViewController(override var context: FREContext?, initialUrl: String?, 
 
     override val TAG: String
         get() = this::class.java.simpleName
+
+
 
 
 }

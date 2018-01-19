@@ -1,3 +1,6 @@
+### 1.1.1
+- AND/OSX/iOS: dispose not working correctly Issue #114
+
 ### 1.1.0
 - Color now passed to init in ARGB format eg 0xFF333666
 - OSX: Updated to FreSwift 2.1.0

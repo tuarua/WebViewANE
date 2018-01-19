@@ -30,7 +30,6 @@ public class SwiftController: NSObject, FreSwiftMainController, WKUIDelegate, WK
     public var TAG: String? = "WebViewANE"
     public var context: FreContextSwift!
     public var functionsToSet: FREFunctionMap = [:]
-
     private var _currentWebView: WebViewVC?
     private var _currentTab: Int = 0
     private var _tabList: NSMutableArray = NSMutableArray.init()
@@ -683,9 +682,16 @@ public class SwiftController: NSObject, FreSwiftMainController, WKUIDelegate, WK
     }
 
     func shutDown(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
+        removeFromStage()
+        _currentWebView = nil
+        for vc in _tabList {
+            var theVC = vc as? WebViewVC
+            theVC?.isHidden = true
+            theVC?.dispose()
+            theVC = nil
+        }
         return nil
     }
-
 
     func clearCache(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
         if #available(iOS 9.0, OSX 10.11, *) {
