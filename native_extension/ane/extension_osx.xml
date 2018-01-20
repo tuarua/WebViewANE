@@ -2,8 +2,8 @@
 <extension xmlns="http://ns.adobe.com/air/extension/19.0">
 	<id>com.tuarua.WebViewANE</id>
 	<name>WebView ANE</name>
-	<copyright>This work is licensed under Apache License, Copyright (c) 2017 Tua Rua Ltd.</copyright>
-	<versionNumber>1.1.1</versionNumber>
+	<copyright>This work is licensed under Apache License, Copyright (c) 2018 Tua Rua Ltd.</copyright>
+	<versionNumber>1.2.0</versionNumber>
 	<platforms>
 	<platform name="MacOS-x86-64">
 		<applicationDeployment>
