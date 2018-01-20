@@ -79,5 +79,6 @@ public class WebViewANEContext extends FreKotlinContext implements TRActivityRes
             aaw.removeActivityStateChangeListner(this);
             aaw = null;
         }
+        controller.dispose();
     }
 }

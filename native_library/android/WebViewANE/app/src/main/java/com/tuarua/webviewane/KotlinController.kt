@@ -267,6 +267,11 @@ class KotlinController : FreKotlinMainController {
                 (rect.height * scaleFactor).toInt())
     }
 
+    override fun dispose() {
+        webViewController?.dispose()
+        webViewController = null
+    }
+
     @Suppress("PropertyName")
     override val TAG: String
         get() = this::class.java.simpleName
