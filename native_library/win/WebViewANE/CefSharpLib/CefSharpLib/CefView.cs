@@ -389,7 +389,7 @@ namespace CefSharpLib {
 
         public void Load(string url) {
             if (_isLoaded) {
-                CurrentBrowser.Load(url);
+                CurrentBrowser.Load(Encoding.UTF8.GetString(Encoding.Default.GetBytes(url)));
             }
             else {
                 InitialUrl = url;
@@ -398,7 +398,7 @@ namespace CefSharpLib {
 
         public void LoadHtmlString(string html, string url) {
             if (_isLoaded) {
-                CurrentBrowser.LoadHtml(html, url);
+                CurrentBrowser.LoadHtml(Encoding.UTF8.GetString(Encoding.Default.GetBytes(html)), Encoding.UTF8.GetString(Encoding.Default.GetBytes(url)));
             }
             else {
                 _initialHtml = html;

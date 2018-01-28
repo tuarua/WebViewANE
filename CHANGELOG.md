@@ -1,3 +1,6 @@
+### 1.3.0
+- WIN: Correctly handle Encoding Issue #118
+
 ### 1.2.0
 - AND/OSX/iOS: dispose not working correctly Issue #114
 - OSX/iOS: Updated to FreSwift 2.2.0

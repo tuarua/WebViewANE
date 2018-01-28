@@ -37,3 +37,4 @@ native_library/win/WebViewANE/WebViewANE/README.txt
 native_extension/ane/build_asdocs.bat
 
 /release/
+/cache/
