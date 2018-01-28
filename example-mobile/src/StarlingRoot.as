@@ -47,6 +47,11 @@ public class StarlingRoot extends Sprite {
     public function StarlingRoot() {
     }
 
+    /*  public function start(assets:AssetManager):void {
+
+      }*/
+
+
     public function start(assets:AssetManager):void {
         NativeApplication.nativeApplication.addEventListener(Event.EXITING, onExiting);
         var _assets:AssetManager = assets;
@@ -126,6 +131,7 @@ public class StarlingRoot extends Sprite {
         webView.addEventListener(WebViewEvent.ON_PROPERTY_CHANGE, onPropertyChange);
         webView.addEventListener(WebViewEvent.ON_URL_BLOCKED, onUrlBlocked);
         webView.addEventListener(WebViewEvent.ON_FAIL, onUrlFail);
+        webView.addEventListener(KeyboardEvent.KEY_UP, onKeyPressed);// Android only
 
         var settings:Settings = new Settings();
         settings.webkit.allowsInlineMediaPlayback = true;
@@ -165,6 +171,14 @@ public class StarlingRoot extends Sprite {
         stage.addEventListener(Event.RESIZE, onResize);
 
         copyHTMLFiles();
+    }
+
+    // Android only
+    private function onKeyPressed(event:KeyboardEvent):void {
+        trace(event);
+        if (event.keyCode == Keyboard.BACK) {
+            trace(webView.goBack());
+        }
     }
 
     private function onUrlFail(event:WebViewEvent):void {

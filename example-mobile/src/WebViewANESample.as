@@ -4,10 +4,12 @@ import flash.display.Bitmap;
 import flash.display.Loader;
 import flash.display.Sprite;
 import flash.events.Event;
+import flash.events.KeyboardEvent;
 import flash.filesystem.File;
 import flash.filesystem.FileMode;
 import flash.filesystem.FileStream;
 import flash.system.System;
+import flash.ui.Keyboard;
 import flash.utils.ByteArray;
 
 import starling.core.Starling;
@@ -18,6 +20,7 @@ import starling.utils.SystemUtil;
 
 import utils.ProgressBar;
 import utils.ScreenSetup;
+
 [SWF(width="320", height="480", frameRate="60", backgroundColor="#F1F1F1")]
 public class WebViewANESample extends Sprite {
     [Embed(source="ttf/fira-sans-embed.ttf", embedAsCFF="false", fontFamily="Fira Sans", fontWeight="SemiBold")]
@@ -48,6 +51,7 @@ public class WebViewANESample extends Sprite {
         initLoadingScreen(screen.assetScale);
 
         if (!SystemUtil.isDesktop) {
+            NativeApplication.nativeApplication.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown, false, 0, true);
             NativeApplication.nativeApplication.addEventListener(
                     flash.events.Event.ACTIVATE, function (e:*):void {
                         mStarling.start();
@@ -142,6 +146,16 @@ public class WebViewANESample extends Sprite {
         if (progressBar) {
             mStarling.nativeOverlay.removeChild(progressBar);
             progressBar = null;
+        }
+    }
+
+    // handle back on Android
+    protected function onKeyDown(event:KeyboardEvent):void {
+        trace(event);
+        if (event.keyCode == Keyboard.BACK) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            //handle the button press here.
         }
     }
 }

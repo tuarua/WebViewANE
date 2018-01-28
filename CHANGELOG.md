@@ -1,5 +1,8 @@
 ### 1.3.0
 - WIN: Correctly handle Encoding Issue #118
+- WIN: Updated to FreSharp 1.4.0
+- AND: Handle back button Issue #116
+- AND: Updated to FreKotlin 1.1.0
 
 ### 1.2.0
 - AND/OSX/iOS: dispose not working correctly Issue #114
@@ -9,7 +12,7 @@
 - Color now passed to init in ARGB format eg 0xFF333666
 - OSX: Updated to FreSwift 2.1.0
 - WIN: Updated to FreSharp 1.3.0
-- Android: Updated to FreKotlin 1.0.0
+- AND: Updated to FreKotlin 1.0.0
 - OSX: Add support for file input. Issue #111
 - WIN: added capture method support for Win 64bit
 - Upgrade to AIR SDK 28
