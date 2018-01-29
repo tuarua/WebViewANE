@@ -3,6 +3,7 @@
 - WIN: Updated to FreSharp 1.4.0
 - AND: Handle back button Issue #116
 - AND: Updated to FreKotlin 1.1.0
+- OSX/iOS: Swift linting
 
 ### 1.2.0
 - AND/OSX/iOS: dispose not working correctly Issue #114

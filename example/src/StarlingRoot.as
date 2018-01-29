@@ -144,8 +144,8 @@ public class StarlingRoot extends Sprite {
 //        settings.cef.GOOGLE_DEFAULT_CLIENT_SECRET = "YOUR_VALUE";
 
         var viewPort:Rectangle = new Rectangle(0, 90, _appWidth, _appHeight - 140);
-        //webView.init(WebViewANESample.target.stage, viewPort, "https://www.youtube.com", settings, 1.0, 0xFFF1F1F1, true);
-        webView.init(WebViewANESample.target.stage, viewPort, "", settings, 1.0, 0xFFF1F1F1, true); // when using loadHTMLString
+        webView.init(WebViewANESample.target.stage, viewPort, "https://www.youtube.com", settings, 1.0, 0xFFF1F1F1, true);
+        //webView.init(WebViewANESample.target.stage, viewPort, "", settings, 1.0, 0xFFF1F1F1, true); // when using loadHTMLString
         webView.visible = true;
         webView.injectScript("function testInject(){console.log('yo yo')}");
 
@@ -161,7 +161,7 @@ public class StarlingRoot extends Sprite {
          '</body>' +
          '</html>',"http://rendering/");*/
 
-        trace("loading html");
+        /*trace("loading html");
          webView.loadHTMLString('<!DOCTYPE html>' +
          '<html lang="ru">' +
          '<head><' +
@@ -171,7 +171,7 @@ public class StarlingRoot extends Sprite {
          '<body bgColor="#33FF00">' + //must give the body a bg color otherwise it loads black
          '<p>Российская Федерация Rossijskaja Federazija</p>' +
          '</body>' +
-         '</html>',"http://rendering/");
+         '</html>',"http://rendering/");*/
 
 
         backBtn.x = 20;

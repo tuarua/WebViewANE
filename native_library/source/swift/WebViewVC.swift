@@ -30,7 +30,7 @@ class WebViewVC: WKWebView, FreSwiftController {
     var TAG: String? = "WebViewANE"
     internal var context: FreContextSwift!
     private var _tab: Int = 0
-    var _configuration:Configuration!
+    var _configuration: Configuration!
     public var tab: Int {
         get {
             return _tab
@@ -117,7 +117,7 @@ class WebViewVC: WKWebView, FreSwiftController {
 
     func evaluateJavaScript(js: String, callback: String) {
         self.evaluateJavaScript(js, completionHandler: { (result: Any?, error: Error?) -> Void in
-            var props: Dictionary<String, Any> = Dictionary()
+            var props: [String: Any] = Dictionary()
             props["callbackName"] = callback
             props["message"] = ""
             if error != nil {
@@ -143,7 +143,7 @@ class WebViewVC: WKWebView, FreSwiftController {
         frame.size.height = viewPort.size.height
         self.frame = frame
 #else
-        let realY = ((NSApp.mainWindow?.contentLayoutRect.height)! - viewPort.size.height) - viewPort.origin.y;
+        let realY = ((NSApp.mainWindow?.contentLayoutRect.height)! - viewPort.size.height) - viewPort.origin.y
 
         self.setFrameOrigin(NSPoint.init(x: viewPort.origin.x, y: realY))
         self.setFrameSize(NSSize.init(width: viewPort.size.width, height: viewPort.size.height))
@@ -151,7 +151,7 @@ class WebViewVC: WKWebView, FreSwiftController {
     }
 
     public func switchTabTo() {
-        var props: Dictionary<String, Any> = Dictionary()
+        var props: [String: Any] = Dictionary()
         var json: JSON
         if let val = self.url?.absoluteString {
             if val != "" {
@@ -192,16 +192,17 @@ class WebViewVC: WKWebView, FreSwiftController {
         props["tab"] = _tab
         json = JSON(props)
         sendEvent(name: Constants.ON_PROPERTY_CHANGE, value: json.description)
+        
     }
 
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
-        var props: Dictionary<String, Any> = Dictionary()
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?,
+                               change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
+        var props: [String: Any] = Dictionary()
 
         switch keyPath! {
         case "estimatedProgress":
             props["propName"] = "estimatedProgress"
             props["value"] = self.estimatedProgress
-            break
         case "URL":
             if let val = self.url?.absoluteString {
                 if val != "" {
@@ -213,7 +214,6 @@ class WebViewVC: WKWebView, FreSwiftController {
             } else {
                 return
             }
-            break
         case "title":
             if let val = self.title {
                 if val != "" {
@@ -221,33 +221,27 @@ class WebViewVC: WKWebView, FreSwiftController {
                     props["value"] = val
                 }
             }
-            break
         case "canGoBack":
             props["propName"] = "canGoBack"
             props["value"] = self.canGoBack
-            break
         case "canGoForward":
             props["propName"] = "canGoForward"
             props["value"] = self.canGoForward
-            break
         case "loading":
             props["propName"] = "isLoading"
             props["value"] = self.isLoading
-            break
         default:
             props["propName"] = keyPath
             props["value"] = nil
-            break
         }
 
         props["tab"] = _tab
         let json = JSON(props)
-        if ((props["propName"]) != nil) {
+        if props["propName"] != nil {
             sendEvent(name: Constants.ON_PROPERTY_CHANGE, value: json.description)
         }
         return
     }
-
 
     func dispose() {
         self.removeObserver(self, forKeyPath: "loading")
@@ -279,4 +273,3 @@ extension WebViewVC: UIScrollViewDelegate {
     }
 }
 #endif
-

@@ -64,7 +64,8 @@ class PopupVC: NSViewController, WKUIDelegate, WKNavigationDelegate {
         self.view = NSView.init(frame: myRect)
     }
 
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?,
+                               change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
         guard let wv = _webView else {
             return
         }
@@ -76,7 +77,6 @@ class PopupVC: NSViewController, WKUIDelegate, WKNavigationDelegate {
                     self.view.window?.title = val
                 }
             }
-            break
         default:
             break
         }
@@ -84,14 +84,15 @@ class PopupVC: NSViewController, WKUIDelegate, WKNavigationDelegate {
     }
     
     @available(OSX 10.12, *)
-    public func webView(_ webView: WKWebView, runOpenPanelWith parameters: WKOpenPanelParameters, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping ([URL]?) -> Void) {
+    public func webView(_ webView: WKWebView, runOpenPanelWith parameters: WKOpenPanelParameters,
+                        initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping ([URL]?) -> Void) {
         let openPanel = NSOpenPanel()
         openPanel.canChooseFiles = true
         openPanel.allowsMultipleSelection = true
         openPanel.begin(completionHandler: {(result) in
             if result.rawValue == NSFileHandlingPanelOKButton {
                 completionHandler(openPanel.urls)
-            }else{
+            } else {
                 completionHandler([])
             }
         })

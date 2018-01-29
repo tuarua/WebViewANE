@@ -31,7 +31,4 @@ public struct Constants {
     public static let ON_PROPERTY_CHANGE: String = "WebView.OnPropertyChange"
     public static let JS_CALLBACK_EVENT: String = "TRWV.js.CALLBACK"
     public static let AS_CALLBACK_EVENT: String = "TRWV.as.CALLBACK"
-    
-    
-    
 }
