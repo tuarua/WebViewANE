@@ -148,8 +148,8 @@ namespace CefSharpLib {
             var browser = new ChromiumWebBrowser(InitialUrl) {
                 Dock = DockStyle.Fill
             };
-
-            browser.RegisterAsyncJsObject("webViewANE", new BoundObject(Context), BindingOptions.DefaultBinder);
+        
+            browser.JavascriptObjectRepository.Register("webViewANE", new BoundObject(Context), true, BindingOptions.DefaultBinder);
 
             // ReSharper disable once UseObjectOrCollectionInitializer
             var dh = new DownloadHandler();
