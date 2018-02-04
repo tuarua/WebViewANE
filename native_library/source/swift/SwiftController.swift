@@ -26,8 +26,7 @@ import FreSwift
 import Cocoa
 #endif
 
-public class SwiftController: NSObject, FreSwiftMainController, WKUIDelegate, WKNavigationDelegate,
-WKScriptMessageHandler {
+public class SwiftController: NSObject {
     public var TAG: String? = "WebViewANE"
     public var context: FreContextSwift!
     public var functionsToSet: FREFunctionMap = [:]
@@ -40,156 +39,16 @@ WKScriptMessageHandler {
     private static let zoomIncrement: CGFloat = CGFloat.init(0.1)
     private var _initialUrl: String = ""
     private var _viewPort: CGRect = CGRect.init(x: 0.0, y: 0.0, width: 800.0, height: 600.0)
-
-    public enum PopupBehaviour: Int {
-        case block = 0
-        case newWindow
-        case sameWindow
-    }
-
-    private var _popupBehaviour: PopupBehaviour = PopupBehaviour.newWindow
+    internal var _popupBehaviour: PopupBehaviour = PopupBehaviour.newWindow
 #if os(iOS)
     private var _bgColor = UIColor.white
 #else
-    private var _popup: Popup!
+    internal var _popup: Popup!
 #endif
     private var _isAdded: Bool = false
-    private var _settings: Settings!
+    internal var _settings: Settings!
     private var _userController: WKUserContentController = WKUserContentController()
-
-    // must have this function !!
-    // Make sure these funcs match those in WebViewANE.m
-    @objc public func getFunctions(prefix: String) -> [String] {
-        functionsToSet["\(prefix)reload"] = reload
-        functionsToSet["\(prefix)load"] = load
-        functionsToSet["\(prefix)init"] = initWebView
-        functionsToSet["\(prefix)clearCache"] = clearCache
-        functionsToSet["\(prefix)isSupported"] = isSupported
-        functionsToSet["\(prefix)setVisible"] = setVisible
-        functionsToSet["\(prefix)loadHTMLString"] = loadHTMLString
-        functionsToSet["\(prefix)loadFileURL"] = loadFileURL
-        functionsToSet["\(prefix)onFullScreen"] = onFullScreen
-        functionsToSet["\(prefix)reloadFromOrigin"] = reloadFromOrigin
-        functionsToSet["\(prefix)stopLoading"] = stopLoading
-        functionsToSet["\(prefix)backForwardList"] = backForwardList
-        functionsToSet["\(prefix)go"] = go
-        functionsToSet["\(prefix)goBack"] = goBack
-        functionsToSet["\(prefix)goForward"] = goForward
-        functionsToSet["\(prefix)allowsMagnification"] = allowsMagnification
-        functionsToSet["\(prefix)zoomIn"] = zoomIn
-        functionsToSet["\(prefix)zoomOut"] = zoomOut
-        functionsToSet["\(prefix)setViewPort"] = setViewPort
-        functionsToSet["\(prefix)showDevTools"] = showDevTools
-        functionsToSet["\(prefix)closeDevTools"] = closeDevTools
-        functionsToSet["\(prefix)callJavascriptFunction"] = callJavascriptFunction
-        functionsToSet["\(prefix)evaluateJavaScript"] = evaluateJavaScript
-        functionsToSet["\(prefix)injectScript"] = injectScript
-        functionsToSet["\(prefix)focus"] = focusWebView
-        functionsToSet["\(prefix)print"] = print
-        functionsToSet["\(prefix)capture"] = capture
-        functionsToSet["\(prefix)addTab"] = addTab
-        functionsToSet["\(prefix)closeTab"] = closeTab
-        functionsToSet["\(prefix)setCurrentTab"] = setCurrentTab
-        functionsToSet["\(prefix)getCurrentTab"] = getCurrentTab
-        functionsToSet["\(prefix)getTabDetails"] = getTabDetails
-        functionsToSet["\(prefix)shutDown"] = shutDown
-        functionsToSet["\(prefix)addEventListener"] = addEventListener
-        functionsToSet["\(prefix)removeEventListener"] = removeEventListener
-
-        var arr: [String] = []
-        for key in functionsToSet.keys {
-            arr.append(key)
-        }
-
-        return arr
-    }
-#if os(OSX)
-    // this handles <input type="file"/>
-    @available(OSX 10.12, *)
-    public func webView(_ webView: WKWebView, runOpenPanelWith parameters: WKOpenPanelParameters,
-                        initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping ([URL]?) -> Void) {
-        let openPanel = NSOpenPanel()
-        openPanel.canChooseFiles = true
-        openPanel.allowsMultipleSelection = true
-        openPanel.begin(completionHandler: {(result) in
-            if result.rawValue == NSFileHandlingPanelOKButton {
-                completionHandler(openPanel.urls)
-            } else {
-                completionHandler([])
-            }
-        })
-    }
-#endif
-    public func webView(_ webView: WKWebView, didReceive challenge: URLAuthenticationChallenge,
-                        completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
-        guard let serverTrust = challenge.protectionSpace.serverTrust else {
-            return completionHandler(.useCredential, nil) }
-        let exceptions = SecTrustCopyExceptions(serverTrust)
-        SecTrustSetExceptions(serverTrust, exceptions)
-        completionHandler(.useCredential, URLCredential(trust: serverTrust))
-    }
     
-    // this handles target=_blank links by opening them in the same view
-    public func webView(_ webView: WKWebView,
-                        createWebViewWith configuration: WKWebViewConfiguration,
-                        for navigationAction: WKNavigationAction,
-                        windowFeatures: WKWindowFeatures) -> WKWebView? {
-        if navigationAction.targetFrame == nil {
-            switch _popupBehaviour {
-            case .block:
-                var props: [String: Any] = Dictionary()
-                props["url"] = ""
-                if let url = navigationAction.request.url?.absoluteString {
-                    props["url"] = url
-                }
-                props["tab"] = getCurrentTab(webView)
-                let json = JSON(props)
-                sendEvent(name: Constants.ON_POPUP_BLOCKED, value: json.description)
-            case .newWindow:
-#if os(iOS)
-                warning("Cannot open popup in new window on iOS. Opening in same window.")
-                webView.load(navigationAction.request)
-#else
-                _popup.createPopupWindow(url: navigationAction.request, configuration: _settings.configuration)
-#endif
-            case .sameWindow:
-                webView.load(navigationAction.request)
-            }
-        }
-        return nil
-    }
-
-    public func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction,
-                        decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-        guard let newUrl = navigationAction.request.url?.absoluteString.lowercased()
-          else {
-            decisionHandler(.allow)
-            return
-        }
-
-        if isWhiteListBlocked(url: newUrl) || isBlackListBlocked(url: newUrl) {
-            var props: [String: Any] = Dictionary()
-            props["url"] = newUrl
-            props["tab"] = getCurrentTab(webView)
-
-            let json = JSON(props)
-            sendEvent(name: Constants.ON_URL_BLOCKED, value: json.description)
-            decisionHandler(.cancel)
-        } else {
-            decisionHandler(.allow)
-        }
-
-    }
-
-    public func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError: Error) {
-        var props: [String: Any] = Dictionary()
-        props["url"] = webView.url!.absoluteString
-        props["errorCode"] = 0
-        props["errorText"] = withError.localizedDescription
-        let json = JSON(props)
-        sendEvent(name: Constants.ON_FAIL, value: json.description)
-    }
-
     private func addKeyListener(type: String) {
 #if os(OSX)
         let eventMask: NSEvent.EventTypeMask = type == "keyUp" ? .keyUp : .keyDown
@@ -844,29 +703,6 @@ WKScriptMessageHandler {
         return _currentTab.toFREObject()
     }
 
-#if os(iOS)
-
-    public func userContentController(_ userContentController: WKUserContentController, didReceive
-    message: WKScriptMessage) {
-        if let messageBody: NSDictionary = message.body as? NSDictionary {
-            let json = JSON(messageBody)
-            sendEvent(name: Constants.JS_CALLBACK_EVENT, value: json.description)
-        }
-    }
-
-#else
-
-    @available(OSX 10.10, *)
-    public func userContentController(_ userContentController: WKUserContentController,
-                                      didReceive message: WKScriptMessage) {
-        if let messageBody: NSDictionary = message.body as? NSDictionary {
-            let json = JSON(messageBody)
-            sendEvent(name: Constants.JS_CALLBACK_EVENT, value: json.description)
-        }
-    }
-
-#endif
-
     fileprivate func createNewBrowser(frame: CGRect, tab: Int) -> WebViewVC {
         let wv = WebViewVC(context: context, frame: frame, configuration: _settings.configuration, tab: tab)
 
@@ -900,7 +736,7 @@ WKScriptMessageHandler {
         return wv
     }
 
-    func initWebView(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
+    func initController(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
         guard argc > 4,
               let inFRE4 = argv[4],
               let viewPortFre = CGRect(argv[1])
@@ -945,7 +781,7 @@ WKScriptMessageHandler {
                 if let popupSettings = settingsDict["popup"] {
                     _popup = Popup()
                     if let behaviour = popupSettings["behaviour"] as? Int {
-                        _popupBehaviour = SwiftController.PopupBehaviour(rawValue: behaviour)!
+                        _popupBehaviour = PopupBehaviour(rawValue: behaviour)!
                     }
                     if let dimensions = popupSettings["dimensions"] as? [String: Int] {
                         if let w = dimensions["width"], let h = dimensions["height"] {
@@ -968,7 +804,7 @@ WKScriptMessageHandler {
         return nil
     }
 
-    fileprivate func getCurrentTab(_ webView: WKWebView?) -> Int {
+    internal func getCurrentTab(_ webView: WKWebView?) -> Int {
         if let wv = webView as? WebViewVC {
             for vc in _tabList {
                 if let theVC = vc as? WebViewVC {
@@ -981,7 +817,7 @@ WKScriptMessageHandler {
         return 0
     }
 
-    fileprivate func isWhiteListBlocked(url: String) -> Bool {
+    internal func isWhiteListBlocked(url: String) -> Bool {
         guard let list = _settings.urlWhiteList,
               list.count > 0
           else {
@@ -995,7 +831,7 @@ WKScriptMessageHandler {
         return true
     }
 
-    fileprivate func isBlackListBlocked(url: String) -> Bool {
+    internal func isBlackListBlocked(url: String) -> Bool {
         guard let list = _settings.urlBlackList,
               list.count > 0
           else {
@@ -1009,21 +845,6 @@ WKScriptMessageHandler {
         }
 
         return false
-    }
-
-    // Must have this function. It exposes the methods to our entry ObjC.
-    @objc public func callSwiftFunction(name: String, ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
-        if let fm = functionsToSet[name] {
-            return fm(ctx, argc, argv)
-        }
-        return nil
-    }
-    
-    @objc public func setFREContext(ctx: FREContext) {
-        self.context = FreContextSwift.init(freContext: ctx)
-    }
-    
-    @objc public func onLoad() {
     }
 
 }
