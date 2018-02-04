@@ -259,17 +259,3 @@ class WebViewVC: WKWebView, FreSwiftController {
 #endif
 
 }
-#if os(iOS)
-extension WebViewVC: UIScrollViewDelegate {
-    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-        if _configuration.useZoomGestures {
-            for sv in scrollView.subviews {
-                if let c = NSClassFromString("WKContentView"), sv.isKind(of: c) {
-                    return sv
-                }
-            }
-        }
-        return nil
-    }
-}
-#endif

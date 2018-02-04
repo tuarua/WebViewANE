@@ -20,6 +20,12 @@
 		CE59BDE31EEF38C600F698DE /* BackForwardList.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE59BDDE1EEF38C600F698DE /* BackForwardList.swift */; };
 		CEA438051E78A2C00099F463 /* SwiftyJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = CEA438031E78A2C00099F463 /* SwiftyJSON.h */; };
 		CEA438061E78A2C00099F463 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA438041E78A2C00099F463 /* SwiftyJSON.swift */; };
+		CEA65345202797B50034C691 /* PopupBehaviour.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA65344202797B50034C691 /* PopupBehaviour.swift */; };
+		CEA6534A202797D10034C691 /* SwiftController+WKUIDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA65346202797D00034C691 /* SwiftController+WKUIDelegate.swift */; };
+		CEA6534B202797D10034C691 /* SwiftController+WKNavigationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA65347202797D00034C691 /* SwiftController+WKNavigationDelegate.swift */; };
+		CEA6534C202797D10034C691 /* SwiftController+WKScriptMessageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA65348202797D10034C691 /* SwiftController+WKScriptMessageHandler.swift */; };
+		CEA6534D202797D10034C691 /* SwiftController+FreSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA65349202797D10034C691 /* SwiftController+FreSwift.swift */; };
+		CEA6534F202798370034C691 /* WebViewVC+UIScrollViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA6534E202798370034C691 /* WebViewVC+UIScrollViewDelegate.swift */; };
 		CEC13D411EFEE651003BDA4A /* WebViewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC13D401EFEE651003BDA4A /* WebViewVC.swift */; };
 		CEFE5BEB1F1A27A9007BFBF2 /* SwiftController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFE5BEA1F1A27A9007BFBF2 /* SwiftController.swift */; };
 /* End PBXBuildFile section */
@@ -33,18 +39,6 @@
 			remoteInfo = WebViewANE_FW;
 		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		CE39809D1E58BEE10062485B /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "include/$(PRODUCT_NAME)";
-			dstSubfolderSpec = 16;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		285FE6D7F3D6356FA03A26C0 /* WebViewANE.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WebViewANE.m; path = ../../../source/swift/WebViewANE.m; sourceTree = "<group>"; };
@@ -61,6 +55,12 @@
 		CE59BDDE1EEF38C600F698DE /* BackForwardList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BackForwardList.swift; path = ../../../source/swift/BackForwardList.swift; sourceTree = "<group>"; };
 		CEA438031E78A2C00099F463 /* SwiftyJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SwiftyJSON.h; path = ../../../source/swift/SwiftyJSON.h; sourceTree = "<group>"; };
 		CEA438041E78A2C00099F463 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftyJSON.swift; path = ../../../source/swift/SwiftyJSON.swift; sourceTree = "<group>"; };
+		CEA65344202797B50034C691 /* PopupBehaviour.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PopupBehaviour.swift; path = ../../../source/swift/PopupBehaviour.swift; sourceTree = "<group>"; };
+		CEA65346202797D00034C691 /* SwiftController+WKUIDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "SwiftController+WKUIDelegate.swift"; path = "../../../source/swift/SwiftController+WKUIDelegate.swift"; sourceTree = "<group>"; };
+		CEA65347202797D00034C691 /* SwiftController+WKNavigationDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "SwiftController+WKNavigationDelegate.swift"; path = "../../../source/swift/SwiftController+WKNavigationDelegate.swift"; sourceTree = "<group>"; };
+		CEA65348202797D10034C691 /* SwiftController+WKScriptMessageHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "SwiftController+WKScriptMessageHandler.swift"; path = "../../../source/swift/SwiftController+WKScriptMessageHandler.swift"; sourceTree = "<group>"; };
+		CEA65349202797D10034C691 /* SwiftController+FreSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "SwiftController+FreSwift.swift"; path = "../../../source/swift/SwiftController+FreSwift.swift"; sourceTree = "<group>"; };
+		CEA6534E202798370034C691 /* WebViewVC+UIScrollViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WebViewVC+UIScrollViewDelegate.swift"; sourceTree = "<group>"; };
 		CEC13D401EFEE651003BDA4A /* WebViewVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebViewVC.swift; path = ../../../source/swift/WebViewVC.swift; sourceTree = "<group>"; };
 		CEFE5BEA1F1A27A9007BFBF2 /* SwiftController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftController.swift; path = ../../../source/swift/SwiftController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -116,6 +116,11 @@
 		CE39808B1E58BAA90062485B /* WebViewANE_FW */ = {
 			isa = PBXGroup;
 			children = (
+				CEA65349202797D10034C691 /* SwiftController+FreSwift.swift */,
+				CEA65347202797D00034C691 /* SwiftController+WKNavigationDelegate.swift */,
+				CEA65348202797D10034C691 /* SwiftController+WKScriptMessageHandler.swift */,
+				CEA65346202797D00034C691 /* SwiftController+WKUIDelegate.swift */,
+				CEA65344202797B50034C691 /* PopupBehaviour.swift */,
 				CEFE5BEA1F1A27A9007BFBF2 /* SwiftController.swift */,
 				CEC13D401EFEE651003BDA4A /* WebViewVC.swift */,
 				CE59BDDB1EEF38C600F698DE /* Constants.swift */,
@@ -124,6 +129,7 @@
 				CE59BDDE1EEF38C600F698DE /* BackForwardList.swift */,
 				CEA438021E78397D0099F463 /* Misc */,
 				CEA438011E7839740099F463 /* Headers */,
+				CEA6534E202798370034C691 /* WebViewVC+UIScrollViewDelegate.swift */,
 			);
 			path = WebViewANE_FW;
 			sourceTree = "<group>";
@@ -187,7 +193,6 @@
 				CE3980851E58BAA90062485B /* Sources */,
 				CE3980861E58BAA90062485B /* Frameworks */,
 				CE3980871E58BAA90062485B /* Headers */,
-				CE3980881E58BAA90062485B /* Resources */,
 			);
 			buildRules = (
 			);
@@ -204,9 +209,7 @@
 			buildPhases = (
 				CE39809B1E58BEE10062485B /* Sources */,
 				CE39809C1E58BEE10062485B /* Frameworks */,
-				CE39809D1E58BEE10062485B /* CopyFiles */,
 				CE3980AE1E58BF530062485B /* Headers */,
-				CEFD140F1E59F28C00CA19D0 /* Resources */,
 				CED3B41A201FCBF900E402CD /* ShellScript */,
 				CEC00F3D1E8DA49E0062311C /* ShellScript */,
 			);
@@ -259,23 +262,6 @@
 		};
 /* End PBXProject section */
 
-/* Begin PBXResourcesBuildPhase section */
-		CE3980881E58BAA90062485B /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		CEFD140F1E59F28C00CA19D0 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXResourcesBuildPhase section */
-
 /* Begin PBXShellScriptBuildPhase section */
 		CEC00F3D1E8DA49E0062311C /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -310,13 +296,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEA6534B202797D10034C691 /* SwiftController+WKNavigationDelegate.swift in Sources */,
+				CEA65345202797B50034C691 /* PopupBehaviour.swift in Sources */,
 				CEFE5BEB1F1A27A9007BFBF2 /* SwiftController.swift in Sources */,
 				CE59BDE21EEF38C600F698DE /* Configuration.swift in Sources */,
+				CEA6534C202797D10034C691 /* SwiftController+WKScriptMessageHandler.swift in Sources */,
 				CE59BDE31EEF38C600F698DE /* BackForwardList.swift in Sources */,
 				CEC13D411EFEE651003BDA4A /* WebViewVC.swift in Sources */,
 				CEA438061E78A2C00099F463 /* SwiftyJSON.swift in Sources */,
 				CE59BDE11EEF38C600F698DE /* Settings.swift in Sources */,
 				CE59BDE01EEF38C600F698DE /* Constants.swift in Sources */,
+				CEA6534F202798370034C691 /* WebViewVC+UIScrollViewDelegate.swift in Sources */,
+				CEA6534A202797D10034C691 /* SwiftController+WKUIDelegate.swift in Sources */,
+				CEA6534D202797D10034C691 /* SwiftController+FreSwift.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
