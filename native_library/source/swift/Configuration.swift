@@ -1,4 +1,4 @@
-// Copyright 2017 Tua Rua Ltd.
+// Copyright 2018 Tua Rua Ltd.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -30,14 +30,10 @@ open class Configuration: WKWebViewConfiguration {
     private var _bounces: Bool = true
     private var _useZoomGestures = true
     public var doesBounce: Bool {
-        get {
-            return _bounces
-        }
+        return _bounces
     }
     public var useZoomGestures: Bool {
-        get {
-            return _useZoomGestures
-        }
+        return _useZoomGestures
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -48,14 +44,15 @@ open class Configuration: WKWebViewConfiguration {
         super.init()
     }
     
-    convenience init(dictionary: Dictionary<String, AnyObject>) {
+    convenience init(dictionary: [String: AnyObject]) {
         self.init()
         if let settingsWK = dictionary["webkit"] {
 #if os(iOS)
             if let allowsInlineMediaPlayback: Bool = settingsWK["allowsInlineMediaPlayback"] as? Bool {
                 self.allowsInlineMediaPlayback = allowsInlineMediaPlayback
             }
-            if let allowsPictureInPictureMediaPlayback: Bool = settingsWK["allowsPictureInPictureMediaPlayback"] as? Bool {
+            if let allowsPictureInPictureMediaPlayback: Bool =
+                settingsWK["allowsPictureInPictureMediaPlayback"] as? Bool {
                 self.allowsPictureInPictureMediaPlayback = allowsPictureInPictureMediaPlayback
             }
     
@@ -93,7 +90,8 @@ open class Configuration: WKWebViewConfiguration {
             if let javaScriptEnabled: Bool = settingsWK["javaScriptEnabled"] as? Bool {
                 self.preferences.javaScriptEnabled = javaScriptEnabled
             }
-            if let javaScriptCanOpenWindowsAutomatically: Bool = settingsWK["javaScriptCanOpenWindowsAutomatically"] as? Bool {
+            if let javaScriptCanOpenWindowsAutomatically: Bool =
+                settingsWK["javaScriptCanOpenWindowsAutomatically"] as? Bool {
                 self.preferences.javaScriptCanOpenWindowsAutomatically = javaScriptCanOpenWindowsAutomatically
             }
 
@@ -102,7 +100,6 @@ open class Configuration: WKWebViewConfiguration {
             }
             
         }
-
 
     }
 }

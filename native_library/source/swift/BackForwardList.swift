@@ -1,4 +1,4 @@
-// Copyright 2017 Tua Rua Ltd.
+// Copyright 2018 Tua Rua Ltd.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ import FreSwift
 class BackForwardList: FreObjectSwift, FreSwiftController {
     var TAG: String? = "WebViewANE"
     internal var context: FreContextSwift!
-    convenience init(context:FreContextSwift, webView: WKWebView) {
+    convenience init(context: FreContextSwift, webView: WKWebView) {
         self.init()
         self.context = context
         do {
@@ -50,7 +50,7 @@ class BackForwardList: FreObjectSwift, FreSwiftController {
                         try freItem.setProp(name: "title", value: item.title)
                         try freItem.setProp(name: "initialURL", value: item.initialURL.absoluteString)
                         try freBackList.set(index: UInt(i), value: freItem)
-                        i = i + 1
+                        i += 1
                         
                     }
                 }
@@ -66,7 +66,7 @@ class BackForwardList: FreObjectSwift, FreSwiftController {
                         try freItem.setProp(name: "title", value: item.title)
                         try freItem.setProp(name: "initialURL", value: item.initialURL.absoluteString)
                         try freForwardList.set(index: UInt(i), value: freItem)
-                        i = i + 1
+                        i += 1
                     }
                     
                 }

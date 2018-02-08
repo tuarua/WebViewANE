@@ -1,4 +1,4 @@
-// Copyright 2017 Tua Rua Ltd.
+// Copyright 2018 Tua Rua Ltd.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -33,30 +33,22 @@ public struct Settings {
     private var _urlBlackList: NSArray?
 
     public var configuration: Configuration {
-        get {
-            return _configuration
-        }
+        return _configuration
     }
 
     public var userAgent: String? {
-        get {
-            return _userAgent
-        }
+        return _userAgent
     }
 
     public var urlWhiteList: NSArray? {
-        get {
-            return _urlWhiteList
-        }
+        return _urlWhiteList
     }
     
     public var urlBlackList: NSArray? {
-        get {
-            return _urlBlackList
-        }
+        return _urlBlackList
     }
 
-    init(dictionary: Dictionary<String, AnyObject>) {
+    init(dictionary: [String: AnyObject]) {
         _configuration = Configuration.init(dictionary: dictionary)
         #if os(iOS)
             if let ce: Bool = dictionary["cacheEnabled"] as? Bool {
@@ -65,7 +57,9 @@ public struct Settings {
         #else
             if #available(OSX 10.11, *) {
                 if let ce: Bool = dictionary["cacheEnabled"] as? Bool {
-                    _configuration.websiteDataStore = ce ? WKWebsiteDataStore.default() : WKWebsiteDataStore.nonPersistent()
+                    _configuration.websiteDataStore = ce
+                        ? WKWebsiteDataStore.default()
+                        : WKWebsiteDataStore.nonPersistent()
                 }
             } else {
                 // Fallback on earlier versions

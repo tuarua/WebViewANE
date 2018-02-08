@@ -1,4 +1,4 @@
-// Copyright 2017 Tua Rua Ltd.
+// Copyright 2018 Tua Rua Ltd.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -28,14 +28,17 @@ class Popup: NSObject, NSWindowDelegate {
     public var popupDimensions: (Int, Int) = (800, 600)
 
     public func createPopupWindow(url: URLRequest, configuration: WKWebViewConfiguration) {
-        _popupWindow = NSWindow(contentRect: NSMakeRect(0, 0, CGFloat(popupDimensions.0), CGFloat(popupDimensions.1)),
+        
+        _popupWindow = NSWindow(contentRect: NSRect(x: 0, y: 0, width: CGFloat(popupDimensions.0),
+                                                    height: CGFloat(popupDimensions.1)),
                 styleMask: [.titled, .miniaturizable, .closable],
                 backing: .buffered, defer: false)
 
         _popupWindow.center()
         _popupWindow.isReleasedWhenClosed = false
         _popupWindow.delegate = self
-        _popupVC = PopupVC(request: url, width: popupDimensions.0, height: popupDimensions.1, configuration: configuration)
+        _popupVC = PopupVC(request: url, width: popupDimensions.0,
+                           height: popupDimensions.1, configuration: configuration)
         _popupWindow.contentView!.addSubview(_popupVC!.view)
         _popupWindow.makeKeyAndOrderFront(nil)
         

@@ -20,6 +20,11 @@
 		CE89412A1E3440BF00191B38 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE8941291E3440BF00191B38 /* Cocoa.framework */; };
 		CE89412D1E3440E500191B38 /* SwiftyJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = CE89412B1E3440E500191B38 /* SwiftyJSON.h */; };
 		CE89412E1E3440E500191B38 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE89412C1E3440E500191B38 /* SwiftyJSON.swift */; };
+		CEA6533B202767000034C691 /* SwiftController+WKUIDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA6533A202767000034C691 /* SwiftController+WKUIDelegate.swift */; };
+		CEA6533D202768180034C691 /* SwiftController+WKNavigationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA6533C202768180034C691 /* SwiftController+WKNavigationDelegate.swift */; };
+		CEA6533F202769D50034C691 /* SwiftController+WKScriptMessageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA6533E202769D50034C691 /* SwiftController+WKScriptMessageHandler.swift */; };
+		CEA6534120276B970034C691 /* PopupBehaviour.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA6534020276B970034C691 /* PopupBehaviour.swift */; };
+		CEA6534320276C200034C691 /* SwiftController+FreSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA6534220276C200034C691 /* SwiftController+FreSwift.swift */; };
 		CEEA4EF71EBBBD1600F46A1C /* PopupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEEA4EF61EBBBD1600F46A1C /* PopupVC.swift */; };
 		CEF5C70B1E1EE882004389CE /* Adobe AIR_64 in Frameworks */ = {isa = PBXBuildFile; fileRef = CEF5C7081E1EE882004389CE /* Adobe AIR_64 */; };
 		CEF5C70C1E1EE882004389CE /* Adobe AIR in Frameworks */ = {isa = PBXBuildFile; fileRef = CEF5C7091E1EE882004389CE /* Adobe AIR */; };
@@ -39,6 +44,11 @@
 		CE8941291E3440BF00191B38 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		CE89412B1E3440E500191B38 /* SwiftyJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SwiftyJSON.h; path = ../../../source/swift/SwiftyJSON.h; sourceTree = "<group>"; };
 		CE89412C1E3440E500191B38 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftyJSON.swift; path = ../../../source/swift/SwiftyJSON.swift; sourceTree = "<group>"; };
+		CEA6533A202767000034C691 /* SwiftController+WKUIDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "SwiftController+WKUIDelegate.swift"; path = "../../../source/swift/SwiftController+WKUIDelegate.swift"; sourceTree = "<group>"; };
+		CEA6533C202768180034C691 /* SwiftController+WKNavigationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "SwiftController+WKNavigationDelegate.swift"; path = "../../../source/swift/SwiftController+WKNavigationDelegate.swift"; sourceTree = "<group>"; };
+		CEA6533E202769D50034C691 /* SwiftController+WKScriptMessageHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "SwiftController+WKScriptMessageHandler.swift"; path = "../../../source/swift/SwiftController+WKScriptMessageHandler.swift"; sourceTree = "<group>"; };
+		CEA6534020276B970034C691 /* PopupBehaviour.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PopupBehaviour.swift; path = ../../../source/swift/PopupBehaviour.swift; sourceTree = "<group>"; };
+		CEA6534220276C200034C691 /* SwiftController+FreSwift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "SwiftController+FreSwift.swift"; path = "../../../source/swift/SwiftController+FreSwift.swift"; sourceTree = "<group>"; };
 		CEEA4EF61EBBBD1600F46A1C /* PopupVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PopupVC.swift; path = ../../../source/swift/PopupVC.swift; sourceTree = "<group>"; };
 		CEF5C6FC1E1EE83F004389CE /* WebViewANE.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WebViewANE.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEF5C7001E1EE83F004389CE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -94,6 +104,11 @@
 				CE6232971EF0A43800FC9691 /* WebViewVC.swift */,
 				CEF5C70F1E1EE8B6004389CE /* Headers */,
 				CEF5C70E1E1EE8AE004389CE /* Misc */,
+				CEA6533A202767000034C691 /* SwiftController+WKUIDelegate.swift */,
+				CEA6533C202768180034C691 /* SwiftController+WKNavigationDelegate.swift */,
+				CEA6533E202769D50034C691 /* SwiftController+WKScriptMessageHandler.swift */,
+				CEA6534020276B970034C691 /* PopupBehaviour.swift */,
+				CEA6534220276C200034C691 /* SwiftController+FreSwift.swift */,
 			);
 			path = WebViewANE;
 			sourceTree = "<group>";
@@ -152,6 +167,7 @@
 				CEF5C6F81E1EE83E004389CE /* Frameworks */,
 				CEF5C6F91E1EE83E004389CE /* Headers */,
 				CEF5C6FA1E1EE83E004389CE /* Resources */,
+				CED3B419201FBF4E00E402CD /* ShellScript */,
 				CEF5C71A1E1EE910004389CE /* ShellScript */,
 			);
 			buildRules = (
@@ -207,6 +223,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		CED3B419201FBF4E00E402CD /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
+		};
 		CEF5C71A1E1EE910004389CE /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 12;
@@ -227,16 +256,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEA6534120276B970034C691 /* PopupBehaviour.swift in Sources */,
 				CE59BDD91EEF36FC00F698DE /* WebViewANE.m in Sources */,
 				CE59BDD81EEF36BE00F698DE /* Constants.swift in Sources */,
 				CE6232981EF0A43800FC9691 /* WebViewVC.swift in Sources */,
+				CEA6533B202767000034C691 /* SwiftController+WKUIDelegate.swift in Sources */,
+				CEA6533F202769D50034C691 /* SwiftController+WKScriptMessageHandler.swift in Sources */,
 				CEEA4EF71EBBBD1600F46A1C /* PopupVC.swift in Sources */,
 				285FE221A0881A06EF9342D3 /* SwiftController.swift in Sources */,
 				CE89412E1E3440E500191B38 /* SwiftyJSON.swift in Sources */,
 				285FE67BD6D6ADA9B37C0549 /* Popup.swift in Sources */,
 				CE59BDD41EEF28F300F698DE /* Settings.swift in Sources */,
 				285FEF0F916CD0723F2C291C /* Configuration.swift in Sources */,
+				CEA6533D202768180034C691 /* SwiftController+WKNavigationDelegate.swift in Sources */,
 				285FED8981954D26132A4738 /* BackForwardList.swift in Sources */,
+				CEA6534320276C200034C691 /* SwiftController+FreSwift.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

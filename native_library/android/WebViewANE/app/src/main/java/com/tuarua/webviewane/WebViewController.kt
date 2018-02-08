@@ -24,6 +24,7 @@ package com.tuarua.webviewane
 
 import android.graphics.*
 import android.os.Build
+import android.view.KeyEvent
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.CookieManager
@@ -36,7 +37,6 @@ import com.tuarua.frekotlin.sendEvent
 import com.tuarua.frekotlin.geom.Rect
 import org.json.JSONException
 import org.json.JSONObject
-
 
 class WebViewController(override var context: FREContext?, initialUrl: String?, viewPort: Rect, private var settings: Settings,
                         private var backgroundColor: Int) : FreKotlinController {
@@ -74,7 +74,6 @@ class WebViewController(override var context: FREContext?, initialUrl: String?, 
 
         airView = ctx.activity.findViewById(android.R.id.content) as ViewGroup
         airView = (airView as ViewGroup).getChildAt(0) as ViewGroup
-
         container = FrameLayout(ctx.activity)
 
         val frame = container ?: return
@@ -86,6 +85,26 @@ class WebViewController(override var context: FREContext?, initialUrl: String?, 
 
         webView = WebView(ctx.activity.applicationContext)
         val wv = webView ?: return
+        wv.setOnKeyListener(View.OnKeyListener { _, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_BACK) {
+                val props = JSONObject()
+                try {
+                    props.put("keyCode", 16777238)
+                    props.put("nativeKeyCode", keyCode)
+                    props.put("modifiers", "")
+                    props.put("isSystemKey", false)
+                    if (event.action == KeyEvent.ACTION_UP) {
+                        sendEvent(Constants.ON_KEY_UP, props.toString())
+                    } else {
+                        sendEvent(Constants.ON_KEY_DOWN, props.toString())
+                    }
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+                return@OnKeyListener true
+            }
+            false
+        })
         wv.settings.allowContentAccess = settings.allowContentAccess
         wv.settings.setAppCacheEnabled(settings.appCacheEnabled)
         wv.settings.javaScriptEnabled = settings.javaScriptEnabled
@@ -111,7 +130,6 @@ class WebViewController(override var context: FREContext?, initialUrl: String?, 
         wv.setWebChromeClient(chromeClient)
         wv.setWebViewClient(viewClient)
         wv.setBackgroundColor(backgroundColor)
-
 
         wv.addJavascriptInterface(BoundObject(), "webViewANE")
 
@@ -191,10 +209,10 @@ class WebViewController(override var context: FREContext?, initialUrl: String?, 
 
     fun capture(x: Int, y: Int, w: Int, h: Int): Bitmap? {
         val wv = webView ?: return null
-        var theX:Int = x
-        var theY:Int = y
-        var theW:Int = w
-        var theH:Int = h
+        var theX: Int = x
+        var theY: Int = y
+        var theW: Int = w
+        var theH: Int = h
 
         val bitmap: Bitmap
         if (w > 0 && h > 0) {
@@ -266,10 +284,9 @@ class WebViewController(override var context: FREContext?, initialUrl: String?, 
         }
 
 
+    @Suppress("PropertyName")
     override val TAG: String
         get() = this::class.java.simpleName
-
-
 
 
 }

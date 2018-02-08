@@ -21,14 +21,17 @@
 
 import Foundation
 
-public struct Constants {
-    public static let ON_URL_BLOCKED: String = "WebView.OnUrlBlocked"
-    public static let ON_POPUP_BLOCKED: String = "WebView.OnPopupBlocked"
-    public static let ON_FAIL: String = "WebView.OnFail"
-    public static let ON_ESC_KEY: String = "WebView.OnEscKey"
-    public static let ON_KEY_UP: String = "WebView.OnKeyUp"
-    public static let ON_KEY_DOWN: String = "WebView.OnKeyDown"
-    public static let ON_PROPERTY_CHANGE: String = "WebView.OnPropertyChange"
-    public static let JS_CALLBACK_EVENT: String = "TRWV.js.CALLBACK"
-    public static let AS_CALLBACK_EVENT: String = "TRWV.as.CALLBACK"
+#if os(iOS)
+extension WebViewVC: UIScrollViewDelegate {
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        if _configuration.useZoomGestures {
+            for sv in scrollView.subviews {
+                if let c = NSClassFromString("WKContentView"), sv.isKind(of: c) {
+                    return sv
+                }
+            }
+        }
+        return nil
+    }
 }
+#endif

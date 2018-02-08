@@ -26,7 +26,7 @@ import com.adobe.fre.FREContext;
 import com.adobe.fre.FREExtension;
 import com.tuarua.webviewane.KotlinController;
 
-@SuppressWarnings("FieldCanBeLocal")
+@SuppressWarnings("ALL")
 public class WebViewANE implements FREExtension {
     private String NAME = "com.tuarua.WebViewANE";
     private static final String[] FUNCTIONS = {

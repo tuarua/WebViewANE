@@ -28,4 +28,8 @@ object Constants {
     val ON_URL_BLOCKED = "WebView.OnUrlBlocked"
     val JS_CALLBACK_EVENT = "TRWV.js.CALLBACK"
     val AS_CALLBACK_EVENT = "TRWV.as.CALLBACK"
+    val ON_KEY_UP: String = "WebView.OnKeyUp"
+    val ON_KEY_DOWN: String = "WebView.OnKeyDown"
+
+
 }
