@@ -1,5 +1,5 @@
 ### 1.3.0
-- WIN: Updated to CefSharp 63 Issue #53
+- WIN: Updated to CefSharp 63 Issue #53 Issue #120
 - WIN: BREAKING CHANGE!! JS binding now required as async - see updated jsTest.html
 - WIN: Correctly handle Encoding Issue #118
 - WIN: Updated to FreSharp 1.4.0
