@@ -8,9 +8,10 @@ This ANE provides access to a more modern webview from AIR.
 
 -------------
 
-##### Much time, skill and effort has gone into this. Help support the project
-
 [![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5UR2T52J633RC)
+
+##### Much time, skill and effort has gone into this. Join these people in helping support the project      
+MediaSignage inc, Dignora Perez, Thomas Wooldridge, Gustavo Fantini, Mark Hemphill, Tim John, George Perry, Fernando Ramon Macías Ceballos, 谭 海彬, Bry Birey Egitim, Tomas Redondo, Ilkhom Khodjaev, Argonaut Design
 
 ##### IDE Software provided by JetBrains
 [![Jetbrains](https://raw.githubusercontent.com/tuarua/WebViewANE/master/screenshots/jetbrains.png)](https://www.jetbrains.com)
