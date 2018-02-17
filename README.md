@@ -76,13 +76,18 @@ private var commonDependenciesANE:CommonDependencies = new CommonDependencies();
 
 ## iOS
 
-The OSX version utilises the native WKWebView.
+The iOS version utilises the native WKWebView.
+
+N.B. You must use a Mac to build an iOS app using this ANE. Windows is NOT supported.
 
 ##### Dependencies
 From the command line cd into /example-mobile and run:
 ````shell
 bash get_ios_dependencies.sh
 `````
+
+This folder, ios_dependencies/device/Frameworks, must be packaged as part of your app when creating the ipa. How this is done will depend on the IDE you are using.
+After the ipa is created unzip it and confirm there is a "Frameworks" folder in the root of the .app package.
 
 ### Running on Simulator
 
