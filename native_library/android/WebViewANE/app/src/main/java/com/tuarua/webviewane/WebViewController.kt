@@ -177,6 +177,14 @@ class WebViewController(override var context: FREContext?, initialUrl: String?, 
         webView?.loadUrl(url)
     }
 
+    fun loadFileURL(url: String) {
+        var final = url
+        when {
+            !final.startsWith("file://",true) -> final = "file://" + final
+        }
+        webView?.loadUrl(final)
+    }
+
     fun reload() {
         webView?.reload()
     }

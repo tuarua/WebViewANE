@@ -233,7 +233,7 @@ public class StarlingRoot extends Sprite {
             progress.visible = false;
             var localHTML1:File = File.applicationStorageDirectory.resolvePath("jsTest.html");
             if (localHTML1.exists) {
-                webView.loadFileURL("file://" + encodeURI(localHTML1.nativePath), "file://" + encodeURI(File.applicationStorageDirectory.nativePath));
+                webView.loadFileURL(localHTML1.nativePath, File.applicationStorageDirectory.nativePath);
             }
         }
     }

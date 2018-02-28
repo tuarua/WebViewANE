@@ -96,15 +96,12 @@ class WebViewVC: WKWebView, FreSwiftController {
         self.loadHTMLString(html, baseURL: nil) //TODO
     }
 
-    func load(fileUrl: String, allowingReadAccessTo: String) {
-        let myURL = URL(string: fileUrl)
-        let accessURL = URL(string: allowingReadAccessTo)
-
+    func load(fileUrl: URL, allowingReadAccessTo: URL) {
 #if os(iOS)
-        self.loadFileURL(myURL!, allowingReadAccessTo: accessURL!)
+        self.loadFileURL(fileUrl, allowingReadAccessTo: allowingReadAccessTo)
 #else
         if #available(OSX 10.11, *) {
-            self.loadFileURL(myURL!, allowingReadAccessTo: accessURL!)
+            self.loadFileURL(fileUrl, allowingReadAccessTo: allowingReadAccessTo)
         } else {
             // Fallback on earlier versions //TODO
         }

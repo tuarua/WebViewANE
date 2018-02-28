@@ -403,7 +403,7 @@ public class StarlingRoot extends Sprite {
 
             var localHTML:File = File.applicationDirectory.resolvePath("jsTest.html");
             if (localHTML.exists) {
-                webView.loadFileURL("file://" + localHTML.nativePath, "file://" + File.applicationDirectory.nativePath);
+                webView.loadFileURL(localHTML.nativePath, File.applicationDirectory.nativePath);
             }
         }
     }

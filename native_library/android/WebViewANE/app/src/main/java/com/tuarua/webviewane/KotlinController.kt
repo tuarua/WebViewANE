@@ -122,7 +122,7 @@ class KotlinController : FreKotlinMainController {
         argv.takeIf { argv.size > 0 } ?: return ArgCountException().getError(Thread.currentThread().stackTrace)
         val url = String(argv[0])
         if (url != null) {
-            webViewController?.loadUrl(url)
+            webViewController?.loadFileURL(url)
         }
         return null
     }

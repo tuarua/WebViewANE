@@ -337,11 +337,13 @@ public class SwiftController: NSObject {
 
     func loadFileURL(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
         guard argc > 0,
-              let wv = _currentWebView,
-              let url = String(argv[0]),
-              let allowingReadAccessTo: String = String(argv[1])
-          else {
-            return ArgCountError(message: "loadFileURL").getError(#file, #line, #column)
+            let wv = _currentWebView,
+            let urlStr = String(argv[0]),
+            let url = URL.init(safe: urlStr),
+            let allowingReadAccessToStr = String(argv[1]),
+            let allowingReadAccessTo = URL(safe: allowingReadAccessToStr)
+            else {
+                return ArgCountError(message: "loadFileURL").getError(#file, #line, #column)
         }
         wv.load(fileUrl: url, allowingReadAccessTo: allowingReadAccessTo)
         return nil

@@ -1,3 +1,6 @@
+### 1.3.2
+- WIN/OSX/iOS/AND: Hanlde different String formats for loadFileUrl Issue #124
+
 ### 1.3.1
 - WIN: Updated to CefSharp 63.0.1
 

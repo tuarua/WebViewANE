@@ -11,6 +11,7 @@
 		285FE67BD6D6ADA9B37C0549 /* Popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285FED7949ECEDCFD8666D9E /* Popup.swift */; };
 		285FED8981954D26132A4738 /* BackForwardList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285FE79ADD617339B126F104 /* BackForwardList.swift */; };
 		285FEF0F916CD0723F2C291C /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285FE36940402B8AC84FD751 /* Configuration.swift */; };
+		CE0505BD2047547000926590 /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0505BC2047546F00926590 /* URL.swift */; };
 		CE05BF131F65832F0019899B /* FreMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = CE05BF121F65832F0019899B /* FreMacros.h */; };
 		CE05BF151F6583570019899B /* FreSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE05BF141F6583570019899B /* FreSwift.framework */; };
 		CE59BDD41EEF28F300F698DE /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE59BDD31EEF28F300F698DE /* Settings.swift */; };
@@ -36,6 +37,7 @@
 		285FE36940402B8AC84FD751 /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Configuration.swift; path = ../../../source/swift/Configuration.swift; sourceTree = "<group>"; };
 		285FE79ADD617339B126F104 /* BackForwardList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BackForwardList.swift; path = ../../../source/swift/BackForwardList.swift; sourceTree = "<group>"; };
 		285FED7949ECEDCFD8666D9E /* Popup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Popup.swift; path = ../../../source/swift/Popup.swift; sourceTree = "<group>"; };
+		CE0505BC2047546F00926590 /* URL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
 		CE05BF121F65832F0019899B /* FreMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FreMacros.h; path = ../../../include/FreMacros.h; sourceTree = "<group>"; };
 		CE05BF141F6583570019899B /* FreSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FreSwift.framework; path = Carthage/Build/Mac/FreSwift.framework; sourceTree = "<group>"; };
 		CE59BDD31EEF28F300F698DE /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Settings.swift; path = ../../../source/swift/Settings.swift; sourceTree = "<group>"; };
@@ -73,6 +75,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CE0505BB2047546F00926590 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				CE0505BC2047546F00926590 /* URL.swift */,
+			);
+			name = Extensions;
+			path = ../../../source/swift/Extensions;
+			sourceTree = "<group>";
+		};
 		CEF5C6F21E1EE83E004389CE = {
 			isa = PBXGroup;
 			children = (
@@ -93,6 +104,7 @@
 		CEF5C6FE1E1EE83F004389CE /* WebViewANE */ = {
 			isa = PBXGroup;
 			children = (
+				CE0505BB2047546F00926590 /* Extensions */,
 				CE59BDD71EEF36BE00F698DE /* Constants.swift */,
 				CE59BDD31EEF28F300F698DE /* Settings.swift */,
 				285FE79ADD617339B126F104 /* BackForwardList.swift */,
@@ -263,6 +275,7 @@
 				CEA6533B202767000034C691 /* SwiftController+WKUIDelegate.swift in Sources */,
 				CEA6533F202769D50034C691 /* SwiftController+WKScriptMessageHandler.swift in Sources */,
 				CEEA4EF71EBBBD1600F46A1C /* PopupVC.swift in Sources */,
+				CE0505BD2047547000926590 /* URL.swift in Sources */,
 				285FE221A0881A06EF9342D3 /* SwiftController.swift in Sources */,
 				CE89412E1E3440E500191B38 /* SwiftyJSON.swift in Sources */,
 				285FE67BD6D6ADA9B37C0549 /* Popup.swift in Sources */,
