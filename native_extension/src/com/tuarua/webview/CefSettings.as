@@ -65,19 +65,6 @@ OnBeforeCommandLineProcessing.</p>
 default the browser process executable is used.</p>
  */
     public var browserSubprocessPath:String = "CefSharp.BrowserSubprocess.exe";
-/**
- <p>Keys for retrieving user location please see https://www.chromium.org/developers/how-tos/api-keys.</p>
- */
-    public var GOOGLE_API_KEY:String;
-/**
- <p>Keys for retrieving user location please see https://www.chromium.org/developers/how-tos/api-keys.</p>
- */
-    public var GOOGLE_DEFAULT_CLIENT_ID:String;
-/**
- <p>Keys for retrieving user location please see https://www.chromium.org/developers/how-tos/api-keys.</p>
- */
-    public var GOOGLE_DEFAULT_CLIENT_SECRET:String;
-
 
 public function CefSettings() {
     }

@@ -1,3 +1,8 @@
+### 1.3.2
+- WIN/OSX/iOS/AND: Handle different String formats for loadFileUrl Issue #124
+- WIN: UTF-8 support for javascript functions Issue #125
+- WIN: Remove Geolocation API
+
 ### 1.3.1
 - WIN: Updated to CefSharp 63.0.1
 

@@ -18,6 +18,7 @@
 		CE59BDE11EEF38C600F698DE /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE59BDDC1EEF38C600F698DE /* Settings.swift */; };
 		CE59BDE21EEF38C600F698DE /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE59BDDD1EEF38C600F698DE /* Configuration.swift */; };
 		CE59BDE31EEF38C600F698DE /* BackForwardList.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE59BDDE1EEF38C600F698DE /* BackForwardList.swift */; };
+		CE886FC72047491300B2C8FF /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE886FC62047491300B2C8FF /* URL.swift */; };
 		CEA438051E78A2C00099F463 /* SwiftyJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = CEA438031E78A2C00099F463 /* SwiftyJSON.h */; };
 		CEA438061E78A2C00099F463 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA438041E78A2C00099F463 /* SwiftyJSON.swift */; };
 		CEA65345202797B50034C691 /* PopupBehaviour.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA65344202797B50034C691 /* PopupBehaviour.swift */; };
@@ -53,6 +54,8 @@
 		CE59BDDC1EEF38C600F698DE /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Settings.swift; path = ../../../source/swift/Settings.swift; sourceTree = "<group>"; };
 		CE59BDDD1EEF38C600F698DE /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Configuration.swift; path = ../../../source/swift/Configuration.swift; sourceTree = "<group>"; };
 		CE59BDDE1EEF38C600F698DE /* BackForwardList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BackForwardList.swift; path = ../../../source/swift/BackForwardList.swift; sourceTree = "<group>"; };
+		CE886FC62047491300B2C8FF /* URL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
+		CE886FC8204749BC00B2C8FF /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
 		CEA438031E78A2C00099F463 /* SwiftyJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SwiftyJSON.h; path = ../../../source/swift/SwiftyJSON.h; sourceTree = "<group>"; };
 		CEA438041E78A2C00099F463 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftyJSON.swift; path = ../../../source/swift/SwiftyJSON.swift; sourceTree = "<group>"; };
 		CEA65344202797B50034C691 /* PopupBehaviour.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PopupBehaviour.swift; path = ../../../source/swift/PopupBehaviour.swift; sourceTree = "<group>"; };
@@ -97,6 +100,7 @@
 		CE3980621E58BA7F0062485B = {
 			isa = PBXGroup;
 			children = (
+				CE886FC8204749BC00B2C8FF /* .swiftlint.yml */,
 				CE0014D01F6482C6000AE663 /* Frameworks */,
 				CE39808B1E58BAA90062485B /* WebViewANE_FW */,
 				CE3980A01E58BEE10062485B /* WebViewANE_LIB */,
@@ -116,6 +120,7 @@
 		CE39808B1E58BAA90062485B /* WebViewANE_FW */ = {
 			isa = PBXGroup;
 			children = (
+				CE886FC5204748D700B2C8FF /* Extensions */,
 				CEA65349202797D10034C691 /* SwiftController+FreSwift.swift */,
 				CEA65347202797D00034C691 /* SwiftController+WKNavigationDelegate.swift */,
 				CEA65348202797D10034C691 /* SwiftController+WKScriptMessageHandler.swift */,
@@ -142,6 +147,15 @@
 				285FEBB3CADF8D704FAB5E4D /* WebViewANE_oc.h */,
 			);
 			path = WebViewANE_LIB;
+			sourceTree = "<group>";
+		};
+		CE886FC5204748D700B2C8FF /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				CE886FC62047491300B2C8FF /* URL.swift */,
+			);
+			name = Extensions;
+			path = ../../../source/swift/Extensions;
 			sourceTree = "<group>";
 		};
 		CEA438011E7839740099F463 /* Headers */ = {
@@ -299,6 +313,7 @@
 				CEA6534B202797D10034C691 /* SwiftController+WKNavigationDelegate.swift in Sources */,
 				CEA65345202797B50034C691 /* PopupBehaviour.swift in Sources */,
 				CEFE5BEB1F1A27A9007BFBF2 /* SwiftController.swift in Sources */,
+				CE886FC72047491300B2C8FF /* URL.swift in Sources */,
 				CE59BDE21EEF38C600F698DE /* Configuration.swift in Sources */,
 				CEA6534C202797D10034C691 /* SwiftController+WKScriptMessageHandler.swift in Sources */,
 				CE59BDE31EEF38C600F698DE /* BackForwardList.swift in Sources */,

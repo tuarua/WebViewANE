@@ -202,22 +202,6 @@ namespace CefSharpLib {
                 var cefSettingsFre = inFre2.GetProp("cef");
                 var useHiDpi = argv[5].AsBool();
 
-                var googleApiKeyFre = cefSettingsFre.GetProp("GOOGLE_API_KEY");
-                var googleDefaultClientIdFre = cefSettingsFre.GetProp("GOOGLE_DEFAULT_CLIENT_ID");
-                var googleDefaultClientSecretFre = cefSettingsFre.GetProp("GOOGLE_DEFAULT_CLIENT_SECRET");
-
-                if (FreObjectTypeSharp.String == googleApiKeyFre.Type()) {
-                    Environment.SetEnvironmentVariable("GOOGLE_API_KEY", googleApiKeyFre.AsString());
-                }
-                if (FreObjectTypeSharp.String == googleDefaultClientIdFre.Type()) {
-                    Environment.SetEnvironmentVariable("GOOGLE_DEFAULT_CLIENT_ID",
-                        googleDefaultClientIdFre.AsString());
-                }
-                if (FreObjectTypeSharp.String == googleDefaultClientSecretFre.Type()) {
-                    Environment.SetEnvironmentVariable("GOOGLE_DEFAULT_CLIENT_SECRET",
-                        googleDefaultClientSecretFre.AsString());
-                }
-
                 var clArr = new FREArray(cefSettingsFre.GetProp("commandLineArgs"));
                 var argsDict = new Dictionary<string, string>();
 
@@ -519,14 +503,14 @@ namespace CefSharpLib {
             return FREObject.Zero;
         }
 
-        public async void CallJavascriptFunction(string s, string cb) {
+        public async void CallJavascriptFunction(string js, string cb) {
             //this is as->js->as
             var sb = new StringBuilder();
             var sw = new StringWriter(sb);
             JsonWriter writer;
             try {
                 var mf = _view.CurrentBrowser.GetMainFrame();
-                var response = await mf.EvaluateScriptAsync(s, TimeSpan.FromMilliseconds(500).ToString());
+                var response = await mf.EvaluateScriptAsync(Utils.ToUtf8(js), TimeSpan.FromMilliseconds(500).ToString());
 
                 if (response.Success && response.Result is IJavascriptCallback) {
                     response = await ((IJavascriptCallback) response.Result).ExecuteAsync("");
@@ -575,7 +559,7 @@ namespace CefSharpLib {
             //this is as->js
             try {
                 var mf = _view.CurrentBrowser.GetMainFrame();
-                mf.ExecuteJavaScriptAsync(js); // this is fire and forget can run js urls, startLine 
+                mf.ExecuteJavaScriptAsync(Utils.ToUtf8(js)); // this is fire and forget can run js urls, startLine 
             }
             catch (Exception e) {
                 Console.WriteLine(@"JS error: " + e.Message);
@@ -589,7 +573,7 @@ namespace CefSharpLib {
             try {
                 writer = new JsonTextWriter(sw) {Formatting = Formatting.None};
                 var mf = _view.CurrentBrowser.GetMainFrame();
-                var response = await mf.EvaluateScriptAsync(js, TimeSpan.FromMilliseconds(500).ToString());
+                var response = await mf.EvaluateScriptAsync(Utils.ToUtf8(js), TimeSpan.FromMilliseconds(500).ToString());
                 if (response.Success && response.Result is IJavascriptCallback) {
                     response = await ((IJavascriptCallback) response.Result).ExecuteAsync("");
                 }
@@ -634,7 +618,7 @@ namespace CefSharpLib {
         public void EvaluateJavaScript(string js) {
             try {
                 var mf = _view.CurrentBrowser.GetMainFrame();
-                mf.ExecuteJavaScriptAsync(js); // this is fire and forget can run js urls, startLine 
+                mf.ExecuteJavaScriptAsync(Utils.ToUtf8(js)); // this is fire and forget can run js urls, startLine 
             }
             catch (Exception e) {
                 Console.WriteLine(@"JS error: " + e.Message);

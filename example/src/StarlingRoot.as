@@ -133,15 +133,8 @@ public class StarlingRoot extends Sprite {
         settings.cef.contextMenu.enabled = false; //enable/disable right click
         settings.cef.logSeverity = LogSeverity.DISABLE;
 
-
         //settings.urlWhiteList.push("macromedia.","google.", "youtube.", "adobe.com","chrome-devtools://"); //to restrict urls - simple string matching
         //settings.urlBlackList.push(".pdf");
-
-        //to retrieve geolocation on Windows (CEF), follow the instructions on this page and set these vars
-        //https://www.chromium.org/developers/how-tos/api-keys
-//        settings.cef.GOOGLE_API_KEY = "YOUR_VALUE";
-//        settings.cef.GOOGLE_DEFAULT_CLIENT_ID = "YOUR_VALUE";
-//        settings.cef.GOOGLE_DEFAULT_CLIENT_SECRET = "YOUR_VALUE";
 
         var viewPort:Rectangle = new Rectangle(0, 90, _appWidth, _appHeight - 140);
         webView.init(WebViewANESample.target.stage, viewPort, "https://www.youtube.com", settings, 1.0, 0xFFF1F1F1, true);
@@ -362,7 +355,7 @@ public class StarlingRoot extends Sprite {
     private function onAsJsAsBtn(event:TouchEvent):void {
         var touch:Touch = event.getTouch(as_js_as_Btn);
         if (touch != null && touch.phase == TouchPhase.ENDED) {
-            webView.callJavascriptFunction("as_to_js", asToJsCallback, 1, "a", 77);
+            webView.callJavascriptFunction("as_to_js", asToJsCallback, 1, "é", 77);
 
             //this is how to use without a callback
             // webView.callJavascriptFunction("console.log",null,"hello console. The is AIR");
@@ -403,7 +396,7 @@ public class StarlingRoot extends Sprite {
 
             var localHTML:File = File.applicationDirectory.resolvePath("jsTest.html");
             if (localHTML.exists) {
-                webView.loadFileURL("file://" + localHTML.nativePath, "file://" + File.applicationDirectory.nativePath);
+                webView.loadFileURL(localHTML.nativePath, File.applicationDirectory.nativePath);
             }
         }
     }
