@@ -2,6 +2,7 @@
 - Updated to AIR 29
 - OSX/iOS: Updated to FreSwift 2.3.0
 - AND: Updated to FreKotlin 1.2.0
+- WIN: Fix webView.tabDetails getter Issue #128
 
 ### 1.3.2
 - WIN/OSX/iOS/AND: Handle different String formats for loadFileUrl Issue #124

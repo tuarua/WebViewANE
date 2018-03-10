@@ -11,6 +11,7 @@ import com.tuarua.webview.DownloadProgress;
 import com.tuarua.webview.JavascriptResult;
 import com.tuarua.webview.LogSeverity;
 import com.tuarua.webview.Settings;
+import com.tuarua.webview.TabDetails;
 import com.tuarua.webview.WebViewEvent;
 import com.tuarua.webview.popup.Behaviour;
 
@@ -104,7 +105,6 @@ public class StarlingRoot extends Sprite {
         webView.addEventListener(WebViewEvent.ON_URL_BLOCKED, onUrlBlocked);
         webView.addEventListener(WebViewEvent.ON_POPUP_BLOCKED, onPopupBlocked);
         webView.addEventListener(WebViewEvent.ON_PDF_PRINTED, onPdfPrinted); //webView.printToPdf("C:\\path\\to\file.pdf");
-
 
 
         /*webView.addEventListener(KeyboardEvent.KEY_UP, onKeyUp); //KeyboardEvent of webview captured
@@ -410,8 +410,10 @@ public class StarlingRoot extends Sprite {
 
     private function onPropertyChange(event:WebViewEvent):void {
         // read list of tabs and their details like this:
-        // var tabList:Vector.<TabDetails> = webView.tabDetails;
-        // trace(tabList[webView.currentTab].index, tabList[webView.currentTab].title, tabList[webView.currentTab].url);
+        /*var tabList:Vector.<TabDetails> = webView.tabDetails;
+        if (tabList && tabList.length > 0) {
+            trace(tabList[webView.currentTab].index, tabList[webView.currentTab].title, tabList[webView.currentTab].url);
+        }*/
         switch (event.params.propertyName) {
             case "url":
                 if (event.params.tab == webView.currentTab) {
@@ -432,14 +434,12 @@ public class StarlingRoot extends Sprite {
                     backBtn.alpha = event.params.value ? 1.0 : 0.4;
                     backBtn.touchable = event.params.value;
                 }
-
                 break;
             case "canGoForward":
                 if (event.params.tab == webView.currentTab) {
                     fwdBtn.alpha = event.params.value ? 1.0 : 0.4;
                     fwdBtn.touchable = event.params.value;
                 }
-
                 break;
             case "estimatedProgress":
                 var p:Number = event.params.value;
@@ -454,7 +454,6 @@ public class StarlingRoot extends Sprite {
                         progress.alpha = 1;
                     }
                 }
-
                 break;
             case "statusMessage":
                 if (event.params.tab == webView.currentTab) {
@@ -501,9 +500,9 @@ public class StarlingRoot extends Sprite {
         if (touch != null && touch.phase == TouchPhase.ENDED) {
             webView.goForward();
 
-             /*var obj:BackForwardList = webView.backForwardList();
-             trace("back list length",obj.backList.length)
-             trace("forward list length",obj.forwardList.length)*/
+            /*var obj:BackForwardList = webView.backForwardList();
+            trace("back list length",obj.backList.length)
+            trace("forward list length",obj.forwardList.length)*/
 
         }
     }
