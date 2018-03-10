@@ -1,7 +1,7 @@
 @echo off
 SET pathtome=%~dp0
 SET SZIP="C:\Program Files\7-Zip\7z.exe"
-SET AIR_PATH="D:\dev\sdks\AIR\AIRSDK_27\bin\"
+SET AIR_PATH="D:\dev\sdks\AIR\AIRSDK_29\bin\"
 
 SET projectName=WebViewANE
 

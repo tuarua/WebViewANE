@@ -84,7 +84,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)x64\$(Configuration)\</OutDir>
-    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
+    <PostBuildEventUseInBuild>false</PostBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -96,7 +96,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)x64\$(Configuration)\</OutDir>
-    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
+    <PostBuildEventUseInBuild>false</PostBuildEventUseInBuild>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -105,13 +105,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;$(TargetName)_EXPORTS;_TIMESPEC_DEFINED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\dev\sdks\AIR\AIRSDK_28_64\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\dev\sdks\AIR\AIRSDK_29\include</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>D:\dev\sdks\AIR\AIRSDK_28\lib\win</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\dev\sdks\AIR\AIRSDK_29\lib\win</AdditionalLibraryDirectories>
       <AdditionalDependencies>FlashRuntimeExtensions.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <CustomBuildStep>
@@ -129,12 +129,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\dev\sdks\AIR\AIRSDK_28_64\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\dev\sdks\AIR\AIRSDK_29\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>D:\dev\sdks\AIR\AIRSDK_28_64\lib\win</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\dev\sdks\AIR\AIRSDK_29\lib\win64</AdditionalLibraryDirectories>
       <AdditionalDependencies>FlashRuntimeExtensions.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
@@ -150,7 +150,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;$(TargetName)_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\dev\sdks\AIR\AIRSDK_28_64\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\dev\sdks\AIR\AIRSDK_29\include</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -158,7 +158,7 @@
       <GenerateDebugInformation>No</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>D:\dev\sdks\AIR\AIRSDK_28\lib\win</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\dev\sdks\AIR\AIRSDK_29\lib\win</AdditionalLibraryDirectories>
       <AdditionalDependencies>FlashRuntimeExtensions.lib;comctl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <CustomBuildStep>
@@ -178,7 +178,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\dev\sdks\AIR\AIRSDK_28_64\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\dev\sdks\AIR\AIRSDK_29\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -186,7 +186,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>FlashRuntimeExtensions.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>D:\dev\sdks\AIR\AIRSDK_28_64\lib\win</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\dev\sdks\AIR\AIRSDK_29\lib\win64</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>$(ProjectDir)..\..\..\..\native_extension\ane\build-windows.bat</Command>

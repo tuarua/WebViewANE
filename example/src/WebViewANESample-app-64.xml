@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--
+  ~ Copyright Tua Rua Ltd. (c) 2018.
+  -->
+
 <application xmlns="http://ns.adobe.com/air/application/29.0">
 
     <!-- Adobe AIR Application Descriptor File Template.
@@ -16,6 +20,8 @@
     <!-- A universally unique application identifier. Must be unique across all AIR applications.
     Using a reverse DNS-style name as the id is recommended. (Eg. com.example.ExampleApplication.) Required. -->
     <id>WebViewANESample</id>
+
+    <architecture>64</architecture>
 
     <!-- Used as the filename for the application. Required. -->
     <filename>WebViewANESample</filename>

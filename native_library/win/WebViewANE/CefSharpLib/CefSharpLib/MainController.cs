@@ -125,11 +125,11 @@ namespace CefSharpLib {
         }
 
         private static FREObject IsSupported(FREContext ctx, uint argc, FREObject[] argv) {
-            return new FreObjectSharp(true).RawValue;
+            return true.ToFREObject();
         }
 
         private static FREObject AllowsMagnification(FREContext ctx, uint argc, FREObject[] argv) {
-            return new FreObjectSharp(true).RawValue;
+            return true.ToFREObject();
         }
 
         private FREObject ZoomIn(FREContext ctx, uint argc, FREObject[] argv) {
@@ -297,7 +297,7 @@ namespace CefSharpLib {
         }
 
         public FREObject GetCurrentTab(FREContext ctx, uint argc, FREObject[] argv) {
-            return new FreObjectSharp(_view.CurrentTab).RawValue;
+            return _view.CurrentTab.ToFREObject();
         }
 
         public FREObject GetTabDetails(FREContext ctx, uint argc, FREObject[] argv) {
@@ -308,10 +308,16 @@ namespace CefSharpLib {
                 for (var index = 0; index < tabDetails.Count; index++) {
                     var tabDetail = tabDetails[index] as TabDetails;
                     if (tabDetail == null) continue;
-                    var currentTabFre = new FREObject().Init("com.tuarua.webview.TabDetails", index, tabDetail.Address,
-                        tabDetail.Title, tabDetail.IsLoading, tabDetail.CanGoBack, tabDetail.CanGoForward, 1.0);
+                    var currentTabFre = new FREObject().Init("com.tuarua.webview.TabDetails", 
+                        index,
+                        string.IsNullOrEmpty(tabDetail.Address) ? "" : tabDetail.Address,
+                        string.IsNullOrEmpty(tabDetail.Title) ? "" : tabDetail.Title, 
+                        tabDetail.IsLoading, 
+                        tabDetail.CanGoBack, 
+                        tabDetail.CanGoForward, 
+                        1.0);
 
-                    vecTabDetails.Set((uint) index, currentTabFre);
+                    vecTabDetails.Set((uint) index, new FreObjectSharp(currentTabFre)); //TODO update FreSharp to allow FREObjects to be passed
                 }
                 return vecTabDetails.RawValue;
             }

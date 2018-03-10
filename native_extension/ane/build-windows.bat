@@ -1,8 +1,8 @@
 REM Get the path to the script and trim to get the directory.
 @echo off
 SET SZIP="C:\Program Files\7-Zip\7z.exe"
-SET AIR_PATH="D:\dev\sdks\AIR\AIRSDK_28\bin\"
-SET AIR_PATH_64="D:\dev\sdks\AIR\AIRSDK_28_64\bin\"
+SET AIR_PATH="D:\dev\sdks\AIR\AIRSDK_29\bin\"
+
 echo Setting path to current directory to:
 SET pathtome=%~dp0
 echo %pathtome%
@@ -50,21 +50,15 @@ copy %pathtome%..\..\native_library\win\%projectName%\x64\Release\%projectName%.
 
 copy %pathtome%..\..\native_library\win\%projectName%\CefSharpLib\CefSharpLib\bin\x86\Debug\CefSharpLib.dll %AIR_PATH%CefSharpLib.dll
 copy %pathtome%..\..\native_library\win\%projectName%\CefSharpLib\CefSharpLib\bin\x86\Debug\CefSharpLib.pdb %AIR_PATH%CefSharpLib.pdb
-copy %pathtome%..\..\native_library\win\%projectName%\CefSharpLib\CefSharpLib\bin\x64\Debug\CefSharpLib.dll %AIR_PATH_64%CefSharpLib.dll
-copy %pathtome%..\..\native_library\win\%projectName%\CefSharpLib\CefSharpLib\bin\x64\Debug\CefSharpLib.pdb %AIR_PATH_64%CefSharpLib.pdb
 
 copy %pathtome%..\..\native_library\win\%projectName%\CefSharpLib\CefSharpLib\bin\x86\Release\CefSharpLib.dll %pathtome%..\..\cef_sharp_libs_x86\CefSharpLib.dll
 copy %pathtome%..\..\native_library\win\%projectName%\CefSharpLib\CefSharpLib\bin\x64\Release\CefSharpLib.dll %pathtome%..\..\cef_sharp_libs_x64\CefSharpLib.dll
 
 copy %pathtome%..\..\native_library\win\%projectName%\CefSharpLib\CefSharpLib\bin\x86\Debug\FreSharpCore.dll %AIR_PATH%FreSharpCore.dll
 copy %pathtome%..\..\native_library\win\%projectName%\CefSharpLib\CefSharpLib\bin\x86\Debug\FreSharpCore.pdb %AIR_PATH%FreSharpCore.pdb
-copy %pathtome%..\..\native_library\win\%projectName%\CefSharpLib\CefSharpLib\bin\x64\Debug\FreSharpCore.dll %AIR_PATH_64%FreSharpCore.dll
-copy %pathtome%..\..\native_library\win\%projectName%\CefSharpLib\CefSharpLib\bin\x64\Debug\FreSharpCore.pdb %AIR_PATH_64%FreSharpCore.pdb
 
 copy %pathtome%..\..\native_library\win\%projectName%\CefSharpLib\CefSharpLib\bin\x86\Debug\FreSharp.dll %AIR_PATH%FreSharp.dll
 copy %pathtome%..\..\native_library\win\%projectName%\CefSharpLib\CefSharpLib\bin\x86\Debug\FreSharp.pdb %AIR_PATH%FreSharp.pdb
-copy %pathtome%..\..\native_library\win\%projectName%\CefSharpLib\CefSharpLib\bin\x64\Debug\FreSharp.dll %AIR_PATH_64%FreSharp.dll
-copy %pathtome%..\..\native_library\win\%projectName%\CefSharpLib\CefSharpLib\bin\x64\Debug\FreSharp.pdb %AIR_PATH_64%FreSharp.pdb
 
 copy %pathtome%..\..\native_library\win\%projectName%\CefSharpLib\CefSharpLib\bin\x86\Release\FreSharpCore.dll %pathtome%..\..\cef_sharp_libs_x86\FreSharpCore.dll
 copy %pathtome%..\..\native_library\win\%projectName%\CefSharpLib\CefSharpLib\bin\x86\Release\FreSharp.dll %pathtome%..\..\cef_sharp_libs_x86\FreSharp.dll

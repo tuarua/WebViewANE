@@ -17,12 +17,12 @@
 
 #if __APPLE__
 #include "TargetConditionals.h"
-#if (TARGET_IPHONE_SIMULATOR) || (TARGET_OS_IPHONE)
+#if TARGET_OS_IOS
 #define IOS
-#elif TARGET_OS_MAC
-#define OSX
+#elif TARGET_OS_TV
+#define TVOS
 #else
-#   error "Unknown Apple platform"
+#define OSX
 #endif
 #endif
 
@@ -30,9 +30,14 @@
 #import <FreSwift/FlashRuntimeExtensions.h>
 #ifdef IOS
 #import <FreSwift/FreSwift-iOS-Swift.h>
-#else
+#endif
+#ifdef TVOS
+#import <FreSwift/FreSwift-tvOS-Swift.h>
+#endif
+#ifdef OSX
 #import <FreSwift/FreSwift-OSX-Swift.h>
 #endif
+
 #define NSStringize_helper(x) #x
 #define NSStringize(x) @NSStringize_helper(x)
 #define FRE_FUNCTION(fn) FREObject (fn)(FREContext context, void* functionData, uint32_t argc, FREObject argv[])
@@ -57,7 +62,7 @@
 #define EXTENSION_FIN(prefix) void (prefix##ExtFinizer) (void *extData) { \
 }
 
-#ifdef IOS
+#if defined(IOS) || defined(TVOS)
 #define SWIFT_DECL(prefix) \
 prefix##_FlashRuntimeExtensionsBridge * prefix##_freBridge; \
 __strong SwiftController * prefix##_swft;  \
@@ -95,8 +100,7 @@ prefix##_funcArray = [prefix##_swft getFunctionsWithPrefix:NSStringize(prefix)"_
 #endif
 
 
-
-#ifdef IOS
+#if defined(IOS) || defined(TVOS)
 #define FRE_OBJC_BRIDGE_FUNCS \
 - (FREResult)FREAcquireBitmapData2WithObject:(FREObject _Nonnull)object descriptorToSet:(FREBitmapData2 * _Nonnull)descriptorToSet { \
 return FREAcquireBitmapData2(object, descriptorToSet); \
@@ -201,3 +205,4 @@ return FRESetObjectProperty(object, (const uint8_t *) [propertyName UTF8String],
 };
 #endif
 #endif /* FreMacros_h */
+
