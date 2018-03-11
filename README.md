@@ -50,10 +50,10 @@ Please see the win_installer folder for an example Inno Setup project which hand
 
 ##### Windows 64bit
 
-The Adobe AIRSDK 64bit BETA is available here:
-https://fpdownload.macromedia.com/pub/labs/flashruntimes/air/win64SDK/AIRSDK_Compiler.zip
+AIR29 now includes 32bit and 64bit in the AIR SDK.
+However it appears adl.exe is 32bit only. Therefore when debugging use x86 version of the cef and cefsharp dlls.
 
-If you are using the 64bit version follow the above instructions replacing x86 with x64 where applicable
+If you are using the 64bit version for release follow the above instructions replacing x86 with x64 where applicable
 
 ## OSX
 
