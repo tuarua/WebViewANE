@@ -1,4 +1,5 @@
-;contribute on http://github.com/stfx/innodependencyinstaller or http://codeproject.com/Articles/20868/NET-Framework-1-1-2-0-3-5-Installer-for-InnoSetup
+;contribute: http://github.com/stfx/innodependencyinstaller
+;original article: http://codeproject.com/Articles/20868/NET-Framework-1-1-2-0-3-5-Installer-for-InnoSetup
 
 ;comment out product defines to disable installing them
 ;#define use_iis
@@ -9,7 +10,7 @@
 #define use_vc2015
 
 #define MyAppSetupName 'WebViewANESample'
-#define MyAppVersion '0.0.24'
+#define MyAppVersion '1.4.0'
 
 [Setup]
 AppName={#MyAppSetupName}
@@ -41,13 +42,19 @@ ArchitecturesAllowed=x86 x64 ia64
 DisableReadyPage=no
 DisableReadyMemo=no
 
-[Languages]
-Name: "en"; MessagesFile: "compiler:Default.isl"
-Name: "de"; MessagesFile: "compiler:Languages\German.isl"
-Name: "fr"; MessagesFile: "compiler:Languages\French.isl"
-Name: "it"; MessagesFile: "compiler:Languages\Italian.isl"
-Name: "nl"; MessagesFile: "compiler:Languages\Dutch.isl"
-Name: "pl"; MessagesFile: "compiler:Languages\Polish.isl"
+; supported languages
+#include "scripts\lang\english.iss"
+#include "scripts\lang\german.iss"
+#include "scripts\lang\french.iss"
+#include "scripts\lang\italian.iss"
+#include "scripts\lang\dutch.iss"
+
+#ifdef UNICODE
+#include "scripts\lang\chinese.iss"
+#include "scripts\lang\polish.iss"
+#include "scripts\lang\russian.iss"
+#include "scripts\lang\japanese.iss"
+#endif
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"
@@ -58,6 +65,7 @@ Source: "src\*.*"; DestDir: "{app}"; Flags: replacesameversion
 Source: "src\Adobe Air\*.*"; DestDir: "{app}\Adobe Air"; Flags: replacesameversion recursesubdirs
 Source: "src\META-INF\*.*"; DestDir: "{app}\META-INF"; Flags: replacesameversion recursesubdirs
 Source: "src\locales\*.*"; DestDir: "{app}\locales"; Flags: replacesameversion recursesubdirs
+Source: "src\swiftshader\*.*"; DestDir: "{app}\swiftshader"; Flags: replacesameversion recursesubdirs
 
 [Icons]
 Name: "{group}\{#MyAppSetupName}"; Filename: "{app}\{#MyAppSetupName}.exe"
@@ -68,7 +76,7 @@ Name: "{commondesktop}\{#MyAppSetupName}"; Filename: "{app}\{#MyAppSetupName}.ex
 Filename: "{app}\{#MyAppSetupName}.exe"; Description: "{cm:LaunchProgram,{#MyAppSetupName}}"; Flags: nowait postinstall skipifsilent
 
 [CustomMessages]
-win_sp_title=Windows %1 Service Pack %2
+DependenciesDir=MyProgramDependencies
 
 
 ; shared code for installing the products
