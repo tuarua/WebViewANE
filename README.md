@@ -91,11 +91,11 @@ After the ipa is created unzip it and confirm there is a "Frameworks" folder in 
 
 ### Running on Simulator
 
-The example project can be run on the Simulator from IntelliJ using AIR 28.
+The example project can be run on the Simulator from IntelliJ using AIR 29.
 
 ### Running on Device
 
-The example project can be run on the device from IntelliJ using AIR 28.
+The example project can be run on the device from IntelliJ using AIR 29.
 
 
 
@@ -103,9 +103,10 @@ The example project can be run on the device from IntelliJ using AIR 28.
 
 You will need
 
-- Xcode 9.1 / AppCode
+- Xcode 9.3
+- Xcode 9.1 for iOS Simulator
 - IntelliJ IDEA
-- AIR 28
+- AIR 29
 
 ## Android
 The Android version utilises the native WebView. 

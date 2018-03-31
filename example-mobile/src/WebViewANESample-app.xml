@@ -61,7 +61,6 @@
         <!-- A list of plist key/value pairs to be added to the application Info.plist -->
         <!-- UIDeviceFamily: 1 - iPhone/iPod Touch; 2 - iPad; both: universal app -->
         <!--<launchScreen>/system/LaunchScreen.storyboardc</launchScreen>-->
-        <assetsCar>Assets.car</assetsCar>
         <InfoAdditions><![CDATA[
             <key>UIDeviceFamily</key>
             <array>

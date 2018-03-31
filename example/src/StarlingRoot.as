@@ -75,7 +75,7 @@ public class StarlingRoot extends Sprite {
     private var _appWidth:uint = 1280;
     private var _appHeight:uint = 800;
     private var tabBar:TabBar = new TabBar();
-    private static const newTabUrls:Vector.<String> = new <String>["http://www.bing.com", "http://www.bbc.co.uk",
+    private static const newTabUrls:Vector.<String> = new <String>["https://www.bing.com", "https://www.bbc.co.uk",
         null, "https://www.github.com", "https://forum.starling-framework.org/"];
 
     public function StarlingRoot() {

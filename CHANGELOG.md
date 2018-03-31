@@ -1,3 +1,7 @@
+### 1.5.0
+- OSX/iOS: Updated to FreSwift 2.4.0
+- WIN: Updated to CefSharp 63.0.3
+
 ### 1.4.0
 - Updated to AIR 29
 - OSX/iOS: Updated to FreSwift 2.3.0
