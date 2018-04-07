@@ -7,8 +7,13 @@ using CefSharp;
 
 namespace CefSharpLib {
     public class DownloadHandler : IDownloadHandler {
+        private readonly string _saveToDirectory;
         public event EventHandler<DownloadItem> OnBeforeDownloadFired;
         public event EventHandler<DownloadItem> OnDownloadUpdatedFired;
+
+        public DownloadHandler(string saveToDirectory = null) {
+            _saveToDirectory = saveToDirectory;
+        }
 
         public void OnBeforeDownload(IBrowser browser, DownloadItem downloadItem, IBeforeDownloadCallback callback) {
             var handler = OnBeforeDownloadFired;
@@ -16,7 +21,11 @@ namespace CefSharpLib {
 
             if (callback.IsDisposed) return;
             using (callback) {
-                callback.Continue(downloadItem.SuggestedFileName, true);
+                var downloadPath = string.IsNullOrEmpty(_saveToDirectory)
+                    ? downloadItem.SuggestedFileName
+                    : _saveToDirectory + "\\" + downloadItem.SuggestedFileName;
+                var showDialog = string.IsNullOrEmpty(_saveToDirectory);
+                callback.Continue(downloadPath, showDialog);
             }
         }
 
@@ -24,6 +33,5 @@ namespace CefSharpLib {
             var handler = OnDownloadUpdatedFired;
             handler?.Invoke(this, downloadItem);
         }
-
     }
 }

@@ -72,6 +72,7 @@ extern "C" {
 			,MAP_FUNCTION(print)
 			,MAP_FUNCTION(printToPdf)
 			,MAP_FUNCTION(capture)
+			,MAP_FUNCTION(getCapturedBitmapData)
 			,MAP_FUNCTION(addTab)
 			,MAP_FUNCTION(closeTab)
 			,MAP_FUNCTION(setCurrentTab)
@@ -81,6 +82,7 @@ extern "C" {
 			,MAP_FUNCTION(clearCache)
 			,MAP_FUNCTION(addEventListener)
 			,MAP_FUNCTION(removeEventListener)
+			,MAP_FUNCTION(getOsVersion)
 		};
 
 		SET_FUNCTIONS

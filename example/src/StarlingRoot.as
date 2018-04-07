@@ -5,13 +5,12 @@
 package {
 import com.tuarua.CommonDependencies;
 import com.tuarua.WebViewANE;
+import com.tuarua.utils.os;
 import com.tuarua.webview.ActionscriptCallback;
-import com.tuarua.webview.BackForwardList;
 import com.tuarua.webview.DownloadProgress;
 import com.tuarua.webview.JavascriptResult;
 import com.tuarua.webview.LogSeverity;
 import com.tuarua.webview.Settings;
-import com.tuarua.webview.TabDetails;
 import com.tuarua.webview.WebViewEvent;
 import com.tuarua.webview.popup.Behaviour;
 
@@ -137,6 +136,10 @@ public class StarlingRoot extends Sprite {
         //settings.urlBlackList.push(".pdf");
 
         var viewPort:Rectangle = new Rectangle(0, 90, _appWidth, _appHeight - 140);
+
+        trace(os.isWindows, os.majorVersion, os.minorVersion, os.buildVersion);
+
+        //trace("os v:", webView.osVersion);
         webView.init(WebViewANESample.target.stage, viewPort, "https://www.youtube.com", settings, 1.0, 0xFFF1F1F1, true);
         //webView.init(WebViewANESample.target.stage, viewPort, "", settings, 1.0, 0xFFF1F1F1, true); // when using loadHTMLString
         webView.visible = true;
@@ -517,18 +520,21 @@ public class StarlingRoot extends Sprite {
     private function onCapture(event:TouchEvent):void {
         var touch:Touch = event.getTouch(capureBtn);
         if (touch != null && touch.phase == TouchPhase.ENDED) {
-            var bmd:BitmapData = webView.capture(100, 100, 400, 200);
-            if (bmd) {
-                var ba:ByteArray = new ByteArray();
-                var encodingOptions:PNGEncoderOptions = new PNGEncoderOptions(true);
-                bmd.encode(new Rectangle(0, 0, bmd.width, bmd.height), encodingOptions, ba);
-                var file:File = File.desktopDirectory.resolvePath("webViewANE_capture.png");
-                var fs:FileStream = new FileStream();
-                fs.open(file, FileMode.WRITE);
-                fs.writeBytes(ba);
-                fs.close();
-                trace("webViewANE_capture.png written to desktop")
-            }
+            webView.capture(function (bitmapData:BitmapData):void {
+                if (bitmapData) {
+                    var ba:ByteArray = new ByteArray();
+                    var encodingOptions:PNGEncoderOptions = new PNGEncoderOptions(true);
+                    bitmapData.encode(new Rectangle(0, 0, bitmapData.width, bitmapData.height), encodingOptions, ba);
+                    var file:File = File.desktopDirectory.resolvePath("webViewANE_capture.png");
+                    var fs:FileStream = new FileStream();
+                    fs.open(file, FileMode.WRITE);
+                    fs.writeBytes(ba);
+                    fs.close();
+                    trace("webViewANE_capture.png written to desktop")
+                }
+
+            }, new Rectangle(100, 100, 400, 200));
+
         }
     }
 

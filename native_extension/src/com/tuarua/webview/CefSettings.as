@@ -66,6 +66,11 @@ default the browser process executable is used.</p>
  */
     public var browserSubprocessPath:String = "CefSharp.BrowserSubprocess.exe";
 
+/**
+ <p>The path to automatically save downloads to. No user dialog is shown.</p>
+ */
+    public var downloadPath:String;
+
 public function CefSettings() {
     }
 }

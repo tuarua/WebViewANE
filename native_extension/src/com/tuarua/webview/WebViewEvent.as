@@ -82,6 +82,7 @@ public class WebViewEvent extends Event {
     public static const ON_PDF_PRINTED:String = "WebView.OnPdfPrinted";
     public var params:*;
 
+
     public function WebViewEvent(type:String, params:* = null, bubbles:Boolean = false, cancelable:Boolean = false) {
         super(type, bubbles, cancelable);
         this.params = params;

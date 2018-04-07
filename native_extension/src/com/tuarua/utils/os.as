@@ -1,33 +1,45 @@
-/*
- * Copyright 2017 Tua Rua Ltd.
- *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *  http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- *
- *  Additional Terms
- *  No part, or derivative of this Air Native Extensions's code is permitted
- *  to be sold as the basis of a commercially packaged Air Native Extension which
- *  undertakes the same purpose as this software. That is, a WebView for Windows,
- *  OSX and/or iOS and/or Android.
- *  All Rights Reserved. Tua Rua Ltd.
- */
-
 package com.tuarua.utils {
+import com.tuarua.WebViewANE;
+
 import flash.system.Capabilities;
 
-public class os {
-    public static const isWindows:Boolean = Capabilities.os.toLowerCase().indexOf("windows") == 0;
-    public static const isOSX:Boolean = Capabilities.os.toLowerCase().indexOf("mac") == 0;
-    public static const isAndroid:Boolean = Capabilities.os.toLowerCase().indexOf("android") > -1;
-    public static const isIos:Boolean = Capabilities.os.toLowerCase().indexOf("iphone") > -1;
+public final class os {
+    private static const platform:String = Capabilities.version.substr(0, 3);
+    public static const isWindows:Boolean = platform == "WIN";
+    public static const isOSX:Boolean = platform == "MAC";
+    public static const isAndroid:Boolean = platform == "AND";
+    public static const isIos:Boolean = platform == "IOS";
+
+    private static var _majorVersion:int;
+    private static var _minorVersion:int;
+    private static var _buildVersion:int;
+    private static var hasCalled:Boolean;
+
+    public static function get majorVersion():int {
+        if (hasCalled) return _majorVersion;
+        getVersion();
+        return _majorVersion;
+    }
+
+    public static function get minorVersion():int {
+        if (hasCalled) return _minorVersion;
+        getVersion();
+        return _minorVersion;
+    }
+
+    public static function get buildVersion():int {
+        if (hasCalled) return _buildVersion;
+        getVersion();
+        return _buildVersion;
+    }
+
+    private static function getVersion():void {
+        var arr:Array = WebViewANE.context.call("getOsVersion") as Array;
+        _majorVersion = arr[0];
+        _minorVersion = arr[1];
+        _buildVersion = arr[2];
+        hasCalled = true;
+    }
+
 }
 }

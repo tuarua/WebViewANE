@@ -1,3 +1,8 @@
+### 1.6.0
+- WIN: Updated to FreSharp 1.5.0
+- WIN: Added CefSettings.downloadPath
+- AND/iOS/WIN/OSX: BREAKING CHANGE!! - capture() now uses closure for result Issue #134
+
 ### 1.5.0
 - OSX/iOS: Updated to FreSwift 2.4.0
 - WIN: Updated to CefSharp 63.0.3
