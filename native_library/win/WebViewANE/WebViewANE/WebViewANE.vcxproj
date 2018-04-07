@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\CefSharp.WinForms.63.0.3\build\CefSharp.WinForms.props" Condition="Exists('..\packages\CefSharp.WinForms.63.0.3\build\CefSharp.WinForms.props')" />
-  <Import Project="..\packages\CefSharp.Common.63.0.3\build\CefSharp.Common.props" Condition="Exists('..\packages\CefSharp.Common.63.0.3\build\CefSharp.Common.props')" />
+  <!--<Import Project="..\packages\CefSharp.WinForms.63.0.3\build\CefSharp.WinForms.props" Condition="Exists('..\packages\CefSharp.WinForms.63.0.3\build\CefSharp.WinForms.props')" />
+  <Import Project="..\packages\CefSharp.Common.63.0.3\build\CefSharp.Common.props" Condition="Exists('..\packages\CefSharp.Common.63.0.3\build\CefSharp.Common.props')" />-->
   <Import Project="..\packages\TuaRua.FreSharp.1.5.0\build\TuaRua.FreSharp.props" Condition="Exists('..\packages\TuaRua.FreSharp.1.5.0\build\TuaRua.FreSharp.props')" />
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -195,7 +195,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\..\..\sdks\AIR\AIRSDK_28\include\FlashRuntimeExtensions.h" />
+    <ClInclude Include="..\..\..\..\..\..\sdks\AIR\AIRSDK_29\include\FlashRuntimeExtensions.h" />
     <ClInclude Include="FreSharpMacros.h" />
     <ClInclude Include="WebViewANE.h" />
     <ClInclude Include="FreNamespace.h" />
@@ -232,10 +232,10 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\packages\TuaRua.FreSharp.1.5.0\build\TuaRua.FreSharp.targets" Condition="Exists('..\packages\TuaRua.FreSharp.1.5.0\build\TuaRua.FreSharp.targets')" />
-    <Import Project="..\packages\cef.redist.x64.3.3239.1723\build\cef.redist.x64.targets" Condition="Exists('..\packages\cef.redist.x64.3.3239.1723\build\cef.redist.x64.targets')" />
+    <!--<Import Project="..\packages\cef.redist.x64.3.3239.1723\build\cef.redist.x64.targets" Condition="Exists('..\packages\cef.redist.x64.3.3239.1723\build\cef.redist.x64.targets')" />
     <Import Project="..\packages\cef.redist.x86.3.3239.1723\build\cef.redist.x86.targets" Condition="Exists('..\packages\cef.redist.x86.3.3239.1723\build\cef.redist.x86.targets')" />
     <Import Project="..\packages\CefSharp.Common.63.0.3\build\CefSharp.Common.targets" Condition="Exists('..\packages\CefSharp.Common.63.0.3\build\CefSharp.Common.targets')" />
-    <Import Project="..\packages\CefSharp.WinForms.63.0.3\build\CefSharp.WinForms.targets" Condition="Exists('..\packages\CefSharp.WinForms.63.0.3\build\CefSharp.WinForms.targets')" />
+    <Import Project="..\packages\CefSharp.WinForms.63.0.3\build\CefSharp.WinForms.targets" Condition="Exists('..\packages\CefSharp.WinForms.63.0.3\build\CefSharp.WinForms.targets')" />-->
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -243,11 +243,11 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\TuaRua.FreSharp.1.5.0\build\TuaRua.FreSharp.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\TuaRua.FreSharp.1.5.0\build\TuaRua.FreSharp.props'))" />
     <Error Condition="!Exists('..\packages\TuaRua.FreSharp.1.5.0\build\TuaRua.FreSharp.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\TuaRua.FreSharp.1.5.0\build\TuaRua.FreSharp.targets'))" />
-    <Error Condition="!Exists('..\packages\cef.redist.x64.3.3239.1723\build\cef.redist.x64.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\cef.redist.x64.3.3239.1723\build\cef.redist.x64.targets'))" />
+    <!--<Error Condition="!Exists('..\packages\cef.redist.x64.3.3239.1723\build\cef.redist.x64.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\cef.redist.x64.3.3239.1723\build\cef.redist.x64.targets'))" />
     <Error Condition="!Exists('..\packages\cef.redist.x86.3.3239.1723\build\cef.redist.x86.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\cef.redist.x86.3.3239.1723\build\cef.redist.x86.targets'))" />
     <Error Condition="!Exists('..\packages\CefSharp.Common.63.0.3\build\CefSharp.Common.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CefSharp.Common.63.0.3\build\CefSharp.Common.props'))" />
     <Error Condition="!Exists('..\packages\CefSharp.Common.63.0.3\build\CefSharp.Common.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CefSharp.Common.63.0.3\build\CefSharp.Common.targets'))" />
     <Error Condition="!Exists('..\packages\CefSharp.WinForms.63.0.3\build\CefSharp.WinForms.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CefSharp.WinForms.63.0.3\build\CefSharp.WinForms.props'))" />
-    <Error Condition="!Exists('..\packages\CefSharp.WinForms.63.0.3\build\CefSharp.WinForms.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CefSharp.WinForms.63.0.3\build\CefSharp.WinForms.targets'))" />
+    <Error Condition="!Exists('..\packages\CefSharp.WinForms.63.0.3\build\CefSharp.WinForms.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CefSharp.WinForms.63.0.3\build\CefSharp.WinForms.targets'))" />-->
   </Target>
 </Project>
