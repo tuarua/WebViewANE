@@ -39,8 +39,8 @@
         </excludedEntries>
       </libraryPathEntry>
       <libraryPathEntry kind="1" linkType="1" path="/Users/eoinlandy/Desktop/dev/WebViewANE/example/libs"/>
-      <libraryPathEntry kind="5" linkType="2" path="/Users/eoinlandy/Desktop/dev/WebViewANE/native_extension/ane/mobile/WebViewANE-mobile.ane"/>
-      <libraryPathEntry kind="5" linkType="2" path="/Users/eoinlandy/Desktop/dev/WebViewANE/native_extension/ane/mobile/com.tuarua.frekotlin.ane"/>
+      <libraryPathEntry kind="5" linkType="2" path="/Users/eoinlandy/Desktop/dev/WebViewANE/native_extension/ane/WebViewANE.ane"/>
+      <libraryPathEntry kind="5" linkType="2" path="android_dependencies/com.tuarua.frekotlin.ane"/>
     </libraryPath>
     <sourceAttachmentPath/>
   </compiler>
@@ -64,7 +64,7 @@
           <pathEntry path="Frameworks/WebViewANE_FW.framework/.DS_Store"/>
         </airExcludes>
         <anePaths>
-          <anePathEntry path="/Users/eoinlandy/Desktop/dev/WebViewANE/native_extension/ane/mobile/WebViewANE-mobile.ane"/>
+          <anePathEntry path="/Users/eoinlandy/Desktop/dev/WebViewANE/native_extension/ane/WebViewANE.ane"/>
         </anePaths>
         <newLaunchParams/>
         <modifiedLaunchParams/>
@@ -82,8 +82,8 @@
           <pathEntry path="Frameworks"/>
         </airExcludes>
         <anePaths>
-          <anePathEntry path="/Users/eoinlandy/Desktop/dev/WebViewANE/native_extension/ane/mobile/WebViewANE-mobile.ane"/>
-          <anePathEntry path="/Users/eoinlandy/Desktop/dev/WebViewANE/native_extension/ane/mobile/com.tuarua.frekotlin.ane"/>
+          <anePathEntry path="/Users/eoinlandy/Desktop/dev/WebViewANE/native_extension/ane/WebViewANE.ane"/>
+          <anePathEntry path="android_dependencies/com.tuarua.frekotlin.ane"/>
         </anePaths>
         <newLaunchParams/>
         <modifiedLaunchParams/>

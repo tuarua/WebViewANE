@@ -871,8 +871,8 @@ public class WebViewANE extends EventDispatcher {
      *
      * <p>Captures the webView to BitmapData.</p>
      *
-     * @param onComplete
-     * @param cropTo
+     * @param onComplete function(result:BitmapData)
+     * @param cropTo optionally crops to the supplied Rectangle
      */
     public function capture(onComplete:Function, cropTo:Rectangle = null):void {
         if (safetyCheck()) {
@@ -884,7 +884,7 @@ public class WebViewANE extends EventDispatcher {
         }
     }
 
-    /** @private*/
+    /** @private */
     private function getCapturedBitmapData():BitmapData {
         if (safetyCheck()) {
             var theRet:* = _context.call("getCapturedBitmapData");
@@ -943,7 +943,7 @@ public class WebViewANE extends EventDispatcher {
             }
         }
     }
-
+    /** @private */
     public static function get context():ExtensionContext {
         return _context;
     }

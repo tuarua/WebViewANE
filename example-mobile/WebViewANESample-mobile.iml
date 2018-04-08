@@ -5,9 +5,6 @@
       <configuration name="WebViewANESample-mobile iOS simulator" target-platform="Mobile" pure-as="true" main-class="WebViewANESample" output-file="WebViewANESample-mobile.swf" output-folder="$MODULE_DIR$/bin-debug">
         <dependencies>
           <entries>
-            <entry library-name="WebViewANE-mobile" library-level="project">
-              <dependency linkage="Merged" />
-            </entry>
             <entry library-name="starling" library-level="project">
               <dependency linkage="Merged" />
             </entry>
@@ -15,6 +12,9 @@
               <dependency linkage="Merged" />
             </entry>
             <entry library-name="com.tuarua.frekotlin" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-name="WebViewANE" library-level="project">
               <dependency linkage="Merged" />
             </entry>
           </entries>
@@ -45,9 +45,6 @@
       <configuration name="WebViewANESample-mobile iOS Device" target-platform="Mobile" pure-as="true" main-class="WebViewANESample" output-file="WebViewANESample-mobile.swf" output-folder="$MODULE_DIR$/bin-release/device">
         <dependencies>
           <entries>
-            <entry library-name="WebViewANE-mobile" library-level="project">
-              <dependency linkage="Merged" />
-            </entry>
             <entry library-name="starling" library-level="project">
               <dependency linkage="Merged" />
             </entry>
@@ -55,6 +52,9 @@
               <dependency linkage="Merged" />
             </entry>
             <entry library-name="com.tuarua.frekotlin" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-name="WebViewANE" library-level="project">
               <dependency linkage="Merged" />
             </entry>
           </entries>
@@ -85,9 +85,6 @@
       <configuration name="WebViewANESample-mobile Android Device" target-platform="Mobile" pure-as="true" main-class="WebViewANESample" output-file="WebViewANESample-mobile_Android_Device.swf" output-folder="$MODULE_DIR$/bin-release/device">
         <dependencies>
           <entries>
-            <entry library-name="WebViewANE-mobile" library-level="project">
-              <dependency linkage="Merged" />
-            </entry>
             <entry library-name="starling" library-level="project">
               <dependency linkage="Merged" />
             </entry>
@@ -95,6 +92,9 @@
               <dependency linkage="Merged" />
             </entry>
             <entry library-name="com.tuarua.frekotlin" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-name="WebViewANE" library-level="project">
               <dependency linkage="Merged" />
             </entry>
           </entries>
@@ -126,9 +126,6 @@
       <configuration name="WebViewANESample-mobile iOS Store" target-platform="Mobile" pure-as="true" main-class="WebViewANESample" output-file="WebViewANESample-mobile_iOS_Store.swf" output-folder="$MODULE_DIR$/bin-release/appstore">
         <dependencies>
           <entries>
-            <entry library-name="WebViewANE-mobile" library-level="project">
-              <dependency linkage="Merged" />
-            </entry>
             <entry library-name="starling" library-level="project">
               <dependency linkage="Merged" />
             </entry>
@@ -136,6 +133,9 @@
               <dependency linkage="Merged" />
             </entry>
             <entry library-name="com.tuarua.frekotlin" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-name="WebViewANE" library-level="project">
               <dependency linkage="Merged" />
             </entry>
           </entries>
@@ -180,5 +180,6 @@
     <orderEntry type="library" exported="" name="SwiftIOSANE-ios" level="project" />
     <orderEntry type="library" exported="" name="WebViewANE-mobile" level="project" />
     <orderEntry type="library" exported="" name="com.tuarua.frekotlin" level="project" />
+    <orderEntry type="library" exported="" name="WebViewANE" level="project" />
   </component>
 </module>

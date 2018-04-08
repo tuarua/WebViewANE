@@ -269,7 +269,7 @@ public class StarlingRoot extends Sprite {
                     Starling.current.nativeStage.addChild(bmp);
                 }
 
-            }, new flash.geom.Rectangle(50, 50, 100, 100));
+            }, new Rectangle(50, 50, webView.viewPort.width * 0.5, webView.viewPort.height * 0.5));
         }
     }
 
