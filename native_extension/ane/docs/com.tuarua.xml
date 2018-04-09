@@ -38,49 +38,48 @@
      
      </apiDesc><example>
      <codeblock rev="3.0">
-     // Logs to the console. No result expected.
-     webView.callJavascriptFunction("as_to_js",asToJsCallback,1,"a",77);
+    // Logs to the console. No result expected.
+    webView.callJavascriptFunction("as_to_js",asToJsCallback,1,"a",77);
 
-     public function asToJsCallback(jsResult:JavascriptResult):void {
-    trace("asToJsCallback");
-    trace("jsResult.error", jsResult.error);
-    trace("jsResult.result", jsResult.result);
-    trace("jsResult.message", jsResult.message);
-    trace("jsResult.success", jsResult.success);
-    var testObject:= jsResult.result;
-    trace(testObject);
-}
-     }
+    public function asToJsCallback(jsResult:JavascriptResult):void {
+        trace("asToJsCallback");
+        trace("jsResult.error", jsResult.error);
+        trace("jsResult.result", jsResult.result);
+        trace("jsResult.message", jsResult.message);
+        trace("jsResult.success", jsResult.success);
+        var testObject:= jsResult.result;
+        trace(testObject);
+    }
      </codeblock>
 
      </example><example>
      <codeblock rev="3.0">
-     // Calls Javascript function passing 3 args. Javascript function returns an object which is automatically mapped to an
-     Actionscript Object
-     webView.callJavascriptFunction("console.log",null,"hello console. The is AIR");
-     }
+     // Calls Javascript function passing 3 args. Javascript function returns an 
+     // object which is automatically mapped to an
+     // Actionscript Object
+    webView.callJavascriptFunction("console.log",null,"hello console. The is AIR");
 
      // function in HTML page
-     function as_to_js(numberA, stringA, numberB, obj) {
-    var person = {
-        name: "Jim Cowart",
-        response: {
-            name: "Chattanooga",
-            population: 167674
-        }
-    };
-    return person;
-}
+    function as_to_js(numberA, stringA, numberB, obj) {
+        var person = {
+            name: "Jim Cowart",
+            response: {
+                name: "Chattanooga",
+                population: 167674
+            }
+        };
+        return person;
+    }
      </codeblock>
      </example></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:capture"><apiName>capture</apiName><shortdesc>
      
-     </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="flash.display:BitmapData"/></apiReturn><apiParam><apiItemName>x</apiItemName><apiType value="int"/><apiData>0</apiData><apiDesc>    </apiDesc></apiParam><apiParam><apiItemName>y</apiItemName><apiType value="int"/><apiData>0</apiData><apiDesc>    </apiDesc></apiParam><apiParam><apiItemName>width</apiItemName><apiType value="int"/><apiData>0</apiData><apiDesc>leaving as default of 0 captures the full width
-     </apiDesc></apiParam><apiParam><apiItemName>height</apiItemName><apiType value="int"/><apiData>0</apiData><apiDesc>leaving as default of 0 captures the full height
+     Captures the webView to BitmapData.
+     
+     </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn><apiParam><apiItemName>onComplete</apiItemName><apiType value="Function"/><apiDesc>function(result:BitmapData)
+     </apiDesc></apiParam><apiParam><apiItemName>cropTo</apiItemName><apiType value="flash.geom:Rectangle"/><apiData>null</apiData><apiDesc>optionally crops to the supplied Rectangle
+     </apiDesc></apiParam></apiOperationDef><apiDesc>
      
      <p>Captures the webView to BitmapData.</p>
-     <p><b>Windows, iOS, Android only.</b></p>
-     
-     </apiDesc></apiParam></apiOperationDef><apiDesc>
      
      </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:clearCache"><apiName>clearCache</apiName><shortdesc>
      Clears the browser cache.</shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn></apiOperationDef><apiDesc>
@@ -129,17 +128,17 @@
      </apiDesc></apiParam></apiOperationDef><apiDesc>
      
      </apiDesc><example>
-     <codeblock rev="3.0">
-     // Set the body background to yellow. No result expected
-     webView.evaluateJavascript('document.getElementsByTagName("body")[0].style.backgroundColor = "yellow";');
-     </codeblock>
-     </example><example>
-     <codeblock rev="3.0">
-     // Retrieve contents of div. Result is returned to Actionscript function 'onJsEvaluated'
-     webView.evaluateJavascript("document.getElementById('output').innerHTML;", onJsEvaluated)
-     private function onJsEvaluated(jsResult:JavascriptResult):void {
-    trace("innerHTML of div is:", jsResult.result);
-}
+    <codeblock rev="3.0">
+    // Set the body background to yellow. No result expected
+    webView.evaluateJavascript('document.getElementsByTagName("body")[0].style.backgroundColor = "yellow";');
+    </codeblock>
+    </example><example>
+    <codeblock rev="3.0">
+    // Retrieve contents of div. Result is returned to Actionscript function 'onJsEvaluated'
+    webView.evaluateJavascript("document.getElementById('output').innerHTML;", onJsEvaluated)
+    private function onJsEvaluated(jsResult:JavascriptResult):void {
+        trace("innerHTML of div is:", jsResult.result);
+    }
      </codeblock>
      
      </example></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:focus"><apiName>focus</apiName><shortdesc/><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn></apiOperationDef></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:goBack"><apiName>goBack</apiName><shortdesc>

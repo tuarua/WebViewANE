@@ -284,7 +284,7 @@ public class WebViewANE extends EventDispatcher {
      *
      */
     public function addCallback(functionName:String, closure:Function):void {
-        if (functionName && closure) {
+        if (functionName && closure != null) {
             jsCallBacks[functionName] = closure;
         } else {
             throw new ArgumentError("functionName and/or closure cannot be null");
@@ -315,39 +315,38 @@ public class WebViewANE extends EventDispatcher {
      *
      * @example
      <listing version="3.0">
-     // Logs to the console. No result expected.
-     webView.callJavascriptFunction("as_to_js",asToJsCallback,1,"a",77);
+    // Logs to the console. No result expected.
+    webView.callJavascriptFunction("as_to_js",asToJsCallback,1,"a",77);
 
-     public function asToJsCallback(jsResult:JavascriptResult):void {
-    trace("asToJsCallback");
-    trace("jsResult.error", jsResult.error);
-    trace("jsResult.result", jsResult.result);
-    trace("jsResult.message", jsResult.message);
-    trace("jsResult.success", jsResult.success);
-    var testObject:* = jsResult.result;
-    trace(testObject);
-}
-     }
+    public function asToJsCallback(jsResult:JavascriptResult):void {
+        trace("asToJsCallback");
+        trace("jsResult.error", jsResult.error);
+        trace("jsResult.result", jsResult.result);
+        trace("jsResult.message", jsResult.message);
+        trace("jsResult.success", jsResult.success);
+        var testObject:* = jsResult.result;
+        trace(testObject);
+    }
      </listing>
 
      * @example
      <listing version="3.0">
-     // Calls Javascript function passing 3 args. Javascript function returns an object which is automatically mapped to an
-     Actionscript Object
-     webView.callJavascriptFunction("console.log",null,"hello console. The is AIR");
-     }
+     // Calls Javascript function passing 3 args. Javascript function returns an 
+     // object which is automatically mapped to an
+     // Actionscript Object
+    webView.callJavascriptFunction("console.log",null,"hello console. The is AIR");
 
      // function in HTML page
-     function as_to_js(numberA, stringA, numberB, obj) {
-    var person = {
-        name: "Jim Cowart",
-        response: {
-            name: "Chattanooga",
-            population: 167674
-        }
-    };
-    return person;
-}
+    function as_to_js(numberA, stringA, numberB, obj) {
+        var person = {
+            name: "Jim Cowart",
+            response: {
+                name: "Chattanooga",
+                population: 167674
+            }
+        };
+        return person;
+    }
      </listing>
      */
     public function callJavascriptFunction(functionName:String, closure:Function = null, ...args):void {
@@ -360,7 +359,7 @@ public class WebViewANE extends EventDispatcher {
             for each (var arg:* in args)
                 finalArray.push(JSON.stringify(arg));
             var js:String = functionName + "(" + finalArray.toString() + ");";
-            if (closure) {
+            if (closure != null) {
                 asCallBacks[AS_CALLBACK_PREFIX + functionName] = closure;
                 theRet = _context.call("callJavascriptFunction", js, AS_CALLBACK_PREFIX + functionName);
             } else {
@@ -380,17 +379,17 @@ public class WebViewANE extends EventDispatcher {
      * actionscript function is called, aka a 'fire and forget' call.
      *
      * @example
-     <listing version="3.0">
-     // Set the body background to yellow. No result expected
-     webView.evaluateJavascript('document.getElementsByTagName("body")[0].style.backgroundColor = "yellow";');
-     </listing>
-     * @example
-     <listing version="3.0">
-     // Retrieve contents of div. Result is returned to Actionscript function 'onJsEvaluated'
-     webView.evaluateJavascript("document.getElementById('output').innerHTML;", onJsEvaluated)
-     private function onJsEvaluated(jsResult:JavascriptResult):void {
-    trace("innerHTML of div is:", jsResult.result);
-}
+    <listing version="3.0">
+    // Set the body background to yellow. No result expected
+    webView.evaluateJavascript('document.getElementsByTagName("body")[0].style.backgroundColor = "yellow";');
+    </listing>
+    * @example
+    <listing version="3.0">
+    // Retrieve contents of div. Result is returned to Actionscript function 'onJsEvaluated'
+    webView.evaluateJavascript("document.getElementById('output').innerHTML;", onJsEvaluated)
+    private function onJsEvaluated(jsResult:JavascriptResult):void {
+        trace("innerHTML of div is:", jsResult.result);
+    }
      </listing>
      *
      */
@@ -400,7 +399,7 @@ public class WebViewANE extends EventDispatcher {
         }
         if (safetyCheck()) {
             var theRet:* = null;
-            if (closure) {
+            if (closure != null) {
                 var guid:String = GUID.create();
                 asCallBacks[AS_CALLBACK_PREFIX + guid] = closure;
                 theRet = _context.call("evaluateJavaScript", code, AS_CALLBACK_PREFIX + guid);
