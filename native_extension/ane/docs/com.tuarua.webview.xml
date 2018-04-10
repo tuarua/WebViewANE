@@ -80,7 +80,7 @@
 	 
 	 </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>unknown</apiData><apiType value="Vector$com.tuarua.webview:BackForwardListItem"/></apiValueDef><apiDesc>
 	 
-	 </apiDesc></apiValueDetail></apiValue></apiClassifier><apiClassifier id="com.tuarua.webview:ContextMenu"><apiName>ContextMenu</apiName><shortdesc/><prolog><asMetadata/></prolog><apiClassifierDetail><apiClassifierDef><apiAccess value="public"/><apiStatic/><apiBaseClassifier>Object</apiBaseClassifier></apiClassifierDef></apiClassifierDetail><apiValue id="com.tuarua.webview:ContextMenu:enabled"><apiName>enabled</apiName><shortdesc>
+	 </apiDesc></apiValueDetail></apiValue></apiClassifier><apiClassifier id="com.tuarua.webview:ContextMenu"><apiName>ContextMenu</apiName><shortdesc/><prolog><asMetadata/></prolog><apiClassifierDetail><apiClassifierDef><apiAccess value="public"/><apiStatic/><apiFinal/><apiBaseClassifier>Object</apiBaseClassifier></apiClassifierDef></apiClassifierDetail><apiValue id="com.tuarua.webview:ContextMenu:enabled"><apiName>enabled</apiName><shortdesc>
  Sets whether the context menu is displayed on right click.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>true</apiData><apiType value="Boolean"/></apiValueDef><apiDesc>
  <p>Sets whether the context menu is displayed on right click. </p>
 </apiDesc></apiValueDetail></apiValue></apiClassifier><apiClassifier id="com.tuarua.webview:JavascriptResult"><apiName>JavascriptResult</apiName><shortdesc/><prolog><asMetadata/></prolog><apiClassifierDetail><apiClassifierDef><apiAccess value="public"/><apiStatic/><apiBaseClassifier>Object</apiBaseClassifier></apiClassifierDef></apiClassifierDetail><apiConstructor id="com.tuarua.webview:JavascriptResult:JavascriptResult"><apiName>JavascriptResult</apiName><shortdesc/><prolog/><apiConstructorDetail><apiConstructorDef><apiAccess value="public"/><apiParam><apiItemName>result</apiItemName><apiType value="any"/><apiData>null</apiData></apiParam><apiParam><apiItemName>message</apiItemName><apiType value="String"/><apiData>null</apiData></apiParam><apiParam><apiItemName>error</apiItemName><apiType value="String"/><apiData>null</apiData></apiParam><apiParam><apiItemName>success</apiItemName><apiType value="Boolean"/><apiData>false</apiData></apiParam></apiConstructorDef></apiConstructorDetail></apiConstructor><apiValue id="com.tuarua.webview:JavascriptResult:error"><apiName>error</apiName><shortdesc>
@@ -98,19 +98,7 @@
 	 
 	 </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value="Boolean"/></apiValueDef><apiDesc>
 	 
-	 </apiDesc></apiValueDetail></apiValue></apiClassifier><apiClassifier id="com.tuarua.webview:CefSettings"><apiName>CefSettings</apiName><shortdesc/><prolog><asMetadata/></prolog><apiClassifierDetail><apiClassifierDef><apiAccess value="public"/><apiStatic/><apiBaseClassifier>Object</apiBaseClassifier></apiClassifierDef></apiClassifierDetail><apiConstructor id="com.tuarua.webview:CefSettings:CefSettings"><apiName>CefSettings</apiName><shortdesc/><prolog/><apiConstructorDetail><apiConstructorDef><apiAccess value="public"/></apiConstructorDef></apiConstructorDetail></apiConstructor><apiValue id="com.tuarua.webview:CefSettings:GOOGLE_API_KEY"><apiName>GOOGLE_API_KEY</apiName><shortdesc>
- Keys for retrieving user location please see https://www.chromium.org/developers/how-tos/api-keys.
- </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value="String"/></apiValueDef><apiDesc>
- <p>Keys for retrieving user location please see https://www.chromium.org/developers/how-tos/api-keys.</p>
- </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:CefSettings:GOOGLE_DEFAULT_CLIENT_ID"><apiName>GOOGLE_DEFAULT_CLIENT_ID</apiName><shortdesc>
- Keys for retrieving user location please see https://www.chromium.org/developers/how-tos/api-keys.
- </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value="String"/></apiValueDef><apiDesc>
- <p>Keys for retrieving user location please see https://www.chromium.org/developers/how-tos/api-keys.</p>
- </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:CefSettings:GOOGLE_DEFAULT_CLIENT_SECRET"><apiName>GOOGLE_DEFAULT_CLIENT_SECRET</apiName><shortdesc>
- Keys for retrieving user location please see https://www.chromium.org/developers/how-tos/api-keys.
- </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value="String"/></apiValueDef><apiDesc>
- <p>Keys for retrieving user location please see https://www.chromium.org/developers/how-tos/api-keys.</p>
- </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:CefSettings:browserSubprocessPath"><apiName>browserSubprocessPath</apiName><shortdesc>
+	 </apiDesc></apiValueDetail></apiValue></apiClassifier><apiClassifier id="com.tuarua.webview:CefSettings"><apiName>CefSettings</apiName><shortdesc/><prolog><asMetadata/></prolog><apiClassifierDetail><apiClassifierDef><apiAccess value="public"/><apiStatic/><apiBaseClassifier>Object</apiBaseClassifier></apiClassifierDef></apiClassifierDetail><apiConstructor id="com.tuarua.webview:CefSettings:CefSettings"><apiName>CefSettings</apiName><shortdesc/><prolog/><apiConstructorDetail><apiConstructorDef><apiAccess value="public"/></apiConstructorDef></apiConstructorDetail></apiConstructor><apiValue id="com.tuarua.webview:CefSettings:browserSubprocessPath"><apiName>browserSubprocessPath</apiName><shortdesc>
  The path to a separate executable that will be launched for sub-processes.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>CefSharp.BrowserSubprocess.exe</apiData><apiType value="String"/></apiValueDef><apiDesc>
  <p>The path to a separate executable that will be launched for sub-processes. By
 default the browser process executable is used.</p>
@@ -127,7 +115,10 @@ OnBeforeCommandLineProcessing.
  </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>unknown</apiData><apiType value="Vector$Object"/></apiValueDef><apiDesc>
   <p>Add custom command line argumens to this collection, they will be added in
 OnBeforeCommandLineProcessing.</p>
- </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:CefSettings:contextMenu"><apiName>contextMenu</apiName><shortdesc/><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>unknown</apiData><apiValueClassifier>com.tuarua.webview:ContextMenu</apiValueClassifier></apiValueDef></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:CefSettings:enableDownloads"><apiName>enableDownloads</apiName><shortdesc>
+ </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:CefSettings:contextMenu"><apiName>contextMenu</apiName><shortdesc/><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>unknown</apiData><apiValueClassifier>com.tuarua.webview:ContextMenu</apiValueClassifier></apiValueDef></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:CefSettings:downloadPath"><apiName>downloadPath</apiName><shortdesc>
+ The path to automatically save downloads to.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value="String"/></apiValueDef><apiDesc>
+ <p>The path to automatically save downloads to. No user dialog is shown.</p>
+ </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:CefSettings:enableDownloads"><apiName>enableDownloads</apiName><shortdesc>
 Sets whether downloads will be handled by the WebView.
 </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>true</apiData><apiType value="Boolean"/></apiValueDef><apiDesc>
 <p>Sets whether downloads will be handled by the WebView.</p>

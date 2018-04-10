@@ -180,7 +180,7 @@ class WebViewController(override var context: FREContext?, initialUrl: String?, 
     fun loadFileURL(url: String) {
         var final = url
         when {
-            !final.startsWith("file://",true) -> final = "file://" + final
+            !final.startsWith("file://", true) -> final = "file://" + final
         }
         webView?.loadUrl(final)
     }
@@ -215,7 +215,29 @@ class WebViewController(override var context: FREContext?, initialUrl: String?, 
         webView?.stopLoading()
     }
 
-    fun capture(x: Int, y: Int, w: Int, h: Int): Bitmap? {
+    fun capture(cropTo: Rect): Bitmap? {
+        val wv = webView ?: return null
+        var x = cropTo.x.toInt()
+        var y: Int = cropTo.y.toInt()
+        var w: Int = cropTo.width.toInt()
+        var h: Int = cropTo.height.toInt()
+        val bitmap: Bitmap
+        if (w > 0 && h > 0) {
+            bitmap = Bitmap.createBitmap(w + x, h + y, Bitmap.Config.ARGB_8888)
+        } else {
+            x = 0
+            y = 0
+            w = wv.width
+            h = wv.height
+            bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
+        }
+
+        val canvas = Canvas(bitmap)
+        wv.draw(canvas)
+        return Bitmap.createBitmap(bitmap, x, y, w, h)
+    }
+
+    /*fun captureDep(x: Int, y: Int, w: Int, h: Int): Bitmap? {
         val wv = webView ?: return null
         var theX: Int = x
         var theY: Int = y
@@ -236,7 +258,7 @@ class WebViewController(override var context: FREContext?, initialUrl: String?, 
         val canvas = Canvas(bitmap)
         wv.draw(canvas)
         return Bitmap.createBitmap(bitmap, theX, theY, theW, theH)
-    }
+    }*/
 
     fun evaluateJavascript(js: String, callback: String?) {
         val wv = webView ?: return

@@ -24,6 +24,8 @@
 
 package com.tuarua.webviewane
 
+import android.graphics.Bitmap
+import android.os.Build
 import android.util.Log
 import android.webkit.WebView
 import com.adobe.fre.FREContext
@@ -40,6 +42,7 @@ class KotlinController : FreKotlinMainController {
     private var isAdded: Boolean = false
     private var scaleFactor: Double = 1.0
     private var webViewController: WebViewController? = null
+    private var capturedBitmapData: Bitmap? = null
 
     fun isSupported(ctx: FREContext, argv: FREArgv): FREObject? {
         return true.toFREObject()
@@ -221,32 +224,22 @@ class KotlinController : FreKotlinMainController {
         return null
     }
 
-    fun backForwardList(ctx: FREContext, argv: FREArgv): FREObject? = null
-    fun setCurrentTab(ctx: FREContext, argv: FREArgv): FREObject? = null
     fun capture(ctx: FREContext, argv: FREArgv): FREObject? {
-        argv.takeIf { argv.size > 3 } ?: return ArgCountException().getError(Thread.currentThread().stackTrace)
-        val xFre = Int(argv[0])
-        val yFre = Int(argv[1])
-        val wFre = Int(argv[2])
-        val hFre = Int(argv[3])
-
-        if (xFre != null && yFre != null && wFre != null && hFre != null) {
-            val x: Int = (xFre * scaleFactor).toInt()
-            val y: Int = (yFre * scaleFactor).toInt()
-            val w: Int = (wFre * scaleFactor).toInt()
-            val h: Int = (hFre * scaleFactor).toInt()
-
-            val bmp = webViewController?.capture(x, y, w, h)
-            if (bmp != null) {
-                val bmd = FreBitmapDataKotlin(bmp)
-                return bmd.rawValue
-
-            }
-        }
-
+        argv.takeIf { argv.size > 0 } ?: return ArgCountException().getError(Thread.currentThread().stackTrace)
+        val cropTo = scaleViewPort(Rect(argv[0]))
+        capturedBitmapData = webViewController?.capture(cropTo)
+        sendEvent(Constants.ON_CAPTURE_COMPLETE, "");
         return null
     }
 
+    fun getCapturedBitmapData(ctx: FREContext, argv: FREArgv): FREObject? {
+        val cbmd = capturedBitmapData ?: return null
+        val bmd = FreBitmapDataKotlin(cbmd)
+        return bmd.rawValue
+    }
+
+    fun backForwardList(ctx: FREContext, argv: FREArgv): FREObject? = null
+    fun setCurrentTab(ctx: FREContext, argv: FREArgv): FREObject? = null
     fun addTab(ctx: FREContext, argv: FREArgv): FREObject? = null
     fun closeTab(ctx: FREContext, argv: FREArgv): FREObject? = null
     fun injectScript(ctx: FREContext, argv: FREArgv): FREObject? = null
@@ -265,6 +258,10 @@ class KotlinController : FreKotlinMainController {
                 (rect.y * scaleFactor).toInt(),
                 (rect.width * scaleFactor).toInt(),
                 (rect.height * scaleFactor).toInt())
+    }
+
+    fun getOsVersion(ctx: FREContext, argv: FREArgv): FREObject? {
+        return intArrayOf(Build.VERSION.SDK_INT, 0, 0).toFREArray()
     }
 
     override fun dispose() {

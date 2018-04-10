@@ -23,13 +23,14 @@
 package com.tuarua.webviewane
 
 object Constants {
-    val ON_PROPERTY_CHANGE = "WebView.OnPropertyChange"
-    val ON_FAIL = "WebView.OnFail"
-    val ON_URL_BLOCKED = "WebView.OnUrlBlocked"
-    val JS_CALLBACK_EVENT = "TRWV.js.CALLBACK"
-    val AS_CALLBACK_EVENT = "TRWV.as.CALLBACK"
-    val ON_KEY_UP: String = "WebView.OnKeyUp"
-    val ON_KEY_DOWN: String = "WebView.OnKeyDown"
+    const val ON_PROPERTY_CHANGE = "WebView.OnPropertyChange"
+    const val ON_FAIL = "WebView.OnFail"
+    const val ON_URL_BLOCKED = "WebView.OnUrlBlocked"
+    const val JS_CALLBACK_EVENT = "TRWV.js.CALLBACK"
+    const val AS_CALLBACK_EVENT = "TRWV.as.CALLBACK"
+    const val ON_KEY_UP: String = "WebView.OnKeyUp"
+    const val ON_KEY_DOWN: String = "WebView.OnKeyDown"
+    const val ON_CAPTURE_COMPLETE:String = "WebView.OnCaptureComplete"
 
 
 }

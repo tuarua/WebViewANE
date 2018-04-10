@@ -4,7 +4,7 @@
     <id>com.eoinlandy.webview</id> <!-- Bundle Identifier. Required. -->
     <filename>WebViewANESampleMobile</filename> <!-- Used as the filename for the application. Required. -->
     <name>WebViewANESampleMobile</name> <!-- The name that is displayed below the app icon. -->
-    <versionNumber>0.0.11</versionNumber> <!-- Required. -->
+    <versionNumber>0.0.12</versionNumber> <!-- Required. -->
 
     <!-- Settings for the application's initial window. Required. -->
     <initialWindow>
@@ -38,15 +38,11 @@
     <!-- Place the icons in a 'source path' (e.g. in the 'src' directory). -->
     <!-- iPhone: 57x57, iPhone HD: 114x114, iPad: 72x72, iPad HD: 144x144 -->
     <icon>
-        <image57x57>icon57.png</image57x57>
-        <image72x72>icon72.png</image72x72>
-        <image76x76>icon76.png</image76x76>
-        <image114x114>icon114.png</image114x114>
-        <image120x120>icon120.png</image120x120>
-        <image144x144>icon144.png</image144x144>
-        <image152x152>icon152.png</image152x152>
-        <image167x167>icon167.png</image167x167>
-        <image180x180>icon180.png</image180x180>
+        <image76x76>AppIcon76x76~ipad.png</image76x76>
+        <image120x120>AppIcon60x60@2x.png</image120x120>
+        <image152x152>AppIcon76x76@2x~ipad.png</image152x152>
+        <image167x167>AppIcon83.5x83.5@2x~ipad.png</image167x167>
+        <image180x180>AppIcon60x60@3x.png</image180x180>
     </icon>
 
     <embedFonts>

@@ -1,10 +1,14 @@
 package {
 import com.tuarua.WebViewANE;
+import com.tuarua.utils.os;
 import com.tuarua.webview.ActionscriptCallback;
 import com.tuarua.webview.Settings;
 import com.tuarua.webview.WebViewEvent;
 
 import flash.desktop.NativeApplication;
+import flash.display.Bitmap;
+import flash.display.BitmapData;
+import flash.display.PNGEncoderOptions;
 import flash.events.Event;
 import flash.events.KeyboardEvent;
 import flash.filesystem.File;
@@ -15,6 +19,7 @@ import flash.text.ReturnKeyLabel;
 import flash.text.SoftKeyboardType;
 import flash.text.StageText;
 import flash.ui.Keyboard;
+import flash.utils.ByteArray;
 
 import starling.animation.Transitions;
 import starling.core.Starling;
@@ -46,11 +51,6 @@ public class StarlingRoot extends Sprite {
 
     public function StarlingRoot() {
     }
-
-    /*  public function start(assets:AssetManager):void {
-
-      }*/
-
 
     public function start(assets:AssetManager):void {
         NativeApplication.nativeApplication.addEventListener(Event.EXITING, onExiting);
@@ -149,6 +149,8 @@ public class StarlingRoot extends Sprite {
         webView.init(Starling.current.nativeStage, viewPort, "https://www.bbc.co.uk",
                 settings, Starling.current.contentScaleFactor, 0x00F1F1F1);
         webView.visible = true;
+
+        trace(os.isAndroid, os.majorVersion, os.minorVersion, os.buildVersion);
 
         webView.showDevTools();  //open chrome://inspect in Chrome for Android - ignored on iOS
 
@@ -254,12 +256,27 @@ public class StarlingRoot extends Sprite {
         }
     }
 
+    private function onCapture(event:TouchEvent):void {
+        var touch:Touch = event.getTouch(refreshBtn);
+        if (touch != null && touch.phase == TouchPhase.ENDED) {
+            webView.capture(function (bitmapData:BitmapData):void {
+                if (bitmapData) {
+                    var ba:ByteArray = new ByteArray();
+                    var encodingOptions:PNGEncoderOptions = new PNGEncoderOptions(true);
+                    bitmapData.encode(new Rectangle(0, 0, bitmapData.width, bitmapData.height), encodingOptions, ba);
+                    webView.visible = false;
+                    var bmp:Bitmap = new Bitmap(bitmapData);
+                    Starling.current.nativeStage.addChild(bmp);
+                }
+
+            }, new Rectangle(50, 50, webView.viewPort.width * 0.5, webView.viewPort.height * 0.5));
+        }
+    }
+
     private function onForward(event:TouchEvent):void {
         var touch:Touch = event.getTouch(fwdBtn);
         if (touch != null && touch.phase == TouchPhase.ENDED) {
             webView.goForward();
-
-
             /*
              var obj:BackForwardList = webView.backForwardList();
              trace("back list length",obj.backList.length)

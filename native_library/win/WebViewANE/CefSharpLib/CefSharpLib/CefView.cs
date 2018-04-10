@@ -45,6 +45,7 @@ namespace CefSharpLib {
         public int ViewWidth { get; set; }
         public int ViewHeight { get; set; }
         public int RemoteDebuggingPort { get; set; }
+        public string DownloadPath { get; set; }
         public string CachePath { get; set; }
         public bool CacheEnabled { get; set; }
         public int LogLevel { get; set; }
@@ -152,7 +153,7 @@ namespace CefSharpLib {
             browser.JavascriptObjectRepository.Register("webViewANE", new BoundObject(Context), true, BindingOptions.DefaultBinder);
 
             // ReSharper disable once UseObjectOrCollectionInitializer
-            var dh = new DownloadHandler();
+            var dh = new DownloadHandler(DownloadPath);
             dh.OnDownloadUpdatedFired += OnDownloadUpdatedFired;
             dh.OnBeforeDownloadFired += OnDownloadFired;
 

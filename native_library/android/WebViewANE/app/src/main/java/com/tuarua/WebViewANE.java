@@ -58,12 +58,14 @@ public class WebViewANE implements FREExtension {
             ,"printToPdf"
             ,"focus"
             ,"capture"
+            ,"getCapturedBitmapData"
             ,"addTab"
             ,"closeTab"
             ,"setCurrentTab"
             ,"shutDown"
             ,"getCurrentTab"
             ,"getTabDetails"
+            ,"getOsVersion"
 
     };
 
