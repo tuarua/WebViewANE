@@ -94,9 +94,9 @@ class WebViewController(override var context: FREContext?, initialUrl: String?, 
                     props.put("modifiers", "")
                     props.put("isSystemKey", false)
                     if (event.action == KeyEvent.ACTION_UP) {
-                        sendEvent(Constants.ON_KEY_UP, props.toString())
+                        sendEvent(WebViewEvent.ON_KEY_UP, props.toString())
                     } else {
-                        sendEvent(Constants.ON_KEY_DOWN, props.toString())
+                        sendEvent(WebViewEvent.ON_KEY_DOWN, props.toString())
                     }
                 } catch (e: JSONException) {
                     e.printStackTrace()
@@ -152,7 +152,7 @@ class WebViewController(override var context: FREContext?, initialUrl: String?, 
         @JavascriptInterface
         fun postMessage(json: String?) {
             if (json != null) {
-                context?.sendEvent(Constants.JS_CALLBACK_EVENT, json)
+                context?.sendEvent(WebViewEvent.JS_CALLBACK_EVENT, json)
             }
         }
     }
@@ -271,7 +271,7 @@ class WebViewController(override var context: FREContext?, initialUrl: String?, 
                     props.put("message", "")
                     props.put("success", true)
                     props.put("result", result)
-                    sendEvent(Constants.AS_CALLBACK_EVENT, props.toString())
+                    sendEvent(WebViewEvent.AS_CALLBACK_EVENT, props.toString())
                 } catch (e: JSONException) {
                     e.printStackTrace()
                 }

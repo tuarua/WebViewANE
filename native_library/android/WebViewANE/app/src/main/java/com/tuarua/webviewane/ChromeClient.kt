@@ -42,7 +42,7 @@ class ChromeClient(private var context: FREContext) : WebChromeClient() {
             props.put("propName", "estimatedProgress")
             props.put("value", progress)
             props.put("tab", 0)
-            sendEvent(Constants.ON_PROPERTY_CHANGE, props.toString())
+            sendEvent(WebViewEvent.ON_PROPERTY_CHANGE, props.toString())
         } catch (e: JSONException) {
             Log.e(TAG, e.message)
         }
@@ -55,7 +55,7 @@ class ChromeClient(private var context: FREContext) : WebChromeClient() {
             props.put("propName", "title")
             props.put("value", title)
             props.put("tab", 0)
-            sendEvent(Constants.ON_PROPERTY_CHANGE, props.toString())
+            sendEvent(WebViewEvent.ON_PROPERTY_CHANGE, props.toString())
         } catch (e: JSONException) {
             Log.e(TAG, e.message)
         }

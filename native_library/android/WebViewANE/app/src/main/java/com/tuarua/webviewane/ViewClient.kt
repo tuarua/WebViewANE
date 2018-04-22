@@ -35,7 +35,7 @@ import java.io.ByteArrayInputStream
 class ViewClient(private var context: FREContext, private var settings: Settings) : WebViewClient() {
     internal var isLoading: Boolean = false
     override fun onReceivedHttpError(view: WebView?, request: WebResourceRequest?, errorResponse: WebResourceResponse?) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             return
         }
         val props = JSONObject()
@@ -44,7 +44,7 @@ class ViewClient(private var context: FREContext, private var settings: Settings
             props.put("tab", 0)
             props.put("errorCode", errorResponse?.statusCode)
             props.put("errorText", errorResponse?.reasonPhrase)
-            sendEvent(Constants.ON_FAIL, props.toString())
+            sendEvent(WebViewEvent.ON_FAIL, props.toString())
         } catch (e: JSONException) {
             Log.e(TAG, e.message)
         }
@@ -56,11 +56,12 @@ class ViewClient(private var context: FREContext, private var settings: Settings
         if (list.isEmpty()) {
             return false
         }
+        val urlClean = url.toLowerCase()
         var i = 0
         val size = list.size
         while (i < size) {
-            val s = list[i]
-            if (url.contains(s)) {
+            val s = list[i].toLowerCase()
+            if (urlClean.contains(s)) {
                 return true
             }
             i++
@@ -74,11 +75,12 @@ class ViewClient(private var context: FREContext, private var settings: Settings
         if (list.isEmpty()) {
             return false
         }
+        val urlClean = url.toLowerCase()
         var i = 0
         val size = list.size
         while (i < size) {
-            val s = list[i]
-            if (url.contains(s)) {
+            val s = list[i].toLowerCase()
+            if (urlClean.contains(s)) {
                 return false
             }
             i++
@@ -87,7 +89,7 @@ class ViewClient(private var context: FREContext, private var settings: Settings
     }
 
     override fun shouldInterceptRequest(view: WebView?, request: WebResourceRequest?): WebResourceResponse? {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             return null
         }
         val url = request?.url.toString()
@@ -96,7 +98,7 @@ class ViewClient(private var context: FREContext, private var settings: Settings
             try {
                 props.put("url", url)
                 props.put("tab", 0)
-                sendEvent(Constants.ON_URL_BLOCKED, props.toString())
+                sendEvent(WebViewEvent.ON_URL_BLOCKED, props.toString())
             } catch (e: JSONException) {
                 e.printStackTrace()
             }
@@ -120,7 +122,7 @@ class ViewClient(private var context: FREContext, private var settings: Settings
             props.put("propName", "isLoading")
             props.put("tab", 0)
             props.put("value", isLoading)
-            sendEvent(Constants.ON_PROPERTY_CHANGE, props.toString())
+            sendEvent(WebViewEvent.ON_PROPERTY_CHANGE, props.toString())
         } catch (e: JSONException) {
             Log.e(TAG, e.message)
         }
@@ -130,7 +132,7 @@ class ViewClient(private var context: FREContext, private var settings: Settings
             props.put("propName", "url")
             props.put("value", url)
             props.put("tab", 0)
-            sendEvent(Constants.ON_PROPERTY_CHANGE, props.toString())
+            sendEvent(WebViewEvent.ON_PROPERTY_CHANGE, props.toString())
         } catch (e: JSONException) {
             e.printStackTrace()
         }
@@ -145,7 +147,7 @@ class ViewClient(private var context: FREContext, private var settings: Settings
             props.put("propName", "isLoading")
             props.put("value", isLoading)
             props.put("tab", 0)
-            sendEvent(Constants.ON_PROPERTY_CHANGE, props.toString())
+            sendEvent(WebViewEvent.ON_PROPERTY_CHANGE, props.toString())
         } catch (e: JSONException) {
             Log.e(TAG, e.message)
         }
@@ -155,7 +157,7 @@ class ViewClient(private var context: FREContext, private var settings: Settings
             props.put("propName", "canGoBack")
             props.put("tab", 0)
             props.put("value", view?.canGoBack())
-            sendEvent(Constants.ON_PROPERTY_CHANGE, props.toString())
+            sendEvent(WebViewEvent.ON_PROPERTY_CHANGE, props.toString())
         } catch (e: JSONException) {
             Log.e(TAG, e.message)
         }
@@ -165,7 +167,7 @@ class ViewClient(private var context: FREContext, private var settings: Settings
             props.put("propName", "canGoForward")
             props.put("tab", 0)
             props.put("value", view?.canGoForward())
-            sendEvent(Constants.ON_PROPERTY_CHANGE, props.toString())
+            sendEvent(WebViewEvent.ON_PROPERTY_CHANGE, props.toString())
         } catch (e: JSONException) {
             Log.e(TAG, e.message)
         }
