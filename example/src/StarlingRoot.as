@@ -129,11 +129,12 @@ public class StarlingRoot extends Sprite {
         settings.cacheEnabled = true;
         settings.cef.commandLineArgs.push(kvp);
         settings.cef.enableDownloads = true;
+        settings.cef.userDataPath = File.applicationStorageDirectory.nativePath;
         settings.cef.contextMenu.enabled = false; //enable/disable right click
         settings.cef.logSeverity = LogSeverity.DISABLE;
 
-        //settings.urlWhiteList.push("macromedia.","google.", "youtube.", "adobe.com","chrome-devtools://"); //to restrict urls - simple string matching
-        //settings.urlBlackList.push(".pdf");
+        // settings.urlWhiteList.push("macromedia.","google.", "YouTUBE.", "adobe.com","chrome-devtools://"); //to restrict urls - simple string matching
+        // settings.urlBlackList.push(".pdf");
 
         var viewPort:Rectangle = new Rectangle(0, 90, _appWidth, _appHeight - 140);
 

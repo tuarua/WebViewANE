@@ -58,6 +58,7 @@ namespace CefSharpLib {
         public PopupBehaviour PopupBehaviour { get; set; }
         public Tuple<int, int> PopupDimensions { get; set; }
         public string UserAgent { get; set; }
+        public string UserDataPath { get; set; }
         public Dictionary<string, string> CommandLineArgs { get; set; }
         public ArrayList WhiteList { get; set; }
         public ArrayList BlackList { get; set; }
@@ -97,7 +98,8 @@ namespace CefSharpLib {
             var settings = new CefSettings {
                 RemoteDebuggingPort = RemoteDebuggingPort,
                 CachePath = CacheEnabled ? CachePath : "",
-                UserAgent = UserAgent
+                UserAgent = UserAgent,
+                UserDataPath = UserDataPath
             };
 
             CefSharpSettings.ShutdownOnExit = false;

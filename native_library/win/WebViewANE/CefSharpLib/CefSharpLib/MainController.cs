@@ -262,6 +262,7 @@ namespace CefSharpLib {
                     ContextMenuEnabled = cefSettingsFre.GetProp("contextMenu").GetProp("enabled").AsBool(),
                     EnableDownloads = cefSettingsFre.GetProp("enableDownloads").AsBool(),
                     UserAgent = inFre2.GetProp("userAgent").AsString(),
+                    UserDataPath = cefSettingsFre.GetProp("userDataPath").AsString(),
                     CommandLineArgs = argsDict,
                     WhiteList = whiteList,
                     BlackList = blackList,

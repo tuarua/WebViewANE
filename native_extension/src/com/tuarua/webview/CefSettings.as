@@ -71,7 +71,14 @@ default the browser process executable is used.</p>
  */
     public var downloadPath:String;
 
-public function CefSettings() {
+/**
+ * <p> The location where user data such as spell checking dictionary files will be stored on disk.
+ * If empty then the default platform-specific user data directory
+ * "Local Settings\Application Data\CEF\User Data"directory under the user profile directory on Windows).</p>
+*/
+    public var userDataPath:String;
+
+    public function CefSettings() {
     }
 }
 }
