@@ -228,7 +228,7 @@ class KotlinController : FreKotlinMainController {
         argv.takeIf { argv.size > 0 } ?: return ArgCountException().getError(Thread.currentThread().stackTrace)
         val cropTo = scaleViewPort(Rect(argv[0]))
         capturedBitmapData = webViewController?.capture(cropTo)
-        sendEvent(Constants.ON_CAPTURE_COMPLETE, "");
+        sendEvent(WebViewEvent.ON_CAPTURE_COMPLETE, "");
         return null
     }
 

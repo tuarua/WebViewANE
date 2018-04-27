@@ -16,11 +16,13 @@ namespace CefSharpLib {
         }
 
         private bool IsWhiteListBlocked(string url) {
-            return _whiteList != null && _whiteList.Count != 0 && !_whiteList.Cast<string>().Any(url.Contains);
+            return _whiteList != null && _whiteList.Count != 0 &&
+                   !_whiteList.Cast<string>().Any(s => url.ToLower().Contains(s.ToLower()));
         }
 
         private bool IsBlackListBlocked(string url) {
-            return _blackList != null && _blackList.Count != 0 && _blackList.Cast<string>().Any(url.Contains);
+            return _blackList != null && _blackList.Count != 0 &&
+                   _blackList.Cast<string>().Any(s => url.ToLower().Contains(s.ToLower()));
         }
 
         bool IRequestHandler.OnBeforeBrowse(IWebBrowser browserControl, IBrowser browser, IFrame frame,

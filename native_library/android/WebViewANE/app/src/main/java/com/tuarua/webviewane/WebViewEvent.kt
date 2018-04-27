@@ -22,7 +22,7 @@
  */
 package com.tuarua.webviewane
 
-object Constants {
+object WebViewEvent {
     const val ON_PROPERTY_CHANGE = "WebView.OnPropertyChange"
     const val ON_FAIL = "WebView.OnFail"
     const val ON_URL_BLOCKED = "WebView.OnUrlBlocked"
@@ -31,6 +31,4 @@ object Constants {
     const val ON_KEY_UP: String = "WebView.OnKeyUp"
     const val ON_KEY_DOWN: String = "WebView.OnKeyDown"
     const val ON_CAPTURE_COMPLETE:String = "WebView.OnCaptureComplete"
-
-
 }

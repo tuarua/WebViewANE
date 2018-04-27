@@ -843,8 +843,9 @@ public class SwiftController: NSObject {
           else {
             return false
         }
+        let urlClean = url.lowercased()
         for item in list {
-            if let item = item as? String, url.range(of: item) != nil {
+            if let item = item as? String, urlClean.range(of: item.lowercased()) != nil {
                 return false
             }
         }
@@ -857,9 +858,9 @@ public class SwiftController: NSObject {
           else {
             return false
         }
-
+        let urlClean = url.lowercased()
         for item in list {
-            if let item = item as? String, url.range(of: item) != nil {
+            if let item = item as? String, urlClean.range(of: item.lowercased()) != nil {
                 return true
             }
         }
