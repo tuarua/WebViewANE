@@ -1,3 +1,7 @@
+### 1.6.1
+- AND/iOS/WIN/OSX: Make urlWhiteList and urlBlackList case insensitive Issue #142
+- WIN: Added CefSettings.userDataPath Issue #141
+
 ### 1.6.0
 - WIN: Updated to FreSharp 1.5.0
 - WIN: Added CefSettings.downloadPath
