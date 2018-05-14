@@ -20,18 +20,12 @@
  *  OSX and/or iOS and/or Android.
  *  All Rights Reserved. Tua Rua Ltd.
  */
-
-/**
- * Created by Eoin Landy on 10/01/2017.
- */
 package com.tuarua.webview {
 
-public class CefSettings extends Object {
-
+public class CefSettings {
+[Deprecated(replacement="Settings.contextMenu")]
 public var contextMenu:ContextMenu = new ContextMenu();
-/**
-* <p>Sets whether downloads will be handled by the WebView.</p>
-*/
+[Deprecated(replacement="Settings.enableDownloads")]
 public var enableDownloads:Boolean = true;
 /**
  * <p>Set to a value between 1024 and 65535 to enable remote debugging on the specified
@@ -65,10 +59,8 @@ OnBeforeCommandLineProcessing.</p>
 default the browser process executable is used.</p>
  */
     public var browserSubprocessPath:String = "CefSharp.BrowserSubprocess.exe";
-
-/**
- <p>The path to automatically save downloads to. No user dialog is shown.</p>
- */
+    
+[Deprecated(replacement="Settings.downloadPath")]
     public var downloadPath:String;
 
 /**

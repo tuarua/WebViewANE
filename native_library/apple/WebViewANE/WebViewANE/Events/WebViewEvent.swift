@@ -32,4 +32,6 @@ public struct WebViewEvent {
     public static let JS_CALLBACK_EVENT: String = "TRWV.js.CALLBACK"
     public static let AS_CALLBACK_EVENT: String = "TRWV.as.CALLBACK"
     public static let ON_CAPTURE_COMPLETE: String = "WebView.OnCaptureComplete"
+    public static let ON_DOWNLOAD_COMPLETE: String = "WebView.OnDownloadComplete"
+    public static let ON_DOWNLOAD_CANCEL: String = "WebView.OnDownloadCancel"
 }

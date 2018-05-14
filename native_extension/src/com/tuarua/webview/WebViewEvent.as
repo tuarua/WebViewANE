@@ -21,9 +21,6 @@
  *  All Rights Reserved. Tua Rua Ltd.
  */
 
-/**
- * Created by Eoin Landy on 01/12/2016.
- */
 package com.tuarua.webview {
 import flash.events.Event;
 
@@ -50,7 +47,7 @@ public class WebViewEvent extends Event {
      * Dispatched when download is marked as complete
      * <p><strong>Windows only.</strong></p>
      */
-    public static const ON_DOWNLOAD_COMPLETE:String = "WebView.OnDownloadComplete"
+    public static const ON_DOWNLOAD_COMPLETE:String = "WebView.OnDownloadComplete";
     /**
      * Dispatched when download is cancelled
      * <p><strong>Windows only.</strong></p>

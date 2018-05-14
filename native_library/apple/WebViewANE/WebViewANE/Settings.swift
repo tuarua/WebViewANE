@@ -22,16 +22,26 @@
 import Foundation
 import WebKit
 import FreSwift
-#if canImport(Cocoa)
-    import Cocoa
-#endif
 
 public struct Settings {
-    private var _configuration: Configuration
+    private var _configuration = Configuration()
     private var _userAgent: String?
-    private var _urlWhiteList: NSArray?
-    private var _urlBlackList: NSArray?
-
+    private var _urlWhiteList: [String] = []
+    private var _urlBlackList: [String] = []
+    private var _enableDownloads = false
+    private var _hasContextMenu = true
+    private var _downloadPath: String?
+    private var _popupBehaviour = PopupBehaviour.newWindow
+    private var _popupDimensions = (800, 600)
+    
+    public var enableDownloads: Bool {
+        return _enableDownloads
+    }
+    
+    public var downloadPath: String? {
+        return _downloadPath
+    }
+    
     public var configuration: Configuration {
         return _configuration
     }
@@ -40,43 +50,61 @@ public struct Settings {
         return _userAgent
     }
 
-    public var urlWhiteList: NSArray? {
+    public var urlWhiteList: [String] {
         return _urlWhiteList
     }
     
-    public var urlBlackList: NSArray? {
+    public var urlBlackList: [String] {
         return _urlBlackList
     }
-
-    init(dictionary: [String: AnyObject]) {
-        _configuration = Configuration.init(dictionary: dictionary)
-        #if os(iOS)
-            if let ce: Bool = dictionary["cacheEnabled"] as? Bool {
-                _configuration.websiteDataStore = ce ? WKWebsiteDataStore.default() : WKWebsiteDataStore.nonPersistent()
-            }
-        #else
-            if #available(OSX 10.11, *) {
-                if let ce: Bool = dictionary["cacheEnabled"] as? Bool {
-                    _configuration.websiteDataStore = ce
-                        ? WKWebsiteDataStore.default()
-                        : WKWebsiteDataStore.nonPersistent()
-                }
-            } else {
-                // Fallback on earlier versions
-            }
-        #endif
-
-        if let ua: String = dictionary["userAgent"] as? String {
-            _userAgent = ua
-        }
-
-        if let uwl: NSArray = dictionary["urlWhiteList"] as? NSArray {
-            _urlWhiteList = uwl
-        }
+    
+    public var popupBehaviour: PopupBehaviour {
+        return _popupBehaviour
+    }
+    
+    public var popupDimensions: (Int, Int) {
+        return _popupDimensions
+    }
+    
+    public var hasContextMenu: Bool {
+        return _hasContextMenu
+    }
+    
+    init?(_ freObject: FREObject?) {
+        guard let rv = freObject,
+            let urlWhiteList = [String](rv["urlWhiteList"]),
+            let urlBlackList = [String](rv["urlBlackList"]),
+            let enableDownloads = Bool(rv["enableDownloads"]),
+            let cacheEnabled = Bool(rv["cacheEnabled"]),
+            let contextMenu = rv["contextMenu"],
+            let hasContextMenu = Bool(contextMenu["enabled"]),
+            let popup = rv["popup"],
+            let behaviour = Int(popup["behaviour"]),
+            let popupBehaviour = PopupBehaviour(rawValue: behaviour),
+            let dimensions = popup["dimensions"],
+            let popupW = Int(dimensions["width"]),
+            let popupH = Int(dimensions["height"])
+            else { return }
         
-        if let ubl: NSArray = dictionary["urlBlackList"] as? NSArray {
-            _urlBlackList = ubl
+        _downloadPath = String(rv["downloadPath"])
+        _configuration = Configuration(rv["webkit"])
+        _userAgent = String(rv["userAgent"])
+        _urlWhiteList = urlWhiteList
+        _urlBlackList = urlBlackList
+        _enableDownloads = enableDownloads
+        _hasContextMenu = hasContextMenu
+        _popupBehaviour = popupBehaviour
+        _popupDimensions = (popupW, popupH)
+#if os(iOS)
+        _configuration.websiteDataStore = cacheEnabled
+            ? WKWebsiteDataStore.default()
+            : WKWebsiteDataStore.nonPersistent()
+#else
+        if #available(OSX 10.11, *) {
+            _configuration.websiteDataStore = cacheEnabled
+                ? WKWebsiteDataStore.default()
+                : WKWebsiteDataStore.nonPersistent()
         }
-
+#endif
     }
 }

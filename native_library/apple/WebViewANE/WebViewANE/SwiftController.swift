@@ -43,7 +43,7 @@ public class SwiftController: NSObject {
 #if os(iOS)
     private var _bgColor = UIColor.white
 #else
-    internal var _popup: Popup!
+    internal var _popup: Popup?
 #endif
     private var _isAdded: Bool = false
     internal var _settings: Settings!
@@ -163,15 +163,10 @@ public class SwiftController: NSObject {
     }
 
     func allowsMagnification(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
-        guard argc > 0,
-            let wv = _currentWebView
-            else {
-                return ArgCountError(message: "allowsMagnification").getError(#file, #line, #column)
-        }
 #if os(iOS)
         return false.toFREObject()
 #else
-        return wv.allowsMagnification.toFREObject()
+        return _currentWebView?.allowsMagnification.toFREObject()
 #endif
     }
 
@@ -206,10 +201,9 @@ public class SwiftController: NSObject {
     func zoomIn(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
 #if os(OSX)
         guard let wv = _currentWebView
-          else {
-            return ArgCountError(message: "zoomIn").getError(#file, #line, #column)
+            else {
+                return ArgCountError(message: "zoomIn").getError(#file, #line, #column)
         }
-
         wv.setMagnification(CGFloat(wv.magnification + SwiftController.zoomIncrement), centeredAt: CGPoint.zero)
 #endif
         return nil
@@ -218,10 +212,9 @@ public class SwiftController: NSObject {
     func zoomOut(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
 #if os(OSX)
         guard let wv = _currentWebView
-          else {
-            return ArgCountError(message: "zoomOut").getError(#file, #line, #column)
+            else {
+                return ArgCountError(message: "zoomOut").getError(#file, #line, #column)
         }
-
         wv.setMagnification(CGFloat(wv.magnification - SwiftController.zoomIncrement), centeredAt: CGPoint.zero)
 #endif
         return nil
@@ -229,22 +222,14 @@ public class SwiftController: NSObject {
 
     func showDevTools(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
 #if os(OSX)
-        guard let wv = _currentWebView
-          else {
-            return ArgCountError(message: "showDevTools").getError(#file, #line, #column)
-        }
-        wv.configuration.preferences.setValue(true, forKey: "developerExtrasEnabled")
+        _currentWebView?.configuration.preferences.setValue(true, forKey: "developerExtrasEnabled")
 #endif
         return nil
     }
 
     func closeDevTools(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
 #if os(OSX)
-        guard let wv = _currentWebView
-          else {
-            return ArgCountError(message: "closeDevTools").getError(#file, #line, #column)
-        }
-        wv.configuration.preferences.setValue(false, forKey: "developerExtrasEnabled")
+        _currentWebView?.configuration.preferences.setValue(false, forKey: "developerExtrasEnabled")
 #endif
         return nil
     }
@@ -394,37 +379,27 @@ public class SwiftController: NSObject {
     }
 
     func reload(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
-        if let wv = _currentWebView {
-            wv.reload()
-        }
+        _currentWebView?.reload()
         return nil
     }
 
     func reloadFromOrigin(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
-        if let wv = _currentWebView {
-            wv.reloadFromOrigin()
-        }
+        _currentWebView?.reloadFromOrigin()
         return nil
     }
 
     func stopLoading(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
-        if let wv = _currentWebView {
-            wv.stopLoading()
-        }
+        _currentWebView?.stopLoading()
         return nil
     }
 
     func goBack(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
-        if let wv = _currentWebView {
-            wv.goBack()
-        }
+        _currentWebView?.goBack()
         return nil
     }
 
     func goForward(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
-        if let wv = _currentWebView {
-            wv.goForward()
-        }
+        _currentWebView?.goForward()
         return nil
     }
 
@@ -480,7 +455,6 @@ public class SwiftController: NSObject {
             let wvc = _currentWebView else {
                 return ArgCountError(message: "capture").getError(#file, #line, #column)
         }
-        
         _capturedCropTo = scaleViewPort(rect: CGRect(argv[0]))
         wvc.capture()
         return nil
@@ -719,7 +693,7 @@ public class SwiftController: NSObject {
     }
 
     fileprivate func createNewBrowser(frame: CGRect, tab: Int) -> WebViewVC {
-        let wv = WebViewVC(context: context, frame: frame, configuration: _settings.configuration, tab: tab)
+        let wv = WebViewVC(context: context, frame: frame, settings: _settings, tab: tab)
 
         wv.translatesAutoresizingMaskIntoConstraints = false
         wv.navigationDelegate = self
@@ -732,14 +706,10 @@ public class SwiftController: NSObject {
             wv.scrollView.backgroundColor = UIColor.clear
         }
 
-        if let userAgent = _settings.userAgent {
-            wv.customUserAgent = userAgent
-        }
+        wv.customUserAgent = _settings.userAgent
 #else
         if #available(OSX 10.11, *) {
-            if let userAgent = _settings.userAgent {
-                wv.customUserAgent = userAgent
-            }
+            wv.customUserAgent = _settings.userAgent
         }
 #endif
 
@@ -788,32 +758,21 @@ public class SwiftController: NSObject {
 
         realY = ((mWin?.contentLayoutRect.height)! - _viewPort.size.height) - _viewPort.origin.y
 #endif
-
-        if let settingsFRE: FREObject = argv[2] {
-            if let settingsDict: [String: AnyObject] = Dictionary(settingsFRE) {
-                _settings = Settings(dictionary: settingsDict)
+        _settings = Settings(argv[2])
 #if os(OSX)
-                if let popupSettings = settingsDict["popup"] {
-                    _popup = Popup()
-                    if let behaviour = popupSettings["behaviour"] as? Int {
-                        _popupBehaviour = PopupBehaviour(rawValue: behaviour)!
-                    }
-                    if let dimensions = popupSettings["dimensions"] as? [String: Int] {
-                        if let w = dimensions["width"], let h = dimensions["height"] {
-                            _popup.popupDimensions.0 = w
-                            _popup.popupDimensions.1 = h
-                        }
-                    }
-                }
+        _popup = Popup()
+        _popup?.popupDimensions = _settings.popupDimensions
+        _popupBehaviour = _settings.popupBehaviour
 #endif
-            }
-        }
 
         _userController.add(self, name: "webViewANE")
         _settings.configuration.userContentController = _userController
 
         _currentWebView = createNewBrowser(frame:
-            CGRect(x: _viewPort.origin.x, y: realY, width: _viewPort.size.width, height: _viewPort.size.height),
+            CGRect(x: _viewPort.origin.x,
+                   y: realY,
+                   width: _viewPort.size.width,
+                   height: _viewPort.size.height),
                                            tab: 0)
 
         return nil
@@ -838,14 +797,13 @@ public class SwiftController: NSObject {
     }
 
     internal func isWhiteListBlocked(url: String) -> Bool {
-        guard let list = _settings.urlWhiteList,
-              list.count > 0
+        guard _settings.urlWhiteList.count > 0
           else {
             return false
         }
         let urlClean = url.lowercased()
-        for item in list {
-            if let item = item as? String, urlClean.range(of: item.lowercased()) != nil {
+        for item in _settings.urlWhiteList {
+            if urlClean.range(of: item.lowercased()) != nil {
                 return false
             }
         }
@@ -853,14 +811,13 @@ public class SwiftController: NSObject {
     }
 
     internal func isBlackListBlocked(url: String) -> Bool {
-        guard let list = _settings.urlBlackList,
-              list.count > 0
+        guard _settings.urlBlackList.count > 0
           else {
             return false
         }
         let urlClean = url.lowercased()
-        for item in list {
-            if let item = item as? String, urlClean.range(of: item.lowercased()) != nil {
+        for item in _settings.urlBlackList {
+            if urlClean.range(of: item.lowercased()) != nil {
                 return true
             }
         }

@@ -49,7 +49,7 @@ class KotlinController : FreKotlinMainController {
     }
 
     fun init(ctx: FREContext, argv: FREArgv): FREObject? {
-        argv.takeIf { argv.size > 4 } ?: return ArgCountException().getError(Thread.currentThread().stackTrace)
+        argv.takeIf { argv.size > 4 } ?: return FreArgException("init")
         try {
             val initialUrl = String(argv[0])
             val viewPort = Rect(argv[1])
@@ -60,7 +60,8 @@ class KotlinController : FreKotlinMainController {
             }
             val backgroundColorFre = argv[4]
             val backgroundColor = backgroundColorFre.toColor(true)
-            webViewController = WebViewController(ctx, initialUrl, scaleViewPort(viewPort), settings, backgroundColor)
+            webViewController = WebViewController(ctx, initialUrl, scaleViewPort(viewPort),
+                    settings, backgroundColor)
 
         } catch (e: FreException) {
             Log.e(TAG, e.message)
@@ -85,14 +86,14 @@ class KotlinController : FreKotlinMainController {
     }
 
     fun setViewPort(ctx: FREContext, argv: FREArgv): FREObject? {
-        argv.takeIf { argv.size > 0 } ?: return ArgCountException().getError(Thread.currentThread().stackTrace)
+        argv.takeIf { argv.size > 0 } ?: return FreArgException("setViewPort")
         val viewPortFre = Rect(argv[0])
         webViewController?.viewPort = scaleViewPort(viewPortFre)
         return null
     }
 
     fun setVisible(ctx: FREContext, argv: FREArgv): FREObject? {
-        argv.takeIf { argv.size > 0 } ?: return ArgCountException().getError(Thread.currentThread().stackTrace)
+        argv.takeIf { argv.size > 0 } ?: return FreArgException("setVisible")
         val visible = Boolean(argv[0]) == true
         if (!isAdded) {
             webViewController?.add()
@@ -104,29 +105,23 @@ class KotlinController : FreKotlinMainController {
     }
 
     fun loadHTMLString(ctx: FREContext, argv: FREArgv): FREObject? {
-        argv.takeIf { argv.size > 0 } ?: return ArgCountException().getError(Thread.currentThread().stackTrace)
-        val data = String(argv[0])
-        if (data != null) {
-            webViewController?.loadHTMLString(data)
-        }
+        argv.takeIf { argv.size > 0 } ?: return FreArgException("loadHTMLString")
+        val data = String(argv[0]) ?: return FreConversionException("data")
+        webViewController?.loadHTMLString(data)
         return null
     }
 
     fun load(ctx: FREContext, argv: FREArgv): FREObject? {
-        argv.takeIf { argv.size > 0 } ?: return ArgCountException().getError(Thread.currentThread().stackTrace)
-        val url = String(argv[0])
-        if (url != null) {
-            webViewController?.loadUrl(url)
-        }
+        argv.takeIf { argv.size > 0 } ?: return FreArgException("load")
+        val url = String(argv[0]) ?: return FreConversionException("url")
+        webViewController?.loadUrl(url)
         return null
     }
 
     fun loadFileURL(ctx: FREContext, argv: FREArgv): FREObject? {
-        argv.takeIf { argv.size > 0 } ?: return ArgCountException().getError(Thread.currentThread().stackTrace)
-        val url = String(argv[0])
-        if (url != null) {
-            webViewController?.loadFileURL(url)
-        }
+        argv.takeIf { argv.size > 0 } ?: return FreArgException("loadFileURL")
+        val url = String(argv[0]) ?: return FreConversionException("url")
+        webViewController?.loadFileURL(url)
         return null
     }
 
@@ -136,11 +131,9 @@ class KotlinController : FreKotlinMainController {
     }
 
     fun go(ctx: FREContext, argv: FREArgv): FREObject? {
-        argv.takeIf { argv.size > 0 } ?: return ArgCountException().getError(Thread.currentThread().stackTrace)
-        val offset = Int(argv[0])
-        if (offset != null) {
-            webViewController?.go(offset)
-        }
+        argv.takeIf { argv.size > 0 } ?: return FreArgException("go")
+        val offset = Int(argv[0]) ?: return FreConversionException("offset")
+        webViewController?.go(offset)
         return null
     }
 
@@ -179,22 +172,18 @@ class KotlinController : FreKotlinMainController {
     }
 
     fun callJavascriptFunction(ctx: FREContext, argv: FREArgv): FREObject? {
-        argv.takeIf { argv.size > 1 } ?: return ArgCountException().getError(Thread.currentThread().stackTrace)
-        val js = String(argv[0])
+        argv.takeIf { argv.size > 1 } ?: return FreArgException("callJavascriptFunction")
+        val js = String(argv[0]) ?: return FreConversionException("js")
         val callback = String(argv[1])
-        if (js != null) {
-            webViewController?.evaluateJavascript(js, callback)
-        }
+        webViewController?.evaluateJavascript(js, callback)
         return null
     }
 
     fun evaluateJavaScript(ctx: FREContext, argv: FREArgv): FREObject? {
-        argv.takeIf { argv.size > 1 } ?: return ArgCountException().getError(Thread.currentThread().stackTrace)
-        val js = String(argv[0])
+        argv.takeIf { argv.size > 1 } ?: return FreArgException("evaluateJavaScript")
+        val js = String(argv[0]) ?: return FreConversionException("js")
         val callback = String(argv[1])
-        if (js != null) {
-            webViewController?.evaluateJavascript(js, callback)
-        }
+        webViewController?.evaluateJavascript(js, callback)
         return null
     }
 
@@ -225,10 +214,10 @@ class KotlinController : FreKotlinMainController {
     }
 
     fun capture(ctx: FREContext, argv: FREArgv): FREObject? {
-        argv.takeIf { argv.size > 0 } ?: return ArgCountException().getError(Thread.currentThread().stackTrace)
+        argv.takeIf { argv.size > 0 } ?: return FreArgException("capture")
         val cropTo = scaleViewPort(Rect(argv[0]))
         capturedBitmapData = webViewController?.capture(cropTo)
-        sendEvent(WebViewEvent.ON_CAPTURE_COMPLETE, "");
+        sendEvent(WebViewEvent.ON_CAPTURE_COMPLETE, "")
         return null
     }
 

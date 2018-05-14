@@ -20,10 +20,6 @@
  *  OSX and/or iOS and/or Android.
  *  All Rights Reserved. Tua Rua Ltd.
  */
-
-/**
- * Created by Local Eoin Landy on 03/06/2017.
- */
 package com.tuarua.webview {
 public final class ContextMenu {
 /**

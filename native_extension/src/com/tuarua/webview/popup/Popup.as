@@ -20,10 +20,6 @@
  *  OSX and/or iOS and/or Android.
  *  All Rights Reserved. Tua Rua Ltd.
  */
-
-/**
- * Created by Eoin Landy on 04/05/2017.
- */
 package com.tuarua.webview.popup {
 public final class Popup {
     public var dimensions:Dimensions = new Dimensions();

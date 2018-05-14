@@ -53,7 +53,7 @@ extension SwiftController: WKNavigationDelegate {
                     warning("Cannot open popup in new window on iOS. Opening in same window.")
                     webView.load(navigationAction.request)
                 #else
-                    _popup.createPopupWindow(url: navigationAction.request, configuration: _settings.configuration)
+                _popup?.createPopupWindow(url: navigationAction.request, configuration: _settings.configuration)
                 #endif
             case .sameWindow:
                 webView.load(navigationAction.request)
@@ -61,6 +61,86 @@ extension SwiftController: WKNavigationDelegate {
         }
         return nil
     }
+    
+#if os(OSX)
+    fileprivate func saveDownload(url: URL, location: URL) {
+        let sessionConfig = URLSessionConfiguration.default
+        let session = URLSession(configuration: sessionConfig)
+        
+        let request = URLRequest.init(url: url,
+                                      cachePolicy: .useProtocolCachePolicy,
+                                      timeoutInterval: 1.0)
+        
+        let task = session.downloadTask(with: request) { (tempLocalUrl, response, error) in
+            if let err = error {
+                self.sendEvent(name: WebViewEvent.ON_DOWNLOAD_CANCEL, value: url.absoluteString)
+                self.warning("error downloading file", err.localizedDescription)
+                return
+            }
+            
+            guard let tempLocalUrl = tempLocalUrl,
+                let statusCode = (response as? HTTPURLResponse)?.statusCode
+                else {
+                    self.sendEvent(name: WebViewEvent.ON_DOWNLOAD_CANCEL, value: url.absoluteString)
+                    self.warning("error downloading file")
+                    return
+            }
+            
+            if (200...299).contains(statusCode) {
+                do {
+                    try FileManager.default.copyItem(at: tempLocalUrl, to: location)
+                    self.sendEvent(name: WebViewEvent.ON_DOWNLOAD_COMPLETE, value: url.absoluteString)
+                } catch let writeError {
+                    self.sendEvent(name: WebViewEvent.ON_DOWNLOAD_CANCEL, value: url.absoluteString)
+                    self.warning("error writing file \(location) : \(writeError)")
+                }
+            } else {
+                self.sendEvent(name: WebViewEvent.ON_DOWNLOAD_CANCEL, value: url.absoluteString)
+                self.warning("error downloading file \(statusCode)")
+            }
+        }
+        task.resume()
+    }
+    
+    public func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse,
+                        decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
+    
+        if let url = navigationResponse.response.url,
+            let suggestedFilename = navigationResponse.response.suggestedFilename,
+            !navigationResponse.canShowMIMEType {
+            
+            if !_settings.enableDownloads {
+                decisionHandler(.cancel)
+                return
+            }
+            
+            if let downloadPath = _settings.downloadPath {
+                var location = URL(safe: downloadPath)
+                location?.appendPathComponent(suggestedFilename)
+                if let location = location {
+                    saveDownload(url: url, location: location)
+                }
+            } else {
+                let saveDialog = NSSavePanel()
+                saveDialog.parent = NSApp.mainWindow
+                saveDialog.canCreateDirectories = true
+                saveDialog.nameFieldStringValue = suggestedFilename
+                let result = saveDialog.runModal()
+                switch result {
+                case NSApplication.ModalResponse.OK :
+                    if let location = saveDialog.url {
+                        saveDownload(url: url, location: location)
+                    }
+                case NSApplication.ModalResponse.cancel:
+                    sendEvent(name: WebViewEvent.ON_DOWNLOAD_CANCEL, value: url.absoluteString)
+                default: break
+                }
+            }
+            decisionHandler(.cancel)
+        }
+        decisionHandler(.allow)
+    }
+#endif
     
     public func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction,
                         decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {

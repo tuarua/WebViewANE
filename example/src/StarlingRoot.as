@@ -123,24 +123,25 @@ public class StarlingRoot extends Sprite {
         //Disables the DirectWrite font rendering system on windows.
         //Possibly useful when experiencing blurry fonts.
 
+        settings.cacheEnabled = true;
+        settings.enableDownloads = true;
+        settings.contextMenu.enabled = true; //enable/disable right click
+
         var kvp:Object = {};
         kvp.key = "disable-direct-write";
         kvp.value = "1";
-        settings.cacheEnabled = true;
+
         settings.cef.commandLineArgs.push(kvp);
-        settings.cef.enableDownloads = true;
         settings.cef.userDataPath = File.applicationStorageDirectory.nativePath;
-        settings.cef.contextMenu.enabled = false; //enable/disable right click
         settings.cef.logSeverity = LogSeverity.DISABLE;
 
-        // settings.urlWhiteList.push("macromedia.","google.", "YouTUBE.", "adobe.com","chrome-devtools://"); //to restrict urls - simple string matching
+        // settings.urlWhiteList.push("macromedia.","google.", "YouTUBE.", "adobe.com", "chrome-devtools://"); //to restrict urls - simple string matching
         // settings.urlBlackList.push(".pdf");
 
         var viewPort:Rectangle = new Rectangle(0, 90, _appWidth, _appHeight - 140);
 
-        trace(os.isWindows, os.majorVersion, os.minorVersion, os.buildVersion);
+        // trace(os.isWindows, os.majorVersion, os.minorVersion, os.buildVersion);
 
-        //trace("os v:", webView.osVersion);
         webView.init(WebViewANESample.target.stage, viewPort, "https://www.youtube.com", settings, 1.0, 0xFFF1F1F1, true);
         //webView.init(WebViewANESample.target.stage, viewPort, "", settings, 1.0, 0xFFF1F1F1, true); // when using loadHTMLString
         webView.visible = true;
