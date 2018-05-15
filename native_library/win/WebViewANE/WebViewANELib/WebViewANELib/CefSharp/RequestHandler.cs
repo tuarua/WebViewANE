@@ -4,7 +4,8 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using CefSharp;
 
-namespace CefSharpLib {
+namespace WebViewANELib.CefSharp
+{
     public class RequestHandler : IRequestHandler {
         private readonly ArrayList _whiteList;
         private readonly ArrayList _blackList;

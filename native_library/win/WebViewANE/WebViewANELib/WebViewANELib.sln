@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharpLib", "CefSharpLib\CefSharpLib.csproj", "{BF6FE16C-113A-4578-8E16-D3302D82CEAE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebViewANELib", "WebViewANELib\WebViewANELib.csproj", "{BF6FE16C-113A-4578-8E16-D3302D82CEAE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

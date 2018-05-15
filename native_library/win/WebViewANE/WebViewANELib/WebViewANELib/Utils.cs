@@ -20,13 +20,12 @@
 //  OSX and/or iOS and/or Android.
 //  All Rights Reserved. Tua Rua Ltd.
 #endregion
-namespace CefSharpLib {
-    public class TabDetails {
-        public string Title { get; set; }
-        public string Address { get; set; }
-        public string StatusMessage { get; set; }
-        public bool CanGoBack { get; set; }
-        public bool CanGoForward { get; set; }
-        public bool IsLoading { get; set; }
+
+using System.Text;
+
+namespace WebViewANELib
+{
+    public class Utils {
+        public static string ToUtf8(string value) => Encoding.UTF8.GetString(Encoding.Default.GetBytes(value));
     }
 }

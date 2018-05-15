@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.26430.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WebViewANE", "WebViewANE\WebViewANE.vcxproj", "{8161C194-25D6-4DC7-817A-AE5FFDFB7D6D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefSharpLib", "CefSharpLib\CefSharpLib\CefSharpLib.csproj", "{BF6FE16C-113A-4578-8E16-D3302D82CEAE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebViewANELib", "WebViewANELib\WebViewANELib\WebViewANELib.csproj", "{BF6FE16C-113A-4578-8E16-D3302D82CEAE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,5 +40,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9A7EBAFD-2B61-4C1D-9653-F05A7662FFA7}
 	EndGlobalSection
 EndGlobal

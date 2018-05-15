@@ -1,3 +1,10 @@
+### 1.6.5
+- OSX: WKWebview download implementation Issue #148
+- WIN: CefSettings.downloadPath is now Settings.downloadPath
+- WIN: CefSettings.enableDownloads is now Settings.enableDownloads
+- WIN: CefSettings.contextMenu is now Settings.contextMenu
+- WIN: refactor C# structure to prepare for Modern WebView Edge based control
+
 ### 1.6.1
 - AND/iOS/WIN/OSX: Make urlWhiteList and urlBlackList case insensitive Issue #142
 - WIN: Added CefSettings.userDataPath Issue #141

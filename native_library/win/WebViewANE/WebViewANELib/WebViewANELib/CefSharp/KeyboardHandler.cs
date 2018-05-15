@@ -1,11 +1,11 @@
 ﻿using System;
-using CefSharp;
-using TuaRua.FreSharp;
-using System.Text;
 using System.IO;
+using System.Text;
+using CefSharp;
 using Newtonsoft.Json;
+using TuaRua.FreSharp;
 
-namespace CefSharpLib {
+namespace WebViewANELib.CefSharp {
     public class KeyboardHandler : IKeyboardHandler {
         public event EventHandler<int> OnKeyEventFired;
         private const string OnKeyUp = "WebView.OnKeyUp";
@@ -18,19 +18,20 @@ namespace CefSharpLib {
             _context = context;
         }
 
-        public bool OnPreKeyEvent(IWebBrowser browserControl, IBrowser browser, KeyType type, int windowsKeyCode, int nativeKeyCode,
+        public bool OnPreKeyEvent(IWebBrowser browserControl, IBrowser browser, KeyType type, int windowsKeyCode,
+            int nativeKeyCode,
             CefEventFlags modifiers, bool isSystemKey, ref bool isKeyboardShortcut) {
             return false;
         }
 
-        public bool OnKeyEvent(IWebBrowser browserControl, IBrowser browser, KeyType type, int windowsKeyCode, int nativeKeyCode,
+        public bool OnKeyEvent(IWebBrowser browserControl, IBrowser browser, KeyType type, int windowsKeyCode,
+            int nativeKeyCode,
             CefEventFlags modifiers, bool isSystemKey) {
-            if(KeyType.RawKeyDown != type && KeyType.KeyUp != type) return false;
+            if (KeyType.RawKeyDown != type && KeyType.KeyUp != type) return false;
             var sb = new StringBuilder();
             var sw = new StringWriter(sb);
             var writer = new JsonTextWriter(sw);
             if ((HasKeyUp && KeyType.KeyUp == type) || (HasKeyDown && KeyType.RawKeyDown == type)) {
-                
                 writer.WriteStartObject();
                 writer.WritePropertyName("type");
                 writer.WriteValue(type);
@@ -51,6 +52,5 @@ namespace CefSharpLib {
             handler?.Invoke(this, windowsKeyCode);
             return false;
         }
-
     }
 }

@@ -3,10 +3,12 @@ using System.Windows.Forms;
 using CefSharp;
 using CefSharp.WinForms.Internals;
 
-namespace CefSharpLib {
+namespace WebViewANELib.CefSharp {
     internal class GeolocationHandler : IGeolocationHandler {
         public event EventHandler<bool> OnPermissionResult;
-        bool IGeolocationHandler.OnRequestGeolocationPermission(IWebBrowser browserControl, IBrowser browser, string requestingUrl, int requestId, IGeolocationCallback callback) {
+
+        bool IGeolocationHandler.OnRequestGeolocationPermission(IWebBrowser browserControl, IBrowser browser,
+            string requestingUrl, int requestId, IGeolocationCallback callback) {
             //The callback has been disposed, so we are unable to continue
             if (callback.IsDisposed) {
                 var handler = OnPermissionResult;
@@ -14,7 +16,7 @@ namespace CefSharpLib {
                 return false;
             }
 
-            var control = (Control)browserControl;
+            var control = (Control) browserControl;
             control.InvokeOnUiThreadIfRequired(delegate {
                 //Callback wraps a managed resource, so we'll wrap in a using statement so it's always disposed of.
                 using (callback) {
@@ -31,7 +33,8 @@ namespace CefSharpLib {
             return true;
         }
 
-        void IGeolocationHandler.OnCancelGeolocationPermission(IWebBrowser browserControl, IBrowser browser, int requestId) {
+        void IGeolocationHandler.OnCancelGeolocationPermission(IWebBrowser browserControl, IBrowser browser,
+            int requestId) {
             var handler = OnPermissionResult;
             handler?.Invoke(this, false);
         }

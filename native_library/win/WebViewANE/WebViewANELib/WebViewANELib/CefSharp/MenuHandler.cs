@@ -4,7 +4,8 @@
 
 using CefSharp;
 
-namespace CefSharpLib {
+namespace WebViewANELib.CefSharp
+{
     internal class MenuHandler : IContextMenuHandler {
         //private const int ShowDevTools = 26501;
         //private const int CloseDevTools = 26502;

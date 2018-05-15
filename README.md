@@ -103,6 +103,8 @@ The example project can be run on the device from IntelliJ using AIR 29.
 
 You will need
 
+- Powershell on Windows
+- wget on Mac
 - Xcode 9.3
 - Xcode 9.1 for iOS Simulator
 - IntelliJ IDEA
@@ -116,10 +118,6 @@ From the command line cd into /example-mobile and run:
 ````shell
 bash get_android_dependencies.sh
 `````
-
-
-![alt tag](https://raw.githubusercontent.com/tuarua/WebViewANE/master/screenshots/screenshot1.jpg)
-
 
 
 ### References

@@ -4,9 +4,7 @@ import flash.display.Sprite;
 import flash.display.StageAlign;
 import flash.display.StageScaleMode;
 import flash.events.Event;
-import flash.events.FullScreenEvent;
 import flash.geom.Rectangle;
-import flash.system.Capabilities;
 
 import starling.core.Starling;
 import starling.events.Event;
@@ -20,7 +18,6 @@ public class WebViewANESample extends Sprite {
     private static var _app:StarlingRoot;
 
     public function WebViewANESample() {
-
         super();
         WebViewANESample.target = this;
         stage.align = StageAlign.TOP_LEFT;
@@ -28,7 +25,6 @@ public class WebViewANESample extends Sprite {
         
         Starling.multitouchEnabled = false;
         var viewPort:Rectangle = new Rectangle(0, 0, stage.stageWidth, stage.stageHeight);
-
 
         mStarling = new Starling(StarlingRoot, stage, viewPort, null, "auto", "auto");
         mStarling.addEventListener(starling.events.Event.ROOT_CREATED,
@@ -49,12 +45,9 @@ public class WebViewANESample extends Sprite {
         mStarling.skipUnchangedFrames = true;
         mStarling.supportHighResolutions = true;
 
-
         NativeApplication.nativeApplication.executeInBackground = true;
 
     }
-
-
 
     private function onResize(e:flash.events.Event):void {
         mStarling.stage.stageWidth = this.stage.stageWidth;

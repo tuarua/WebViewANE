@@ -18,13 +18,14 @@
 //  undertakes the same purpose as this software. That is, a WebView for Windows, 
 //  OSX and/or iOS and/or Android.
 //  All Rights Reserved. Tua Rua Ltd.
+
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using Newtonsoft.Json;
 using TuaRua.FreSharp;
 
-namespace CefSharpLib {
+namespace WebViewANELib {
     public class BoundObject {
         private const string JsCallbackEvent = "TRWV.js.CALLBACK";
         private readonly FreContextSharp _context;
@@ -37,14 +38,15 @@ namespace CefSharpLib {
             //public IJavascriptCallback Callback { get; set; }
             // ReSharper disable once InconsistentNaming
             public string functionName { get; set; }
+
             // ReSharper disable once InconsistentNaming
             public string callbackName { get; set; }
+
             // ReSharper disable once InconsistentNaming
             public IList<object> args { get; set; }
         }
 
         public void PostMessage(JavascriptMessage param) {
-
             var sb = new StringBuilder();
             var sw = new StringWriter(sb);
             var writer = new JsonTextWriter(sw);
@@ -59,20 +61,23 @@ namespace CefSharpLib {
                 foreach (var value in param.args) {
                     writer.WriteValue(value);
                 }
+
                 writer.WriteEndArray();
-            } else {
+            }
+            else {
                 writer.WriteNull();
             }
 
             writer.WritePropertyName("callbackName");
             if (!string.IsNullOrEmpty(param.callbackName)) {
                 writer.WriteValue(param.callbackName);
-            } else {
+            }
+            else {
                 writer.WriteNull();
             }
+
             writer.WriteEndObject();
             _context.SendEvent(JsCallbackEvent, sb.ToString());
         }
-
     }
 }

@@ -222,7 +222,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CefSharpLib\CefSharpLib\CefSharpLib.csproj">
+    <ProjectReference Include="..\WebViewANELib\WebViewANELib\WebViewANELib.csproj">
       <Project>{bf6fe16c-113a-4578-8e16-d3302d82ceae}</Project>
     </ProjectReference>
   </ItemGroup>
