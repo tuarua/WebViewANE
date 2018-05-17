@@ -4,8 +4,7 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using CefSharp;
 
-namespace WebViewANELib.CefSharp
-{
+namespace WebViewANELib.CefSharp {
     public class RequestHandler : IRequestHandler {
         private readonly ArrayList _whiteList;
         private readonly ArrayList _blackList;
@@ -53,7 +52,7 @@ namespace WebViewANELib.CefSharp
             // TODO: Add your own code here for handling scenarios where a plugin crashed, for one reason or another.
         }
 
-        CefReturnValue IRequestHandler.OnBeforeResourceLoad(IWebBrowser browserControl, IBrowser browser, IFrame frame,
+        CefReturnValue IRequestHandler.OnBeforeResourceLoad(IWebBrowser browserControl, IBrowser bsrowser, IFrame frame,
             IRequest request, IRequestCallback callback) {
             return CefReturnValue.Continue;
         }
@@ -76,6 +75,15 @@ namespace WebViewANELib.CefSharp
 
         void IRequestHandler.OnRenderProcessTerminated(IWebBrowser browserControl, IBrowser browser,
             CefTerminationStatus status) { }
+
+        public bool CanGetCookies(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request) {
+            return true;
+        }
+
+        public bool CanSetCookie(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request,
+            Cookie cookie) {
+            return true;
+        }
 
         bool IRequestHandler.OnQuotaRequest(IWebBrowser browserControl, IBrowser browser, string originUrl,
             long newSize, IRequestCallback callback) {

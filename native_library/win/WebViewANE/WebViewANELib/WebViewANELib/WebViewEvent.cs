@@ -30,7 +30,6 @@ namespace WebViewANELib {
         public const string OnPropertyChange = "WebView.OnPropertyChange";
         public const string OnEscKey = "WebView.OnEscKey";
         public const string OnFail = "WebView.OnFail";
-        public const string OnPermission = "WebView.OnPermissionResult";
         public const string OnUrlBlocked = "WebView.OnUrlBlocked";
         public const string OnPopupBlocked = "WebView.OnPopupBlocked";
         public const string OnPdfPrinted = "WebView.OnPdfPrinted";

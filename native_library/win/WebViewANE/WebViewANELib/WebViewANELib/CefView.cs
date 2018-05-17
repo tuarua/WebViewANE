@@ -162,12 +162,6 @@ namespace WebViewANELib {
             browser.KeyboardHandler = KeyboardHandler;
 
             // ReSharper disable once UseObjectOrCollectionInitializer
-            var gh = new GeolocationHandler();
-            gh.OnPermissionResult += OnPermissionResult;
-            browser.GeolocationHandler = gh;
-
-
-            // ReSharper disable once UseObjectOrCollectionInitializer
             var sh = new LifeSpanHandler(PopupBehaviour, PopupDimensions);
             sh.OnPermissionPopup += OnPermissionPopup;
             sh.OnPopupBlock += OnPopupBlock;
@@ -454,19 +448,6 @@ namespace WebViewANELib {
 
         private static void OnKeyEventFired(object sender, int e) {
             Context.SendEvent(WebViewEvent.OnEscKey, e.ToString());
-        }
-
-        private static void OnPermissionResult(object sender, bool e) {
-            var sb = new StringBuilder();
-            var sw = new StringWriter(sb);
-            var writer = new JsonTextWriter(sw);
-            writer.WriteStartObject();
-            writer.WritePropertyName("type");
-            writer.WriteValue("geolocation");
-            writer.WritePropertyName("result");
-            writer.WriteValue(e);
-            writer.WriteEndObject();
-            Context.SendEvent(WebViewEvent.OnPermission, sb.ToString());
         }
 
         public void ZoomIn() {

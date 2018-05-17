@@ -142,7 +142,7 @@ public class StarlingRoot extends Sprite {
 
         // trace(os.isWindows, os.majorVersion, os.minorVersion, os.buildVersion);
 
-        webView.init(WebViewANESample.target.stage, viewPort, "https://www.youtube.com", settings, 1.0, 0xFFF1F1F1, true);
+        webView.init(WebViewANESample.target.stage, viewPort, "https://html5test.com", settings, 1.0, 0xFFF1F1F1, true);
         //webView.init(WebViewANESample.target.stage, viewPort, "", settings, 1.0, 0xFFF1F1F1, true); // when using loadHTMLString
         webView.visible = true;
         webView.injectScript("function testInject(){console.log('yo yo')}");
