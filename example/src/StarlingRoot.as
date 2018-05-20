@@ -118,20 +118,15 @@ public class StarlingRoot extends Sprite {
         //google.com for eg displays different sites based on user agent
         //settings.userAgent = "WebViewANE";
 
-        // See https://github.com/cefsharp/CefSharp/blob/master/CefSharp.Example/CefExample.cs#L37 for more examples
-        //settings.CefCommandLineArgs.Add("disable-direct-write", "1");
-        //Disables the DirectWrite font rendering system on windows.
-        //Possibly useful when experiencing blurry fonts.
-
         settings.cacheEnabled = true;
         settings.enableDownloads = true;
         settings.contextMenu.enabled = true; //enable/disable right click
 
-        var kvp:Object = {};
-        kvp.key = "disable-direct-write";
-        kvp.value = "1";
-
-        settings.cef.commandLineArgs.push(kvp);
+        // See https://github.com/cefsharp/CefSharp/blob/master/CefSharp.Example/CefExample.cs#L37 for more examples
+        settings.cef.commandLineArgs.push({
+            key: "disable-direct-write",
+            value: "1"
+        });
         settings.cef.userDataPath = File.applicationStorageDirectory.nativePath;
         settings.cef.logSeverity = LogSeverity.DISABLE;
 

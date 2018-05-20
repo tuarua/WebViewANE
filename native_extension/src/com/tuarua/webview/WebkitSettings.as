@@ -70,6 +70,10 @@ public class WebkitSettings {
      * <p>A Boolean value indicating whether the webview responds to pinch zoom gestures.</p>
      */
     public var useZoomGestures:Boolean = true;
+    /**
+     *  <p>Add custom preferences via preferences.setValue. This can be used to set private APIs. Use at own risk.</p>
+     */
+    public var custom:Vector.<Object> = new <Object>[];
     public function WebkitSettings() {
     }
 }

@@ -67,6 +67,19 @@ open class Configuration: WKWebViewConfiguration {
         self.preferences.javaScriptCanOpenWindowsAutomatically = javaScriptCanOpenWindowsAutomatically
         self.preferences.javaScriptEnabled = javaScriptEnabled
         self.preferences.minimumFontSize = minimumFontSize
+        
+        if let freCustom = rv["custom"] {
+            let custom = FREArray(freCustom)
+            for index in 0..<custom.length {
+                if let argFre = custom[index],
+                    let key = String(argFre["key"]),
+                    let val = argFre["value"],
+                    let v = try? FreObjectSwift(any: val).value {
+                    self.preferences.setValue(v, forKey: key)
+                }
+            }
+        }
+        
 #if os(iOS)
         self.allowsInlineMediaPlayback = allowsInlineMediaPlayback
         self.allowsPictureInPictureMediaPlayback = allowsPictureInPictureMediaPlayback

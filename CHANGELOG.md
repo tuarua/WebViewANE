@@ -1,5 +1,7 @@
 ### 1.6.5
+- AND: Updated to FreKotlin 1.3.0
 - OSX: WKWebview download implementation Issue #148
+- iOS: Added WebkitSettings.custom to allow setting custom preferences KVPs Issue #150
 - WIN: CefSettings.downloadPath is now Settings.downloadPath
 - WIN: CefSettings.enableDownloads is now Settings.enableDownloads
 - WIN: CefSettings.contextMenu is now Settings.contextMenu
