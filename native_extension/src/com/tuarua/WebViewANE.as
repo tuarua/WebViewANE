@@ -314,40 +314,40 @@ public class WebViewANE extends EventDispatcher {
      * <p>Call a javascript function.</p>
      *
      * @example
-     <listing version="3.0">
-    // Logs to the console. No result expected.
-    webView.callJavascriptFunction("as_to_js",asToJsCallback,1,"a",77);
-
-    public function asToJsCallback(jsResult:JavascriptResult):void {
-        trace("asToJsCallback");
-        trace("jsResult.error", jsResult.error);
-        trace("jsResult.result", jsResult.result);
-        trace("jsResult.message", jsResult.message);
-        trace("jsResult.success", jsResult.success);
-        var testObject:* = jsResult.result;
-        trace(testObject);
-    }
-     </listing>
+     * <listing version="3.0">
+     * // Logs to the console. No result expected.
+     * webView.callJavascriptFunction("as_to_js",asToJsCallback,1,"a",77);
+     *
+     * public function asToJsCallback(jsResult:JavascriptResult):void {
+     *    trace("asToJsCallback");
+     *    trace("jsResult.error", jsResult.error);
+     *    trace("jsResult.result", jsResult.result);
+     *    trace("jsResult.message", jsResult.message);
+     *    trace("jsResult.success", jsResult.success);
+     *    var testObject:* = jsResult.result;
+     *    trace(testObject);
+     * }
+     * </listing>
 
      * @example
-     <listing version="3.0">
-     // Calls Javascript function passing 3 args. Javascript function returns an 
-     // object which is automatically mapped to an
-     // Actionscript Object
-    webView.callJavascriptFunction("console.log",null,"hello console. The is AIR");
-
-     // function in HTML page
-    function as_to_js(numberA, stringA, numberB, obj) {
-        var person = {
-            name: "Jim Cowart",
-            response: {
-                name: "Chattanooga",
-                population: 167674
-            }
-        };
-        return person;
-    }
-     </listing>
+     * <listing version="3.0">
+     * // Calls Javascript function passing 3 args. Javascript function returns an
+     * // object which is automatically mapped to an
+     * // Actionscript Object
+     * webView.callJavascriptFunction("console.log",null,"hello console. The is AIR");
+     *
+     * // function in HTML page
+     * function as_to_js(numberA, stringA, numberB, obj) {
+     * var person = {
+     *     name: "Jim Cowart",
+     *     response: {
+     *         name: "Chattanooga",
+     *            population: 167674
+     *        }
+     *    };
+     *    return person;
+     * }
+     * </listing>
      */
     public function callJavascriptFunction(functionName:String, closure:Function = null, ...args):void {
         if (functionName == null) {
@@ -379,18 +379,18 @@ public class WebViewANE extends EventDispatcher {
      * actionscript function is called, aka a 'fire and forget' call.
      *
      * @example
-    <listing version="3.0">
-    // Set the body background to yellow. No result expected
-    webView.evaluateJavascript('document.getElementsByTagName("body")[0].style.backgroundColor = "yellow";');
-    </listing>
-    * @example
-    <listing version="3.0">
-    // Retrieve contents of div. Result is returned to Actionscript function 'onJsEvaluated'
-    webView.evaluateJavascript("document.getElementById('output').innerHTML;", onJsEvaluated)
-    private function onJsEvaluated(jsResult:JavascriptResult):void {
-        trace("innerHTML of div is:", jsResult.result);
-    }
-     </listing>
+     * <listing version="3.0">
+     * // Set the body background to yellow. No result expected
+     * webView.evaluateJavascript('document.getElementsByTagName("body")[0].style.backgroundColor = "yellow";');
+     * </listing>
+     * @example
+     * <listing version="3.0">
+     * // Retrieve contents of div. Result is returned to Actionscript function 'onJsEvaluated'
+     * webView.evaluateJavascript("document.getElementById('output').innerHTML;", onJsEvaluated)
+     * private function onJsEvaluated(jsResult:JavascriptResult):void {
+     *    trace("innerHTML of div is:", jsResult.result);
+     * }
+     * </listing>
      *
      */
     public function evaluateJavascript(code:String, closure:Function = null):void {
@@ -482,9 +482,7 @@ public class WebViewANE extends EventDispatcher {
     }
 
     /**
-     *
      * @param url
-     *
      */
     public function load(url:String):void {
         if (safetyCheck()) {
@@ -591,7 +589,6 @@ public class WebViewANE extends EventDispatcher {
 
     /**
      * Forces a reload of the page (i.e. ctrl F5)
-     *
      */
     public function reloadFromOrigin():void {
         if (safetyCheck()) {
@@ -663,20 +660,14 @@ public class WebViewANE extends EventDispatcher {
         }
     }
 
-    /**
-     * Zooms out
-     *
-     */
+    /** Zooms out*/
     public function zoomOut():void {
         if (safetyCheck()) {
             _context.call("zoomOut");
         }
     }
 
-    /**
-     * Windows + OSX only
-     *
-     */
+    /** Windows + OSX only */
     public function addTab(initialUrl:String = null):void {
         if (safetyCheck()) {
             var theRet:* = _context.call("addTab", initialUrl);
@@ -686,10 +677,7 @@ public class WebViewANE extends EventDispatcher {
         }
     }
 
-    /**
-     * Windows + OSX only
-     *
-     */
+    /** Windows + OSX only*/
     public function closeTab(index:int):void {
         if (safetyCheck()) {
             var theRet:* = _context.call("closeTab", index);
@@ -699,10 +687,7 @@ public class WebViewANE extends EventDispatcher {
         }
     }
 
-    /**
-     * Windows + OSX only
-     *
-     */
+    /**Windows + OSX only*/
     public function set currentTab(value:int):void {
         if (safetyCheck()) {
             var theRet:* = _context.call("setCurrentTab", value);
@@ -712,9 +697,7 @@ public class WebViewANE extends EventDispatcher {
         }
     }
 
-    /**
-     * Windows + OSX only
-     */
+    /**Windows + OSX only*/
     public function get currentTab():int {
         var ct:int = 0;
         if (safetyCheck()) {
@@ -746,9 +729,7 @@ public class WebViewANE extends EventDispatcher {
     }
 
     /**
-     *
      * @return true if the device is Windows 7+, OSX 10.10+, Android,  or iOS 9.0+
-     *
      */
     public function isSupported():Boolean {
         return _isSupported;
@@ -759,10 +740,10 @@ public class WebViewANE extends EventDispatcher {
      * <p><strong>It is important to call this when the app is exiting.</strong></p>
      * @example
      * <listing version="3.0">
-     NativeApplication.nativeApplication.addEventListener(flash.events.Event.EXITING, onExiting);
-     private function onExiting(event:Event):void {
-        webView.dispose();
-     }</listing>
+     * NativeApplication.nativeApplication.addEventListener(flash.events.Event.EXITING, onExiting);
+     * private function onExiting(event:Event):void {
+     *    webView.dispose();
+     * }</listing>
      *
      */
     public function dispose():void {
@@ -784,7 +765,6 @@ public class WebViewANE extends EventDispatcher {
      * <p>Shows the Chromium dev tools on Windows</p>
      * <p>Enables Inspect Element on right click on OSX</p>
      * <p>On Android use Chrome on connected computer and navigate to chrome://inspect</p>
-     *
      */
     public function showDevTools():void {
         if (safetyCheck()) {
@@ -796,25 +776,22 @@ public class WebViewANE extends EventDispatcher {
      * <p>Close the Chromium dev tools</p>
      * <p>Disables Inspect Element on right click on OSX</p>
      * <p>On Android disconnects from chrome://inspect</p>
-     *
      */
     public function closeDevTools():void {
-        if (safetyCheck()){
+        if (safetyCheck()) {
             _context.call("closeDevTools");
         }
     }
 
     /**
-     *
      * @return whether we have inited the webview
-     *
      */
     public function get isInited():Boolean {
         return _isInited;
     }
 
     public function focus():void {
-        if (safetyCheck()){
+        if (safetyCheck()) {
             _context.call("focus");
         }
     }
@@ -840,22 +817,18 @@ public class WebViewANE extends EventDispatcher {
     }
 
     /**
-     *
      * <p>prints the webView.</p>
      * <p><strong>Windows only.</strong></p>
-     *
      */
     public function print():void {
         _context.call("print");
     }
 
     /**
-     *
      * @param savePath path to save the pdf to.
      *
      * <p>prints the webView to a pdf.</p>
      * <p><strong>Windows only.</strong></p>
-     *
      */
     public function printToPdf(savePath:String):void {
         if (safetyCheck()) {
@@ -867,7 +840,6 @@ public class WebViewANE extends EventDispatcher {
     }
 
     /**
-     *
      * <p>Captures the webView to BitmapData.</p>
      *
      * @param onComplete function(result:BitmapData)
@@ -896,9 +868,7 @@ public class WebViewANE extends EventDispatcher {
     }
 
     /**
-     *
      * @param value
-     *
      */
     public function set visible(value:Boolean):void {
         if (_visible == value) return;
@@ -912,9 +882,7 @@ public class WebViewANE extends EventDispatcher {
     }
 
     /**
-     *
      * @return whether the webView is visible
-     *
      */
     public function get visible():Boolean {
         return _visible;
@@ -925,10 +893,8 @@ public class WebViewANE extends EventDispatcher {
     }
 
     /**
-     *
      * @param value
      * <p>Sets the viewPort of the webView.</p>
-     *
      */
     public function set viewPort(value:Rectangle):void {
         if (viewPort == null) {
@@ -942,6 +908,7 @@ public class WebViewANE extends EventDispatcher {
             }
         }
     }
+
     /** @private */
     public static function get context():ExtensionContext {
         return _context;

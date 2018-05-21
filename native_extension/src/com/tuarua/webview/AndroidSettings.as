@@ -52,38 +52,31 @@ public class AndroidSettings {
      * content from other file scheme URLs.</p>
      */
     public var allowUniversalAccessFromFileURLs:Boolean = true;
-
     /**
      * <p>Enables or disables content URL access within WebView.</p>
      */
     public var allowContentAccess:Boolean = true;
-
-
     /**
      * <p>Sets whether Geolocation is enabled.</p>
      */
     public var geolocationEnabled:Boolean = false;
-
     /**
      * <p>Sets whether the database storage API is enabled.</p>
      */
     public var databaseEnabled:Boolean = true;
-
     /**
      * <p>Sets whether the DOM storage API is enabled.</p>
      */
     public var domStorageEnabled:Boolean = true;
-
     /**
      * <p>Sets whether the WebView should display on-screen zoom controls when
      * using the built-in zoom mechanisms.</p>
      */
-    public var displayZoomControls: Boolean = false;
-
+    public var displayZoomControls:Boolean = false;
     /**
      * <p>Sets whether the WebView should use its built-in zoom mechanisms.</p>
      */
-    public var builtInZoomControls: Boolean = true;
+    public var builtInZoomControls:Boolean = true;
 
     public function AndroidSettings() {
     }

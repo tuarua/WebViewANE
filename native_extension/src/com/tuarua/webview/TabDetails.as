@@ -25,50 +25,36 @@ package com.tuarua.webview {
 [RemoteClass(alias="com.tuarua.webview.TabDetails")]
 public class TabDetails {
     /**
-     *
      * @return current url of tab
-     *
      */
     public var url:String;
     /**
-     *
      * @return current page title of tab
-     *
      */
     public var title:String;
     /**
-     *
      * @return current index of tab
-     *
      */
     public var index:int;
     /**
-     *
      * @return whether the tab is loading
-     *
      */
     public var isLoading:Boolean;
     /**
-     *
      * @return whether we can navigate back
      *
      * <p>A Boolean value indicating whether we can navigate back.</p>
-     *
      */
     public var canGoBack:Boolean;
     /**
-     *
      * @return whether we can navigate forward
      *
      * <p>A Boolean value indicating whether we can navigate forward.</p>
-     *
      */
     public var canGoForward:Boolean;
     /**
-     *
      * @return estimated progress between 0.0 and 1.0.
      * Available on OSX/iOS only
-     *
      */
     public var estimatedProgress:Number;
 

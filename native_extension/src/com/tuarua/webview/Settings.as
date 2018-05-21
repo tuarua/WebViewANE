@@ -55,17 +55,14 @@ public class Settings {
     public var android:AndroidSettings = new AndroidSettings();
 
     public var popup:Popup = new Popup();
-
     /**
      <p>Vector of urls to allow through, example google.com - This uses a simple string match. There is no regex support.</p>
      */
     public var urlWhiteList:Vector.<String> = new <String>[];
-
     /**
      <p>Vector of urls to block example .pdf,.zip - This uses a simple string match. There is no regex support.</p>
      */
     public var urlBlackList:Vector.<String> = new <String>[];
-
     /**
      <p>Enables browser cache.</p>
      */
