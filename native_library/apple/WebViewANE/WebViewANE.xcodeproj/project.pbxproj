@@ -13,6 +13,7 @@
 		CE0014D71F648483000AE663 /* FreSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0014D61F648483000AE663 /* FreSwift.framework */; };
 		CE0014D81F648483000AE663 /* FreSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0014D61F648483000AE663 /* FreSwift.framework */; };
 		CE3980AD1E58BF3F0062485B /* WebViewANE_FW.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE39808A1E58BAA90062485B /* WebViewANE_FW.framework */; };
+		CE3AC4A220B4C79A000D60E5 /* SwiftController+URLSessionDownloadDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3AC4A120B4C79A000D60E5 /* SwiftController+URLSessionDownloadDelegate.swift */; };
 		CE59BDE01EEF38C600F698DE /* WebViewEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE59BDDB1EEF38C600F698DE /* WebViewEvent.swift */; };
 		CE6C07D82079713400393167 /* SwiftController+FreSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA65349202797D10034C691 /* SwiftController+FreSwift.swift */; };
 		CE6C07D92079713400393167 /* SwiftController+WKNavigationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA65347202797D00034C691 /* SwiftController+WKNavigationDelegate.swift */; };
@@ -74,6 +75,7 @@
 		CE39808C1E58BAA90062485B /* WebViewANE_FW.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WebViewANE_FW.h; sourceTree = "<group>"; };
 		CE39808D1E58BAA90062485B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CE39809F1E58BEE10062485B /* libWebViewANE_LIB.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libWebViewANE_LIB.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE3AC4A120B4C79A000D60E5 /* SwiftController+URLSessionDownloadDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftController+URLSessionDownloadDelegate.swift"; sourceTree = "<group>"; };
 		CE59BDDB1EEF38C600F698DE /* WebViewEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewEvent.swift; sourceTree = "<group>"; };
 		CE59BDDC1EEF38C600F698DE /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		CE59BDDD1EEF38C600F698DE /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
@@ -172,6 +174,7 @@
 				CEA65347202797D00034C691 /* SwiftController+WKNavigationDelegate.swift */,
 				CEA65348202797D10034C691 /* SwiftController+WKScriptMessageHandler.swift */,
 				CEA65346202797D00034C691 /* SwiftController+WKUIDelegate.swift */,
+				CE3AC4A120B4C79A000D60E5 /* SwiftController+URLSessionDownloadDelegate.swift */,
 				CEA65344202797B50034C691 /* PopupBehaviour.swift */,
 				CEFE5BEA1F1A27A9007BFBF2 /* SwiftController.swift */,
 				CEC13D401EFEE651003BDA4A /* WebViewVC.swift */,
@@ -383,7 +386,7 @@
 		};
 		CE6C0812207976CA00393167 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
@@ -460,6 +463,7 @@
 				CE6C08022079767800393167 /* PopupVC.swift in Sources */,
 				CE6C08032079767800393167 /* SwiftController+FreSwift.swift in Sources */,
 				CE6C08042079767800393167 /* SwiftController+WKNavigationDelegate.swift in Sources */,
+				CE3AC4A220B4C79A000D60E5 /* SwiftController+URLSessionDownloadDelegate.swift in Sources */,
 				CE6C08052079767800393167 /* SwiftController+WKScriptMessageHandler.swift in Sources */,
 				CE6C08062079767800393167 /* SwiftController+WKUIDelegate.swift in Sources */,
 				CE6C08072079767800393167 /* PopupBehaviour.swift in Sources */,

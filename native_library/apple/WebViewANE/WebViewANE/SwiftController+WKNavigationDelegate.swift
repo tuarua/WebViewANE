@@ -23,7 +23,7 @@ import Foundation
 import WebKit
 
 extension SwiftController: WKNavigationDelegate {
-        
+  
     public func webView(_ webView: WKWebView, didReceive challenge: URLAuthenticationChallenge,
                         completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
         guard let serverTrust = challenge.protectionSpace.serverTrust else {
@@ -65,40 +65,10 @@ extension SwiftController: WKNavigationDelegate {
 #if os(OSX)
     fileprivate func saveDownload(url: URL, location: URL) {
         let sessionConfig = URLSessionConfiguration.default
-        let session = URLSession(configuration: sessionConfig)
-        
-        let request = URLRequest.init(url: url,
-                                      cachePolicy: .useProtocolCachePolicy,
-                                      timeoutInterval: 1.0)
-        
-        let task = session.downloadTask(with: request) { (tempLocalUrl, response, error) in
-            if let err = error {
-                self.sendEvent(name: WebViewEvent.ON_DOWNLOAD_CANCEL, value: url.absoluteString)
-                self.warning("error downloading file", err.localizedDescription)
-                return
-            }
-            
-            guard let tempLocalUrl = tempLocalUrl,
-                let statusCode = (response as? HTTPURLResponse)?.statusCode
-                else {
-                    self.sendEvent(name: WebViewEvent.ON_DOWNLOAD_CANCEL, value: url.absoluteString)
-                    self.warning("error downloading file")
-                    return
-            }
-            
-            if (200...299).contains(statusCode) {
-                do {
-                    try FileManager.default.copyItem(at: tempLocalUrl, to: location)
-                    self.sendEvent(name: WebViewEvent.ON_DOWNLOAD_COMPLETE, value: url.absoluteString)
-                } catch let writeError {
-                    self.sendEvent(name: WebViewEvent.ON_DOWNLOAD_CANCEL, value: url.absoluteString)
-                    self.warning("error writing file \(location) : \(writeError)")
-                }
-            } else {
-                self.sendEvent(name: WebViewEvent.ON_DOWNLOAD_CANCEL, value: url.absoluteString)
-                self.warning("error downloading file \(statusCode)")
-            }
-        }
+        let session = URLSession(configuration: sessionConfig, delegate: self, delegateQueue: OperationQueue.main)
+        let request = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy)
+        let task = session.downloadTask(with: request)
+        downloadTaskSaveTos[task.taskIdentifier] = location
         task.resume()
     }
     

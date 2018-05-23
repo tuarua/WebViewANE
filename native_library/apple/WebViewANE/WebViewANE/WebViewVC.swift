@@ -93,7 +93,7 @@ class WebViewVC: WKWebView, FreSwiftController {
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         if let ui = newImage,
-            let ci = CIImage.init(image: ui) {
+            let ci = CIImage(image: ui) {
             let context = CIContext(options: nil)
             if let cg = context.createCGImage(ci, from: ci.extent) {
                 _capturedBitmapData = cg.copy(colorSpace: CGColorSpaceCreateDeviceRGB())

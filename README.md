@@ -30,7 +30,7 @@ PS get_dependencies.ps1
 ##### Windows Installation - Important!
 * Download cef_binaries_x86.zip from the latest [release tag](https://github.com/tuarua/WebViewANE/releases)
 * Unzip the contents of cef_binaries_x86.zip into the bin folder of your AIRSDK. 
-* Copy the contents of the "cef_sharp_libs_x86" folder into the bin folder of your AIRSDK. 
+* Copy the contents of the "c_sharp_libs_x86" folder into the bin folder of your AIRSDK. 
 
 The location of this will vary depending on your IDE. These dlls and other cef files need to reside in the folder where adl.exe is run from.
 
@@ -40,7 +40,7 @@ https://www.microsoft.com/en-us/download/details.aspx?id=48145
 * This ANE also uses .NET 4.6 Framework. As such your machine (and user's machines) will need to have to have this installed.
 https://www.microsoft.com/en-us/download/details.aspx?id=48130
 
-* For release builds, the cef_binaries_x86 and cef_sharp_libs_x86 files need to be packaged in the same folder as your exe.  
+* For release builds, the cef_binaries_x86 and c_sharp_libs_x86 files need to be packaged in the same folder as your exe.  
 It is highly recommended you package your app for release using an installer.  
 Please see the win_installer folder for an example Inno Setup project which handles .NET 4.6 and MSV2015 dependencies.
 

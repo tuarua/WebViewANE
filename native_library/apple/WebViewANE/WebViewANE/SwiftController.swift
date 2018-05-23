@@ -35,8 +35,8 @@ public class SwiftController: NSObject {
     private static var escListener: Any?
     private static var keyUpListener: Any?
     private static var keyDownListener: Any?
-    private static let zoomIncrement: CGFloat = CGFloat(0.1)
-    private var _initialUrl: String = ""
+    private static let zoomIncrement = CGFloat(0.1)
+    private var _initialUrl = ""
     private var _viewPort: CGRect = CGRect(x: 0.0, y: 0.0, width: 800.0, height: 600.0)
     private var _capturedCropTo: CGRect?
     internal var _popupBehaviour: PopupBehaviour = PopupBehaviour.newWindow
@@ -44,6 +44,7 @@ public class SwiftController: NSObject {
     private var _bgColor = UIColor.white
 #else
     internal var _popup: Popup?
+    internal var downloadTaskSaveTos = [Int: URL]()
 #endif
     private var _isAdded: Bool = false
     internal var _settings: Settings!
