@@ -133,22 +133,22 @@
      <p><b>Placeholder only.</b></p>
      </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:WebViewEvent:ON_DOWNLOAD_CANCEL"><apiName>ON_DOWNLOAD_CANCEL</apiName><shortdesc>
      Dispatched when download is cancelled
-     Windows only.
+     Windows + OSX only.
      </shortdesc><prolog/><apiValueDetail><apiValueDef><apiAccess value="public"/><apiStatic/><apiData>WebView.OnDownloadCancel</apiData><apiType value="String"/></apiValueDef><apiDesc>
      Dispatched when download is cancelled
-     <p><b>Windows only.</b></p>
+     <p><b>Windows + OSX only.</b></p>
      </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:WebViewEvent:ON_DOWNLOAD_COMPLETE"><apiName>ON_DOWNLOAD_COMPLETE</apiName><shortdesc>
      Dispatched when download is marked as complete
-     Windows only.
+     Windows + OSX only.
      </shortdesc><prolog/><apiValueDetail><apiValueDef><apiAccess value="public"/><apiStatic/><apiData>WebView.OnDownloadComplete</apiData><apiType value="String"/></apiValueDef><apiDesc>
      Dispatched when download is marked as complete
-     <p><b>Windows only.</b></p>
+     <p><b>Windows + OSX only.</b></p>
      </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:WebViewEvent:ON_DOWNLOAD_PROGRESS"><apiName>ON_DOWNLOAD_PROGRESS</apiName><shortdesc>
      Dispatched when download progress changes
-     Windows only.
+     Windows + OSX only.
      </shortdesc><prolog/><apiValueDetail><apiValueDef><apiAccess value="public"/><apiStatic/><apiData>WebView.OnDownloadProgress</apiData><apiType value="String"/></apiValueDef><apiDesc>
      Dispatched when download progress changes
-     <p><b>Windows only.</b></p>
+     <p><b>Windows + OSX only.</b></p>
      </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:WebViewEvent:ON_FAIL"><apiName>ON_FAIL</apiName><shortdesc>
      
      </shortdesc><prolog/><apiValueDetail><apiValueDef><apiAccess value="public"/><apiStatic/><apiData>WebView.OnFail</apiData><apiType value="String"/></apiValueDef><apiDesc>

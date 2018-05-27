@@ -1,8 +1,6 @@
 ﻿using System;
-using System.IO;
-using System.Text;
 using CefSharp;
-using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using TuaRua.FreSharp;
 
 namespace WebViewANELib.CefSharp {
@@ -28,23 +26,15 @@ namespace WebViewANELib.CefSharp {
             int nativeKeyCode,
             CefEventFlags modifiers, bool isSystemKey) {
             if (KeyType.RawKeyDown != type && KeyType.KeyUp != type) return false;
-            var sb = new StringBuilder();
-            var sw = new StringWriter(sb);
-            var writer = new JsonTextWriter(sw);
-            if ((HasKeyUp && KeyType.KeyUp == type) || (HasKeyDown && KeyType.RawKeyDown == type)) {
-                writer.WriteStartObject();
-                writer.WritePropertyName("type");
-                writer.WriteValue(type);
-                writer.WritePropertyName("keyCode");
-                writer.WriteValue(windowsKeyCode);
-                writer.WritePropertyName("nativeKeyCode");
-                writer.WriteValue(nativeKeyCode);
-                writer.WritePropertyName("modifiers");
-                writer.WriteValue(modifiers.ToString());
-                writer.WritePropertyName("isSystemKey");
-                writer.WriteValue(isSystemKey);
-                writer.WriteEndObject();
-                _context.SendEvent(KeyType.KeyUp == type ? OnKeyUp : OnKeyDown, sb.ToString());
+            if (HasKeyUp && KeyType.KeyUp == type || HasKeyDown && KeyType.RawKeyDown == type) {
+                var json = JObject.FromObject(new {
+                    type, 
+                    keyCode = windowsKeyCode, 
+                    nativeKeyCode, 
+                    modifiers = modifiers.ToString(), 
+                    isSystemKey
+                });
+                _context.SendEvent(KeyType.KeyUp == type ? OnKeyUp : OnKeyDown, json.ToString());
             }
 
             if (windowsKeyCode != 27) return false;

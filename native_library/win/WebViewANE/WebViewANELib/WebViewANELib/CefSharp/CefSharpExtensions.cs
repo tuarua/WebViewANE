@@ -22,95 +22,58 @@
 //  All Rights Reserved. Tua Rua Ltd.
 
 #endregion
+
 using System;
-using System.IO;
-using System.Text;
 using CefSharp;
-using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace WebViewANELib.CefSharp {
     public static class CefSharpExtensions {
-        public static string ToJsonString(this JavascriptResponse response, string callback) {
-            var sb = new StringBuilder();
-            var sw = new StringWriter(sb);
-            JsonWriter writer = new JsonTextWriter(sw) {Formatting = Formatting.None};
-            writer.WriteStartObject();
-            writer.WritePropertyName("success");
-            writer.WriteValue(response.Success);
-            writer.WritePropertyName("message");
-            writer.WriteValue(response.Message);
-            writer.WritePropertyName("error");
-            writer.WriteNull();
-            writer.WritePropertyName("callbackName");
-            writer.WriteValue(callback);
-            writer.WritePropertyName("result");
-
-            if (response.Success && response.Result != null) {
-                writer.WriteRawValue(JsonConvert.SerializeObject(response.Result, Formatting.None));
-            }
-            else {
-                writer.WriteNull();
-            }
-
-            writer.WriteEndObject();
-            return sb.ToString();
+        public static string ToJsonString(this JavascriptResponse response, string callbackName) {
+            var json = JObject.FromObject(new {
+                message = response.Message,
+                error = (string) null,
+                result = response.Success && response.Result != null 
+                    ? response.Result 
+                    : null as object,
+                success = response.Success,
+                callbackName
+            });
+            return json.ToString();
         }
 
-        public static string ToJsonString(this Exception e, string callback) {
-            var sb = new StringBuilder();
-            var sw = new StringWriter(sb);
-            JsonWriter writer = new JsonTextWriter(sw) {Formatting = Formatting.None};
-            writer.WriteStartObject();
-            writer.WritePropertyName("message");
-            writer.WriteNull();
-            writer.WritePropertyName("error");
-            writer.WriteValue(e.Message);
-            writer.WritePropertyName("result");
-            writer.WriteNull();
-            writer.WritePropertyName("success");
-            writer.WriteValue(false);
-            writer.WritePropertyName("guid");
-            writer.WriteValue(callback);
-            writer.WriteEndObject();
-            return sb.ToString();
+        public static string ToJsonString(this Exception e, string guid) {
+            var json = JObject.FromObject(new {
+                message = (string) null,
+                error = e.Message,
+                result = (object) null,
+                success = false,
+                guid
+            });
+            return json.ToString();
         }
 
         public static string ToJsonString(this LoadErrorEventArgs e, int tab) {
-            var sb = new StringBuilder();
-            var sw = new StringWriter(sb);
-            JsonWriter writer = new JsonTextWriter(sw) {Formatting = Formatting.None};
-            writer.WriteStartObject();
-            writer.WritePropertyName("url");
-            writer.WriteValue(e.FailedUrl);
-            writer.WritePropertyName("errorCode");
-            writer.WriteValue(e.ErrorCode);
-            writer.WritePropertyName("errorText");
-            writer.WriteValue(e.ErrorText);
-            writer.WritePropertyName("tab");
-            writer.WriteValue(tab);
-            writer.WriteEndObject();
-            return sb.ToString();
+            var json = JObject.FromObject(new {
+                url = e.FailedUrl,
+                errorCode = e.ErrorCode,
+                errorText = e.ErrorText,
+                tab
+            });
+
+            return json.ToString();
         }
 
         public static string ToJsonString(this DownloadItem downloadItem) {
-            var sb = new StringBuilder();
-            var sw = new StringWriter(sb);
-            var writer = new JsonTextWriter(sw);
-            writer.WriteStartObject();
-            writer.WritePropertyName("id");
-            writer.WriteValue(downloadItem.Id);
-            writer.WritePropertyName("url");
-            writer.WriteValue(downloadItem.OriginalUrl);
-            writer.WritePropertyName("speed");
-            writer.WriteValue(downloadItem.CurrentSpeed);
-            writer.WritePropertyName("percent");
-            writer.WriteValue(downloadItem.PercentComplete);
-            writer.WritePropertyName("bytesLoaded");
-            writer.WriteValue(downloadItem.ReceivedBytes);
-            writer.WritePropertyName("bytesTotal");
-            writer.WriteValue(downloadItem.TotalBytes);
-            writer.WriteEndObject();
-            return sb.ToString();
+            var json = JObject.FromObject(new {
+                id = downloadItem.Id,
+                url = downloadItem.OriginalUrl,
+                speed = downloadItem.CurrentSpeed,
+                percent = downloadItem.PercentComplete,
+                bytesLoaded = downloadItem.ReceivedBytes,
+                bytesTotal = downloadItem.TotalBytes
+            });
+            return json.ToString();
         }
     }
 }

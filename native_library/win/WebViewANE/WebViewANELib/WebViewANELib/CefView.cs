@@ -26,15 +26,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
 using CefSharp;
 using CefSharp.WinForms;
-using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using TuaRua.FreSharp;
 using WebViewANELib.CefSharp;
 
@@ -175,8 +173,9 @@ namespace WebViewANELib {
             browser.StatusMessage += OnStatusMessage;
             browser.DisplayHandler = new DisplayHandler();
 
-            if (!ContextMenuEnabled)
+            if (!ContextMenuEnabled) {
                 browser.MenuHandler = new MenuHandler();
+            }
 
             // ReSharper disable once UseObjectOrCollectionInitializer
             var rh = new RequestHandler(WhiteList, BlackList);
@@ -190,22 +189,11 @@ namespace WebViewANELib {
             return browser;
         }
 
-        private void OnPopupBlock(object sender, string e) {
-            var sb = new StringBuilder();
-            var sw = new StringWriter(sb);
-            var writer = new JsonTextWriter(sw);
-
+        private void OnPopupBlock(object sender, string url) {
             var tab = _tabs.IndexOf(sender);
             tab = tab == -1 ? 0 : tab;
-
-            writer.WriteStartObject();
-            writer.WritePropertyName("url");
-            writer.WriteValue(e);
-            writer.WritePropertyName("tab");
-            writer.WriteValue(tab);
-            writer.WriteEndObject();
-
-            Context.SendEvent(WebViewEvent.OnPopupBlocked, sb.ToString());
+            var json = JObject.FromObject(new {url, tab });
+            Context.SendEvent(WebViewEvent.OnPopupBlocked, json.ToString());
         }
 
         public void AddTab() {
@@ -263,21 +251,10 @@ namespace WebViewANELib {
 
 
         private void OnUrlBlockedFired(object sender, string url) {
-            var sb = new StringBuilder();
-            var sw = new StringWriter(sb);
-            var writer = new JsonTextWriter(sw);
-
             var tab = _tabs.IndexOf(sender);
             tab = tab == -1 ? 0 : tab;
-
-            writer.WriteStartObject();
-            writer.WritePropertyName("url");
-            writer.WriteValue(url);
-            writer.WritePropertyName("tab");
-            writer.WriteValue(tab);
-            writer.WriteEndObject();
-
-            Context.SendEvent(WebViewEvent.OnUrlBlocked, sb.ToString());
+            var json = JObject.FromObject(new {url, tab });
+            Context.SendEvent(WebViewEvent.OnUrlBlocked, json.ToString());
         }
 
         private void OnPermissionPopup(object sender, string s) {
@@ -400,34 +377,14 @@ namespace WebViewANELib {
         }
 
         private static void SendPropertyChange(string propName, bool value, int tab) {
-            var sb = new StringBuilder();
-            var sw = new StringWriter(sb);
-            var writer = new JsonTextWriter(sw);
-            writer.WriteStartObject();
-            writer.WritePropertyName("propName");
-            writer.WriteValue(propName);
-            writer.WritePropertyName("value");
-            writer.WriteValue(value);
-            writer.WritePropertyName("tab");
-            writer.WriteValue(tab);
-            writer.WriteEndObject();
-            Context.SendEvent(WebViewEvent.OnPropertyChange, sb.ToString());
+            var json = JObject.FromObject(new {propName, value, tab});
+            Context.SendEvent(WebViewEvent.OnPropertyChange, json.ToString());
         }
 
 
         private static void SendPropertyChange(string propName, string value, int tab) {
-            var sb = new StringBuilder();
-            var sw = new StringWriter(sb);
-            var writer = new JsonTextWriter(sw);
-            writer.WriteStartObject();
-            writer.WritePropertyName("propName");
-            writer.WriteValue(propName);
-            writer.WritePropertyName("value");
-            writer.WriteValue(value);
-            writer.WritePropertyName("tab");
-            writer.WriteValue(tab);
-            writer.WriteEndObject();
-            Context.SendEvent(WebViewEvent.OnPropertyChange, sb.ToString());
+            var json = JObject.FromObject(new { propName, value, tab });
+            Context.SendEvent(WebViewEvent.OnPropertyChange, json.ToString());
         }
 
         private static void OnDownloadUpdatedFired(object sender, DownloadItem downloadItem) {
