@@ -1,4 +1,5 @@
 ### 1.6.5
+- Updated to AIR 30
 - AND: Updated to FreKotlin 1.3.0
 - OSX: WKWebview download implementation Issue #148
 - iOS: Added WebkitSettings.custom to allow setting custom preferences KVPs Issue #150
