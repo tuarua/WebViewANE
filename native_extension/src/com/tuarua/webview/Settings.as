@@ -24,7 +24,19 @@
 package com.tuarua.webview {
 import com.tuarua.webview.popup.Popup;
 
-public class Settings extends Object {
+public class Settings {
+    /**
+     * <p>Sets whether a context menu will appear on right click. OSX and Windows only.</p>
+     */
+    public var contextMenu:ContextMenu = new ContextMenu();
+    /**
+     * <p>Sets whether downloads will be handled by the WebView. OSX and Windows only.</p>
+     */
+    public var enableDownloads:Boolean = true;
+    /**
+     <p>The path to automatically save downloads to. No user dialog is shown. OSX and Windows only.</p>
+     */
+    public var downloadPath:String;
 	/**
 	 * <p>Settings to use for CEF (Windows) version.</p>
 	 */	
@@ -43,21 +55,18 @@ public class Settings extends Object {
     public var android:AndroidSettings = new AndroidSettings();
 
     public var popup:Popup = new Popup();
-
     /**
      <p>Vector of urls to allow through, example google.com - This uses a simple string match. There is no regex support.</p>
      */
     public var urlWhiteList:Vector.<String> = new <String>[];
-
-    /**
-     <p>Enables browser cache.</p>
-     */
-    public var cacheEnabled:Boolean = true;
-
     /**
      <p>Vector of urls to block example .pdf,.zip - This uses a simple string match. There is no regex support.</p>
      */
     public var urlBlackList:Vector.<String> = new <String>[];
+    /**
+     <p>Enables browser cache.</p>
+     */
+    public var cacheEnabled:Boolean = true;
 
     public function Settings() {
     }

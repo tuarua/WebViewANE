@@ -17,7 +17,6 @@
         $(document).ready(function () {
             let button1 = document.getElementById("button1");
             let button2 = document.getElementById("button2");
-            let button3 = document.getElementById("button3");
 
             button1.addEventListener('click', function(event) {
                 const d = new Date();
@@ -42,15 +41,6 @@
                 getWebviewANE().postMessage(messageToPost);
             });
 
-            button3.addEventListener('click', function(event) {
-                const options = {
-                    enableHighAccuracy: true,
-                    timeout: 5000,
-                    maximumAge: 0
-                };
-                navigator.geolocation.getCurrentPosition(displayLocation, handleLocationError, options);
-            });
-
             //workaround for Windows touch, ensures the webview is focused on
             document.body.addEventListener("touchend", function (e) {
                 const messageToPost = {
@@ -66,12 +56,12 @@
                 (async () => {
                     await window.CefSharp.BindObjectAsync("webViewANE", "bound").then(function (res) {
                         if (res.Success) {
-                            button1.disabled = button2.disabled = button3.disabled = false;
+                            button1.disabled = button2.disabled = false;
                         }
                     });
             })();
             } else {
-                button1.disabled = button2.disabled = button3.disabled = false;
+                button1.disabled = button2.disabled = false;
             }
 
         });
@@ -89,17 +79,6 @@
             console.log(paramA);
             console.log(paramB);
             console.log(paramC);
-        }
-
-        function displayLocation(pos) {
-            const crd = pos.coords;
-            const output = document.getElementById('output');
-            output.innerText = "Your current position is:\nLatitude : " + crd.latitude + "\nLongitude: " + crd.longitude
-                + "\nAccuracy: " + crd.accuracy + " meters"
-        }
-
-        function handleLocationError(err) {
-            output.innerText = "Error: (" + err.code + "): " + err.message;
         }
 
         function openNewWindow() {
@@ -138,8 +117,6 @@
         </button>
         <button type="button" id="button2" class="btn btn-primary" disabled>Call Actionscript
             with No Callback
-        </button>
-        <button type="button" id="button3" class="btn btn-primary" disabled>Get Location
         </button>
     </p>
     <div id="output" class="well well-sm">Output goes here</div>

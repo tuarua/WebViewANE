@@ -1,3 +1,13 @@
+### 1.6.5
+- Updated to AIR 30
+- AND: Updated to FreKotlin 1.3.0
+- OSX: WKWebview download implementation Issue #148
+- iOS: Added WebkitSettings.custom to allow setting custom preferences KVPs Issue #150
+- WIN: CefSettings.downloadPath is now Settings.downloadPath
+- WIN: CefSettings.enableDownloads is now Settings.enableDownloads
+- WIN: CefSettings.contextMenu is now Settings.contextMenu
+- WIN: refactor C# structure to prepare for Modern WebView Edge based control
+
 ### 1.6.1
 - AND/iOS/WIN/OSX: Make urlWhiteList and urlBlackList case insensitive Issue #142
 - WIN: Added CefSettings.userDataPath Issue #141

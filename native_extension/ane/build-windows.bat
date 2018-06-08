@@ -1,7 +1,7 @@
 REM Get the path to the script and trim to get the directory.
 @echo off
 SET SZIP="C:\Program Files\7-Zip\7z.exe"
-SET AIR_PATH="D:\dev\sdks\AIR\AIRSDK_29\bin\"
+SET AIR_PATH="D:\dev\sdks\AIR\AIRSDK_30\bin\"
 
 echo Setting path to current directory to:
 SET pathtome=%~dp0
@@ -48,22 +48,22 @@ copy %pathtome%..\..\native_library\win\%projectName%\x64\Release\%projectName%.
 copy %pathtome%..\..\native_library\win\%projectName%\x86\Release\%projectName%.dll %pathtome%platforms\win\x86\debug
 copy %pathtome%..\..\native_library\win\%projectName%\x64\Release\%projectName%.dll %pathtome%platforms\win\x64\debug
 
-copy %pathtome%..\..\native_library\win\%projectName%\CefSharpLib\CefSharpLib\bin\x86\Debug\CefSharpLib.dll %AIR_PATH%CefSharpLib.dll
-copy %pathtome%..\..\native_library\win\%projectName%\CefSharpLib\CefSharpLib\bin\x86\Debug\CefSharpLib.pdb %AIR_PATH%CefSharpLib.pdb
+copy %pathtome%..\..\native_library\win\%projectName%\WebViewANELib\WebViewANELib\bin\x86\Debug\WebViewANELib.dll %AIR_PATH%WebViewANELib.dll
+copy %pathtome%..\..\native_library\win\%projectName%\WebViewANELib\WebViewANELib\bin\x86\Debug\WebViewANELib.pdb %AIR_PATH%WebViewANELib.pdb
 
-copy %pathtome%..\..\native_library\win\%projectName%\CefSharpLib\CefSharpLib\bin\x86\Release\CefSharpLib.dll %pathtome%..\..\cef_sharp_libs_x86\CefSharpLib.dll
-copy %pathtome%..\..\native_library\win\%projectName%\CefSharpLib\CefSharpLib\bin\x64\Release\CefSharpLib.dll %pathtome%..\..\cef_sharp_libs_x64\CefSharpLib.dll
+copy %pathtome%..\..\native_library\win\%projectName%\WebViewANELib\WebViewANELib\bin\x86\Release\WebViewANELib.dll %pathtome%..\..\c_sharp_libs_x86\WebViewANELib.dll
+copy %pathtome%..\..\native_library\win\%projectName%\WebViewANELib\WebViewANELib\bin\x64\Release\WebViewANELib.dll %pathtome%..\..\c_sharp_libs_x64\WebViewANELib.dll
 
-copy %pathtome%..\..\native_library\win\%projectName%\CefSharpLib\CefSharpLib\bin\x86\Debug\FreSharpCore.dll %AIR_PATH%FreSharpCore.dll
-copy %pathtome%..\..\native_library\win\%projectName%\CefSharpLib\CefSharpLib\bin\x86\Debug\FreSharpCore.pdb %AIR_PATH%FreSharpCore.pdb
+copy %pathtome%..\..\native_library\win\%projectName%\WebViewANELib\WebViewANELib\bin\x86\Debug\FreSharpCore.dll %AIR_PATH%FreSharpCore.dll
+copy %pathtome%..\..\native_library\win\%projectName%\WebViewANELib\WebViewANELib\bin\x86\Debug\FreSharpCore.pdb %AIR_PATH%FreSharpCore.pdb
 
-copy %pathtome%..\..\native_library\win\%projectName%\CefSharpLib\CefSharpLib\bin\x86\Debug\FreSharp.dll %AIR_PATH%FreSharp.dll
-copy %pathtome%..\..\native_library\win\%projectName%\CefSharpLib\CefSharpLib\bin\x86\Debug\FreSharp.pdb %AIR_PATH%FreSharp.pdb
+copy %pathtome%..\..\native_library\win\%projectName%\WebViewANELib\WebViewANELib\bin\x86\Debug\FreSharp.dll %AIR_PATH%FreSharp.dll
+copy %pathtome%..\..\native_library\win\%projectName%\WebViewANELib\WebViewANELib\bin\x86\Debug\FreSharp.pdb %AIR_PATH%FreSharp.pdb
 
-copy %pathtome%..\..\native_library\win\%projectName%\CefSharpLib\CefSharpLib\bin\x86\Release\FreSharpCore.dll %pathtome%..\..\cef_sharp_libs_x86\FreSharpCore.dll
-copy %pathtome%..\..\native_library\win\%projectName%\CefSharpLib\CefSharpLib\bin\x86\Release\FreSharp.dll %pathtome%..\..\cef_sharp_libs_x86\FreSharp.dll
-copy %pathtome%..\..\native_library\win\%projectName%\CefSharpLib\CefSharpLib\bin\x64\Release\FreSharpCore.dll %pathtome%..\..\cef_sharp_libs_x64\FreSharpCore.dll
-copy %pathtome%..\..\native_library\win\%projectName%\CefSharpLib\CefSharpLib\bin\x64\Release\FreSharp.dll %pathtome%..\..\cef_sharp_libs_x64\FreSharp.dll
+copy %pathtome%..\..\native_library\win\%projectName%\WebViewANELib\WebViewANELib\bin\x86\Release\FreSharpCore.dll %pathtome%..\..\c_sharp_libs_x86\FreSharpCore.dll
+copy %pathtome%..\..\native_library\win\%projectName%\WebViewANELib\WebViewANELib\bin\x86\Release\FreSharp.dll %pathtome%..\..\c_sharp_libs_x86\FreSharp.dll
+copy %pathtome%..\..\native_library\win\%projectName%\WebViewANELib\WebViewANELib\bin\x64\Release\FreSharpCore.dll %pathtome%..\..\c_sharp_libs_x64\FreSharpCore.dll
+copy %pathtome%..\..\native_library\win\%projectName%\WebViewANELib\WebViewANELib\bin\x64\Release\FreSharp.dll %pathtome%..\..\c_sharp_libs_x64\FreSharp.dll
 
 REM Run the build command.
 echo Building Release.

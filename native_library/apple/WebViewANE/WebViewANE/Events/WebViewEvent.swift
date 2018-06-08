@@ -22,14 +22,17 @@
 import Foundation
 
 public struct WebViewEvent {
-    public static let ON_URL_BLOCKED: String = "WebView.OnUrlBlocked"
-    public static let ON_POPUP_BLOCKED: String = "WebView.OnPopupBlocked"
-    public static let ON_FAIL: String = "WebView.OnFail"
-    public static let ON_ESC_KEY: String = "WebView.OnEscKey"
-    public static let ON_KEY_UP: String = "WebView.OnKeyUp"
-    public static let ON_KEY_DOWN: String = "WebView.OnKeyDown"
-    public static let ON_PROPERTY_CHANGE: String = "WebView.OnPropertyChange"
-    public static let JS_CALLBACK_EVENT: String = "TRWV.js.CALLBACK"
-    public static let AS_CALLBACK_EVENT: String = "TRWV.as.CALLBACK"
-    public static let ON_CAPTURE_COMPLETE: String = "WebView.OnCaptureComplete"
+    public static let ON_URL_BLOCKED = "WebView.OnUrlBlocked"
+    public static let ON_POPUP_BLOCKED = "WebView.OnPopupBlocked"
+    public static let ON_FAIL = "WebView.OnFail"
+    public static let ON_ESC_KEY = "WebView.OnEscKey"
+    public static let ON_KEY_UP = "WebView.OnKeyUp"
+    public static let ON_KEY_DOWN = "WebView.OnKeyDown"
+    public static let ON_PROPERTY_CHANGE = "WebView.OnPropertyChange"
+    public static let JS_CALLBACK_EVENT = "TRWV.js.CALLBACK"
+    public static let AS_CALLBACK_EVENT = "TRWV.as.CALLBACK"
+    public static let ON_CAPTURE_COMPLETE = "WebView.OnCaptureComplete"
+    public static let ON_DOWNLOAD_COMPLETE = "WebView.OnDownloadComplete"
+    public static let ON_DOWNLOAD_CANCEL = "WebView.OnDownloadCancel"
+    public static let ON_DOWNLOAD_PROGRESS = "WebView.OnDownloadProgress"
 }

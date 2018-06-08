@@ -8,7 +8,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 27
         versionCode 1
-        versionName "1.6.0"
+        versionName "1.7.0"
     }
     buildTypes {
         release {
@@ -22,7 +22,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation files('libs/FlashRuntimeExtensions.jar')
     implementation files('libs/runtimeClasses.jar')
-    implementation files("libs/frekotlin-1.2.30.jar")
+    implementation files("libs/frekotlin-1.2.41.jar")
 
 }
 repositories {

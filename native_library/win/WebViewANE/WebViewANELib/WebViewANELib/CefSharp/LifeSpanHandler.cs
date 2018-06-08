@@ -1,7 +1,8 @@
 ﻿using System;
 using CefSharp;
 
-namespace CefSharpLib {
+namespace WebViewANELib.CefSharp
+{
     public class LifeSpanHandler : ILifeSpanHandler {
         public event EventHandler<string> OnPermissionPopup;
         public event EventHandler<string> OnPopupBlock;

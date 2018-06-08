@@ -2,9 +2,10 @@
 using CefSharp;
 using CefSharp.Structs;
 
-namespace CefSharpLib {
+namespace WebViewANELib.CefSharp {
     public class DisplayHandler : IDisplayHandler {
         public void OnAddressChanged(IWebBrowser browserControl, AddressChangedEventArgs addressChangedArgs) { }
+
         public bool OnAutoResize(IWebBrowser browserControl, IBrowser browser, Size newSize) {
             return false;
         }
@@ -14,6 +15,7 @@ namespace CefSharpLib {
         public void OnFaviconUrlChange(IWebBrowser browserControl, IBrowser browser, IList<string> urls) { }
 
         public void OnFullscreenModeChange(IWebBrowser browserControl, IBrowser browser, bool fullscreen) { }
+
         public bool OnTooltipChanged(IWebBrowser browserControl, ref string text) {
             return false;
         }

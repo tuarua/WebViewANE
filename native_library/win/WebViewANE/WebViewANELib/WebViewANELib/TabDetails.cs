@@ -1,4 +1,5 @@
 ﻿#region License
+
 // Copyright 2017 Tua Rua Ltd.
 // 
 //  Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,12 +20,16 @@
 //  undertakes the same purpose as this software. That is, a WebView for Windows, 
 //  OSX and/or iOS and/or Android.
 //  All Rights Reserved. Tua Rua Ltd.
+
 #endregion
 
-using System.Text;
-
-namespace CefSharpLib {
-    public class Utils {
-        public static string ToUtf8(string value) => Encoding.UTF8.GetString(Encoding.Default.GetBytes(value));
+namespace WebViewANELib {
+    public class TabDetails {
+        public string Title { get; set; }
+        public string Address { get; set; }
+        public string StatusMessage { get; set; }
+        public bool CanGoBack { get; set; }
+        public bool CanGoForward { get; set; }
+        public bool IsLoading { get; set; }
     }
 }

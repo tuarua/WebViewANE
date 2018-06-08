@@ -23,7 +23,7 @@ import Foundation
 import WebKit
 
 extension SwiftController: WKNavigationDelegate {
-        
+  
     public func webView(_ webView: WKWebView, didReceive challenge: URLAuthenticationChallenge,
                         completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
         guard let serverTrust = challenge.protectionSpace.serverTrust else {
@@ -53,7 +53,7 @@ extension SwiftController: WKNavigationDelegate {
                     warning("Cannot open popup in new window on iOS. Opening in same window.")
                     webView.load(navigationAction.request)
                 #else
-                    _popup.createPopupWindow(url: navigationAction.request, configuration: _settings.configuration)
+                _popup?.createPopupWindow(url: navigationAction.request, configuration: _settings.configuration)
                 #endif
             case .sameWindow:
                 webView.load(navigationAction.request)
@@ -61,6 +61,56 @@ extension SwiftController: WKNavigationDelegate {
         }
         return nil
     }
+    
+#if os(OSX)
+    fileprivate func saveDownload(url: URL, location: URL) {
+        let sessionConfig = URLSessionConfiguration.default
+        let session = URLSession(configuration: sessionConfig, delegate: self, delegateQueue: OperationQueue.main)
+        let request = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy)
+        let task = session.downloadTask(with: request)
+        downloadTaskSaveTos[task.taskIdentifier] = location
+        task.resume()
+    }
+    
+    public func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse,
+                        decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
+    
+        if let url = navigationResponse.response.url,
+            let suggestedFilename = navigationResponse.response.suggestedFilename,
+            !navigationResponse.canShowMIMEType {
+            
+            if !_settings.enableDownloads {
+                decisionHandler(.cancel)
+                return
+            }
+            
+            if let downloadPath = _settings.downloadPath {
+                var location = URL(safe: downloadPath)
+                location?.appendPathComponent(suggestedFilename)
+                if let location = location {
+                    saveDownload(url: url, location: location)
+                }
+            } else {
+                let saveDialog = NSSavePanel()
+                saveDialog.parent = NSApp.mainWindow
+                saveDialog.canCreateDirectories = true
+                saveDialog.nameFieldStringValue = suggestedFilename
+                let result = saveDialog.runModal()
+                switch result {
+                case NSApplication.ModalResponse.OK :
+                    if let location = saveDialog.url {
+                        saveDownload(url: url, location: location)
+                    }
+                case NSApplication.ModalResponse.cancel:
+                    sendEvent(name: WebViewEvent.ON_DOWNLOAD_CANCEL, value: url.absoluteString)
+                default: break
+                }
+            }
+            decisionHandler(.cancel)
+        }
+        decisionHandler(.allow)
+    }
+#endif
     
     public func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction,
                         decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {

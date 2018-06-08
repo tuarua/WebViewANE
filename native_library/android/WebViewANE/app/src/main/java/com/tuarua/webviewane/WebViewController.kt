@@ -38,7 +38,10 @@ import com.tuarua.frekotlin.geom.Rect
 import org.json.JSONException
 import org.json.JSONObject
 
-class WebViewController(override var context: FREContext?, initialUrl: String?, viewPort: Rect, private var settings: Settings,
+class WebViewController(override var context: FREContext?,
+                        initialUrl: String?,
+                        viewPort: Rect,
+                        private var settings: Settings,
                         private var backgroundColor: Int) : FreKotlinController {
 
     private var _visible: Boolean = false
@@ -59,7 +62,8 @@ class WebViewController(override var context: FREContext?, initialUrl: String?, 
         set(value) {
             this._viewPort = value
             val frame = container ?: return
-            frame.layoutParams = FrameLayout.LayoutParams(viewPort.width.toInt(), viewPort.height.toInt())
+            frame.layoutParams = FrameLayout.LayoutParams(viewPort.width.toInt(),
+                    viewPort.height.toInt())
             frame.x = viewPort.x.toFloat()
             frame.y = viewPort.y.toFloat()
         }
@@ -77,7 +81,8 @@ class WebViewController(override var context: FREContext?, initialUrl: String?, 
         container = FrameLayout(ctx.activity)
 
         val frame = container ?: return
-        frame.layoutParams = FrameLayout.LayoutParams(viewPort.width.toInt(), viewPort.height.toInt())
+        frame.layoutParams = FrameLayout.LayoutParams(viewPort.width.toInt(),
+                viewPort.height.toInt())
         frame.x = viewPort.x.toFloat()
         frame.y = viewPort.y.toFloat()
         frame.id = newId
@@ -127,8 +132,8 @@ class WebViewController(override var context: FREContext?, initialUrl: String?, 
         chromeClient = ChromeClient(ctx)
         viewClient = ViewClient(ctx, settings)
         wv.isHorizontalScrollBarEnabled = false
-        wv.setWebChromeClient(chromeClient)
-        wv.setWebViewClient(viewClient)
+        wv.webChromeClient = chromeClient
+        wv.webViewClient = viewClient
         wv.setBackgroundColor(backgroundColor)
 
         wv.addJavascriptInterface(BoundObject(), "webViewANE")
@@ -236,29 +241,6 @@ class WebViewController(override var context: FREContext?, initialUrl: String?, 
         wv.draw(canvas)
         return Bitmap.createBitmap(bitmap, x, y, w, h)
     }
-
-    /*fun captureDep(x: Int, y: Int, w: Int, h: Int): Bitmap? {
-        val wv = webView ?: return null
-        var theX: Int = x
-        var theY: Int = y
-        var theW: Int = w
-        var theH: Int = h
-
-        val bitmap: Bitmap
-        if (w > 0 && h > 0) {
-            bitmap = Bitmap.createBitmap(w + x, h + y, Bitmap.Config.ARGB_8888)
-        } else {
-            theX = 0
-            theY = 0
-            theW = wv.width
-            theH = wv.height
-            bitmap = Bitmap.createBitmap(theW, theH, Bitmap.Config.ARGB_8888)
-        }
-
-        val canvas = Canvas(bitmap)
-        wv.draw(canvas)
-        return Bitmap.createBitmap(bitmap, theX, theY, theW, theH)
-    }*/
 
     fun evaluateJavascript(js: String, callback: String?) {
         val wv = webView ?: return

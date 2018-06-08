@@ -7,13 +7,7 @@
      
      </apiDesc></apiParam></apiOperationDef><apiDesc>
      
-     </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:addEventListener"><apiName>addEventListener</apiName><shortdesc/><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiIsOverride/><apiReturn><apiType value="void"/></apiReturn><apiParam><apiItemName>type</apiItemName><apiType value="String"/></apiParam><apiParam><apiItemName>listener</apiItemName><apiType value="Function"/></apiParam><apiParam><apiItemName>useCapture</apiItemName><apiType value="Boolean"/><apiData>false</apiData></apiParam><apiParam><apiItemName>priority</apiItemName><apiType value="int"/><apiData>0</apiData></apiParam><apiParam><apiItemName>useWeakReference</apiItemName><apiType value="Boolean"/><apiData>false</apiData></apiParam></apiOperationDef></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:addTab"><apiName>addTab</apiName><shortdesc>
-     Windows + OSX only
-     
-     </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn><apiParam><apiItemName>initialUrl</apiItemName><apiType value="String"/><apiData>null</apiData></apiParam></apiOperationDef><apiDesc>
-     Windows + OSX only
-     
-     </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:allowsMagnification"><apiName>allowsMagnification</apiName><shortdesc>
+     </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:addEventListener"><apiName>addEventListener</apiName><shortdesc/><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiIsOverride/><apiReturn><apiType value="void"/></apiReturn><apiParam><apiItemName>type</apiItemName><apiType value="String"/></apiParam><apiParam><apiItemName>listener</apiItemName><apiType value="Function"/></apiParam><apiParam><apiItemName>useCapture</apiItemName><apiType value="Boolean"/><apiData>false</apiData></apiParam><apiParam><apiItemName>priority</apiItemName><apiType value="int"/><apiData>0</apiData></apiParam><apiParam><apiItemName>useWeakReference</apiItemName><apiType value="Boolean"/><apiData>false</apiData></apiParam></apiOperationDef></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:addTab"><apiName>addTab</apiName><shortdesc> Windows + OSX only </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn><apiParam><apiItemName>initialUrl</apiItemName><apiType value="String"/><apiData>null</apiData></apiParam></apiOperationDef><apiDesc> Windows + OSX only </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:allowsMagnification"><apiName>allowsMagnification</apiName><shortdesc>
      
      </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiDesc>Whether the page allows magnification functionality
      <p><b>Ignored on iOS.</b></p>
@@ -38,10 +32,10 @@
      
      </apiDesc><example>
      <codeblock rev="3.0">
-    // Logs to the console. No result expected.
-    webView.callJavascriptFunction("as_to_js",asToJsCallback,1,"a",77);
-
-    public function asToJsCallback(jsResult:JavascriptResult):void {
+     // Logs to the console. No result expected.
+     webView.callJavascriptFunction("as_to_js",asToJsCallback,1,"a",77);
+     
+     public function asToJsCallback(jsResult:JavascriptResult):void {
         trace("asToJsCallback");
         trace("jsResult.error", jsResult.error);
         trace("jsResult.result", jsResult.result);
@@ -49,36 +43,34 @@
         trace("jsResult.success", jsResult.success);
         var testObject:= jsResult.result;
         trace(testObject);
-    }
+     }
      </codeblock>
 
      </example><example>
      <codeblock rev="3.0">
-     // Calls Javascript function passing 3 args. Javascript function returns an 
+     // Calls Javascript function passing 3 args. Javascript function returns an
      // object which is automatically mapped to an
      // Actionscript Object
-    webView.callJavascriptFunction("console.log",null,"hello console. The is AIR");
-
+     webView.callJavascriptFunction("console.log",null,"hello console. The is AIR");
+     
      // function in HTML page
-    function as_to_js(numberA, stringA, numberB, obj) {
-        var person = {
-            name: "Jim Cowart",
-            response: {
-                name: "Chattanooga",
+     function as_to_js(numberA, stringA, numberB, obj) {
+     var person = {
+         name: "Jim Cowart",
+         response: {
+             name: "Chattanooga",
                 population: 167674
             }
         };
         return person;
-    }
+     }
      </codeblock>
      </example></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:capture"><apiName>capture</apiName><shortdesc>
-     
      Captures the webView to BitmapData.
      
      </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn><apiParam><apiItemName>onComplete</apiItemName><apiType value="Function"/><apiDesc>function(result:BitmapData)
      </apiDesc></apiParam><apiParam><apiItemName>cropTo</apiItemName><apiType value="flash.geom:Rectangle"/><apiData>null</apiData><apiDesc>optionally crops to the supplied Rectangle
      </apiDesc></apiParam></apiOperationDef><apiDesc>
-     
      <p>Captures the webView to BitmapData.</p>
      
      </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:clearCache"><apiName>clearCache</apiName><shortdesc>
@@ -94,19 +86,11 @@
      Close the Chromium dev tools
      Disables Inspect Element on right click on OSX
      On Android disconnects from chrome://inspect
-     
      </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn></apiOperationDef><apiDesc>
      <p>Close the Chromium dev tools</p>
      <p>Disables Inspect Element on right click on OSX</p>
      <p>On Android disconnects from chrome://inspect</p>
-     
-     </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:closeTab"><apiName>closeTab</apiName><shortdesc>
-     Windows + OSX only
-     
-     </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn><apiParam><apiItemName>index</apiItemName><apiType value="int"/></apiParam></apiOperationDef><apiDesc>
-     Windows + OSX only
-     
-     </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:dispose"><apiName>dispose</apiName><shortdesc>
+     </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:closeTab"><apiName>closeTab</apiName><shortdesc> Windows + OSX only</shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn><apiParam><apiItemName>index</apiItemName><apiType value="int"/></apiParam></apiOperationDef><apiDesc> Windows + OSX only</apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:dispose"><apiName>dispose</apiName><shortdesc>
      This cleans up the webview and all related processes.
      It is important to call this when the app is exiting.
      </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn></apiOperationDef><apiDesc>
@@ -128,17 +112,17 @@
      </apiDesc></apiParam></apiOperationDef><apiDesc>
      
      </apiDesc><example>
-    <codeblock rev="3.0">
-    // Set the body background to yellow. No result expected
-    webView.evaluateJavascript('document.getElementsByTagName("body")[0].style.backgroundColor = "yellow";');
-    </codeblock>
-    </example><example>
-    <codeblock rev="3.0">
-    // Retrieve contents of div. Result is returned to Actionscript function 'onJsEvaluated'
-    webView.evaluateJavascript("document.getElementById('output').innerHTML;", onJsEvaluated)
-    private function onJsEvaluated(jsResult:JavascriptResult):void {
+     <codeblock rev="3.0">
+     // Set the body background to yellow. No result expected
+     webView.evaluateJavascript('document.getElementsByTagName("body")[0].style.backgroundColor = "yellow";');
+     </codeblock>
+     </example><example>
+     <codeblock rev="3.0">
+     // Retrieve contents of div. Result is returned to Actionscript function 'onJsEvaluated'
+     webView.evaluateJavascript("document.getElementById('output').innerHTML;", onJsEvaluated)
+     private function onJsEvaluated(jsResult:JavascriptResult):void {
         trace("innerHTML of div is:", jsResult.result);
-    }
+     }
      </codeblock>
      
      </example></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:focus"><apiName>focus</apiName><shortdesc/><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn></apiOperationDef></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:goBack"><apiName>goBack</apiName><shortdesc>
@@ -178,11 +162,8 @@
      </apiDesc></apiParam></apiOperationDef><apiDesc>
      
      </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:isSupported"><apiName>isSupported</apiName><shortdesc>
-     
      </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiDesc>true if the device is Windows 7+, OSX 10.10+, Android,  or iOS 9.0+
-     
      </apiDesc><apiType value="Boolean"/></apiReturn></apiOperationDef><apiDesc>
-     
      </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:loadFileURL"><apiName>loadFileURL</apiName><shortdesc>
      
      </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn><apiParam><apiItemName>url</apiItemName><apiType value="String"/><apiDesc>full path to the file on the local file system
@@ -202,33 +183,22 @@
      </apiDesc></apiParam></apiOperationDef><apiDesc>
      
      </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:load"><apiName>load</apiName><shortdesc>
-     
-     </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn><apiParam><apiItemName>url</apiItemName><apiType value="String"/><apiDesc>    
-     </apiDesc></apiParam></apiOperationDef><apiDesc>
-     
+     </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn><apiParam><apiItemName>url</apiItemName><apiType value="String"/><apiDesc>    </apiDesc></apiParam></apiOperationDef><apiDesc>
      </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:printToPdf"><apiName>printToPdf</apiName><shortdesc>
-     
      </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn><apiParam><apiItemName>savePath</apiItemName><apiType value="String"/><apiDesc>path to save the pdf to.
      
      <p>prints the webView to a pdf.</p>
      <p><b>Windows only.</b></p>
-     
      </apiDesc></apiParam></apiOperationDef><apiDesc>
-     
      </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:print"><apiName>print</apiName><shortdesc>
-     
      prints the webView.
      Windows only.
-     
      </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn></apiOperationDef><apiDesc>
-     
      <p>prints the webView.</p>
      <p><b>Windows only.</b></p>
-     
      </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:reloadFromOrigin"><apiName>reloadFromOrigin</apiName><shortdesc>
      Forces a reload of the page (i.e.</shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn></apiOperationDef><apiDesc>
      Forces a reload of the page (i.e. ctrl F5)
-     
      </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:reload"><apiName>reload</apiName><shortdesc>
      Reloads the current page.
      </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn></apiOperationDef><apiDesc>
@@ -243,12 +213,10 @@
      Shows the Chromium dev tools on Windows
      Enables Inspect Element on right click on OSX
      On Android use Chrome on connected computer and navigate to chrome://inspect
-     
      </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn></apiOperationDef><apiDesc>
      <p>Shows the Chromium dev tools on Windows</p>
      <p>Enables Inspect Element on right click on OSX</p>
      <p>On Android use Chrome on connected computer and navigate to chrome://inspect</p>
-     
      </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:stopLoading"><apiName>stopLoading</apiName><shortdesc>
      Stops loading the current page.
      </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn></apiOperationDef><apiDesc>
@@ -259,22 +227,8 @@
      </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn></apiOperationDef><apiDesc>
      Zooms in
      
-     </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:zoomOut"><apiName>zoomOut</apiName><shortdesc>
-     Zooms out
-     
-     </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn></apiOperationDef><apiDesc>
-     Zooms out
-     
-     </apiDesc></apiOperationDetail></apiOperation><apiValue id="com.tuarua:WebViewANE:currentTab:get"><apiName>currentTab</apiName><shortdesc>
-     Windows + OSX only
-     </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiValueAccess value="readwrite"/><apiType value="int"/></apiValueDef><apiDesc>
-     Windows + OSX only
-     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua:WebViewANE:isInited:get"><apiName>isInited</apiName><shortdesc>
-     
+     </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:zoomOut"><apiName>zoomOut</apiName><shortdesc> Zooms out</shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn></apiOperationDef><apiDesc> Zooms out</apiDesc></apiOperationDetail></apiOperation><apiValue id="com.tuarua:WebViewANE:currentTab:get"><apiName>currentTab</apiName><shortdesc>Windows + OSX only</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiValueAccess value="readwrite"/><apiType value="int"/></apiValueDef><apiDesc>Windows + OSX only</apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua:WebViewANE:isInited:get"><apiName>isInited</apiName><shortdesc>
      </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiValueAccess value="read"/><apiType value="Boolean"/></apiValueDef><apiDesc>
-     
      </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua:WebViewANE:tabDetails:get"><apiName>tabDetails</apiName><shortdesc/><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiValueAccess value="read"/><apiType value="Vector$com.tuarua.webview:TabDetails"/></apiValueDef></apiValueDetail></apiValue><apiValue id="com.tuarua:WebViewANE:viewPort:get"><apiName>viewPort</apiName><shortdesc/><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiValueAccess value="readwrite"/><apiType value="flash.geom:Rectangle"/></apiValueDef></apiValueDetail></apiValue><apiValue id="com.tuarua:WebViewANE:visible:get"><apiName>visible</apiName><shortdesc>
-     
      </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiValueAccess value="readwrite"/><apiType value="Boolean"/></apiValueDef><apiDesc>
-     
      </apiDesc></apiValueDetail></apiValue></apiClassifier></apiPackage>

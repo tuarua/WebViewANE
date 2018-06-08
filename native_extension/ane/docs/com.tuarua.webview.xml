@@ -14,60 +14,49 @@
      A Boolean value indicating whether the webview bounces past edge of content and back again.
      </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>true</apiData><apiType value="Boolean"/></apiValueDef><apiDesc>
      <p>A Boolean value indicating whether the webview bounces past edge of content and back again.</p>
+     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:WebkitSettings:custom"><apiName>custom</apiName><shortdesc>
+      Add custom preferences via preferences.setValue.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>unknown</apiData><apiType value="Vector$Object"/></apiValueDef><apiDesc>
+      <p>Add custom preferences via preferences.setValue. This can be used to set private APIs. Use at own risk.</p>
      </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:WebkitSettings:ignoresViewportScaleLimits"><apiName>ignoresViewportScaleLimits</apiName><shortdesc>
      A Boolean value that determines whether a WKWeb​View object should always allow scaling of the webpage.
      </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>false</apiData><apiType value="Boolean"/></apiValueDef><apiDesc>
      <p>A Boolean value that determines whether a WKWeb​View object should always allow scaling of the webpage.</p>
      </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:WebkitSettings:javaEnabled"><apiName>javaEnabled</apiName><shortdesc>
-	 A Boolean value indicating whether Java is enabled.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>false</apiData><apiType value="Boolean"/></apiValueDef><apiDesc>
-	 <p>A Boolean value indicating whether Java is enabled. OSX only.</p>
-	 </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:WebkitSettings:javaScriptCanOpenWindowsAutomatically"><apiName>javaScriptCanOpenWindowsAutomatically</apiName><shortdesc>
-	 A Boolean value indicating whether JavaScript can open windows without user interaction.
-	 </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>true</apiData><apiType value="Boolean"/></apiValueDef><apiDesc>
-	 <p>A Boolean value indicating whether JavaScript can open windows without user interaction.</p>
-	 </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:WebkitSettings:javaScriptEnabled"><apiName>javaScriptEnabled</apiName><shortdesc>
-	 A Boolean value indicating whether JavaScript is enabled.
-	 </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>true</apiData><apiType value="Boolean"/></apiValueDef><apiDesc>
-	 <p>A Boolean value indicating whether JavaScript is enabled.</p>
-	 </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:WebkitSettings:minimumFontSize"><apiName>minimumFontSize</apiName><shortdesc>
-	 The minimum font size in points.
-	 </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>0</apiData><apiType value="int"/></apiValueDef><apiDesc>
-	 <p>The minimum font size in points.</p>
-	 </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:WebkitSettings:plugInsEnabled"><apiName>plugInsEnabled</apiName><shortdesc>
-	 A Boolean value indicating whether plug-ins are enabled.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>true</apiData><apiType value="Boolean"/></apiValueDef><apiDesc>
-	 <p>A Boolean value indicating whether plug-ins are enabled. OSX only.</p>
-	 </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:WebkitSettings:useZoomGestures"><apiName>useZoomGestures</apiName><shortdesc>
+     A Boolean value indicating whether Java is enabled.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>false</apiData><apiType value="Boolean"/></apiValueDef><apiDesc>
+     <p>A Boolean value indicating whether Java is enabled. OSX only.</p>
+     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:WebkitSettings:javaScriptCanOpenWindowsAutomatically"><apiName>javaScriptCanOpenWindowsAutomatically</apiName><shortdesc>
+     A Boolean value indicating whether JavaScript can open windows without user interaction.
+     </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>true</apiData><apiType value="Boolean"/></apiValueDef><apiDesc>
+     <p>A Boolean value indicating whether JavaScript can open windows without user interaction.</p>
+     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:WebkitSettings:javaScriptEnabled"><apiName>javaScriptEnabled</apiName><shortdesc>
+     A Boolean value indicating whether JavaScript is enabled.
+     </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>true</apiData><apiType value="Boolean"/></apiValueDef><apiDesc>
+     <p>A Boolean value indicating whether JavaScript is enabled.</p>
+     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:WebkitSettings:minimumFontSize"><apiName>minimumFontSize</apiName><shortdesc>
+     The minimum font size in points.
+     </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>0</apiData><apiType value="int"/></apiValueDef><apiDesc>
+     <p>The minimum font size in points.</p>
+     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:WebkitSettings:plugInsEnabled"><apiName>plugInsEnabled</apiName><shortdesc>
+     A Boolean value indicating whether plug-ins are enabled.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>true</apiData><apiType value="Boolean"/></apiValueDef><apiDesc>
+     <p>A Boolean value indicating whether plug-ins are enabled. OSX only.</p>
+     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:WebkitSettings:useZoomGestures"><apiName>useZoomGestures</apiName><shortdesc>
      A Boolean value indicating whether the webview responds to pinch zoom gestures.
      </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>true</apiData><apiType value="Boolean"/></apiValueDef><apiDesc>
      <p>A Boolean value indicating whether the webview responds to pinch zoom gestures.</p>
      </apiDesc></apiValueDetail></apiValue></apiClassifier><apiClassifier id="com.tuarua.webview:TabDetails"><apiName>TabDetails</apiName><shortdesc/><prolog><asMetadata/></prolog><apiClassifierDetail><apiClassifierDef><apiAccess value="public"/><apiStatic/><apiBaseClassifier>Object</apiBaseClassifier></apiClassifierDef></apiClassifierDetail><apiConstructor id="com.tuarua.webview:TabDetails:TabDetails"><apiName>TabDetails</apiName><shortdesc/><prolog/><apiConstructorDetail><apiConstructorDef><apiAccess value="public"/><apiParam><apiItemName>index</apiItemName><apiType value="int"/></apiParam><apiParam><apiItemName>url</apiItemName><apiType value="String"/></apiParam><apiParam><apiItemName>title</apiItemName><apiType value="String"/></apiParam><apiParam><apiItemName>isLoading</apiItemName><apiType value="Boolean"/></apiParam><apiParam><apiItemName>canGoBack</apiItemName><apiType value="Boolean"/></apiParam><apiParam><apiItemName>canGoForward</apiItemName><apiType value="Boolean"/></apiParam><apiParam><apiItemName>estimatedProgress</apiItemName><apiType value="Number"/></apiParam></apiConstructorDef></apiConstructorDetail></apiConstructor><apiValue id="com.tuarua.webview:TabDetails:canGoBack"><apiName>canGoBack</apiName><shortdesc>
-     
      </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value="Boolean"/></apiValueDef><apiDesc>
-     
      </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:TabDetails:canGoForward"><apiName>canGoForward</apiName><shortdesc>
-     
      </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value="Boolean"/></apiValueDef><apiDesc>
-     
      </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:TabDetails:estimatedProgress"><apiName>estimatedProgress</apiName><shortdesc>
-     
      </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value="Number"/></apiValueDef><apiDesc>
-     
      </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:TabDetails:index"><apiName>index</apiName><shortdesc>
-     
      </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value="int"/></apiValueDef><apiDesc>
-     
      </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:TabDetails:isLoading"><apiName>isLoading</apiName><shortdesc>
-     
      </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value="Boolean"/></apiValueDef><apiDesc>
-     
      </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:TabDetails:title"><apiName>title</apiName><shortdesc>
-     
      </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value="String"/></apiValueDef><apiDesc>
-     
      </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:TabDetails:url"><apiName>url</apiName><shortdesc>
-     
      </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value="String"/></apiValueDef><apiDesc>
-     
      </apiDesc></apiValueDetail></apiValue></apiClassifier><apiClassifier id="com.tuarua.webview:BackForwardList"><apiName>BackForwardList</apiName><shortdesc/><prolog><asMetadata/></prolog><apiClassifierDetail><apiClassifierDef><apiAccess value="public"/><apiStatic/><apiBaseClassifier>Object</apiBaseClassifier></apiClassifierDef></apiClassifierDetail><apiConstructor id="com.tuarua.webview:BackForwardList:BackForwardList"><apiName>BackForwardList</apiName><shortdesc/><prolog/><apiConstructorDetail><apiConstructorDef><apiAccess value="public"/></apiConstructorDef></apiConstructorDetail></apiConstructor><apiValue id="com.tuarua.webview:BackForwardList:backList"><apiName>backList</apiName><shortdesc>
 	 
 	 </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>unknown</apiData><apiType value="Vector$com.tuarua.webview:BackForwardListItem"/></apiValueDef><apiDesc>
@@ -81,65 +70,43 @@
 	 </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>unknown</apiData><apiType value="Vector$com.tuarua.webview:BackForwardListItem"/></apiValueDef><apiDesc>
 	 
 	 </apiDesc></apiValueDetail></apiValue></apiClassifier><apiClassifier id="com.tuarua.webview:ContextMenu"><apiName>ContextMenu</apiName><shortdesc/><prolog><asMetadata/></prolog><apiClassifierDetail><apiClassifierDef><apiAccess value="public"/><apiStatic/><apiFinal/><apiBaseClassifier>Object</apiBaseClassifier></apiClassifierDef></apiClassifierDetail><apiValue id="com.tuarua.webview:ContextMenu:enabled"><apiName>enabled</apiName><shortdesc>
- Sets whether the context menu is displayed on right click.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>true</apiData><apiType value="Boolean"/></apiValueDef><apiDesc>
- <p>Sets whether the context menu is displayed on right click. </p>
-</apiDesc></apiValueDetail></apiValue></apiClassifier><apiClassifier id="com.tuarua.webview:JavascriptResult"><apiName>JavascriptResult</apiName><shortdesc/><prolog><asMetadata/></prolog><apiClassifierDetail><apiClassifierDef><apiAccess value="public"/><apiStatic/><apiBaseClassifier>Object</apiBaseClassifier></apiClassifierDef></apiClassifierDetail><apiConstructor id="com.tuarua.webview:JavascriptResult:JavascriptResult"><apiName>JavascriptResult</apiName><shortdesc/><prolog/><apiConstructorDetail><apiConstructorDef><apiAccess value="public"/><apiParam><apiItemName>result</apiItemName><apiType value="any"/><apiData>null</apiData></apiParam><apiParam><apiItemName>message</apiItemName><apiType value="String"/><apiData>null</apiData></apiParam><apiParam><apiItemName>error</apiItemName><apiType value="String"/><apiData>null</apiData></apiParam><apiParam><apiItemName>success</apiItemName><apiType value="Boolean"/><apiData>false</apiData></apiParam></apiConstructorDef></apiConstructorDetail></apiConstructor><apiValue id="com.tuarua.webview:JavascriptResult:error"><apiName>error</apiName><shortdesc>
-	 
-	 </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value="String"/></apiValueDef><apiDesc>
-	 
-	 </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:JavascriptResult:message"><apiName>message</apiName><shortdesc>
-	 Reserved for future use.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value="String"/></apiValueDef><apiDesc>
-	 Reserved for future use.
-	 </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:JavascriptResult:result"><apiName>result</apiName><shortdesc>
-	 
-	 </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value=""/></apiValueDef><apiDesc>
-	 
-	 </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:JavascriptResult:success"><apiName>success</apiName><shortdesc>
-	 
-	 </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value="Boolean"/></apiValueDef><apiDesc>
-	 
-	 </apiDesc></apiValueDetail></apiValue></apiClassifier><apiClassifier id="com.tuarua.webview:CefSettings"><apiName>CefSettings</apiName><shortdesc/><prolog><asMetadata/></prolog><apiClassifierDetail><apiClassifierDef><apiAccess value="public"/><apiStatic/><apiBaseClassifier>Object</apiBaseClassifier></apiClassifierDef></apiClassifierDetail><apiConstructor id="com.tuarua.webview:CefSettings:CefSettings"><apiName>CefSettings</apiName><shortdesc/><prolog/><apiConstructorDetail><apiConstructorDef><apiAccess value="public"/></apiConstructorDef></apiConstructorDetail></apiConstructor><apiValue id="com.tuarua.webview:CefSettings:browserSubprocessPath"><apiName>browserSubprocessPath</apiName><shortdesc>
- The path to a separate executable that will be launched for sub-processes.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>CefSharp.BrowserSubprocess.exe</apiData><apiType value="String"/></apiValueDef><apiDesc>
- <p>The path to a separate executable that will be launched for sub-processes. By
-default the browser process executable is used.</p>
- </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:CefSettings:cachePath"><apiName>cachePath</apiName><shortdesc>
- The location where cache data will be stored on disk.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>cache</apiData><apiType value="String"/></apiValueDef><apiDesc>
- <p>The location where cache data will be stored on disk. If empty then browsers
-will be created in "incognito mode" where in-memory caches are used for storage
-and no data is persisted to disk. HTML5 databases such as localStorage will only
-persist across sessions if a cache path is specified. Can be overridden for individual
-CefRequestContext instances via the RequestContextSettings.CachePath value.</p>
- </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:CefSettings:commandLineArgs"><apiName>commandLineArgs</apiName><shortdesc>
-  Add custom command line argumens to this collection, they will be added in
-OnBeforeCommandLineProcessing.
- </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>unknown</apiData><apiType value="Vector$Object"/></apiValueDef><apiDesc>
-  <p>Add custom command line argumens to this collection, they will be added in
-OnBeforeCommandLineProcessing.</p>
- </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:CefSettings:contextMenu"><apiName>contextMenu</apiName><shortdesc/><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>unknown</apiData><apiValueClassifier>com.tuarua.webview:ContextMenu</apiValueClassifier></apiValueDef></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:CefSettings:downloadPath"><apiName>downloadPath</apiName><shortdesc>
- The path to automatically save downloads to.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value="String"/></apiValueDef><apiDesc>
- <p>The path to automatically save downloads to. No user dialog is shown.</p>
- </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:CefSettings:enableDownloads"><apiName>enableDownloads</apiName><shortdesc>
-Sets whether downloads will be handled by the WebView.
-</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>true</apiData><apiType value="Boolean"/></apiValueDef><apiDesc>
-<p>Sets whether downloads will be handled by the WebView.</p>
-</apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:CefSettings:logSeverity"><apiName>logSeverity</apiName><shortdesc>
- The log severity.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>99</apiData><apiType value="int"/></apiValueDef><apiDesc>
- <p>The log severity. Only messages of this severity level or higher will be logged.
-Also configurable using the "log-severity" command-line switch with a value of
-"verbose", "info", "warning", "error", "error-report" or "disable".</p>
- </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:CefSettings:remoteDebuggingPort"><apiName>remoteDebuggingPort</apiName><shortdesc>
- Set to a value between 1024 and 65535 to enable remote debugging on the specified
-port.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>8088</apiData><apiType value="int"/></apiValueDef><apiDesc>
- <p>Set to a value between 1024 and 65535 to enable remote debugging on the specified
-port. For example, if 8080 is specified the remote debugging URL will be http://localhost:8080.
-CEF can be remotely debugged from any CEF or Chrome browser window. Also configurable
-using the "remote-debugging-port" command-line switch.</p>
- </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:CefSettings:userDataPath"><apiName>userDataPath</apiName><shortdesc>
-  The location where user data such as spell checking dictionary files will be stored on disk.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value="String"/></apiValueDef><apiDesc>
- <p> The location where user data such as spell checking dictionary files will be stored on disk.
- If empty then the default platform-specific user data directory
- "Local Settings\Application Data\CEF\User Data"directory under the user profile directory on Windows).</p>
-</apiDesc></apiValueDetail></apiValue></apiClassifier><apiClassifier id="com.tuarua.webview:DownloadProgress"><apiName>DownloadProgress</apiName><shortdesc/><prolog><asMetadata/></prolog><apiClassifierDetail><apiClassifierDef><apiAccess value="public"/><apiStatic/><apiBaseClassifier>Object</apiBaseClassifier></apiClassifierDef></apiClassifierDetail><apiConstructor id="com.tuarua.webview:DownloadProgress:DownloadProgress"><apiName>DownloadProgress</apiName><shortdesc/><prolog/><apiConstructorDetail><apiConstructorDef><apiAccess value="public"/></apiConstructorDef></apiConstructorDetail></apiConstructor><apiValue id="com.tuarua.webview:DownloadProgress:bytesLoaded"><apiName>bytesLoaded</apiName><shortdesc>
+     Sets whether the context menu is displayed on right click.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>true</apiData><apiType value="Boolean"/></apiValueDef><apiDesc>
+     <p>Sets whether the context menu is displayed on right click. </p>
+     </apiDesc></apiValueDetail></apiValue></apiClassifier><apiClassifier id="com.tuarua.webview:JavascriptResult"><apiName>JavascriptResult</apiName><shortdesc/><prolog><asMetadata/></prolog><apiClassifierDetail><apiClassifierDef><apiAccess value="public"/><apiStatic/><apiBaseClassifier>Object</apiBaseClassifier></apiClassifierDef></apiClassifierDetail><apiConstructor id="com.tuarua.webview:JavascriptResult:JavascriptResult"><apiName>JavascriptResult</apiName><shortdesc/><prolog/><apiConstructorDetail><apiConstructorDef><apiAccess value="public"/><apiParam><apiItemName>result</apiItemName><apiType value="any"/><apiData>null</apiData></apiParam><apiParam><apiItemName>message</apiItemName><apiType value="String"/><apiData>null</apiData></apiParam><apiParam><apiItemName>error</apiItemName><apiType value="String"/><apiData>null</apiData></apiParam><apiParam><apiItemName>success</apiItemName><apiType value="Boolean"/><apiData>false</apiData></apiParam></apiConstructorDef></apiConstructorDetail></apiConstructor><apiValue id="com.tuarua.webview:JavascriptResult:error"><apiName>error</apiName><shortdesc/><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value="String"/></apiValueDef></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:JavascriptResult:message"><apiName>message</apiName><shortdesc> Reserved for future use.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value="String"/></apiValueDef><apiDesc> Reserved for future use. </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:JavascriptResult:result"><apiName>result</apiName><shortdesc/><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value=""/></apiValueDef></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:JavascriptResult:success"><apiName>success</apiName><shortdesc/><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value="Boolean"/></apiValueDef></apiValueDetail></apiValue></apiClassifier><apiClassifier id="com.tuarua.webview:CefSettings"><apiName>CefSettings</apiName><shortdesc/><prolog><asMetadata/></prolog><apiClassifierDetail><apiClassifierDef><apiAccess value="public"/><apiStatic/><apiBaseClassifier>Object</apiBaseClassifier></apiClassifierDef></apiClassifierDetail><apiConstructor id="com.tuarua.webview:CefSettings:CefSettings"><apiName>CefSettings</apiName><shortdesc/><prolog/><apiConstructorDetail><apiConstructorDef><apiAccess value="public"/></apiConstructorDef></apiConstructorDetail></apiConstructor><apiValue id="com.tuarua.webview:CefSettings:browserSubprocessPath"><apiName>browserSubprocessPath</apiName><shortdesc>
+     The path to a separate executable that will be launched for sub-processes.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>CefSharp.BrowserSubprocess.exe</apiData><apiType value="String"/></apiValueDef><apiDesc>
+     <p>The path to a separate executable that will be launched for sub-processes. By
+     default the browser process executable is used.</p>
+     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:CefSettings:cachePath"><apiName>cachePath</apiName><shortdesc>
+     The location where cache data will be stored on disk.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>cache</apiData><apiType value="String"/></apiValueDef><apiDesc>
+     <p>The location where cache data will be stored on disk. If empty then browsers
+     will be created in "incognito mode" where in-memory caches are used for storage
+     and no data is persisted to disk. HTML5 databases such as localStorage will only
+     persist across sessions if a cache path is specified. Can be overridden for individual
+     CefRequestContext instances via the RequestContextSettings.CachePath value.</p>
+     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:CefSettings:commandLineArgs"><apiName>commandLineArgs</apiName><shortdesc>
+      Add custom command line argumens to this collection, they will be added in
+     OnBeforeCommandLineProcessing.
+     </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>unknown</apiData><apiType value="Vector$Object"/></apiValueDef><apiDesc>
+      <p>Add custom command line argumens to this collection, they will be added in
+     OnBeforeCommandLineProcessing.</p>
+     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:CefSettings:contextMenu"><apiName>contextMenu</apiName><shortdesc/><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>unknown</apiData><apiValueClassifier>com.tuarua.webview:ContextMenu</apiValueClassifier><apiDeprecated replacement="Settings.contextMenu"/></apiValueDef></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:CefSettings:downloadPath"><apiName>downloadPath</apiName><shortdesc/><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value="String"/><apiDeprecated replacement="Settings.downloadPath"/></apiValueDef></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:CefSettings:enableDownloads"><apiName>enableDownloads</apiName><shortdesc/><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>true</apiData><apiType value="Boolean"/><apiDeprecated replacement="Settings.enableDownloads"/></apiValueDef></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:CefSettings:logSeverity"><apiName>logSeverity</apiName><shortdesc>
+     The log severity.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>99</apiData><apiType value="int"/></apiValueDef><apiDesc>
+     <p>The log severity. Only messages of this severity level or higher will be logged.
+     Also configurable using the "log-severity" command-line switch with a value of
+     "verbose", "info", "warning", "error", "error-report" or "disable".</p>
+     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:CefSettings:remoteDebuggingPort"><apiName>remoteDebuggingPort</apiName><shortdesc>
+     Set to a value between 1024 and 65535 to enable remote debugging on the specified
+     port.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>8088</apiData><apiType value="int"/></apiValueDef><apiDesc>
+     <p>Set to a value between 1024 and 65535 to enable remote debugging on the specified
+     port. For example, if 8080 is specified the remote debugging URL will be http://localhost:8080.
+     CEF can be remotely debugged from any CEF or Chrome browser window. Also configurable
+     using the "remote-debugging-port" command-line switch.</p>
+     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:CefSettings:userDataPath"><apiName>userDataPath</apiName><shortdesc>
+      The location where user data such as spell checking dictionary files will be stored on disk.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value="String"/></apiValueDef><apiDesc>
+     <p> The location where user data such as spell checking dictionary files will be stored on disk.
+     If empty then the default platform-specific user data directory
+     "Local Settings\Application Data\CEF\User Data"directory under the user profile directory on Windows).</p>
+     </apiDesc></apiValueDetail></apiValue></apiClassifier><apiClassifier id="com.tuarua.webview:DownloadProgress"><apiName>DownloadProgress</apiName><shortdesc/><prolog><asMetadata/></prolog><apiClassifierDetail><apiClassifierDef><apiAccess value="public"/><apiStatic/><apiBaseClassifier>Object</apiBaseClassifier></apiClassifierDef></apiClassifierDetail><apiConstructor id="com.tuarua.webview:DownloadProgress:DownloadProgress"><apiName>DownloadProgress</apiName><shortdesc/><prolog/><apiConstructorDetail><apiConstructorDef><apiAccess value="public"/></apiConstructorDef></apiConstructorDetail></apiConstructor><apiValue id="com.tuarua.webview:DownloadProgress:bytesLoaded"><apiName>bytesLoaded</apiName><shortdesc>
      Returns the number of received bytes.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>0</apiData><apiType value="uint"/></apiValueDef><apiDesc>
      Returns the number of received bytes.
      </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:DownloadProgress:bytesTotal"><apiName>bytesTotal</apiName><shortdesc>
@@ -166,22 +133,22 @@ using the "remote-debugging-port" command-line switch.</p>
      <p><b>Placeholder only.</b></p>
      </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:WebViewEvent:ON_DOWNLOAD_CANCEL"><apiName>ON_DOWNLOAD_CANCEL</apiName><shortdesc>
      Dispatched when download is cancelled
-     Windows only.
+     Windows + OSX only.
      </shortdesc><prolog/><apiValueDetail><apiValueDef><apiAccess value="public"/><apiStatic/><apiData>WebView.OnDownloadCancel</apiData><apiType value="String"/></apiValueDef><apiDesc>
      Dispatched when download is cancelled
-     <p><b>Windows only.</b></p>
+     <p><b>Windows + OSX only.</b></p>
      </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:WebViewEvent:ON_DOWNLOAD_COMPLETE"><apiName>ON_DOWNLOAD_COMPLETE</apiName><shortdesc>
      Dispatched when download is marked as complete
-     Windows only.
+     Windows + OSX only.
      </shortdesc><prolog/><apiValueDetail><apiValueDef><apiAccess value="public"/><apiStatic/><apiData>WebView.OnDownloadComplete</apiData><apiType value="String"/></apiValueDef><apiDesc>
      Dispatched when download is marked as complete
-     <p><b>Windows only.</b></p>
+     <p><b>Windows + OSX only.</b></p>
      </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:WebViewEvent:ON_DOWNLOAD_PROGRESS"><apiName>ON_DOWNLOAD_PROGRESS</apiName><shortdesc>
      Dispatched when download progress changes
-     Windows only.
+     Windows + OSX only.
      </shortdesc><prolog/><apiValueDetail><apiValueDef><apiAccess value="public"/><apiStatic/><apiData>WebView.OnDownloadProgress</apiData><apiType value="String"/></apiValueDef><apiDesc>
      Dispatched when download progress changes
-     <p><b>Windows only.</b></p>
+     <p><b>Windows + OSX only.</b></p>
      </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:WebViewEvent:ON_FAIL"><apiName>ON_FAIL</apiName><shortdesc>
      
      </shortdesc><prolog/><apiValueDetail><apiValueDef><apiAccess value="public"/><apiStatic/><apiData>WebView.OnFail</apiData><apiType value="String"/></apiValueDef><apiDesc>
@@ -289,7 +256,16 @@ using the "remote-debugging-port" command-line switch.</p>
 	 Settings to use for CEF (Windows) version.
 	 </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>unknown</apiData><apiValueClassifier>com.tuarua.webview:CefSettings</apiValueClassifier></apiValueDef><apiDesc>
 	 <p>Settings to use for CEF (Windows) version.</p>
-	 </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:Settings:popup"><apiName>popup</apiName><shortdesc/><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>unknown</apiData><apiValueClassifier>com.tuarua.webview.popup:Popup</apiValueClassifier></apiValueDef></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:Settings:urlBlackList"><apiName>urlBlackList</apiName><shortdesc>
+	 </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:Settings:contextMenu"><apiName>contextMenu</apiName><shortdesc>
+     Sets whether a context menu will appear on right click.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>unknown</apiData><apiValueClassifier>com.tuarua.webview:ContextMenu</apiValueClassifier></apiValueDef><apiDesc>
+     <p>Sets whether a context menu will appear on right click. OSX and Windows only.</p>
+     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:Settings:downloadPath"><apiName>downloadPath</apiName><shortdesc>
+     The path to automatically save downloads to.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value="String"/></apiValueDef><apiDesc>
+     <p>The path to automatically save downloads to. No user dialog is shown. OSX and Windows only.</p>
+     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:Settings:enableDownloads"><apiName>enableDownloads</apiName><shortdesc>
+     Sets whether downloads will be handled by the WebView.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>true</apiData><apiType value="Boolean"/></apiValueDef><apiDesc>
+     <p>Sets whether downloads will be handled by the WebView. OSX and Windows only.</p>
+     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:Settings:popup"><apiName>popup</apiName><shortdesc/><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>unknown</apiData><apiValueClassifier>com.tuarua.webview.popup:Popup</apiValueClassifier></apiValueDef></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:Settings:urlBlackList"><apiName>urlBlackList</apiName><shortdesc>
      Vector of urls to block example .pdf,.zip - This uses a simple string match.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>unknown</apiData><apiType value="Vector$String"/></apiValueDef><apiDesc>
      <p>Vector of urls to block example .pdf,.zip - This uses a simple string match. There is no regex support.</p>
      </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:Settings:urlWhiteList"><apiName>urlWhiteList</apiName><shortdesc>
@@ -303,16 +279,4 @@ using the "remote-debugging-port" command-line switch.</p>
 	 Settings to use for WKWebView (OSX / iOS) version.
 	 </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>unknown</apiData><apiValueClassifier>com.tuarua.webview:WebkitSettings</apiValueClassifier></apiValueDef><apiDesc>
 	 <p>Settings to use for WKWebView (OSX / iOS) version.</p>
-	 </apiDesc></apiValueDetail></apiValue></apiClassifier><apiClassifier id="com.tuarua.webview:ActionscriptCallback"><apiName>ActionscriptCallback</apiName><shortdesc/><prolog><asMetadata/></prolog><apiClassifierDetail><apiClassifierDef><apiAccess value="public"/><apiStatic/><apiBaseClassifier>Object</apiBaseClassifier></apiClassifierDef></apiClassifierDetail><apiConstructor id="com.tuarua.webview:ActionscriptCallback:ActionscriptCallback"><apiName>ActionscriptCallback</apiName><shortdesc/><prolog/><apiConstructorDetail><apiConstructorDef><apiAccess value="public"/><apiParam><apiItemName>args</apiItemName><apiType value="any"/><apiData>null</apiData></apiParam><apiParam><apiItemName>functionName</apiItemName><apiType value="String"/><apiData>null</apiData></apiParam><apiParam><apiItemName>callbackName</apiItemName><apiType value="String"/><apiData>null</apiData></apiParam></apiConstructorDef></apiConstructorDetail></apiConstructor><apiValue id="com.tuarua.webview:ActionscriptCallback:args"><apiName>args</apiName><shortdesc>
-	 
-	 </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value=""/></apiValueDef><apiDesc>
-	 
-	 </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:ActionscriptCallback:callbackName"><apiName>callbackName</apiName><shortdesc>
-	 
-	 </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value="String"/></apiValueDef><apiDesc>
-	 
-	 </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:ActionscriptCallback:functionName"><apiName>functionName</apiName><shortdesc>
-	 
-	 </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value="String"/></apiValueDef><apiDesc>
-	 
-	 </apiDesc></apiValueDetail></apiValue></apiClassifier></apiPackage>
+	 </apiDesc></apiValueDetail></apiValue></apiClassifier><apiClassifier id="com.tuarua.webview:ActionscriptCallback"><apiName>ActionscriptCallback</apiName><shortdesc/><prolog><asMetadata/></prolog><apiClassifierDetail><apiClassifierDef><apiAccess value="public"/><apiStatic/><apiBaseClassifier>Object</apiBaseClassifier></apiClassifierDef></apiClassifierDetail><apiConstructor id="com.tuarua.webview:ActionscriptCallback:ActionscriptCallback"><apiName>ActionscriptCallback</apiName><shortdesc/><prolog/><apiConstructorDetail><apiConstructorDef><apiAccess value="public"/><apiParam><apiItemName>args</apiItemName><apiType value="any"/><apiData>null</apiData></apiParam><apiParam><apiItemName>functionName</apiItemName><apiType value="String"/><apiData>null</apiData></apiParam><apiParam><apiItemName>callbackName</apiItemName><apiType value="String"/><apiData>null</apiData></apiParam></apiConstructorDef></apiConstructorDetail></apiConstructor><apiValue id="com.tuarua.webview:ActionscriptCallback:args"><apiName>args</apiName><shortdesc/><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value=""/></apiValueDef></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:ActionscriptCallback:callbackName"><apiName>callbackName</apiName><shortdesc/><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value="String"/></apiValueDef></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:ActionscriptCallback:functionName"><apiName>functionName</apiName><shortdesc/><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value="String"/></apiValueDef></apiValueDetail></apiValue></apiClassifier></apiPackage>

@@ -15,8 +15,6 @@
       </option>
       <option name="vmOptions" value="" />
     </ExternalSystemSettings>
-    <method>
-      <option name="Gradle.BeforeRunTask" enabled="true" tasks="buildNeeded" externalProjectPath="$PROJECT_DIR$/app" vmOptions="" scriptParameters="" />
-    </method>
+    <method />
   </configuration>
 </component>

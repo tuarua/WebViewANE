@@ -25,7 +25,7 @@ import Foundation
 import UIKit
 extension WebViewVC: UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-        if _configuration.useZoomGestures {
+        if _settings.configuration.useZoomGestures {
             for sv in scrollView.subviews {
                 if let c = NSClassFromString("WKContentView"), sv.isKind(of: c) {
                     return sv

@@ -20,30 +20,16 @@
  *  OSX and/or iOS and/or Android.
  *  All Rights Reserved. Tua Rua Ltd.
  */
-
-/**
- * Created by Eoin Landy on 14/01/2017.
- */
 package com.tuarua.webview {
 public class JavascriptResult {
-	/**
-	 * 
-	 */	
     public var result:*;
-	/**
-	 * Reserved for future use.
-	 */	
+	/** Reserved for future use. */
     public var message:String;
-	/**
-	 * 
-	 */	
     public var error:String;
-	/**
-	 * 
-	 */	
     public var success:Boolean;
 
-    public function JavascriptResult(result:* = null, message:String = null, error:String = null, success:Boolean = false) {
+    public function JavascriptResult(result:* = null, message:String = null, error:String = null,
+									 success:Boolean = false) {
         this.result = result;
         this.message = message;
         this.error = error;

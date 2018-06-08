@@ -5,7 +5,7 @@
 using System;
 using CefSharp;
 
-namespace CefSharpLib {
+namespace WebViewANELib.CefSharp {
     public class DownloadHandler : IDownloadHandler {
         private readonly string _saveToDirectory;
         public event EventHandler<DownloadItem> OnBeforeDownloadFired;

@@ -7,8 +7,8 @@ wget https://github.com/tuarua/Swift-IOS-ANE/releases/download/2.4.0/ios_depende
 unzip -u ios_dependencies.zip
 rm ios_dependencies.zip
 
-wget https://github.com/tuarua/WebViewANE/releases/download/1.6.1/ios_dependencies.zip
+wget https://github.com/tuarua/WebViewANE/releases/download/1.6.5/ios_dependencies.zip
 unzip -u -o ios_dependencies.zip
 rm ios_dependencies.zip
 
-wget -O ../native_extension/ane/WebViewANE.ane https://github.com/tuarua/WebViewANE/releases/download/1.6.1/WebViewANE.ane?raw=true
+wget -O ../native_extension/ane/WebViewANE.ane https://github.com/tuarua/WebViewANE/releases/download/1.6.5/WebViewANE.ane?raw=true

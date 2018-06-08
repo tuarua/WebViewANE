@@ -29,7 +29,7 @@ import Cocoa
 class WebViewVC: WKWebView, FreSwiftController {
     var TAG: String? = "WebViewANE"
     internal var context: FreContextSwift!
-    var _configuration: Configuration!
+    var _settings: Settings!
     private var _capturedBitmapData: CGImage?
     public var capturedBitmapData: CGImage? {
         return _capturedBitmapData
@@ -45,16 +45,28 @@ class WebViewVC: WKWebView, FreSwiftController {
         }
     }
 
-    convenience init(context: FreContextSwift, frame: CGRect, configuration: Configuration, tab: Int) {
-        self.init(frame: frame, configuration: configuration)
-        _configuration = configuration
+    convenience init(context: FreContextSwift, frame: CGRect, settings: Settings, tab: Int) {
+        self.init(frame: frame, configuration: settings.configuration)
+        _settings = settings
         self.context = context
 #if os(iOS)
-        self.scrollView.bounces = configuration.doesBounce
+        self.scrollView.bounces = settings.configuration.doesBounce
         self.scrollView.delegate = self
 #endif
         _tab = tab
     }
+    
+#if os(OSX)
+    override func willOpenMenu(_ menu: NSMenu, with event: NSEvent) {
+        for menuItem in menu.items {
+            menuItem.isHidden = !_settings.hasContextMenu
+            if  menuItem.identifier?.rawValue == "WKMenuItemIdentifierDownloadImage" ||
+                menuItem.identifier?.rawValue == "WKMenuItemIdentifierDownloadLinkedFile" {
+                menuItem.isHidden = true
+            }
+        }
+    }
+#endif
     
     public override init(frame: CGRect, configuration: WKWebViewConfiguration) {
         super.init(frame: frame, configuration: configuration)
@@ -81,7 +93,7 @@ class WebViewVC: WKWebView, FreSwiftController {
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         if let ui = newImage,
-            let ci = CIImage.init(image: ui) {
+            let ci = CIImage(image: ui) {
             let context = CIContext(options: nil)
             if let cg = context.createCGImage(ci, from: ci.extent) {
                 _capturedBitmapData = cg.copy(colorSpace: CGColorSpaceCreateDeviceRGB())

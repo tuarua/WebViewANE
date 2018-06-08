@@ -11,7 +11,7 @@ This ANE provides access to a more modern webview from AIR.
 [![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5UR2T52J633RC)
 
 ##### Much time, skill and effort has gone into this. Join these people in helping support the project      
-[Multimedia Plus](http://www.multimediaplus.com), [MediaSignage inc](http://www.digitalsignage.com), Dignora Perez, Thomas Wooldridge, Gustavo Fantini, Mark Hemphill, Tim John, George Perry, Fernando Ramon Macías Ceballos, 谭 海彬, Bry Birey Egitim, Tomas Redondo, Ilkhom Khodjaev, Argonaut Design
+[Multimedia Plus](http://www.multimediaplus.com), [MediaSignage inc](http://www.digitalsignage.com), [Maretron](https://www.maretron.com/), Dignora Perez, Thomas Wooldridge, Gustavo Fantini, Mark Hemphill, Tim John, George Perry, Fernando Ramon Macías Ceballos, 谭 海彬, Bry Birey Egitim, Tomas Redondo, Ilkhom Khodjaev, Argonaut Design
 
 ##### IDE Software provided by JetBrains
 [![Jetbrains](https://raw.githubusercontent.com/tuarua/WebViewANE/master/screenshots/jetbrains.png)](https://www.jetbrains.com)
@@ -30,7 +30,7 @@ PS get_dependencies.ps1
 ##### Windows Installation - Important!
 * Download cef_binaries_x86.zip from the latest [release tag](https://github.com/tuarua/WebViewANE/releases)
 * Unzip the contents of cef_binaries_x86.zip into the bin folder of your AIRSDK. 
-* Copy the contents of the "cef_sharp_libs_x86" folder into the bin folder of your AIRSDK. 
+* Copy the contents of the "c_sharp_libs_x86" folder into the bin folder of your AIRSDK. 
 
 The location of this will vary depending on your IDE. These dlls and other cef files need to reside in the folder where adl.exe is run from.
 * CEF was built with MS Visual Studio 2013. As such your machine (and user's machines) will need to have Microsoft Visual C++ 2013 Redistributable (x86) runtime installed.
@@ -42,9 +42,9 @@ https://www.microsoft.com/en-us/download/details.aspx?id=48145
 * This ANE also uses .NET 4.6 Framework. As such your machine (and user's machines) will need to have to have this installed.
 https://www.microsoft.com/en-us/download/details.aspx?id=48130
 
-* For release builds, the cef_binaries_x86 and cef_sharp_libs_x86 files need to be packaged in the same folder as your exe.  
+* For release builds, the cef_binaries_x86 and c_sharp_libs_x86 files need to be packaged in the same folder as your exe.  
 It is highly recommended you package your app for release using an installer.  
-Please see the win_installer folder for an example Inno Setup project which handles .NET 4.6 and MSVC2013 and MSV2015 dependencies.
+Please see the win_installer folder for an example Inno Setup project which handles .NET 4.6 and MSV2015 dependencies.
 
 * The Cef view and processes can only be attached once to your app. Therefore only one instance can be created and used.
 
@@ -103,6 +103,8 @@ The example project can be run on the device from IntelliJ using AIR 29.
 
 You will need
 
+- Powershell on Windows
+- [wget](http://rudix.org/packages/wget.html) on Mac
 - Xcode 9.3
 - Xcode 9.1 for iOS Simulator
 - IntelliJ IDEA
@@ -116,10 +118,6 @@ From the command line cd into /example-mobile and run:
 ````shell
 bash get_android_dependencies.sh
 `````
-
-
-![alt tag](https://raw.githubusercontent.com/tuarua/WebViewANE/master/screenshots/screenshot1.jpg)
-
 
 
 ### References

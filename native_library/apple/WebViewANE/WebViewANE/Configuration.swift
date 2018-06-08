@@ -23,15 +23,17 @@ import Foundation
 import WebKit
 import FreSwift
 #if canImport(Cocoa)
-    import Cocoa
+import Cocoa
 #endif
 
 open class Configuration: WKWebViewConfiguration {
+    
     private var _bounces: Bool = true
-    private var _useZoomGestures = true
     public var doesBounce: Bool {
         return _bounces
     }
+    
+    private var _useZoomGestures = true
     public var useZoomGestures: Bool {
         return _useZoomGestures
     }
@@ -44,62 +46,55 @@ open class Configuration: WKWebViewConfiguration {
         super.init()
     }
     
-    convenience init(dictionary: [String: AnyObject]) {
-        self.init()
-        if let settingsWK = dictionary["webkit"] {
-#if os(iOS)
-            if let allowsInlineMediaPlayback: Bool = settingsWK["allowsInlineMediaPlayback"] as? Bool {
-                self.allowsInlineMediaPlayback = allowsInlineMediaPlayback
-            }
-            if let allowsPictureInPictureMediaPlayback: Bool =
-                settingsWK["allowsPictureInPictureMediaPlayback"] as? Bool {
-                self.allowsPictureInPictureMediaPlayback = allowsPictureInPictureMediaPlayback
-            }
-    
-            if #available(iOS 10.0, *) {
-                if let ignoresViewportScaleLimits: Bool = settingsWK["ignoresViewportScaleLimits"] as? Bool {
-                    self.ignoresViewportScaleLimits = ignoresViewportScaleLimits
-                }
-            }
-
-            if let allowsAirPlayForMediaPlayback: Bool = settingsWK["allowsAirPlayForMediaPlayback"] as? Bool {
-                self.allowsAirPlayForMediaPlayback = allowsAirPlayForMediaPlayback
-            }
-    
-            if let bounces: Bool = settingsWK["bounces"] as? Bool {
-                self._bounces = bounces
-            }
-    
-            if let useZoomGestures: Bool = settingsWK["useZoomGestures"] as? Bool {
-                self._useZoomGestures = useZoomGestures
-            }
-
-#else
-            if let plugInsEnabled: Bool = settingsWK["plugInsEnabled"] as? Bool {
-                self.preferences.plugInsEnabled = plugInsEnabled
-            }
-            if let javaEnabled: Bool = settingsWK["javaEnabled"] as? Bool {
-                self.preferences.javaEnabled = javaEnabled
-            }
-            if #available(OSX 10.11, *) {
-                if let allowsAirPlayForMediaPlayback: Bool = settingsWK["allowsAirPlayForMediaPlayback"] as? Bool {
-                    self.allowsAirPlayForMediaPlayback = allowsAirPlayForMediaPlayback
-                }
-            }
-#endif
-            if let javaScriptEnabled: Bool = settingsWK["javaScriptEnabled"] as? Bool {
-                self.preferences.javaScriptEnabled = javaScriptEnabled
-            }
-            if let javaScriptCanOpenWindowsAutomatically: Bool =
-                settingsWK["javaScriptCanOpenWindowsAutomatically"] as? Bool {
-                self.preferences.javaScriptCanOpenWindowsAutomatically = javaScriptCanOpenWindowsAutomatically
-            }
-
-            if let minimumFontSize: Double = settingsWK["minimumFontSize"] as? Double {
-                self.preferences.minimumFontSize = CGFloat.init(minimumFontSize)
-            }
-            
+    convenience init(_ freObject: FREObject?) {
+        guard let rv = freObject,
+            let allowsInlineMediaPlayback = Bool(rv["allowsInlineMediaPlayback"]),
+            let plugInsEnabled = Bool(rv["plugInsEnabled"]),
+            let javaEnabled = Bool(rv["javaEnabled"]),
+            let javaScriptEnabled = Bool(rv["javaScriptEnabled"]),
+            let javaScriptCanOpenWindowsAutomatically = Bool(rv["javaScriptCanOpenWindowsAutomatically"]),
+            let allowsPictureInPictureMediaPlayback = Bool(rv["allowsPictureInPictureMediaPlayback"]),
+            let ignoresViewportScaleLimits = Bool(rv["ignoresViewportScaleLimits"]),
+            let allowsAirPlayForMediaPlayback = Bool(rv["allowsAirPlayForMediaPlayback"]),
+            let bounces = Bool(rv["bounces"]),
+            let useZoomGestures = Bool(rv["useZoomGestures"]),
+            let minimumFontSize = CGFloat(rv["minimumFontSize"])
+            else {
+                self.init()
+                return
         }
-
+        self.init()
+        self.preferences.javaScriptCanOpenWindowsAutomatically = javaScriptCanOpenWindowsAutomatically
+        self.preferences.javaScriptEnabled = javaScriptEnabled
+        self.preferences.minimumFontSize = minimumFontSize
+        
+        if let freCustom = rv["custom"] {
+            let custom = FREArray(freCustom)
+            for index in 0..<custom.length {
+                if let argFre = custom[index],
+                    let key = String(argFre["key"]),
+                    let val = argFre["value"],
+                    let v = try? FreObjectSwift(any: val).value {
+                    self.preferences.setValue(v, forKey: key)
+                }
+            }
+        }
+        
+#if os(iOS)
+        self.allowsInlineMediaPlayback = allowsInlineMediaPlayback
+        self.allowsPictureInPictureMediaPlayback = allowsPictureInPictureMediaPlayback
+        self.allowsAirPlayForMediaPlayback = allowsAirPlayForMediaPlayback
+        self._bounces = bounces
+        self._useZoomGestures = useZoomGestures
+        if #available(iOS 10.0, *) {
+            self.ignoresViewportScaleLimits = ignoresViewportScaleLimits
+        }
+#else
+        self.preferences.plugInsEnabled = plugInsEnabled
+        self.preferences.javaEnabled = javaEnabled
+        if #available(OSX 10.11, *) {
+            self.allowsAirPlayForMediaPlayback = allowsInlineMediaPlayback
+        }
+#endif
     }
 }

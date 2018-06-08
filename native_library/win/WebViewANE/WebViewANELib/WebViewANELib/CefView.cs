@@ -26,66 +26,54 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
 using CefSharp;
 using CefSharp.WinForms;
-using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using TuaRua.FreSharp;
+using WebViewANELib.CefSharp;
 
-namespace CefSharpLib {
-    public partial class CefView {
+namespace WebViewANELib {
+    public partial class CefView : IWebView {
         private WindowsFormsHost _host;
-        public string InitialUrl { get; set; }
+        public string InitialUrl { private get; set; }
         public int X { get; set; }
         public int Y { get; set; }
         public int ViewWidth { get; set; }
         public int ViewHeight { get; set; }
-        public int RemoteDebuggingPort { get; set; }
-        public string DownloadPath { get; set; }
-        public string CachePath { get; set; }
-        public bool CacheEnabled { get; set; }
-        public int LogLevel { get; set; }
-        public string BrowserSubprocessPath { get; set; }
-        public bool EnableDownloads { get; set; }
-
-        public string InjectCode { get; set; }
-        public string InjectScriptUrl { get; set; }
-        public int InjectStartLine { get; set; }
-        public PopupBehaviour PopupBehaviour { get; set; }
-        public Tuple<int, int> PopupDimensions { get; set; }
-        public string UserAgent { get; set; }
-        public string UserDataPath { get; set; }
-        public Dictionary<string, string> CommandLineArgs { get; set; }
-        public ArrayList WhiteList { get; set; }
-        public ArrayList BlackList { get; set; }
-        public bool ContextMenuEnabled { get; set; }
-
-        public ChromiumWebBrowser CurrentBrowser;
+        public int RemoteDebuggingPort { private get; set; }
+        public string DownloadPath { private get; set; }
+        public string CachePath { private get; set; }
+        public bool CacheEnabled { private get; set; }
+        public int LogLevel { private get; set; }
+        public string BrowserSubprocessPath { private get; set; }
+        public bool EnableDownloads { private get; set; }
+        public string InjectCode { private get; set; }
+        public string InjectScriptUrl { private get; set; }
+        public int InjectStartLine { private get; set; }
+        public PopupBehaviour PopupBehaviour { private get; set; }
+        public Tuple<int, int> PopupDimensions { private get; set; }
+        public string UserAgent { private get; set; }
+        public string UserDataPath { private get; set; }
+        public Dictionary<string, string> CommandLineArgs { private get; set; }
+        public ArrayList WhiteList { private get; set; }
+        public ArrayList BlackList { private get; set; }
+        public bool ContextMenuEnabled { private get; set; }
+        public ChromiumWebBrowser CurrentBrowser { get; private set; }
 
         private readonly ArrayList _tabs = new ArrayList();
         public ArrayList TabDetails { get; } = new ArrayList();
 
         private bool _isLoaded;
         private string _initialHtml;
-        public int CurrentTab { get; set; }
-
-        public const string AsCallbackEvent = "TRWV.as.CALLBACK";
-        private const string OnDownloadProgress = "WebView.OnDownloadProgress";
-        private const string OnDownloadComplete = "WebView.OnDownloadComplete";
-        private const string OnDownloadCancel = "WebView.OnDownloadCancel";
-        private const string OnPropertyChange = "WebView.OnPropertyChange";
-        private const string OnEscKey = "WebView.OnEscKey";
-        private const string OnFail = "WebView.OnFail";
-        private const string OnPermission = "WebView.OnPermissionResult";
-        private const string OnUrlBlocked = "WebView.OnUrlBlocked";
-        private const string OnPopupBlocked = "WebView.OnPopupBlocked";
-        public const string OnPdfPrinted = "WebView.OnPdfPrinted";
+        public int CurrentTab { get; private set; }
         public KeyboardHandler KeyboardHandler;
+
         public static FreContextSharp Context;
+        private const double ZoomIncrement = 0.10;
 
         public void Init() {
             InitializeComponent();
@@ -103,7 +91,7 @@ namespace CefSharpLib {
             };
 
             CefSharpSettings.ShutdownOnExit = false;
-        
+
             switch (LogLevel) {
                 case 0:
                     settings.LogSeverity = LogSeverity.Default;
@@ -127,6 +115,7 @@ namespace CefSharpLib {
                     settings.LogSeverity = LogSeverity.Disable;
                     break;
             }
+
             settings.WindowlessRenderingEnabled = false;
             settings.BrowserSubprocessPath = BrowserSubprocessPath;
 
@@ -151,8 +140,9 @@ namespace CefSharpLib {
             var browser = new ChromiumWebBrowser(InitialUrl) {
                 Dock = DockStyle.Fill
             };
-        
-            browser.JavascriptObjectRepository.Register("webViewANE", new BoundObject(Context), true, BindingOptions.DefaultBinder);
+
+            browser.JavascriptObjectRepository.Register("webViewANE", new BoundObject(Context), true,
+                BindingOptions.DefaultBinder);
 
             // ReSharper disable once UseObjectOrCollectionInitializer
             var dh = new DownloadHandler(DownloadPath);
@@ -166,13 +156,8 @@ namespace CefSharpLib {
             if (EnableDownloads) {
                 browser.DownloadHandler = dh;
             }
+
             browser.KeyboardHandler = KeyboardHandler;
-
-            // ReSharper disable once UseObjectOrCollectionInitializer
-            var gh = new GeolocationHandler();
-            gh.OnPermissionResult += OnPermissionResult;
-            browser.GeolocationHandler = gh;
-
 
             // ReSharper disable once UseObjectOrCollectionInitializer
             var sh = new LifeSpanHandler(PopupBehaviour, PopupDimensions);
@@ -188,8 +173,9 @@ namespace CefSharpLib {
             browser.StatusMessage += OnStatusMessage;
             browser.DisplayHandler = new DisplayHandler();
 
-            if (!ContextMenuEnabled)
+            if (!ContextMenuEnabled) {
                 browser.MenuHandler = new MenuHandler();
+            }
 
             // ReSharper disable once UseObjectOrCollectionInitializer
             var rh = new RequestHandler(WhiteList, BlackList);
@@ -203,29 +189,17 @@ namespace CefSharpLib {
             return browser;
         }
 
-        private void OnPopupBlock(object sender, string e) {
-            var sb = new StringBuilder();
-            var sw = new StringWriter(sb);
-            var writer = new JsonTextWriter(sw);
-
+        private void OnPopupBlock(object sender, string url) {
             var tab = _tabs.IndexOf(sender);
             tab = tab == -1 ? 0 : tab;
-
-            writer.WriteStartObject();
-            writer.WritePropertyName("url");
-            writer.WriteValue(e);
-            writer.WritePropertyName("tab");
-            writer.WriteValue(tab);
-            writer.WriteEndObject();
-
-            Context.SendEvent(OnPopupBlocked, sb.ToString());
+            var json = JObject.FromObject(new {url, tab });
+            Context.SendEvent(WebViewEvent.OnPopupBlocked, json.ToString());
         }
 
         public void AddTab() {
             CurrentTab = _tabs.Count;
             CurrentBrowser = CreateNewBrowser();
             _host.Child = CurrentBrowser;
-
         }
 
         public void SetCurrentTab(int index) {
@@ -250,12 +224,15 @@ namespace CefSharpLib {
             if (CurrentTab >= index) {
                 CurrentTab = CurrentTab - 1;
             }
+
             if (_tabs.Count == 2) {
                 CurrentTab = 0;
             }
+
             if (CurrentTab < 0) {
                 CurrentTab = 0;
             }
+
             var wvtc = _tabs[index] as ChromiumWebBrowser;
             _tabs.RemoveAt(index);
             TabDetails.RemoveAt(index);
@@ -273,22 +250,11 @@ namespace CefSharpLib {
         }
 
 
-        private void OnUrlBlockedFired(object sender, string e) {
-            var sb = new StringBuilder();
-            var sw = new StringWriter(sb);
-            var writer = new JsonTextWriter(sw);
-
+        private void OnUrlBlockedFired(object sender, string url) {
             var tab = _tabs.IndexOf(sender);
             tab = tab == -1 ? 0 : tab;
-
-            writer.WriteStartObject();
-            writer.WritePropertyName("url");
-            writer.WriteValue(e);
-            writer.WritePropertyName("tab");
-            writer.WriteValue(tab);
-            writer.WriteEndObject();
-
-            Context.SendEvent(OnUrlBlocked, sb.ToString());
+            var json = JObject.FromObject(new {url, tab });
+            Context.SendEvent(WebViewEvent.OnUrlBlocked, json.ToString());
         }
 
         private void OnPermissionPopup(object sender, string s) {
@@ -313,6 +279,7 @@ namespace CefSharpLib {
                 if (tabDetails.Address == e.Address) {
                     return;
                 }
+
                 tabDetails.Address = e.Address;
                 SendPropertyChange(@"url", e.Address, index);
             }
@@ -325,6 +292,7 @@ namespace CefSharpLib {
                 if (tabDetails.Title == e.Title) {
                     return;
                 }
+
                 tabDetails.Title = e.Title;
                 SendPropertyChange(@"title", e.Title, index);
             }
@@ -337,6 +305,7 @@ namespace CefSharpLib {
                 if (tabDetails.IsLoading == e.IsLoading) {
                     return;
                 }
+
                 tabDetails.IsLoading = e.IsLoading;
                 SendPropertyChange(@"isLoading", e.IsLoading, index);
                 if (!e.IsLoading) {
@@ -358,24 +327,9 @@ namespace CefSharpLib {
         }
 
         private void OnLoadError(object sender, LoadErrorEventArgs e) {
-            var sb = new StringBuilder();
-            var sw = new StringWriter(sb);
-            var writer = new JsonTextWriter(sw);
-
             var tab = _tabs.IndexOf(sender);
             tab = tab == -1 ? 0 : tab;
-
-            writer.WriteStartObject();
-            writer.WritePropertyName("url");
-            writer.WriteValue(e.FailedUrl);
-            writer.WritePropertyName("errorCode");
-            writer.WriteValue(e.ErrorCode);
-            writer.WritePropertyName("errorText");
-            writer.WriteValue(e.ErrorText);
-            writer.WritePropertyName("tab");
-            writer.WriteValue(tab);
-            writer.WriteEndObject();
-            Context.SendEvent(OnFail, sb.ToString());
+            Context.SendEvent(WebViewEvent.OnFail, e.ToJsonString(tab));
         }
 
         private void OnBrowserInitialized(object sender, IsBrowserInitializedChangedEventArgs e) {
@@ -416,97 +370,188 @@ namespace CefSharpLib {
                 if (tabDetails.StatusMessage == e.Value) {
                     return;
                 }
+
                 tabDetails.StatusMessage = e.Value;
                 SendPropertyChange(@"statusMessage", e.Value, index);
             }
         }
 
         private static void SendPropertyChange(string propName, bool value, int tab) {
-            var sb = new StringBuilder();
-            var sw = new StringWriter(sb);
-            var writer = new JsonTextWriter(sw);
-            writer.WriteStartObject();
-            writer.WritePropertyName("propName");
-            writer.WriteValue(propName);
-            writer.WritePropertyName("value");
-            writer.WriteValue(value);
-            writer.WritePropertyName("tab");
-            writer.WriteValue(tab);
-            writer.WriteEndObject();
-            Context.SendEvent(OnPropertyChange, sb.ToString());
+            var json = JObject.FromObject(new {propName, value, tab});
+            Context.SendEvent(WebViewEvent.OnPropertyChange, json.ToString());
         }
 
 
         private static void SendPropertyChange(string propName, string value, int tab) {
-            var sb = new StringBuilder();
-            var sw = new StringWriter(sb);
-            var writer = new JsonTextWriter(sw);
-            writer.WriteStartObject();
-            writer.WritePropertyName("propName");
-            writer.WriteValue(propName);
-            writer.WritePropertyName("value");
-            writer.WriteValue(value);
-            writer.WritePropertyName("tab");
-            writer.WriteValue(tab);
-            writer.WriteEndObject();
-            Context.SendEvent(OnPropertyChange, sb.ToString());
+            var json = JObject.FromObject(new { propName, value, tab });
+            Context.SendEvent(WebViewEvent.OnPropertyChange, json.ToString());
         }
 
         private static void OnDownloadUpdatedFired(object sender, DownloadItem downloadItem) {
-            var sb = new StringBuilder();
-            var sw = new StringWriter(sb);
-            var writer = new JsonTextWriter(sw);
-
             if (downloadItem.IsCancelled) {
-                Context.SendEvent(OnDownloadCancel, downloadItem.Id.ToString());
+                Context.SendEvent(WebViewEvent.OnDownloadCancel, downloadItem.Id.ToString());
                 return;
             }
 
             if (downloadItem.IsComplete) {
-                Context.SendEvent(OnDownloadComplete, downloadItem.Id.ToString());
+                Context.SendEvent(WebViewEvent.OnDownloadComplete, downloadItem.Id.ToString());
                 return;
             }
-            writer.WriteStartObject();
 
-            writer.WritePropertyName("id");
-            writer.WriteValue(downloadItem.Id);
-
-            writer.WritePropertyName("url");
-            writer.WriteValue(downloadItem.OriginalUrl);
-
-            writer.WritePropertyName("speed");
-            writer.WriteValue(downloadItem.CurrentSpeed);
-
-            writer.WritePropertyName("percent");
-            writer.WriteValue(downloadItem.PercentComplete);
-
-            writer.WritePropertyName("bytesLoaded");
-            writer.WriteValue(downloadItem.ReceivedBytes);
-
-            writer.WritePropertyName("bytesTotal");
-            writer.WriteValue(downloadItem.TotalBytes);
-
-            writer.WriteEndObject();
-            Context.SendEvent(OnDownloadProgress, sb.ToString());
+            Context.SendEvent(WebViewEvent.OnDownloadProgress, downloadItem.ToJsonString());
         }
 
         private static void OnDownloadFired(object sender, DownloadItem downloadItem) { }
 
         private static void OnKeyEventFired(object sender, int e) {
-            Context.SendEvent(OnEscKey, e.ToString());
+            Context.SendEvent(WebViewEvent.OnEscKey, e.ToString());
         }
 
-        private static void OnPermissionResult(object sender, bool e) {
-            var sb = new StringBuilder();
-            var sw = new StringWriter(sb);
-            var writer = new JsonTextWriter(sw);
-            writer.WriteStartObject();
-            writer.WritePropertyName("type");
-            writer.WriteValue("geolocation");
-            writer.WritePropertyName("result");
-            writer.WriteValue(e);
-            writer.WriteEndObject();
-            Context.SendEvent(OnPermission, sb.ToString());
+        public void ZoomIn() {
+            var task = CurrentBrowser.GetZoomLevelAsync();
+            task.ContinueWith(previous => {
+                if (previous.Status == TaskStatus.RanToCompletion) {
+                    var currentLevel = previous.Result;
+                    CurrentBrowser.SetZoomLevel(currentLevel + ZoomIncrement);
+                }
+                else {
+                    throw new InvalidOperationException("Unexpected failure of calling CEF->GetZoomLevelAsync",
+                        previous.Exception);
+                }
+            }, TaskContinuationOptions.ExecuteSynchronously);
+        }
+
+        public void ZoomOut() {
+            var task = CurrentBrowser.GetZoomLevelAsync();
+            task.ContinueWith(previous => {
+                if (previous.Status == TaskStatus.RanToCompletion) {
+                    var currentLevel = previous.Result;
+                    CurrentBrowser.SetZoomLevel(currentLevel - ZoomIncrement);
+                }
+                else {
+                    throw new InvalidOperationException("Unexpected failure of calling CEF->GetZoomLevelAsync",
+                        previous.Exception);
+                }
+            }, TaskContinuationOptions.ExecuteSynchronously);
+        }
+
+        public void ForceFocus() {
+            CurrentBrowser.Focus();
+        }
+
+        public void Reload(bool ignoreCache) {
+            CurrentBrowser.Reload(ignoreCache);
+        }
+
+        public void Stop() {
+            CurrentBrowser.Stop();
+        }
+
+        public void Back() {
+            if (CurrentBrowser.CanGoBack) {
+                CurrentBrowser.Back();
+            }
+        }
+
+        public void Forward() {
+            if (CurrentBrowser.CanGoForward) {
+                CurrentBrowser.Forward();
+            }
+        }
+
+        public void Print() {
+            CurrentBrowser.Print();
+        }
+
+        public void PrintToPdfAsync(string path) {
+            var printToPdf = CurrentBrowser.PrintToPdfAsync(path);
+            printToPdf.ContinueWith(_ => { Context.SendEvent(WebViewEvent.OnPdfPrinted, ""); },
+                TaskContinuationOptions.OnlyOnRanToCompletion);
+        }
+
+        public void AddEventListener(string type) {
+            // ReSharper disable once ConvertIfStatementToSwitchStatement
+            if (type == "keyUp") {
+                KeyboardHandler.HasKeyUp = true;
+            }
+            else if (type == "keyDown") {
+                KeyboardHandler.HasKeyDown = true;
+            }
+        }
+
+        public void RemoveEventListener(string type) {
+            // ReSharper disable once ConvertIfStatementToSwitchStatement
+            if (type == "keyUp")
+                KeyboardHandler.HasKeyUp = false;
+            else if (type == "keyDown") {
+                KeyboardHandler.HasKeyDown = false;
+            }
+        }
+
+        public void ShowDevTools() {
+            CurrentBrowser.ShowDevTools();
+        }
+
+        public void CloseDevTools() {
+            CurrentBrowser.CloseDevTools();
+        }
+
+
+        public async void EvaluateJavaScript(string javascript, string callback) {
+            try {
+                var mf = CurrentBrowser.GetMainFrame();
+                var response =
+                    await mf.EvaluateScriptAsync(Utils.ToUtf8(javascript), TimeSpan.FromMilliseconds(500).ToString());
+                if (response.Success && response.Result is IJavascriptCallback) {
+                    response = await ((IJavascriptCallback) response.Result).ExecuteAsync("");
+                }
+
+                Context.SendEvent(WebViewEvent.AsCallbackEvent, response.ToJsonString(callback));
+            }
+            catch (Exception e) {
+                Context.SendEvent(WebViewEvent.AsCallbackEvent, e.ToJsonString(callback));
+            }
+        }
+
+        public void EvaluateJavaScript(string javascript) {
+            try {
+                var mf = CurrentBrowser.GetMainFrame();
+                mf.ExecuteJavaScriptAsync(
+                    Utils.ToUtf8(javascript)); // this is fire and forget can run js urls, startLine 
+            }
+            catch (Exception e) {
+                Console.WriteLine(@"JS error: " + e.Message);
+            }
+        }
+
+        public async void CallJavascriptFunction(string javascript, string callback) {
+            //this is as->js->as
+            try {
+                var mf = CurrentBrowser.GetMainFrame();
+                var response =
+                    await mf.EvaluateScriptAsync(Utils.ToUtf8(javascript), TimeSpan.FromMilliseconds(500).ToString());
+
+                if (response.Success && response.Result is IJavascriptCallback) {
+                    response = await ((IJavascriptCallback) response.Result).ExecuteAsync("");
+                }
+
+                Context.SendEvent(WebViewEvent.AsCallbackEvent, response.ToJsonString(callback));
+            }
+            catch (Exception e) {
+                Context.SendEvent(WebViewEvent.AsCallbackEvent, e.ToJsonString(callback));
+            }
+        }
+
+        public void CallJavascriptFunction(string javascript) {
+            //this is as->js
+            try {
+                var mf = CurrentBrowser.GetMainFrame();
+                mf.ExecuteJavaScriptAsync(
+                    Utils.ToUtf8(javascript)); // this is fire and forget can run js urls, startLine 
+            }
+            catch (Exception e) {
+                Console.WriteLine(@"JS error: " + e.Message);
+            }
         }
 
         private static void CefView_Loaded(object sender, RoutedEventArgs e) { }

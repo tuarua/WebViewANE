@@ -23,50 +23,49 @@ import Cocoa
 import Foundation
 import WebKit
 
-class PopupVC: NSViewController, WKUIDelegate, WKNavigationDelegate {
-    private var _webView: WKWebView?
-    private var _configuration: WKWebViewConfiguration!
-    private var _request: URLRequest!
-    private var _width: Int!
-    private var _height: Int!
+class PopupVC: NSViewController, WKUIDelegate, WKNavigationDelegate,
+URLSessionTaskDelegate, URLSessionDelegate, URLSessionDownloadDelegate {
+    private var webView: WKWebView?
+    private var request: URLRequest!
+    private var width: Int!
+    private var height: Int!
+    private var downloadTaskSaveTos = [Int: URL]()
 
     convenience init(request: URLRequest, width: Int, height: Int, configuration: WKWebViewConfiguration) {
         self.init()
-        self._request = request
-        self._width = width
-        self._height = height
-        self._configuration = configuration
+        self.request = request
+        self.width = width
+        self.height = height
 
-        _webView = WKWebView(frame: self.view.frame, configuration: _configuration)
-        if let wv = _webView {
+        webView = WKWebView(frame: self.view.frame, configuration: configuration)
+        if let wv = webView {
             wv.translatesAutoresizingMaskIntoConstraints = true
             wv.navigationDelegate = self
             wv.uiDelegate = self
             wv.addObserver(self, forKeyPath: "title", options: .new, context: nil)
-            wv.load(_request)
+            wv.load(request)
             self.view.addSubview(wv)
         }
     }
 
     func dispose() {
-        if let wv = _webView {
+        if let wv = webView {
             wv.removeObserver(self, forKeyPath: "title")
         }
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do view setup here.
     }
 
     override func loadView() {
-        let myRect: NSRect = NSRect.init(x: 0, y: 0, width: _width, height: _height)
-        self.view = NSView.init(frame: myRect)
+        let myRect: NSRect = NSRect(x: 0, y: 0, width: self.width, height: self.height)
+        self.view = NSView(frame: myRect)
     }
 
     override func observeValue(forKeyPath keyPath: String?, of object: Any?,
                                change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
-        guard let wv = _webView else {
+        guard let wv = webView else {
             return
         }
 
@@ -96,6 +95,34 @@ class PopupVC: NSViewController, WKUIDelegate, WKNavigationDelegate {
                 completionHandler([])
             }
         })
+    }
+    
+    public func urlSession(_ session: URLSession,
+                           downloadTask: URLSessionDownloadTask,
+                           didFinishDownloadingTo location: URL) {
+        guard let destinationURL = downloadTaskSaveTos[downloadTask.taskIdentifier] else { return }
+        
+        let fileManager = FileManager.default
+        try? fileManager.removeItem(at: destinationURL)
+        do {
+            try fileManager.copyItem(at: location, to: destinationURL)
+        } catch {}
+        
+        downloadTaskSaveTos[downloadTask.taskIdentifier] = nil
+    }
+    
+    public func urlSession(_ session: URLSession,
+                           downloadTask: URLSessionDownloadTask,
+                           didWriteData bytesWritten: Int64,
+                           totalBytesWritten: Int64,
+                           totalBytesExpectedToWrite: Int64) {
+        var props: [String: Any] = Dictionary()
+        props["id"] = downloadTask.taskIdentifier
+        props["url"] = downloadTask.originalRequest?.url?.absoluteString
+        props["speed"] = 0
+        props["percent"] = (Float(totalBytesWritten) / Float(totalBytesExpectedToWrite)) * 100
+        props["bytesLoaded"] = Double(totalBytesWritten)
+        props["bytesTotal"] = Double(totalBytesExpectedToWrite)
     }
 
 }
