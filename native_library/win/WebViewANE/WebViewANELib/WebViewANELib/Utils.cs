@@ -23,9 +23,9 @@
 
 using System.Text;
 
-namespace WebViewANELib
+/*namespace WebViewANELib
 {
     public class Utils {
         public static string ToUtf8(string value) => Encoding.UTF8.GetString(Encoding.Default.GetBytes(value));
     }
-}
+}*/

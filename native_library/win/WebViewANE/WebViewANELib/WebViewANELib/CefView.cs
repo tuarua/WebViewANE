@@ -346,7 +346,7 @@ namespace WebViewANELib {
 
         public void Load(string url) {
             if (_isLoaded) {
-                CurrentBrowser.Load(Utils.ToUtf8(url));
+                CurrentBrowser.Load(url);
             }
             else {
                 InitialUrl = url;
@@ -355,7 +355,7 @@ namespace WebViewANELib {
 
         public void LoadHtmlString(string html, string url) {
             if (_isLoaded) {
-                CurrentBrowser.LoadHtml(Utils.ToUtf8(html), Utils.ToUtf8(url));
+                CurrentBrowser.LoadHtml(html, url);
             }
             else {
                 _initialHtml = html;
@@ -501,7 +501,7 @@ namespace WebViewANELib {
             try {
                 var mf = CurrentBrowser.GetMainFrame();
                 var response =
-                    await mf.EvaluateScriptAsync(Utils.ToUtf8(javascript), TimeSpan.FromMilliseconds(500).ToString());
+                    await mf.EvaluateScriptAsync(javascript, TimeSpan.FromMilliseconds(500).ToString());
                 if (response.Success && response.Result is IJavascriptCallback) {
                     response = await ((IJavascriptCallback) response.Result).ExecuteAsync("");
                 }
@@ -516,8 +516,7 @@ namespace WebViewANELib {
         public void EvaluateJavaScript(string javascript) {
             try {
                 var mf = CurrentBrowser.GetMainFrame();
-                mf.ExecuteJavaScriptAsync(
-                    Utils.ToUtf8(javascript)); // this is fire and forget can run js urls, startLine 
+                mf.ExecuteJavaScriptAsync(javascript); // this is fire and forget can run js urls, startLine 
             }
             catch (Exception e) {
                 Console.WriteLine(@"JS error: " + e.Message);
@@ -529,7 +528,7 @@ namespace WebViewANELib {
             try {
                 var mf = CurrentBrowser.GetMainFrame();
                 var response =
-                    await mf.EvaluateScriptAsync(Utils.ToUtf8(javascript), TimeSpan.FromMilliseconds(500).ToString());
+                    await mf.EvaluateScriptAsync(javascript, TimeSpan.FromMilliseconds(500).ToString());
 
                 if (response.Success && response.Result is IJavascriptCallback) {
                     response = await ((IJavascriptCallback) response.Result).ExecuteAsync("");
@@ -546,8 +545,7 @@ namespace WebViewANELib {
             //this is as->js
             try {
                 var mf = CurrentBrowser.GetMainFrame();
-                mf.ExecuteJavaScriptAsync(
-                    Utils.ToUtf8(javascript)); // this is fire and forget can run js urls, startLine 
+                mf.ExecuteJavaScriptAsync(javascript); // this is fire and forget can run js urls, startLine 
             }
             catch (Exception e) {
                 Console.WriteLine(@"JS error: " + e.Message);

@@ -27,7 +27,8 @@
                 const messageToPost = {
                     'functionName': 'js_to_as',
                     'callbackName': 'jsCallback',
-                    'args': [1, 'I am a string', false]
+                    'args': [1, 'I am a string with UTF-8: Björk Guðmundsdóttir Sinéad O’Connor 久保田  利伸 ' +
+                    'Михаил Горбачёв Садриддин Айнӣ Tor Åge Bringsværd 章子怡 € ', false]
                 };
                 getWebviewANE().postMessage(messageToPost);
             });

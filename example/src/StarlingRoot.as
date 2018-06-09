@@ -138,7 +138,7 @@ public class StarlingRoot extends Sprite {
         // trace(os.isWindows, os.majorVersion, os.minorVersion, os.buildVersion);
 
         webView.init(WebViewANESample.target.stage, viewPort, "https://html5test.com", settings, 1.0, 0xFFF1F1F1, true);
-        //webView.init(WebViewANESample.target.stage, viewPort, "", settings, 1.0, 0xFFF1F1F1, true); // when using loadHTMLString
+        // webView.init(WebViewANESample.target.stage, viewPort, "", settings, 1.0, 0xFFF1F1F1, true); // when using loadHTMLString
         webView.visible = true;
         webView.injectScript("function testInject(){console.log('yo yo')}");
 
@@ -156,13 +156,12 @@ public class StarlingRoot extends Sprite {
 
         /*trace("loading html");
          webView.loadHTMLString('<!DOCTYPE html>' +
-         '<html lang="ru">' +
-         '<head><' +
-         'meta charset="UTF-8">' +
+         '<html>' +
+         '<head><meta charset="UTF-8">' +
          '<title>Mocked HTML file 1</title>' +
          '</head>' +
          '<body bgColor="#33FF00">' + //must give the body a bg color otherwise it loads black
-         '<p>Российская Федерация Rossijskaja Federazija</p>' +
+         '<p>I am a string from C# with UTF-8: Björk Guðmundsdóttir Sinéad O’Connor 久保田  利伸 Михаил Горбачёв Садриддин Айнӣ Tor Åge Bringsværd 章子怡 €</p>' +
          '</body>' +
          '</html>',"http://rendering/");*/
 
