@@ -23,7 +23,7 @@
     <ProjectGuid>{8161C194-25D6-4DC7-817A-AE5FFDFB7D6D}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>WebViewANE</RootNamespace>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

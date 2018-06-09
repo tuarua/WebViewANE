@@ -54,6 +54,10 @@ copy %pathtome%..\..\native_library\win\%projectName%\WebViewANELib\WebViewANELi
 copy %pathtome%..\..\native_library\win\%projectName%\WebViewANELib\WebViewANELib\bin\x86\Release\WebViewANELib.dll %pathtome%..\..\c_sharp_libs_x86\WebViewANELib.dll
 copy %pathtome%..\..\native_library\win\%projectName%\WebViewANELib\WebViewANELib\bin\x64\Release\WebViewANELib.dll %pathtome%..\..\c_sharp_libs_x64\WebViewANELib.dll
 
+copy %pathtome%..\..\native_library\win\%projectName%\WebViewANELib\WebViewANELib\bin\x86\Release\Microsoft.Toolkit.Win32.UI.Controls.dll %pathtome%..\..\c_sharp_libs_x86\Microsoft.Toolkit.Win32.UI.Controls.dll
+copy %pathtome%..\..\native_library\win\%projectName%\WebViewANELib\WebViewANELib\bin\x64\Release\Microsoft.Toolkit.Win32.UI.Controls.dll %pathtome%..\..\c_sharp_libs_x64\Microsoft.Toolkit.Win32.UI.Controls.dll
+copy %pathtome%..\..\native_library\win\%projectName%\WebViewANELib\WebViewANELib\bin\x86\Release\Microsoft.Toolkit.Win32.UI.Controls.dll %AIR_PATH%Microsoft.Toolkit.Win32.UI.Controls.dll
+
 copy %pathtome%..\..\native_library\win\%projectName%\WebViewANELib\WebViewANELib\bin\x86\Debug\FreSharpCore.dll %AIR_PATH%FreSharpCore.dll
 copy %pathtome%..\..\native_library\win\%projectName%\WebViewANELib\WebViewANELib\bin\x86\Debug\FreSharpCore.pdb %AIR_PATH%FreSharpCore.pdb
 
