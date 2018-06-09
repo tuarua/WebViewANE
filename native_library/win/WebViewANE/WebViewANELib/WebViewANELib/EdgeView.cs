@@ -34,7 +34,7 @@ namespace WebViewANELib {
             // ReSharper disable once UseObjectOrCollectionInitializer
             var browser = new WebView {
                 VerticalAlignment = System.Windows.VerticalAlignment.Stretch,
-                HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch
+                HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch,
             };
 
             browser.NavigationStarting += OnBrowserAddressChanged;
@@ -48,12 +48,10 @@ namespace WebViewANELib {
 
             _tabs.Add(browser);
             TabDetails.Add(new TabDetails());
-
             return browser;
         }
 
         private void OnBrowserAddressChanged(object sender, WebViewControlNavigationStartingEventArgs e) {
-            Context.SendEvent("TRACE", $@"NavigationStarting: {e.Uri}");
             for (var index = 0; index < _tabs.Count; index++) {
                 if (!_tabs[index].Equals(sender)) continue;
                 var tabDetails = GetTabDetails(index);
@@ -92,12 +90,9 @@ namespace WebViewANELib {
                 tabDetails.CanGoBack = browser.CanGoBack;
                 SendPropertyChange(@"canGoBack", browser.CanGoBack, index);
             }
-
-            Context.SendEvent("TRACE", $@"ContentLoading: {e.Uri}");
         }
 
         private void OnBrowserTitleChanged(object sender, WebViewControlDOMContentLoadedEventArgs e) {
-            Context.SendEvent("TRACE", $@"DOMContentLoaded: {e.Uri} {CurrentBrowser.DocumentTitle}");
             for (var index = 0; index < _tabs.Count; index++) {
                 if (!_tabs[index].Equals(sender)) continue;
                 var tabDetails = GetTabDetails(index);
@@ -111,9 +106,9 @@ namespace WebViewANELib {
         }
 
         private void webView1_NavigationCompleted(object sender, WebViewControlNavigationCompletedEventArgs e) {
-            Context.SendEvent("TRACE", e.IsSuccess
+            /*Context.SendEvent("TRACE", e.IsSuccess
                 ? $@"NavigationCompleted: {e.Uri}"
-                : $@"WebErrorStatus: {e.WebErrorStatus}");
+                : $@"WebErrorStatus: {e.WebErrorStatus}");*/
 
             var browser = (WebView)sender;
             
@@ -198,18 +193,18 @@ namespace WebViewANELib {
             Context.SendEvent(WebViewEvent.OnPropertyChange, json.ToString());
         }
 
-
         private static void SendPropertyChange(string propName, string value, int tab) {
             var json = JObject.FromObject(new {propName, value, tab});
             Context.SendEvent(WebViewEvent.OnPropertyChange, json.ToString());
         }
 
+        // will need a separate parser for local files
         public void Load(string url) {
             CurrentBrowser.Navigate(new Uri(url));
         }
 
         public void LoadHtmlString(string html, string url) {
-            throw new NotImplementedException();
+            CurrentBrowser.NavigateToString(html);
         }
 
         public void ZoomIn() {
@@ -269,19 +264,19 @@ namespace WebViewANELib {
         }
 
         public void EvaluateJavaScript(string javascript, string callback) {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public void EvaluateJavaScript(string javascript) {
-            throw new System.NotImplementedException();
+           throw new NotImplementedException();
         }
 
         public void CallJavascriptFunction(string javascript, string callback) {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public void CallJavascriptFunction(string javascript) {
-            throw new System.NotImplementedException();
+           throw new NotImplementedException();
         }
     }
 }

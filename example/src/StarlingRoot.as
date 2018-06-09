@@ -137,12 +137,12 @@ public class StarlingRoot extends Sprite {
 
         // trace(os.isWindows, os.majorVersion, os.minorVersion, os.buildVersion);
 
-        webView.init(WebViewANESample.target.stage, viewPort, "https://html5test.com", settings, 1.0, 0xFFF1F1F1, true);
-        // webView.init(WebViewANESample.target.stage, viewPort, "", settings, 1.0, 0xFFF1F1F1, true); // when using loadHTMLString
+        //webView.init(WebViewANESample.target.stage, viewPort, "https://html5test.com", settings, 1.0, 0xFFF1F1F1, true);
+        webView.init(WebViewANESample.target.stage, viewPort, "", settings, 1.0, 0xFFF1F1F1, true); // when using loadHTMLString
         webView.visible = true;
         webView.injectScript("function testInject(){console.log('yo yo')}");
 
-        /*trace("loading html");
+        trace("loading html");
          webView.loadHTMLString('<!DOCTYPE html>' +
          '<html lang="en">' +
          '<head><' +
@@ -152,7 +152,7 @@ public class StarlingRoot extends Sprite {
          '<body bgColor="#33FF00">' + //must give the body a bg color otherwise it loads black
          '<p>I am a test</p>' +
          '</body>' +
-         '</html>',"http://rendering/");*/
+         '</html>',"http://rendering/");
 
         /*trace("loading html");
          webView.loadHTMLString('<!DOCTYPE html>' +

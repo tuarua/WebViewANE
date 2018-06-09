@@ -259,8 +259,8 @@ namespace WebViewANELib {
                             settingsFre.GetProp("popup").GetProp("dimensions").GetProp("height").AsInt()
                         )
                     };
-                    _view.Init();
                 }
+                _view.Init();
             }
             catch (Exception e) {
                 return new FreException(e).RawValue; //return as3 error and throw in swc
