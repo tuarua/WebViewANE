@@ -18,6 +18,13 @@ This ANE provides access to a more modern webview from AIR.
 
 -------------
 
+## Issue Tracker
+
+- The Issue Tracker is for **reproducible bugs only**. Use the supplied template.
+- Spend at least 1 hour investigating the issue yourself.
+- The project is open source, that is, the code is free to use and free to modify. 
+- Paid Support is available for anything which falls outside bug fixing and minor help.
+
 ## Windows
 The Windows version utilises the [CefSharp WinForms](https://github.com/cefsharp/CefSharp) version of Chromium Embedded Framework.
 
@@ -33,13 +40,11 @@ PS get_dependencies.ps1
 * Copy the contents of the "c_sharp_libs_x86" folder into the bin folder of your AIRSDK. 
 
 The location of this will vary depending on your IDE. These dlls and other cef files need to reside in the folder where adl.exe is run from.
-* CEF was built with MS Visual Studio 2013. As such your machine (and user's machines) will need to have Microsoft Visual C++ 2013 Redistributable (x86) runtime installed.
-http://download.microsoft.com/download/2/E/6/2E61CFA4-993B-4DD4-91DA-3737CD5CD6E3/vcredist_x86.exe
 
 * This ANE was built with MS Visual Studio 2015. As such your machine (and user's machines) will need to have Microsoft Visual C++ 2015 Redistributable (x86) runtime installed.
 https://www.microsoft.com/en-us/download/details.aspx?id=48145
 
-* This ANE also uses .NET 4.6 Framework. As such your machine (and user's machines) will need to have to have this installed.
+* This ANE also uses .NET 4.6.2 Framework. As such your machine (and user's machines) will need to have to have this installed.
 https://www.microsoft.com/en-us/download/details.aspx?id=48130
 
 * For release builds, the cef_binaries_x86 and c_sharp_libs_x86 files need to be packaged in the same folder as your exe.  

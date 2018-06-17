@@ -11,6 +11,7 @@ import com.tuarua.webview.DownloadProgress;
 import com.tuarua.webview.JavascriptResult;
 import com.tuarua.webview.LogSeverity;
 import com.tuarua.webview.Settings;
+import com.tuarua.webview.WebEngine;
 import com.tuarua.webview.WebViewEvent;
 import com.tuarua.webview.popup.Behaviour;
 
@@ -119,6 +120,10 @@ public class StarlingRoot extends Sprite {
         //settings.userAgent = "WebViewANE";
 
         settings.cacheEnabled = true;
+        settings.engine = (os.isWindows && os.majorVersion >= 10 && os.buildVersion >= 17134)
+                ? WebEngine.EDGE
+                : WebEngine.DEFAULT;
+
         settings.enableDownloads = true;
         settings.contextMenu.enabled = true; //enable/disable right click
 
@@ -137,11 +142,12 @@ public class StarlingRoot extends Sprite {
 
         // trace(os.isWindows, os.majorVersion, os.minorVersion, os.buildVersion);
 
-        //webView.init(WebViewANESample.target.stage, viewPort, "https://html5test.com", settings, 1.0, 0xFFF1F1F1, true);
-        webView.init(WebViewANESample.target.stage, viewPort, "", settings, 1.0, 0xFFF1F1F1, true); // when using loadHTMLString
+        webView.init(WebViewANESample.target.stage, viewPort, "https://html5test.com", settings, 1.0, 0xFFF1F1F1, true);
+        //webView.init(WebViewANESample.target.stage, viewPort, "", settings, 1.0, 0xFFF1F1F1, true); // when using loadHTMLString
         webView.visible = true;
         webView.injectScript("function testInject(){console.log('yo yo')}");
 
+        /*
         trace("loading html");
          webView.loadHTMLString('<!DOCTYPE html>' +
          '<html lang="en">' +
@@ -152,7 +158,7 @@ public class StarlingRoot extends Sprite {
          '<body bgColor="#33FF00">' + //must give the body a bg color otherwise it loads black
          '<p>I am a test</p>' +
          '</body>' +
-         '</html>',"http://rendering/");
+         '</html>',"http://rendering/");*/
 
         /*trace("loading html");
          webView.loadHTMLString('<!DOCTYPE html>' +
@@ -382,6 +388,10 @@ public class StarlingRoot extends Sprite {
     private function onJS(event:TouchEvent):void {
         var touch:Touch = event.getTouch(jsBtn);
         if (touch != null && touch.phase == TouchPhase.ENDED) {
+
+            //webView.evaluateJavascript('document.getElementsByTagName("body")[0].style.backgroundColor = "yellow";');
+            webView.evaluateJavascript("document.getElementsByTagName('body')[0].innerHTML;", onJsEvaluated);
+            return;
 
             jsBtn.visible = false;
             webBtn.visible = true;

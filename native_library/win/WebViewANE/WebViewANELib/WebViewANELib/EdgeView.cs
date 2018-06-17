@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Threading.Tasks;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 using Microsoft.Toolkit.Win32.UI.Controls.WPF;
 using Newtonsoft.Json.Linq;
@@ -35,20 +36,31 @@ namespace WebViewANELib {
             var browser = new WebView {
                 VerticalAlignment = System.Windows.VerticalAlignment.Stretch,
                 HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch,
+                IsJavaScriptEnabled = true,
+                IsIndexedDBEnabled = true,
+                IsPrivateNetworkClientServerCapabilityEnabled = true,
+                IsScriptNotifyAllowed = true,
             };
 
             browser.NavigationStarting += OnBrowserAddressChanged;
             browser.ContentLoading += OnBrowserLoadingStateChanged;
             browser.DOMContentLoaded += OnBrowserTitleChanged;
-            browser.NavigationCompleted += webView1_NavigationCompleted;
-            browser.NewWindowRequested += webView1_NewWindowRequested;
+            browser.NavigationCompleted += OnNavigationCompleted;
+            browser.NewWindowRequested += OnNewWindowRequested;
+            browser.ScriptNotify += OnScriptNotify;
+
             if (!string.IsNullOrEmpty(InitialUrl)) {
                 browser.Navigate(new Uri(InitialUrl));
             }
 
             _tabs.Add(browser);
             TabDetails.Add(new TabDetails());
+
             return browser;
+        }
+
+        private void OnScriptNotify(object sender, WebViewControlScriptNotifyEventArgs e) {
+            Context.SendEvent("TRACE", e.Value);
         }
 
         private void OnBrowserAddressChanged(object sender, WebViewControlNavigationStartingEventArgs e) {
@@ -77,7 +89,6 @@ namespace WebViewANELib {
                 tabDetails.IsLoading = true;
                 SendPropertyChange(@"isLoading", true, index);
 
-                // these are not picking up - or are they ??
                 if (tabDetails.CanGoForward != browser.CanGoForward) {
                     tabDetails.CanGoForward = browser.CanGoForward;
                     SendPropertyChange(@"canGoForward", browser.CanGoForward, index);
@@ -105,13 +116,13 @@ namespace WebViewANELib {
             }
         }
 
-        private void webView1_NavigationCompleted(object sender, WebViewControlNavigationCompletedEventArgs e) {
+        private void OnNavigationCompleted(object sender, WebViewControlNavigationCompletedEventArgs e) {
             /*Context.SendEvent("TRACE", e.IsSuccess
                 ? $@"NavigationCompleted: {e.Uri}"
                 : $@"WebErrorStatus: {e.WebErrorStatus}");*/
 
-            var browser = (WebView)sender;
-            
+            var browser = (WebView) sender;
+
             for (var index = 0; index < _tabs.Count; index++) {
                 if (!_tabs[index].Equals(browser)) continue;
                 var tabDetails = GetTabDetails(index);
@@ -122,10 +133,9 @@ namespace WebViewANELib {
                 tabDetails.IsLoading = false;
                 SendPropertyChange(@"isLoading", false, index);
             }
-
         }
 
-        private void webView1_NewWindowRequested(object sender, WebViewControlNewWindowRequestedEventArgs e) {
+        private void OnNewWindowRequested(object sender, WebViewControlNewWindowRequestedEventArgs e) {
             Context.SendEvent("TRACE", $@"NewWindowRequested: {e.Uri}");
         }
 
@@ -134,6 +144,8 @@ namespace WebViewANELib {
         }
 
         public void AddTab() {
+            Context.SendEvent("TRACE", "AddTab Unavailable in Edge");
+            return;
             CurrentTab = _tabs.Count;
             MainGrid.Children.Remove(CurrentBrowser);
             CurrentBrowser = CreateNewBrowser();
@@ -142,6 +154,8 @@ namespace WebViewANELib {
         }
 
         public void SetCurrentTab(int index) {
+            Context.SendEvent("TRACE", "SetCurrentTab Unavailable in Edge");
+            return;
             if (index < 0 || index > _tabs.Count - 1) return;
             CurrentTab = index;
             CurrentBrowser = _tabs[CurrentTab] as WebView;
@@ -156,6 +170,8 @@ namespace WebViewANELib {
         }
 
         public void CloseTab(int index) {
+            Context.SendEvent("TRACE", "CloseTab Unavailable in Edge");
+            return;
             if (index < 0 || index > _tabs.Count - 1) {
                 return;
             }
@@ -208,11 +224,11 @@ namespace WebViewANELib {
         }
 
         public void ZoomIn() {
-            Context.SendEvent("TRACE", "ZoomIn Unavailable");
+            Context.SendEvent("TRACE", "ZoomIn Unavailable in Edge");
         }
 
         public void ZoomOut() {
-            Context.SendEvent("TRACE", "ZoomOut Unavailable");
+            Context.SendEvent("TRACE", "ZoomOut Unavailable in Edge");
         }
 
         public void ForceFocus() {
@@ -240,43 +256,59 @@ namespace WebViewANELib {
         }
 
         public void Print() {
-            Context.SendEvent("TRACE", "Print Unavailable");
+            Context.SendEvent("TRACE", "Print Unavailable in Edge");
         }
 
         public void PrintToPdfAsync(string path) {
-            Context.SendEvent("TRACE", "PrintToPdfAsync Unavailable");
+            Context.SendEvent("TRACE", "PrintToPdfAsync Unavailable in Edge");
         }
 
         public void AddEventListener(string type) {
-            Context.SendEvent("TRACE", "AddEventListener Unavailable");
+            Context.SendEvent("TRACE", "AddEventListener Unavailable in Edge");
         }
 
         public void RemoveEventListener(string type) {
-            Context.SendEvent("TRACE", "RemoveEventListener Unavailable");
+            Context.SendEvent("TRACE", "RemoveEventListener Unavailable in Edge");
         }
 
         public void ShowDevTools() {
-            Context.SendEvent("TRACE", "ShowDevTools Unavailable");
+            Context.SendEvent("TRACE", "ShowDevTools Unavailable in Edge");
         }
 
         public void CloseDevTools() {
-            Context.SendEvent("TRACE", "CloseDevTools Unavailable");
+            Context.SendEvent("TRACE", "CloseDevTools Unavailable in Edge");
         }
 
-        public void EvaluateJavaScript(string javascript, string callback) {
-            throw new NotImplementedException();
+        public async void EvaluateJavaScript(string javascript, string callback) {
+            var task = CurrentBrowser.InvokeScriptAsync("eval", javascript);
+            await task.ContinueWith(previous => {
+                JObject json;
+                if (previous.Status == TaskStatus.RanToCompletion) {
+                    json = JObject.FromObject(new {
+                        message = (string) null,
+                        error = (string) null,
+                        result = (object) previous.Result,
+                        success = true,
+                        callbackName = callback
+                    });
+                    Context.SendEvent(WebViewEvent.AsCallbackEvent, json.ToString());
+                }
+                else {
+                    json = JObject.FromObject(new {
+                        message = (string) null,
+                        error = previous.Exception?.Message,
+                        result = (object) null,
+                        success = false,
+                        callbackName = callback
+                    });
+                    Context.SendEvent(WebViewEvent.AsCallbackEvent, json.ToString());
+                }
+            }, TaskContinuationOptions.ExecuteSynchronously);
         }
 
         public void EvaluateJavaScript(string javascript) {
-           throw new NotImplementedException();
+            CurrentBrowser.InvokeScript("eval", javascript);
         }
 
-        public void CallJavascriptFunction(string javascript, string callback) {
-            throw new NotImplementedException();
-        }
-
-        public void CallJavascriptFunction(string javascript) {
-           throw new NotImplementedException();
-        }
     }
 }

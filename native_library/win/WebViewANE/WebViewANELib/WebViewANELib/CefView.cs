@@ -523,35 +523,6 @@ namespace WebViewANELib {
             }
         }
 
-        public async void CallJavascriptFunction(string javascript, string callback) {
-            //this is as->js->as
-            try {
-                var mf = CurrentBrowser.GetMainFrame();
-                var response =
-                    await mf.EvaluateScriptAsync(javascript, TimeSpan.FromMilliseconds(500).ToString());
-
-                if (response.Success && response.Result is IJavascriptCallback) {
-                    response = await ((IJavascriptCallback) response.Result).ExecuteAsync("");
-                }
-
-                Context.SendEvent(WebViewEvent.AsCallbackEvent, response.ToJsonString(callback));
-            }
-            catch (Exception e) {
-                Context.SendEvent(WebViewEvent.AsCallbackEvent, e.ToJsonString(callback));
-            }
-        }
-
-        public void CallJavascriptFunction(string javascript) {
-            //this is as->js
-            try {
-                var mf = CurrentBrowser.GetMainFrame();
-                mf.ExecuteJavaScriptAsync(javascript); // this is fire and forget can run js urls, startLine 
-            }
-            catch (Exception e) {
-                Console.WriteLine(@"JS error: " + e.Message);
-            }
-        }
-
         private static void CefView_Loaded(object sender, RoutedEventArgs e) { }
     }
 }

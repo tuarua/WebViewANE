@@ -47,7 +47,7 @@ namespace WebViewANELib {
         private double _scaleFactor = 1.0;
         private Bitmap _capturedBitmapData;
         private const string OnCaptureComplete = "WebView.OnCaptureComplete";
-        private bool useEdge = true;
+        private bool _useEdge;
 
         public string[] GetFunctions() {
             FunctionsDict =
@@ -205,12 +205,13 @@ namespace WebViewANELib {
                     argsDict.Add(key, val);
                 }
 
+                _useEdge = settingsFre.GetProp("engine").AsInt() == 1;
                 var whiteList = settingsFre.GetProp("urlWhiteList").ToArrayList();
                 var blackList = settingsFre.GetProp("urlBlackList").ToArrayList();
                 _backgroundColor = colorFre.AsColor(true);
                 _scaleFactor = useHiDpi ? WinApi.GetScaleFactor() : 1.0;
 
-                if (useEdge) {
+                if (_useEdge) {
                     EdgeView.Context = Context;
                     _view = new EdgeView {
                         InitialUrl = argv[0].AsString(),
@@ -273,7 +274,7 @@ namespace WebViewANELib {
             parameters.WindowName = "Cef Window";
             parameters.WindowStyle = (int) WindowStyles.WS_CHILD;
             parameters.AcquireHwndFocusInMenuMode = true;
-            var source = useEdge ? new HwndSource(parameters) {RootVisual = (EdgeView) _view} 
+            var source = _useEdge ? new HwndSource(parameters) {RootVisual = (EdgeView) _view} 
                 : new HwndSource(parameters) {RootVisual = (CefView) _view};
 
             _webViewWindow = source.Handle;
@@ -520,11 +521,11 @@ namespace WebViewANELib {
                 var js = argv[0].AsString();
                 var callbackFre = argv[1];
                 if (FreObjectTypeSharp.Null == callbackFre.Type()) {
-                    _view.CallJavascriptFunction(js);
+                    _view.EvaluateJavaScript(js);
                 }
                 else {
                     var callback = callbackFre.AsString();
-                    _view.CallJavascriptFunction(js, callback);
+                    _view.EvaluateJavaScript(js, callback);
                 }
             }
             catch (Exception e) {

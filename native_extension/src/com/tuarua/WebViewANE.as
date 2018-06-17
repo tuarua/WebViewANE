@@ -31,6 +31,7 @@ import com.tuarua.webview.DownloadProgress;
 import com.tuarua.webview.JavascriptResult;
 import com.tuarua.webview.Settings;
 import com.tuarua.webview.TabDetails;
+import com.tuarua.webview.WebEngine;
 import com.tuarua.webview.WebViewEvent;
 
 import flash.desktop.NativeApplication;
@@ -519,6 +520,10 @@ public class WebViewANE extends EventDispatcher {
      *
      */
     public function loadFileURL(url:String, allowingReadAccessTo:String):void {
+        if(_settings.engine == WebEngine.EDGE) {
+            trace("loadFileURL is unavailable in Edge. Use settings.engine = WebEngine.DEFAULT instead");
+            return;
+        }
         if (safetyCheck()) {
             var theRet:* = _context.call("loadFileURL", url, allowingReadAccessTo);
             if (theRet is ANEError) {
