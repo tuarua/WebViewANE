@@ -98,9 +98,6 @@ DependenciesDir=MyProgramDependencies
 #ifdef use_msiproduct
 #include "scripts\products\msiproduct.iss"
 #endif
-#ifdef use_vc2013
-#include "scripts\products\vcredist2013.iss"
-#endif
 #ifdef use_vc2015
 #include "scripts\products\vcredist2015.iss"
 #endif
@@ -113,19 +110,10 @@ begin
 	initwinversion();
 
 
-
-
-
-
 #ifdef use_dotnetfx46
     dotnetfx46(60); // min allowed version is 4.6.0
 #endif
 
-#ifdef use_vc2013
-	SetForceX86(true); // force 32-bit install of next products
-	vcredist2013('12');
-	//SetForceX86(false); // disable forced 32-bit install again
-#endif
 #ifdef use_vc2015
   SetForceX86(true);
 	vcredist2015('14');

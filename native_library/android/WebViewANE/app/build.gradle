@@ -19,12 +19,12 @@ android {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation files('libs/FlashRuntimeExtensions.jar')
-    implementation files('libs/runtimeClasses.jar')
-    implementation files("libs/frekotlin-1.2.41.jar")
+    implementation "com.tuarua:FreKotlin:$frekotlin_version"
 
 }
 repositories {
     mavenCentral()
+    maven {
+        url  "https://dl.bintray.com/tuarua/maven"
+    }
 }
