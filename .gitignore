@@ -38,3 +38,4 @@ native_extension/ane/build_asdocs.bat
 
 /release/
 /cache/
+/wiki/

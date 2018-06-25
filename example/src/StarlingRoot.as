@@ -389,10 +389,6 @@ public class StarlingRoot extends Sprite {
         var touch:Touch = event.getTouch(jsBtn);
         if (touch != null && touch.phase == TouchPhase.ENDED) {
 
-            //webView.evaluateJavascript('document.getElementsByTagName("body")[0].style.backgroundColor = "yellow";');
-            webView.evaluateJavascript("document.getElementsByTagName('body')[0].innerHTML;", onJsEvaluated);
-            return;
-
             jsBtn.visible = false;
             webBtn.visible = true;
 

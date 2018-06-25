@@ -145,63 +145,14 @@ namespace WebViewANELib {
 
         public void AddTab() {
             Context.SendEvent("TRACE", "AddTab Unavailable in Edge");
-            return;
-            CurrentTab = _tabs.Count;
-            MainGrid.Children.Remove(CurrentBrowser);
-            CurrentBrowser = CreateNewBrowser();
-            // not working right
-            MainGrid.Children.Add(CurrentBrowser);
         }
 
         public void SetCurrentTab(int index) {
             Context.SendEvent("TRACE", "SetCurrentTab Unavailable in Edge");
-            return;
-            if (index < 0 || index > _tabs.Count - 1) return;
-            CurrentTab = index;
-            CurrentBrowser = _tabs[CurrentTab] as WebView;
-            if (CurrentBrowser != null) MainGrid.Children.Add(CurrentBrowser);
-
-            if (!(TabDetails[CurrentTab] is TabDetails tabDetails)) return;
-            SendPropertyChange(@"title", tabDetails.Title, CurrentTab);
-            SendPropertyChange(@"url", tabDetails.Address, CurrentTab);
-            SendPropertyChange(@"isLoading", tabDetails.IsLoading, CurrentTab);
-            SendPropertyChange(@"canGoForward", tabDetails.CanGoForward, CurrentTab);
-            SendPropertyChange(@"canGoBack", tabDetails.CanGoBack, CurrentTab);
         }
 
         public void CloseTab(int index) {
             Context.SendEvent("TRACE", "CloseTab Unavailable in Edge");
-            return;
-            if (index < 0 || index > _tabs.Count - 1) {
-                return;
-            }
-
-            if (CurrentTab >= index) {
-                CurrentTab = CurrentTab - 1;
-            }
-
-            if (_tabs.Count == 2) {
-                CurrentTab = 0;
-            }
-
-            if (CurrentTab < 0) {
-                CurrentTab = 0;
-            }
-
-            var wvtc = _tabs[index] as WebView;
-            _tabs.RemoveAt(index);
-            TabDetails.RemoveAt(index);
-            wvtc?.Dispose();
-
-            CurrentBrowser = _tabs[CurrentTab] as WebView;
-            if (CurrentBrowser != null) MainGrid.Children.Add(CurrentBrowser);
-
-            if (!(TabDetails[CurrentTab] is TabDetails tabDetails)) return;
-            SendPropertyChange(@"title", tabDetails.Title, CurrentTab);
-            SendPropertyChange(@"url", tabDetails.Address, CurrentTab);
-            SendPropertyChange(@"isLoading", tabDetails.IsLoading, CurrentTab);
-            SendPropertyChange(@"canGoForward", tabDetails.CanGoForward, CurrentTab);
-            SendPropertyChange(@"canGoBack", tabDetails.CanGoBack, CurrentTab);
         }
 
         private static void SendPropertyChange(string propName, bool value, int tab) {
