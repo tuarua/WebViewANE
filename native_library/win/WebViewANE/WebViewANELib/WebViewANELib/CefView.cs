@@ -35,6 +35,9 @@ using CefSharp.WinForms;
 using Newtonsoft.Json.Linq;
 using TuaRua.FreSharp;
 using WebViewANELib.CefSharp;
+// ReSharper disable ConvertIfStatementToSwitchStatement
+// ReSharper disable UseObjectOrCollectionInitializer
+// ReSharper disable InvertIf
 
 namespace WebViewANELib {
     public partial class CefView : IWebView {
@@ -78,7 +81,6 @@ namespace WebViewANELib {
         public void Init() {
             InitializeComponent();
             IsManipulationEnabled = true;
-            // ReSharper disable once UseObjectOrCollectionInitializer
             _host = new WindowsFormsHost();
             _host.IsManipulationEnabled = true;
 
@@ -125,7 +127,6 @@ namespace WebViewANELib {
 
 
             Cef.EnableHighDPISupport();
-            // ReSharper disable once InvertIf
             if (Cef.Initialize(settings)) {
                 var browser = CreateNewBrowser();
 
@@ -136,7 +137,6 @@ namespace WebViewANELib {
         }
 
         private ChromiumWebBrowser CreateNewBrowser() {
-            // ReSharper disable once UseObjectOrCollectionInitializer
             var browser = new ChromiumWebBrowser(InitialUrl) {
                 Dock = DockStyle.Fill
             };
@@ -144,12 +144,10 @@ namespace WebViewANELib {
             browser.JavascriptObjectRepository.Register("webViewANE", new BoundObject(Context), true,
                 BindingOptions.DefaultBinder);
 
-            // ReSharper disable once UseObjectOrCollectionInitializer
             var dh = new DownloadHandler(DownloadPath);
             dh.OnDownloadUpdatedFired += OnDownloadUpdatedFired;
             dh.OnBeforeDownloadFired += OnDownloadFired;
 
-            // ReSharper disable once UseObjectOrCollectionInitializer
             KeyboardHandler = new KeyboardHandler(Context);
             KeyboardHandler.OnKeyEventFired += OnKeyEventFired;
 
@@ -159,7 +157,6 @@ namespace WebViewANELib {
 
             browser.KeyboardHandler = KeyboardHandler;
 
-            // ReSharper disable once UseObjectOrCollectionInitializer
             var sh = new LifeSpanHandler(PopupBehaviour, PopupDimensions);
             sh.OnPermissionPopup += OnPermissionPopup;
             sh.OnPopupBlock += OnPopupBlock;
@@ -177,7 +174,6 @@ namespace WebViewANELib {
                 browser.MenuHandler = new MenuHandler();
             }
 
-            // ReSharper disable once UseObjectOrCollectionInitializer
             var rh = new RequestHandler(WhiteList, BlackList);
             rh.OnUrlBlockedFired += OnUrlBlockedFired;
 
@@ -470,7 +466,6 @@ namespace WebViewANELib {
         }
 
         public void AddEventListener(string type) {
-            // ReSharper disable once ConvertIfStatementToSwitchStatement
             if (type == "keyUp") {
                 KeyboardHandler.HasKeyUp = true;
             }
@@ -480,7 +475,6 @@ namespace WebViewANELib {
         }
 
         public void RemoveEventListener(string type) {
-            // ReSharper disable once ConvertIfStatementToSwitchStatement
             if (type == "keyUp")
                 KeyboardHandler.HasKeyUp = false;
             else if (type == "keyDown") {

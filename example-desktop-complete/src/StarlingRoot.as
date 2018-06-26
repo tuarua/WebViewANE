@@ -120,9 +120,12 @@ public class StarlingRoot extends Sprite {
         //settings.userAgent = "WebViewANE";
 
         settings.cacheEnabled = true;
+        /*
+        // enable Edge View on Windows if available
         settings.engine = (os.isWindows && os.majorVersion >= 10 && os.buildVersion >= 17134)
                 ? WebEngine.EDGE
                 : WebEngine.DEFAULT;
+        */
 
         settings.enableDownloads = true;
         settings.contextMenu.enabled = true; //enable/disable right click

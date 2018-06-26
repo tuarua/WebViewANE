@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="Flex" version="4">
+  <component name="FlexBuildConfigurationManager" active="WebViewExampleAS3">
+    <configurations>
+      <configuration name="WebViewExampleAS3" target-platform="Desktop" pure-as="true" main-class="WebViewExampleAS3" output-file="WebViewExampleAS3.swf" output-folder="$MODULE_DIR$/bin-debug">
+        <dependencies>
+          <entries>
+            <entry library-id="20785cc3-e7f2-498c-bced-e0537f63af48">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-id="30723a44-d3b8-4762-96ec-25c9f8566f38">
+              <dependency linkage="Merged" />
+            </entry>
+          </entries>
+          <sdk name="AIRSDK_30" />
+        </dependencies>
+        <compiler-options>
+          <map>
+            <entry key="compiler.locale" value="en_US" />
+          </map>
+        </compiler-options>
+        <packaging-air-desktop use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/src/WebViewExampleAS3-app.xml" package-file-name="WebViewExampleAS3">
+          <AirSigningOptions keystore-path="$DOCUMENTS$/tuaruaWin.p12" use-temp-certificate="false" />
+        </packaging-air-desktop>
+        <packaging-android />
+        <packaging-ios />
+      </configuration>
+    </configurations>
+    <compiler-options />
+  </component>
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+    </content>
+    <orderEntry type="jdk" jdkName="AIRSDK_30" jdkType="Flex SDK Type (new)" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library" exported="">
+      <library type="flex">
+        <properties id="20785cc3-e7f2-498c-bced-e0537f63af48" />
+        <CLASSES>
+          <root url="jar://$DOCUMENTS$/WebViewANE/native_extension/ane/CommonDependencies.ane!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library type="flex">
+        <properties id="30723a44-d3b8-4762-96ec-25c9f8566f38" />
+        <CLASSES>
+          <root url="jar://$DOCUMENTS$/WebViewANE/native_extension/ane/WebViewANE.ane!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+  </component>
+</module>

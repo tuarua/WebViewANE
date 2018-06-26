@@ -4,6 +4,7 @@
 - WIN: Remove MSVC2013 as a dependency
 - WIN: Updated to FreSharp 1.6.0
 - WIN: Added basic support for Modern WebView (Edge)
+- WIN/OSX: Add Flex and pure AS3 minimum examples
 
 ### 1.6.5
 - Updated to AIR 30

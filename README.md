@@ -29,7 +29,7 @@ This ANE provides access to a more modern webview from AIR.
 The Windows version utilises the [CefSharp WinForms](https://github.com/cefsharp/CefSharp) version of Chromium Embedded Framework.
 
 #### The ANE + Dependencies
-From the command line cd into /example and run:
+From the command line cd into /example-desktop-complete and run:
 ````shell
 PS get_dependencies.ps1
 `````

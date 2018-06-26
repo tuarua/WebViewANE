@@ -560,12 +560,11 @@ namespace WebViewANELib {
         }
 
         public FREObject GetOsVersion(FREContext ctx, uint argc, FREObject[] argv) {
-            var arr = new[] {
+            return new[] {
                 Environment.OSVersion.Version.Major,
                 Environment.OSVersion.Version.Minor,
                 Environment.OSVersion.Version.Build
-            };
-            return arr.ToFREObject();
+            }.ToFREObject();
         }
 
         public override void OnFinalize() {
