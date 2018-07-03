@@ -23,10 +23,6 @@
 package com.tuarua.webview {
 
 public class CefSettings {
-    [Deprecated(replacement="Settings.contextMenu")]
-    public var contextMenu:ContextMenu = new ContextMenu();
-    [Deprecated(replacement="Settings.enableDownloads")]
-    public var enableDownloads:Boolean = true;
     /**
      * <p>Set to a value between 1024 and 65535 to enable remote debugging on the specified
      * port. For example, if 8080 is specified the remote debugging URL will be http://localhost:8080.
@@ -59,9 +55,6 @@ public class CefSettings {
      default the browser process executable is used.</p>
      */
     public var browserSubprocessPath:String = "CefSharp.BrowserSubprocess.exe";
-
-    [Deprecated(replacement="Settings.downloadPath")]
-    public var downloadPath:String;
 
     /**
      * <p> The location where user data such as spell checking dictionary files will be stored on disk.

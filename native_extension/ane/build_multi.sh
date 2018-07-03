@@ -8,7 +8,7 @@ PROJECTNAME=WebViewANE
 fwSuffix="_FW"
 libSuffix="_LIB"
 
-AIR_SDK="/Users/User/sdks/AIR/AIRSDK_29"
+AIR_SDK="/Users/User/sdks/AIR/AIRSDK_30"
 echo $AIR_SDK
 
 if [ ! -d "$pathtome/../../native_library/apple/$PROJECTNAME/Build/Products/Release-iphonesimulator/" ]; then

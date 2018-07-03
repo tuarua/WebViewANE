@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<actionScriptProperties analytics="false" mainApplicationPath="WebViewExampleFlex.mxml" projectUUID="6f654c5b-5223-4cc7-a2b3-49bcfdb1e432" version="11">
+  <compiler additionalCompilerArguments="-locale en_US" autoRSLOrdering="true" copyDependentFiles="true" flexSDK="Apache Flex 4.16.1 FP27.0 AIR27.0 en_US (build 20171115)" fteInMXComponents="false" generateAccessible="true" htmlExpressInstall="true" htmlGenerate="false" htmlHistoryManagement="false" htmlPlayerVersionCheck="true" includeNetmonSwc="false" outputFolderPath="bin-debug" removeUnusedRSL="true" sourceFolderPath="src" strict="true" targetPlayerVersion="0.0.0" useApolloConfig="true" useDebugRSLSwfs="true" useFlashSDK="false" verifyDigests="true" warn="true">
+    <compilerSourcePath/>
+    <libraryPath defaultLinkType="0">
+      <libraryPathEntry kind="4" path="">
+        <excludedEntries>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/core.swc" useDefaultLinkType="false"/>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/flex.swc" useDefaultLinkType="false"/>
+        </excludedEntries>
+      </libraryPathEntry>
+      <libraryPathEntry kind="1" linkType="1" path="libs"/>
+      <libraryPathEntry kind="5" linkType="2" path="${DOCUMENTS}/WebViewANE/native_extension/ane/WebViewANE.ane"/>
+      <libraryPathEntry kind="5" linkType="2" path="${DOCUMENTS}/WebViewANE/native_extension/ane/CommonDependencies.ane"/>
+    </libraryPath>
+    <sourceAttachmentPath/>
+  </compiler>
+  <applications>
+    <application path="WebViewExampleFlex.mxml">
+      <airExcludes/>
+    </application>
+  </applications>
+  <modules/>
+  <workers/>
+  <buildCSSFiles/>
+  <flashCatalyst validateFlashCatalystCompatibility="false"/>
+  <buildTargets>
+    <buildTarget buildTargetName="default" platformId="default">
+      <airSettings airCertificatePath="D:/dev/flash/tuaruaWin.p12" airTimestamp="true" anePathSet="true" version="1">
+        <airExcludes/>
+        <anePaths>
+          <anePathEntry path="${DOCUMENTS}/WebViewANE/native_extension/ane/WebViewANE.ane"/>
+          <anePathEntry path="${DOCUMENTS}/WebViewANE/native_extension/ane/CommonDependencies.ane"/>
+        </anePaths>
+      </airSettings>
+      <actionScriptSettings version="1"/>
+    </buildTarget>
+  </buildTargets>
+</actionScriptProperties>

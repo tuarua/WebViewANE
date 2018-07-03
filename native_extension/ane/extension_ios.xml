@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extension xmlns="http://ns.adobe.com/air/extension/19.0">
-	<id>com.tuarua.WebViewANE</id>
-	<name>WebView ANE</name>
-	<copyright>This work is licensed under Apache License, Copyright (c) 2018 Tua Rua Ltd.</copyright>
-	<versionNumber>1.6.5</versionNumber>
-	<platforms> 
-	<platform name="iPhone-x86">
-		<applicationDeployment>
-			<nativeLibrary>libWebViewANE.a</nativeLibrary>
-			<initializer>TRWVExtInizer</initializer>
-			<finalizer>TRWVExtFinizer</finalizer>
-		</applicationDeployment>
-	</platform>
-    <platform name="iPhone-ARM">
-        <applicationDeployment>
-            <nativeLibrary>libWebViewANE.a</nativeLibrary>
-            <initializer>TRWVExtInizer</initializer>
-            <finalizer>TRWVExtFinizer</finalizer>
-        </applicationDeployment>
-    </platform>
-     <platform name="default">
-        <applicationDeployment/>
-    </platform>
+    <id>com.tuarua.WebViewANE</id>
+    <name>WebView ANE</name>
+    <copyright>This work is licensed under Apache License, Copyright (c) 2018 Tua Rua Ltd.</copyright>
+    <versionNumber>1.7.0</versionNumber>
+    <platforms>
+        <platform name="iPhone-x86">
+            <applicationDeployment>
+                <nativeLibrary>libWebViewANE.a</nativeLibrary>
+                <initializer>TRWVExtInizer</initializer>
+                <finalizer>TRWVExtFinizer</finalizer>
+            </applicationDeployment>
+        </platform>
+        <platform name="iPhone-ARM">
+            <applicationDeployment>
+                <nativeLibrary>libWebViewANE.a</nativeLibrary>
+                <initializer>TRWVExtInizer</initializer>
+                <finalizer>TRWVExtFinizer</finalizer>
+            </applicationDeployment>
+        </platform>
+        <platform name="default">
+            <applicationDeployment/>
+        </platform>
 
-	</platforms>
+    </platforms>
 </extension>

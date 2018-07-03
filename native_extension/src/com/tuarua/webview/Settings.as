@@ -67,6 +67,10 @@ public class Settings {
      <p>Enables browser cache.</p>
      */
     public var cacheEnabled:Boolean = true;
+    /**
+     <p>The web engine to use.</p>
+     */
+    public var engine:int = WebEngine.DEFAULT;
 
     public function Settings() {
     }

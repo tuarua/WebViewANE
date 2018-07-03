@@ -8,6 +8,7 @@
 ## Build generated
 build/
 DerivedData/
+/example/
 
 ## Various settings
 *.pbxuser
@@ -38,3 +39,4 @@ native_extension/ane/build_asdocs.bat
 
 /release/
 /cache/
+/wiki/

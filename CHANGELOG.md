@@ -1,3 +1,11 @@
+### 1.7.0
+- WIN: Updated to CefSharp 65.0.0
+- WIN: UTF-8 bug Issue #155
+- WIN: Remove MSVC2013 as a dependency
+- WIN: Updated to FreSharp 1.6.0
+- WIN: Added basic support for Modern WebView (Edge)
+- WIN/OSX: Add Flex and pure AS3 minimum examples
+
 ### 1.6.5
 - Updated to AIR 30
 - AND: Updated to FreKotlin 1.3.0

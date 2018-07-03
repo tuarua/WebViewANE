@@ -35,6 +35,9 @@ using CefSharp.WinForms;
 using Newtonsoft.Json.Linq;
 using TuaRua.FreSharp;
 using WebViewANELib.CefSharp;
+// ReSharper disable ConvertIfStatementToSwitchStatement
+// ReSharper disable UseObjectOrCollectionInitializer
+// ReSharper disable InvertIf
 
 namespace WebViewANELib {
     public partial class CefView : IWebView {
@@ -78,7 +81,6 @@ namespace WebViewANELib {
         public void Init() {
             InitializeComponent();
             IsManipulationEnabled = true;
-            // ReSharper disable once UseObjectOrCollectionInitializer
             _host = new WindowsFormsHost();
             _host.IsManipulationEnabled = true;
 
@@ -125,7 +127,6 @@ namespace WebViewANELib {
 
 
             Cef.EnableHighDPISupport();
-            // ReSharper disable once InvertIf
             if (Cef.Initialize(settings)) {
                 var browser = CreateNewBrowser();
 
@@ -136,7 +137,6 @@ namespace WebViewANELib {
         }
 
         private ChromiumWebBrowser CreateNewBrowser() {
-            // ReSharper disable once UseObjectOrCollectionInitializer
             var browser = new ChromiumWebBrowser(InitialUrl) {
                 Dock = DockStyle.Fill
             };
@@ -144,12 +144,10 @@ namespace WebViewANELib {
             browser.JavascriptObjectRepository.Register("webViewANE", new BoundObject(Context), true,
                 BindingOptions.DefaultBinder);
 
-            // ReSharper disable once UseObjectOrCollectionInitializer
             var dh = new DownloadHandler(DownloadPath);
             dh.OnDownloadUpdatedFired += OnDownloadUpdatedFired;
             dh.OnBeforeDownloadFired += OnDownloadFired;
 
-            // ReSharper disable once UseObjectOrCollectionInitializer
             KeyboardHandler = new KeyboardHandler(Context);
             KeyboardHandler.OnKeyEventFired += OnKeyEventFired;
 
@@ -159,7 +157,6 @@ namespace WebViewANELib {
 
             browser.KeyboardHandler = KeyboardHandler;
 
-            // ReSharper disable once UseObjectOrCollectionInitializer
             var sh = new LifeSpanHandler(PopupBehaviour, PopupDimensions);
             sh.OnPermissionPopup += OnPermissionPopup;
             sh.OnPopupBlock += OnPopupBlock;
@@ -177,7 +174,6 @@ namespace WebViewANELib {
                 browser.MenuHandler = new MenuHandler();
             }
 
-            // ReSharper disable once UseObjectOrCollectionInitializer
             var rh = new RequestHandler(WhiteList, BlackList);
             rh.OnUrlBlockedFired += OnUrlBlockedFired;
 
@@ -346,7 +342,7 @@ namespace WebViewANELib {
 
         public void Load(string url) {
             if (_isLoaded) {
-                CurrentBrowser.Load(Utils.ToUtf8(url));
+                CurrentBrowser.Load(url);
             }
             else {
                 InitialUrl = url;
@@ -355,7 +351,7 @@ namespace WebViewANELib {
 
         public void LoadHtmlString(string html, string url) {
             if (_isLoaded) {
-                CurrentBrowser.LoadHtml(Utils.ToUtf8(html), Utils.ToUtf8(url));
+                CurrentBrowser.LoadHtml(html, url);
             }
             else {
                 _initialHtml = html;
@@ -470,7 +466,6 @@ namespace WebViewANELib {
         }
 
         public void AddEventListener(string type) {
-            // ReSharper disable once ConvertIfStatementToSwitchStatement
             if (type == "keyUp") {
                 KeyboardHandler.HasKeyUp = true;
             }
@@ -480,7 +475,6 @@ namespace WebViewANELib {
         }
 
         public void RemoveEventListener(string type) {
-            // ReSharper disable once ConvertIfStatementToSwitchStatement
             if (type == "keyUp")
                 KeyboardHandler.HasKeyUp = false;
             else if (type == "keyDown") {
@@ -501,7 +495,7 @@ namespace WebViewANELib {
             try {
                 var mf = CurrentBrowser.GetMainFrame();
                 var response =
-                    await mf.EvaluateScriptAsync(Utils.ToUtf8(javascript), TimeSpan.FromMilliseconds(500).ToString());
+                    await mf.EvaluateScriptAsync(javascript, TimeSpan.FromMilliseconds(500).ToString());
                 if (response.Success && response.Result is IJavascriptCallback) {
                     response = await ((IJavascriptCallback) response.Result).ExecuteAsync("");
                 }
@@ -516,38 +510,7 @@ namespace WebViewANELib {
         public void EvaluateJavaScript(string javascript) {
             try {
                 var mf = CurrentBrowser.GetMainFrame();
-                mf.ExecuteJavaScriptAsync(
-                    Utils.ToUtf8(javascript)); // this is fire and forget can run js urls, startLine 
-            }
-            catch (Exception e) {
-                Console.WriteLine(@"JS error: " + e.Message);
-            }
-        }
-
-        public async void CallJavascriptFunction(string javascript, string callback) {
-            //this is as->js->as
-            try {
-                var mf = CurrentBrowser.GetMainFrame();
-                var response =
-                    await mf.EvaluateScriptAsync(Utils.ToUtf8(javascript), TimeSpan.FromMilliseconds(500).ToString());
-
-                if (response.Success && response.Result is IJavascriptCallback) {
-                    response = await ((IJavascriptCallback) response.Result).ExecuteAsync("");
-                }
-
-                Context.SendEvent(WebViewEvent.AsCallbackEvent, response.ToJsonString(callback));
-            }
-            catch (Exception e) {
-                Context.SendEvent(WebViewEvent.AsCallbackEvent, e.ToJsonString(callback));
-            }
-        }
-
-        public void CallJavascriptFunction(string javascript) {
-            //this is as->js
-            try {
-                var mf = CurrentBrowser.GetMainFrame();
-                mf.ExecuteJavaScriptAsync(
-                    Utils.ToUtf8(javascript)); // this is fire and forget can run js urls, startLine 
+                mf.ExecuteJavaScriptAsync(javascript); // this is fire and forget can run js urls, startLine 
             }
             catch (Exception e) {
                 Console.WriteLine(@"JS error: " + e.Message);

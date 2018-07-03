@@ -42,11 +42,12 @@ namespace WebViewANELib {
     public class MainController : FreSharpMainController {
         private IWebView _view;
         private Hwnd _airWindow;
-        private Hwnd _cefWindow;
+        private Hwnd _webViewWindow;
         private Color _backgroundColor;
         private double _scaleFactor = 1.0;
         private Bitmap _capturedBitmapData;
         private const string OnCaptureComplete = "WebView.OnCaptureComplete";
+        private bool _useEdge;
 
         public string[] GetFunctions() {
             FunctionsDict =
@@ -100,7 +101,7 @@ namespace WebViewANELib {
 
         private FREObject Capture(FREContext ctx, uint argc, FREObject[] argv) {
             var rect = new WinApi.Rect();
-            WinApi.GetWindowRect(_cefWindow, ref rect);
+            WinApi.GetWindowRect(_webViewWindow, ref rect);
             var x = 0;
             var y = 0;
             var width = rect.right - rect.left;
@@ -179,8 +180,10 @@ namespace WebViewANELib {
         public FREObject InitView(FREContext ctx, uint argc, FREObject[] argv) {
             _airWindow = System.Diagnostics.Process.GetCurrentProcess().MainWindowHandle;
             if (_airWindow == Hwnd.Zero) {
-                return new FreException("Cannot find AIR window to attach webView to. Ensure you init the ANE AFTER your main Sprite is initialised. " +
-                                        "Please see https://forum.starling-framework.org/topic/webviewane-for-osx/page/7?replies=201#post-105524 for more details").RawValue;
+                return new FreException(
+                        "Cannot find AIR window to attach webView to. Ensure you init the ANE AFTER your main Sprite is initialised. " +
+                        "Please see https://forum.starling-framework.org/topic/webviewane-for-osx/page/7?replies=201#post-105524 for more details")
+                    .RawValue;
             }
 
             try {
@@ -202,43 +205,62 @@ namespace WebViewANELib {
                     argsDict.Add(key, val);
                 }
 
+                _useEdge = settingsFre.GetProp("engine").AsInt() == 1;
                 var whiteList = settingsFre.GetProp("urlWhiteList").ToArrayList();
                 var blackList = settingsFre.GetProp("urlBlackList").ToArrayList();
                 _backgroundColor = colorFre.AsColor(true);
                 _scaleFactor = useHiDpi ? WinApi.GetScaleFactor() : 1.0;
 
-                CefView.Context = Context;
-                _view = new CefView {
-                    InitialUrl = argv[0].AsString(),
-                    Background = new SolidColorBrush(new System.Windows.Media.Color {
-                        A = _backgroundColor.A,
-                        R = _backgroundColor.R,
-                        G = _backgroundColor.G,
-                        B = _backgroundColor.B
-                    }),
-                    X = Convert.ToInt32(viewPort.X * _scaleFactor),
-                    Y = Convert.ToInt32(viewPort.Y * _scaleFactor),
-                    ViewWidth = Convert.ToInt32(viewPort.Width * _scaleFactor),
-                    ViewHeight = Convert.ToInt32(viewPort.Height * _scaleFactor),
-                    RemoteDebuggingPort = cefSettingsFre.GetProp("remoteDebuggingPort").AsInt(),
-                    CachePath = cefSettingsFre.GetProp("cachePath").AsString(),
-                    DownloadPath = settingsFre.GetProp("downloadPath").AsString(),
-                    EnableDownloads = settingsFre.GetProp("enableDownloads").AsBool(),
-                    CacheEnabled = settingsFre.GetProp("cacheEnabled").AsBool(),
-                    LogLevel = cefSettingsFre.GetProp("logSeverity").AsInt(),
-                    BrowserSubprocessPath = cefSettingsFre.GetProp("browserSubprocessPath").AsString(),
-                    ContextMenuEnabled = settingsFre.GetProp("contextMenu").GetProp("enabled").AsBool(),
-                    UserAgent = settingsFre.GetProp("userAgent").AsString(),
-                    UserDataPath = cefSettingsFre.GetProp("userDataPath").AsString(),
-                    CommandLineArgs = argsDict,
-                    WhiteList = whiteList,
-                    BlackList = blackList,
-                    PopupBehaviour = (PopupBehaviour) settingsFre.GetProp("popup").GetProp("behaviour").AsInt(),
-                    PopupDimensions = new Tuple<int, int>(
-                        settingsFre.GetProp("popup").GetProp("dimensions").GetProp("width").AsInt(),
-                        settingsFre.GetProp("popup").GetProp("dimensions").GetProp("height").AsInt()
-                    )
-                };
+                if (_useEdge) {
+                    EdgeView.Context = Context;
+                    _view = new EdgeView {
+                        InitialUrl = argv[0].AsString(),
+                        Background = new SolidColorBrush(new System.Windows.Media.Color {
+                            A = _backgroundColor.A,
+                            R = _backgroundColor.R,
+                            G = _backgroundColor.G,
+                            B = _backgroundColor.B
+                        }),
+                        X = Convert.ToInt32(viewPort.X * _scaleFactor),
+                        Y = Convert.ToInt32(viewPort.Y * _scaleFactor),
+                        ViewWidth = Convert.ToInt32(viewPort.Width * _scaleFactor),
+                        ViewHeight = Convert.ToInt32(viewPort.Height * _scaleFactor)
+                    };
+                }
+                else {
+                    CefView.Context = Context;
+                    _view = new CefView {
+                        InitialUrl = argv[0].AsString(),
+                        Background = new SolidColorBrush(new System.Windows.Media.Color {
+                            A = _backgroundColor.A,
+                            R = _backgroundColor.R,
+                            G = _backgroundColor.G,
+                            B = _backgroundColor.B
+                        }),
+                        X = Convert.ToInt32(viewPort.X * _scaleFactor),
+                        Y = Convert.ToInt32(viewPort.Y * _scaleFactor),
+                        ViewWidth = Convert.ToInt32(viewPort.Width * _scaleFactor),
+                        ViewHeight = Convert.ToInt32(viewPort.Height * _scaleFactor),
+                        RemoteDebuggingPort = cefSettingsFre.GetProp("remoteDebuggingPort").AsInt(),
+                        CachePath = cefSettingsFre.GetProp("cachePath").AsString(),
+                        DownloadPath = settingsFre.GetProp("downloadPath").AsString(),
+                        EnableDownloads = settingsFre.GetProp("enableDownloads").AsBool(),
+                        CacheEnabled = settingsFre.GetProp("cacheEnabled").AsBool(),
+                        LogLevel = cefSettingsFre.GetProp("logSeverity").AsInt(),
+                        BrowserSubprocessPath = cefSettingsFre.GetProp("browserSubprocessPath").AsString(),
+                        ContextMenuEnabled = settingsFre.GetProp("contextMenu").GetProp("enabled").AsBool(),
+                        UserAgent = settingsFre.GetProp("userAgent").AsString(),
+                        UserDataPath = cefSettingsFre.GetProp("userDataPath").AsString(),
+                        CommandLineArgs = argsDict,
+                        WhiteList = whiteList,
+                        BlackList = blackList,
+                        PopupBehaviour = (PopupBehaviour) settingsFre.GetProp("popup").GetProp("behaviour").AsInt(),
+                        PopupDimensions = new Tuple<int, int>(
+                            settingsFre.GetProp("popup").GetProp("dimensions").GetProp("width").AsInt(),
+                            settingsFre.GetProp("popup").GetProp("dimensions").GetProp("height").AsInt()
+                        )
+                    };
+                }
                 _view.Init();
             }
             catch (Exception e) {
@@ -252,10 +274,12 @@ namespace WebViewANELib {
             parameters.WindowName = "Cef Window";
             parameters.WindowStyle = (int) WindowStyles.WS_CHILD;
             parameters.AcquireHwndFocusInMenuMode = true;
-            var source = new HwndSource(parameters) {RootVisual = (CefView) _view};
-            _cefWindow = source.Handle;
+            var source = _useEdge ? new HwndSource(parameters) {RootVisual = (EdgeView) _view} 
+                : new HwndSource(parameters) {RootVisual = (CefView) _view};
 
-            WinApi.RegisterTouchWindow(_cefWindow, TouchWindowFlags.TWF_WANTPALM);
+            _webViewWindow = source.Handle;
+
+            WinApi.RegisterTouchWindow(_webViewWindow, TouchWindowFlags.TWF_WANTPALM);
 
             return FREObject.Zero;
         }
@@ -327,8 +351,9 @@ namespace WebViewANELib {
         public FREObject SetVisible(FREContext ctx, uint argc, FREObject[] argv) {
             try {
                 var visible = argv[0].AsBool();
-                WinApi.ShowWindow(_cefWindow, visible ? ShowWindowCommands.SW_SHOWNORMAL : ShowWindowCommands.SW_HIDE);
-                WinApi.UpdateWindow(_cefWindow);
+                WinApi.ShowWindow(_webViewWindow,
+                    visible ? ShowWindowCommands.SW_SHOWNORMAL : ShowWindowCommands.SW_HIDE);
+                WinApi.UpdateWindow(_webViewWindow);
             }
             catch (Exception e) {
                 return new FreException(e).RawValue;
@@ -386,8 +411,8 @@ namespace WebViewANELib {
                 flgs |= WindowPositionFlags.SWP_NOMOVE;
             }
 
-            WinApi.SetWindowPos(_cefWindow, new Hwnd(0), _view.X, _view.Y, _view.ViewWidth, _view.ViewHeight, flgs);
-            WinApi.UpdateWindow(_cefWindow);
+            WinApi.SetWindowPos(_webViewWindow, new Hwnd(0), _view.X, _view.Y, _view.ViewWidth, _view.ViewHeight, flgs);
+            WinApi.UpdateWindow(_webViewWindow);
             return FREObject.Zero;
         }
 
@@ -496,11 +521,11 @@ namespace WebViewANELib {
                 var js = argv[0].AsString();
                 var callbackFre = argv[1];
                 if (FreObjectTypeSharp.Null == callbackFre.Type()) {
-                    _view.CallJavascriptFunction(js);
+                    _view.EvaluateJavaScript(js);
                 }
                 else {
                     var callback = callbackFre.AsString();
-                    _view.CallJavascriptFunction(js, callback);
+                    _view.EvaluateJavaScript(js, callback);
                 }
             }
             catch (Exception e) {
@@ -520,6 +545,7 @@ namespace WebViewANELib {
             if (!string.IsNullOrEmpty(path)) {
                 _view.PrintToPdfAsync(path);
             }
+
             return FREObject.Zero;
         }
 
@@ -534,16 +560,11 @@ namespace WebViewANELib {
         }
 
         public FREObject GetOsVersion(FREContext ctx, uint argc, FREObject[] argv) {
-            var arr = new[] {
+            return new[] {
                 Environment.OSVersion.Version.Major,
                 Environment.OSVersion.Version.Minor,
                 Environment.OSVersion.Version.Build
-            };
-            return arr.ToFREObject();
-        }
-
-        public CefView GetView() {
-            return _view as CefView;
+            }.ToFREObject();
         }
 
         public override void OnFinalize() {

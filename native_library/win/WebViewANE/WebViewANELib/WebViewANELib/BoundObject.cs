@@ -20,6 +20,7 @@
 //  All Rights Reserved. Tua Rua Ltd.
 
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
 using Newtonsoft.Json;
@@ -34,15 +35,10 @@ namespace WebViewANELib {
             _context = context;
         }
 
+        [SuppressMessage("ReSharper", "InconsistentNaming")]
         public class JavascriptMessage {
-            //public IJavascriptCallback Callback { get; set; }
-            // ReSharper disable once InconsistentNaming
             public string functionName { get; set; }
-
-            // ReSharper disable once InconsistentNaming
             public string callbackName { get; set; }
-
-            // ReSharper disable once InconsistentNaming
             public IList<object> args { get; set; }
         }
 

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<application xmlns="http://ns.adobe.com/air/application/29.0">
+	<id>WebViewExampleFlex</id>
+	<filename>WebViewExampleFlex</filename>
+	<architecture/>
+	<name>WebViewExampleFlex</name>
+	<versionNumber>0.0.0</versionNumber>
+
+	<initialWindow>
+		<!-- The main SWF or HTML file of the application. Required. -->
+		<!-- Note: In Flash Builder, the SWF reference is set automatically. -->
+		<content>[This value will be overwritten by Flash Builder in the output app.xml]</content>
+		<requestedDisplayResolution>high</requestedDisplayResolution>
+		<autoOrients>false</autoOrients>
+        <fullScreen>true</fullScreen>
+        <visible>true</visible>
+    </initialWindow>
+    
+    <supportedProfiles>extendedDesktop</supportedProfiles>
+    
+	<extensions>
+        <extensionID>com.tuarua.WebViewANE</extensionID>
+        <extensionID>com.tuarua.CommonDependencies</extensionID>
+    </extensions>
+</application>

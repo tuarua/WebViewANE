@@ -56,7 +56,5 @@ namespace WebViewANELib {
         void CloseDevTools();
         void EvaluateJavaScript(string javascript, string callback);
         void EvaluateJavaScript(string javascript);
-        void CallJavascriptFunction(string javascript, string callback);
-        void CallJavascriptFunction(string javascript);
     }
 }

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<application xmlns="http://ns.adobe.com/air/application/30.0">
+    <id>WebViewANESample</id>
+    <architecture>64</architecture>
+    <filename>WebViewANESample</filename>
+    <name>webView</name>
+    <versionNumber>0.0.0</versionNumber>
+    <initialWindow>
+        <content>[This value will be overwritten by Flash Builder in the output app.xml]</content>
+        <resizable>false</resizable>
+        <x>100</x>
+        <y>100</y>
+        <requestedDisplayResolution>high</requestedDisplayResolution> <!-- This also applies to Windows 10 also -->
+        <depthAndStencil>true</depthAndStencil>
+        <renderMode>direct</renderMode>
+        <autoOrients>false</autoOrients>
+        <fullScreen>true</fullScreen>
+        <visible>true</visible>
+    </initialWindow>
+
+    <supportedProfiles>extendedDesktop</supportedProfiles>
+    <extensions>
+        <extensionID>com.tuarua.WebViewANE</extensionID>
+        <extensionID>com.tuarua.CommonDependencies</extensionID>
+    </extensions>
+</application>
