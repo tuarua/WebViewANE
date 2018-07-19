@@ -73,7 +73,7 @@ namespace WebViewANELib {
             }
 
             writer.WriteEndObject();
-            _context.SendEvent(JsCallbackEvent, sb.ToString());
+            _context.DispatchEvent(JsCallbackEvent, sb.ToString());
         }
     }
 }

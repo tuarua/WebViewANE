@@ -189,7 +189,7 @@ namespace WebViewANELib {
             var tab = _tabs.IndexOf(sender);
             tab = tab == -1 ? 0 : tab;
             var json = JObject.FromObject(new {url, tab });
-            Context.SendEvent(WebViewEvent.OnPopupBlocked, json.ToString());
+            Context.DispatchEvent(WebViewEvent.OnPopupBlocked, json.ToString());
         }
 
         public void AddTab() {
@@ -250,7 +250,7 @@ namespace WebViewANELib {
             var tab = _tabs.IndexOf(sender);
             tab = tab == -1 ? 0 : tab;
             var json = JObject.FromObject(new {url, tab });
-            Context.SendEvent(WebViewEvent.OnUrlBlocked, json.ToString());
+            Context.DispatchEvent(WebViewEvent.OnUrlBlocked, json.ToString());
         }
 
         private void OnPermissionPopup(object sender, string s) {
@@ -325,7 +325,7 @@ namespace WebViewANELib {
         private void OnLoadError(object sender, LoadErrorEventArgs e) {
             var tab = _tabs.IndexOf(sender);
             tab = tab == -1 ? 0 : tab;
-            Context.SendEvent(WebViewEvent.OnFail, e.ToJsonString(tab));
+            Context.DispatchEvent(WebViewEvent.OnFail, e.ToJsonString(tab));
         }
 
         private void OnBrowserInitialized(object sender, IsBrowserInitializedChangedEventArgs e) {
@@ -374,33 +374,33 @@ namespace WebViewANELib {
 
         private static void SendPropertyChange(string propName, bool value, int tab) {
             var json = JObject.FromObject(new {propName, value, tab});
-            Context.SendEvent(WebViewEvent.OnPropertyChange, json.ToString());
+            Context.DispatchEvent(WebViewEvent.OnPropertyChange, json.ToString());
         }
 
 
         private static void SendPropertyChange(string propName, string value, int tab) {
             var json = JObject.FromObject(new { propName, value, tab });
-            Context.SendEvent(WebViewEvent.OnPropertyChange, json.ToString());
+            Context.DispatchEvent(WebViewEvent.OnPropertyChange, json.ToString());
         }
 
         private static void OnDownloadUpdatedFired(object sender, DownloadItem downloadItem) {
             if (downloadItem.IsCancelled) {
-                Context.SendEvent(WebViewEvent.OnDownloadCancel, downloadItem.Id.ToString());
+                Context.DispatchEvent(WebViewEvent.OnDownloadCancel, downloadItem.Id.ToString());
                 return;
             }
 
             if (downloadItem.IsComplete) {
-                Context.SendEvent(WebViewEvent.OnDownloadComplete, downloadItem.Id.ToString());
+                Context.DispatchEvent(WebViewEvent.OnDownloadComplete, downloadItem.Id.ToString());
                 return;
             }
 
-            Context.SendEvent(WebViewEvent.OnDownloadProgress, downloadItem.ToJsonString());
+            Context.DispatchEvent(WebViewEvent.OnDownloadProgress, downloadItem.ToJsonString());
         }
 
         private static void OnDownloadFired(object sender, DownloadItem downloadItem) { }
 
         private static void OnKeyEventFired(object sender, int e) {
-            Context.SendEvent(WebViewEvent.OnEscKey, e.ToString());
+            Context.DispatchEvent(WebViewEvent.OnEscKey, e.ToString());
         }
 
         public void ZoomIn() {
@@ -461,7 +461,7 @@ namespace WebViewANELib {
 
         public void PrintToPdfAsync(string path) {
             var printToPdf = CurrentBrowser.PrintToPdfAsync(path);
-            printToPdf.ContinueWith(_ => { Context.SendEvent(WebViewEvent.OnPdfPrinted, ""); },
+            printToPdf.ContinueWith(_ => { Context.DispatchEvent(WebViewEvent.OnPdfPrinted, ""); },
                 TaskContinuationOptions.OnlyOnRanToCompletion);
         }
 
@@ -500,10 +500,10 @@ namespace WebViewANELib {
                     response = await ((IJavascriptCallback) response.Result).ExecuteAsync("");
                 }
 
-                Context.SendEvent(WebViewEvent.AsCallbackEvent, response.ToJsonString(callback));
+                Context.DispatchEvent(WebViewEvent.AsCallbackEvent, response.ToJsonString(callback));
             }
             catch (Exception e) {
-                Context.SendEvent(WebViewEvent.AsCallbackEvent, e.ToJsonString(callback));
+                Context.DispatchEvent(WebViewEvent.AsCallbackEvent, e.ToJsonString(callback));
             }
         }
 

@@ -206,7 +206,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FreSharp">
-      <HintPath>..\packages\TuaRua.FreSharp.1.6.0\FreSharp\$(PlatformTarget)\FreSharp.dll</HintPath>
+      <HintPath>..\packages\TuaRua.FreSharp.1.7.0\FreSharp\$(PlatformTarget)\FreSharp.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -229,13 +229,11 @@
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="..\packages\TuaRua.FreSharp.1.6.0\build\TuaRua.FreSharp.targets" Condition="Exists('..\packages\TuaRua.FreSharp.1.6.0\build\TuaRua.FreSharp.targets')" />
+    <Import Project="..\packages\TuaRua.FreSharp.1.7.0\build\TuaRua.FreSharp.targets" Condition="Exists('..\packages\TuaRua.FreSharp.1.7.0\build\TuaRua.FreSharp.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\TuaRua.FreSharp.1.6.0\build\TuaRua.FreSharp.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\TuaRua.FreSharp.1.6.0\build\TuaRua.FreSharp.props'))" />
-    <Error Condition="!Exists('..\packages\TuaRua.FreSharp.1.6.0\build\TuaRua.FreSharp.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\TuaRua.FreSharp.1.6.0\build\TuaRua.FreSharp.targets'))" />
   </Target>
 </Project>

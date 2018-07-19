@@ -60,7 +60,7 @@ namespace WebViewANELib {
         }
 
         private void OnScriptNotify(object sender, WebViewControlScriptNotifyEventArgs e) {
-            Context.SendEvent("TRACE", e.Value);
+            Context.DispatchEvent("TRACE", e.Value);
         }
 
         private void OnBrowserAddressChanged(object sender, WebViewControlNavigationStartingEventArgs e) {
@@ -136,7 +136,7 @@ namespace WebViewANELib {
         }
 
         private void OnNewWindowRequested(object sender, WebViewControlNewWindowRequestedEventArgs e) {
-            Context.SendEvent("TRACE", $@"NewWindowRequested: {e.Uri}");
+            Context.DispatchEvent("TRACE", $@"NewWindowRequested: {e.Uri}");
         }
 
         private TabDetails GetTabDetails(int tab) {
@@ -144,25 +144,25 @@ namespace WebViewANELib {
         }
 
         public void AddTab() {
-            Context.SendEvent("TRACE", "AddTab Unavailable in Edge");
+            Context.DispatchEvent("TRACE", "AddTab Unavailable in Edge");
         }
 
         public void SetCurrentTab(int index) {
-            Context.SendEvent("TRACE", "SetCurrentTab Unavailable in Edge");
+            Context.DispatchEvent("TRACE", "SetCurrentTab Unavailable in Edge");
         }
 
         public void CloseTab(int index) {
-            Context.SendEvent("TRACE", "CloseTab Unavailable in Edge");
+            Context.DispatchEvent("TRACE", "CloseTab Unavailable in Edge");
         }
 
         private static void SendPropertyChange(string propName, bool value, int tab) {
             var json = JObject.FromObject(new {propName, value, tab});
-            Context.SendEvent(WebViewEvent.OnPropertyChange, json.ToString());
+            Context.DispatchEvent(WebViewEvent.OnPropertyChange, json.ToString());
         }
 
         private static void SendPropertyChange(string propName, string value, int tab) {
             var json = JObject.FromObject(new {propName, value, tab});
-            Context.SendEvent(WebViewEvent.OnPropertyChange, json.ToString());
+            Context.DispatchEvent(WebViewEvent.OnPropertyChange, json.ToString());
         }
 
         // will need a separate parser for local files
@@ -175,11 +175,11 @@ namespace WebViewANELib {
         }
 
         public void ZoomIn() {
-            Context.SendEvent("TRACE", "ZoomIn Unavailable in Edge");
+            Context.DispatchEvent("TRACE", "ZoomIn Unavailable in Edge");
         }
 
         public void ZoomOut() {
-            Context.SendEvent("TRACE", "ZoomOut Unavailable in Edge");
+            Context.DispatchEvent("TRACE", "ZoomOut Unavailable in Edge");
         }
 
         public void ForceFocus() {
@@ -207,27 +207,27 @@ namespace WebViewANELib {
         }
 
         public void Print() {
-            Context.SendEvent("TRACE", "Print Unavailable in Edge");
+            Context.DispatchEvent("TRACE", "Print Unavailable in Edge");
         }
 
         public void PrintToPdfAsync(string path) {
-            Context.SendEvent("TRACE", "PrintToPdfAsync Unavailable in Edge");
+            Context.DispatchEvent("TRACE", "PrintToPdfAsync Unavailable in Edge");
         }
 
         public void AddEventListener(string type) {
-            Context.SendEvent("TRACE", "AddEventListener Unavailable in Edge");
+            Context.DispatchEvent("TRACE", "AddEventListener Unavailable in Edge");
         }
 
         public void RemoveEventListener(string type) {
-            Context.SendEvent("TRACE", "RemoveEventListener Unavailable in Edge");
+            Context.DispatchEvent("TRACE", "RemoveEventListener Unavailable in Edge");
         }
 
         public void ShowDevTools() {
-            Context.SendEvent("TRACE", "ShowDevTools Unavailable in Edge");
+            Context.DispatchEvent("TRACE", "ShowDevTools Unavailable in Edge");
         }
 
         public void CloseDevTools() {
-            Context.SendEvent("TRACE", "CloseDevTools Unavailable in Edge");
+            Context.DispatchEvent("TRACE", "CloseDevTools Unavailable in Edge");
         }
 
         public async void EvaluateJavaScript(string javascript, string callback) {
@@ -242,7 +242,7 @@ namespace WebViewANELib {
                         success = true,
                         callbackName = callback
                     });
-                    Context.SendEvent(WebViewEvent.AsCallbackEvent, json.ToString());
+                    Context.DispatchEvent(WebViewEvent.AsCallbackEvent, json.ToString());
                 }
                 else {
                     json = JObject.FromObject(new {
@@ -252,7 +252,7 @@ namespace WebViewANELib {
                         success = false,
                         callbackName = callback
                     });
-                    Context.SendEvent(WebViewEvent.AsCallbackEvent, json.ToString());
+                    Context.DispatchEvent(WebViewEvent.AsCallbackEvent, json.ToString());
                 }
             }, TaskContinuationOptions.ExecuteSynchronously);
         }
