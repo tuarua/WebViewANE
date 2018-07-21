@@ -42,7 +42,9 @@ class BackForwardList: FreObjectSwift, FreSwiftController {
             }
 
             var i = 0
-            if let freBackList = try? FREArray.init(className: "Vector.<com.tuarua.webview.BackForwardListItem>") {
+            if let freBackList = try? FREArray.init(className: "com.tuarua.webview.BackForwardListItem",
+                                                    length: webView.backForwardList.backList.count,
+                                                    fixed: true) {
                 for item in webView.backForwardList.backList {
                     if let freItem = try FREObject.init(className: "com.tuarua.webview.BackForwardListItem") {
                         
@@ -59,7 +61,9 @@ class BackForwardList: FreObjectSwift, FreSwiftController {
 
             i = 0
 
-            if let freForwardList = try? FREArray.init(className: "Vector.<com.tuarua.webview.BackForwardListItem>") {
+            if let freForwardList = try? FREArray.init(className: "com.tuarua.webview.BackForwardListItem",
+                                                       length: webView.backForwardList.forwardList.count,
+                                                       fixed: true) {
                 for item in webView.backForwardList.forwardList {
                     if let freItem = try FREObject.init(className: "com.tuarua.webview.BackForwardListItem") {
                         try freItem.setProp(name: "url", value: FreObjectSwift.init(string: item.url.absoluteString))

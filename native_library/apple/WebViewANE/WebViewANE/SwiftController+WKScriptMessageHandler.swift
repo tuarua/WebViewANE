@@ -27,7 +27,7 @@ extension SwiftController: WKScriptMessageHandler {
     public func userContentController(_ userContentController: WKUserContentController,
                                       didReceive message: WKScriptMessage) {
         if let messageBody: NSDictionary = message.body as? NSDictionary {
-            sendEvent(name: WebViewEvent.JS_CALLBACK_EVENT, value: JSON(messageBody).description)
+            dispatchEvent(name: WebViewEvent.JS_CALLBACK_EVENT, value: JSON(messageBody).description)
         }
     }
     
@@ -37,7 +37,7 @@ extension SwiftController: WKScriptMessageHandler {
     public func userContentController(_ userContentController: WKUserContentController,
                                       didReceive message: WKScriptMessage) {
         if let messageBody: NSDictionary = message.body as? NSDictionary {
-            sendEvent(name: WebViewEvent.JS_CALLBACK_EVENT, value: JSON(messageBody).description)
+            dispatchEvent(name: WebViewEvent.JS_CALLBACK_EVENT, value: JSON(messageBody).description)
         }
     }
     

@@ -47,7 +47,7 @@ extension SwiftController: WKNavigationDelegate {
                     props["url"] = url
                 }
                 props["tab"] = getCurrentTab(webView)
-                sendEvent(name: WebViewEvent.ON_POPUP_BLOCKED, value: JSON(props).description)
+                dispatchEvent(name: WebViewEvent.ON_POPUP_BLOCKED, value: JSON(props).description)
             case .newWindow:
                 #if os(iOS)
                     warning("Cannot open popup in new window on iOS. Opening in same window.")
@@ -102,7 +102,7 @@ extension SwiftController: WKNavigationDelegate {
                         saveDownload(url: url, location: location)
                     }
                 case NSApplication.ModalResponse.cancel:
-                    sendEvent(name: WebViewEvent.ON_DOWNLOAD_CANCEL, value: url.absoluteString)
+                    dispatchEvent(name: WebViewEvent.ON_DOWNLOAD_CANCEL, value: url.absoluteString)
                 default: break
                 }
             }
@@ -124,7 +124,7 @@ extension SwiftController: WKNavigationDelegate {
             var props: [String: Any] = Dictionary()
             props["url"] = newUrl
             props["tab"] = getCurrentTab(webView)
-            sendEvent(name: WebViewEvent.ON_URL_BLOCKED, value: JSON(props).description)
+            dispatchEvent(name: WebViewEvent.ON_URL_BLOCKED, value: JSON(props).description)
             decisionHandler(.cancel)
         } else {
             decisionHandler(.allow)
@@ -137,6 +137,6 @@ extension SwiftController: WKNavigationDelegate {
         props["url"] = webView.url!.absoluteString
         props["errorCode"] = 0
         props["errorText"] = withError.localizedDescription
-        sendEvent(name: WebViewEvent.ON_FAIL, value: JSON(props).description)
+        dispatchEvent(name: WebViewEvent.ON_FAIL, value: JSON(props).description)
     }
 }
