@@ -1,7 +1,7 @@
 #!/bin/sh
 
-AneVersion="1.7.0"
-FreSwiftVersion="2.4.0"
+AneVersion="1.8.0"
+FreSwiftVersion="2.5.0"
 
 rm -r ios_dependencies/device
 rm -r ios_dependencies/simulator

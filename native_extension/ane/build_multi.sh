@@ -8,20 +8,20 @@ PROJECTNAME=WebViewANE
 fwSuffix="_FW"
 libSuffix="_LIB"
 
-AIR_SDK="/Users/User/sdks/AIR/AIRSDK_30"
+AIR_SDK="/Users/eoinlandy/SDKs/AIRSDK_30"
 echo $AIR_SDK
 
-if [ ! -d "$pathtome/../../native_library/apple/$PROJECTNAME/Build/Products/Release-iphonesimulator/" ]; then
+if [ ! -d "$pathtome/../../native_library/apple/$PROJECTNAME/Build/Release-iphonesimulator/" ]; then
 echo "No Simulator build. Build using Xcode"
 exit
 fi
 
-if [ ! -d "$pathtome/../../native_library/apple/$PROJECTNAME/Build/Products/Release-iphoneos/" ]; then
+if [ ! -d "$pathtome/../../native_library/apple/$PROJECTNAME/Build/Release-iphoneos/" ]; then
 echo "No Device build. Build using Xcode"
 exit
 fi
 
-if [ ! -d "$pathtome/../../native_library/apple/$PROJECTNAME/Build/Products/Release/" ]; then
+if [ ! -d "$pathtome/../../native_library/apple/$PROJECTNAME/Build/Release/" ]; then
 echo "No OSX build. Build using Xcode"
 exit
 fi
@@ -79,21 +79,21 @@ cp "$pathtome/library.swf" "$pathtome/platforms/default"
 
 #Copy native libraries into place.
 echo "Copying native libraries into place."
-cp -R -L "$pathtome/../../native_library/apple/$PROJECTNAME/Build/Products/Release/$PROJECTNAME.framework" "$pathtome/platforms/mac/release"
+cp -R -L "$pathtome/../../native_library/apple/$PROJECTNAME/Build/Release/$PROJECTNAME.framework" "$pathtome/platforms/mac/release"
 rm -r "$pathtome/platforms/mac/release/$PROJECTNAME.framework/Versions"
 
 #Copy native libraries into place.
 echo "Copying native libraries into place."
-cp -R -L "$pathtome/../../native_library/apple/$PROJECTNAME/Build/Products/Release-iphonesimulator/lib$PROJECTNAME$libSuffix.a" "$pathtome/platforms/ios/simulator/lib$PROJECTNAME.a"
-cp -R -L "$pathtome/../../native_library/apple/$PROJECTNAME/Build/Products/Release-iphoneos/lib$PROJECTNAME$libSuffix.a" "$pathtome/platforms/ios/device/lib$PROJECTNAME.a"
+cp -R -L "$pathtome/../../native_library/apple/$PROJECTNAME/Build/Release-iphonesimulator/lib$PROJECTNAME$libSuffix.a" "$pathtome/platforms/ios/simulator/lib$PROJECTNAME.a"
+cp -R -L "$pathtome/../../native_library/apple/$PROJECTNAME/Build/Release-iphoneos/lib$PROJECTNAME$libSuffix.a" "$pathtome/platforms/ios/device/lib$PROJECTNAME.a"
 
 
 cp -R -L "$pathtome/../../example-mobile/ios_dependencies/simulator/Frameworks/FreSwift.framework" "$pathtome/platforms/ios/simulator/Frameworks"
 cp -R -L "$pathtome/../../example-mobile/ios_dependencies/device/Frameworks/FreSwift.framework" "$pathtome/platforms/ios/device/Frameworks"
 
 
-cp -R -L "$pathtome/../../native_library/apple/$PROJECTNAME/Build/Products/Release-iphonesimulator/$PROJECTNAME$fwSuffix.framework" "$pathtome/platforms/ios/simulator/Frameworks"
-cp -R -L "$pathtome/../../native_library/apple/$PROJECTNAME/Build/Products/Release-iphoneos/$PROJECTNAME$fwSuffix.framework" "$pathtome/platforms/ios/device/Frameworks"
+cp -R -L "$pathtome/../../native_library/apple/$PROJECTNAME/Build/Release-iphonesimulator/$PROJECTNAME$fwSuffix.framework" "$pathtome/platforms/ios/simulator/Frameworks"
+cp -R -L "$pathtome/../../native_library/apple/$PROJECTNAME/Build/Release-iphoneos/$PROJECTNAME$fwSuffix.framework" "$pathtome/platforms/ios/device/Frameworks"
 
 
 echo "COPYING Android aars into place"
