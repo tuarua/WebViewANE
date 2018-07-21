@@ -27,7 +27,7 @@ import android.os.Build
 import android.util.Log
 import android.webkit.*
 import com.adobe.fre.FREContext
-import com.tuarua.frekotlin.sendEvent
+import com.tuarua.frekotlin.dispatchEvent
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.ByteArrayInputStream
@@ -175,7 +175,7 @@ class ViewClient(private var context: FREContext, private var settings: Settings
     }
 
     private fun sendEvent(name: String, value: String) {
-        context.sendEvent(name, value)
+        context.dispatchEvent(name, value)
     }
 
     companion object {
