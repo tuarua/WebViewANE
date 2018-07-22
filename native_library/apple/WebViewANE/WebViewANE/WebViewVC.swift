@@ -99,7 +99,7 @@ class WebViewVC: WKWebView, FreSwiftController {
                 _capturedBitmapData = cg.copy(colorSpace: CGColorSpaceCreateDeviceRGB())
             }
         }
-        self.sendEvent(name: WebViewEvent.ON_CAPTURE_COMPLETE, value: "")
+        self.dispatchEvent(name: WebViewEvent.ON_CAPTURE_COMPLETE, value: "")
 #else
         if #available(OSX 10.13, *) {
             let config = WKSnapshotConfiguration()
@@ -107,7 +107,7 @@ class WebViewVC: WKWebView, FreSwiftController {
                 if let snapshot = result {
                     self._capturedBitmapData = snapshot.cgImage(forProposedRect: nil, context: nil, hints: nil)
                 }
-                self.sendEvent(name: WebViewEvent.ON_CAPTURE_COMPLETE, value: "")
+                self.dispatchEvent(name: WebViewEvent.ON_CAPTURE_COMPLETE, value: "")
             }) 
         } else {
             warning("capture is macOS 10.13+ only")
@@ -154,7 +154,7 @@ class WebViewVC: WKWebView, FreSwiftController {
                 props["success"] = true
             }
             props["result"] = result
-            self.sendEvent(name: WebViewEvent.AS_CALLBACK_EVENT, value: JSON(props).description)
+            self.dispatchEvent(name: WebViewEvent.AS_CALLBACK_EVENT, value: JSON(props).description)
         })
     }
 
@@ -185,7 +185,7 @@ class WebViewVC: WKWebView, FreSwiftController {
                 props["value"] = val
                 props["tab"] = _tab
                 json = JSON(props)
-                sendEvent(name: WebViewEvent.ON_PROPERTY_CHANGE, value: json.description)
+                dispatchEvent(name: WebViewEvent.ON_PROPERTY_CHANGE, value: json.description)
             }
         }
 
@@ -196,7 +196,7 @@ class WebViewVC: WKWebView, FreSwiftController {
                 props["value"] = val
                 props["tab"] = _tab
                 json = JSON(props)
-                sendEvent(name: WebViewEvent.ON_PROPERTY_CHANGE, value: json.description)
+                dispatchEvent(name: WebViewEvent.ON_PROPERTY_CHANGE, value: json.description)
             }
         }
 
@@ -204,19 +204,19 @@ class WebViewVC: WKWebView, FreSwiftController {
         props["value"] = self.canGoBack
         props["tab"] = _tab
         json = JSON(props)
-        sendEvent(name: WebViewEvent.ON_PROPERTY_CHANGE, value: json.description)
+        dispatchEvent(name: WebViewEvent.ON_PROPERTY_CHANGE, value: json.description)
 
         props["propName"] = "canGoForward"
         props["value"] = self.canGoForward
         props["tab"] = _tab
         json = JSON(props)
-        sendEvent(name: WebViewEvent.ON_PROPERTY_CHANGE, value: json.description)
+        dispatchEvent(name: WebViewEvent.ON_PROPERTY_CHANGE, value: json.description)
 
         props["propName"] = "isLoading"
         props["value"] = self.isLoading
         props["tab"] = _tab
         json = JSON(props)
-        sendEvent(name: WebViewEvent.ON_PROPERTY_CHANGE, value: json.description)
+        dispatchEvent(name: WebViewEvent.ON_PROPERTY_CHANGE, value: json.description)
         
     }
 
@@ -262,7 +262,7 @@ class WebViewVC: WKWebView, FreSwiftController {
 
         props["tab"] = _tab
         if props["propName"] != nil {
-            sendEvent(name: WebViewEvent.ON_PROPERTY_CHANGE, value: JSON(props).description)
+            dispatchEvent(name: WebViewEvent.ON_PROPERTY_CHANGE, value: JSON(props).description)
         }
         return
     }

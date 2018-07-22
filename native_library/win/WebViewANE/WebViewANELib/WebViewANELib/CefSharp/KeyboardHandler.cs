@@ -34,7 +34,7 @@ namespace WebViewANELib.CefSharp {
                     modifiers = modifiers.ToString(), 
                     isSystemKey
                 });
-                _context.SendEvent(KeyType.KeyUp == type ? OnKeyUp : OnKeyDown, json.ToString());
+                _context.DispatchEvent(KeyType.KeyUp == type ? OnKeyUp : OnKeyDown, json.ToString());
             }
 
             if (windowsKeyCode != 27) return false;

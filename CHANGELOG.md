@@ -1,5 +1,11 @@
-### 1.7.0
+### 1.8.0
+- OSX/iOS: Updated to FreSwift 2.5.0
+- AND: Updated to FreKotlin 1.4.0
+- WIN: Updated to FreSharp 1.7.0
 - WIN: Updated to CefSharp 65.0.0
+
+### 1.7.0
+- WIN: Updated to CefSharp 65.0.0 pre-rel
 - WIN: UTF-8 bug Issue #155
 - WIN: Remove MSVC2013 as a dependency
 - WIN: Updated to FreSharp 1.6.0

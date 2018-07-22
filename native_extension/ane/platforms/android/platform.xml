@@ -2,7 +2,7 @@
 <platform xmlns="http://ns.adobe.com/air/extension/19.0">
 	<packagedResources>
 		<packagedResource>
-			<packageName>com.tuarua.WebViewANE</packageName>
+			<packageName>com.tuarua.webviewane</packageName>
 			<folderName>com.tuarua.WebViewANE-res</folderName>
 		</packagedResource>
 	</packagedResources>

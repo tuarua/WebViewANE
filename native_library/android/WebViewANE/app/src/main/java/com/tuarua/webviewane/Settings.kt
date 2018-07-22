@@ -22,7 +22,6 @@
  */
 package com.tuarua.webviewane
 
-import com.adobe.fre.FREArray
 import com.adobe.fre.FREObject
 import com.tuarua.frekotlin.*
 
@@ -47,35 +46,37 @@ class Settings() {
 
     constructor(freObject: FREObject?) : this() {
         val o = freObject ?: return
-        val androidSettings: FREObject? = o.getProp("android")
+        val androidSettings = o["android"]
 
-        this.appCacheEnabled = Boolean(o.getProp("cacheEnabled")) == true
-        this.javaScriptEnabled = Boolean(androidSettings?.getProp("javaScriptEnabled")) == true
-        this.mediaPlaybackRequiresUserGesture = Boolean(androidSettings?.getProp("mediaPlaybackRequiresUserGesture")) == true
-        this.javaScriptCanOpenWindowsAutomatically = Boolean(androidSettings?.getProp("javaScriptCanOpenWindowsAutomatically")) == true
-        this.blockNetworkImage = Boolean(androidSettings?.getProp("blockNetworkImage")) == true
-        this.allowFileAccess = Boolean(androidSettings?.getProp("allowFileAccess")) == true
-        this.allowContentAccess = Boolean(androidSettings?.getProp("allowContentAccess")) == true
-        this.allowUniversalAccessFromFileURLs = Boolean(androidSettings?.getProp("allowUniversalAccessFromFileURLs")) == true
-        this.allowFileAccessFromFileURLs = Boolean(androidSettings?.getProp("allowFileAccessFromFileURLs")) == true
-        this.geolocationEnabled = Boolean(androidSettings?.getProp("geolocationEnabled")) == true
-        this.databaseEnabled = Boolean(androidSettings?.getProp("databaseEnabled")) == true
-        this.domStorageEnabled = Boolean(androidSettings?.getProp("domStorageEnabled")) == true
-        this.displayZoomControls = Boolean(androidSettings?.getProp("displayZoomControls")) == true
-        this.builtInZoomControls = Boolean(androidSettings?.getProp("builtInZoomControls")) == true
-
-        this.userAgent = String(o.getProp("userAgent"))
-
-        val whiteListFre = o.getProp("urlWhiteList")
-        if (whiteListFre != null) {
-            val whiteListArr: FREArray? = FREArray(freObject = whiteListFre)
-            this.whiteList = List<String>(whiteListArr)
+        appCacheEnabled = Boolean(o["cacheEnabled"]) == true
+        if (androidSettings != null) {
+            javaScriptEnabled = Boolean(androidSettings["javaScriptEnabled"]) ?: false
+            mediaPlaybackRequiresUserGesture = Boolean(androidSettings["mediaPlaybackRequiresUserGesture"]) ?: false
+            javaScriptCanOpenWindowsAutomatically = Boolean(androidSettings["javaScriptCanOpenWindowsAutomatically"]) ?: false
+            blockNetworkImage = Boolean(androidSettings["blockNetworkImage"]) ?: false
+            allowFileAccess = Boolean(androidSettings["allowFileAccess"]) ?: false
+            allowContentAccess = Boolean(androidSettings["allowContentAccess"]) ?: false
+            allowUniversalAccessFromFileURLs = Boolean(androidSettings["allowUniversalAccessFromFileURLs"]) ?: false
+            allowFileAccessFromFileURLs = Boolean(androidSettings["allowFileAccessFromFileURLs"]) ?: false
+            geolocationEnabled = Boolean(androidSettings["geolocationEnabled"]) ?: false
+            databaseEnabled = Boolean(androidSettings["databaseEnabled"]) ?: false
+            domStorageEnabled = Boolean(androidSettings["domStorageEnabled"]) ?: false
+            displayZoomControls = Boolean(androidSettings["displayZoomControls"]) ?: false
+            builtInZoomControls = Boolean(androidSettings["builtInZoomControls"]) ?: false
         }
 
-        val blackListFre = o.getProperty("urlBlackList")
+        userAgent = String(o["userAgent"])
+
+        val whiteListFre = o["urlWhiteList"]
+        if (whiteListFre != null) {
+            val whiteListArr = FREArray(freObject = whiteListFre)
+            whiteList = List(whiteListArr)
+        }
+
+        val blackListFre = o["urlBlackList"]
         if (blackListFre != null) {
-            val blackListArr: FREArray? = FREArray(freObject = blackListFre)
-            this.blackList = List<String>(blackListArr)
+            val blackListArr = FREArray(freObject = blackListFre)
+            blackList = List(blackListArr)
         }
     }
 

@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="starling" type="flex">
     <CLASSES>
-      <root url="jar://$DOCUMENTS$/WebViewANE/example/libs/starling.swc!/" />
+      <root url="jar://$DOCUMENTS$/WebViewANE/example-desktop-complete/libs/starling.swc!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

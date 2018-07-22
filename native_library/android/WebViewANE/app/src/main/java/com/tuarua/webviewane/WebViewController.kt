@@ -33,7 +33,7 @@ import android.webkit.WebView
 import android.widget.FrameLayout
 import com.adobe.fre.FREContext
 import com.tuarua.frekotlin.FreKotlinController
-import com.tuarua.frekotlin.sendEvent
+import com.tuarua.frekotlin.dispatchEvent
 import com.tuarua.frekotlin.geom.Rect
 import org.json.JSONException
 import org.json.JSONObject
@@ -99,9 +99,9 @@ class WebViewController(override var context: FREContext?,
                     props.put("modifiers", "")
                     props.put("isSystemKey", false)
                     if (event.action == KeyEvent.ACTION_UP) {
-                        sendEvent(WebViewEvent.ON_KEY_UP, props.toString())
+                        dispatchEvent(WebViewEvent.ON_KEY_UP, props.toString())
                     } else {
-                        sendEvent(WebViewEvent.ON_KEY_DOWN, props.toString())
+                        dispatchEvent(WebViewEvent.ON_KEY_DOWN, props.toString())
                     }
                 } catch (e: JSONException) {
                     e.printStackTrace()
@@ -157,7 +157,7 @@ class WebViewController(override var context: FREContext?,
         @JavascriptInterface
         fun postMessage(json: String?) {
             if (json != null) {
-                context?.sendEvent(WebViewEvent.JS_CALLBACK_EVENT, json)
+                context?.dispatchEvent(WebViewEvent.JS_CALLBACK_EVENT, json)
             }
         }
     }
@@ -185,7 +185,7 @@ class WebViewController(override var context: FREContext?,
     fun loadFileURL(url: String) {
         var final = url
         when {
-            !final.startsWith("file://", true) -> final = "file://" + final
+            !final.startsWith("file://", true) -> final = "file://$final"
         }
         webView?.loadUrl(final)
     }
@@ -253,7 +253,7 @@ class WebViewController(override var context: FREContext?,
                     props.put("message", "")
                     props.put("success", true)
                     props.put("result", result)
-                    sendEvent(WebViewEvent.AS_CALLBACK_EVENT, props.toString())
+                    dispatchEvent(WebViewEvent.AS_CALLBACK_EVENT, props.toString())
                 } catch (e: JSONException) {
                     e.printStackTrace()
                 }

@@ -123,7 +123,7 @@ namespace WebViewANELib {
                 graphics.CopyFromScreen(rect.left + x, rect.top + y, 0, 0, new Size(width, height),
                     CopyPixelOperation.SourceCopy);
 
-                SendEvent(OnCaptureComplete, "");
+                DispatchEvent(OnCaptureComplete, "");
             }
             catch (Exception e) {
                 return new FreException(e).RawValue;
@@ -192,7 +192,6 @@ namespace WebViewANELib {
                 var colorFre = argv[4];
                 var cefSettingsFre = settingsFre.GetProp("cef");
                 var useHiDpi = argv[5].AsBool();
-
                 var clArr = new FREArray(cefSettingsFre.GetProp("commandLineArgs"));
                 var argsDict = new Dictionary<string, string>();
 
@@ -325,8 +324,7 @@ namespace WebViewANELib {
         public FREObject GetTabDetails(FREContext ctx, uint argc, FREObject[] argv) {
             var tabDetails = _view.TabDetails;
             try {
-                var tmp = new FREObject().Init("Vector.<com.tuarua.webview.TabDetails>", null);
-                var vecTabDetails = new FREArray(tmp);
+                var vecTabDetails = new FREArray("com.tuarua.webview.TabDetails", tabDetails.Count, true);
                 for (var index = 0; index < tabDetails.Count; index++) {
                     if (!(tabDetails[index] is TabDetails tabDetail)) continue;
                     var currentTabFre = new FREObject().Init("com.tuarua.webview.TabDetails",

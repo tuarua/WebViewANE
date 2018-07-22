@@ -35,11 +35,11 @@ extension SwiftController: URLSessionTaskDelegate, URLSessionDelegate, URLSessio
         do {
             try fileManager.copyItem(at: location, to: destinationURL)
         } catch {
-            self.sendEvent(name: WebViewEvent.ON_DOWNLOAD_CANCEL,
+            self.dispatchEvent(name: WebViewEvent.ON_DOWNLOAD_CANCEL,
                            value: downloadTask.originalRequest?.url?.absoluteString ?? "")
         }
         
-        sendEvent(name: WebViewEvent.ON_DOWNLOAD_COMPLETE, value: String(describing: downloadTask.taskIdentifier))
+        dispatchEvent(name: WebViewEvent.ON_DOWNLOAD_COMPLETE, value: String(describing: downloadTask.taskIdentifier))
         downloadTaskSaveTos[downloadTask.taskIdentifier] = nil
     }
     
@@ -55,11 +55,11 @@ extension SwiftController: URLSessionTaskDelegate, URLSessionDelegate, URLSessio
         props["percent"] = (Float(totalBytesWritten) / Float(totalBytesExpectedToWrite)) * 100
         props["bytesLoaded"] = Double(totalBytesWritten)
         props["bytesTotal"] = Double(totalBytesExpectedToWrite)
-        sendEvent(name: WebViewEvent.ON_DOWNLOAD_PROGRESS, value: JSON(props).description)
+        dispatchEvent(name: WebViewEvent.ON_DOWNLOAD_PROGRESS, value: JSON(props).description)
     }
     
     public func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
-        self.sendEvent(name: WebViewEvent.ON_DOWNLOAD_CANCEL,
+        self.dispatchEvent(name: WebViewEvent.ON_DOWNLOAD_CANCEL,
                        value: task.originalRequest?.url?.absoluteString ?? "")
     }
 }

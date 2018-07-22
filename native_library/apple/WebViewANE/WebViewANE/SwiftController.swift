@@ -114,7 +114,7 @@ public class SwiftController: NSObject {
                     props["nativeKeyCode"] = event.keyCode
                     props["modifiers"] = modifiers
                     props["isSystemKey"] = false
-                    self.sendEvent(name: event.type == .keyUp ? WebViewEvent.ON_KEY_UP : WebViewEvent.ON_KEY_DOWN,
+                    self.dispatchEvent(name: event.type == .keyUp ? WebViewEvent.ON_KEY_UP : WebViewEvent.ON_KEY_DOWN,
                                    value: JSON(props).description)
 
                 }
@@ -130,7 +130,7 @@ public class SwiftController: NSObject {
         guard argc > 0,
               let type = String(argv[0])
           else {
-             return ArgCountError(message: "addEventListener").getError(#file, #line, #column)
+            return FreArgError(message: "addEventListener").getError(#file, #line, #column)
         }
         if type == "keyUp" || type == "keyDown" {
             addKeyListener(type: type)
@@ -144,7 +144,7 @@ public class SwiftController: NSObject {
         guard argc > 0,
               let type = String(argv[0])
           else {
-            return ArgCountError(message: "removeEventListener").getError(#file, #line, #column)
+            return FreArgError(message: "removeEventListener").getError(#file, #line, #column)
         }
 
         let listener: Any? = type == "keyUp" ? SwiftController.keyUpListener : SwiftController.keyDownListener
@@ -174,7 +174,7 @@ public class SwiftController: NSObject {
     func backForwardList(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
         guard let wv = _currentWebView
           else {
-            return ArgCountError(message: "backForwardList").getError(#file, #line, #column)
+            return FreArgError(message: "backForwardList").getError(#file, #line, #column)
         }
 
         let bfList = BackForwardList.init(context: context, webView: wv)
@@ -190,7 +190,7 @@ public class SwiftController: NSObject {
               let wv = _currentWebView,
               let i = Int(argv[0])
           else {
-            return ArgCountError(message: "go").getError(#file, #line, #column)
+            return FreArgError(message: "go").getError(#file, #line, #column)
         }
 
         if let item = wv.backForwardList.item(at: i) {
@@ -203,7 +203,7 @@ public class SwiftController: NSObject {
 #if os(OSX)
         guard let wv = _currentWebView
             else {
-                return ArgCountError(message: "zoomIn").getError(#file, #line, #column)
+                return FreArgError(message: "zoomIn").getError(#file, #line, #column)
         }
         wv.setMagnification(CGFloat(wv.magnification + SwiftController.zoomIncrement), centeredAt: CGPoint.zero)
 #endif
@@ -214,7 +214,7 @@ public class SwiftController: NSObject {
 #if os(OSX)
         guard let wv = _currentWebView
             else {
-                return ArgCountError(message: "zoomOut").getError(#file, #line, #column)
+                return FreArgError(message: "zoomOut").getError(#file, #line, #column)
         }
         wv.setMagnification(CGFloat(wv.magnification - SwiftController.zoomIncrement), centeredAt: CGPoint.zero)
 #endif
@@ -240,7 +240,7 @@ public class SwiftController: NSObject {
               let wv = _currentWebView,
               let visible = Bool(argv[0])
           else {
-            return ArgCountError(message: "setVisible").getError(#file, #line, #column)
+            return FreArgError(message: "setVisible").getError(#file, #line, #column)
         }
 
         if !_isAdded {
@@ -290,7 +290,7 @@ public class SwiftController: NSObject {
               let wv = _currentWebView,
               let viewPortFre = CGRect(argv[0])
           else {
-            return ArgCountError(message: "setViewPort").getError(#file, #line, #column)
+            return FreArgError(message: "setViewPort").getError(#file, #line, #column)
         }
 
         _viewPort = viewPortFre
@@ -303,7 +303,7 @@ public class SwiftController: NSObject {
               let wv = _currentWebView,
               let url = String(argv[0]),
               !url.isEmpty else {
-            return ArgCountError(message: "load").getError(#file, #line, #column)
+                return FreArgError(message: "load").getError(#file, #line, #column)
         }
         wv.load(url: url)
         return nil
@@ -314,7 +314,7 @@ public class SwiftController: NSObject {
               let wv = _currentWebView,
               let html =  String(argv[0])
           else {
-            return ArgCountError(message: "loadHTMLString").getError(#file, #line, #column)
+            return FreArgError(message: "loadHTMLString").getError(#file, #line, #column)
         }
         wv.load(html: html)
         return nil
@@ -328,7 +328,7 @@ public class SwiftController: NSObject {
             let allowingReadAccessToStr = String(argv[1]),
             let allowingReadAccessTo = URL(safe: allowingReadAccessToStr)
             else {
-                return ArgCountError(message: "loadFileURL").getError(#file, #line, #column)
+                return FreArgError(message: "loadFileURL").getError(#file, #line, #column)
         }
         wv.load(fileUrl: url, allowingReadAccessTo: allowingReadAccessTo)
         return nil
@@ -339,7 +339,7 @@ public class SwiftController: NSObject {
 #else
         guard argc > 0,
             let fullScreen = Bool(argv[0]) else {
-            return ArgCountError(message: "onFullScreen").getError(#file, #line, #column)
+                return FreArgError(message: "onFullScreen").getError(#file, #line, #column)
         }
 
         let tmpIsAdded = _isAdded
@@ -357,7 +357,7 @@ public class SwiftController: NSObject {
                             && theX > self._viewPort.origin.x
                             && theX < (self._viewPort.size.width - self._viewPort.origin.x)
                             && theY > realY && theY < (realY + self._viewPort.size.height) {
-                            self.sendEvent(name: WebViewEvent.ON_ESC_KEY, value: "")
+                            self.dispatchEvent(name: WebViewEvent.ON_ESC_KEY, value: "")
                         }
                         return event
                     }
@@ -409,7 +409,7 @@ public class SwiftController: NSObject {
               let wv = _currentWebView,
               let js = String(argv[0])
           else {
-            return ArgCountError(message: "evaluateJavaScript").getError(#file, #line, #column)
+            return FreArgError(message: "evaluateJavaScript").getError(#file, #line, #column)
         }
         
         if let callback = String(argv[1]) {
@@ -429,7 +429,7 @@ public class SwiftController: NSObject {
         guard argc > 0,
               let injectCode = String(argv[0])
           else {
-            return ArgCountError(message: "injectScript").getError(#file, #line, #column)
+            return FreArgError(message: "injectScript").getError(#file, #line, #column)
         }
 
         let userScript = WKUserScript(source: injectCode, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
@@ -454,7 +454,7 @@ public class SwiftController: NSObject {
     func capture(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
         guard argc > 0,
             let wvc = _currentWebView else {
-                return ArgCountError(message: "capture").getError(#file, #line, #column)
+                return FreArgError(message: "capture").getError(#file, #line, #column)
         }
         _capturedCropTo = scaleViewPort(rect: CGRect(argv[0]))
         wvc.capture()
@@ -477,7 +477,7 @@ public class SwiftController: NSObject {
     
     func getCapturedBitmapData(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
         guard let wvc = _currentWebView else {
-                return ArgCountError(message: "getCapturedBitmapData").getError(#file, #line, #column)
+            return FreArgError(message: "getCapturedBitmapData").getError(#file, #line, #column)
         }
         guard let captured = wvc.capturedBitmapData else { return nil }
         let x = _capturedCropTo?.origin.x ?? 0
@@ -550,7 +550,7 @@ public class SwiftController: NSObject {
         guard argc > 0,
               let wv = _currentWebView
           else {
-            return ArgCountError(message: "addTab").getError(#file, #line, #column)
+            return FreArgError(message: "addTab").getError(#file, #line, #column)
         }
 
         if let initialUrl = String(argv[0]) {
@@ -581,7 +581,7 @@ public class SwiftController: NSObject {
               index > -1,
               index < (_tabList.count)
           else {
-            return ArgCountError(message: "closeTab").getError(#file, #line, #column)
+            return FreArgError(message: "closeTab").getError(#file, #line, #column)
         }
 
         let doRefresh = (_currentTab >= index)
@@ -640,7 +640,7 @@ public class SwiftController: NSObject {
               index < (_tabList.count),
               index != _currentTab
           else {
-            return ArgCountError(message: "setCurrentTab").getError(#file, #line, #column)
+            return FreArgError(message: "setCurrentTab").getError(#file, #line, #column)
         }
 
         for vc in _tabList {
@@ -666,7 +666,9 @@ public class SwiftController: NSObject {
     func getTabDetails(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
         var ret: FREObject? = nil
         do {
-            let airArray: FREArray = try FREArray(className: "Vector.<com.tuarua.webview.TabDetails>")
+            let airArray: FREArray = try FREArray(className: "com.tuarua.webview.TabDetails",
+                                                  length: _tabList.count,
+                                                  fixed: true)
             ret = airArray.rawValue
             var cnt = 0
             for vc in _tabList {
@@ -727,7 +729,7 @@ public class SwiftController: NSObject {
               let inFRE4 = argv[4],
               let viewPortFre = CGRect(argv[1])
           else {
-            return ArgCountError(message: "initWebView").getError(#file, #line, #column)
+            return FreArgError(message: "initWebView").getError(#file, #line, #column)
         }
         if let initialUrl = String(argv[0]) {
             _initialUrl = initialUrl

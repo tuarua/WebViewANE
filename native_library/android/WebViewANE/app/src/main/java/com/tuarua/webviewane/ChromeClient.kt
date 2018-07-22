@@ -24,11 +24,10 @@ package com.tuarua.webviewane
 
 import android.util.Log
 import android.webkit.GeolocationPermissions
-import android.webkit.PermissionRequest
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import com.adobe.fre.FREContext
-import com.tuarua.frekotlin.sendEvent
+import com.tuarua.frekotlin.dispatchEvent
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -62,24 +61,12 @@ class ChromeClient(private var context: FREContext) : WebChromeClient() {
 
     }
 
-    override fun onPermissionRequest(request: PermissionRequest?) {
-        super.onPermissionRequest(request)
-    }
-
-    override fun onPermissionRequestCanceled(request: PermissionRequest?) {
-        super.onPermissionRequestCanceled(request)
-    }
-
     override fun onGeolocationPermissionsShowPrompt(origin: String?, callback: GeolocationPermissions.Callback?) {
         callback?.invoke(origin, true, false)
     }
 
-    override fun onGeolocationPermissionsHidePrompt() {
-        super.onGeolocationPermissionsHidePrompt()
-    }
-
     private fun sendEvent(name: String, value: String) {
-        context.sendEvent(name, value)
+        context.dispatchEvent(name, value)
     }
 
     companion object {

@@ -194,9 +194,7 @@ class KotlinController : FreKotlinMainController {
 
     fun getTabDetails(ctx: FREContext, argv: FREArgv): FREObject? {
         try {
-            val o = FREObject("Vector.<com.tuarua.webview.TabDetails>")
-            val vecTabs = FREArray(o)
-            vecTabs.length = 1
+            val vecTabs = FREArray("com.tuarua.webview.TabDetails", 1, true)
             val currentTabFre = FREObject("com.tuarua.webview.TabDetails", 0,
                     webViewController?.url ?: ""
                     , webViewController?.title ?: ""
@@ -217,7 +215,7 @@ class KotlinController : FreKotlinMainController {
         argv.takeIf { argv.size > 0 } ?: return FreArgException("capture")
         val cropTo = scaleViewPort(Rect(argv[0]))
         capturedBitmapData = webViewController?.capture(cropTo)
-        sendEvent(WebViewEvent.ON_CAPTURE_COMPLETE, "")
+        dispatchEvent(WebViewEvent.ON_CAPTURE_COMPLETE, "")
         return null
     }
 
