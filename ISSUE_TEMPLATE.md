@@ -1,6 +1,6 @@
 Answer the below. **DO NOT DELETE!!**
 
-- **Have you read the README carefully?**
+- **Have you read the [Wiki](https://github.com/tuarua/WebViewANE/wiki) carefully?**
     - Follow the instructions provided before raising an issue.
     
 - **What version of the product are you using?**
