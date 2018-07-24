@@ -5,7 +5,7 @@ Answer the below. **DO NOT DELETE!!**
     
 - **What version of the product are you using?**
     - What version are you using?
-e.g. 0.0.27
+e.g. 1.8.0
 
 - **On what operating system?**
     - OSX, Win7, Win 8, Win10, etc?
