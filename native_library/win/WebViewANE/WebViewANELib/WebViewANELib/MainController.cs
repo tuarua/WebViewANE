@@ -185,7 +185,7 @@ namespace WebViewANELib {
                         "Please see https://forum.starling-framework.org/topic/webviewane-for-osx/page/7?replies=201#post-105524 for more details")
                     .RawValue;
             }
-
+            System.Windows.Media.Color backgroundMediaColor;
             try {
                 var viewPort = argv[1].AsRect();
                 var settingsFre = argv[2];
@@ -208,38 +208,26 @@ namespace WebViewANELib {
                 var whiteList = settingsFre.GetProp("urlWhiteList").ToArrayList();
                 var blackList = settingsFre.GetProp("urlBlackList").ToArrayList();
                 _backgroundColor = colorFre.AsColor(true);
+
+                backgroundMediaColor = new System.Windows.Media.Color {
+                    A = _backgroundColor.A,
+                    R = _backgroundColor.R,
+                    G = _backgroundColor.G,
+                    B = _backgroundColor.B
+                };
+
                 _scaleFactor = useHiDpi ? WinApi.GetScaleFactor() : 1.0;
 
                 if (_useEdge) {
                     EdgeView.Context = Context;
                     _view = new EdgeView {
-                        InitialUrl = argv[0].AsString(),
-                        Background = new SolidColorBrush(new System.Windows.Media.Color {
-                            A = _backgroundColor.A,
-                            R = _backgroundColor.R,
-                            G = _backgroundColor.G,
-                            B = _backgroundColor.B
-                        }),
-                        X = Convert.ToInt32(viewPort.X * _scaleFactor),
-                        Y = Convert.ToInt32(viewPort.Y * _scaleFactor),
-                        ViewWidth = Convert.ToInt32(viewPort.Width * _scaleFactor),
-                        ViewHeight = Convert.ToInt32(viewPort.Height * _scaleFactor)
+                        Background = new SolidColorBrush(backgroundMediaColor)
                     };
                 }
                 else {
                     CefView.Context = Context;
                     _view = new CefView {
-                        InitialUrl = argv[0].AsString(),
-                        Background = new SolidColorBrush(new System.Windows.Media.Color {
-                            A = _backgroundColor.A,
-                            R = _backgroundColor.R,
-                            G = _backgroundColor.G,
-                            B = _backgroundColor.B
-                        }),
-                        X = Convert.ToInt32(viewPort.X * _scaleFactor),
-                        Y = Convert.ToInt32(viewPort.Y * _scaleFactor),
-                        ViewWidth = Convert.ToInt32(viewPort.Width * _scaleFactor),
-                        ViewHeight = Convert.ToInt32(viewPort.Height * _scaleFactor),
+                        Background = new SolidColorBrush(backgroundMediaColor),
                         RemoteDebuggingPort = cefSettingsFre.GetProp("remoteDebuggingPort").AsInt(),
                         CachePath = cefSettingsFre.GetProp("cachePath").AsString(),
                         DownloadPath = settingsFre.GetProp("downloadPath").AsString(),
@@ -260,6 +248,11 @@ namespace WebViewANELib {
                         )
                     };
                 }
+                _view.InitialUrl = argv[0].AsString();
+                _view.X = Convert.ToInt32(viewPort.X * _scaleFactor);
+                _view.Y = Convert.ToInt32(viewPort.Y * _scaleFactor);
+                _view.ViewWidth = Convert.ToInt32(viewPort.Width * _scaleFactor);
+                _view.ViewHeight = Convert.ToInt32(viewPort.Height * _scaleFactor);
                 _view.Init();
             }
             catch (Exception e) {
@@ -273,9 +266,17 @@ namespace WebViewANELib {
             parameters.WindowName = "Cef Window";
             parameters.WindowStyle = (int) WindowStyles.WS_CHILD;
             parameters.AcquireHwndFocusInMenuMode = true;
+
+            if (Environment.OSVersion.Version.Major > 7) {
+                parameters.ExtendedWindowStyle = (int) WindowExStyles.WS_EX_LAYERED;
+                parameters.UsesPerPixelTransparency = true;
+            }
+
             var source = _useEdge ? new HwndSource(parameters) {RootVisual = (EdgeView) _view} 
                 : new HwndSource(parameters) {RootVisual = (CefView) _view};
-
+            if (source.CompositionTarget != null) {
+                source.CompositionTarget.BackgroundColor = backgroundMediaColor;
+            }   
             _webViewWindow = source.Handle;
 
             WinApi.RegisterTouchWindow(_webViewWindow, TouchWindowFlags.TWF_WANTPALM);
