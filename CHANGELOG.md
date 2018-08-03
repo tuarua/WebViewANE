@@ -1,5 +1,5 @@
 ### 1.8.1
-- WIN: WKWebview download implementation [Issue #168](https://github.com/tuarua/WebViewANE/issues/168)
+- WIN: add BackgroundColor to HwndSource [Issue #168](https://github.com/tuarua/WebViewANE/issues/168)
 
 ### 1.8.0
 - OSX/iOS: Updated to FreSwift 2.5.0
