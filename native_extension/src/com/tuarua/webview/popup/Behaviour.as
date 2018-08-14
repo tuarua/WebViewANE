@@ -25,5 +25,7 @@ public final class Behaviour {
     public static const BLOCK:uint = 0;
     public static const NEW_WINDOW:uint = 1;
     public static const SAME_WINDOW:uint = 2;
+    /** Any new windows opened will close any previous */
+    public static const REPLACE:uint = 3;
 }
 }
