@@ -23,24 +23,27 @@ import Cocoa
 import WebKit
 
 class Popup: NSObject, NSWindowDelegate {
-    private var _popupWindow: NSWindow!
+    private var _popupWindow: NSWindow?
     private var _popupVC: PopupVC!
     public var popupDimensions: (Int, Int) = (800, 600)
 
     public func createPopupWindow(url: URLRequest, configuration: WKWebViewConfiguration) {
+        if let p = _popupWindow {
+            p.close()
+        }
         _popupWindow = NSWindow(contentRect: NSRect(x: 0, y: 0, width: CGFloat(popupDimensions.0),
                                                     height: CGFloat(popupDimensions.1)),
                 styleMask: [.titled, .miniaturizable, .closable],
                 backing: .buffered, defer: false)
 
-        _popupWindow.center()
-        _popupWindow.isReleasedWhenClosed = false
-        _popupWindow.delegate = self
+        _popupWindow?.center()
+        _popupWindow?.isReleasedWhenClosed = false
+        _popupWindow?.delegate = self
         _popupVC = PopupVC(request: url, width: popupDimensions.0,
                            height: popupDimensions.1, configuration: configuration)
-        guard let contentView = _popupWindow.contentView else { return }
+        guard let contentView = _popupWindow?.contentView else { return }
         contentView.addSubview(_popupVC.view)
-        _popupWindow.makeKeyAndOrderFront(nil)
+        _popupWindow?.makeKeyAndOrderFront(nil)
         
     }
 

@@ -1,62 +1,72 @@
 ﻿using System;
+using System.Collections;
 using CefSharp;
 
-namespace WebViewANELib.CefSharp
-{
+namespace WebViewANELib.CefSharp {
     public class LifeSpanHandler : ILifeSpanHandler {
         public event EventHandler<string> OnPermissionPopup;
         public event EventHandler<string> OnPopupBlock;
         private readonly PopupBehaviour _popupBehaviour;
         private readonly Tuple<int, int> _popupDimensions;
-
+        private readonly ArrayList _popUps = new ArrayList();
 
         public LifeSpanHandler(PopupBehaviour popupBehaviour, Tuple<int, int> popupDimensions) {
             _popupBehaviour = popupBehaviour;
             _popupDimensions = popupDimensions;
         }
 
-        public bool OnBeforePopup(IWebBrowser browserControl, IBrowser browser, IFrame frame, string targetUrl, string targetFrameName,
-            WindowOpenDisposition targetDisposition, bool userGesture, IPopupFeatures popupFeatures, IWindowInfo windowInfo,
+        public bool OnBeforePopup(IWebBrowser browserControl, IBrowser browser, IFrame frame, string targetUrl,
+            string targetFrameName,
+            WindowOpenDisposition targetDisposition, bool userGesture, IPopupFeatures popupFeatures,
+            IWindowInfo windowInfo,
             IBrowserSettings browserSettings, ref bool noJavascriptAccess, out IWebBrowser newBrowser) {
             //Set newBrowser to null unless your attempting to host the popup in a new instance of ChromiumWebBrowser
             newBrowser = null;
 
             windowInfo.Width = _popupDimensions.Item1;
             windowInfo.Height = _popupDimensions.Item2;
+            EventHandler<string> handler;
 
-            // ReSharper disable once ConvertIfStatementToSwitchStatement
-            if (_popupBehaviour == PopupBehaviour.Block) {
-                var handler = OnPopupBlock;
-                handler?.Invoke(this, targetUrl);
-                return true;
+            switch (_popupBehaviour) {
+                case PopupBehaviour.NewWindow:
+                    return false;
+                case PopupBehaviour.Replace:
+                    foreach (IBrowser p in _popUps) {
+                        p.CloseBrowser(true);
+                    }
+                    return false;
+                case PopupBehaviour.Block:
+                    handler = OnPopupBlock;
+                    handler?.Invoke(this, targetUrl);
+                    return true;
+                case PopupBehaviour.SameWindow:
+                    handler = OnPermissionPopup;
+                    handler?.Invoke(this, targetUrl);
+                    return true;
+                default:
+                    return false;
             }
-            
-            // ReSharper disable once InvertIf
-            if (_popupBehaviour == PopupBehaviour.SameWindow) {
-                var handler = OnPermissionPopup;
-                handler?.Invoke(this, targetUrl);
-                return true;
-            }
-
-            return false; //Return true to cancel the popup creation
         }
 
         public void OnAfterCreated(IWebBrowser browserControl, IBrowser browser) {
+            if (_popupBehaviour == PopupBehaviour.Replace && browser.IsPopup) {
+                _popUps.Add(browser);
+            }
         }
 
         public bool DoClose(IWebBrowser browserControl, IBrowser browser) {
-            //We need to allow popups to close
-            //If the browser has been disposed then we'll just let the default behaviour take place
-
+            if (_popupBehaviour == PopupBehaviour.Replace && browser.IsPopup) {
+                for (var i = 0; i < _popUps.Count; i++) {
+                    var b = (IBrowser) _popUps[i];
+                    if (b.Identifier == browser.Identifier) {
+                        _popUps.RemoveAt(i);
+                    }
+                }
+                _popUps.TrimToSize();
+            }
             return !browser.IsDisposed && !browser.IsPopup;
-
-            //The default CEF behaviour (return false) will send a OS close notification (e.g. WM_CLOSE).
-            //See the doc for this method for full details.
-            //return true here to handle closing yourself (no WM_CLOSE will be sent).
-
         }
 
-        public void OnBeforeClose(IWebBrowser browserControl, IBrowser browser) {
-        }
+        public void OnBeforeClose(IWebBrowser browserControl, IBrowser browser) { }
     }
 }
