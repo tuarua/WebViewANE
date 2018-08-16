@@ -23,9 +23,10 @@
 package com.tuarua.webview.popup {
 public final class Behaviour {
     public static const BLOCK:uint = 0;
+    /** On OSX any spawned windows will replace any previous*/
     public static const NEW_WINDOW:uint = 1;
     public static const SAME_WINDOW:uint = 2;
-    /** Any new windows opened will close any previous */
+    /** On Windows. Any spawned windows opened will replace any previous. On OSX this is NEW_WINDOW's default behaviour*/
     public static const REPLACE:uint = 3;
 }
 }
