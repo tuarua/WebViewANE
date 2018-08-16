@@ -48,7 +48,7 @@ extension SwiftController: WKNavigationDelegate {
                 }
                 props["tab"] = getCurrentTab(webView)
                 dispatchEvent(name: WebViewEvent.ON_POPUP_BLOCKED, value: JSON(props).description)
-            case .newWindow:
+            case .newWindow, .replace:
                 #if os(iOS)
                     warning("Cannot open popup in new window on iOS. Opening in same window.")
                     webView.load(navigationAction.request)

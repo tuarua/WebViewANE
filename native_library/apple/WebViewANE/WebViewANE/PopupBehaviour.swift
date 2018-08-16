@@ -24,4 +24,5 @@ public enum PopupBehaviour: Int {
     case block = 0
     case newWindow
     case sameWindow
+    case replace
 }
