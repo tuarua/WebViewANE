@@ -1,5 +1,5 @@
-### 1.8.2
-- WIN: Add popup.Behaviour.REPLACE Issue #171
+### 1.8.3
+- WIN: Add popup.Behaviour.REPLACE Issue #170, Issue #171
 
 ### 1.8.1
 - WIN: add BackgroundColor to HwndSource Issue #168

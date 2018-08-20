@@ -20,6 +20,7 @@ namespace WebViewANELib.CefSharp {
             WindowOpenDisposition targetDisposition, bool userGesture, IPopupFeatures popupFeatures,
             IWindowInfo windowInfo,
             IBrowserSettings browserSettings, ref bool noJavascriptAccess, out IWebBrowser newBrowser) {
+
             //Set newBrowser to null unless your attempting to host the popup in a new instance of ChromiumWebBrowser
             newBrowser = null;
 
@@ -31,9 +32,17 @@ namespace WebViewANELib.CefSharp {
                 case PopupBehaviour.NewWindow:
                     return false;
                 case PopupBehaviour.Replace:
-                    foreach (IBrowser p in _popUps) {
-                        p.CloseBrowser(true);
+                    lock (_popUps.SyncRoot) {
+                        try {
+                            foreach (IBrowser p in _popUps) {
+                                p.CloseBrowser(true);
+                            }
+                        }
+                        catch {
+                            // ignored
+                        }
                     }
+
                     return false;
                 case PopupBehaviour.Block:
                     handler = OnPopupBlock;
@@ -49,21 +58,29 @@ namespace WebViewANELib.CefSharp {
         }
 
         public void OnAfterCreated(IWebBrowser browserControl, IBrowser browser) {
+            // ReSharper disable once InvertIf
             if (_popupBehaviour == PopupBehaviour.Replace && browser.IsPopup) {
-                _popUps.Add(browser);
+                lock (_popUps.SyncRoot) {
+                    _popUps.Add(browser);
+                }
             }
         }
 
         public bool DoClose(IWebBrowser browserControl, IBrowser browser) {
+            // ReSharper disable once InvertIf
             if (_popupBehaviour == PopupBehaviour.Replace && browser.IsPopup) {
-                for (var i = 0; i < _popUps.Count; i++) {
-                    var b = (IBrowser) _popUps[i];
-                    if (b.Identifier == browser.Identifier) {
-                        _popUps.RemoveAt(i);
+                lock (_popUps.SyncRoot) {
+                    for (var i = 0; i < _popUps.Count; i++) {
+                        var b = (IBrowser) _popUps[i];
+                        if (b.Identifier == browser.Identifier) {
+                            _popUps.RemoveAt(i);
+                        }
                     }
+
+                    _popUps.TrimToSize();
                 }
-                _popUps.TrimToSize();
             }
+
             return !browser.IsDisposed && !browser.IsPopup;
         }
 
