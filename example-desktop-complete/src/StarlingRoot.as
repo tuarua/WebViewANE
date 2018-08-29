@@ -138,7 +138,7 @@ public class StarlingRoot extends Sprite {
         settings.cef.userDataPath = File.applicationStorageDirectory.nativePath;
         settings.cef.logSeverity = LogSeverity.DISABLE;
 
-        // settings.urlWhiteList.push("macromedia.","google.", "YouTUBE.", "adobe.com", "chrome-devtools://"); //to restrict urls - simple string matching
+        // settings.urlWhiteList.push("html5test.com", "macromedia.","google.", "YouTUBE.", "adobe.com", "chrome-devtools://"); //to restrict urls - simple string matching
         // settings.urlBlackList.push(".pdf");
 
         var viewPort:Rectangle = new Rectangle(0, 90, _appWidth, _appHeight - 140);

@@ -340,7 +340,7 @@ namespace WebViewANELib {
             }
         }
 
-        public void Load(string url) {
+        public void Load(string url, string allowingReadAccessTo = null) {
             if (_isLoaded) {
                 CurrentBrowser.Load(url);
             }

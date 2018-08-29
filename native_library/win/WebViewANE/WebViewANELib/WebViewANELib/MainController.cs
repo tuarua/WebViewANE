@@ -24,6 +24,7 @@
 #endregion
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -37,6 +38,7 @@ using FREObject = System.IntPtr;
 using FREContext = System.IntPtr;
 using Hwnd = System.IntPtr;
 using TuaRua.FreSharp.Exceptions;
+using TuaRua.FreSharp.Geom;
 
 namespace WebViewANELib {
     public class MainController : FreSharpMainController {
@@ -185,30 +187,30 @@ namespace WebViewANELib {
                         "Please see https://forum.starling-framework.org/topic/webviewane-for-osx/page/7?replies=201#post-105524 for more details")
                     .RawValue;
             }
+
             System.Windows.Media.Color backgroundMediaColor;
             try {
+                dynamic settings = new FreObjectSharp(argv[2]);
+                dynamic cefSettings = new FreObjectSharp(settings.cef);
+                var initialUrl = argv[0].AsString();
                 var viewPort = argv[1].AsRect();
-                var settingsFre = argv[2];
-                var colorFre = argv[4];
-                var cefSettingsFre = settingsFre.GetProp("cef");
                 var useHiDpi = argv[5].AsBool();
-                var clArr = new FREArray(cefSettingsFre.GetProp("commandLineArgs"));
-                var argsDict = new Dictionary<string, string>();
+                FREArray clArr = cefSettings.commandLineArgs;
 
-                uint i;
-                for (i = 0; i < clArr.Length; ++i) {
-                    var argFre = clArr.At(i);
+                var argsDict = new Dictionary<string, string>();
+                foreach (var argFre in clArr) {
                     var key = argFre.GetProp("key").AsString();
                     var val = argFre.GetProp("value").AsString();
                     if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(val)) continue;
                     argsDict.Add(key, val);
                 }
 
-                _useEdge = settingsFre.GetProp("engine").AsInt() == 1;
-                var whiteList = settingsFre.GetProp("urlWhiteList").ToArrayList();
-                var blackList = settingsFre.GetProp("urlBlackList").ToArrayList();
-                _backgroundColor = colorFre.AsColor(true);
+                _useEdge = settings.engine == 1;
 
+                ArrayList whiteList = settings.urlWhiteList.AsArrayList();
+                ArrayList blackList = settings.urlBlackList.AsArrayList();
+
+                _backgroundColor = argv[4].AsColor();
                 backgroundMediaColor = new System.Windows.Media.Color {
                     A = _backgroundColor.A,
                     R = _backgroundColor.R,
@@ -226,29 +228,30 @@ namespace WebViewANELib {
                 }
                 else {
                     CefView.Context = Context;
+                    dynamic contextMenu = new FreObjectSharp(settings.contextMenu);
+                    dynamic popup = new FreObjectSharp(settings.popup);
+                    dynamic dimensions = new FreObjectSharp(popup.dimensions);
+
                     _view = new CefView {
                         Background = new SolidColorBrush(backgroundMediaColor),
-                        RemoteDebuggingPort = cefSettingsFre.GetProp("remoteDebuggingPort").AsInt(),
-                        CachePath = cefSettingsFre.GetProp("cachePath").AsString(),
-                        DownloadPath = settingsFre.GetProp("downloadPath").AsString(),
-                        EnableDownloads = settingsFre.GetProp("enableDownloads").AsBool(),
-                        CacheEnabled = settingsFre.GetProp("cacheEnabled").AsBool(),
-                        LogLevel = cefSettingsFre.GetProp("logSeverity").AsInt(),
-                        BrowserSubprocessPath = cefSettingsFre.GetProp("browserSubprocessPath").AsString(),
-                        ContextMenuEnabled = settingsFre.GetProp("contextMenu").GetProp("enabled").AsBool(),
-                        UserAgent = settingsFre.GetProp("userAgent").AsString(),
-                        UserDataPath = cefSettingsFre.GetProp("userDataPath").AsString(),
+                        RemoteDebuggingPort = cefSettings.remoteDebuggingPort,
+                        CachePath = cefSettings.cachePath,
+                        DownloadPath = settings.downloadPath,
+                        EnableDownloads = settings.enableDownloads,
+                        CacheEnabled = settings.cacheEnabled,
+                        LogLevel = cefSettings.logSeverity,
+                        BrowserSubprocessPath = cefSettings.browserSubprocessPath,
+                        ContextMenuEnabled = contextMenu.enabled,
+                        UserAgent = settings.userAgent,
+                        UserDataPath = cefSettings.userDataPath,
                         CommandLineArgs = argsDict,
-                        WhiteList = whiteList,
-                        BlackList = blackList,
-                        PopupBehaviour = (PopupBehaviour) settingsFre.GetProp("popup").GetProp("behaviour").AsInt(),
-                        PopupDimensions = new Tuple<int, int>(
-                            settingsFre.GetProp("popup").GetProp("dimensions").GetProp("width").AsInt(),
-                            settingsFre.GetProp("popup").GetProp("dimensions").GetProp("height").AsInt()
-                        )
+                        PopupBehaviour = (PopupBehaviour) popup.behaviour,
+                        PopupDimensions = new Tuple<int, int>(dimensions.width, dimensions.height)
                     };
                 }
-                _view.InitialUrl = argv[0].AsString();
+                _view.InitialUrl = initialUrl;
+                _view.WhiteList = whiteList;
+                _view.BlackList = blackList;
                 _view.X = Convert.ToInt32(viewPort.X * _scaleFactor);
                 _view.Y = Convert.ToInt32(viewPort.Y * _scaleFactor);
                 _view.ViewWidth = Convert.ToInt32(viewPort.Width * _scaleFactor);
@@ -256,7 +259,7 @@ namespace WebViewANELib {
                 _view.Init();
             }
             catch (Exception e) {
-                return new FreException(e).RawValue; //return as3 error and throw in swc
+                return new FreException(e).RawValue;
             }
 
             var parameters = new HwndSourceParameters();
@@ -272,11 +275,13 @@ namespace WebViewANELib {
                 parameters.UsesPerPixelTransparency = true;
             }
 
-            var source = _useEdge ? new HwndSource(parameters) {RootVisual = (EdgeView) _view} 
+            var source = _useEdge
+                ? new HwndSource(parameters) {RootVisual = (EdgeView) _view}
                 : new HwndSource(parameters) {RootVisual = (CefView) _view};
             if (source.CompositionTarget != null) {
                 source.CompositionTarget.BackgroundColor = backgroundMediaColor;
-            }   
+            }
+
             _webViewWindow = source.Handle;
 
             WinApi.RegisterTouchWindow(_webViewWindow, TouchWindowFlags.TWF_WANTPALM);
@@ -417,7 +422,7 @@ namespace WebViewANELib {
 
         public FREObject Load(FREContext ctx, uint argc, FREObject[] argv) {
             try {
-                _view.Load(argv[0].AsString());
+                _view.Load(argv[0].AsString(), argc > 1 ? argv[1].AsString() : null);
             }
             catch (Exception e) {
                 return new FreException(e).RawValue;

@@ -28,7 +28,6 @@ using TuaRua.FreSharp;
 
 namespace WebViewANELib {
     public class BoundObject {
-        private const string JsCallbackEvent = "TRWV.js.CALLBACK";
         private readonly FreContextSharp _context;
 
         public BoundObject(FreContextSharp context) {
@@ -73,7 +72,7 @@ namespace WebViewANELib {
             }
 
             writer.WriteEndObject();
-            _context.DispatchEvent(JsCallbackEvent, sb.ToString());
+            _context.DispatchEvent(WebViewEvent.JsCallbackEvent, sb.ToString());
         }
     }
 }

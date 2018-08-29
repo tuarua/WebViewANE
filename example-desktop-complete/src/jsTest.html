@@ -14,16 +14,33 @@
 
     <script type="text/javascript">
         const isCef = (navigator.vendor === "Google Inc.");
+        const isEdge = /Edge/.test(navigator.userAgent);
+
+        const webViewANEWrapper = {
+            postMessage: function (message) { //object
+                if (isCef) {
+                    webViewANE.postMessage(message);
+                } else if (isEdge) {
+                    window.external.notify(JSON.stringify(message));
+                } else {
+                    window.webkit.messageHandlers.webViewANE.postMessage(message);
+                }
+            }
+        };
+
+        function getWebviewANE() {
+            return webViewANEWrapper;
+        }
+
         $(document).ready(function () {
             let button1 = document.getElementById("button1");
             let button2 = document.getElementById("button2");
 
-            button1.addEventListener('click', function(event) {
+            button1.addEventListener('click', function (event) {
                 const d = new Date();
                 const n = d.getTime();
                 const output = document.getElementById('output');
                 output.innerText = "The function has returned: " + d + " - unix timestamp: " + n + "\n";
-
                 const messageToPost = {
                     'functionName': 'js_to_as',
                     'callbackName': 'jsCallback',
@@ -33,7 +50,7 @@
                 getWebviewANE().postMessage(messageToPost);
             });
 
-            button2.addEventListener('click', function(event) {
+            button2.addEventListener('click', function (event) {
                 const d = new Date();
                 const n = d.getTime();
                 const output = document.getElementById('output');
@@ -60,16 +77,12 @@
                             button1.disabled = button2.disabled = false;
                         }
                     });
-            })();
+                })();
             } else {
                 button1.disabled = button2.disabled = false;
             }
 
         });
-
-        function getWebviewANE() {
-            return (isCef) ? webViewANE : window.webkit.messageHandlers.webViewANE;
-        }
 
         function jsCallback(paramA, paramB, paramC) {
             const d = new Date();
@@ -101,7 +114,7 @@
             const i = 21;
             const str = "this is a string";
             const b = false;
-            return person;
+            return isCef ? person : JSON.stringify(person);
         }
 
     </script>

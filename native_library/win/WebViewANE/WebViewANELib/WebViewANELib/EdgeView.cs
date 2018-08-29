@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 using Microsoft.Toolkit.Win32.UI.Controls.WPF;
 using Newtonsoft.Json.Linq;
 using TuaRua.FreSharp;
+using WebViewANELib.Edge;
 
 namespace WebViewANELib {
     public partial class EdgeView : IWebView {
@@ -19,6 +22,8 @@ namespace WebViewANELib {
         public string InjectScriptUrl { get; set; }
         public int InjectStartLine { get; set; }
         public string InitialUrl { private get; set; }
+        public ArrayList WhiteList { private get; set; }
+        public ArrayList BlackList { private get; set; }
         public WebView CurrentBrowser { get; private set; }
 
         public static FreContextSharp Context;
@@ -42,7 +47,7 @@ namespace WebViewANELib {
                 IsScriptNotifyAllowed = true,
             };
 
-            browser.NavigationStarting += OnBrowserAddressChanged;
+            browser.NavigationStarting += OnNavigationStarting;
             browser.ContentLoading += OnBrowserLoadingStateChanged;
             browser.DOMContentLoaded += OnBrowserTitleChanged;
             browser.NavigationCompleted += OnNavigationCompleted;
@@ -59,21 +64,29 @@ namespace WebViewANELib {
             return browser;
         }
 
-        private void OnScriptNotify(object sender, WebViewControlScriptNotifyEventArgs e) {
-            Context.DispatchEvent("TRACE", e.Value);
+        private static void OnScriptNotify(object sender, WebViewControlScriptNotifyEventArgs e) {
+            Context.DispatchEvent(WebViewEvent.JsCallbackEvent, e.Value);
         }
 
-        private void OnBrowserAddressChanged(object sender, WebViewControlNavigationStartingEventArgs e) {
+        private void OnNavigationStarting(object sender, WebViewControlNavigationStartingEventArgs e) {
             for (var index = 0; index < _tabs.Count; index++) {
                 if (!_tabs[index].Equals(sender)) continue;
                 var tabDetails = GetTabDetails(index);
                 var url = e.Uri.AbsoluteUri;
-                if (tabDetails.Address == url) {
-                    return;
-                }
+                if (!IsWhiteListBlocked(url) && !IsBlackListBlocked(url)) {
+                    if (tabDetails.Address == url) {
+                        return;
+                    }
 
-                tabDetails.Address = url;
-                SendPropertyChange(@"url", url, index);
+                    tabDetails.Address = url;
+                    SendPropertyChange(@"url", url, index);
+                }
+                else {
+                    e.Cancel = true;
+                    const int tab = 0;
+                    var json = JObject.FromObject(new {url, tab});
+                    Context.DispatchEvent(WebViewEvent.OnUrlBlocked, json.ToString());
+                }
             }
         }
 
@@ -165,9 +178,27 @@ namespace WebViewANELib {
             Context.DispatchEvent(WebViewEvent.OnPropertyChange, json.ToString());
         }
 
-        // will need a separate parser for local files
-        public void Load(string url) {
-            CurrentBrowser.Navigate(new Uri(url));
+        public void Load(string url, string allowingReadAccessTo = null) {
+            if (allowingReadAccessTo != null) {
+                var fName = Path.GetFileName(url);
+                if (fName == null) return;
+                var relativeUrl = new Uri(fName, UriKind.Relative);
+                var resolver = new StreamResolver(allowingReadAccessTo);
+                try {
+                    CurrentBrowser.NavigateToLocalStreamUri(relativeUrl, resolver);
+                }
+                catch (Exception e) {
+                    Context.DispatchEvent("TRACE", e.Message);
+                }
+            }
+            else {
+                try {
+                    CurrentBrowser.Navigate(new Uri(url));
+                }
+                catch (Exception e) {
+                    Context.DispatchEvent("TRACE", e.Message);
+                }
+            }
         }
 
         public void LoadHtmlString(string html, string url) {
@@ -261,5 +292,14 @@ namespace WebViewANELib {
             CurrentBrowser.InvokeScript("eval", javascript);
         }
 
+        private bool IsWhiteListBlocked(string url) {
+            return WhiteList != null && WhiteList.Count != 0 &&
+                   !WhiteList.Cast<string>().Any(s => url.ToLower().Contains(s.ToLower()));
+        }
+
+        private bool IsBlackListBlocked(string url) {
+            return BlackList != null && BlackList.Count != 0 &&
+                   BlackList.Cast<string>().Any(s => url.ToLower().Contains(s.ToLower()));
+        }
     }
 }

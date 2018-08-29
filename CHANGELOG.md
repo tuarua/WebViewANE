@@ -1,3 +1,11 @@
+### 1.9.0
+- WIN: Updated to FreSharp 2.0.0
+- WIN: Updated to Windows Toolkit 4.0.0 for Modern WebView (Edge)
+- WIN: Added local file support for Modern WebView (Edge)
+- WIN: Added JS support for Modern WebView (Edge)
+- WIN: Added Whitelist Blacklist support for Modern WebView (Edge)
+- WIN: Updated to CefSharp 65.0.1
+
 ### 1.8.3
 - WIN: Add popup.Behaviour.REPLACE Issue #170, Issue #171
 
