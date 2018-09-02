@@ -1,15 +1,14 @@
 #pragma once
 #include "FlashRuntimeExtensions.h"
 #include <vector>
-#include "stdafx.h"
 #include "FreNamespace.h"
 
 namespace FreSharpBridge {
 	using namespace System;
-	using namespace System::Windows;
-	using namespace System::Windows::Interop;
-	using namespace System::Windows::Media;
-	using namespace System::Collections::Generic;
+	using namespace Windows;
+	using namespace Interop;
+	using namespace Windows::Media;
+	using namespace Collections::Generic;
 	using FREObjectCLR = IntPtr;
 	using FREContextCLR = IntPtr;
 	using FREArgvSharp = array<FREObjectCLR>^;

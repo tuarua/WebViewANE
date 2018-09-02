@@ -574,5 +574,7 @@ namespace WebViewANELib {
         public override void OnFinalize() {
             Cef.Shutdown();
         }
+
+        public override string TAG => "MainController";
     }
 }

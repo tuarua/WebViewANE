@@ -5,6 +5,7 @@
 - WIN: Added JS support for Modern WebView (Edge)
 - WIN: Added Whitelist Blacklist support for Modern WebView (Edge)
 - WIN: Updated to CefSharp 65.0.1
+- AND: Updated to FreKotlin 1.5.0
 
 ### 1.8.3
 - WIN: Add popup.Behaviour.REPLACE Issue #170, Issue #171
