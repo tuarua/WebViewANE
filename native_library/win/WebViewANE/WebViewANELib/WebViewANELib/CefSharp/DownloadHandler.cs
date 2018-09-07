@@ -15,7 +15,9 @@ namespace WebViewANELib.CefSharp {
             _saveToDirectory = saveToDirectory;
         }
 
-        public void OnBeforeDownload(IBrowser browser, DownloadItem downloadItem, IBeforeDownloadCallback callback) {
+        public void OnBeforeDownload(IWebBrowser chromiumWebBrowser, IBrowser browser, DownloadItem downloadItem,
+            IBeforeDownloadCallback callback)
+        {
             var handler = OnBeforeDownloadFired;
             handler?.Invoke(this, downloadItem);
 
@@ -29,7 +31,8 @@ namespace WebViewANELib.CefSharp {
             }
         }
 
-        public void OnDownloadUpdated(IBrowser browser, DownloadItem downloadItem, IDownloadItemCallback callback) {
+        public void OnDownloadUpdated(IWebBrowser chromiumWebBrowser, IBrowser browser, DownloadItem downloadItem,
+            IDownloadItemCallback callback) {
             var handler = OnDownloadUpdatedFired;
             handler?.Invoke(this, downloadItem);
         }

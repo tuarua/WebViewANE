@@ -4,7 +4,8 @@
 - WIN: Added local file support for Modern WebView (Edge)
 - WIN: Added JS support for Modern WebView (Edge)
 - WIN: Added Whitelist Blacklist support for Modern WebView (Edge)
-- WIN: Updated to CefSharp 65.0.1
+- WIN: Updated to CefSharp 67.0.0
+- WIN: Added `CefSettings.acceptLanguageList` Issue #177 
 - AND: Updated to FreKotlin 1.5.0
 
 ### 1.8.3

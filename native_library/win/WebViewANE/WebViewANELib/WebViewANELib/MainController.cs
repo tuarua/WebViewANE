@@ -15,7 +15,7 @@
 //  limitations under the License.
 // 
 //  Additional Terms
-//  No part, or derivative of this Air Native Extensions's code is permitted 
+//  No part, or derivative of this Air Native Extension's code is permitted 
 //  to be sold as the basis of a commercially packaged Air Native Extension which 
 //  undertakes the same purpose as this software. That is, a WebView for Windows, 
 //  OSX and/or iOS and/or Android.
@@ -183,7 +183,7 @@ namespace WebViewANELib {
             _airWindow = System.Diagnostics.Process.GetCurrentProcess().MainWindowHandle;
             if (_airWindow == Hwnd.Zero) {
                 return new FreException(
-                        "Cannot find AIR window to attach webView to. Ensure you init the ANE AFTER your main Sprite is initialised. " +
+                        "Cannot find AIR window to attach webView to. Ensure you init the ANE AFTER your main Sprite is initialized. " +
                         "Please see https://forum.starling-framework.org/topic/webviewane-for-osx/page/7?replies=201#post-105524 for more details")
                     .RawValue;
             }
@@ -241,6 +241,7 @@ namespace WebViewANELib {
                         CacheEnabled = settings.cacheEnabled,
                         LogLevel = cefSettings.logSeverity,
                         BrowserSubprocessPath = cefSettings.browserSubprocessPath,
+                        AcceptLanguageList = cefSettings.acceptLanguageList,
                         ContextMenuEnabled = contextMenu.enabled,
                         UserAgent = settings.userAgent,
                         UserDataPath = cefSettings.userDataPath,

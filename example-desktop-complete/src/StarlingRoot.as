@@ -130,6 +130,7 @@ public class StarlingRoot extends Sprite {
         settings.enableDownloads = true;
         settings.contextMenu.enabled = true; //enable/disable right click
 
+
         // See https://github.com/cefsharp/CefSharp/blob/master/CefSharp.Example/CefExample.cs#L37 for more examples
         settings.cef.commandLineArgs.push({
             key: "disable-direct-write",
