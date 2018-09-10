@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="WebViewIcons" type="flex">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libs/WebViewIcons.swc!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

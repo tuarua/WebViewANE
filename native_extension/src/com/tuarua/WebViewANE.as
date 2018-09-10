@@ -31,7 +31,6 @@ import com.tuarua.webview.DownloadProgress;
 import com.tuarua.webview.JavascriptResult;
 import com.tuarua.webview.Settings;
 import com.tuarua.webview.TabDetails;
-import com.tuarua.webview.WebEngine;
 import com.tuarua.webview.WebViewEvent;
 
 import flash.desktop.NativeApplication;
@@ -235,18 +234,6 @@ public class WebViewANE extends EventDispatcher {
                     break;
                 }
                 dispatchEvent(new WebViewEvent(WebViewEvent.ON_POPUP_BLOCKED, argsAsJSON));
-                break;
-            case WebViewEvent.ON_PERMISSION_RESULT:
-                try {
-                    pObj = JSON.parse(event.code);
-                    var permission:Object = {};
-                    permission.result = pObj.result;
-                    permission.type = pObj.type;
-                    dispatchEvent(new WebViewEvent(WebViewEvent.ON_PERMISSION_RESULT, permission));
-                } catch (e:Error) {
-                    trace(e.message);
-                    break;
-                }
                 break;
             case ON_CAPTURE_COMPLETE:
                 _onCaptureComplete.call(null, getCapturedBitmapData());

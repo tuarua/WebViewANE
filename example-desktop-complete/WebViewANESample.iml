@@ -5,9 +5,6 @@
       <configuration name="WebView ANE Sample" target-platform="Desktop" pure-as="true" main-class="WebViewANESample" output-file="WebViewANESample.swf" output-folder="$MODULE_DIR$/bin-debug">
         <dependencies>
           <entries>
-            <entry library-name="starling" library-level="project">
-              <dependency linkage="Merged" />
-            </entry>
             <entry library-name="FiraSansSemiBold" library-level="project">
               <dependency linkage="Merged" />
             </entry>
@@ -15,6 +12,12 @@
               <dependency linkage="Merged" />
             </entry>
             <entry library-name="CommonDependencies" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-name="WebViewIcons" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-name="greensock" library-level="project">
               <dependency linkage="Merged" />
             </entry>
           </entries>
@@ -39,9 +42,6 @@
       <configuration name="webView ANE Sample 64bit" target-platform="Desktop" pure-as="true" main-class="WebViewANESample" output-file="webView_ANE_Sample_64bit.swf" output-folder="$MODULE_DIR$/bin-debug">
         <dependencies>
           <entries>
-            <entry library-name="starling" library-level="project">
-              <dependency linkage="Merged" />
-            </entry>
             <entry library-name="FiraSansSemiBold" library-level="project">
               <dependency linkage="Merged" />
             </entry>
@@ -49,6 +49,12 @@
               <dependency linkage="Merged" />
             </entry>
             <entry library-name="CommonDependencies" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-name="WebViewIcons" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-name="greensock" library-level="project">
               <dependency linkage="Merged" />
             </entry>
           </entries>
@@ -86,5 +92,7 @@
     <orderEntry type="library" exported="" name="WindowsHelperANE" level="project" />
     <orderEntry type="library" exported="" name="CommonDependencies" level="project" />
     <orderEntry type="library" exported="" name="WebViewANE" level="project" />
+    <orderEntry type="library" exported="" name="WebViewIcons" level="project" />
+    <orderEntry type="library" exported="" name="greensock" level="project" />
   </component>
 </module>

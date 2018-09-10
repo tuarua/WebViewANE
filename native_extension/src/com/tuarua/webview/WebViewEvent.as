@@ -55,12 +55,6 @@ public class WebViewEvent extends Event {
     public static const ON_DOWNLOAD_CANCEL:String = "WebView.OnDownloadCancel";
 
     /**
-     * Dispatched when permission is granted / denied.
-     * <p><strong>Windows only.</strong></p>
-     */
-    public static const ON_PERMISSION_RESULT:String = "WebView.OnPermissionResult";
-
-    /**
      * Dispatched when a url is blocked (due to settings.urlWhiteList).
      *
      */
