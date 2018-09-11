@@ -6,13 +6,13 @@ import com.tuarua.CaptureBtn;
 import com.tuarua.CommonDependencies;
 import com.tuarua.DevToolsBtn;
 import com.tuarua.ForwardBtn;
+import com.tuarua.FullscreenBtn;
 import com.tuarua.JsBtn;
 import com.tuarua.RefreshBtn;
 import com.tuarua.WebBtn;
 import com.tuarua.WebViewANE;
 import com.tuarua.ZoominBtn;
 import com.tuarua.ZoomoutBtn;
-import com.tuarua.fullscreenBtn;
 import com.tuarua.webview.ActionscriptCallback;
 import com.tuarua.webview.DownloadProgress;
 import com.tuarua.webview.JavascriptResult;
@@ -64,7 +64,7 @@ public class WebViewANESample extends Sprite {
     private var cancelBtn:SimpleButton = new CancelBtn();
     private var zoomInBtn:SimpleButton = new ZoominBtn();
     private var zoomOutBtn:SimpleButton = new ZoomoutBtn();
-    private var fullscreenBtn:SimpleButton = new com.tuarua.fullscreenBtn();
+    private var fullscreenBtn:SimpleButton = new FullscreenBtn();
     private var devToolsBtn:SimpleButton = new DevToolsBtn();
     private var jsBtn:SimpleButton = new JsBtn();
     private var webBtn:SimpleButton = new WebBtn();
@@ -139,7 +139,7 @@ public class WebViewANESample extends Sprite {
         settings.engine = (os.isWindows && os.majorVersion >= 10 && os.buildVersion >= 17134)
                 ? WebEngine.EDGE
                 : WebEngine.DEFAULT;
-        */
+                */
 
         settings.enableDownloads = true;
         settings.contextMenu.enabled = true; //enable/disable right click

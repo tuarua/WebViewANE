@@ -60,7 +60,6 @@ public class Tab extends Sprite {
         titleTxt.defaultTextFormat = textFormat;
         titleTxt.embedFonts = true;
         titleTxt.antiAliasType = AntiAliasType.ADVANCED;
-        titleTxt.sharpness = -100;
         titleTxt.text = "";
 
         titleTxt.x = 24;

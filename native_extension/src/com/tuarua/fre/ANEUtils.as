@@ -19,6 +19,7 @@ package com.tuarua.fre {
 import flash.utils.describeType;
 import flash.utils.getDefinitionByName;
 import flash.utils.getQualifiedClassName;
+
 /** @private */
 public class ANEUtils {
     public function ANEUtils() {
@@ -121,7 +122,18 @@ public class ANEUtils {
         classInstance = new to();
         for (var id:String in from) {
             var name:String = id;
-            var propCls:Class = getPropClass(name, to);
+            var propCls:Class;
+            if (from[name] is String) {
+                propCls = String;
+            } else if (from[name] is Boolean) {
+                propCls = Boolean;
+            } else if (from[name] is int) {
+                propCls = int;
+            } else if (from[name] is Number) {
+                propCls = Number;
+            } else {
+                propCls = getPropClass(name, to);
+            }
 
             switch (propCls) {
                 case String:
