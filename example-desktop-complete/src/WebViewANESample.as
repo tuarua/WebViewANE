@@ -59,7 +59,7 @@ public class WebViewANESample extends Sprite {
     private var webView:WebViewANE = new WebViewANE();
 
     private var backBtn:SimpleButton = new BackBtn();
-    private var fwdBtn:SimpleButton = new ForwardBtn();
+    private var fwdBtn:SimpleButton = new BackBtn();
     private var refreshBtn:SimpleButton = new RefreshBtn();
     private var cancelBtn:SimpleButton = new CancelBtn();
     private var zoomInBtn:SimpleButton = new ZoominBtn();
@@ -70,8 +70,8 @@ public class WebViewANESample extends Sprite {
     private var webBtn:SimpleButton = new WebBtn();
     private var capureBtn:SimpleButton = new CaptureBtn();
 
-    private var as_js_as_Btn:BasicButton = new BasicButton("AS->JS->AS with callback");
-    private var eval_js_Btn:BasicButton = new BasicButton("AS->JS- with no callback");
+    private var as_js_as_Btn:BasicButton = new BasicButton("AS->JS->AS with Callback");
+    private var eval_js_Btn:BasicButton = new BasicButton("AS->JS- with no Callback");
 
     private var statusTxt:StatusText = new StatusText();
     private var progress:Progress = new Progress();
@@ -193,7 +193,8 @@ public class WebViewANESample extends Sprite {
         backBtn.x = 20;
         backBtn.addEventListener(MouseEvent.CLICK, onBack);
 
-        fwdBtn.x = 60;
+        fwdBtn.x = 80;
+        fwdBtn.scaleX = -1;
         fwdBtn.addEventListener(MouseEvent.CLICK, onForward);
         fwdBtn.alpha = backBtn.alpha = 0.4;
 
