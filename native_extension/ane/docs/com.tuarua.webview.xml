@@ -163,10 +163,6 @@
      Dispatched when the pdf is saved after printToPdf() has been called.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiAccess value="public"/><apiStatic/><apiData>WebView.OnPdfPrinted</apiData><apiType value="String"/></apiValueDef><apiDesc>
      Dispatched when the pdf is saved after printToPdf() has been called.
      
-     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:WebViewEvent:ON_PERMISSION_RESULT"><apiName>ON_PERMISSION_RESULT</apiName><shortdesc>
-     Dispatched when permission is granted / denied.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiAccess value="public"/><apiStatic/><apiData>WebView.OnPermissionResult</apiData><apiType value="String"/></apiValueDef><apiDesc>
-     Dispatched when permission is granted / denied.
-     <p><b>Windows only.</b></p>
      </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:WebViewEvent:ON_POPUP_BLOCKED"><apiName>ON_POPUP_BLOCKED</apiName><shortdesc>
      Dispatched when a pop is blocked (due to settings.popup.behaviour).</shortdesc><prolog/><apiValueDetail><apiValueDef><apiAccess value="public"/><apiStatic/><apiData>WebView.OnPopupBlocked</apiData><apiType value="String"/></apiValueDef><apiDesc>
      Dispatched when a pop is blocked (due to settings.popup.behaviour).

@@ -7,6 +7,7 @@
 - WIN: Updated to CefSharp 67.0.0
 - WIN: Added `CefSettings.acceptLanguageList` Issue #177 
 - AND: Updated to FreKotlin 1.5.0
+- Upgraded to AIR 31
 
 ### 1.8.3
 - WIN: Add popup.Behaviour.REPLACE Issue #170, Issue #171
