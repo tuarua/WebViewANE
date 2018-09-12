@@ -5,9 +5,6 @@
       <configuration name="WebView ANE Sample" target-platform="Desktop" pure-as="true" main-class="WebViewANESample" output-file="WebViewANESample.swf" output-folder="$MODULE_DIR$/bin-debug">
         <dependencies>
           <entries>
-            <entry library-name="starling" library-level="project">
-              <dependency linkage="Merged" />
-            </entry>
             <entry library-name="FiraSansSemiBold" library-level="project">
               <dependency linkage="Merged" />
             </entry>
@@ -17,8 +14,14 @@
             <entry library-name="CommonDependencies" library-level="project">
               <dependency linkage="Merged" />
             </entry>
+            <entry library-name="WebViewIcons" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-name="greensock" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
           </entries>
-          <sdk name="AIRSDK_30" />
+          <sdk name="AIRSDK_31" />
         </dependencies>
         <compiler-options>
           <map>
@@ -39,9 +42,6 @@
       <configuration name="webView ANE Sample 64bit" target-platform="Desktop" pure-as="true" main-class="WebViewANESample" output-file="webView_ANE_Sample_64bit.swf" output-folder="$MODULE_DIR$/bin-debug">
         <dependencies>
           <entries>
-            <entry library-name="starling" library-level="project">
-              <dependency linkage="Merged" />
-            </entry>
             <entry library-name="FiraSansSemiBold" library-level="project">
               <dependency linkage="Merged" />
             </entry>
@@ -49,6 +49,12 @@
               <dependency linkage="Merged" />
             </entry>
             <entry library-name="CommonDependencies" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-name="WebViewIcons" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-name="greensock" library-level="project">
               <dependency linkage="Merged" />
             </entry>
           </entries>
@@ -78,7 +84,7 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="AIRSDK_30" jdkType="Flex SDK Type (new)" />
+    <orderEntry type="jdk" jdkName="AIRSDK_30&#9;AIRSDK_31" jdkType="__CompositeFlexSdk__" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="starling" level="project" />
     <orderEntry type="library" exported="" name="DesktopToastANE" level="project" />
@@ -86,5 +92,7 @@
     <orderEntry type="library" exported="" name="WindowsHelperANE" level="project" />
     <orderEntry type="library" exported="" name="CommonDependencies" level="project" />
     <orderEntry type="library" exported="" name="WebViewANE" level="project" />
+    <orderEntry type="library" exported="" name="WebViewIcons" level="project" />
+    <orderEntry type="library" exported="" name="greensock" level="project" />
   </component>
 </module>

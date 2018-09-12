@@ -1,7 +1,7 @@
 <component name="libraryTable">
-  <library name="starling" type="flex">
+  <library name="WebViewIcons" type="flex">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/libs/starling.swc!/" />
+      <root url="jar://$PROJECT_DIR$/libs/WebViewIcons.swc!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

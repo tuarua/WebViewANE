@@ -25,14 +25,14 @@
 package com.tuarua.webviewane
 
 import android.graphics.Bitmap
+import android.graphics.RectF
 import android.os.Build
-import android.util.Log
 import android.webkit.WebView
 import com.adobe.fre.FREContext
 import com.adobe.fre.FREObject
 import com.tuarua.frekotlin.*
 import com.tuarua.frekotlin.display.FreBitmapDataKotlin
-import com.tuarua.frekotlin.geom.Rect
+import com.tuarua.frekotlin.geom.RectF
 import java.util.ArrayList
 
 typealias FREArgv = ArrayList<FREObject>
@@ -40,7 +40,7 @@ typealias FREArgv = ArrayList<FREObject>
 @Suppress("unused", "UNUSED_PARAMETER", "UNCHECKED_CAST")
 class KotlinController : FreKotlinMainController {
     private var isAdded: Boolean = false
-    private var scaleFactor: Double = 1.0
+    private var scaleFactor: Float = 1.0f
     private var webViewController: WebViewController? = null
     private var capturedBitmapData: Bitmap? = null
 
@@ -50,23 +50,13 @@ class KotlinController : FreKotlinMainController {
 
     fun init(ctx: FREContext, argv: FREArgv): FREObject? {
         argv.takeIf { argv.size > 4 } ?: return FreArgException("init")
-        try {
-            val initialUrl = String(argv[0])
-            val viewPort = Rect(argv[1])
-            val settings = Settings(argv[2])
-            val sf = Double(argv[3])
-            if (sf != null) {
-                scaleFactor = sf
-            }
-            val backgroundColorFre = argv[4]
-            val backgroundColor = backgroundColorFre.toColor(true)
-            webViewController = WebViewController(ctx, initialUrl, scaleViewPort(viewPort),
-                    settings, backgroundColor)
-
-        } catch (e: FreException) {
-            Log.e(TAG, e.message)
-            return e.getError(Thread.currentThread().stackTrace)
-        }
+        val initialUrl = String(argv[0]) ?: return null
+        val viewPort = RectF(argv[1])
+        val settings = Settings(argv[2])
+        Float(argv[3])?.let { scaleFactor = it }
+        val backgroundColor = argv[4].toColor()
+        webViewController = WebViewController(ctx, initialUrl, scaleViewPort(viewPort),
+                settings, backgroundColor)
         return null
     }
 
@@ -87,7 +77,7 @@ class KotlinController : FreKotlinMainController {
 
     fun setViewPort(ctx: FREContext, argv: FREArgv): FREObject? {
         argv.takeIf { argv.size > 0 } ?: return FreArgException("setViewPort")
-        val viewPortFre = Rect(argv[0])
+        val viewPortFre = RectF(argv[0])
         webViewController?.viewPort = scaleViewPort(viewPortFre)
         return null
     }
@@ -193,27 +183,22 @@ class KotlinController : FreKotlinMainController {
     }
 
     fun getTabDetails(ctx: FREContext, argv: FREArgv): FREObject? {
-        try {
-            val vecTabs = FREArray("com.tuarua.webview.TabDetails", 1, true)
-            val currentTabFre = FREObject("com.tuarua.webview.TabDetails", 0,
-                    webViewController?.url ?: ""
-                    , webViewController?.title ?: ""
-                    , webViewController?.isLoading ?: false
-                    , webViewController?.canGoBack ?: false
-                    , webViewController?.canGoForward ?: false
-                    , webViewController?.progress ?: 0.0
-            )
-            vecTabs[0] = currentTabFre
-            return vecTabs
-        } catch (e: FreException) {
-            Log.e(TAG, e.message)
-        }
-        return null
+        val vecTabs = FREArray("com.tuarua.webview.TabDetails", 1, true) ?: return null
+        val currentTabFre = FREObject("com.tuarua.webview.TabDetails", 0,
+                webViewController?.url ?: ""
+                , webViewController?.title ?: ""
+                , webViewController?.isLoading ?: false
+                , webViewController?.canGoBack ?: false
+                , webViewController?.canGoForward ?: false
+                , webViewController?.progress ?: 0.0
+        )
+        vecTabs[0] = currentTabFre
+        return vecTabs
     }
 
     fun capture(ctx: FREContext, argv: FREArgv): FREObject? {
         argv.takeIf { argv.size > 0 } ?: return FreArgException("capture")
-        val cropTo = scaleViewPort(Rect(argv[0]))
+        val cropTo = scaleViewPort(RectF(argv[0]))
         capturedBitmapData = webViewController?.capture(cropTo)
         dispatchEvent(WebViewEvent.ON_CAPTURE_COMPLETE, "")
         return null
@@ -236,19 +221,16 @@ class KotlinController : FreKotlinMainController {
     fun onFullScreen(ctx: FREContext, argv: FREArgv): FREObject? = null
     fun shutDown(ctx: FREContext, argv: FREArgv): FREObject? = null
 
-    private fun scaleViewPort(rect: Rect?): Rect {
-        if (rect == null) {
-            return Rect(0, 0, 0, 0)
-        }
-        return Rect(
-                (rect.x * scaleFactor).toInt(),
-                (rect.y * scaleFactor).toInt(),
-                (rect.width * scaleFactor).toInt(),
-                (rect.height * scaleFactor).toInt())
+    private fun scaleViewPort(rect: RectF): RectF {
+        return RectF(
+                (rect.left * scaleFactor),
+                (rect.top * scaleFactor),
+                (rect.right * scaleFactor),
+                (rect.bottom * scaleFactor))
     }
 
     fun getOsVersion(ctx: FREContext, argv: FREArgv): FREObject? {
-        return intArrayOf(Build.VERSION.SDK_INT, 0, 0).toFREArray()
+        return intArrayOf(Build.VERSION.SDK_INT, 0, 0).toFREObject()
     }
 
     override fun dispose() {

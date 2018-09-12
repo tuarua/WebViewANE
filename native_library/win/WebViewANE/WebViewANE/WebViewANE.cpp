@@ -22,7 +22,7 @@
 #include "FreSharpMacros.h"
 #include "WebViewANE.h"
 #include "FreSharpBridge.h"
-
+#include "stdafx.h"
 extern "C" {
 
 	[System::STAThreadAttribute]
@@ -33,6 +33,7 @@ extern "C" {
 		case DLL_THREAD_DETACH:
 		case DLL_PROCESS_DETACH:
 			break;
+		default: ;
 		}
 		return true;
 	}

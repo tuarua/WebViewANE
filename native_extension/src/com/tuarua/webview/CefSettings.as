@@ -45,7 +45,7 @@ public class CefSettings {
      */
     public var logSeverity:int = LogSeverity.DISABLE;
     /**
-     *  <p>Add custom command line argumens to this collection, they will be added in
+     * <p>Add custom command line argumens to this collection, they will be added in
      OnBeforeCommandLineProcessing.</p>
      */
     public var commandLineArgs:Vector.<Object> = new <Object>[];
@@ -57,11 +57,18 @@ public class CefSettings {
     public var browserSubprocessPath:String = "CefSharp.BrowserSubprocess.exe";
 
     /**
-     * <p> The location where user data such as spell checking dictionary files will be stored on disk.
+     * <p>The location where user data such as spell checking dictionary files will be stored on disk.
      * If empty then the default platform-specific user data directory
      * "Local Settings\Application Data\CEF\User Data"directory under the user profile directory on Windows).</p>
      */
     public var userDataPath:String;
+
+    /**
+     * <p>Comma delimited ordered list of language codes without any whitespace that will
+     * be used in the "Accept-Language" HTTP header. May be set globally using the CefSettings.AcceptLanguageList
+     * value. If both values are empty then "en-US,en" will be used.</p>
+     */
+    public var acceptLanguageList:String = "en-US,en";
 
     public function CefSettings() {
     }

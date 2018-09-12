@@ -4,13 +4,14 @@ namespace FreSharpBridge {
 	void MarshalString(String ^ s, std::string& os) {
 		using namespace Runtime::InteropServices;
 		const char* chars =
-			(const char*)(Marshal::StringToHGlobalAnsi(s)).ToPointer();
+			reinterpret_cast<const char*>(Marshal::StringToHGlobalAnsi(s).ToPointer());
 		os = chars;
+		// ReSharper disable once CppCStyleCast
 		Marshal::FreeHGlobal(FREObjectCLR((void*)chars));
 	}
 
 	array<FREObjectCLR>^ MarshalFREArray(array<FREObject>^ argv, uint32_t argc) {
-		array<FREObjectCLR>^ arr = gcnew array<FREObjectCLR>(argc);
+		auto arr = gcnew array<FREObjectCLR>(argc);
 		for (uint32_t i = 0; i < argc; i++) {
 			arr[i] = FREObjectCLR(argv[i]);
 		}
@@ -19,9 +20,8 @@ namespace FreSharpBridge {
 
 	std::vector<std::string> GetFunctions() {
 		std::vector<std::string> ret;
-		array<String^>^ mArray = ManagedGlobals::controller->GetFunctions();
-		int i = 0;
-		for (i = 0; i < mArray->Length; ++i) {
+		auto mArray = ManagedGlobals::controller->GetFunctions();
+		for (auto i = 0; i < mArray->Length; ++i) {
 			std::string itemStr = "";
 			MarshalString(mArray[i], itemStr);
 			ret.push_back(itemStr);
@@ -30,7 +30,8 @@ namespace FreSharpBridge {
 	}
 
 	FREObject CallSharpFunction(String^ name, FREContext context, array<FREObject>^ argv, uint32_t argc) {
-		return (FREObject)ManagedGlobals::controller->CallSharpFunction(name, FREContextCLR(context), argc, MarshalFREArray(argv, argc));
+		return static_cast<FREObject>(ManagedGlobals::controller->CallSharpFunction(
+			name, FREContextCLR(context), argc, MarshalFREArray(argv, argc)));
 	}
 
 	void SetFREContext(FREContext freContext) {
@@ -49,8 +50,8 @@ namespace FreSharpBridge {
 
 extern "C" {
 
-	array<FREObject>^ getArgvAsArray(FREObject argv[], uint32_t argc) {
-		array<FREObject>^ arr = gcnew array<FREObject>(argc);
+	array<FREObject>^ getArgvAsArray(FREObject argv[], const uint32_t argc) {
+		auto arr = gcnew array<FREObject>(argc);
 		for (uint32_t i = 0; i < argc; i++) {
 			arr[i] = argv[i];
 		}
@@ -58,7 +59,7 @@ extern "C" {
 	}
 
 	FRE_FUNCTION(callSharpFunction) {
-		std::string fName = std::string((const char*)functionData);
+		auto fName = std::string(static_cast<const char*>(functionData));
 		return FreSharpBridge::CallSharpFunction(gcnew System::String(fName.c_str()), context, getArgvAsArray(argv, argc), argc);
 	}
 }

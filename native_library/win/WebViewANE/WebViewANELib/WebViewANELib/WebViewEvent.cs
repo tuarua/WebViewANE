@@ -24,6 +24,7 @@
 namespace WebViewANELib {
     public struct WebViewEvent {
         public const string AsCallbackEvent = "TRWV.as.CALLBACK";
+        public const string JsCallbackEvent = "TRWV.js.CALLBACK";
         public const string OnDownloadProgress = "WebView.OnDownloadProgress";
         public const string OnDownloadComplete = "WebView.OnDownloadComplete";
         public const string OnDownloadCancel = "WebView.OnDownloadCancel";

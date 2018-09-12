@@ -18,6 +18,7 @@
 //  undertakes the same purpose as this software. That is, a WebView for Windows, 
 //  OSX and/or iOS and/or Android.
 //  All Rights Reserved. Tua Rua Ltd.
+#pragma once
 #include "FreSharpMacros.h"
 #include "FlashRuntimeExtensions.h"
 extern "C" {

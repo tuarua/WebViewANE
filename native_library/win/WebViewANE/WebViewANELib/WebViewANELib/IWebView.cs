@@ -35,11 +35,13 @@ namespace WebViewANELib {
         string InjectScriptUrl { set; }
         int InjectStartLine { set; }
         string InitialUrl { set; }
+        ArrayList WhiteList { set; }
+        ArrayList BlackList { set; }
         void AddTab();
         void CloseTab(int index);
         void SetCurrentTab(int index);
         ArrayList TabDetails { get; }
-        void Load(string url);
+        void Load(string url, string allowingReadAccessTo);
         void LoadHtmlString(string html, string url);
         void ZoomIn();
         void ZoomOut();

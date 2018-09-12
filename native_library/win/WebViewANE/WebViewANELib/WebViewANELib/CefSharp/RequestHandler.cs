@@ -25,8 +25,8 @@ namespace WebViewANELib.CefSharp {
                    _blackList.Cast<string>().Any(s => url.ToLower().Contains(s.ToLower()));
         }
 
-        bool IRequestHandler.OnBeforeBrowse(IWebBrowser browserControl, IBrowser browser, IFrame frame,
-            IRequest request, bool isRedirect) {
+        public bool OnBeforeBrowse(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request, bool userGesture,
+            bool isRedirect) {
             if (!IsWhiteListBlocked(request.Url) && !IsBlackListBlocked(request.Url)) return false;
             var handler = OnUrlBlockedFired;
             handler?.Invoke(this, request.Url);

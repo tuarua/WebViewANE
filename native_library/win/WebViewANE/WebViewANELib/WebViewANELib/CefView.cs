@@ -53,6 +53,7 @@ namespace WebViewANELib {
         public bool CacheEnabled { private get; set; }
         public int LogLevel { private get; set; }
         public string BrowserSubprocessPath { private get; set; }
+        public string AcceptLanguageList { private get; set; }
         public bool EnableDownloads { private get; set; }
         public string InjectCode { private get; set; }
         public string InjectScriptUrl { private get; set; }
@@ -120,6 +121,7 @@ namespace WebViewANELib {
 
             settings.WindowlessRenderingEnabled = false;
             settings.BrowserSubprocessPath = BrowserSubprocessPath;
+            settings.AcceptLanguageList = AcceptLanguageList;
 
             foreach (var kvp in CommandLineArgs) {
                 settings.CefCommandLineArgs.Add(kvp.Key, kvp.Value);
@@ -340,7 +342,7 @@ namespace WebViewANELib {
             }
         }
 
-        public void Load(string url) {
+        public void Load(string url, string allowingReadAccessTo = null) {
             if (_isLoaded) {
                 CurrentBrowser.Load(url);
             }

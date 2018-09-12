@@ -34,18 +34,17 @@ import android.widget.FrameLayout
 import com.adobe.fre.FREContext
 import com.tuarua.frekotlin.FreKotlinController
 import com.tuarua.frekotlin.dispatchEvent
-import com.tuarua.frekotlin.geom.Rect
 import org.json.JSONException
 import org.json.JSONObject
 
 class WebViewController(override var context: FREContext?,
                         initialUrl: String?,
-                        viewPort: Rect,
+                        viewPort: RectF,
                         private var settings: Settings,
                         private var backgroundColor: Int) : FreKotlinController {
 
     private var _visible: Boolean = false
-    private var _viewPort: Rect = viewPort
+    private var _viewPort: RectF = viewPort
     private var _initialUrl: String? = initialUrl
     private var airView: ViewGroup? = null
     private var container: FrameLayout? = null
@@ -58,14 +57,14 @@ class WebViewController(override var context: FREContext?,
         }
         get() = _visible
 
-    var viewPort: Rect
+    var viewPort: RectF
         set(value) {
             this._viewPort = value
             val frame = container ?: return
-            frame.layoutParams = FrameLayout.LayoutParams(viewPort.width.toInt(),
-                    viewPort.height.toInt())
-            frame.x = viewPort.x.toFloat()
-            frame.y = viewPort.y.toFloat()
+            frame.layoutParams = FrameLayout.LayoutParams(viewPort.width().toInt(),
+                    viewPort.height().toInt())
+            frame.x = viewPort.left
+            frame.y = viewPort.top
         }
         get() = _viewPort
 
@@ -81,10 +80,10 @@ class WebViewController(override var context: FREContext?,
         container = FrameLayout(ctx.activity)
 
         val frame = container ?: return
-        frame.layoutParams = FrameLayout.LayoutParams(viewPort.width.toInt(),
-                viewPort.height.toInt())
-        frame.x = viewPort.x.toFloat()
-        frame.y = viewPort.y.toFloat()
+        frame.layoutParams = FrameLayout.LayoutParams(viewPort.width().toInt(),
+                viewPort.height().toInt())
+        frame.x = viewPort.left
+        frame.y = viewPort.top
         frame.id = newId
         (airView as ViewGroup).addView(frame)
 
@@ -220,12 +219,12 @@ class WebViewController(override var context: FREContext?,
         webView?.stopLoading()
     }
 
-    fun capture(cropTo: Rect): Bitmap? {
+    fun capture(cropTo: RectF): Bitmap? {
         val wv = webView ?: return null
-        var x = cropTo.x.toInt()
-        var y: Int = cropTo.y.toInt()
-        var w: Int = cropTo.width.toInt()
-        var h: Int = cropTo.height.toInt()
+        var x = cropTo.left.toInt()
+        var y: Int = cropTo.top.toInt()
+        var w: Int = cropTo.width().toInt()
+        var h: Int = cropTo.height().toInt()
         val bitmap: Bitmap
         if (w > 0 && h > 0) {
             bitmap = Bitmap.createBitmap(w + x, h + y, Bitmap.Config.ARGB_8888)
