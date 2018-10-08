@@ -52,7 +52,7 @@ namespace WebViewANELib {
         public string CachePath { private get; set; }
         public bool CacheEnabled { private get; set; }
         public int LogLevel { private get; set; }
-        public string BrowserSubprocessPath { private get; set; }
+        public string BrowserSubProcessPath { private get; set; }
         public string AcceptLanguageList { private get; set; }
         public bool EnableDownloads { private get; set; }
         public string InjectCode { private get; set; }
@@ -120,7 +120,7 @@ namespace WebViewANELib {
             }
 
             settings.WindowlessRenderingEnabled = false;
-            settings.BrowserSubprocessPath = BrowserSubprocessPath;
+            settings.BrowserSubprocessPath = BrowserSubProcessPath;
             settings.AcceptLanguageList = AcceptLanguageList;
 
             foreach (var kvp in CommandLineArgs) {
@@ -517,6 +517,10 @@ namespace WebViewANELib {
             catch (Exception e) {
                 Console.WriteLine(@"JS error: " + e.Message);
             }
+        }
+
+        public void DeleteCookies() {
+            CurrentBrowser.GetCookieManager().DeleteCookies();
         }
 
         private static void CefView_Loaded(object sender, RoutedEventArgs e) { }

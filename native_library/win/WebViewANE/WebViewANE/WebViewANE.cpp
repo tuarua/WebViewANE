@@ -84,6 +84,7 @@ extern "C" {
 			,MAP_FUNCTION(addEventListener)
 			,MAP_FUNCTION(removeEventListener)
 			,MAP_FUNCTION(getOsVersion)
+			,MAP_FUNCTION(deleteCookies)
 		};
 
 		SET_FUNCTIONS
