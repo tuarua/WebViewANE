@@ -90,7 +90,11 @@
      <p>Close the Chromium dev tools</p>
      <p>Disables Inspect Element on right click on OSX</p>
      <p>On Android disconnects from chrome://inspect</p>
-     </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:closeTab"><apiName>closeTab</apiName><shortdesc> Windows + OSX only</shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn><apiParam><apiItemName>index</apiItemName><apiType value="int"/></apiParam></apiOperationDef><apiDesc> Windows + OSX only</apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:dispose"><apiName>dispose</apiName><shortdesc>
+     </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:closeTab"><apiName>closeTab</apiName><shortdesc> Windows + OSX only</shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn><apiParam><apiItemName>index</apiItemName><apiType value="int"/></apiParam></apiOperationDef><apiDesc> Windows + OSX only</apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:deleteCookies"><apiName>deleteCookies</apiName><shortdesc>
+     Deletes all cookies
+     </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn></apiOperationDef><apiDesc>
+     <p>Deletes all cookies</p>
+     </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:dispose"><apiName>dispose</apiName><shortdesc>
      This cleans up the webview and all related processes.
      It is important to call this when the app is exiting.
      </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn></apiOperationDef><apiDesc>

@@ -520,7 +520,14 @@ namespace WebViewANELib {
         }
 
         public void DeleteCookies() {
-            CurrentBrowser.GetCookieManager().DeleteCookies();
+            try {
+                foreach (ChromiumWebBrowser browser in _tabs) {
+                    browser.GetCookieManager().DeleteCookies();
+                }
+            }
+            catch {
+                // ignored
+            }
         }
 
         private static void CefView_Loaded(object sender, RoutedEventArgs e) { }
