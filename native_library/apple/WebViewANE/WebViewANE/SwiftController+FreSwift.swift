@@ -64,6 +64,7 @@ extension SwiftController: FreSwiftMainController {
         functionsToSet["\(prefix)addEventListener"] = addEventListener
         functionsToSet["\(prefix)removeEventListener"] = removeEventListener
         functionsToSet["\(prefix)getOsVersion"] = getOsVersion
+        functionsToSet["\(prefix)deleteCookies"] = deleteCookies
         
         var arr: [String] = []
         for key in functionsToSet.keys {

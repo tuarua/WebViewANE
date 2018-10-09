@@ -92,6 +92,7 @@ namespace WebViewANELib {
                     {"addEventListener", AddEventListener},
                     {"removeEventListener", RemoveEventListener},
                     {"getOsVersion", GetOsVersion},
+                    {"deleteCookies", DeleteCookies},
                 };
 
             return FunctionsDict.Select(kvp => kvp.Key).ToArray();
@@ -240,7 +241,7 @@ namespace WebViewANELib {
                         EnableDownloads = settings.enableDownloads,
                         CacheEnabled = settings.cacheEnabled,
                         LogLevel = cefSettings.logSeverity,
-                        BrowserSubprocessPath = cefSettings.browserSubprocessPath,
+                        BrowserSubProcessPath = cefSettings.browserSubprocessPath,
                         AcceptLanguageList = cefSettings.acceptLanguageList,
                         ContextMenuEnabled = contextMenu.enabled,
                         UserAgent = settings.userAgent,
@@ -572,6 +573,11 @@ namespace WebViewANELib {
             }.ToFREObject();
         }
 
+        public FREObject DeleteCookies(FREContext ctx, uint argc, FREObject[] argv) {
+            _view.DeleteCookies();
+            return FREObject.Zero;
+        }
+        
         public override void OnFinalize() {
             Cef.Shutdown();
         }

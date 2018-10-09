@@ -233,6 +233,11 @@ class KotlinController : FreKotlinMainController {
         return intArrayOf(Build.VERSION.SDK_INT, 0, 0).toFREObject()
     }
 
+    fun deleteCookies(ctx: FREContext, argv: FREArgv): FREObject? {
+        webViewController?.deleteCookies()
+        return null
+    }
+
     override fun dispose() {
         webViewController?.dispose()
         webViewController = null

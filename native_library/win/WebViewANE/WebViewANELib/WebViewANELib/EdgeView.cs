@@ -292,6 +292,10 @@ namespace WebViewANELib {
             CurrentBrowser.InvokeScript("eval", javascript);
         }
 
+        public void DeleteCookies() {
+            Context.DispatchEvent("TRACE", "DeleteCookies Unavailable in Edge");
+        }
+
         private bool IsWhiteListBlocked(string url) {
             return WhiteList != null && WhiteList.Count != 0 &&
                    !WhiteList.Cast<string>().Any(s => url.ToLower().Contains(s.ToLower()));

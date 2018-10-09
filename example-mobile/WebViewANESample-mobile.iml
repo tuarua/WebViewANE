@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="Flex" version="4">
-  <component name="FlexBuildConfigurationManager" active="WebViewANESample-mobile Android Device">
+  <component name="FlexBuildConfigurationManager" active="WebViewANESample-mobile iOS Store">
     <configurations>
       <configuration name="WebViewANESample-mobile iOS simulator" target-platform="Mobile" pure-as="true" main-class="WebViewANESample" output-file="WebViewANESample-mobile.swf" output-folder="$MODULE_DIR$/bin-debug">
         <dependencies>
@@ -158,8 +158,9 @@
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/system" path-in-package="." />
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/assets" path-in-package="." />
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/ios_dependencies/device" path-in-package="." />
+            <FilePathAndPathInPackage file-path="$MODULE_DIR$/src/Assets.car" path-in-package="Assets.car" />
           </files-to-package>
-          <AirSigningOptions keystore-path="$USER_HOME$/Documents/appleCertsProv/2017/prod/tuarua_prod.p12" provisioning-profile-path="$USER_HOME$/Documents/appleCertsProv/2017/prod/Tua_Rua_Dist_Provisioning_WebView-2.mobileprovision" />
+          <AirSigningOptions keystore-path="$USER_HOME$/Documents/appleCertsProv/2018/prod/Tua_Rua_Dist_WebView.p12" provisioning-profile-path="$USER_HOME$/Documents/appleCertsProv/2018/prod/Tua_Rua_Dist_Provisioning_WebView2018.mobileprovision" />
         </packaging-ios>
       </configuration>
     </configurations>

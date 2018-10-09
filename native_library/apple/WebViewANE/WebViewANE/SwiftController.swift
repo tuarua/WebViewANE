@@ -534,7 +534,15 @@ public class SwiftController: NSObject {
 
     func clearCache(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
         if #available(iOS 9.0, OSX 10.11, *) {
-            let websiteDataTypes = NSSet(array: [WKWebsiteDataTypeDiskCache, WKWebsiteDataTypeMemoryCache])
+            let websiteDataTypes = NSSet(array: [WKWebsiteDataTypeDiskCache,
+                                                 WKWebsiteDataTypeOfflineWebApplicationCache,
+                                                 WKWebsiteDataTypeMemoryCache,
+                                                 WKWebsiteDataTypeCookies,
+                                                 WKWebsiteDataTypeLocalStorage,
+                                                 WKWebsiteDataTypeSessionStorage,
+                                                 WKWebsiteDataTypeIndexedDBDatabases,
+                                                 WKWebsiteDataTypeWebSQLDatabases]
+            )
             if let websiteDataTypes = websiteDataTypes as? Set<String> {
                 WKWebsiteDataStore.default().removeData(
                     ofTypes: websiteDataTypes,
@@ -544,7 +552,6 @@ public class SwiftController: NSObject {
         }
         return nil
     }
-
     func addTab(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
 #if os(OSX)
         guard argc > 0,
@@ -786,6 +793,19 @@ public class SwiftController: NSObject {
         return [os.majorVersion, os.minorVersion, os.patchVersion].toFREObject()
     }
     
+    func deleteCookies(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
+        if #available(iOS 9.0, OSX 10.11, *) {
+            let websiteDataTypes = NSSet(array: [WKWebsiteDataTypeCookies])
+            if let websiteDataTypes = websiteDataTypes as? Set<String> {
+                WKWebsiteDataStore.default().removeData(
+                    ofTypes: websiteDataTypes,
+                    modifiedSince: NSDate(timeIntervalSince1970: 0) as Date,
+                    completionHandler: {})
+            }
+        }
+        return nil
+    }
+        
     internal func getCurrentTab(_ webView: WKWebView?) -> Int {
         if let wv = webView as? WebViewVC {
             for vc in _tabList {

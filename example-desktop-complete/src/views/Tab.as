@@ -31,11 +31,9 @@ public class Tab extends Sprite {
         bgInactive.graphics.drawRect(0,0,200,32);
         bgInactive.graphics.endFill();
 
-
         this._index = index;
         bgInactive.alpha = 0.5;
         bgInactive.visible = false;
-
 
         bgInactive.addEventListener(MouseEvent.CLICK, onSwitchTab);
         closeTab.addEventListener(MouseEvent.CLICK, onCloseTab);
@@ -61,6 +59,7 @@ public class Tab extends Sprite {
         titleTxt.embedFonts = true;
         titleTxt.antiAliasType = AntiAliasType.ADVANCED;
         titleTxt.text = "";
+        titleTxt.mouseEnabled = false;
 
         titleTxt.x = 24;
         titleTxt.y = 8;
@@ -82,11 +81,9 @@ public class Tab extends Sprite {
         this.dispatchEvent(new TabEvent(TabEvent.ON_SWITCH_TAB, {index: _index}, true));
     }
 
-
     public function setTitle(value:String):void {
         titleTxt.text = value;
     }
-
 
     public function get isActive():Boolean {
         return _isActive;

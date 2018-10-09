@@ -1,3 +1,6 @@
+### 1.9.1
+- AND/iOS/WIN/OSX: Added `deleteCookies()` method
+
 ### 1.9.0
 - WIN: Updated to FreSharp 2.0.0
 - WIN: Updated to Windows Toolkit 4.0.0 for Modern WebView (Edge)
