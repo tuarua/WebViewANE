@@ -774,7 +774,6 @@ public class WebViewANE extends EventDispatcher {
 
     /**
      * <p>Deletes all cookies</p>
-     * <p><strong>Windows only.</strong></p>
      */
     public function deleteCookies():void {
         if (!safetyCheck()) return;

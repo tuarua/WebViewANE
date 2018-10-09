@@ -84,6 +84,7 @@ CONTEXT_INIT(TRWV) {
         ,MAP_FUNCTION(TRWV, addEventListener)
         ,MAP_FUNCTION(TRWV, removeEventListener)
         ,MAP_FUNCTION(TRWV, getOsVersion)
+        ,MAP_FUNCTION(TRWV, deleteCookies)
     };
     /**************************************************************************/
     /**************************************************************************/

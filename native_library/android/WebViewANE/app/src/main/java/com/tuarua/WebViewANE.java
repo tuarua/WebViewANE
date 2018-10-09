@@ -66,6 +66,7 @@ public class WebViewANE implements FREExtension {
             ,"getCurrentTab"
             ,"getTabDetails"
             ,"getOsVersion"
+            ,"deleteCookies"
 
     };
 
