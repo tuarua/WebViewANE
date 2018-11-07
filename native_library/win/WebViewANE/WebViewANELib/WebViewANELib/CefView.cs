@@ -15,7 +15,7 @@
 //  limitations under the License.
 // 
 //  Additional Terms
-//  No part, or derivative of this Air Native Extensions's code is permitted 
+//  No part, or derivative of this Air Native Extension's code is permitted 
 //  to be sold as the basis of a commercially packaged Air Native Extension which 
 //  undertakes the same purpose as this software. That is, a WebView for Windows, 
 //  OSX and/or iOS and/or Android.
@@ -54,6 +54,7 @@ namespace WebViewANELib {
         public int LogLevel { private get; set; }
         public string BrowserSubProcessPath { private get; set; }
         public string AcceptLanguageList { private get; set; }
+        public string Locale { private get; set; }
         public bool EnableDownloads { private get; set; }
         public string InjectCode { private get; set; }
         public string InjectScriptUrl { private get; set; }
@@ -122,16 +123,15 @@ namespace WebViewANELib {
             settings.WindowlessRenderingEnabled = false;
             settings.BrowserSubprocessPath = BrowserSubProcessPath;
             settings.AcceptLanguageList = AcceptLanguageList;
+            settings.Locale = Locale;
 
             foreach (var kvp in CommandLineArgs) {
                 settings.CefCommandLineArgs.Add(kvp.Key, kvp.Value);
             }
 
-
             Cef.EnableHighDPISupport();
             if (Cef.Initialize(settings)) {
                 var browser = CreateNewBrowser();
-
                 CurrentBrowser = browser;
                 _host.Child = browser;
                 MainGrid.Children.Add(_host);

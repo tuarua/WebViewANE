@@ -181,6 +181,7 @@ namespace WebViewANELib {
         }
 
         public FREObject InitView(FREContext ctx, uint argc, FREObject[] argv) {
+            FreSharpLogger.GetInstance().Context = Context;
             _airWindow = System.Diagnostics.Process.GetCurrentProcess().MainWindowHandle;
             if (_airWindow == Hwnd.Zero) {
                 return new FreException(
@@ -189,7 +190,6 @@ namespace WebViewANELib {
                     .RawValue;
             }
 
-            System.Windows.Media.Color backgroundMediaColor;
             try {
                 dynamic settings = new FreObjectSharp(argv[2]);
                 dynamic cefSettings = new FreObjectSharp(settings.cef);
@@ -212,7 +212,7 @@ namespace WebViewANELib {
                 ArrayList blackList = settings.urlBlackList.AsArrayList();
 
                 _backgroundColor = argv[4].AsColor();
-                backgroundMediaColor = new System.Windows.Media.Color {
+                var backgroundMediaColor = new System.Windows.Media.Color {
                     A = _backgroundColor.A,
                     R = _backgroundColor.R,
                     G = _backgroundColor.G,
@@ -243,6 +243,7 @@ namespace WebViewANELib {
                         LogLevel = cefSettings.logSeverity,
                         BrowserSubProcessPath = cefSettings.browserSubprocessPath,
                         AcceptLanguageList = cefSettings.acceptLanguageList,
+                        Locale = cefSettings.locale,
                         ContextMenuEnabled = contextMenu.enabled,
                         UserAgent = settings.userAgent,
                         UserDataPath = cefSettings.userDataPath,
@@ -273,15 +274,16 @@ namespace WebViewANELib {
             parameters.AcquireHwndFocusInMenuMode = true;
 
             if (Environment.OSVersion.Version.Major > 7) {
-                parameters.ExtendedWindowStyle = (int) WindowExStyles.WS_EX_LAYERED;
-                parameters.UsesPerPixelTransparency = true;
+                // parameters.ExtendedWindowStyle = (int) WindowExStyles.WS_EX_LAYERED;
+                // parameters.UsesPerPixelTransparency = true;
             }
 
             var source = _useEdge
                 ? new HwndSource(parameters) {RootVisual = (EdgeView) _view}
                 : new HwndSource(parameters) {RootVisual = (CefView) _view};
+            
             if (source.CompositionTarget != null) {
-                source.CompositionTarget.BackgroundColor = backgroundMediaColor;
+                // source.CompositionTarget.BackgroundColor = Colors.Transparent;
             }
 
             _webViewWindow = source.Handle;
@@ -408,16 +410,16 @@ namespace WebViewANELib {
             }
 
             if (!updateX && !updateY && !updateWidth && !updateHeight) return FREObject.Zero;
-            var flgs = (WindowPositionFlags) 0;
+            var flags = (WindowPositionFlags) 0;
             if (!updateWidth && !updateHeight) {
-                flgs |= WindowPositionFlags.SWP_NOSIZE;
+                flags |= WindowPositionFlags.SWP_NOSIZE;
             }
 
             if (!updateX && !updateY) {
-                flgs |= WindowPositionFlags.SWP_NOMOVE;
+                flags |= WindowPositionFlags.SWP_NOMOVE;
             }
 
-            WinApi.SetWindowPos(_webViewWindow, new Hwnd(0), _view.X, _view.Y, _view.ViewWidth, _view.ViewHeight, flgs);
+            WinApi.SetWindowPos(_webViewWindow, new Hwnd(0), _view.X, _view.Y, _view.ViewWidth, _view.ViewHeight, flags);
             WinApi.UpdateWindow(_webViewWindow);
             return FREObject.Zero;
         }
