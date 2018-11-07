@@ -32,6 +32,10 @@
           <anePathEntry path="${DOCUMENTS}/WebViewANE/native_extension/ane/WebViewANE.ane"/>
           <anePathEntry path="${DOCUMENTS}/WebViewANE/native_extension/ane/CommonDependencies.ane"/>
         </anePaths>
+        <newLaunchParams/>
+        <modifiedLaunchParams/>
+        <newPackagingParams/>
+        <modifiedPackagingParams/>
       </airSettings>
       <actionScriptSettings version="1"/>
     </buildTarget>

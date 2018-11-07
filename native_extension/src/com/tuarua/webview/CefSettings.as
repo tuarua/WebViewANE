@@ -70,6 +70,11 @@ public class CefSettings {
      */
     public var acceptLanguageList:String = "en-US,en";
 
+    /**
+     * <p>The locale string that will be passed to WebKit. If empty the default locale of "en-US" will be used.</p>
+     */
+    public var locale:String = "en-US";
+
     public function CefSettings() {
     }
 }

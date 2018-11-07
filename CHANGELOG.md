@@ -1,3 +1,8 @@
+### 1.9.2
+- WIN: Rendering problem on some systems Issue #185
+- WIN: Added `CefSettings.locale` Issue #185
+- WIN: Revert Issue #168 related to Issue #185
+
 ### 1.9.1
 - AND/iOS/WIN/OSX: Added `deleteCookies()` method
 

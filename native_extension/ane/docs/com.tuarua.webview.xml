@@ -95,6 +95,9 @@
      </shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>unknown</apiData><apiType value="Vector$Object"/></apiValueDef><apiDesc>
      <p>Add custom command line argumens to this collection, they will be added in
      OnBeforeCommandLineProcessing.</p>
+     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:CefSettings:locale"><apiName>locale</apiName><shortdesc>
+     The locale string that will be passed to WebKit.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>en-US</apiData><apiType value="String"/></apiValueDef><apiDesc>
+     <p>The locale string that will be passed to WebKit. If empty the default locale of "en-US" will be used.</p>
      </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:CefSettings:logSeverity"><apiName>logSeverity</apiName><shortdesc>
      The log severity.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>99</apiData><apiType value="int"/></apiValueDef><apiDesc>
      <p>The log severity. Only messages of this severity level or higher will be logged.
