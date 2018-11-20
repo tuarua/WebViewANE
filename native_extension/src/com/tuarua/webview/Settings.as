@@ -37,13 +37,13 @@ public class Settings {
      <p>The path to automatically save downloads to. No user dialog is shown. OSX and Windows only.</p>
      */
     public var downloadPath:String;
-	/**
-	 * <p>Settings to use for CEF (Windows) version.</p>
-	 */	
+    /**
+     * <p>Settings to use for CEF (Windows) version.</p>
+     */
     public var cef:CefSettings = new CefSettings();
-	/**
-	 * <p>Settings to use for WKWebView (OSX / iOS) version.</p>
-	 */	
+    /**
+     * <p>Settings to use for WKWebView (OSX / iOS) version.</p>
+     */
     public var webkit:WebkitSettings = new WebkitSettings();
     /**
      * <p>Value that will be returned as the User-Agent HTTP header.</p>
@@ -71,6 +71,16 @@ public class Settings {
      <p>The web engine to use.</p>
      */
     public var engine:int = WebEngine.DEFAULT;
+    /**
+     <p>@param useHiDPI set true if using <requestedDisplayResolution>high</requestedDisplayResolution> in your
+     app xml - Windows only.</p>
+     */
+    public var useHiDPI:Boolean = true;
+    /**
+     <p>Sets the container Window (HWND) of the webview to be transparent. <br/>
+     <b>Important!<b> some video cards don't support this and may cause view to be invisible - Windows 8.1+ only.</p>
+     */
+    public var useTransparentBackground:Boolean = false;
 
     public function Settings() {
     }

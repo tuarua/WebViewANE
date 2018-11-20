@@ -46,8 +46,7 @@ extern "C" {
 		FreSharpBridge::GetFunctions();
 		
 		static FRENamedFunction extensionFunctions[] = {
-			 MAP_FUNCTION(isSupported)
-			,MAP_FUNCTION(init)
+			 MAP_FUNCTION(init)
 			,MAP_FUNCTION(setVisible)
 			,MAP_FUNCTION(injectScript)
 			,MAP_FUNCTION(load)

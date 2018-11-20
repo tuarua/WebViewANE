@@ -3,8 +3,9 @@ using System.Collections;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
-using Microsoft.Toolkit.Win32.UI.Controls.WPF;
+using Microsoft.Toolkit.Wpf.UI.Controls;
 using Newtonsoft.Json.Linq;
 using TuaRua.FreSharp;
 using WebViewANELib.Edge;
@@ -39,8 +40,8 @@ namespace WebViewANELib {
         private WebView CreateNewBrowser() {
             // ReSharper disable once UseObjectOrCollectionInitializer
             var browser = new WebView {
-                VerticalAlignment = System.Windows.VerticalAlignment.Stretch,
-                HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Stretch,
+                HorizontalAlignment = HorizontalAlignment.Stretch,
                 IsJavaScriptEnabled = true,
                 IsIndexedDBEnabled = true,
                 IsPrivateNetworkClientServerCapabilityEnabled = true,
@@ -53,15 +54,18 @@ namespace WebViewANELib {
             browser.NavigationCompleted += OnNavigationCompleted;
             browser.NewWindowRequested += OnNewWindowRequested;
             browser.ScriptNotify += OnScriptNotify;
-
-            if (!string.IsNullOrEmpty(InitialUrl)) {
-                browser.Navigate(new Uri(InitialUrl));
-            }
+            browser.Loaded+= OnLoaded;
 
             _tabs.Add(browser);
             TabDetails.Add(new TabDetails());
 
             return browser;
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs e) {
+            if (!string.IsNullOrEmpty(InitialUrl)) {
+                CurrentBrowser.Navigate(new Uri(InitialUrl));
+            }
         }
 
         private static void OnScriptNotify(object sender, WebViewControlScriptNotifyEventArgs e) {
@@ -130,9 +134,16 @@ namespace WebViewANELib {
         }
 
         private void OnNavigationCompleted(object sender, WebViewControlNavigationCompletedEventArgs e) {
-            /*Context.SendEvent("TRACE", e.IsSuccess
-                ? $@"NavigationCompleted: {e.Uri}"
-                : $@"WebErrorStatus: {e.WebErrorStatus}");*/
+            if (!e.IsSuccess) {
+                var json = JObject.FromObject(new {
+                    url = e.Uri,
+                    errorCode = e.WebErrorStatus,
+                    errorText = e.WebErrorStatus.ToString(),
+                    tab = 0
+                });
+                Context.DispatchEvent(WebViewEvent.OnFail, json.ToString());
+                return;
+            }
 
             var browser = (WebView) sender;
 
@@ -149,7 +160,7 @@ namespace WebViewANELib {
         }
 
         private void OnNewWindowRequested(object sender, WebViewControlNewWindowRequestedEventArgs e) {
-            Context.DispatchEvent("TRACE", $@"NewWindowRequested: {e.Uri}");
+            Load(e.Uri.ToString());
         }
 
         private TabDetails GetTabDetails(int tab) {

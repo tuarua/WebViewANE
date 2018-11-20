@@ -54,7 +54,6 @@ namespace WebViewANELib {
         public string[] GetFunctions() {
             FunctionsDict =
                 new Dictionary<string, Func<FREObject, uint, FREObject[], FREObject>> {
-                    {"isSupported", IsSupported},
                     {"injectScript", InjectScript},
                     {"shutDown", ShutDown},
                     {"clearCache", ClearCache},
@@ -135,10 +134,6 @@ namespace WebViewANELib {
             return FREObject.Zero;
         }
 
-        private static FREObject IsSupported(FREContext ctx, uint argc, FREObject[] argv) {
-            return true.ToFREObject();
-        }
-
         private static FREObject AllowsMagnification(FREContext ctx, uint argc, FREObject[] argv) {
             return true.ToFREObject();
         }
@@ -189,13 +184,14 @@ namespace WebViewANELib {
                         "Please see https://forum.starling-framework.org/topic/webviewane-for-osx/page/7?replies=201#post-105524 for more details")
                     .RawValue;
             }
-
+            bool useTransparentBackground;
             try {
                 dynamic settings = new FreObjectSharp(argv[2]);
                 dynamic cefSettings = new FreObjectSharp(settings.cef);
                 var initialUrl = argv[0].AsString();
                 var viewPort = argv[1].AsRect();
-                var useHiDpi = argv[5].AsBool();
+
+                useTransparentBackground = settings.useTransparentBackground;
                 FREArray clArr = cefSettings.commandLineArgs;
 
                 var argsDict = new Dictionary<string, string>();
@@ -205,7 +201,7 @@ namespace WebViewANELib {
                     if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(val)) continue;
                     argsDict.Add(key, val);
                 }
-
+                
                 _useEdge = settings.engine == 1;
 
                 ArrayList whiteList = settings.urlWhiteList.AsArrayList();
@@ -218,6 +214,9 @@ namespace WebViewANELib {
                     G = _backgroundColor.G,
                     B = _backgroundColor.B
                 };
+
+                bool useHiDpi = settings.useHiDPI;
+                
 
                 _scaleFactor = useHiDpi ? WinApi.GetScaleFactor() : 1.0;
 
@@ -273,17 +272,17 @@ namespace WebViewANELib {
             parameters.WindowStyle = (int) WindowStyles.WS_CHILD;
             parameters.AcquireHwndFocusInMenuMode = true;
 
-            if (Environment.OSVersion.Version.Major > 7) {
-                // parameters.ExtendedWindowStyle = (int) WindowExStyles.WS_EX_LAYERED;
-                // parameters.UsesPerPixelTransparency = true;
+            if (useTransparentBackground && Environment.OSVersion.Version.Major > 7) {
+                parameters.ExtendedWindowStyle = (int) WindowExStyles.WS_EX_LAYERED;
+                parameters.UsesPerPixelTransparency = true;
             }
 
             var source = _useEdge
                 ? new HwndSource(parameters) {RootVisual = (EdgeView) _view}
                 : new HwndSource(parameters) {RootVisual = (CefView) _view};
             
-            if (source.CompositionTarget != null) {
-                // source.CompositionTarget.BackgroundColor = Colors.Transparent;
+            if (useTransparentBackground && source.CompositionTarget != null) {
+                source.CompositionTarget.BackgroundColor = Colors.Transparent;
             }
 
             _webViewWindow = source.Handle;

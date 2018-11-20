@@ -1,28 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
-					   xmlns:s="library://ns.adobe.com/flex/spark" 
-					   xmlns:mx="library://ns.adobe.com/flex/mx"
-					   windowComplete="onWindowComplete()"
-					   width="1024" height="768"
-					   backgroundColor="#F1F1F1">
-	
-	<fx:Script>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009"
+                       xmlns:s="library://ns.adobe.com/flex/spark"
+                       xmlns:mx="library://ns.adobe.com/flex/mx"
+                       windowComplete="onWindowComplete()"
+                       width="1024" height="768"
+                       backgroundColor="#F1F1F1">
+
+    <fx:Script>
 		<![CDATA[
-			import com.tuarua.CommonDependencies;
-			import com.tuarua.WebViewANE;
-			import com.tuarua.webview.Settings;
-			
-			private var commonDependenciesANE:CommonDependencies = new CommonDependencies();//must create before all others
-			private var webview:WebViewANE = new WebViewANE();
-			
-			protected function onWindowComplete():void {
-				var viewport:Rectangle = getBounds(this);
-				var settings:Settings = new Settings();
-				webview.init(stage, viewport, "https://html5test.com", settings, 1, 0xFFF1F1F1, true);
-				webview.visible = true;
-			}
-		
-		]]>
+        import com.tuarua.CommonDependencies;
+        import com.tuarua.WebViewANE;
+        import com.tuarua.webview.Settings;
+
+        private var commonDependenciesANE:CommonDependencies = new CommonDependencies();//must create before all others
+        private var webview:WebViewANE = new WebViewANE();
+
+        protected function onWindowComplete():void {
+            this.stage.nativeWindow.addEventListener(NativeWindowBoundsEvent.RESIZE, onResize);
+            var viewport:Rectangle = getBounds(this);
+            var settings:Settings = new Settings();
+            webview.init(stage, viewport, "https://html5test.com", settings, 1, 0xFFF1F1F1);
+            webview.visible = true;
+        }
+
+        private function onResize(event:NativeWindowBoundsEvent):void {
+            webview.viewPort = new Rectangle(0, 0, event.afterBounds.width, event.afterBounds.height);
+        }
+        ]]>
 	</fx:Script>
-	
+
 </s:WindowedApplication>

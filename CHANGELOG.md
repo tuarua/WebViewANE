@@ -1,3 +1,10 @@
+### 2.0.0
+- AND/iOS/WIN/OSX: remove `webView.isSupported`, is always true
+- WIN: Updated to Windows Toolkit 5.0.0 for Modern WebView (Edge)
+- WIN: Updated to CefSharp 69.0.0
+- WIN: useHiDPI param removed from `init()`, added to `Settings.useHiDPI`
+- WIN: Added `Settings.useTransparentBackground`
+
 ### 1.9.2
 - WIN: Rendering problem on some systems Issue #185
 - WIN: Added `CefSettings.locale` Issue #185

@@ -13,11 +13,13 @@ import com.tuarua.WebBtn;
 import com.tuarua.WebViewANE;
 import com.tuarua.ZoominBtn;
 import com.tuarua.ZoomoutBtn;
+import com.tuarua.utils.os;
 import com.tuarua.webview.ActionscriptCallback;
 import com.tuarua.webview.DownloadProgress;
 import com.tuarua.webview.JavascriptResult;
 import com.tuarua.webview.LogSeverity;
 import com.tuarua.webview.Settings;
+import com.tuarua.webview.WebEngine;
 import com.tuarua.webview.WebViewEvent;
 import com.tuarua.webview.popup.Behaviour;
 
@@ -106,9 +108,6 @@ public class WebViewANESample extends Sprite {
         NativeApplication.nativeApplication.activeWindow.addEventListener(
                 NativeWindowDisplayStateEvent.DISPLAY_STATE_CHANGE, onWindowMiniMaxi);
 
-        if (!webView.isSupported) return;
-
-
         webView.addCallback("js_to_as", jsToAsCallback);
         webView.addCallback("forceWebViewFocus", forceWebViewFocus); //for Windows touch - see jsTest.html
 
@@ -134,16 +133,16 @@ public class WebViewANESample extends Sprite {
         //settings.userAgent = "WebViewANE";
 
         settings.cacheEnabled = true;
-        /*
+
         // enable Edge View on Windows if available
+        /*
         settings.engine = (os.isWindows && os.majorVersion >= 10 && os.buildVersion >= 17134)
                 ? WebEngine.EDGE
-                : WebEngine.DEFAULT;
-                */
+                : WebEngine.DEFAULT;*/
 
         settings.enableDownloads = true;
         settings.contextMenu.enabled = true; //enable/disable right click
-
+        settings.useTransparentBackground = true;
 
         // See https://github.com/cefsharp/CefSharp/blob/master/CefSharp.Example/CefExample.cs#L37 for more examples
         settings.cef.commandLineArgs.push({
@@ -160,8 +159,8 @@ public class WebViewANESample extends Sprite {
 
         // trace(os.isWindows, os.majorVersion, os.minorVersion, os.buildVersion);
 
-        webView.init(stage, viewPort, "https://html5test.com", settings, 1.0, 0xFFF1F1F1, true);
-        //webView.init(WebViewANESample.target.stage, viewPort, "", settings, 1.0, 0xFFF1F1F1, true); // when using loadHTMLString
+        webView.init(stage, viewPort, "https://html5test.com", settings, 1.0, 0xFFF1F1F1);
+        //webView.init(WebViewANESample.target.stage, viewPort, "", settings, 1.0, 0xFFF1F1F1); // when using loadHTMLString
         webView.visible = true;
         webView.injectScript("function testInject(){console.log('yo yo')}");
 

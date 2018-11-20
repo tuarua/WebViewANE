@@ -148,10 +148,7 @@
      </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn><apiParam><apiItemName>stage</apiItemName><apiType value="flash.display:Stage"/><apiDesc>    </apiDesc></apiParam><apiParam><apiItemName>viewPort</apiItemName><apiType value="flash.geom:Rectangle"/><apiDesc>    </apiDesc></apiParam><apiParam><apiItemName>initialUrl</apiItemName><apiType value="String"/><apiData>null</apiData><apiDesc>Url to load when the view loads
      </apiDesc></apiParam><apiParam><apiItemName>settings</apiItemName><apiOperationClassifier>com.tuarua.webview:Settings</apiOperationClassifier><apiData>null</apiData><apiDesc>    </apiDesc></apiParam><apiParam><apiItemName>scaleFactor</apiItemName><apiType value="Number"/><apiData>1.0</apiData><apiDesc>iOS, Android only
      </apiDesc></apiParam><apiParam><apiItemName>backgroundColor</apiItemName><apiType value="uint"/><apiData>0xFFFFFFFF</apiData><apiDesc>value of the view's background color in ARGB format.
-     </apiDesc></apiParam><apiParam><apiItemName>useHiDPI</apiItemName><apiType value="Boolean"/><apiData>false</apiData><apiDesc>set true if using <requestedDisplayResolution>high</requestedDisplayResolution> in your app xml - Windows, OSX only
-     
      <p>Initialises the webView. N.B. The webView is set to visible = false initially.</p>
-     
      </apiDesc></apiParam></apiOperationDef><apiDesc>
      
      </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:injectScript"><apiName>injectScript</apiName><shortdesc>
@@ -165,9 +162,6 @@
      <p><b>Ignored on Android.</b></p>
      </apiDesc></apiParam></apiOperationDef><apiDesc>
      
-     </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:isSupported"><apiName>isSupported</apiName><shortdesc>
-     </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiDesc>true if the device is Windows 7+, OSX 10.10+, Android,  or iOS 9.0+
-     </apiDesc><apiType value="Boolean"/></apiReturn></apiOperationDef><apiDesc>
      </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebViewANE:loadFileURL"><apiName>loadFileURL</apiName><shortdesc>
      
      </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn><apiParam><apiItemName>url</apiItemName><apiType value="String"/><apiDesc>full path to the file on the local file system

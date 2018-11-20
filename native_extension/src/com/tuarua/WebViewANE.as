@@ -53,7 +53,6 @@ import flash.utils.Dictionary;
 public class WebViewANE extends EventDispatcher {
     private static const NAME:String = "WebViewANE";
     private var _isInited:Boolean = false;
-    private var _isSupported:Boolean = false;
     private var _viewPort:Rectangle;
     private var asCallBacks:Dictionary = new Dictionary(); // as -> js -> as
     private var jsCallBacks:Dictionary = new Dictionary(); //js - > as -> js
@@ -74,23 +73,16 @@ public class WebViewANE extends EventDispatcher {
     private var _onCaptureComplete:Function;
 
     public function WebViewANE() {
-        _isSupported = true;
-
-        if (_isSupported) {
-            trace("[" + NAME + "] Initalizing ANE...");
-            try {
-                _context = ExtensionContext.createExtensionContext("com.tuarua." + NAME, null);
-                _context.addEventListener(StatusEvent.STATUS, gotEvent);
-                _isSupported = _context.call("isSupported");
-            } catch (e:Error) {
-                trace(e.name);
-                trace(e.message);
-                trace(e.getStackTrace());
-                trace(e.errorID);
-                trace("[" + NAME + "] ANE Not loaded properly.  Future calls will fail.");
-            }
-        } else {
-            trace("[" + NAME + "] Can't initialize.");
+        trace("[" + NAME + "] Initalizing ANE...");
+        try {
+            _context = ExtensionContext.createExtensionContext("com.tuarua." + NAME, null);
+            _context.addEventListener(StatusEvent.STATUS, gotEvent);
+        } catch (e:Error) {
+            trace(e.name);
+            trace(e.message);
+            trace(e.getStackTrace());
+            trace(e.errorID);
+            trace("[" + NAME + "] ANE Not loaded properly.  Future calls will fail.");
         }
     }
 
@@ -404,15 +396,12 @@ public class WebViewANE extends EventDispatcher {
      * @param initialUrl Url to load when the view loads
      * @param settings
      * @param scaleFactor iOS, Android only
-     * @param backgroundColor value of the view's background color in ARGB format.
-     * @param useHiDPI set true if using <requestedDisplayResolution>high</requestedDisplayResolution> in your app xml - Windows, OSX only
-     *
+     * @param backgroundColor value of the view's background color in ARGB format.*
      * <p>Initialises the webView. N.B. The webView is set to visible = false initially.</p>
-     *
      */
     public function init(stage:Stage, viewPort:Rectangle, initialUrl:String = null,
                          settings:Settings = null, scaleFactor:Number = 1.0,
-                         backgroundColor:uint = 0xFFFFFFFF, useHiDPI:Boolean = false):void {
+                         backgroundColor:uint = 0xFFFFFFFF):void {
         if (viewPort == null) {
             throw new ArgumentError("viewPort cannot be null");
         }
@@ -425,28 +414,26 @@ public class WebViewANE extends EventDispatcher {
         }
         stage.addEventListener(FullScreenEvent.FULL_SCREEN, onFullScreenEvent, false, 1000);
 
-        if (_isSupported) {
-            _settings = settings;
-            if (_settings == null) {
-                _settings = new Settings();
-            }
-
-            var theRet:* = _context.call("init", initialUrl, _viewPort, _settings, scaleFactor, backgroundColor, useHiDPI);
-            if (theRet is ANEError) {
-                throw theRet as ANEError;
-            }
-
-            if ((os.isWindows || os.isOSX)) {
-                if (this.hasEventListener(KeyboardEvent.KEY_UP)) {
-                    _context.call("addEventListener", KeyboardEvent.KEY_UP);
-                }
-                if (this.hasEventListener(KeyboardEvent.KEY_DOWN)) {
-                    _context.call("addEventListener", KeyboardEvent.KEY_DOWN);
-                }
-            }
-
-            _isInited = true;
+        _settings = settings;
+        if (_settings == null) {
+            _settings = new Settings();
         }
+
+        var theRet:* = _context.call("init", initialUrl, _viewPort, _settings, scaleFactor, backgroundColor);
+        if (theRet is ANEError) {
+            throw theRet as ANEError;
+        }
+
+        if ((os.isWindows || os.isOSX)) {
+            if (this.hasEventListener(KeyboardEvent.KEY_UP)) {
+                _context.call("addEventListener", KeyboardEvent.KEY_UP);
+            }
+            if (this.hasEventListener(KeyboardEvent.KEY_DOWN)) {
+                _context.call("addEventListener", KeyboardEvent.KEY_DOWN);
+            }
+        }
+
+        _isInited = true;
     }
 
     /** @private */
@@ -666,14 +653,7 @@ public class WebViewANE extends EventDispatcher {
             trace("You need to init first");
             return false;
         }
-        return _isSupported;
-    }
-
-    /**
-     * @return true if the device is Windows 7+, OSX 10.10+, Android,  or iOS 9.0+
-     */
-    public function isSupported():Boolean {
-        return _isSupported;
+        return true;
     }
 
     /**
