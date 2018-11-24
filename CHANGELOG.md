@@ -1,3 +1,6 @@
+### 2.0.1
+- iOS: Support AIR 32
+
 ### 2.0.0
 - AND/iOS/WIN/OSX: remove `webView.isSupported`, is always true
 - WIN: Updated to Windows Toolkit 5.0.0 for Modern WebView (Edge)
