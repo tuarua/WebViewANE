@@ -1,3 +1,10 @@
+### 2.1.0
+- AND: Updated to FreKotlin 1.6.0
+- Upgraded to AIR 32
+- OSX/iOS: Updated to FreSwift 3.0.0
+- WIN: Updated to FreSharp 2.1.0
+- WIN: Updated to Windows Toolkit 5.0.1 for Modern WebView (Edge)
+
 ### 2.0.1
 - iOS: Support AIR 32
 

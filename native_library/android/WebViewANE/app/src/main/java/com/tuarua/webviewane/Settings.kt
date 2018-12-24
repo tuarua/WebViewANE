@@ -69,13 +69,13 @@ class Settings() {
 
         val whiteListFre = o["urlWhiteList"]
         if (whiteListFre != null) {
-            val whiteListArr = FREArray(freObject = whiteListFre)
+            val whiteListArr = FREArray(whiteListFre)
             whiteList = List(whiteListArr)
         }
 
         val blackListFre = o["urlBlackList"]
         if (blackListFre != null) {
-            val blackListArr = FREArray(freObject = blackListFre)
+            val blackListArr = FREArray(blackListFre)
             blackList = List(blackListArr)
         }
     }

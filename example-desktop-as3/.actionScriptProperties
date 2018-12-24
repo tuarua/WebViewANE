@@ -30,7 +30,7 @@
           <libraryPathEntry kind="1" linkType="1" path="${PROJECT_FRAMEWORKS}/locale/{locale}"/>
         </excludedEntries>
       </libraryPathEntry>
-      <libraryPathEntry kind="5" linkType="2" path="${DOCUMENTS}/WebViewANE/native_extension/ane/CommonDependencies.ane"/>
+      <libraryPathEntry kind="5" linkType="2" path="${DOCUMENTS}/WebViewANE/native_extension/ane/FreSwift.ane"/>
       <libraryPathEntry kind="5" linkType="2" path="${DOCUMENTS}/WebViewANE/native_extension/ane/WebViewANE.ane"/>
     </libraryPath>
     <sourceAttachmentPath/>
@@ -49,7 +49,7 @@
       <airSettings airCertificatePath="D:/dev/flash/tuaruaWin.p12" airTimestamp="true" anePathSet="true" version="1">
         <airExcludes/>
         <anePaths>
-          <anePathEntry path="${DOCUMENTS}/WebViewANE/native_extension/ane/CommonDependencies.ane"/>
+          <anePathEntry path="${DOCUMENTS}/WebViewANE/native_extension/ane/FreSwift.ane"/>
           <anePathEntry path="${DOCUMENTS}/WebViewANE/native_extension/ane/WebViewANE.ane"/>
         </anePaths>
       </airSettings>

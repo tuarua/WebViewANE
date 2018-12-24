@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="CommonDependencies" type="flex">
-    <CLASSES>
-      <root url="jar://$DOCUMENTS$/WebViewANE/native_extension/ane/CommonDependencies.ane!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

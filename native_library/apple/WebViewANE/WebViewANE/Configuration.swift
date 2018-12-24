@@ -74,7 +74,7 @@ open class Configuration: WKWebViewConfiguration {
                 if let argFre = custom[index],
                     let key = String(argFre["key"]),
                     let val = argFre["value"],
-                    let v = try? FreObjectSwift(any: val).value {
+                    let v = FreObjectSwift(val).value {
                     self.preferences.setValue(v, forKey: key)
                 }
             }

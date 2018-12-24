@@ -27,7 +27,7 @@ import Cocoa
 #endif
 
 class WebViewVC: WKWebView, FreSwiftController {
-    var TAG: String? = "WebViewANE"
+    static var TAG = "WebViewANE"
     internal var context: FreContextSwift!
     var _settings: Settings!
     private var _capturedBitmapData: CGImage?
