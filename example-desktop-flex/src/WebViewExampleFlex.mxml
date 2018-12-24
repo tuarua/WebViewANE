@@ -8,11 +8,11 @@
 
     <fx:Script>
 		<![CDATA[
-        import com.tuarua.CommonDependencies;
+        import com.tuarua.FreSwift;
         import com.tuarua.WebViewANE;
         import com.tuarua.webview.Settings;
 
-        private var commonDependenciesANE:CommonDependencies = new CommonDependencies();//must create before all others
+        private var freSwiftANE:FreSwift = new FreSwift();//must create before all others
         private var webview:WebViewANE = new WebViewANE();
 
         protected function onWindowComplete():void {

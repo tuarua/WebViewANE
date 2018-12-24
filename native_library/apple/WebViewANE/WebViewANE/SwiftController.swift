@@ -26,7 +26,7 @@ import FreSwift
 import Cocoa
 #endif
 public class SwiftController: NSObject {
-    public var TAG: String? = "WebViewANE"
+    public static var TAG = "WebViewANE"
     public var context: FreContextSwift!
     public var functionsToSet: FREFunctionMap = [:]
     private var _currentWebView: WebViewVC?
@@ -484,39 +484,27 @@ public class SwiftController: NSObject {
         let y = _capturedCropTo?.origin.y ?? 0
         let w = _capturedCropTo?.size.width ?? 0
         let h = _capturedCropTo?.size.height ?? 0
-        do {
-            if let freObject = try FREObject(className: "flash.display.BitmapData",
-                                             args: captured.width, captured.height, false) {
-                let asBitmapData = FreBitmapDataSwift(freObject: freObject)
-                defer {
-                    asBitmapData.releaseData()
-                }
-                do {
-                    try asBitmapData.acquire()
-                    try asBitmapData.setPixels(cgImage: captured)
-                    asBitmapData.releaseData()
-                    if w > 0 && h > 0 {
-                        if let destBmd = try FREObject(className: "flash.display.BitmapData",
-                                                       args: w, h, false) {
-                            if let bmd = asBitmapData.rawValue,
-                                let sourceRect = CGRect(x: x, y: y, width: w, height: h).toFREObject(),
-                                let destPoint = CGPoint.zero.toFREObject() {
-                                _ = try destBmd.call(method: "copyPixels", args: bmd, sourceRect, destPoint)
-                                return destBmd
-                            }
-                        }
-                    } else {
-                        return asBitmapData.rawValue
+        if let freObject = FREObject(className: "flash.display.BitmapData",
+                                         args: captured.width, captured.height, false) {
+            let asBitmapData = FreBitmapDataSwift(freObject: freObject)
+            asBitmapData.acquire()
+            asBitmapData.setPixels(captured)
+            asBitmapData.releaseData()
+            if w > 0 && h > 0 {
+                if let destBmd = FREObject(className: "flash.display.BitmapData",
+                                               args: w, h, false) {
+                    if let bmd = asBitmapData.rawValue,
+                        let sourceRect = CGRect(x: x, y: y, width: w, height: h).toFREObject(),
+                        let destPoint = CGPoint.zero.toFREObject() {
+                        destBmd.call(method: "copyPixels", args: bmd, sourceRect, destPoint)
+                        return destBmd
                     }
-                } catch let e as FreError {
-                    return e.getError(#file, #line, #column)
-                } catch {}
+                }
+            } else {
+                return asBitmapData.rawValue
             }
-        } catch let e as FreError {
-            return e.getError(#file, #line, #column)
-        } catch {
         }
-        
+
         return FreBitmapDataSwift(cgImage: captured).rawValue
     }
     
@@ -672,28 +660,25 @@ public class SwiftController: NSObject {
 
     func getTabDetails(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
         var ret: FREObject? = nil
-        do {
-            let airArray: FREArray = try FREArray(className: "com.tuarua.webview.TabDetails",
-                                                  length: _tabList.count,
-                                                  fixed: true)
-            ret = airArray.rawValue
-            var cnt = 0
-            for vc in _tabList {
-                if let theVC = vc as? WebViewVC {
-                    if let currentTabFre = try FREObject(className: "com.tuarua.webview.TabDetails",
-                                                              args: theVC.tab,
-                                                              theVC.url!.absoluteString,
-                                                              theVC.title!,
-                                                              theVC.isLoading,
-                                                              theVC.canGoBack,
-                                                              theVC.canGoForward,
-                                                              theVC.estimatedProgress) {
-                        try airArray.set(index: UInt(cnt), value: currentTabFre)
-                    }
-                    cnt += 1
+        let airArray = FREArray(className: "com.tuarua.webview.TabDetails",
+                                              length: _tabList.count,
+                                              fixed: true)
+        ret = airArray?.rawValue
+        var cnt = 0
+        for vc in _tabList {
+            if let theVC = vc as? WebViewVC {
+                if let currentTabFre = FREObject(className: "com.tuarua.webview.TabDetails",
+                                                          args: theVC.tab,
+                                                          theVC.url!.absoluteString,
+                                                          theVC.title!,
+                                                          theVC.isLoading,
+                                                          theVC.canGoBack,
+                                                          theVC.canGoForward,
+                                                          theVC.estimatedProgress) {
+                    airArray?[UInt(cnt)] = currentTabFre
                 }
+                cnt += 1
             }
-        } catch {
         }
         return ret
     }
@@ -745,7 +730,7 @@ public class SwiftController: NSObject {
         _viewPort = viewPortFre
         var realY = _viewPort.origin.y
 #if os(iOS)
-        _bgColor = UIColor(freObjectARGB: inFRE4) ?? UIColor.white
+        _bgColor = UIColor(inFRE4) ?? UIColor.white
         if _bgColor.cgColor.alpha == 0.0 {
             _bgColor = UIColor.clear
         }

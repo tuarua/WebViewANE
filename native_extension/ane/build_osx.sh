@@ -8,7 +8,7 @@ echo $pathtome
 
 PROJECT_NAME=WebViewANE
 
-AIR_SDK="/Users/eoinlandy/SDKs/AIRSDK_31"
+AIR_SDK="/Users/eoinlandy/SDKs/AIRSDK_32"
 echo $AIR_SDK
 
 #Setup the directory.

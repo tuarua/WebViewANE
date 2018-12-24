@@ -1,10 +1,11 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="iOS - simulator" type="FlashRunConfigurationType" factoryName="Flash App">
+  <configuration default="false" name="iOS - simulator" type="FlashRunConfigurationType">
     <option name="BCName" value="WebViewANESample-mobile iOS simulator" />
-    <option name="IOSSimulatorSdkPath" value="/Applications/Xcode9.1.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk" />
+    <option name="IOSSimulatorSdkPath" value="/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator12.1.sdk" />
     <option name="adlOptions" value="" />
     <option name="airProgramParameters" value="" />
     <option name="appDescriptorForEmulator" value="Android" />
+    <option name="clearAppDataOnEachLaunch" value="true" />
     <option name="debugTransport" value="USB" />
     <option name="debuggerSdkRaw" value="BC SDK" />
     <option name="emulator" value="iPhoneRetina" />
@@ -32,6 +33,8 @@
     <option name="screenWidth" value="480" />
     <option name="url" value="http://" />
     <option name="usbDebugPort" value="7936" />
-    <method />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
   </configuration>
 </component>
