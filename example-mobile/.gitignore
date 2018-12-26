@@ -7,6 +7,7 @@ bin-debug/
 bin-release/
 bin-release-temp/
 cache/
+AIRSDK_patch/
 
 *.app
 
