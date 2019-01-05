@@ -1,3 +1,7 @@
+### 2.1.1
+- OSX: Fix modifier keys not emitting keyboard events Issue #196
+- WIN: Added Windows 7 touch support Issue #194
+
 ### 2.1.0
 - AND: Updated to FreKotlin 1.6.0
 - Upgraded to AIR 32
