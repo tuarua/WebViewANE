@@ -1,4 +1,4 @@
-$AneVersion = "2.1.0"
+$AneVersion = "2.1.1"
 
 $currentDir = (Get-Item -Path ".\" -Verbose).FullName
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12

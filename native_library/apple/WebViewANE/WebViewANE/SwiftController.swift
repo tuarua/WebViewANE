@@ -30,33 +30,59 @@ public class SwiftController: NSObject {
     public var context: FreContextSwift!
     public var functionsToSet: FREFunctionMap = [:]
     private var _currentWebView: WebViewVC?
-    private var _currentTab: Int = 0
-    private var _tabList: NSMutableArray = NSMutableArray()
+    private var _currentTab = 0
+    private var _tabList = NSMutableArray()
     private static var escListener: Any?
     private static var keyUpListener: Any?
     private static var keyDownListener: Any?
     private static let zoomIncrement = CGFloat(0.1)
     private var _initialUrl = ""
-    private var _viewPort: CGRect = CGRect(x: 0.0, y: 0.0, width: 800.0, height: 600.0)
+    private var _viewPort = CGRect(x: 0.0, y: 0.0, width: 800.0, height: 600.0)
     private var _capturedCropTo: CGRect?
-    internal var _popupBehaviour: PopupBehaviour = PopupBehaviour.newWindow
+    internal var _popupBehaviour = PopupBehaviour.newWindow
 #if os(iOS)
     private var _bgColor = UIColor.white
 #else
     internal var _popup: Popup?
     internal var downloadTaskSaveTos = [Int: URL]()
 #endif
-    private var _isAdded: Bool = false
+    private var _isAdded = false
     internal var _settings: Settings!
-    private var _userController: WKUserContentController = WKUserContentController()
+    private var _userController = WKUserContentController()
     
     private func addKeyListener(type: String) {
 #if os(OSX)
-        let eventMask: NSEvent.EventTypeMask = type == "keyUp" ? .keyUp : .keyDown
+        var eventMask: NSEvent.EventTypeMask = type == "keyUp" ? .keyUp : .keyDown
+        eventMask.formUnion(.flagsChanged)
         var listener: Any? = type == "keyUp" ? SwiftController.keyUpListener : SwiftController.keyDownListener
         if listener == nil {
             listener = NSEvent.addLocalMonitorForEvents(matching: [eventMask]) { (event: NSEvent) -> NSEvent? in
-                var modifiers: String = ""
+                var modifiers = ""
+                var isModifier = false
+                var keyValue: UInt32 = 0
+                
+                switch event.keyCode {
+                case 55: //command
+                    keyValue = 15
+                    isModifier = true
+                case 56: //shift
+                    keyValue = 16
+                    isModifier = true
+                case 58: //option
+                    keyValue = 18
+                    isModifier = true
+                case 59: //control
+                    keyValue = 17
+                    isModifier = true
+                default:
+                    break
+                }
+                
+                if isModifier {
+                    self.sendKeyEvent(keyValue: keyValue, event: event, modifiers: modifiers)
+                    return nil
+                }
+                
                 switch event.modifierFlags.intersection(NSEvent.ModifierFlags.deviceIndependentFlagsMask) {
                 case [.shift]:
                     modifiers = "shift"
@@ -89,10 +115,8 @@ public class SwiftController: NSObject {
                 default:
                     break
                 }
-
                 if let characters = event.charactersIgnoringModifiers {
                     let s = characters.uppercased().unicodeScalars
-                    var keyValue: UInt32 = 0
                     switch event.keyCode {
                     case 51: //BACKSPACE
                         keyValue = 8
@@ -109,28 +133,47 @@ public class SwiftController: NSObject {
                     default:
                         keyValue = s[s.startIndex].value
                     }
-                    var props: [String: Any] = Dictionary()
-                    props["keyCode"] = keyValue
-                    props["nativeKeyCode"] = event.keyCode
-                    props["modifiers"] = modifiers
-                    props["isSystemKey"] = false
-                    self.dispatchEvent(name: event.type == .keyUp ? WebViewEvent.ON_KEY_UP : WebViewEvent.ON_KEY_DOWN,
-                                   value: JSON(props).description)
-
+                    self.sendKeyEvent(keyValue: keyValue, event: event, modifiers: modifiers)
                 }
-
-                return event
+                return nil
             }
         }
 #endif
     }
-
+    
+#if os(OSX)
+    private func sendKeyEvent(keyValue: UInt32, event: NSEvent, modifiers: String) {
+        var props: [String: Any] = Dictionary()
+        props["keyCode"] = keyValue
+        props["nativeKeyCode"] = event.keyCode
+        props["modifiers"] = modifiers
+        props["isSystemKey"] = false
+        var name = ""
+        switch event.type {
+        case .keyUp:
+            name = WebViewEvent.ON_KEY_UP
+        case .keyDown:
+            name = WebViewEvent.ON_KEY_DOWN
+        case .flagsChanged:
+            if Int(event.modifierFlags.rawValue) == 256 {
+                name = WebViewEvent.ON_KEY_UP
+            } else {
+                name = WebViewEvent.ON_KEY_DOWN
+            }
+        default:
+            break
+        }
+        dispatchEvent(name: name, value: JSON(props).description)
+    }
+#endif
+    
     func addEventListener(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
 #if os(OSX)
         guard argc > 0,
-              let type = String(argv[0])
-          else {
-            return FreArgError(message: "addEventListener").getError(#file, #line, #column)
+            let type = String(argv[0])
+            else {
+                return FreArgError(message: "addEventListener").getError(#file, #line, #column)
+                
         }
         if type == "keyUp" || type == "keyDown" {
             addKeyListener(type: type)
@@ -142,11 +185,10 @@ public class SwiftController: NSObject {
     func removeEventListener(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
 #if os(OSX)
         guard argc > 0,
-              let type = String(argv[0])
-          else {
-            return FreArgError(message: "removeEventListener").getError(#file, #line, #column)
+            let type = String(argv[0])
+            else {
+                return FreArgError(message: "removeEventListener").getError(#file, #line, #column)
         }
-
         let listener: Any? = type == "keyUp" ? SwiftController.keyUpListener : SwiftController.keyDownListener
         if let lstnr = listener {
             NSEvent.removeMonitor(lstnr)
@@ -173,8 +215,8 @@ public class SwiftController: NSObject {
 
     func backForwardList(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
         guard let wv = _currentWebView
-          else {
-            return FreArgError(message: "backForwardList").getError(#file, #line, #column)
+            else {
+                return FreArgError(message: "backForwardList").getError(#file, #line, #column)
         }
 
         let bfList = BackForwardList.init(context: context, webView: wv)
@@ -187,12 +229,11 @@ public class SwiftController: NSObject {
 
     func go(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
         guard argc > 0,
-              let wv = _currentWebView,
-              let i = Int(argv[0])
-          else {
-            return FreArgError(message: "go").getError(#file, #line, #column)
+            let wv = _currentWebView,
+            let i = Int(argv[0])
+            else {
+                return FreArgError(message: "go").getError(#file, #line, #column)
         }
-
         if let item = wv.backForwardList.item(at: i) {
             wv.go(to: item)
         }
@@ -237,10 +278,10 @@ public class SwiftController: NSObject {
 
     func setVisible(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
         guard argc > 0,
-              let wv = _currentWebView,
-              let visible = Bool(argv[0])
-          else {
-            return FreArgError(message: "setVisible").getError(#file, #line, #column)
+            let wv = _currentWebView,
+            let visible = Bool(argv[0])
+            else {
+                return FreArgError(message: "setVisible").getError(#file, #line, #column)
         }
 
         if !_isAdded {
@@ -251,9 +292,7 @@ public class SwiftController: NSObject {
     }
 
     private func addToStage() {
-        guard let wv = _currentWebView else {
-            return
-        }
+        guard let wv = _currentWebView else { return }
 #if os(iOS)
         if let rootViewController = UIApplication.shared.keyWindow?.rootViewController {
             rootViewController.view.addSubview(wv)
@@ -278,21 +317,18 @@ public class SwiftController: NSObject {
     }
 
     private func removeFromStage() {
-        guard let wv = _currentWebView else {
-            return
-        }
+        guard let wv = _currentWebView else { return }
         wv.removeFromSuperview()
         _isAdded = false
     }
 
     func setViewPort(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
         guard argc > 0,
-              let wv = _currentWebView,
-              let viewPortFre = CGRect(argv[0])
-          else {
-            return FreArgError(message: "setViewPort").getError(#file, #line, #column)
+            let wv = _currentWebView,
+            let viewPortFre = CGRect(argv[0])
+            else {
+                return FreArgError(message: "setViewPort").getError(#file, #line, #column)
         }
-
         _viewPort = viewPortFre
         wv.setPositionAndSize(viewPort: _viewPort)
         return nil
@@ -300,9 +336,9 @@ public class SwiftController: NSObject {
 
     func load(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
         guard argc > 0,
-              let wv = _currentWebView,
-              let url = String(argv[0]),
-              !url.isEmpty else {
+            let wv = _currentWebView,
+            let url = String(argv[0]),
+            !url.isEmpty else {
                 return FreArgError(message: "load").getError(#file, #line, #column)
         }
         wv.load(url: url)
@@ -311,10 +347,10 @@ public class SwiftController: NSObject {
 
     func loadHTMLString(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
         guard argc > 0,
-              let wv = _currentWebView,
-              let html =  String(argv[0])
-          else {
-            return FreArgError(message: "loadHTMLString").getError(#file, #line, #column)
+            let wv = _currentWebView,
+            let html =  String(argv[0])
+            else {
+                return FreArgError(message: "loadHTMLString").getError(#file, #line, #column)
         }
         wv.load(html: html)
         return nil
@@ -335,8 +371,7 @@ public class SwiftController: NSObject {
     }
 
     func onFullScreen(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
-#if os(iOS)
-#else
+#if os(OSX)
         guard argc > 0,
             let fullScreen = Bool(argv[0]) else {
                 return FreArgError(message: "onFullScreen").getError(#file, #line, #column)
@@ -406,10 +441,10 @@ public class SwiftController: NSObject {
 
     func evaluateJavaScript(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
         guard argc > 0,
-              let wv = _currentWebView,
-              let js = String(argv[0])
-          else {
-            return FreArgError(message: "evaluateJavaScript").getError(#file, #line, #column)
+            let wv = _currentWebView,
+            let js = String(argv[0])
+            else {
+                return FreArgError(message: "evaluateJavaScript").getError(#file, #line, #column)
         }
         
         if let callback = String(argv[1]) {
@@ -427,9 +462,9 @@ public class SwiftController: NSObject {
 
     func injectScript(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
         guard argc > 0,
-              let injectCode = String(argv[0])
-          else {
-            return FreArgError(message: "injectScript").getError(#file, #line, #column)
+            let injectCode = String(argv[0])
+            else {
+                return FreArgError(message: "injectScript").getError(#file, #line, #column)
         }
 
         let userScript = WKUserScript(source: injectCode, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
@@ -543,9 +578,9 @@ public class SwiftController: NSObject {
     func addTab(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
 #if os(OSX)
         guard argc > 0,
-              let wv = _currentWebView
-          else {
-            return FreArgError(message: "addTab").getError(#file, #line, #column)
+            let wv = _currentWebView
+            else {
+                return FreArgError(message: "addTab").getError(#file, #line, #column)
         }
 
         if let initialUrl = String(argv[0]) {
@@ -571,12 +606,10 @@ public class SwiftController: NSObject {
     func closeTab(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
 #if os(OSX)
         guard argc > 0,
-              let cwv = _currentWebView,
-              let index = Int(argv[0]),
-              index > -1,
-              index < (_tabList.count)
-          else {
-            return FreArgError(message: "closeTab").getError(#file, #line, #column)
+            let cwv = _currentWebView,
+            let index = Int(argv[0]), index > -1, index < (_tabList.count)
+            else {
+                return FreArgError(message: "closeTab").getError(#file, #line, #column)
         }
 
         let doRefresh = (_currentTab >= index)
@@ -629,13 +662,10 @@ public class SwiftController: NSObject {
     func setCurrentTab(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
 #if os(OSX)
         guard argc > 0,
-              let cwv = _currentWebView,
-              let index = Int(argv[0]),
-              index > -1,
-              index < (_tabList.count),
-              index != _currentTab
-          else {
-            return FreArgError(message: "setCurrentTab").getError(#file, #line, #column)
+            let cwv = _currentWebView,
+            let index = Int(argv[0]), index > -1, index < (_tabList.count), index != _currentTab
+            else {
+                return FreArgError(message: "setCurrentTab").getError(#file, #line, #column)
         }
 
         for vc in _tabList {
@@ -718,10 +748,10 @@ public class SwiftController: NSObject {
 
     func initController(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
         guard argc > 4,
-              let inFRE4 = argv[4],
-              let viewPortFre = CGRect(argv[1])
-          else {
-            return FreArgError(message: "initWebView").getError(#file, #line, #column)
+            let inFRE4 = argv[4],
+            let viewPortFre = CGRect(argv[1])
+            else {
+                return FreArgError(message: "initWebView").getError(#file, #line, #column)
         }
         if let initialUrl = String(argv[0]) {
             _initialUrl = initialUrl
@@ -805,10 +835,7 @@ public class SwiftController: NSObject {
     }
 
     internal func isWhiteListBlocked(url: String) -> Bool {
-        guard _settings.urlWhiteList.count > 0
-          else {
-            return false
-        }
+        guard _settings.urlWhiteList.count > 0 else { return false }
         let urlClean = url.lowercased()
         for item in _settings.urlWhiteList {
             if urlClean.range(of: item.lowercased()) != nil {
@@ -819,17 +846,13 @@ public class SwiftController: NSObject {
     }
 
     internal func isBlackListBlocked(url: String) -> Bool {
-        guard _settings.urlBlackList.count > 0
-          else {
-            return false
-        }
+        guard _settings.urlBlackList.count > 0 else { return false }
         let urlClean = url.lowercased()
         for item in _settings.urlBlackList {
             if urlClean.range(of: item.lowercased()) != nil {
                 return true
             }
         }
-
         return false
     }
 

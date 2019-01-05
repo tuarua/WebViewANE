@@ -236,7 +236,8 @@ public class WebViewANE extends EventDispatcher {
     }
 
     //noinspection ReservedWordAsName
-    override public function addEventListener(type:String, listener:Function, useCapture:Boolean = false, priority:int = 0, useWeakReference:Boolean = false):void {
+    override public function addEventListener(type:String, listener:Function, useCapture:Boolean = false, priority:int = 0,
+                                              useWeakReference:Boolean = false):void {
         super.addEventListener(type, listener, useCapture, priority, useWeakReference);
         if (_isInited && (KeyboardEvent.KEY_UP == type || KeyboardEvent.KEY_DOWN == type) && (os.isWindows || os.isOSX)) {
             if (this.hasEventListener(type)) {
