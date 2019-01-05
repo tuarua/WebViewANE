@@ -39,6 +39,8 @@ using FREContext = System.IntPtr;
 using Hwnd = System.IntPtr;
 using TuaRua.FreSharp.Exceptions;
 using TuaRua.FreSharp.Geom;
+using WebViewANELib.Touch;
+using WinApi = TuaRua.FreSharp.Utils.WinApi;
 
 namespace WebViewANELib {
     public class MainController : FreSharpMainController {
@@ -287,7 +289,7 @@ namespace WebViewANELib {
 
             _webViewWindow = source.Handle;
 
-            WinApi.RegisterTouchWindow(_webViewWindow, TouchWindowFlags.TWF_WANTPALM);
+            MessageTouchDevice.RegisterTouchWindow(_webViewWindow);
 
             return FREObject.Zero;
         }

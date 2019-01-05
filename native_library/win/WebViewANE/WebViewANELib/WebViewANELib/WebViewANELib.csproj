@@ -101,9 +101,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CefSharp\CefSharpExtensions.cs" />
+    <Compile Include="CefSharp\CefWindowsFormsHost.cs" />
     <Compile Include="CefSharp\DisplayHandler.cs" />
+    <Compile Include="Touch\GraphicsHelper.cs" />
     <Compile Include="CefSharp\LifeSpanHandler.cs" />
     <Compile Include="CefSharp\MenuHandler.cs" />
+    <Compile Include="Touch\MessageTouchDevice.cs" />
+    <Compile Include="Touch\TabletHelper.cs" />
+    <Compile Include="Touch\TouchEvent.cs" />
+    <Compile Include="Touch\TouchInput.cs" />
+    <Compile Include="Touch\WinApi.cs" />
     <Compile Include="EdgeView.cs" />
     <Compile Include="Edge\StreamResolver.cs" />
     <Compile Include="GlobalSuppressions.cs" />

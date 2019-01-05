@@ -29,7 +29,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
-using System.Windows.Forms.Integration;
 using CefSharp;
 using CefSharp.WinForms;
 using Newtonsoft.Json.Linq;
@@ -41,7 +40,7 @@ using WebViewANELib.CefSharp;
 
 namespace WebViewANELib {
     public partial class CefView : IWebView {
-        private WindowsFormsHost _host;
+        private CefWindowsFormsHost _host;
         public string InitialUrl { private get; set; }
         public int X { get; set; }
         public int Y { get; set; }
@@ -83,7 +82,7 @@ namespace WebViewANELib {
         public void Init() {
             InitializeComponent();
             IsManipulationEnabled = true;
-            _host = new WindowsFormsHost();
+            _host = new CefWindowsFormsHost();
             _host.IsManipulationEnabled = true;
 
             Loaded += CefView_Loaded;
