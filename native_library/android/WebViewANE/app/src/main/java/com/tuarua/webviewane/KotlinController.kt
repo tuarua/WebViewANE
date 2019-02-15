@@ -96,21 +96,21 @@ class KotlinController : FreKotlinMainController {
 
     fun loadHTMLString(ctx: FREContext, argv: FREArgv): FREObject? {
         argv.takeIf { argv.size > 0 } ?: return FreArgException("loadHTMLString")
-        val data = String(argv[0]) ?: return FreConversionException("data")
+        val data = String(argv[0]) ?: return null
         webViewController?.loadHTMLString(data)
         return null
     }
 
     fun load(ctx: FREContext, argv: FREArgv): FREObject? {
         argv.takeIf { argv.size > 0 } ?: return FreArgException("load")
-        val url = String(argv[0]) ?: return FreConversionException("url")
+        val url = String(argv[0]) ?: return null
         webViewController?.loadUrl(url)
         return null
     }
 
     fun loadFileURL(ctx: FREContext, argv: FREArgv): FREObject? {
         argv.takeIf { argv.size > 0 } ?: return FreArgException("loadFileURL")
-        val url = String(argv[0]) ?: return FreConversionException("url")
+        val url = String(argv[0]) ?: return null
         webViewController?.loadFileURL(url)
         return null
     }
@@ -122,7 +122,7 @@ class KotlinController : FreKotlinMainController {
 
     fun go(ctx: FREContext, argv: FREArgv): FREObject? {
         argv.takeIf { argv.size > 0 } ?: return FreArgException("go")
-        val offset = Int(argv[0]) ?: return FreConversionException("offset")
+        val offset = Int(argv[0]) ?: return null
         webViewController?.go(offset)
         return null
     }
@@ -163,7 +163,7 @@ class KotlinController : FreKotlinMainController {
 
     fun callJavascriptFunction(ctx: FREContext, argv: FREArgv): FREObject? {
         argv.takeIf { argv.size > 1 } ?: return FreArgException("callJavascriptFunction")
-        val js = String(argv[0]) ?: return FreConversionException("js")
+        val js = String(argv[0]) ?: return null
         val callback = String(argv[1])
         webViewController?.evaluateJavascript(js, callback)
         return null
@@ -171,7 +171,7 @@ class KotlinController : FreKotlinMainController {
 
     fun evaluateJavaScript(ctx: FREContext, argv: FREArgv): FREObject? {
         argv.takeIf { argv.size > 1 } ?: return FreArgException("evaluateJavaScript")
-        val js = String(argv[0]) ?: return FreConversionException("js")
+        val js = String(argv[0]) ?: return null
         val callback = String(argv[1])
         webViewController?.evaluateJavascript(js, callback)
         return null
@@ -251,6 +251,7 @@ class KotlinController : FreKotlinMainController {
         get() = _context
         set(value) {
             _context = value
+            FreKotlinLogger.context = _context
         }
 
 }
