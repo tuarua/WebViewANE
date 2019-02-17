@@ -160,7 +160,7 @@
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/ios_dependencies/device" path-in-package="." />
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/src/Assets.car" path-in-package="Assets.car" />
           </files-to-package>
-          <AirSigningOptions keystore-path="$USER_HOME$/Documents/appleCertsProv/2018/prod/Tua_Rua_Dist_WebView.p12" provisioning-profile-path="$USER_HOME$/Documents/appleCertsProv/2018/prod/Tua_Rua_Dist_Provisioning_WebView2018.mobileprovision" />
+          <AirSigningOptions keystore-path="$USER_HOME$/Documents/appleCertsProv/2019/prod/Tua_Rua_Dist_WebView.p12" provisioning-profile-path="$USER_HOME$/Documents/appleCertsProv/2019/prod/Tua_Rua_Dist_Provisioning_WebView.mobileprovision" />
         </packaging-ios>
       </configuration>
     </configurations>

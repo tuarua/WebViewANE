@@ -575,6 +575,7 @@ public class SwiftController: NSObject {
         }
         return nil
     }
+    
     func addTab(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
 #if os(OSX)
         guard argc > 0,
@@ -590,12 +591,12 @@ public class SwiftController: NSObject {
         }
 
         _currentTab = _tabList.count
-
+        let isHidden = _currentWebView?.isHidden ?? true
         _currentWebView = createNewBrowser(
           frame: CGRect(x: wv.frame.origin.x, y: wv.frame.origin.y,
                              width: _viewPort.size.width, height: _viewPort.size.height),
           tab: _tabList.count)
-
+        _currentWebView?.isHidden = isHidden
         _ = removeFromStage()
         _ = addToStage()
 

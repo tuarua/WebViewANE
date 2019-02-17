@@ -39,8 +39,8 @@ typealias FREArgv = ArrayList<FREObject>
 
 @Suppress("unused", "UNUSED_PARAMETER", "UNCHECKED_CAST")
 class KotlinController : FreKotlinMainController {
-    private var isAdded: Boolean = false
-    private var scaleFactor: Float = 1.0f
+    private var isAdded = false
+    private var scaleFactor = 1.0f
     private var webViewController: WebViewController? = null
     private var capturedBitmapData: Bitmap? = null
 

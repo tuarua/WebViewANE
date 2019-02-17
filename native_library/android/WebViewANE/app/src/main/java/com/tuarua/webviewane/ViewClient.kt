@@ -24,30 +24,24 @@ package com.tuarua.webviewane
 
 import android.graphics.Bitmap
 import android.os.Build
-import android.util.Log
 import android.webkit.*
 import com.adobe.fre.FREContext
-import com.tuarua.frekotlin.dispatchEvent
-import org.json.JSONException
-import org.json.JSONObject
+import com.google.gson.Gson
+import com.tuarua.frekotlin.FreKotlinController
 import java.io.ByteArrayInputStream
 
-class ViewClient(private var context: FREContext, private var settings: Settings) : WebViewClient() {
-    internal var isLoading: Boolean = false
+class ViewClient(override var context: FREContext?, private var settings: Settings) : WebViewClient(), FreKotlinController {
+    internal var isLoading = false
+    private val gson = Gson()
     override fun onReceivedHttpError(view: WebView?, request: WebResourceRequest?, errorResponse: WebResourceResponse?) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             return
         }
-        val props = JSONObject()
-        try {
-            props.put("url", request?.url.toString())
-            props.put("tab", 0)
-            props.put("errorCode", errorResponse?.statusCode)
-            props.put("errorText", errorResponse?.reasonPhrase)
-            sendEvent(WebViewEvent.ON_FAIL, props.toString())
-        } catch (e: JSONException) {
-            Log.e(TAG, e.message)
-        }
+        dispatchEvent(WebViewEvent.ON_FAIL,
+                gson.toJson(mapOf("url" to request?.url.toString(),
+                        "errorCode" to errorResponse?.statusCode,
+                        "errorText" to errorResponse?.reasonPhrase,
+                        "tab" to 0)))
         super.onReceivedHttpError(view, request, errorResponse)
     }
 
@@ -93,92 +87,40 @@ class ViewClient(private var context: FREContext, private var settings: Settings
             return null
         }
         val url = request?.url.toString()
-        if (isWhiteListBlocked(url) || isBlackListBlocked(url)) {
-            val props = JSONObject()
-            try {
-                props.put("url", url)
-                props.put("tab", 0)
-                sendEvent(WebViewEvent.ON_URL_BLOCKED, props.toString())
-            } catch (e: JSONException) {
-                e.printStackTrace()
-            }
-
+        return if (isWhiteListBlocked(url) || isBlackListBlocked(url)) {
+            dispatchEvent(WebViewEvent.ON_URL_BLOCKED, gson.toJson(mapOf("url" to url, "tab" to 0)))
             val response = WebResourceResponse("text/plain", "utf-8",
                     ByteArrayInputStream("".toByteArray()))
 
             response.setStatusCodeAndReasonPhrase(403, "Blocked")
-            return response
+            response
         } else {
-            return null
+            null
         }
     }
 
     override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
         super.onPageStarted(view, url, favicon)
         isLoading = true
-        var props = JSONObject()
-        try {
-
-            props.put("propName", "isLoading")
-            props.put("tab", 0)
-            props.put("value", isLoading)
-            sendEvent(WebViewEvent.ON_PROPERTY_CHANGE, props.toString())
-        } catch (e: JSONException) {
-            Log.e(TAG, e.message)
-        }
-
-        props = JSONObject()
-        try {
-            props.put("propName", "url")
-            props.put("value", url)
-            props.put("tab", 0)
-            sendEvent(WebViewEvent.ON_PROPERTY_CHANGE, props.toString())
-        } catch (e: JSONException) {
-            e.printStackTrace()
-        }
-
+        dispatchEvent(WebViewEvent.ON_PROPERTY_CHANGE, gson.toJson(mapOf("propName" to "isLoading",
+                "tab" to 0, "value" to isLoading)))
+        dispatchEvent(WebViewEvent.ON_PROPERTY_CHANGE, gson.toJson(mapOf("propName" to "url",
+                "tab" to 0, "value" to url)))
     }
 
     override fun onPageFinished(view: WebView?, url: String?) {
         super.onPageFinished(view, url)
         isLoading = false
-        var props = JSONObject()
-        try {
-            props.put("propName", "isLoading")
-            props.put("value", isLoading)
-            props.put("tab", 0)
-            sendEvent(WebViewEvent.ON_PROPERTY_CHANGE, props.toString())
-        } catch (e: JSONException) {
-            Log.e(TAG, e.message)
-        }
+        dispatchEvent(WebViewEvent.ON_PROPERTY_CHANGE, gson.toJson(mapOf("propName" to "isLoading",
+                "tab" to 0, "value" to isLoading)))
 
-        props = JSONObject()
-        try {
-            props.put("propName", "canGoBack")
-            props.put("tab", 0)
-            props.put("value", view?.canGoBack())
-            sendEvent(WebViewEvent.ON_PROPERTY_CHANGE, props.toString())
-        } catch (e: JSONException) {
-            Log.e(TAG, e.message)
-        }
+        dispatchEvent(WebViewEvent.ON_PROPERTY_CHANGE, gson.toJson(mapOf("propName" to "canGoBack",
+                "tab" to 0, "value" to view?.canGoBack())))
 
-        props = JSONObject()
-        try {
-            props.put("propName", "canGoForward")
-            props.put("tab", 0)
-            props.put("value", view?.canGoForward())
-            sendEvent(WebViewEvent.ON_PROPERTY_CHANGE, props.toString())
-        } catch (e: JSONException) {
-            Log.e(TAG, e.message)
-        }
-
+        dispatchEvent(WebViewEvent.ON_PROPERTY_CHANGE, gson.toJson(mapOf("propName" to "canGoForward",
+                "tab" to 0, "value" to view?.canGoForward())))
     }
 
-    private fun sendEvent(name: String, value: String) {
-        context.dispatchEvent(name, value)
-    }
-
-    companion object {
-        private var TAG = ChromeClient::class.java.canonicalName
-    }
+    override val TAG: String
+        get() = this::class.java.simpleName
 }

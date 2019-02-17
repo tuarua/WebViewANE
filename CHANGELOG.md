@@ -1,3 +1,6 @@
+### 2.2.0
+- OSX: Fix WebView becomes visible after calling addTab() on macOS. Issue #199
+
 ### 2.1.1
 - OSX: Fix modifier keys not emitting keyboard events Issue #196
 - WIN: Added Windows 7 touch support Issue #194

@@ -26,21 +26,21 @@ import com.adobe.fre.FREObject
 import com.tuarua.frekotlin.*
 
 class Settings() {
-    var appCacheEnabled: Boolean = false
-    var javaScriptEnabled: Boolean = false
-    var mediaPlaybackRequiresUserGesture: Boolean = false
+    var appCacheEnabled = false
+    var javaScriptEnabled = false
+    var mediaPlaybackRequiresUserGesture = false
     var userAgent: String? = null
-    var javaScriptCanOpenWindowsAutomatically: Boolean = true
-    var blockNetworkImage: Boolean = false
-    var allowFileAccess: Boolean = true
-    var allowContentAccess: Boolean = true
-    var allowUniversalAccessFromFileURLs: Boolean = true
-    var allowFileAccessFromFileURLs: Boolean = true
-    var geolocationEnabled: Boolean = false
-    var databaseEnabled: Boolean = false
-    var domStorageEnabled: Boolean = false
-    var displayZoomControls: Boolean = false
-    var builtInZoomControls: Boolean = true
+    var javaScriptCanOpenWindowsAutomatically = true
+    var blockNetworkImage = false
+    var allowFileAccess = true
+    var allowContentAccess = true
+    var allowUniversalAccessFromFileURLs = true
+    var allowFileAccessFromFileURLs = true
+    var geolocationEnabled = false
+    var databaseEnabled = false
+    var domStorageEnabled = false
+    var displayZoomControls = false
+    var builtInZoomControls = true
     var whiteList: List<String>? = null
     var blackList: List<String>? = null
 

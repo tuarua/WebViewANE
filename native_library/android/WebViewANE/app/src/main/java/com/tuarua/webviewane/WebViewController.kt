@@ -32,10 +32,9 @@ import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import android.widget.FrameLayout
 import com.adobe.fre.FREContext
+import com.google.gson.Gson
 import com.tuarua.frekotlin.FreKotlinController
 import com.tuarua.frekotlin.dispatchEvent
-import org.json.JSONException
-import org.json.JSONObject
 
 class WebViewController(override var context: FREContext?,
                         initialUrl: String?,
@@ -43,7 +42,8 @@ class WebViewController(override var context: FREContext?,
                         private var settings: Settings,
                         private var backgroundColor: Int) : FreKotlinController {
 
-    private var _visible: Boolean = false
+    private val gson = Gson()
+    private var _visible = false
     private var _viewPort: RectF = viewPort
     private var _initialUrl: String? = initialUrl
     private var airView: ViewGroup? = null
@@ -91,19 +91,14 @@ class WebViewController(override var context: FREContext?,
         val wv = webView ?: return
         wv.setOnKeyListener(View.OnKeyListener { _, keyCode, event ->
             if (keyCode == KeyEvent.KEYCODE_BACK) {
-                val props = JSONObject()
-                try {
-                    props.put("keyCode", 16777238)
-                    props.put("nativeKeyCode", keyCode)
-                    props.put("modifiers", "")
-                    props.put("isSystemKey", false)
-                    if (event.action == KeyEvent.ACTION_UP) {
-                        dispatchEvent(WebViewEvent.ON_KEY_UP, props.toString())
-                    } else {
-                        dispatchEvent(WebViewEvent.ON_KEY_DOWN, props.toString())
-                    }
-                } catch (e: JSONException) {
-                    e.printStackTrace()
+                val props = gson.toJson(mapOf("keyCode" to 16777238,
+                        "nativeKeyCode" to keyCode,
+                        "modifiers" to "",
+                        "isSystemKey" to false))
+                if (event.action == KeyEvent.ACTION_UP) {
+                    dispatchEvent(WebViewEvent.ON_KEY_UP, props)
+                } else {
+                    dispatchEvent(WebViewEvent.ON_KEY_DOWN, props)
                 }
                 return@OnKeyListener true
             }
@@ -128,8 +123,8 @@ class WebViewController(override var context: FREContext?,
         wv.settings.builtInZoomControls = settings.builtInZoomControls
         wv.settings.displayZoomControls = settings.displayZoomControls
 
-        chromeClient = ChromeClient(ctx)
-        viewClient = ViewClient(ctx, settings)
+        chromeClient = ChromeClient(context)
+        viewClient = ViewClient(context, settings)
         wv.isHorizontalScrollBarEnabled = false
         wv.webChromeClient = chromeClient
         wv.webViewClient = viewClient
@@ -245,17 +240,11 @@ class WebViewController(override var context: FREContext?,
         val wv = webView ?: return
         if (callback is String) {
             wv.evaluateJavascript(js) { result ->
-                val props = JSONObject()
-                try {
-                    props.put("callbackName", callback)
-                    props.put("error", "")
-                    props.put("message", "")
-                    props.put("success", true)
-                    props.put("result", result)
-                    dispatchEvent(WebViewEvent.AS_CALLBACK_EVENT, props.toString())
-                } catch (e: JSONException) {
-                    e.printStackTrace()
-                }
+                dispatchEvent(WebViewEvent.AS_CALLBACK_EVENT,
+                        gson.toJson(mapOf("callbackName" to callback,
+                                "error" to "", "message" to "",
+                                "success" to true,
+                                "result" to result)))
             }
         } else {
             wv.evaluateJavascript(js, null)
@@ -271,12 +260,12 @@ class WebViewController(override var context: FREContext?,
 
     @Suppress("DEPRECATION")
     fun deleteCookies() {
-        val cookieManager = CookieManager.getInstance();
+        val cookieManager = CookieManager.getInstance()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             cookieManager.removeAllCookies(null)
             cookieManager.flush()
         } else {
-            cookieManager.removeAllCookie();
+            cookieManager.removeAllCookie()
         }
     }
 
