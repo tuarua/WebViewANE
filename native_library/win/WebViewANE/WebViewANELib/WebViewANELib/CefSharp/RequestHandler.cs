@@ -48,12 +48,26 @@ namespace WebViewANELib.CefSharp {
             return false;
         }
 
-        void IRequestHandler.OnPluginCrashed(IWebBrowser browserControl, IBrowser browser, string pluginPath) {
-            // TODO: Add your own code here for handling scenarios where a plugin crashed, for one reason or another.
-        }
+        void IRequestHandler.OnPluginCrashed(IWebBrowser browserControl, IBrowser browser, string pluginPath) { }
 
         CefReturnValue IRequestHandler.OnBeforeResourceLoad(IWebBrowser browserControl, IBrowser bsrowser, IFrame frame,
             IRequest request, IRequestCallback callback) {
+            var userHeaders = UrlRequestHeaderManager.GetInstance().Headers;
+            if (userHeaders == null) return CefReturnValue.Continue;
+            string host;
+            if (userHeaders.ContainsKey("*")) {
+                host = "*";
+            } else {
+                var uri = new Uri(request.Url);
+                host = uri.Host;
+                if (!userHeaders.ContainsKey(host)) return CefReturnValue.Continue;
+            }
+            var domainHeaders = userHeaders[host];
+            var headers = request.Headers;
+            foreach (var domainHeader in domainHeaders) {
+                headers[domainHeader.Name] = domainHeader.Value;
+            }
+            request.Headers = headers;
             return CefReturnValue.Continue;
         }
 

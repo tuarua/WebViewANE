@@ -1,4 +1,28 @@
-﻿using System;
+﻿#region License
+
+// Copyright 2017 Tua Rua Ltd.
+// 
+//  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+// 
+//  http://www.apache.org/licenses/LICENSE-2.0
+// 
+//  Unless required by applicable law or agreed to in writing, software
+//  distributed under the License is distributed on an "AS IS" BASIS,
+//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//  See the License for the specific language governing permissions and
+//  limitations under the License.
+// 
+//  Additional Terms
+//  No part, or derivative of this Air Native Extension's code is permitted 
+//  to be sold as the basis of a commercially packaged Air Native Extension which 
+//  undertakes the same purpose as this software. That is, a WebView for Windows, 
+//  OSX and/or iOS and/or Android.
+//  All Rights Reserved. Tua Rua Ltd.
+
+#endregion
+using System;
 using System.Collections;
 using System.IO;
 using System.Linq;
@@ -22,7 +46,7 @@ namespace WebViewANELib {
         public string InjectCode { get; set; }
         public string InjectScriptUrl { get; set; }
         public int InjectStartLine { get; set; }
-        public string InitialUrl { private get; set; }
+        public UrlRequest InitialUrl { private get; set; }
         public ArrayList WhiteList { private get; set; }
         public ArrayList BlackList { private get; set; }
         public WebView CurrentBrowser { get; private set; }
@@ -63,8 +87,8 @@ namespace WebViewANELib {
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e) {
-            if (!string.IsNullOrEmpty(InitialUrl)) {
-                CurrentBrowser.Navigate(new Uri(InitialUrl));
+            if (InitialUrl != null && !string.IsNullOrEmpty(InitialUrl.Url)) {
+                CurrentBrowser.Navigate(new Uri(InitialUrl.Url));
             }
         }
 
@@ -111,9 +135,7 @@ namespace WebViewANELib {
                     SendPropertyChange(@"canGoForward", browser.CanGoForward, index);
                 }
 
-                if (tabDetails.CanGoBack == browser.CanGoBack) {
-                    return;
-                }
+                if (tabDetails.CanGoBack == browser.CanGoBack) return;
 
                 tabDetails.CanGoBack = browser.CanGoBack;
                 SendPropertyChange(@"canGoBack", browser.CanGoBack, index);
@@ -150,9 +172,7 @@ namespace WebViewANELib {
             for (var index = 0; index < _tabs.Count; index++) {
                 if (!_tabs[index].Equals(browser)) continue;
                 var tabDetails = GetTabDetails(index);
-                if (!tabDetails.IsLoading) {
-                    return;
-                }
+                if (!tabDetails.IsLoading)  return;
 
                 tabDetails.IsLoading = false;
                 SendPropertyChange(@"isLoading", false, index);
@@ -189,7 +209,7 @@ namespace WebViewANELib {
             Context.DispatchEvent(WebViewEvent.OnPropertyChange, json.ToString());
         }
 
-        public void Load(string url, string allowingReadAccessTo = null) {
+        private void Load(string url, string allowingReadAccessTo = null) {
             if (allowingReadAccessTo != null) {
                 var fName = Path.GetFileName(url);
                 if (fName == null) return;
@@ -212,7 +232,11 @@ namespace WebViewANELib {
             }
         }
 
-        public void LoadHtmlString(string html, string url) {
+        public void Load(UrlRequest url, string allowingReadAccessTo = null) {
+            Load(url.Url, allowingReadAccessTo);
+        }
+
+        public void LoadHtmlString(string html, UrlRequest url) {
             CurrentBrowser.NavigateToString(html);
         }
 

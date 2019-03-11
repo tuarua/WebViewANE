@@ -1,5 +1,7 @@
 ### 2.2.0
 - OSX: Fix WebView becomes visible after calling addTab() on macOS. Issue #199
+- WIN: Updated to CefSharp 71.0.2
+- WIN/OSX: Add Ability to add/modify custom Request Headers Issue #200
 
 ### 2.1.1
 - OSX: Fix modifier keys not emitting keyboard events Issue #196

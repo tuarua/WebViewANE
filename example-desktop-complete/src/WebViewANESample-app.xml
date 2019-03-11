@@ -3,11 +3,11 @@
     <id>WebViewANESample</id>
     <filename>WebViewANESample</filename>
     <name>webView</name>
-    <versionNumber>0.0.0</versionNumber>
+    <versionNumber>2.2.0</versionNumber>
     <initialWindow>
         <content>[This value will be overwritten by Flash Builder in the output app.xml]</content>
         <title>WebViewANE Example</title>
-        <resizable>false</resizable>
+        <resizable>true</resizable>
         <x>100</x>
         <y>100</y>
         <requestedDisplayResolution>high</requestedDisplayResolution> <!-- This also applies to Windows 10 also -->

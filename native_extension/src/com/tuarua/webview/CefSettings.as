@@ -45,7 +45,7 @@ public class CefSettings {
      */
     public var logSeverity:int = LogSeverity.DISABLE;
     /**
-     * <p>Add custom command line argumens to this collection, they will be added in
+     * <p>Add custom command line arguments to this collection, they will be added in
      OnBeforeCommandLineProcessing.</p>
      */
     public var commandLineArgs:Vector.<Object> = new <Object>[];
@@ -54,7 +54,7 @@ public class CefSettings {
      <p>The path to a separate executable that will be launched for sub-processes. By
      default the browser process executable is used.</p>
      */
-    public var browserSubprocessPath:String = "CefSharp.BrowserSubprocess.exe";
+    public var browserSubprocessPath:String;
 
     /**
      * <p>The location where user data such as spell checking dictionary files will be stored on disk.

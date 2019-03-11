@@ -48,6 +48,8 @@ import flash.events.StatusEvent;
 import flash.external.ExtensionContext;
 import flash.filesystem.File;
 import flash.geom.Rectangle;
+import flash.net.URLRequest;
+import flash.net.URLRequestHeader;
 import flash.utils.Dictionary;
 
 public class WebViewANE extends EventDispatcher {
@@ -335,7 +337,7 @@ public class WebViewANE extends EventDispatcher {
             throw new ArgumentError("functionName cannot be null");
         }
         if (!safetyCheck()) return;
-        var theRet:* = null;
+        var ret:* = null;
         var finalArray:Array = [];
         for each (var arg:* in args) {
             finalArray.push(JSON.stringify(arg));
@@ -343,11 +345,11 @@ public class WebViewANE extends EventDispatcher {
         var js:String = functionName + "(" + finalArray.toString() + ");";
         if (closure != null) {
             asCallBacks[AS_CALLBACK_PREFIX + functionName] = closure;
-            theRet = _context.call("callJavascriptFunction", js, AS_CALLBACK_PREFIX + functionName);
+            ret = _context.call("callJavascriptFunction", js, AS_CALLBACK_PREFIX + functionName);
         } else {
-            theRet = _context.call("callJavascriptFunction", js, null);
+            ret = _context.call("callJavascriptFunction", js, null);
         }
-        if (theRet is ANEError) throw theRet as ANEError;
+        if (ret is ANEError) throw ret as ANEError;
     }
 
     //to insert script or run some js, no closure fire and forget
@@ -377,16 +379,16 @@ public class WebViewANE extends EventDispatcher {
             throw new ArgumentError("code cannot be null");
         }
         if (!safetyCheck()) return;
-        var theRet:* = null;
+        var ret:* = null;
         if (closure != null) {
             var guid:String = GUID.create();
             asCallBacks[AS_CALLBACK_PREFIX + guid] = closure;
-            theRet = _context.call("evaluateJavaScript", code, AS_CALLBACK_PREFIX + guid);
+            ret = _context.call("evaluateJavaScript", code, AS_CALLBACK_PREFIX + guid);
         } else {
-            theRet = _context.call("evaluateJavaScript", code, null);
+            ret = _context.call("evaluateJavaScript", code, null);
         }
-        if (theRet is ANEError) {
-            throw theRet as ANEError;
+        if (ret is ANEError) {
+            throw ret as ANEError;
         }
     }
 
@@ -400,7 +402,7 @@ public class WebViewANE extends EventDispatcher {
      * @param backgroundColor value of the view's background color in ARGB format.*
      * <p>Initialises the webView. N.B. The webView is set to visible = false initially.</p>
      */
-    public function init(stage:Stage, viewPort:Rectangle, initialUrl:String = null,
+    public function init(stage:Stage, viewPort:Rectangle, initialUrl:URLRequest = null,
                          settings:Settings = null, scaleFactor:Number = 1.0,
                          backgroundColor:uint = 0xFFFFFFFF):void {
         if (viewPort == null) {
@@ -420,10 +422,8 @@ public class WebViewANE extends EventDispatcher {
             _settings = new Settings();
         }
 
-        var theRet:* = _context.call("init", initialUrl, _viewPort, _settings, scaleFactor, backgroundColor);
-        if (theRet is ANEError) {
-            throw theRet as ANEError;
-        }
+        var ret:* = _context.call("init", initialUrl, _viewPort, _settings, scaleFactor, backgroundColor);
+        if (ret is ANEError) throw ret as ANEError;
 
         if ((os.isWindows || os.isOSX)) {
             if (this.hasEventListener(KeyboardEvent.KEY_UP)) {
@@ -456,10 +456,10 @@ public class WebViewANE extends EventDispatcher {
     /**
      * @param url
      */
-    public function load(url:String):void {
+    public function load(url:URLRequest):void {
         if (!safetyCheck()) return;
-        var theRet:* = _context.call("load", url);
-        if (theRet is ANEError) throw theRet as ANEError;
+        var ret:* = _context.call("load", url);
+        if (ret is ANEError) throw ret as ANEError;
     }
 
     /**
@@ -470,10 +470,10 @@ public class WebViewANE extends EventDispatcher {
      * <p>Loads a HTML string into the webView.</p>
      *
      */
-    public function loadHTMLString(html:String, baseUrl:String = ""):void {
+    public function loadHTMLString(html:String, baseUrl:URLRequest = null):void {
         if (!safetyCheck()) return;
-        var theRet:* = _context.call("loadHTMLString", html, baseUrl);
-        if (theRet is ANEError) throw theRet as ANEError;
+        var ret:* = _context.call("loadHTMLString", html, baseUrl);
+        if (ret is ANEError) throw ret as ANEError;
     }
 
     /**
@@ -486,8 +486,25 @@ public class WebViewANE extends EventDispatcher {
      */
     public function loadFileURL(url:String, allowingReadAccessTo:String):void {
         if (!safetyCheck()) return;
-        var theRet:* = _context.call("loadFileURL", url, allowingReadAccessTo);
-        if (theRet is ANEError) throw theRet as ANEError;
+        var ret:* = _context.call("loadFileURL", url, allowingReadAccessTo);
+        if (ret is ANEError) throw ret as ANEError;
+    }
+
+    /**
+     * @param value
+     * @param host
+     */
+    public function addRequestHeaders(value:Vector.<URLRequestHeader>, host:String = "*"):void {
+        var ret:* = _context.call("addRequestHeaders", value, host);
+        if (ret is ANEError) throw ret as ANEError;
+    }
+
+    /**
+     * @param host
+     */
+    public function clearRequestHeaders(host:String = "*"):void {
+        var ret:* = _context.call("clearRequestHeaders", host);
+        if (ret is ANEError) throw ret as ANEError;
     }
 
     /**
@@ -615,24 +632,24 @@ public class WebViewANE extends EventDispatcher {
     }
 
     /** Windows + OSX only */
-    public function addTab(initialUrl:String = null):void {
+    public function addTab(initialUrl:URLRequest = null):void {
         if (!safetyCheck()) return;
-        var theRet:* = _context.call("addTab", initialUrl);
-        if (theRet is ANEError) throw theRet as ANEError;
+        var ret:* = _context.call("addTab", initialUrl);
+        if (ret is ANEError) throw ret as ANEError;
     }
 
     /** Windows + OSX only*/
     public function closeTab(index:int):void {
         if (!safetyCheck()) return;
-        var theRet:* = _context.call("closeTab", index);
-        if (theRet is ANEError) throw theRet as ANEError;
+        var ret:* = _context.call("closeTab", index);
+        if (ret is ANEError) throw ret as ANEError;
     }
 
     /**Windows + OSX only*/
     public function set currentTab(value:int):void {
         if (!safetyCheck()) return;
-        var theRet:* = _context.call("setCurrentTab", value);
-        if (theRet is ANEError) throw theRet as ANEError;
+        var ret:* = _context.call("setCurrentTab", value);
+        if (ret is ANEError) throw ret as ANEError;
     }
 
     /**Windows + OSX only*/
@@ -643,9 +660,9 @@ public class WebViewANE extends EventDispatcher {
 
     public function get tabDetails():Vector.<TabDetails> {
         if (!safetyCheck()) return new Vector.<TabDetails>();
-        var theRet:* = _context.call("getTabDetails");
-        if (theRet is ANEError) throw theRet as ANEError;
-        return Vector.<TabDetails>(theRet);
+        var ret:* = _context.call("getTabDetails");
+        if (ret is ANEError) throw ret as ANEError;
+        return Vector.<TabDetails>(ret);
     }
 
     /** @private */
@@ -669,7 +686,7 @@ public class WebViewANE extends EventDispatcher {
      *
      */
     public function dispose():void {
-        if (!_context) {
+        if (_context == null) {
             trace("[" + NAME + "] Error. ANE Already in a disposed or failed state...");
             return;
         }
@@ -729,8 +746,8 @@ public class WebViewANE extends EventDispatcher {
         if (code == null && scriptUrl == null) {
             throw new ArgumentError("code and scriptUrl cannot be null");
         }
-        var theRet:* = _context.call("injectScript", code, scriptUrl, startLine);
-        if (theRet is ANEError) throw theRet as ANEError;
+        var ret:* = _context.call("injectScript", code, scriptUrl, startLine);
+        if (ret is ANEError) throw ret as ANEError;
     }
 
     /**
@@ -749,8 +766,8 @@ public class WebViewANE extends EventDispatcher {
      */
     public function printToPdf(savePath:String):void {
         if (!safetyCheck()) return;
-        var theRet:* = _context.call("printToPdf", savePath);
-        if (theRet is ANEError) throw theRet as ANEError;
+        var ret:* = _context.call("printToPdf", savePath);
+        if (ret is ANEError) throw ret as ANEError;
     }
 
     /**
@@ -758,8 +775,8 @@ public class WebViewANE extends EventDispatcher {
      */
     public function deleteCookies():void {
         if (!safetyCheck()) return;
-        var theRet:* = _context.call("deleteCookies");
-        if (theRet is ANEError) throw theRet as ANEError;
+        var ret:* = _context.call("deleteCookies");
+        if (ret is ANEError) throw ret as ANEError;
     }
 
     /**
@@ -771,16 +788,16 @@ public class WebViewANE extends EventDispatcher {
     public function capture(onComplete:Function, cropTo:Rectangle = null):void {
         if (!safetyCheck()) return;
         _onCaptureComplete = onComplete;
-        var theRet:* = _context.call("capture", cropTo);
-        if (theRet is ANEError) throw theRet as ANEError;
+        var ret:* = _context.call("capture", cropTo);
+        if (ret is ANEError) throw ret as ANEError;
     }
 
     /** @private */
     private function getCapturedBitmapData():BitmapData {
         if (!safetyCheck()) return null;
-        var theRet:* = _context.call("getCapturedBitmapData");
-        if (theRet is ANEError) throw theRet as ANEError;
-        return theRet as BitmapData;
+        var ret:* = _context.call("getCapturedBitmapData");
+        if (ret is ANEError) throw ret as ANEError;
+        return ret as BitmapData;
     }
 
     /**
@@ -790,8 +807,8 @@ public class WebViewANE extends EventDispatcher {
         if (_visible == value) return;
         _visible = value;
         if (!safetyCheck()) return;
-        var theRet:* = _context.call("setVisible", value);
-        if (theRet is ANEError) throw theRet as ANEError;
+        var ret:* = _context.call("setVisible", value);
+        if (ret is ANEError) throw ret as ANEError;
     }
 
     /**
@@ -815,8 +832,8 @@ public class WebViewANE extends EventDispatcher {
         }
         _viewPort = value;
         if (!safetyCheck()) return;
-        var theRet:* = _context.call("setViewPort", _viewPort);
-        if (theRet is ANEError) throw theRet as ANEError;
+        var ret:* = _context.call("setViewPort", _viewPort);
+        if (ret is ANEError) throw ret as ANEError;
     }
 
     /** @private */

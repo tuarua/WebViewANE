@@ -13,6 +13,7 @@ import com.tuarua.WebBtn;
 import com.tuarua.WebViewANE;
 import com.tuarua.ZoominBtn;
 import com.tuarua.ZoomoutBtn;
+import com.tuarua.fre.ANEError;
 import com.tuarua.utils.os;
 import com.tuarua.webview.ActionscriptCallback;
 import com.tuarua.webview.DownloadProgress;
@@ -43,6 +44,10 @@ import flash.filesystem.File;
 import flash.filesystem.FileMode;
 import flash.filesystem.FileStream;
 import flash.geom.Rectangle;
+import flash.net.URLRequest;
+import flash.net.URLRequest;
+import flash.net.URLRequestHeader;
+import flash.net.URLRequestMethod;
 import flash.system.Capabilities;
 import flash.text.Font;
 import flash.utils.ByteArray;
@@ -159,23 +164,10 @@ public class WebViewANESample extends Sprite {
 
         // trace(os.isWindows, os.majorVersion, os.minorVersion, os.buildVersion);
 
-        webView.init(stage, viewPort, "https://html5test.com", settings, 1.0, 0xFFF1F1F1);
-        //webView.init(WebViewANESample.target.stage, viewPort, "", settings, 1.0, 0xFFF1F1F1); // when using loadHTMLString
+        webView.init(stage, viewPort, new URLRequest("https://html5test.com"), settings, 1.0, 0xFFF1F1F1);
+        //webView.init(WebViewANESample.target.stage, viewPort, null, settings, 1.0, 0xFFF1F1F1); // when using loadHTMLString
         webView.visible = true;
         webView.injectScript("function testInject(){console.log('yo yo')}");
-
-        /*
-        trace("loading html");
-         webView.loadHTMLString('<!DOCTYPE html>' +
-         '<html lang="en">' +
-         '<head><' +
-         'meta charset="UTF-8">' +
-         '<title>Mocked HTML file 1</title>' +
-         '</head>' +
-         '<body bgColor="#33FF00">' + //must give the body a bg color otherwise it loads black
-         '<p>I am a test</p>' +
-         '</body>' +
-         '</html>',"http://rendering/");*/
 
         /*trace("loading html");
          webView.loadHTMLString('<!DOCTYPE html>' +
@@ -184,9 +176,9 @@ public class WebViewANESample extends Sprite {
          '<title>Mocked HTML file 1</title>' +
          '</head>' +
          '<body bgColor="#33FF00">' + //must give the body a bg color otherwise it loads black
-         '<p>I am a string from C# with UTF-8: Björk Guðmundsdóttir Sinéad O’Connor 久保田  利伸 Михаил Горбачёв Садриддин Айнӣ Tor Åge Bringsværd 章子怡 €</p>' +
+         '<p>with UTF-8: Björk Guðmundsdóttir Sinéad O’Connor 久保田  利伸 Михаил Горбачёв Садриддин Айнӣ Tor Åge Bringsværd 章子怡 €</p>' +
          '</body>' +
-         '</html>',"http://rendering/");*/
+         '</html>', new URLRequest("http://rendering/"));*/
 
 
         backBtn.x = 20;
@@ -300,7 +292,7 @@ public class WebViewANESample extends Sprite {
     }
 
     private function onUrlEnter(event:Event):void {
-        webView.load(urlInput.text);
+        webView.load(new URLRequest(urlInput.text));
     }
 
     private function onCapture(event:MouseEvent):void {
@@ -326,7 +318,7 @@ public class WebViewANESample extends Sprite {
         progress.visible = true;
         urlInput.visible = true;
         as_js_as_Btn.visible = eval_js_Btn.visible = false;
-        webView.load("http://www.adobe.com");
+        webView.load(new URLRequest("http://www.adobe.com"));
     }
 
     private function onJS(event:MouseEvent):void {
@@ -452,7 +444,7 @@ public class WebViewANESample extends Sprite {
         fwdBtn.enabled = backBtn.enabled = false;
         progress.scaleX = 0.0;
         urlInput.text = "";
-        webView.addTab(newTabUrls[tabBar.tabs.length - 2]);
+        webView.addTab(new URLRequest(newTabUrls[tabBar.tabs.length - 2]));
         tabBar.setActiveTab(webView.currentTab);
     }
 

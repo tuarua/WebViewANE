@@ -63,11 +63,13 @@ namespace WebViewANELib {
                     {"goBack", GoBack},
                     {"goForward", GoForward},
                     {"load", Load},
-                    {"loadFileURL", Load},
+                    {"loadFileURL", LoadFileUrl},
                     {"loadHTMLString", LoadHtmlString},
                     {"reload", Reload},
                     {"reloadFromOrigin", ReloadFromOrigin},
                     {"stopLoading", StopLoading},
+                    {"addRequestHeaders", AddRequestHeaders},
+                    {"clearRequestHeaders", ClearRequestHeaders},
                     {"backForwardList", BackForwardList},
                     {"allowsMagnification", AllowsMagnification},
                     {"zoomIn", ZoomIn},
@@ -190,7 +192,13 @@ namespace WebViewANELib {
             try {
                 dynamic settings = new FreObjectSharp(argv[2]);
                 dynamic cefSettings = new FreObjectSharp(settings.cef);
-                var initialUrl = argv[0].AsString();
+                var freUrl = argv[0];
+                UrlRequest initialUrl = null;
+                if (FreObjectTypeSharp.Null != freUrl.Type()) {
+                    initialUrl = new UrlRequest(freUrl);
+                    UrlRequestHeaderManager.GetInstance().Add(initialUrl);
+                }
+
                 var viewPort = argv[1].AsRect();
 
                 useTransparentBackground = settings.useTransparentBackground;
@@ -218,8 +226,6 @@ namespace WebViewANELib {
                 };
 
                 bool useHiDpi = settings.useHiDPI;
-                
-
                 _scaleFactor = useHiDpi ? WinApi.GetScaleFactor() : 1.0;
 
                 if (_useEdge) {
@@ -296,7 +302,7 @@ namespace WebViewANELib {
 
         public FREObject AddTab(FREContext ctx, uint argc, FREObject[] argv) {
             try {
-                _view.InitialUrl = argv[0].AsString();
+                _view.InitialUrl = new UrlRequest(argv[0]);
                 _view.AddTab();
             }
             catch (Exception e) {
@@ -427,7 +433,20 @@ namespace WebViewANELib {
 
         public FREObject Load(FREContext ctx, uint argc, FREObject[] argv) {
             try {
-                _view.Load(argv[0].AsString(), argc > 1 ? argv[1].AsString() : null);
+                var request = new UrlRequest(argv[0]);
+                UrlRequestHeaderManager.GetInstance().Add(request);
+                _view.Load(request, argc > 1 ? argv[1].AsString() : null);
+            }
+            catch (Exception e) {
+                return new FreException(e).RawValue;
+            }
+
+            return FREObject.Zero;
+        }
+
+        public FREObject LoadFileUrl(FREContext ctx, uint argc, FREObject[] argv) {
+            try {
+                _view.Load(new UrlRequest(argv[0].AsString()), argc > 1 ? argv[1].AsString() : null);
             }
             catch (Exception e) {
                 return new FreException(e).RawValue;
@@ -438,9 +457,12 @@ namespace WebViewANELib {
 
         public FREObject LoadHtmlString(FREContext ctx, uint argc, FREObject[] argv) {
             try {
-                _view.LoadHtmlString(
-                    argv[0].AsString(),
-                    argv[1].AsString());
+                var html = argv[0].AsString();
+                var freUrl = argv[1];
+                _view.LoadHtmlString(html, FreObjectTypeSharp.Null == freUrl.Type() 
+                    ? null 
+                    : new UrlRequest(freUrl)
+                );
             }
             catch (Exception e) {
                 return new FreException(e).RawValue;
@@ -461,6 +483,27 @@ namespace WebViewANELib {
 
         public FREObject StopLoading(FREContext ctx, uint argc, FREObject[] argv) {
             _view.Stop();
+            return FREObject.Zero;
+        }
+
+        public FREObject AddRequestHeaders(FREContext ctx, uint argc, FREObject[] argv) {
+            try {
+                var requestHeadersFre = new FREArray(argv[0]);
+                var domain = argv[1].AsString();
+                UrlRequestHeaderManager.GetInstance().Add(requestHeadersFre, domain);
+            } catch (Exception e) {
+                return new FreException(e).RawValue;
+            }
+            return FREObject.Zero;
+        }
+
+        public FREObject ClearRequestHeaders(FREContext ctx, uint argc, FREObject[] argv) {
+            try {
+                var domain = argv[0].AsString();
+                UrlRequestHeaderManager.GetInstance().Remove(domain);
+            } catch (Exception e) {
+                return new FreException(e).RawValue;
+            }
             return FREObject.Zero;
         }
 
