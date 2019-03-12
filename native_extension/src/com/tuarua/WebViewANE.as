@@ -49,7 +49,6 @@ import flash.external.ExtensionContext;
 import flash.filesystem.File;
 import flash.geom.Rectangle;
 import flash.net.URLRequest;
-import flash.net.URLRequestHeader;
 import flash.utils.Dictionary;
 
 public class WebViewANE extends EventDispatcher {
@@ -487,23 +486,6 @@ public class WebViewANE extends EventDispatcher {
     public function loadFileURL(url:String, allowingReadAccessTo:String):void {
         if (!safetyCheck()) return;
         var ret:* = _context.call("loadFileURL", url, allowingReadAccessTo);
-        if (ret is ANEError) throw ret as ANEError;
-    }
-
-    /**
-     * @param value
-     * @param host
-     */
-    public function addRequestHeaders(value:Vector.<URLRequestHeader>, host:String = "*"):void {
-        var ret:* = _context.call("addRequestHeaders", value, host);
-        if (ret is ANEError) throw ret as ANEError;
-    }
-
-    /**
-     * @param host
-     */
-    public function clearRequestHeaders(host:String = "*"):void {
-        var ret:* = _context.call("clearRequestHeaders", host);
         if (ret is ANEError) throw ret as ANEError;
     }
 

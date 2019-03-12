@@ -50,7 +50,7 @@ class KotlinController : FreKotlinMainController {
 
     fun init(ctx: FREContext, argv: FREArgv): FREObject? {
         argv.takeIf { argv.size > 4 } ?: return FreArgException("init")
-        val initialUrl = String(argv[0]) ?: return null
+        val initialUrl = URLRequest(argv[0])
         val viewPort = RectF(argv[1])
         val settings = Settings(argv[2])
         Float(argv[3])?.let { scaleFactor = it }
@@ -90,7 +90,6 @@ class KotlinController : FreKotlinMainController {
             isAdded = true
         }
         webViewController?.visible = visible
-
         return null
     }
 
@@ -103,15 +102,15 @@ class KotlinController : FreKotlinMainController {
 
     fun load(ctx: FREContext, argv: FREArgv): FREObject? {
         argv.takeIf { argv.size > 0 } ?: return FreArgException("load")
-        val url = String(argv[0]) ?: return null
-        webViewController?.loadUrl(url)
+        val request = URLRequest(argv[0])
+        webViewController?.loadUrl(request)
         return null
     }
 
     fun loadFileURL(ctx: FREContext, argv: FREArgv): FREObject? {
         argv.takeIf { argv.size > 0 } ?: return FreArgException("loadFileURL")
         val url = String(argv[0]) ?: return null
-        webViewController?.loadFileURL(url)
+        webViewController?.loadFileUrl(url)
         return null
     }
 

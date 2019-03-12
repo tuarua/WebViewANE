@@ -15,6 +15,7 @@ import flash.filesystem.File;
 import flash.filesystem.FileMode;
 import flash.filesystem.FileStream;
 import flash.geom.Rectangle;
+import flash.net.URLRequest;
 import flash.text.ReturnKeyLabel;
 import flash.text.SoftKeyboardType;
 import flash.text.StageText;
@@ -146,7 +147,7 @@ public class StarlingRoot extends Sprite {
 
         webView.addCallback("js_to_as", jsToAsCallback);
         var viewPort:Rectangle = new Rectangle(0, 80, stage.stageWidth, (stage.stageHeight - 80));
-        webView.init(Starling.current.nativeStage, viewPort, "https://www.bbc.co.uk",
+        webView.init(Starling.current.nativeStage, viewPort, new URLRequest("https://www.bbc.co.uk"),
                 settings, Starling.current.contentScaleFactor, 0x00F1F1F1);
         webView.visible = true;
 
@@ -223,7 +224,7 @@ public class StarlingRoot extends Sprite {
             jsBtn.visible = true;
             webBtn.visible = false;
             progress.visible = true;
-            webView.load("https://www.adobe.com");
+            webView.load(new URLRequest("https://www.adobe.com"));
         }
     }
 
@@ -296,7 +297,7 @@ public class StarlingRoot extends Sprite {
         event.preventDefault(); //Android needs this. We need to programmatically close the keyboard then.
         urlInput.stage.focus = null;
         if (event.keyCode == Keyboard.ENTER) {
-            webView.load(urlInput.text);
+            webView.load(new URLRequest(urlInput.text));
         }
     }
 

@@ -45,10 +45,10 @@ class Settings() {
     var blackList: List<String>? = null
 
     constructor(freObject: FREObject?) : this() {
-        val o = freObject ?: return
-        val androidSettings = o["android"]
+        val fre = freObject ?: return
+        val androidSettings = fre["android"]
 
-        appCacheEnabled = Boolean(o["cacheEnabled"]) == true
+        appCacheEnabled = Boolean(fre["cacheEnabled"]) == true
         if (androidSettings != null) {
             javaScriptEnabled = Boolean(androidSettings["javaScriptEnabled"]) ?: false
             mediaPlaybackRequiresUserGesture = Boolean(androidSettings["mediaPlaybackRequiresUserGesture"]) ?: false
@@ -65,15 +65,15 @@ class Settings() {
             builtInZoomControls = Boolean(androidSettings["builtInZoomControls"]) ?: false
         }
 
-        userAgent = String(o["userAgent"])
+        userAgent = String(fre["userAgent"])
 
-        val whiteListFre = o["urlWhiteList"]
+        val whiteListFre = fre["urlWhiteList"]
         if (whiteListFre != null) {
             val whiteListArr = FREArray(whiteListFre)
             whiteList = List(whiteListArr)
         }
 
-        val blackListFre = o["urlBlackList"]
+        val blackListFre = fre["urlBlackList"]
         if (blackListFre != null) {
             val blackListArr = FREArray(blackListFre)
             blackList = List(blackListArr)

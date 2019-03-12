@@ -17,6 +17,9 @@
             <entry library-name="WebViewANE" library-level="project">
               <dependency linkage="Merged" />
             </entry>
+            <entry library-name="com.google.code.gson.gson-2.8.4" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
           </entries>
           <sdk name="AIRSDK_32" />
         </dependencies>
@@ -26,7 +29,7 @@
           </map>
         </compiler-options>
         <packaging-air-desktop />
-        <packaging-android use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/src/WebViewANESample-app.xml" package-file-name="Scaffold_Mobile">
+        <packaging-android enabled="true" use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/src/WebViewANESample-app.xml" package-file-name="Scaffold_Mobile">
           <files-to-package>
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/system" path-in-package="." />
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/assets" path-in-package="." />
@@ -55,6 +58,9 @@
               <dependency linkage="Merged" />
             </entry>
             <entry library-name="WebViewANE" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-name="com.google.code.gson.gson-2.8.4" library-level="project">
               <dependency linkage="Merged" />
             </entry>
           </entries>
@@ -97,6 +103,9 @@
             <entry library-name="WebViewANE" library-level="project">
               <dependency linkage="Merged" />
             </entry>
+            <entry library-name="com.google.code.gson.gson-2.8.4" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
           </entries>
           <sdk name="AIRSDK_32" />
         </dependencies>
@@ -136,6 +145,9 @@
               <dependency linkage="Merged" />
             </entry>
             <entry library-name="WebViewANE" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-name="com.google.code.gson.gson-2.8.4" library-level="project">
               <dependency linkage="Merged" />
             </entry>
           </entries>
@@ -182,5 +194,7 @@
     <orderEntry type="library" exported="" name="WebViewANE-mobile" level="project" />
     <orderEntry type="library" exported="" name="com.tuarua.frekotlin" level="project" />
     <orderEntry type="library" exported="" name="WebViewANE" level="project" />
+    <orderEntry type="library" exported="" name="com.distriqt.Core" level="project" />
+    <orderEntry type="library" exported="" name="com.google.code.gson.gson-2.8.4" level="project" />
   </component>
 </module>

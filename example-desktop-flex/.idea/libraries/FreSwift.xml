@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="FreSwift" type="flex">
+    <CLASSES>
+      <root url="jar://$DOCUMENTS$/WebViewANE/native_extension/ane/FreSwift.ane!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

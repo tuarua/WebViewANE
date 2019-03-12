@@ -36,7 +36,7 @@ public class SwiftController: NSObject {
     private static var keyUpListener: Any?
     private static var keyDownListener: Any?
     private static let zoomIncrement = CGFloat(0.1)
-    private var _initialUrl = ""
+    private var _initialRequest: URLRequest?
     private var _viewPort = CGRect(x: 0.0, y: 0.0, width: 800.0, height: 600.0)
     private var _capturedCropTo: CGRect?
     internal var _popupBehaviour = PopupBehaviour.newWindow
@@ -337,11 +337,11 @@ public class SwiftController: NSObject {
     func load(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
         guard argc > 0,
             let wv = _currentWebView,
-            let url = String(argv[0]),
-            !url.isEmpty else {
+            let request = URLRequest(argv[0])
+            else {
                 return FreArgError(message: "load").getError(#file, #line, #column)
         }
-        wv.load(url: url)
+        wv.load(request: request)
         return nil
     }
 
@@ -584,11 +584,7 @@ public class SwiftController: NSObject {
                 return FreArgError(message: "addTab").getError(#file, #line, #column)
         }
 
-        if let initialUrl = String(argv[0]) {
-            _initialUrl = initialUrl
-        } else {
-            _initialUrl = ""
-        }
+        _initialRequest = URLRequest(argv[0])
 
         _currentTab = _tabList.count
         let isHidden = _currentWebView?.isHidden ?? true
@@ -739,8 +735,8 @@ public class SwiftController: NSObject {
         }
 #endif
 
-        if !_initialUrl.isEmpty {
-            wv.load(url: _initialUrl)
+        if let initialRequest = _initialRequest {
+            wv.load(request: initialRequest)
         }
 
         _tabList.add(wv)
@@ -754,10 +750,7 @@ public class SwiftController: NSObject {
             else {
                 return FreArgError(message: "initWebView").getError(#file, #line, #column)
         }
-        if let initialUrl = String(argv[0]) {
-            _initialUrl = initialUrl
-        }
-
+        _initialRequest = URLRequest(argv[0])
         _viewPort = viewPortFre
         var realY = _viewPort.origin.y
 #if os(iOS)

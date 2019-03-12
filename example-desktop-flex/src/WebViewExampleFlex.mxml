@@ -19,7 +19,7 @@
             this.stage.nativeWindow.addEventListener(NativeWindowBoundsEvent.RESIZE, onResize);
             var viewport:Rectangle = getBounds(this);
             var settings:Settings = new Settings();
-            webview.init(stage, viewport, "https://html5test.com", settings, 1, 0xFFF1F1F1);
+            webview.init(stage, viewport, new URLRequest("https://html5test.com"), settings, 1, 0xFFF1F1F1);
             webview.visible = true;
         }
 

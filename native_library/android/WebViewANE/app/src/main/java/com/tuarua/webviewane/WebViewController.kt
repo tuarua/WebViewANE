@@ -37,7 +37,7 @@ import com.tuarua.frekotlin.FreKotlinController
 import com.tuarua.frekotlin.dispatchEvent
 
 class WebViewController(override var context: FREContext?,
-                        initialUrl: String?,
+                        initialRequest: URLRequest,
                         viewPort: RectF,
                         private var settings: Settings,
                         private var backgroundColor: Int) : FreKotlinController {
@@ -45,7 +45,7 @@ class WebViewController(override var context: FREContext?,
     private val gson = Gson()
     private var _visible = false
     private var _viewPort: RectF = viewPort
-    private var _initialUrl: String? = initialUrl
+    private var _initialRequest: URLRequest? = initialRequest
     private var airView: ViewGroup? = null
     private var container: FrameLayout? = null
     private var webView: WebView? = null
@@ -138,8 +138,12 @@ class WebViewController(override var context: FREContext?,
             cookieManager.setAcceptThirdPartyCookies(wv, true)
         }
 
-        if (!_initialUrl.isNullOrEmpty()) {
-            wv.loadUrl(_initialUrl)
+        val initialRequest = _initialRequest
+        if (initialRequest != null && !initialRequest.url.isNullOrEmpty()) {
+            when {
+                initialRequest.requestHeaders?.isEmpty() == true -> wv.loadUrl(initialRequest.url)
+                else -> wv.loadUrl(initialRequest.url, initialRequest.requestHeaders)
+            }
         }
 
         frame.addView(wv)
@@ -172,11 +176,15 @@ class WebViewController(override var context: FREContext?,
         webView?.loadData(data, "text/html; charset=UTF-8", null)
     }
 
-    fun loadUrl(url: String) {
-        webView?.loadUrl(url)
+    fun loadUrl(request: URLRequest) {
+        when {
+            request.url == null -> return
+            request.requestHeaders?.isEmpty() == true -> webView?.loadUrl(request.url)
+            else -> webView?.loadUrl(request.url, request.requestHeaders)
+        }
     }
 
-    fun loadFileURL(url: String) {
+    fun loadFileUrl(url: String) {
         var final = url
         when {
             !final.startsWith("file://", true) -> final = "file://$final"
@@ -207,7 +215,6 @@ class WebViewController(override var context: FREContext?,
         if (wv.canGoBackOrForward(offset)) {
             wv.goBackOrForward(offset)
         }
-
     }
 
     fun stopLoading() {
