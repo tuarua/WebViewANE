@@ -35,6 +35,7 @@ extension SwiftController: FreSwiftMainController {
         functionsToSet["\(prefix)setVisible"] = setVisible
         functionsToSet["\(prefix)loadHTMLString"] = loadHTMLString
         functionsToSet["\(prefix)loadFileURL"] = loadFileURL
+        functionsToSet["\(prefix)clearRequestHeaders"] = clearRequestHeaders
         functionsToSet["\(prefix)onFullScreen"] = onFullScreen
         functionsToSet["\(prefix)reloadFromOrigin"] = reloadFromOrigin
         functionsToSet["\(prefix)stopLoading"] = stopLoading

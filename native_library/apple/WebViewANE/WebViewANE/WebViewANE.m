@@ -56,6 +56,7 @@ CONTEXT_INIT(TRWV) {
         ,MAP_FUNCTION(TRWV, onFullScreen)
         ,MAP_FUNCTION(TRWV, reloadFromOrigin)
         ,MAP_FUNCTION(TRWV, stopLoading)
+        ,MAP_FUNCTION(TRWV, clearRequestHeaders)
         ,MAP_FUNCTION(TRWV, backForwardList)
         ,MAP_FUNCTION(TRWV, go)
         ,MAP_FUNCTION(TRWV, goBack)

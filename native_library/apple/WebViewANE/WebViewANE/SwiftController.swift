@@ -378,6 +378,11 @@ public class SwiftController: NSObject {
         wv.load(fileUrl: url, allowingReadAccessTo: allowingReadAccessTo)
         return nil
     }
+    
+    func clearRequestHeaders(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
+        _persistantRequestHeaders = [String: [(String, String)]]()
+        return nil
+    }
 
     func onFullScreen(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
 #if os(OSX)

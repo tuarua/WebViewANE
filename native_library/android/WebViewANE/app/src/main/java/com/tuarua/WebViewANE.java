@@ -43,6 +43,7 @@ public class WebViewANE implements FREExtension {
             ,"goForward"
             ,"stopLoading"
             ,"reloadFromOrigin"
+            ,"clearRequestHeaders"
             ,"allowsMagnification"
             ,"zoomIn"
             ,"zoomOut"

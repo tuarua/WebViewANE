@@ -119,6 +119,10 @@ class KotlinController : FreKotlinMainController {
         return null
     }
 
+    fun clearRequestHeaders(ctx: FREContext, argv: FREArgv): FREObject? {
+        return null
+    }
+
     fun go(ctx: FREContext, argv: FREArgv): FREObject? {
         argv.takeIf { argv.size > 0 } ?: return FreArgException("go")
         val offset = Int(argv[0]) ?: return null
