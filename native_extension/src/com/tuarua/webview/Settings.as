@@ -26,61 +26,66 @@ import com.tuarua.webview.popup.Popup;
 
 public class Settings {
     /**
-     * <p>Sets whether a context menu will appear on right click. OSX and Windows only.</p>
+     * Sets whether a context menu will appear on right click. OSX and Windows only.
      */
     public var contextMenu:ContextMenu = new ContextMenu();
     /**
-     * <p>Sets whether downloads will be handled by the WebView. OSX and Windows only.</p>
+     * Sets whether downloads will be handled by the WebView. OSX and Windows only.
      */
     public var enableDownloads:Boolean = true;
     /**
-     <p>The path to automatically save downloads to. No user dialog is shown. OSX and Windows only.</p>
+     * The path to automatically save downloads to. No user dialog is shown. OSX and Windows only.
      */
     public var downloadPath:String;
     /**
-     * <p>Settings to use for CEF (Windows) version.</p>
+     * Settings to use for CEF (Windows) version.
      */
     public var cef:CefSettings = new CefSettings();
     /**
-     * <p>Settings to use for WKWebView (OSX / iOS) version.</p>
+     * Settings to use for WKWebView (OSX / iOS) version.
      */
     public var webkit:WebkitSettings = new WebkitSettings();
     /**
-     * <p>Value that will be returned as the User-Agent HTTP header.</p>
+     * Value that will be returned as the User-Agent HTTP header.
      */
     public var userAgent:String = "";
     /**
-     * <p>Settings to use for Android version.</p>
+     * Settings to use for Android version.
      */
     public var android:AndroidSettings = new AndroidSettings();
 
     public var popup:Popup = new Popup();
     /**
-     <p>Vector of urls to allow through, example google.com - This uses a simple string match. There is no regex support.</p>
+     * Vector of urls to allow through, example google.com - This uses a simple string match. There is no regex support.
      */
     public var urlWhiteList:Vector.<String> = new <String>[];
     /**
-     <p>Vector of urls to block example .pdf,.zip - This uses a simple string match. There is no regex support.</p>
+     * Vector of urls to block example .pdf,.zip - This uses a simple string match. There is no regex support.
      */
     public var urlBlackList:Vector.<String> = new <String>[];
     /**
-     <p>Enables browser cache.</p>
+     * Enables browser cache.
      */
     public var cacheEnabled:Boolean = true;
     /**
-     <p>The web engine to use.</p>
+     * The web engine to use.</p>
      */
     public var engine:int = WebEngine.DEFAULT;
     /**
-     <p>@param useHiDPI set true if using <requestedDisplayResolution>high</requestedDisplayResolution> in your
-     app xml - Windows only.</p>
+     @param useHiDPI set true if using <requestedDisplayResolution>high</requestedDisplayResolution> in your
+     app xml - Windows only.
      */
     public var useHiDPI:Boolean = true;
     /**
-     <p>Sets the container Window (HWND) of the webview to be transparent. <br/>
-     <b>Important!<b> some video cards don't support this and may cause view to be invisible - Windows 8.1+ only.</p>
+     * Sets the container Window (HWND) of the webview to be transparent.
+     * <p><b>Important!<b> some video cards don't support this and may cause view to be invisible - Windows 8.1+ only.</p>
      */
     public var useTransparentBackground:Boolean = false;
+    /**
+     * Sets the container Window (HWND) of the webview to be transparent.
+     * <p><b>Important!<b> some video cards don't support this and may cause view to be invisible - Windows 8.1+ only.</p>
+     */
+    public var persistRequestHeaders:Boolean = false;
 
     public function Settings() {
     }

@@ -37,6 +37,7 @@ public class SwiftController: NSObject {
     private static var keyDownListener: Any?
     private static let zoomIncrement = CGFloat(0.1)
     private var _initialRequest: URLRequest?
+    internal var _persistantRequestHeaders = [String: [(String, String)]]()
     private var _viewPort = CGRect(x: 0.0, y: 0.0, width: 800.0, height: 600.0)
     private var _capturedCropTo: CGRect?
     internal var _popupBehaviour = PopupBehaviour.newWindow
@@ -143,7 +144,7 @@ public class SwiftController: NSObject {
     
 #if os(OSX)
     private func sendKeyEvent(keyValue: UInt32, event: NSEvent, modifiers: String) {
-        var props: [String: Any] = Dictionary()
+        var props = [String: Any]()
         props["keyCode"] = keyValue
         props["nativeKeyCode"] = event.keyCode
         props["modifiers"] = modifiers
@@ -337,10 +338,19 @@ public class SwiftController: NSObject {
     func load(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
         guard argc > 0,
             let wv = _currentWebView,
-            let request = URLRequest(argv[0])
+            let freRequest = argv[0],
+            let request = URLRequest(freRequest)
             else {
                 return FreArgError(message: "load").getError(#file, #line, #column)
         }
+        
+        if _settings.persistRequestHeaders, let host = request.url?.host {
+            for header in URLRequest.getCustomRequestHeaders(freRequest) {
+                _persistantRequestHeaders[host] = []
+                _persistantRequestHeaders[host]?.append((header.0, header.1))
+            }
+        }
+        trace("_persistantRequestHeaders ", _persistantRequestHeaders.debugDescription)
         wv.load(request: request)
         return nil
     }

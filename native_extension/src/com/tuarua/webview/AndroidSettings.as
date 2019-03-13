@@ -23,58 +23,58 @@
 package com.tuarua.webview {
 public class AndroidSettings {
     /**
-     * <p>Sets whether the WebView requires a user gesture to play media.</p>
+     * Sets whether the WebView requires a user gesture to play media.
      */
     public var mediaPlaybackRequiresUserGesture:Boolean = true;
     /**
-     * <p>A Boolean value indicating whether JavaScript is enabled.</p>
+     * A Boolean value indicating whether JavaScript is enabled.
      */
     public var javaScriptEnabled:Boolean = true;
     /**
-     * <p>A Boolean value indicating whether JavaScript can open windows without user interaction.</p>
+     * A Boolean value indicating whether JavaScript can open windows without user interaction.
      */
     public var javaScriptCanOpenWindowsAutomatically:Boolean = true;
     /**
-     * <p>A Boolean value indicating whether the WebView should not load image resources from the network.</p>
+     * A Boolean value indicating whether the WebView should not load image resources from the network.
      */
     public var blockNetworkImage:Boolean = false;
     /**
-     * <p>Enables or disables file access within WebView.</p>
+     * Enables or disables file access within WebView.
      */
     public var allowFileAccess:Boolean = true;
     /**
-     * <p>Sets whether JavaScript running in the context of a file scheme URL should be allowed to access
-     * content from other file scheme URLs.</p>
+     * Sets whether JavaScript running in the context of a file scheme URL should be allowed to access
+     * content from other file scheme URLs.
      */
     public var allowFileAccessFromFileURLs:Boolean = true;
     /**
-     * <p>Sets whether JavaScript running in the context of a file scheme URL should be allowed to access
-     * content from other file scheme URLs.</p>
+     * Sets whether JavaScript running in the context of a file scheme URL should be allowed to access
+     * content from other file scheme URLs.
      */
     public var allowUniversalAccessFromFileURLs:Boolean = true;
     /**
-     * <p>Enables or disables content URL access within WebView.</p>
+     * Enables or disables content URL access within WebView.
      */
     public var allowContentAccess:Boolean = true;
     /**
-     * <p>Sets whether Geolocation is enabled.</p>
+     * Sets whether Geolocation is enabled.
      */
     public var geolocationEnabled:Boolean = false;
     /**
-     * <p>Sets whether the database storage API is enabled.</p>
+     * Sets whether the database storage API is enabled.
      */
     public var databaseEnabled:Boolean = true;
     /**
-     * <p>Sets whether the DOM storage API is enabled.</p>
+     * Sets whether the DOM storage API is enabled.
      */
     public var domStorageEnabled:Boolean = true;
     /**
-     * <p>Sets whether the WebView should display on-screen zoom controls when
-     * using the built-in zoom mechanisms.</p>
+     * Sets whether the WebView should display on-screen zoom controls when
+     * using the built-in zoom mechanisms.
      */
     public var displayZoomControls:Boolean = false;
     /**
-     * <p>Sets whether the WebView should use its built-in zoom mechanisms.</p>
+     * Sets whether the WebView should use its built-in zoom mechanisms.
      */
     public var builtInZoomControls:Boolean = true;
 

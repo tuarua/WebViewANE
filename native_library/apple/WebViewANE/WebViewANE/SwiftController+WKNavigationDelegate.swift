@@ -41,7 +41,7 @@ extension SwiftController: WKNavigationDelegate {
         if navigationAction.targetFrame == nil {
             switch _popupBehaviour {
             case .block:
-                var props: [String: Any] = Dictionary()
+                var props = [String: Any]()
                 props["url"] = ""
                 if let url = navigationAction.request.url?.absoluteString {
                     props["url"] = url
@@ -114,26 +114,34 @@ extension SwiftController: WKNavigationDelegate {
     
     public func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction,
                         decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-        guard let newUrl = navigationAction.request.url?.absoluteString.lowercased()
+        guard let url = navigationAction.request.url
             else {
                 decisionHandler(.allow)
                 return
         }
-        
+        let newUrl = url.absoluteString.lowercased()
         if isWhiteListBlocked(url: newUrl) || isBlackListBlocked(url: newUrl) {
-            var props: [String: Any] = Dictionary()
+            var props = [String: Any]()
             props["url"] = newUrl
             props["tab"] = getCurrentTab(webView)
             dispatchEvent(name: WebViewEvent.ON_URL_BLOCKED, value: JSON(props).description)
             decisionHandler(.cancel)
         } else {
+            let userAction = (navigationAction.navigationType != .other)
+            if userAction && _settings.persistRequestHeaders, let host = navigationAction.request.url?.host {
+                var request = URLRequest(url: url)
+                for header in _persistantRequestHeaders[host] ?? [] {
+                    request.addValue(header.1, forHTTPHeaderField: header.0)
+                }
+                decisionHandler(.cancel)
+                webView.load(request)
+            }
             decisionHandler(.allow)
         }
-        
     }
     
     public func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError: Error) {
-        var props: [String: Any] = Dictionary()
+        var props = [String: Any]()
         props["url"] = webView.url!.absoluteString
         props["errorCode"] = 0
         props["errorText"] = withError.localizedDescription

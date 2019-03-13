@@ -24,51 +24,51 @@
 package com.tuarua.webview {
 public class WebkitSettings {
     /**
-     * <p>A Boolean value indicating whether plug-ins are enabled. OSX only.</p>
+     * A Boolean value indicating whether plug-ins are enabled. OSX only.
      */
     public var plugInsEnabled:Boolean = true;
     /**
-     * <p>A Boolean value indicating whether JavaScript is enabled.</p>
+     * A Boolean value indicating whether JavaScript is enabled.
      * */
     public var javaScriptEnabled:Boolean = true;
     /**
-     * <p>A Boolean value indicating whether JavaScript can open windows without user interaction.</p>
+     * A Boolean value indicating whether JavaScript can open windows without user interaction.
      */
     public var javaScriptCanOpenWindowsAutomatically:Boolean = true;
     /**
-     * <p>A Boolean value indicating whether Java is enabled. OSX only.</p>
+     * A Boolean value indicating whether Java is enabled. OSX only.
      */
     public var javaEnabled:Boolean = false;
     /**
-     * <p>The minimum font size in points.</p>
+     * The minimum font size in points.
      */
     public var minimumFontSize:int = 0;
     /**
-     * <p>A Boolean value indicating whether HTML5 videos play inline or use the native full-screen controller.</p>
+     * A Boolean value indicating whether HTML5 videos play inline or use the native full-screen controller.
      */
     public var allowsInlineMediaPlayback:Boolean = false;
     /**
-     * <p>A Boolean value indicating whether HTML5 videos can play picture-in-picture.</p>
+     * A Boolean value indicating whether HTML5 videos can play picture-in-picture.
      */
     public var allowsPictureInPictureMediaPlayback:Boolean = true;
     /**
-     * <p>A Boolean value that determines whether a WKWeb​View object should always allow scaling of the webpage.</p>
+     * A Boolean value that determines whether a WKWeb​View object should always allow scaling of the webpage.
      */
     public var ignoresViewportScaleLimits:Boolean = false;
     /**
-     * <p>A Boolean value indicating whether AirPlay is allowed.</p>
+     * A Boolean value indicating whether AirPlay is allowed.
      */
     public var allowsAirPlayForMediaPlayback:Boolean = true;
     /**
-     * <p>A Boolean value indicating whether the webview bounces past edge of content and back again.</p>
+     * A Boolean value indicating whether the webview bounces past edge of content and back again.
      */
     public var bounces:Boolean = true;
     /**
-     * <p>A Boolean value indicating whether the webview responds to pinch zoom gestures.</p>
+     * A Boolean value indicating whether the webview responds to pinch zoom gestures.
      */
     public var useZoomGestures:Boolean = true;
     /**
-     *  <p>Add custom preferences via preferences.setValue. This can be used to set private APIs. Use at own risk.</p>
+     *  Add custom preferences via preferences.setValue. This can be used to set private APIs. Use at own risk.
      */
     public var custom:Vector.<Object> = new <Object>[];
 

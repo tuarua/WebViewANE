@@ -262,7 +262,7 @@ public class WebViewANE extends EventDispatcher {
      * @param functionName name of the function as called from Javascript
      * @param closure Actionscript function to call when functionName is called from Javascript
      *
-     * <p>Adds a callback in the webView. These should be added before .init() is called.</p>
+     * Adds a callback in the webView. These should be added before .init() is called.
      *
      */
     public function addCallback(functionName:String, closure:Function):void {
@@ -466,7 +466,7 @@ public class WebViewANE extends EventDispatcher {
      * @param html HTML provided as a string
      * @param baseUrl url which will display as the address
      *
-     * <p>Loads a HTML string into the webView.</p>
+     * Loads a HTML string into the webView.
      *
      */
     public function loadHTMLString(html:String, baseUrl:URLRequest = null):void {
@@ -480,7 +480,7 @@ public class WebViewANE extends EventDispatcher {
      * @param url full path to the file on the local file system
      * @param allowingReadAccessTo path to the root of the document
      *
-     * <p>Loads a file from the local file system into the webView.</p>
+     * Loads a file from the local file system into the webView.
      *
      */
     public function loadFileURL(url:String, allowingReadAccessTo:String):void {
@@ -490,7 +490,7 @@ public class WebViewANE extends EventDispatcher {
     }
 
     /**
-     * <p>Reloads the current page.</p>
+     * Reloads the current page.
      */
     public function reload():void {
         if (!safetyCheck()) return;
@@ -498,7 +498,7 @@ public class WebViewANE extends EventDispatcher {
     }
 
     /**
-     * <p>Stops loading the current page.</p>
+     * Stops loading the current page.
      */
     public function stopLoading():void {
         if (!safetyCheck()) return;
@@ -506,7 +506,7 @@ public class WebViewANE extends EventDispatcher {
     }
 
     /**
-     * <p>Navigates back.</p>
+     * Navigates back.
      */
     public function goBack():void {
         if (!safetyCheck()) return;
@@ -514,7 +514,7 @@ public class WebViewANE extends EventDispatcher {
     }
 
     /**
-     * <p>Navigates forward.</p>
+     * Navigates forward.
      */
     public function goForward():void {
         if (!safetyCheck()) return;
@@ -534,7 +534,7 @@ public class WebViewANE extends EventDispatcher {
     /**
      *
      * @return
-     * <p><strong>Ignored on Windows and Android.</strong></p>
+     * <p><b>Ignored on Windows and Android.</b></p>
      */
     public function backForwardList():BackForwardList {
         if (!safetyCheck()) return new BackForwardList();
@@ -550,8 +550,8 @@ public class WebViewANE extends EventDispatcher {
     }
 
     /**
-     * <p>Clears the browser cache. Available on iOS, OSX, Android only</p>
-     * <p><strong>Ignored on Windows.</strong></p>
+     * Clears the browser cache. Available on iOS, OSX, Android only.
+     * <p><b>Ignored on Windows.</b></p>
      * <p>You cannot clear the cache on Windows while CEF is running. This is a known limitation.
      * You can delete the contents of the value of your settings.cef.cachePath using Actionscript
      * only before you call .init(). Calling after .dispose() may cause file locks as the files may
@@ -591,7 +591,7 @@ public class WebViewANE extends EventDispatcher {
     /**
      *
      * @return Whether the page allows magnification functionality
-     * <p><strong>Ignored on iOS.</strong></p>
+     * <b>Ignored on iOS.</b>
      */
     public function allowsMagnification():Boolean {
         if (!safetyCheck()) return false;
@@ -657,8 +657,8 @@ public class WebViewANE extends EventDispatcher {
     }
 
     /**
-     * <p>This cleans up the webview and all related processes.</p>
-     * <p><strong>It is important to call this when the app is exiting.</strong></p>
+     * This cleans up the webview and all related processes.
+     * <p><b>It is important to call this when the app is exiting.</b></p>
      * @example
      * <listing version="3.0">
      * NativeApplication.nativeApplication.addEventListener(flash.events.Event.EXITING, onExiting);
@@ -683,7 +683,7 @@ public class WebViewANE extends EventDispatcher {
     }
 
     /**
-     * <p>Shows the Chromium dev tools on Windows</p>
+     * Shows the Chromium dev tools on Windows
      * <p>Enables Inspect Element on right click on OSX</p>
      * <p>On Android use Chrome on connected computer and navigate to chrome://inspect</p>
      */
@@ -693,7 +693,7 @@ public class WebViewANE extends EventDispatcher {
     }
 
     /**
-     * <p>Close the Chromium dev tools</p>
+     * Close the Chromium dev tools
      * <p>Disables Inspect Element on right click on OSX</p>
      * <p>On Android disconnects from chrome://inspect</p>
      */
@@ -722,7 +722,7 @@ public class WebViewANE extends EventDispatcher {
      *
      * <p>Specify either code or scriptUrl. These are injected into the main Frame when it is loaded. Call before
      * load() method</p>
-     * <p><strong>Ignored on Android.</strong></p>
+     * <p><b>Ignored on Android.</b></p>
      */
     public function injectScript(code:String = null, scriptUrl:String = null, startLine:uint = 0):void {
         if (code == null && scriptUrl == null) {
@@ -733,8 +733,8 @@ public class WebViewANE extends EventDispatcher {
     }
 
     /**
-     * <p>prints the webView.</p>
-     * <p><strong>Windows only.</strong></p>
+     * Prints the webView.
+     * <p><b>Windows only.</b></p>
      */
     public function print():void {
         _context.call("print");
@@ -743,8 +743,8 @@ public class WebViewANE extends EventDispatcher {
     /**
      * @param savePath path to save the pdf to.
      *
-     * <p>prints the webView to a pdf.</p>
-     * <p><strong>Windows only.</strong></p>
+     * Prints the webView to a pdf.
+     * <p><b>Windows only.</b></p>
      */
     public function printToPdf(savePath:String):void {
         if (!safetyCheck()) return;
@@ -753,7 +753,7 @@ public class WebViewANE extends EventDispatcher {
     }
 
     /**
-     * <p>Deletes all cookies</p>
+     * Deletes all cookies
      */
     public function deleteCookies():void {
         if (!safetyCheck()) return;
@@ -762,7 +762,7 @@ public class WebViewANE extends EventDispatcher {
     }
 
     /**
-     * <p>Captures the webView to BitmapData.</p>
+     * Captures the webView to BitmapData.
      *
      * @param onComplete function(result:BitmapData)
      * @param cropTo optionally crops to the supplied Rectangle
@@ -806,7 +806,7 @@ public class WebViewANE extends EventDispatcher {
 
     /**
      * @param value
-     * <p>Sets the viewPort of the webView.</p>
+     * Sets the viewPort of the webView.
      */
     public function set viewPort(value:Rectangle):void {
         if (viewPort == null) {

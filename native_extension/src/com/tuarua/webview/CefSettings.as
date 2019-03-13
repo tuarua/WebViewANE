@@ -24,54 +24,54 @@ package com.tuarua.webview {
 
 public class CefSettings {
     /**
-     * <p>Set to a value between 1024 and 65535 to enable remote debugging on the specified
+     * Set to a value between 1024 and 65535 to enable remote debugging on the specified
      * port. For example, if 8080 is specified the remote debugging URL will be http://localhost:8080.
      * CEF can be remotely debugged from any CEF or Chrome browser window. Also configurable
-     * using the "remote-debugging-port" command-line switch.</p>
+     * using the "remote-debugging-port" command-line switch.
      */
     public var remoteDebuggingPort:int = 8088;
     /**
-     * <p>The location where cache data will be stored on disk. If empty then browsers
+     * The location where cache data will be stored on disk. If empty then browsers
      * will be created in "incognito mode" where in-memory caches are used for storage
      * and no data is persisted to disk. HTML5 databases such as localStorage will only
      * persist across sessions if a cache path is specified. Can be overridden for individual
-     * CefRequestContext instances via the RequestContextSettings.CachePath value.</p>
+     * CefRequestContext instances via the RequestContextSettings.CachePath value.
      */
     public var cachePath:String = "cache";//set to empty
     /**
-     * <p>The log severity. Only messages of this severity level or higher will be logged.
+     * The log severity. Only messages of this severity level or higher will be logged.
      * Also configurable using the "log-severity" command-line switch with a value of
-     * "verbose", "info", "warning", "error", "error-report" or "disable".</p>
+     * "verbose", "info", "warning", "error", "error-report" or "disable".
      */
     public var logSeverity:int = LogSeverity.DISABLE;
     /**
-     * <p>Add custom command line arguments to this collection, they will be added in
-     OnBeforeCommandLineProcessing.</p>
+     * Add custom command line arguments to this collection, they will be added in
+     * OnBeforeCommandLineProcessing.
      */
     public var commandLineArgs:Vector.<Object> = new <Object>[];
 
     /**
-     <p>The path to a separate executable that will be launched for sub-processes. By
-     default the browser process executable is used.</p>
+     * The path to a separate executable that will be launched for sub-processes. By
+     * default the browser process executable is used.
      */
     public var browserSubprocessPath:String;
 
     /**
-     * <p>The location where user data such as spell checking dictionary files will be stored on disk.
+     * The location where user data such as spell checking dictionary files will be stored on disk.
      * If empty then the default platform-specific user data directory
-     * "Local Settings\Application Data\CEF\User Data"directory under the user profile directory on Windows).</p>
+     * "Local Settings\Application Data\CEF\User Data"directory under the user profile directory on Windows).
      */
     public var userDataPath:String;
 
     /**
-     * <p>Comma delimited ordered list of language codes without any whitespace that will
+     * Comma delimited ordered list of language codes without any whitespace that will
      * be used in the "Accept-Language" HTTP header. May be set globally using the CefSettings.AcceptLanguageList
-     * value. If both values are empty then "en-US,en" will be used.</p>
+     * value. If both values are empty then "en-US,en" will be used.
      */
     public var acceptLanguageList:String = "en-US,en";
 
     /**
-     * <p>The locale string that will be passed to WebKit. If empty the default locale of "en-US" will be used.</p>
+     * The locale string that will be passed to WebKit. If empty the default locale of "en-US" will be used.
      */
     public var locale:String = "en-US";
 

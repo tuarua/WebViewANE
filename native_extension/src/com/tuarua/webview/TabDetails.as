@@ -43,13 +43,13 @@ public class TabDetails {
     /**
      * @return whether we can navigate back
      *
-     * <p>A Boolean value indicating whether we can navigate back.</p>
+     * A Boolean value indicating whether we can navigate back.
      */
     public var canGoBack:Boolean;
     /**
      * @return whether we can navigate forward
      *
-     * <p>A Boolean value indicating whether we can navigate forward.</p>
+     * A Boolean value indicating whether we can navigate forward.
      */
     public var canGoForward:Boolean;
     /**

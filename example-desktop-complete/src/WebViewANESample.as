@@ -131,6 +131,7 @@ public class WebViewANESample extends Sprite {
         settings.popup.behaviour = Behaviour.NEW_WINDOW;  //Behaviour.BLOCK //Behaviour.SAME_WINDOW //Behaviour.REPLACE
         settings.popup.dimensions.width = 600;
         settings.popup.dimensions.height = 800;
+        settings.persistRequestHeaders = true;
 
         //only use settings.userAgent if you are running your own site.
         //google.com for eg displays different sites based on user agent

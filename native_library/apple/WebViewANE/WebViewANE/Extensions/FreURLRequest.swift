@@ -29,14 +29,23 @@ public extension URLRequest {
         let fre = FreObjectSwift(rv)
         guard let urlStr: String = fre.url, let url = URL(string: urlStr) else { return nil }
         self.init(url: url)
-        
-        if let freRequestHeaders: FREObject = fre.requestHeaders {
+        for header in URLRequest.getCustomRequestHeaders(rv) {
+            self.addValue(header.1, forHTTPHeaderField: header.0)
+        }
+    }
+    
+    public static func getCustomRequestHeaders(_ freObject: FREObject?) -> [(String, String)] {
+        var ret = [(String, String)]()
+        guard let rv = freObject else { return ret }
+        if let freRequestHeaders = rv["requestHeaders"] {
             let arr = FREArray(freRequestHeaders)
             for requestHeaderFre in arr {
                 if let name = String(requestHeaderFre["name"]), let value = String(requestHeaderFre["value"]) {
-                    self.addValue(value, forHTTPHeaderField: name)
+                    ret.append((name, value))
                 }
             }
         }
+        return ret
     }
+    
 }

@@ -115,10 +115,8 @@ class WebViewVC: WKWebView, FreSwiftController {
 #endif
     }
 
-    func load(url: String) {
-        guard let myURL = URL(string: url) else { return }
-        let myRequest = URLRequest(url: myURL)
-        self.load(myRequest)
+    func load(request: URLRequest) {
+        self.load(request)
     }
 
     func load(html: String) {
@@ -143,7 +141,7 @@ class WebViewVC: WKWebView, FreSwiftController {
 
     func evaluateJavaScript(js: String, callback: String) {
         self.evaluateJavaScript(js, completionHandler: { (result: Any?, error: Error?) -> Void in
-            var props: [String: Any] = Dictionary()
+            var props = [String: Any]()
             props["callbackName"] = callback
             props["message"] = ""
             if error != nil {
@@ -176,7 +174,7 @@ class WebViewVC: WKWebView, FreSwiftController {
     }
 
     public func switchTabTo() {
-        var props: [String: Any] = Dictionary()
+        var props = [String: Any]()
         var json: JSON
         if let val = self.url?.absoluteString {
             if val != "" {
@@ -222,7 +220,7 @@ class WebViewVC: WKWebView, FreSwiftController {
 
     override func observeValue(forKeyPath keyPath: String?, of object: Any?,
                                change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
-        var props: [String: Any] = Dictionary()
+        var props = [String: Any]()
 
         switch keyPath! {
         case "estimatedProgress":
