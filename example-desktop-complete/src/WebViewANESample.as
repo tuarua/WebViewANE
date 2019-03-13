@@ -359,6 +359,12 @@ public class WebViewANESample extends Sprite {
         webView.reload();
     }
 
+    private function loadWithRequestHeaders(event:MouseEvent):void {
+        var req:URLRequest = new URLRequest("http://www.adobe.com");
+        req.requestHeaders.push(new URLRequestHeader("User-Agent", "WebViewANE"));
+        webView.load(req);
+    }
+
     private function onForward(event:MouseEvent):void {
         webView.goForward();
 

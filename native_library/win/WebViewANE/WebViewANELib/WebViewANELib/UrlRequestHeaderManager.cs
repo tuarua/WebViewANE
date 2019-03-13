@@ -18,7 +18,6 @@
 
 using System;
 using System.Collections.Generic;
-using TuaRua.FreSharp;
 
 namespace WebViewANELib {
     public class UrlRequestHeaderManager {
@@ -61,19 +60,7 @@ namespace WebViewANELib {
         }
 
         public void Remove(string host) {
-            if (host.Equals("*")) {
-                Headers.Clear();
-            } else {
-                Headers.Remove(host);
-            }
-        }
-
-        public void Add(FREArray requestHeadersFre, string domain) {
-            var list = new List<UrlRequestHeader>();
-            foreach (var requestHeader in requestHeadersFre) {
-                list.Add(new UrlRequestHeader(requestHeader));
-            }
-            Headers.Add(domain, list);
+            Headers.Clear();
         }
 
     }

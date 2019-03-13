@@ -54,20 +54,21 @@ namespace WebViewANELib.CefSharp {
             IRequest request, IRequestCallback callback) {
             var userHeaders = UrlRequestHeaderManager.GetInstance().Headers;
             if (userHeaders == null) return CefReturnValue.Continue;
-            string host;
-            if (userHeaders.ContainsKey("*")) {
-                host = "*";
-            } else {
+            try {
                 var uri = new Uri(request.Url);
-                host = uri.Host;
+                var host = uri.Host;
                 if (!userHeaders.ContainsKey(host)) return CefReturnValue.Continue;
+                var domainHeaders = userHeaders[host];
+                var headers = request.Headers;
+                foreach (var domainHeader in domainHeaders) {
+                    headers[domainHeader.Name] = domainHeader.Value;
+                }
+                request.Headers = headers;
             }
-            var domainHeaders = userHeaders[host];
-            var headers = request.Headers;
-            foreach (var domainHeader in domainHeaders) {
-                headers[domainHeader.Name] = domainHeader.Value;
+            catch {
+                // ignored
             }
-            request.Headers = headers;
+
             return CefReturnValue.Continue;
         }
 

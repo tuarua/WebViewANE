@@ -82,8 +82,7 @@ public class Settings {
      */
     public var useTransparentBackground:Boolean = false;
     /**
-     * Sets the container Window (HWND) of the webview to be transparent.
-     * <p><b>Important!<b> some video cards don't support this and may cause view to be invisible - Windows 8.1+ only.</p>
+     * Persists any headers which have been added to URLRequests across multiple requests (on the same domain).
      */
     public var persistRequestHeaders:Boolean = false;
 

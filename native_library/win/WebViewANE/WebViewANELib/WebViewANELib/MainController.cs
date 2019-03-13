@@ -52,6 +52,7 @@ namespace WebViewANELib {
         private Bitmap _capturedBitmapData;
         private const string OnCaptureComplete = "WebView.OnCaptureComplete";
         private bool _useEdge;
+        private bool _persistRequestHeaders;
 
         public string[] GetFunctions() {
             FunctionsDict =
@@ -68,7 +69,6 @@ namespace WebViewANELib {
                     {"reload", Reload},
                     {"reloadFromOrigin", ReloadFromOrigin},
                     {"stopLoading", StopLoading},
-                    {"addRequestHeaders", AddRequestHeaders},
                     {"clearRequestHeaders", ClearRequestHeaders},
                     {"backForwardList", BackForwardList},
                     {"allowsMagnification", AllowsMagnification},
@@ -191,12 +191,15 @@ namespace WebViewANELib {
             bool useTransparentBackground;
             try {
                 dynamic settings = new FreObjectSharp(argv[2]);
+                _persistRequestHeaders = settings.persistRequestHeaders;
                 dynamic cefSettings = new FreObjectSharp(settings.cef);
                 var freUrl = argv[0];
                 UrlRequest initialUrl = null;
                 if (FreObjectTypeSharp.Null != freUrl.Type()) {
                     initialUrl = new UrlRequest(freUrl);
-                    UrlRequestHeaderManager.GetInstance().Add(initialUrl);
+                    if (_persistRequestHeaders) {
+                        UrlRequestHeaderManager.GetInstance().Add(initialUrl);
+                    }
                 }
 
                 var viewPort = argv[1].AsRect();
@@ -434,7 +437,9 @@ namespace WebViewANELib {
         public FREObject Load(FREContext ctx, uint argc, FREObject[] argv) {
             try {
                 var request = new UrlRequest(argv[0]);
-                UrlRequestHeaderManager.GetInstance().Add(request);
+                if (_persistRequestHeaders) {
+                    UrlRequestHeaderManager.GetInstance().Add(request);
+                }
                 _view.Load(request, argc > 1 ? argv[1].AsString() : null);
             }
             catch (Exception e) {
@@ -483,17 +488,6 @@ namespace WebViewANELib {
 
         public FREObject StopLoading(FREContext ctx, uint argc, FREObject[] argv) {
             _view.Stop();
-            return FREObject.Zero;
-        }
-
-        public FREObject AddRequestHeaders(FREContext ctx, uint argc, FREObject[] argv) {
-            try {
-                var requestHeadersFre = new FREArray(argv[0]);
-                var domain = argv[1].AsString();
-                UrlRequestHeaderManager.GetInstance().Add(requestHeadersFre, domain);
-            } catch (Exception e) {
-                return new FreException(e).RawValue;
-            }
             return FREObject.Zero;
         }
 

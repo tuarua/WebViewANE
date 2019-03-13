@@ -542,6 +542,14 @@ public class WebViewANE extends EventDispatcher {
     }
 
     /**
+     * Clears any persistent requestHeaders added to URLRequest
+     */
+    public function clearRequestHeaders():void {
+        if (!safetyCheck()) return;
+        _context.call("clearRequestHeaders");
+    }
+
+    /**
      * Forces a reload of the page (i.e. ctrl F5)
      */
     public function reloadFromOrigin():void {

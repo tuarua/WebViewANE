@@ -53,7 +53,6 @@ extern "C" {
 			,MAP_FUNCTION(loadFileURL)
 			,MAP_FUNCTION(reload)
 			,MAP_FUNCTION(reloadFromOrigin)
-			,MAP_FUNCTION(addRequestHeaders)
 			,MAP_FUNCTION(clearRequestHeaders)
 			,MAP_FUNCTION(go)
 			,MAP_FUNCTION(goBack)

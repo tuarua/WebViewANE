@@ -350,7 +350,6 @@ public class SwiftController: NSObject {
                 _persistantRequestHeaders[host]?.append((header.0, header.1))
             }
         }
-        trace("_persistantRequestHeaders ", _persistantRequestHeaders.debugDescription)
         wv.load(request: request)
         return nil
     }
