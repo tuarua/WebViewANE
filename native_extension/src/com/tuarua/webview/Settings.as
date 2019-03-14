@@ -68,7 +68,7 @@ public class Settings {
      */
     public var cacheEnabled:Boolean = true;
     /**
-     * The web engine to use.</p>
+     * The web engine to use.
      */
     public var engine:int = WebEngine.DEFAULT;
     /**
@@ -78,7 +78,7 @@ public class Settings {
     public var useHiDPI:Boolean = true;
     /**
      * Sets the container Window (HWND) of the webview to be transparent.
-     * <p><b>Important!<b> some video cards don't support this and may cause view to be invisible - Windows 8.1+ only.</p>
+     * <p><b>Important!</b> some video cards don't support this and may cause view to be invisible - Windows 8.1+ only.</p>
      */
     public var useTransparentBackground:Boolean = false;
     /**
