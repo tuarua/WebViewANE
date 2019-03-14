@@ -52,8 +52,10 @@ namespace WebViewANELib.CefSharp {
 
         CefReturnValue IRequestHandler.OnBeforeResourceLoad(IWebBrowser browserControl, IBrowser bsrowser, IFrame frame,
             IRequest request, IRequestCallback callback) {
-            var userHeaders = UrlRequestHeaderManager.GetInstance().Headers;
+            var manager = UrlRequestHeaderManager.GetInstance();
+            var userHeaders = manager.Headers;
             if (userHeaders == null) return CefReturnValue.Continue;
+            if (userHeaders.Count == 0) return CefReturnValue.Continue;
             try {
                 var uri = new Uri(request.Url);
                 var host = uri.Host;
@@ -64,6 +66,9 @@ namespace WebViewANELib.CefSharp {
                     headers[domainHeader.Name] = domainHeader.Value;
                 }
                 request.Headers = headers;
+                if (!manager.PersistRequestHeaders) {
+                    manager.Remove(host);
+                }
             }
             catch {
                 // ignored

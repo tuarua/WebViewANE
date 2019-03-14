@@ -52,7 +52,6 @@ namespace WebViewANELib {
         private Bitmap _capturedBitmapData;
         private const string OnCaptureComplete = "WebView.OnCaptureComplete";
         private bool _useEdge;
-        private bool _persistRequestHeaders;
 
         public string[] GetFunctions() {
             FunctionsDict =
@@ -191,15 +190,13 @@ namespace WebViewANELib {
             bool useTransparentBackground;
             try {
                 dynamic settings = new FreObjectSharp(argv[2]);
-                _persistRequestHeaders = settings.persistRequestHeaders;
+                UrlRequestHeaderManager.GetInstance().PersistRequestHeaders = settings.persistRequestHeaders;
                 dynamic cefSettings = new FreObjectSharp(settings.cef);
                 var freUrl = argv[0];
                 UrlRequest initialUrl = null;
                 if (FreObjectTypeSharp.Null != freUrl.Type()) {
                     initialUrl = new UrlRequest(freUrl);
-                    if (_persistRequestHeaders) {
-                        UrlRequestHeaderManager.GetInstance().Add(initialUrl);
-                    }
+                    UrlRequestHeaderManager.GetInstance().Add(initialUrl);
                 }
 
                 var viewPort = argv[1].AsRect();
@@ -437,9 +434,7 @@ namespace WebViewANELib {
         public FREObject Load(FREContext ctx, uint argc, FREObject[] argv) {
             try {
                 var request = new UrlRequest(argv[0]);
-                if (_persistRequestHeaders) {
-                    UrlRequestHeaderManager.GetInstance().Add(request);
-                }
+                UrlRequestHeaderManager.GetInstance().Add(request);
                 _view.Load(request, argc > 1 ? argv[1].AsString() : null);
             }
             catch (Exception e) {
@@ -493,8 +488,7 @@ namespace WebViewANELib {
 
         public FREObject ClearRequestHeaders(FREContext ctx, uint argc, FREObject[] argv) {
             try {
-                var domain = argv[0].AsString();
-                UrlRequestHeaderManager.GetInstance().Remove(domain);
+                UrlRequestHeaderManager.GetInstance().Remove();
             } catch (Exception e) {
                 return new FreException(e).RawValue;
             }

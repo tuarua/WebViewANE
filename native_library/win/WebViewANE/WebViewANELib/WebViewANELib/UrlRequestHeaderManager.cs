@@ -43,7 +43,7 @@ namespace WebViewANELib {
         }
 
         public Dictionary<string, List<UrlRequestHeader>> Headers { get; }
-
+        public bool PersistRequestHeaders { get; set; }
         public void Add(UrlRequest urlRequest) {
             var uri = new Uri(urlRequest.Url);
             if (urlRequest.RequestHeaders.Count == 0) {
@@ -60,6 +60,12 @@ namespace WebViewANELib {
         }
 
         public void Remove(string host) {
+            if (Headers.ContainsKey(host)) {
+                Headers.Remove(host);
+            }
+        }
+
+        public void Remove() {
             Headers.Clear();
         }
 
