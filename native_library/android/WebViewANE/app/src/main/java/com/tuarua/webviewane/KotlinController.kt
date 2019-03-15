@@ -120,6 +120,7 @@ class KotlinController : FreKotlinMainController {
     }
 
     fun clearRequestHeaders(ctx: FREContext, argv: FREArgv): FREObject? {
+        UrlRequestHeaderManager.remove()
         return null
     }
 

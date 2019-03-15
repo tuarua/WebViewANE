@@ -37,7 +37,7 @@ import com.tuarua.frekotlin.FreKotlinController
 import com.tuarua.frekotlin.dispatchEvent
 
 class WebViewController(override var context: FREContext?,
-                        initialRequest: URLRequest,
+                        initialRequest: URLRequest?,
                         viewPort: RectF,
                         private var settings: Settings,
                         private var backgroundColor: Int) : FreKotlinController {
@@ -45,7 +45,7 @@ class WebViewController(override var context: FREContext?,
     private val gson = Gson()
     private var _visible = false
     private var _viewPort: RectF = viewPort
-    private var _initialRequest: URLRequest? = initialRequest
+    private var _initialRequest = initialRequest
     private var airView: ViewGroup? = null
     private var container: FrameLayout? = null
     private var webView: WebView? = null
@@ -123,6 +123,8 @@ class WebViewController(override var context: FREContext?,
         wv.settings.builtInZoomControls = settings.builtInZoomControls
         wv.settings.displayZoomControls = settings.displayZoomControls
 
+        UrlRequestHeaderManager.persistRequestHeaders = settings.persistRequestHeaders
+
         chromeClient = ChromeClient(context)
         viewClient = ViewClient(context, settings)
         wv.isHorizontalScrollBarEnabled = false
@@ -142,7 +144,10 @@ class WebViewController(override var context: FREContext?,
         if (initialRequest != null && !initialRequest.url.isNullOrEmpty()) {
             when {
                 initialRequest.requestHeaders?.isEmpty() == true -> wv.loadUrl(initialRequest.url)
-                else -> wv.loadUrl(initialRequest.url, initialRequest.requestHeaders)
+                else -> {
+                    UrlRequestHeaderManager.add(initialRequest)
+                    wv.loadUrl(initialRequest.url, initialRequest.requestHeaders)
+                }
             }
         }
 
@@ -180,7 +185,10 @@ class WebViewController(override var context: FREContext?,
         when {
             request.url == null -> return
             request.requestHeaders?.isEmpty() == true -> webView?.loadUrl(request.url)
-            else -> webView?.loadUrl(request.url, request.requestHeaders)
+            else -> {
+                UrlRequestHeaderManager.add(request)
+                webView?.loadUrl(request.url, request.requestHeaders)
+            }
         }
     }
 

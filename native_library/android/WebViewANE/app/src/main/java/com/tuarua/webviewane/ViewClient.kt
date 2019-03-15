@@ -87,6 +87,7 @@ class ViewClient(override var context: FREContext?, private var settings: Settin
             return null
         }
         val url = request?.url.toString()
+        val host = request?.url?.host
         return if (isWhiteListBlocked(url) || isBlackListBlocked(url)) {
             dispatchEvent(WebViewEvent.ON_URL_BLOCKED, gson.toJson(mapOf("url" to url, "tab" to 0)))
             val response = WebResourceResponse("text/plain", "utf-8",
@@ -95,6 +96,10 @@ class ViewClient(override var context: FREContext?, private var settings: Settin
             response.setStatusCodeAndReasonPhrase(403, "Blocked")
             response
         } else {
+            if (host != null
+                    && UrlRequestHeaderManager.persistRequestHeaders
+                    && UrlRequestHeaderManager.persistentRequestHeaders.containsKey(host)) {
+            }
             null
         }
     }

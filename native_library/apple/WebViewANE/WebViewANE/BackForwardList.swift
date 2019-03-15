@@ -76,7 +76,7 @@ class BackForwardList: FreObjectSwift, FreSwiftController {
     }
 
     public init() {
-        var freObject: FREObject? = nil
+        var freObject: FREObject?
         if let freClass =  FREObject(className: "com.tuarua.webview.BackForwardList") {
             freObject = freClass
         }

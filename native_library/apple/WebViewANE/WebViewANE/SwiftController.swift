@@ -37,7 +37,6 @@ public class SwiftController: NSObject {
     private static var keyDownListener: Any?
     private static let zoomIncrement = CGFloat(0.1)
     private var _initialRequest: URLRequest?
-    internal var _persistantRequestHeaders = [String: [(String, String)]]()
     private var _viewPort = CGRect(x: 0.0, y: 0.0, width: 800.0, height: 600.0)
     private var _capturedCropTo: CGRect?
     internal var _popupBehaviour = PopupBehaviour.newWindow
@@ -343,13 +342,7 @@ public class SwiftController: NSObject {
             else {
                 return FreArgError(message: "load").getError(#file, #line, #column)
         }
-        
-        if _settings.persistRequestHeaders, let host = request.url?.host {
-            for header in URLRequest.getCustomRequestHeaders(freRequest) {
-                _persistantRequestHeaders[host] = []
-                _persistantRequestHeaders[host]?.append((header.0, header.1))
-            }
-        }
+        UrlRequestHeaderManager.shared.add(freRequest: freRequest, request: request)
         wv.load(request: request)
         return nil
     }
@@ -380,7 +373,7 @@ public class SwiftController: NSObject {
     }
     
     func clearRequestHeaders(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
-        _persistantRequestHeaders = [String: [(String, String)]]()
+        UrlRequestHeaderManager.shared.remove()
         return nil
     }
 
@@ -599,6 +592,9 @@ public class SwiftController: NSObject {
         }
 
         _initialRequest = URLRequest(argv[0])
+        if let inFre0 = argv[0], let ir = _initialRequest {
+            UrlRequestHeaderManager.shared.add(freRequest: inFre0, request: ir)
+        }
 
         _currentTab = _tabList.count
         let isHidden = _currentWebView?.isHidden ?? true
@@ -700,7 +696,7 @@ public class SwiftController: NSObject {
     }
 
     func getTabDetails(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
-        var ret: FREObject? = nil
+        var ret: FREObject?
         let airArray = FREArray(className: "com.tuarua.webview.TabDetails",
                                               length: _tabList.count,
                                               fixed: true)
@@ -765,6 +761,10 @@ public class SwiftController: NSObject {
                 return FreArgError(message: "initWebView").getError(#file, #line, #column)
         }
         _initialRequest = URLRequest(argv[0])
+        if let inFre0 = argv[0], let ir = _initialRequest {
+            UrlRequestHeaderManager.shared.add(freRequest: inFre0, request: ir)
+        }
+        
         _viewPort = viewPortFre
         var realY = _viewPort.origin.y
 #if os(iOS)
@@ -792,6 +792,7 @@ public class SwiftController: NSObject {
         realY = ((mWin?.contentLayoutRect.height)! - _viewPort.size.height) - _viewPort.origin.y
 #endif
         _settings = Settings(argv[2])
+        UrlRequestHeaderManager.shared.persistRequestHeaders = _settings.persistRequestHeaders
 #if os(OSX)
         _popup = Popup()
         _popup?.popupDimensions = _settings.popupDimensions

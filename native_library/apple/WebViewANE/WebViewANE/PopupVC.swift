@@ -124,5 +124,26 @@ URLSessionTaskDelegate, URLSessionDelegate, URLSessionDownloadDelegate {
         props["bytesLoaded"] = Double(totalBytesWritten)
         props["bytesTotal"] = Double(totalBytesExpectedToWrite)
     }
+    
+    public func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction,
+                        decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        guard let url = navigationAction.request.url
+            else {
+                decisionHandler(.allow)
+                return
+        }
+        let userAction = (navigationAction.navigationType != .other)
+        if userAction && UrlRequestHeaderManager.shared.persistRequestHeaders,
+            let host = navigationAction.request.url?.host,
+            UrlRequestHeaderManager.shared.persistentRequestHeaders.index(forKey: host) != nil {
+            var request = URLRequest(url: url)
+            for header in UrlRequestHeaderManager.shared.persistentRequestHeaders[host] ?? [] {
+                request.addValue(header.1, forHTTPHeaderField: header.0)
+            }
+            decisionHandler(.cancel)
+            webView.load(request)
+        }
+        decisionHandler(.allow)
+    }
 
 }

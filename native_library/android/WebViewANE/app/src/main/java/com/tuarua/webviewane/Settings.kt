@@ -27,6 +27,7 @@ import com.tuarua.frekotlin.*
 
 class Settings() {
     var appCacheEnabled = false
+    var persistRequestHeaders = false
     var javaScriptEnabled = false
     var mediaPlaybackRequiresUserGesture = false
     var userAgent: String? = null
@@ -64,7 +65,7 @@ class Settings() {
             displayZoomControls = Boolean(androidSettings["displayZoomControls"]) ?: false
             builtInZoomControls = Boolean(androidSettings["builtInZoomControls"]) ?: false
         }
-
+        persistRequestHeaders = Boolean(fre["persistRequestHeaders"]) ?: false
         userAgent = String(fre["userAgent"])
 
         val whiteListFre = fre["urlWhiteList"]
