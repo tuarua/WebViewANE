@@ -20,57 +20,41 @@
  * OSX and/or iOS and/or Android.
  * All Rights Reserved. Tua Rua Ltd.
  */
+
 package com.tuarua.webviewane
 
-import android.util.Log
 import android.webkit.GeolocationPermissions
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import com.adobe.fre.FREContext
-import com.tuarua.frekotlin.dispatchEvent
-import org.json.JSONException
-import org.json.JSONObject
+import com.google.gson.Gson
+import com.tuarua.frekotlin.FreKotlinController
 
-class ChromeClient(private var context: FREContext) : WebChromeClient() {
-    internal var progress:Double = 0.0
+class ChromeClient(override var context: FREContext?): WebChromeClient(), FreKotlinController {
+    internal var progress = 0.0
+    private val gson = Gson()
     override fun onProgressChanged(view: WebView?, newProgress: Int) {
         super.onProgressChanged(view, newProgress)
-        val props = JSONObject()
         progress = newProgress.toDouble() * 0.01
-        try {
-            props.put("propName", "estimatedProgress")
-            props.put("value", progress)
-            props.put("tab", 0)
-            sendEvent(WebViewEvent.ON_PROPERTY_CHANGE, props.toString())
-        } catch (e: JSONException) {
-            Log.e(TAG, e.message)
-        }
+        dispatchEvent(WebViewEvent.ON_PROPERTY_CHANGE,
+                gson.toJson(mapOf("propName" to "estimatedProgress",
+                        "value" to progress,
+                        "tab" to 0)))
     }
 
     override fun onReceivedTitle(view: WebView?, title: String?) {
         super.onReceivedTitle(view, title)
-        val props = JSONObject()
-        try {
-            props.put("propName", "title")
-            props.put("value", title)
-            props.put("tab", 0)
-            sendEvent(WebViewEvent.ON_PROPERTY_CHANGE, props.toString())
-        } catch (e: JSONException) {
-            Log.e(TAG, e.message)
-        }
-
+        dispatchEvent(WebViewEvent.ON_PROPERTY_CHANGE,
+                gson.toJson(mapOf("propName" to "title",
+                        "value" to title,
+                        "tab" to 0)))
     }
 
-    override fun onGeolocationPermissionsShowPrompt(origin: String?, callback: GeolocationPermissions.Callback?) {
+    override fun onGeolocationPermissionsShowPrompt(origin: String?,
+                                                    callback: GeolocationPermissions.Callback?) {
         callback?.invoke(origin, true, false)
     }
-
-    private fun sendEvent(name: String, value: String) {
-        context.dispatchEvent(name, value)
-    }
-
-    companion object {
-        private var TAG = ChromeClient::class.java.canonicalName
-    }
+    override val TAG: String
+        get() = this::class.java.simpleName
 
 }

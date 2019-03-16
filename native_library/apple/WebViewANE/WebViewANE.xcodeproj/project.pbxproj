@@ -9,7 +9,11 @@
 /* Begin PBXBuildFile section */
 		285FE3EB871F2DD420623AEE /* WebViewANE_oc.h in Headers */ = {isa = PBXBuildFile; fileRef = 285FEBB3CADF8D704FAB5E4D /* WebViewANE_oc.h */; };
 		285FECB67C2311471C2CD119 /* WebViewANE.m in Sources */ = {isa = PBXBuildFile; fileRef = 285FE6D7F3D6356FA03A26C0 /* WebViewANE.m */; };
+		903EDA6F2237005A00DAD6C0 /* FreURLRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 903EDA6E2237005A00DAD6C0 /* FreURLRequest.swift */; };
+		903EDA702237005A00DAD6C0 /* FreURLRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 903EDA6E2237005A00DAD6C0 /* FreURLRequest.swift */; };
 		90C7382121AA1F550025C2FE /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90C7382021AA1F540025C2FE /* Cocoa.framework */; };
+		90EB0A69223C4C0A00EF5851 /* UrlRequestHeaderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90EB0A68223C4C0A00EF5851 /* UrlRequestHeaderManager.swift */; };
+		90EB0A6A223C4C0A00EF5851 /* UrlRequestHeaderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90EB0A68223C4C0A00EF5851 /* UrlRequestHeaderManager.swift */; };
 		CE0014D21F648344000AE663 /* FreMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = CE0014D11F648344000AE663 /* FreMacros.h */; };
 		CE0014D71F648483000AE663 /* FreSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0014D61F648483000AE663 /* FreSwift.framework */; };
 		CE0014D81F648483000AE663 /* FreSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0014D61F648483000AE663 /* FreSwift.framework */; };
@@ -69,7 +73,9 @@
 /* Begin PBXFileReference section */
 		285FE6D7F3D6356FA03A26C0 /* WebViewANE.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewANE.m; sourceTree = "<group>"; };
 		285FEBB3CADF8D704FAB5E4D /* WebViewANE_oc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewANE_oc.h; sourceTree = "<group>"; };
+		903EDA6E2237005A00DAD6C0 /* FreURLRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreURLRequest.swift; sourceTree = "<group>"; };
 		90C7382021AA1F540025C2FE /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
+		90EB0A68223C4C0A00EF5851 /* UrlRequestHeaderManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlRequestHeaderManager.swift; sourceTree = "<group>"; };
 		CE0014D11F648344000AE663 /* FreMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FreMacros.h; sourceTree = "<group>"; };
 		CE0014D61F648483000AE663 /* FreSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FreSwift.framework; path = Carthage/Build/iOS/FreSwift.framework; sourceTree = "<group>"; };
 		CE39808A1E58BAA90062485B /* WebViewANE_FW.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WebViewANE_FW.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -178,6 +184,7 @@
 				CEA65344202797B50034C691 /* PopupBehaviour.swift */,
 				CEFE5BEA1F1A27A9007BFBF2 /* SwiftController.swift */,
 				CEC13D401EFEE651003BDA4A /* WebViewVC.swift */,
+				90EB0A68223C4C0A00EF5851 /* UrlRequestHeaderManager.swift */,
 				CE59BDDC1EEF38C600F698DE /* Settings.swift */,
 				CE59BDDD1EEF38C600F698DE /* Configuration.swift */,
 				CE59BDDE1EEF38C600F698DE /* BackForwardList.swift */,
@@ -231,6 +238,7 @@
 			isa = PBXGroup;
 			children = (
 				CE886FC62047491300B2C8FF /* URL.swift */,
+				903EDA6E2237005A00DAD6C0 /* FreURLRequest.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -399,14 +407,14 @@
 		};
 		CE6C0813207977BE00393167 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 8;
+			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "../../../native_extension/ane/build_multi.sh\n";
 		};
@@ -437,6 +445,8 @@
 				CE6C07DC2079713400393167 /* PopupBehaviour.swift in Sources */,
 				CE6C07DD2079713400393167 /* SwiftController.swift in Sources */,
 				CE6C07DE2079713400393167 /* WebViewVC.swift in Sources */,
+				903EDA6F2237005A00DAD6C0 /* FreURLRequest.swift in Sources */,
+				90EB0A69223C4C0A00EF5851 /* UrlRequestHeaderManager.swift in Sources */,
 				CE6C07DF2079713400393167 /* Settings.swift in Sources */,
 				CE6C07E02079713400393167 /* Configuration.swift in Sources */,
 				CE6C07E12079713400393167 /* BackForwardList.swift in Sources */,
@@ -460,6 +470,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE6C08012079767800393167 /* Popup.swift in Sources */,
+				903EDA702237005A00DAD6C0 /* FreURLRequest.swift in Sources */,
 				CE6C08022079767800393167 /* PopupVC.swift in Sources */,
 				CE6C08032079767800393167 /* SwiftController+FreSwift.swift in Sources */,
 				CE6C08042079767800393167 /* SwiftController+WKNavigationDelegate.swift in Sources */,
@@ -469,6 +480,7 @@
 				CE6C08072079767800393167 /* PopupBehaviour.swift in Sources */,
 				CE6C08082079767800393167 /* SwiftController.swift in Sources */,
 				CE6C08092079767800393167 /* WebViewVC.swift in Sources */,
+				90EB0A6A223C4C0A00EF5851 /* UrlRequestHeaderManager.swift in Sources */,
 				CE6C080A2079767800393167 /* Settings.swift in Sources */,
 				CE6C080B2079767800393167 /* Configuration.swift in Sources */,
 				CE6C080C2079767800393167 /* BackForwardList.swift in Sources */,

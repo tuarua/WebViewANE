@@ -17,6 +17,9 @@
             <entry library-name="WebViewANE" library-level="project">
               <dependency linkage="Merged" />
             </entry>
+            <entry library-name="com.google.code.gson.gson-2.8.4" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
           </entries>
           <sdk name="AIRSDK_32" />
         </dependencies>
@@ -26,7 +29,7 @@
           </map>
         </compiler-options>
         <packaging-air-desktop />
-        <packaging-android use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/src/WebViewANESample-app.xml" package-file-name="Scaffold_Mobile">
+        <packaging-android enabled="true" use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/src/WebViewANESample-app.xml" package-file-name="Scaffold_Mobile">
           <files-to-package>
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/system" path-in-package="." />
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/assets" path-in-package="." />
@@ -55,6 +58,9 @@
               <dependency linkage="Merged" />
             </entry>
             <entry library-name="WebViewANE" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-name="com.google.code.gson.gson-2.8.4" library-level="project">
               <dependency linkage="Merged" />
             </entry>
           </entries>
@@ -95,6 +101,9 @@
               <dependency linkage="Merged" />
             </entry>
             <entry library-name="WebViewANE" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-name="com.google.code.gson.gson-2.8.4" library-level="project">
               <dependency linkage="Merged" />
             </entry>
           </entries>
@@ -138,6 +147,9 @@
             <entry library-name="WebViewANE" library-level="project">
               <dependency linkage="Merged" />
             </entry>
+            <entry library-name="com.google.code.gson.gson-2.8.4" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
           </entries>
           <sdk name="AIRSDK_32" />
         </dependencies>
@@ -160,7 +172,7 @@
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/ios_dependencies/device" path-in-package="." />
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/src/Assets.car" path-in-package="Assets.car" />
           </files-to-package>
-          <AirSigningOptions keystore-path="$USER_HOME$/Documents/appleCertsProv/2018/prod/Tua_Rua_Dist_WebView.p12" provisioning-profile-path="$USER_HOME$/Documents/appleCertsProv/2018/prod/Tua_Rua_Dist_Provisioning_WebView2018.mobileprovision" />
+          <AirSigningOptions keystore-path="$USER_HOME$/Documents/appleCertsProv/2019/prod/Tua_Rua_Dist_WebView.p12" provisioning-profile-path="$USER_HOME$/Documents/appleCertsProv/2019/prod/Tua_Rua_Dist_Provisioning_WebView.mobileprovision" />
         </packaging-ios>
       </configuration>
     </configurations>
@@ -182,5 +194,7 @@
     <orderEntry type="library" exported="" name="WebViewANE-mobile" level="project" />
     <orderEntry type="library" exported="" name="com.tuarua.frekotlin" level="project" />
     <orderEntry type="library" exported="" name="WebViewANE" level="project" />
+    <orderEntry type="library" exported="" name="com.distriqt.Core" level="project" />
+    <orderEntry type="library" exported="" name="com.google.code.gson.gson-2.8.4" level="project" />
   </component>
 </module>

@@ -21,6 +21,7 @@
 
 import Foundation
 import WebKit
+import FreSwift
 
 extension SwiftController: WKNavigationDelegate {
   
@@ -39,11 +40,20 @@ extension SwiftController: WKNavigationDelegate {
                         for navigationAction: WKNavigationAction,
                         windowFeatures: WKWindowFeatures) -> WKWebView? {
         if navigationAction.targetFrame == nil {
+            var request = navigationAction.request
+            let userAction = (navigationAction.navigationType != .other)
+            if userAction && _settings.persistRequestHeaders,
+                let host = navigationAction.request.url?.host,
+                UrlRequestHeaderManager.shared.persistentRequestHeaders.index(forKey: host) != nil {
+                for header in UrlRequestHeaderManager.shared.persistentRequestHeaders[host] ?? [] {
+                    request.addValue(header.1, forHTTPHeaderField: header.0)
+                }
+            }
             switch _popupBehaviour {
             case .block:
-                var props: [String: Any] = Dictionary()
+                var props = [String: Any]()
                 props["url"] = ""
-                if let url = navigationAction.request.url?.absoluteString {
+                if let url = request.url?.absoluteString {
                     props["url"] = url
                 }
                 props["tab"] = getCurrentTab(webView)
@@ -53,10 +63,10 @@ extension SwiftController: WKNavigationDelegate {
                     warning("Cannot open popup in new window on iOS. Opening in same window.")
                     webView.load(navigationAction.request)
                 #else
-                _popup?.createPopupWindow(url: navigationAction.request, configuration: _settings.configuration)
+                _popup?.createPopupWindow(url: request, configuration: _settings.configuration)
                 #endif
             case .sameWindow:
-                webView.load(navigationAction.request)
+                webView.load(request)
             }
         }
         return nil
@@ -114,26 +124,36 @@ extension SwiftController: WKNavigationDelegate {
     
     public func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction,
                         decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-        guard let newUrl = navigationAction.request.url?.absoluteString.lowercased()
+        guard let url = navigationAction.request.url
             else {
                 decisionHandler(.allow)
                 return
         }
-        
+        let newUrl = url.absoluteString.lowercased()
         if isWhiteListBlocked(url: newUrl) || isBlackListBlocked(url: newUrl) {
-            var props: [String: Any] = Dictionary()
+            var props = [String: Any]()
             props["url"] = newUrl
             props["tab"] = getCurrentTab(webView)
             dispatchEvent(name: WebViewEvent.ON_URL_BLOCKED, value: JSON(props).description)
             decisionHandler(.cancel)
         } else {
+            let userAction = (navigationAction.navigationType != .other && navigationAction.targetFrame != nil)
+            if userAction && _settings.persistRequestHeaders,
+                let host = navigationAction.request.url?.host,
+                UrlRequestHeaderManager.shared.persistentRequestHeaders.index(forKey: host) != nil {
+                var request = URLRequest(url: url)
+                for header in UrlRequestHeaderManager.shared.persistentRequestHeaders[host] ?? [] {
+                    request.addValue(header.1, forHTTPHeaderField: header.0)
+                }
+                decisionHandler(.cancel)
+                webView.load(request)
+            }
             decisionHandler(.allow)
         }
-        
     }
     
     public func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError: Error) {
-        var props: [String: Any] = Dictionary()
+        var props = [String: Any]()
         props["url"] = webView.url!.absoluteString
         props["errorCode"] = 0
         props["errorText"] = withError.localizedDescription

@@ -48,7 +48,7 @@ extension SwiftController: URLSessionTaskDelegate, URLSessionDelegate, URLSessio
                            didWriteData bytesWritten: Int64,
                            totalBytesWritten: Int64,
                            totalBytesExpectedToWrite: Int64) {
-        var props: [String: Any] = Dictionary()
+        var props = [String: Any]()
         props["id"] = downloadTask.taskIdentifier
         props["url"] = downloadTask.originalRequest?.url?.absoluteString
         props["speed"] = 0

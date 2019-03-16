@@ -41,7 +41,7 @@ using WebViewANELib.CefSharp;
 namespace WebViewANELib {
     public partial class CefView : IWebView {
         private CefWindowsFormsHost _host;
-        public string InitialUrl { private get; set; }
+        public UrlRequest InitialUrl { private get; set; }
         public int X { get; set; }
         public int Y { get; set; }
         public int ViewWidth { get; set; }
@@ -120,7 +120,10 @@ namespace WebViewANELib {
             }
 
             settings.WindowlessRenderingEnabled = false;
-            settings.BrowserSubprocessPath = BrowserSubProcessPath;
+            if (!string.IsNullOrEmpty(BrowserSubProcessPath)) {
+                settings.BrowserSubprocessPath = BrowserSubProcessPath;
+            }
+            
             settings.AcceptLanguageList = AcceptLanguageList;
             settings.Locale = Locale;
 
@@ -138,7 +141,7 @@ namespace WebViewANELib {
         }
 
         private ChromiumWebBrowser CreateNewBrowser() {
-            var browser = new ChromiumWebBrowser(InitialUrl) {
+            var browser = new ChromiumWebBrowser(InitialUrl?.Url) {
                 Dock = DockStyle.Fill
             };
 
@@ -179,7 +182,6 @@ namespace WebViewANELib {
             rh.OnUrlBlockedFired += OnUrlBlockedFired;
 
             browser.RequestHandler = rh;
-
             _tabs.Add(browser);
             TabDetails.Add(new TabDetails());
 
@@ -255,7 +257,7 @@ namespace WebViewANELib {
         }
 
         private void OnPermissionPopup(object sender, string s) {
-            Load(s);
+            CurrentBrowser.Load(s);
         }
 
         private void OnFrameLoaded(object sender, FrameLoadEndEventArgs e) {
@@ -273,9 +275,7 @@ namespace WebViewANELib {
             for (var index = 0; index < _tabs.Count; index++) {
                 if (!_tabs[index].Equals(sender)) continue;
                 var tabDetails = GetTabDetails(index);
-                if (tabDetails.Address == e.Address) {
-                    return;
-                }
+                if (tabDetails.Address == e.Address)  return;
 
                 tabDetails.Address = e.Address;
                 SendPropertyChange(@"url", e.Address, index);
@@ -286,10 +286,7 @@ namespace WebViewANELib {
             for (var index = 0; index < _tabs.Count; index++) {
                 if (!_tabs[index].Equals(sender)) continue;
                 var tabDetails = GetTabDetails(index);
-                if (tabDetails.Title == e.Title) {
-                    return;
-                }
-
+                if (tabDetails.Title == e.Title)  return;
                 tabDetails.Title = e.Title;
                 SendPropertyChange(@"title", e.Title, index);
             }
@@ -299,9 +296,7 @@ namespace WebViewANELib {
             for (var index = 0; index < _tabs.Count; index++) {
                 if (!_tabs[index].Equals(sender)) continue;
                 var tabDetails = GetTabDetails(index);
-                if (tabDetails.IsLoading == e.IsLoading) {
-                    return;
-                }
+                if (tabDetails.IsLoading == e.IsLoading) return;
 
                 tabDetails.IsLoading = e.IsLoading;
                 SendPropertyChange(@"isLoading", e.IsLoading, index);
@@ -314,9 +309,7 @@ namespace WebViewANELib {
                     SendPropertyChange(@"canGoForward", e.CanGoForward, index);
                 }
 
-                if (tabDetails.CanGoBack == e.CanGoBack) {
-                    return;
-                }
+                if (tabDetails.CanGoBack == e.CanGoBack)  return;
 
                 tabDetails.CanGoBack = e.CanGoBack;
                 SendPropertyChange(@"canGoBack", e.CanGoBack, index);
@@ -336,23 +329,23 @@ namespace WebViewANELib {
             if (!string.IsNullOrEmpty(_initialHtml)) {
                 LoadHtmlString(_initialHtml, InitialUrl);
             }
-            else if (!string.IsNullOrEmpty(InitialUrl)) {
+            else if (InitialUrl != null && !string.IsNullOrEmpty(InitialUrl.Url)) {
                 Load(InitialUrl);
             }
         }
 
-        public void Load(string url, string allowingReadAccessTo = null) {
+        public void Load(UrlRequest url, string allowingReadAccessTo = null) {
             if (_isLoaded) {
-                CurrentBrowser.Load(url);
+                CurrentBrowser.Load(url.Url);
             }
             else {
                 InitialUrl = url;
             }
         }
 
-        public void LoadHtmlString(string html, string url) {
+        public void LoadHtmlString(string html, UrlRequest url) {
             if (_isLoaded) {
-                CurrentBrowser.LoadHtml(html, url);
+                CurrentBrowser.LoadHtml(html, url.Url);
             }
             else {
                 _initialHtml = html;
@@ -364,9 +357,7 @@ namespace WebViewANELib {
             for (var index = 0; index < _tabs.Count; index++) {
                 if (!_tabs[index].Equals(sender)) continue;
                 var tabDetails = GetTabDetails(index);
-                if (tabDetails.StatusMessage == e.Value) {
-                    return;
-                }
+                if (tabDetails.StatusMessage == e.Value)  return;
 
                 tabDetails.StatusMessage = e.Value;
                 SendPropertyChange(@"statusMessage", e.Value, index);
@@ -377,7 +368,6 @@ namespace WebViewANELib {
             var json = JObject.FromObject(new {propName, value, tab});
             Context.DispatchEvent(WebViewEvent.OnPropertyChange, json.ToString());
         }
-
 
         private static void SendPropertyChange(string propName, string value, int tab) {
             var json = JObject.FromObject(new { propName, value, tab });
@@ -469,16 +459,15 @@ namespace WebViewANELib {
         public void AddEventListener(string type) {
             if (type == "keyUp") {
                 KeyboardHandler.HasKeyUp = true;
-            }
-            else if (type == "keyDown") {
+            } else if (type == "keyDown") {
                 KeyboardHandler.HasKeyDown = true;
             }
         }
 
         public void RemoveEventListener(string type) {
-            if (type == "keyUp")
+            if (type == "keyUp") {
                 KeyboardHandler.HasKeyUp = false;
-            else if (type == "keyDown") {
+            } else if (type == "keyDown") {
                 KeyboardHandler.HasKeyDown = false;
             }
         }
@@ -490,7 +479,6 @@ namespace WebViewANELib {
         public void CloseDevTools() {
             CurrentBrowser.CloseDevTools();
         }
-
 
         public async void EvaluateJavaScript(string javascript, string callback) {
             try {

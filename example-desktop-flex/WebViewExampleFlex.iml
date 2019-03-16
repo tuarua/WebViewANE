@@ -8,7 +8,7 @@
             <entry library-id="d54f9b28-6533-4456-b5db-b81a5f62d5a0">
               <dependency linkage="Merged" />
             </entry>
-            <entry library-id="672660cd-24b4-4a8c-9b01-b641d5e0ada2">
+            <entry library-name="FreSwift" library-level="project">
               <dependency linkage="Merged" />
             </entry>
           </entries>
@@ -19,9 +19,7 @@
             <entry key="compiler.locale" value="en_US" />
           </map>
         </compiler-options>
-        <packaging-air-desktop use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/src/WebViewExampleFlex-app.xml" package-file-name="WebViewExampleFlex">
-          <AirSigningOptions keystore-path="$DOCUMENTS$/tuaruaWin.p12" use-temp-certificate="false" />
-        </packaging-air-desktop>
+        <packaging-air-desktop use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/src/WebViewExampleFlex-app.xml" package-file-name="WebViewExampleFlex" />
         <packaging-android />
         <packaging-ios />
       </configuration>
@@ -33,7 +31,6 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="Flex_29" jdkType="Flex SDK Type (new)" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library" exported="">
       <library type="flex">
@@ -45,15 +42,6 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library type="flex">
-        <properties id="672660cd-24b4-4a8c-9b01-b641d5e0ada2" />
-        <CLASSES>
-          <root url="jar://$DOCUMENTS$/WebViewANE/native_extension/ane/CommonDependencies.ane!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
+    <orderEntry type="library" exported="" name="FreSwift" level="project" />
   </component>
 </module>

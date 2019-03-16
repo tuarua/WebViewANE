@@ -35,40 +35,37 @@ public class WebViewEvent extends Event {
      */
     public static const ON_PROPERTY_CHANGE:String = "WebView.OnPropertyChange";
     /**
-     * <p><strong>Placeholder only.</strong></p>
+     * <b>Placeholder only.</b>
      */
     public static const ON_CONSOLE_MESSAGE:String = "WebView.OnConsoleMessage";
     /**
      * Dispatched when download progress changes
-     * <p><strong>Windows + OSX only.</strong></p>
+     * <p><b>Windows + OSX only.</b></p>
      */
     public static const ON_DOWNLOAD_PROGRESS:String = "WebView.OnDownloadProgress";
     /**
      * Dispatched when download is marked as complete
-     * <p><strong>Windows + OSX only.</strong></p>
+     * <p><b>Windows + OSX only.</b></p>
      */
     public static const ON_DOWNLOAD_COMPLETE:String = "WebView.OnDownloadComplete";
     /**
      * Dispatched when download is cancelled
-     * <p><strong>Windows + OSX only.</strong></p>
+     * <p><b>Windows + OSX only.</b></p>
      */
     public static const ON_DOWNLOAD_CANCEL:String = "WebView.OnDownloadCancel";
 
     /**
      * Dispatched when a url is blocked (due to settings.urlWhiteList).
-     *
      */
     public static const ON_URL_BLOCKED:String = "WebView.OnUrlBlocked";
 
     /**
      * Dispatched when a pop is blocked (due to settings.popup.behaviour).
-     *
      */
     public static const ON_POPUP_BLOCKED:String = "WebView.OnPopupBlocked";
 
     /**
      * Dispatched when the pdf is saved after printToPdf() has been called.
-     *
      */
     public static const ON_PDF_PRINTED:String = "WebView.OnPdfPrinted";
     public var params:*;

@@ -36,7 +36,7 @@ public class SwiftController: NSObject {
     private static var keyUpListener: Any?
     private static var keyDownListener: Any?
     private static let zoomIncrement = CGFloat(0.1)
-    private var _initialUrl = ""
+    private var _initialRequest: URLRequest?
     private var _viewPort = CGRect(x: 0.0, y: 0.0, width: 800.0, height: 600.0)
     private var _capturedCropTo: CGRect?
     internal var _popupBehaviour = PopupBehaviour.newWindow
@@ -143,7 +143,7 @@ public class SwiftController: NSObject {
     
 #if os(OSX)
     private func sendKeyEvent(keyValue: UInt32, event: NSEvent, modifiers: String) {
-        var props: [String: Any] = Dictionary()
+        var props = [String: Any]()
         props["keyCode"] = keyValue
         props["nativeKeyCode"] = event.keyCode
         props["modifiers"] = modifiers
@@ -337,11 +337,13 @@ public class SwiftController: NSObject {
     func load(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
         guard argc > 0,
             let wv = _currentWebView,
-            let url = String(argv[0]),
-            !url.isEmpty else {
+            let freRequest = argv[0],
+            let request = URLRequest(freRequest)
+            else {
                 return FreArgError(message: "load").getError(#file, #line, #column)
         }
-        wv.load(url: url)
+        UrlRequestHeaderManager.shared.add(freRequest: freRequest, request: request)
+        wv.load(request: request)
         return nil
     }
 
@@ -367,6 +369,11 @@ public class SwiftController: NSObject {
                 return FreArgError(message: "loadFileURL").getError(#file, #line, #column)
         }
         wv.load(fileUrl: url, allowingReadAccessTo: allowingReadAccessTo)
+        return nil
+    }
+    
+    func clearRequestHeaders(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
+        UrlRequestHeaderManager.shared.remove()
         return nil
     }
 
@@ -575,6 +582,7 @@ public class SwiftController: NSObject {
         }
         return nil
     }
+    
     func addTab(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
 #if os(OSX)
         guard argc > 0,
@@ -583,19 +591,18 @@ public class SwiftController: NSObject {
                 return FreArgError(message: "addTab").getError(#file, #line, #column)
         }
 
-        if let initialUrl = String(argv[0]) {
-            _initialUrl = initialUrl
-        } else {
-            _initialUrl = ""
+        _initialRequest = URLRequest(argv[0])
+        if let inFre0 = argv[0], let ir = _initialRequest {
+            UrlRequestHeaderManager.shared.add(freRequest: inFre0, request: ir)
         }
 
         _currentTab = _tabList.count
-
+        let isHidden = _currentWebView?.isHidden ?? true
         _currentWebView = createNewBrowser(
           frame: CGRect(x: wv.frame.origin.x, y: wv.frame.origin.y,
                              width: _viewPort.size.width, height: _viewPort.size.height),
           tab: _tabList.count)
-
+        _currentWebView?.isHidden = isHidden
         _ = removeFromStage()
         _ = addToStage()
 
@@ -689,7 +696,7 @@ public class SwiftController: NSObject {
     }
 
     func getTabDetails(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
-        var ret: FREObject? = nil
+        var ret: FREObject?
         let airArray = FREArray(className: "com.tuarua.webview.TabDetails",
                                               length: _tabList.count,
                                               fixed: true)
@@ -738,8 +745,8 @@ public class SwiftController: NSObject {
         }
 #endif
 
-        if !_initialUrl.isEmpty {
-            wv.load(url: _initialUrl)
+        if let initialRequest = _initialRequest {
+            wv.load(request: initialRequest)
         }
 
         _tabList.add(wv)
@@ -753,10 +760,11 @@ public class SwiftController: NSObject {
             else {
                 return FreArgError(message: "initWebView").getError(#file, #line, #column)
         }
-        if let initialUrl = String(argv[0]) {
-            _initialUrl = initialUrl
+        _initialRequest = URLRequest(argv[0])
+        if let inFre0 = argv[0], let ir = _initialRequest {
+            UrlRequestHeaderManager.shared.add(freRequest: inFre0, request: ir)
         }
-
+        
         _viewPort = viewPortFre
         var realY = _viewPort.origin.y
 #if os(iOS)
@@ -784,6 +792,7 @@ public class SwiftController: NSObject {
         realY = ((mWin?.contentLayoutRect.height)! - _viewPort.size.height) - _viewPort.origin.y
 #endif
         _settings = Settings(argv[2])
+        UrlRequestHeaderManager.shared.persistRequestHeaders = _settings.persistRequestHeaders
 #if os(OSX)
         _popup = Popup()
         _popup?.popupDimensions = _settings.popupDimensions

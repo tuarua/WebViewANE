@@ -1,3 +1,9 @@
+### 2.2.0
+- AND/iOS/WIN/OSX: [BREAKING CHANGE] all urls are now passed as `URLRequest`
+- WIN/OSX/iOS/Android: Add Ability to add/modify custom Request Headers Issue #200
+- OSX: Fix WebView becomes visible after calling addTab() on macOS. Issue #199
+- WIN: Updated to CefSharp 71.0.2
+
 ### 2.1.1
 - OSX: Fix modifier keys not emitting keyboard events Issue #196
 - WIN: Added Windows 7 touch support Issue #194

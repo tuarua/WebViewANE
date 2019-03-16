@@ -116,13 +116,34 @@ URLSessionTaskDelegate, URLSessionDelegate, URLSessionDownloadDelegate {
                            didWriteData bytesWritten: Int64,
                            totalBytesWritten: Int64,
                            totalBytesExpectedToWrite: Int64) {
-        var props: [String: Any] = Dictionary()
+        var props = [String: Any]()
         props["id"] = downloadTask.taskIdentifier
         props["url"] = downloadTask.originalRequest?.url?.absoluteString
         props["speed"] = 0
         props["percent"] = (Float(totalBytesWritten) / Float(totalBytesExpectedToWrite)) * 100
         props["bytesLoaded"] = Double(totalBytesWritten)
         props["bytesTotal"] = Double(totalBytesExpectedToWrite)
+    }
+    
+    public func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction,
+                        decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        guard let url = navigationAction.request.url
+            else {
+                decisionHandler(.allow)
+                return
+        }
+        let userAction = (navigationAction.navigationType != .other)
+        if userAction && UrlRequestHeaderManager.shared.persistRequestHeaders,
+            let host = navigationAction.request.url?.host,
+            UrlRequestHeaderManager.shared.persistentRequestHeaders.index(forKey: host) != nil {
+            var request = URLRequest(url: url)
+            for header in UrlRequestHeaderManager.shared.persistentRequestHeaders[host] ?? [] {
+                request.addValue(header.1, forHTTPHeaderField: header.0)
+            }
+            decisionHandler(.cancel)
+            webView.load(request)
+        }
+        decisionHandler(.allow)
     }
 
 }

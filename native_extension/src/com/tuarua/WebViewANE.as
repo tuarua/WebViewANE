@@ -48,6 +48,7 @@ import flash.events.StatusEvent;
 import flash.external.ExtensionContext;
 import flash.filesystem.File;
 import flash.geom.Rectangle;
+import flash.net.URLRequest;
 import flash.utils.Dictionary;
 
 public class WebViewANE extends EventDispatcher {
@@ -261,7 +262,7 @@ public class WebViewANE extends EventDispatcher {
      * @param functionName name of the function as called from Javascript
      * @param closure Actionscript function to call when functionName is called from Javascript
      *
-     * <p>Adds a callback in the webView. These should be added before .init() is called.</p>
+     * Adds a callback in the webView. These should be added before .init() is called.
      *
      */
     public function addCallback(functionName:String, closure:Function):void {
@@ -335,7 +336,7 @@ public class WebViewANE extends EventDispatcher {
             throw new ArgumentError("functionName cannot be null");
         }
         if (!safetyCheck()) return;
-        var theRet:* = null;
+        var ret:* = null;
         var finalArray:Array = [];
         for each (var arg:* in args) {
             finalArray.push(JSON.stringify(arg));
@@ -343,11 +344,11 @@ public class WebViewANE extends EventDispatcher {
         var js:String = functionName + "(" + finalArray.toString() + ");";
         if (closure != null) {
             asCallBacks[AS_CALLBACK_PREFIX + functionName] = closure;
-            theRet = _context.call("callJavascriptFunction", js, AS_CALLBACK_PREFIX + functionName);
+            ret = _context.call("callJavascriptFunction", js, AS_CALLBACK_PREFIX + functionName);
         } else {
-            theRet = _context.call("callJavascriptFunction", js, null);
+            ret = _context.call("callJavascriptFunction", js, null);
         }
-        if (theRet is ANEError) throw theRet as ANEError;
+        if (ret is ANEError) throw ret as ANEError;
     }
 
     //to insert script or run some js, no closure fire and forget
@@ -377,16 +378,16 @@ public class WebViewANE extends EventDispatcher {
             throw new ArgumentError("code cannot be null");
         }
         if (!safetyCheck()) return;
-        var theRet:* = null;
+        var ret:* = null;
         if (closure != null) {
             var guid:String = GUID.create();
             asCallBacks[AS_CALLBACK_PREFIX + guid] = closure;
-            theRet = _context.call("evaluateJavaScript", code, AS_CALLBACK_PREFIX + guid);
+            ret = _context.call("evaluateJavaScript", code, AS_CALLBACK_PREFIX + guid);
         } else {
-            theRet = _context.call("evaluateJavaScript", code, null);
+            ret = _context.call("evaluateJavaScript", code, null);
         }
-        if (theRet is ANEError) {
-            throw theRet as ANEError;
+        if (ret is ANEError) {
+            throw ret as ANEError;
         }
     }
 
@@ -400,7 +401,7 @@ public class WebViewANE extends EventDispatcher {
      * @param backgroundColor value of the view's background color in ARGB format.*
      * <p>Initialises the webView. N.B. The webView is set to visible = false initially.</p>
      */
-    public function init(stage:Stage, viewPort:Rectangle, initialUrl:String = null,
+    public function init(stage:Stage, viewPort:Rectangle, initialUrl:URLRequest = null,
                          settings:Settings = null, scaleFactor:Number = 1.0,
                          backgroundColor:uint = 0xFFFFFFFF):void {
         if (viewPort == null) {
@@ -420,10 +421,8 @@ public class WebViewANE extends EventDispatcher {
             _settings = new Settings();
         }
 
-        var theRet:* = _context.call("init", initialUrl, _viewPort, _settings, scaleFactor, backgroundColor);
-        if (theRet is ANEError) {
-            throw theRet as ANEError;
-        }
+        var ret:* = _context.call("init", initialUrl, _viewPort, _settings, scaleFactor, backgroundColor);
+        if (ret is ANEError) throw ret as ANEError;
 
         if ((os.isWindows || os.isOSX)) {
             if (this.hasEventListener(KeyboardEvent.KEY_UP)) {
@@ -456,10 +455,10 @@ public class WebViewANE extends EventDispatcher {
     /**
      * @param url
      */
-    public function load(url:String):void {
+    public function load(url:URLRequest):void {
         if (!safetyCheck()) return;
-        var theRet:* = _context.call("load", url);
-        if (theRet is ANEError) throw theRet as ANEError;
+        var ret:* = _context.call("load", url);
+        if (ret is ANEError) throw ret as ANEError;
     }
 
     /**
@@ -467,13 +466,13 @@ public class WebViewANE extends EventDispatcher {
      * @param html HTML provided as a string
      * @param baseUrl url which will display as the address
      *
-     * <p>Loads a HTML string into the webView.</p>
+     * Loads a HTML string into the webView.
      *
      */
-    public function loadHTMLString(html:String, baseUrl:String = ""):void {
+    public function loadHTMLString(html:String, baseUrl:URLRequest = null):void {
         if (!safetyCheck()) return;
-        var theRet:* = _context.call("loadHTMLString", html, baseUrl);
-        if (theRet is ANEError) throw theRet as ANEError;
+        var ret:* = _context.call("loadHTMLString", html, baseUrl);
+        if (ret is ANEError) throw ret as ANEError;
     }
 
     /**
@@ -481,17 +480,17 @@ public class WebViewANE extends EventDispatcher {
      * @param url full path to the file on the local file system
      * @param allowingReadAccessTo path to the root of the document
      *
-     * <p>Loads a file from the local file system into the webView.</p>
+     * Loads a file from the local file system into the webView.
      *
      */
     public function loadFileURL(url:String, allowingReadAccessTo:String):void {
         if (!safetyCheck()) return;
-        var theRet:* = _context.call("loadFileURL", url, allowingReadAccessTo);
-        if (theRet is ANEError) throw theRet as ANEError;
+        var ret:* = _context.call("loadFileURL", url, allowingReadAccessTo);
+        if (ret is ANEError) throw ret as ANEError;
     }
 
     /**
-     * <p>Reloads the current page.</p>
+     * Reloads the current page.
      */
     public function reload():void {
         if (!safetyCheck()) return;
@@ -499,7 +498,7 @@ public class WebViewANE extends EventDispatcher {
     }
 
     /**
-     * <p>Stops loading the current page.</p>
+     * Stops loading the current page.
      */
     public function stopLoading():void {
         if (!safetyCheck()) return;
@@ -507,7 +506,7 @@ public class WebViewANE extends EventDispatcher {
     }
 
     /**
-     * <p>Navigates back.</p>
+     * Navigates back.
      */
     public function goBack():void {
         if (!safetyCheck()) return;
@@ -515,7 +514,7 @@ public class WebViewANE extends EventDispatcher {
     }
 
     /**
-     * <p>Navigates forward.</p>
+     * Navigates forward.
      */
     public function goForward():void {
         if (!safetyCheck()) return;
@@ -535,11 +534,19 @@ public class WebViewANE extends EventDispatcher {
     /**
      *
      * @return
-     * <p><strong>Ignored on Windows and Android.</strong></p>
+     * <p><b>Ignored on Windows and Android.</b></p>
      */
     public function backForwardList():BackForwardList {
         if (!safetyCheck()) return new BackForwardList();
         return _context.call("backForwardList") as BackForwardList;
+    }
+
+    /**
+     * Clears any persistent requestHeaders added to URLRequest
+     */
+    public function clearRequestHeaders():void {
+        if (!safetyCheck()) return;
+        _context.call("clearRequestHeaders");
     }
 
     /**
@@ -551,8 +558,8 @@ public class WebViewANE extends EventDispatcher {
     }
 
     /**
-     * <p>Clears the browser cache. Available on iOS, OSX, Android only</p>
-     * <p><strong>Ignored on Windows.</strong></p>
+     * Clears the browser cache. Available on iOS, OSX, Android only.
+     * <p><b>Ignored on Windows.</b></p>
      * <p>You cannot clear the cache on Windows while CEF is running. This is a known limitation.
      * You can delete the contents of the value of your settings.cef.cachePath using Actionscript
      * only before you call .init(). Calling after .dispose() may cause file locks as the files may
@@ -592,7 +599,7 @@ public class WebViewANE extends EventDispatcher {
     /**
      *
      * @return Whether the page allows magnification functionality
-     * <p><strong>Ignored on iOS.</strong></p>
+     * <b>Ignored on iOS.</b>
      */
     public function allowsMagnification():Boolean {
         if (!safetyCheck()) return false;
@@ -615,24 +622,24 @@ public class WebViewANE extends EventDispatcher {
     }
 
     /** Windows + OSX only */
-    public function addTab(initialUrl:String = null):void {
+    public function addTab(initialUrl:URLRequest = null):void {
         if (!safetyCheck()) return;
-        var theRet:* = _context.call("addTab", initialUrl);
-        if (theRet is ANEError) throw theRet as ANEError;
+        var ret:* = _context.call("addTab", initialUrl);
+        if (ret is ANEError) throw ret as ANEError;
     }
 
     /** Windows + OSX only*/
     public function closeTab(index:int):void {
         if (!safetyCheck()) return;
-        var theRet:* = _context.call("closeTab", index);
-        if (theRet is ANEError) throw theRet as ANEError;
+        var ret:* = _context.call("closeTab", index);
+        if (ret is ANEError) throw ret as ANEError;
     }
 
     /**Windows + OSX only*/
     public function set currentTab(value:int):void {
         if (!safetyCheck()) return;
-        var theRet:* = _context.call("setCurrentTab", value);
-        if (theRet is ANEError) throw theRet as ANEError;
+        var ret:* = _context.call("setCurrentTab", value);
+        if (ret is ANEError) throw ret as ANEError;
     }
 
     /**Windows + OSX only*/
@@ -643,9 +650,9 @@ public class WebViewANE extends EventDispatcher {
 
     public function get tabDetails():Vector.<TabDetails> {
         if (!safetyCheck()) return new Vector.<TabDetails>();
-        var theRet:* = _context.call("getTabDetails");
-        if (theRet is ANEError) throw theRet as ANEError;
-        return Vector.<TabDetails>(theRet);
+        var ret:* = _context.call("getTabDetails");
+        if (ret is ANEError) throw ret as ANEError;
+        return Vector.<TabDetails>(ret);
     }
 
     /** @private */
@@ -658,8 +665,8 @@ public class WebViewANE extends EventDispatcher {
     }
 
     /**
-     * <p>This cleans up the webview and all related processes.</p>
-     * <p><strong>It is important to call this when the app is exiting.</strong></p>
+     * This cleans up the webview and all related processes.
+     * <p><b>It is important to call this when the app is exiting.</b></p>
      * @example
      * <listing version="3.0">
      * NativeApplication.nativeApplication.addEventListener(flash.events.Event.EXITING, onExiting);
@@ -669,7 +676,7 @@ public class WebViewANE extends EventDispatcher {
      *
      */
     public function dispose():void {
-        if (!_context) {
+        if (_context == null) {
             trace("[" + NAME + "] Error. ANE Already in a disposed or failed state...");
             return;
         }
@@ -684,7 +691,7 @@ public class WebViewANE extends EventDispatcher {
     }
 
     /**
-     * <p>Shows the Chromium dev tools on Windows</p>
+     * Shows the Chromium dev tools on Windows
      * <p>Enables Inspect Element on right click on OSX</p>
      * <p>On Android use Chrome on connected computer and navigate to chrome://inspect</p>
      */
@@ -694,7 +701,7 @@ public class WebViewANE extends EventDispatcher {
     }
 
     /**
-     * <p>Close the Chromium dev tools</p>
+     * Close the Chromium dev tools
      * <p>Disables Inspect Element on right click on OSX</p>
      * <p>On Android disconnects from chrome://inspect</p>
      */
@@ -723,19 +730,19 @@ public class WebViewANE extends EventDispatcher {
      *
      * <p>Specify either code or scriptUrl. These are injected into the main Frame when it is loaded. Call before
      * load() method</p>
-     * <p><strong>Ignored on Android.</strong></p>
+     * <p><b>Ignored on Android.</b></p>
      */
     public function injectScript(code:String = null, scriptUrl:String = null, startLine:uint = 0):void {
         if (code == null && scriptUrl == null) {
             throw new ArgumentError("code and scriptUrl cannot be null");
         }
-        var theRet:* = _context.call("injectScript", code, scriptUrl, startLine);
-        if (theRet is ANEError) throw theRet as ANEError;
+        var ret:* = _context.call("injectScript", code, scriptUrl, startLine);
+        if (ret is ANEError) throw ret as ANEError;
     }
 
     /**
-     * <p>prints the webView.</p>
-     * <p><strong>Windows only.</strong></p>
+     * Prints the webView.
+     * <p><b>Windows only.</b></p>
      */
     public function print():void {
         _context.call("print");
@@ -744,26 +751,26 @@ public class WebViewANE extends EventDispatcher {
     /**
      * @param savePath path to save the pdf to.
      *
-     * <p>prints the webView to a pdf.</p>
-     * <p><strong>Windows only.</strong></p>
+     * Prints the webView to a pdf.
+     * <p><b>Windows only.</b></p>
      */
     public function printToPdf(savePath:String):void {
         if (!safetyCheck()) return;
-        var theRet:* = _context.call("printToPdf", savePath);
-        if (theRet is ANEError) throw theRet as ANEError;
+        var ret:* = _context.call("printToPdf", savePath);
+        if (ret is ANEError) throw ret as ANEError;
     }
 
     /**
-     * <p>Deletes all cookies</p>
+     * Deletes all cookies
      */
     public function deleteCookies():void {
         if (!safetyCheck()) return;
-        var theRet:* = _context.call("deleteCookies");
-        if (theRet is ANEError) throw theRet as ANEError;
+        var ret:* = _context.call("deleteCookies");
+        if (ret is ANEError) throw ret as ANEError;
     }
 
     /**
-     * <p>Captures the webView to BitmapData.</p>
+     * Captures the webView to BitmapData.
      *
      * @param onComplete function(result:BitmapData)
      * @param cropTo optionally crops to the supplied Rectangle
@@ -771,16 +778,16 @@ public class WebViewANE extends EventDispatcher {
     public function capture(onComplete:Function, cropTo:Rectangle = null):void {
         if (!safetyCheck()) return;
         _onCaptureComplete = onComplete;
-        var theRet:* = _context.call("capture", cropTo);
-        if (theRet is ANEError) throw theRet as ANEError;
+        var ret:* = _context.call("capture", cropTo);
+        if (ret is ANEError) throw ret as ANEError;
     }
 
     /** @private */
     private function getCapturedBitmapData():BitmapData {
         if (!safetyCheck()) return null;
-        var theRet:* = _context.call("getCapturedBitmapData");
-        if (theRet is ANEError) throw theRet as ANEError;
-        return theRet as BitmapData;
+        var ret:* = _context.call("getCapturedBitmapData");
+        if (ret is ANEError) throw ret as ANEError;
+        return ret as BitmapData;
     }
 
     /**
@@ -790,8 +797,8 @@ public class WebViewANE extends EventDispatcher {
         if (_visible == value) return;
         _visible = value;
         if (!safetyCheck()) return;
-        var theRet:* = _context.call("setVisible", value);
-        if (theRet is ANEError) throw theRet as ANEError;
+        var ret:* = _context.call("setVisible", value);
+        if (ret is ANEError) throw ret as ANEError;
     }
 
     /**
@@ -807,7 +814,7 @@ public class WebViewANE extends EventDispatcher {
 
     /**
      * @param value
-     * <p>Sets the viewPort of the webView.</p>
+     * Sets the viewPort of the webView.
      */
     public function set viewPort(value:Rectangle):void {
         if (viewPort == null) {
@@ -815,8 +822,8 @@ public class WebViewANE extends EventDispatcher {
         }
         _viewPort = value;
         if (!safetyCheck()) return;
-        var theRet:* = _context.call("setViewPort", _viewPort);
-        if (theRet is ANEError) throw theRet as ANEError;
+        var ret:* = _context.call("setViewPort", _viewPort);
+        if (ret is ANEError) throw ret as ANEError;
     }
 
     /** @private */

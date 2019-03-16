@@ -28,6 +28,7 @@ public struct Settings {
     private var _userAgent: String?
     private var _urlWhiteList: [String] = []
     private var _urlBlackList: [String] = []
+    private var _persistRequestHeaders = false
     private var _enableDownloads = false
     private var _hasContextMenu = true
     private var _downloadPath: String?
@@ -70,6 +71,10 @@ public struct Settings {
         return _hasContextMenu
     }
     
+    public var persistRequestHeaders: Bool {
+        return _persistRequestHeaders
+    }
+    
     init?(_ freObject: FREObject?) {
         guard let rv = freObject,
             let urlWhiteList = [String](rv["urlWhiteList"]),
@@ -78,6 +83,7 @@ public struct Settings {
             let cacheEnabled = Bool(rv["cacheEnabled"]),
             let contextMenu = rv["contextMenu"],
             let hasContextMenu = Bool(contextMenu["enabled"]),
+            let persistRequestHeaders = Bool(rv["persistRequestHeaders"]),
             let popup = rv["popup"],
             let behaviour = Int(popup["behaviour"]),
             let popupBehaviour = PopupBehaviour(rawValue: behaviour),
@@ -95,6 +101,7 @@ public struct Settings {
         _hasContextMenu = hasContextMenu
         _popupBehaviour = popupBehaviour
         _popupDimensions = (popupW, popupH)
+        _persistRequestHeaders = persistRequestHeaders
 #if os(iOS)
         _configuration.websiteDataStore = cacheEnabled
             ? WKWebsiteDataStore.default()

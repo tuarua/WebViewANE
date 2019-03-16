@@ -35,6 +35,7 @@ extension SwiftController: FreSwiftMainController {
         functionsToSet["\(prefix)setVisible"] = setVisible
         functionsToSet["\(prefix)loadHTMLString"] = loadHTMLString
         functionsToSet["\(prefix)loadFileURL"] = loadFileURL
+        functionsToSet["\(prefix)clearRequestHeaders"] = clearRequestHeaders
         functionsToSet["\(prefix)onFullScreen"] = onFullScreen
         functionsToSet["\(prefix)reloadFromOrigin"] = reloadFromOrigin
         functionsToSet["\(prefix)stopLoading"] = stopLoading
@@ -87,6 +88,8 @@ extension SwiftController: FreSwiftMainController {
     
     @objc public func setFREContext(ctx: FREContext) {
         self.context = FreContextSwift.init(freContext: ctx)
+        // Turn on FreSwift logging
+        FreSwiftLogger.shared.context = context
     }
     
     @objc public func onLoad() {

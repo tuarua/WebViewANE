@@ -20,6 +20,6 @@
 
 	<extensions>
         <extensionID>com.tuarua.WebViewANE</extensionID>
-        <extensionID>com.tuarua.CommonDependencies</extensionID>
+		<extensionID>com.tuarua.FreSwift</extensionID>
     </extensions>
 </application>

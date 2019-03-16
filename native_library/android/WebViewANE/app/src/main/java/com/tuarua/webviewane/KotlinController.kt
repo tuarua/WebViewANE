@@ -39,8 +39,8 @@ typealias FREArgv = ArrayList<FREObject>
 
 @Suppress("unused", "UNUSED_PARAMETER", "UNCHECKED_CAST")
 class KotlinController : FreKotlinMainController {
-    private var isAdded: Boolean = false
-    private var scaleFactor: Float = 1.0f
+    private var isAdded = false
+    private var scaleFactor = 1.0f
     private var webViewController: WebViewController? = null
     private var capturedBitmapData: Bitmap? = null
 
@@ -50,7 +50,7 @@ class KotlinController : FreKotlinMainController {
 
     fun init(ctx: FREContext, argv: FREArgv): FREObject? {
         argv.takeIf { argv.size > 4 } ?: return FreArgException("init")
-        val initialUrl = String(argv[0]) ?: return null
+        val initialUrl = URLRequest(argv[0])
         val viewPort = RectF(argv[1])
         val settings = Settings(argv[2])
         Float(argv[3])?.let { scaleFactor = it }
@@ -90,28 +90,27 @@ class KotlinController : FreKotlinMainController {
             isAdded = true
         }
         webViewController?.visible = visible
-
         return null
     }
 
     fun loadHTMLString(ctx: FREContext, argv: FREArgv): FREObject? {
         argv.takeIf { argv.size > 0 } ?: return FreArgException("loadHTMLString")
-        val data = String(argv[0]) ?: return FreConversionException("data")
+        val data = String(argv[0]) ?: return null
         webViewController?.loadHTMLString(data)
         return null
     }
 
     fun load(ctx: FREContext, argv: FREArgv): FREObject? {
         argv.takeIf { argv.size > 0 } ?: return FreArgException("load")
-        val url = String(argv[0]) ?: return FreConversionException("url")
-        webViewController?.loadUrl(url)
+        val request = URLRequest(argv[0])
+        webViewController?.loadUrl(request)
         return null
     }
 
     fun loadFileURL(ctx: FREContext, argv: FREArgv): FREObject? {
         argv.takeIf { argv.size > 0 } ?: return FreArgException("loadFileURL")
-        val url = String(argv[0]) ?: return FreConversionException("url")
-        webViewController?.loadFileURL(url)
+        val url = String(argv[0]) ?: return null
+        webViewController?.loadFileUrl(url)
         return null
     }
 
@@ -120,9 +119,14 @@ class KotlinController : FreKotlinMainController {
         return null
     }
 
+    fun clearRequestHeaders(ctx: FREContext, argv: FREArgv): FREObject? {
+        UrlRequestHeaderManager.remove()
+        return null
+    }
+
     fun go(ctx: FREContext, argv: FREArgv): FREObject? {
         argv.takeIf { argv.size > 0 } ?: return FreArgException("go")
-        val offset = Int(argv[0]) ?: return FreConversionException("offset")
+        val offset = Int(argv[0]) ?: return null
         webViewController?.go(offset)
         return null
     }
@@ -163,7 +167,7 @@ class KotlinController : FreKotlinMainController {
 
     fun callJavascriptFunction(ctx: FREContext, argv: FREArgv): FREObject? {
         argv.takeIf { argv.size > 1 } ?: return FreArgException("callJavascriptFunction")
-        val js = String(argv[0]) ?: return FreConversionException("js")
+        val js = String(argv[0]) ?: return null
         val callback = String(argv[1])
         webViewController?.evaluateJavascript(js, callback)
         return null
@@ -171,7 +175,7 @@ class KotlinController : FreKotlinMainController {
 
     fun evaluateJavaScript(ctx: FREContext, argv: FREArgv): FREObject? {
         argv.takeIf { argv.size > 1 } ?: return FreArgException("evaluateJavaScript")
-        val js = String(argv[0]) ?: return FreConversionException("js")
+        val js = String(argv[0]) ?: return null
         val callback = String(argv[1])
         webViewController?.evaluateJavascript(js, callback)
         return null
@@ -251,6 +255,7 @@ class KotlinController : FreKotlinMainController {
         get() = _context
         set(value) {
             _context = value
+            FreKotlinLogger.context = _context
         }
 
 }
