@@ -83,7 +83,7 @@ public class Settings {
     public var useTransparentBackground:Boolean = false;
     /**
      * Persists any headers which have been added to URLRequests across multiple requests (on the same domain).
-     * <p>Windows, OSX, iOS only.</p>
+     * <p><b>Windows, OSX, iOS only.</b></p>
      */
     public var persistRequestHeaders:Boolean = false;
 

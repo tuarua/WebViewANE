@@ -247,6 +247,7 @@
      </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:Settings:persistRequestHeaders"><apiName>persistRequestHeaders</apiName><shortdesc>
      Persists any headers which have been added to URLRequests across multiple requests (on the same domain).</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>false</apiData><apiType value="Boolean"/></apiValueDef><apiDesc>
      Persists any headers which have been added to URLRequests across multiple requests (on the same domain).
+     <p><b>Windows, OSX, iOS only.</b></p>
      </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:Settings:popup"><apiName>popup</apiName><shortdesc/><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>unknown</apiData><apiValueClassifier>com.tuarua.webview.popup:Popup</apiValueClassifier></apiValueDef></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:Settings:urlBlackList"><apiName>urlBlackList</apiName><shortdesc>
      Vector of urls to block example .pdf,.zip - This uses a simple string match.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>unknown</apiData><apiType value="Vector$String"/></apiValueDef><apiDesc>
      Vector of urls to block example .pdf,.zip - This uses a simple string match. There is no regex support.
