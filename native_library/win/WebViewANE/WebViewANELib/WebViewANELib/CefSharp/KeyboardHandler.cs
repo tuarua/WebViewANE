@@ -9,8 +9,8 @@ namespace WebViewANELib.CefSharp {
         private const string OnKeyUp = "WebView.OnKeyUp";
         private const string OnKeyDown = "WebView.OnKeyDown";
         private readonly FreContextSharp _context;
-        public bool HasKeyUp { set; get; }
-        public bool HasKeyDown { set; get; }
+        public bool HasKeyUp { set; private get; }
+        public bool HasKeyDown { set; private get; }
 
         public KeyboardHandler(FreContextSharp context) {
             _context = context;
@@ -28,10 +28,10 @@ namespace WebViewANELib.CefSharp {
             if (KeyType.RawKeyDown != type && KeyType.KeyUp != type) return false;
             if (HasKeyUp && KeyType.KeyUp == type || HasKeyDown && KeyType.RawKeyDown == type) {
                 var json = JObject.FromObject(new {
-                    type, 
-                    keyCode = windowsKeyCode, 
-                    nativeKeyCode, 
-                    modifiers = modifiers.ToString(), 
+                    type,
+                    keyCode = windowsKeyCode,
+                    nativeKeyCode,
+                    modifiers = modifiers.ToString(),
                     isSystemKey
                 });
                 _context.DispatchEvent(KeyType.KeyUp == type ? OnKeyUp : OnKeyDown, json.ToString());

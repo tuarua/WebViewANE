@@ -4,8 +4,7 @@
 
 using CefSharp;
 
-namespace WebViewANELib.CefSharp
-{
+namespace WebViewANELib.CefSharp {
     internal class MenuHandler : IContextMenuHandler {
         //private const int ShowDevTools = 26501;
         //private const int CloseDevTools = 26502;
@@ -15,12 +14,12 @@ namespace WebViewANELib.CefSharp
             //To disable the menu then call clear
             model.Clear();
 
-           /* //Removing existing menu item
-            //bool removed = model.Remove(CefMenuCommand.ViewSource); // Remove "View Source" option
-
-            //Add new custom menu items
-            model.AddItem((CefMenuCommand) ShowDevTools, "Show DevTools");
-            model.AddItem((CefMenuCommand) CloseDevTools, "Close DevTools");*/
+            /* //Removing existing menu item
+             //bool removed = model.Remove(CefMenuCommand.ViewSource); // Remove "View Source" option
+ 
+             //Add new custom menu items
+             model.AddItem((CefMenuCommand) ShowDevTools, "Show DevTools");
+             model.AddItem((CefMenuCommand) CloseDevTools, "Close DevTools");*/
 
             //model.AddItem(CefMenuCommand.Back, "Back");
         }

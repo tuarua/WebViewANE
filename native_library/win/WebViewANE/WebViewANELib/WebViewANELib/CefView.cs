@@ -66,7 +66,7 @@ namespace WebViewANELib {
         public ArrayList WhiteList { private get; set; }
         public ArrayList BlackList { private get; set; }
         public bool ContextMenuEnabled { private get; set; }
-        public ChromiumWebBrowser CurrentBrowser { get; private set; }
+        private ChromiumWebBrowser CurrentBrowser { get; set; }
 
         private readonly ArrayList _tabs = new ArrayList();
         public ArrayList TabDetails { get; } = new ArrayList();
@@ -74,7 +74,7 @@ namespace WebViewANELib {
         private bool _isLoaded;
         private string _initialHtml;
         public int CurrentTab { get; private set; }
-        public KeyboardHandler KeyboardHandler;
+        private KeyboardHandler KeyboardHandler;
 
         public static FreContextSharp Context;
         private const double ZoomIncrement = 0.10;

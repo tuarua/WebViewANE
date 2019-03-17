@@ -44,10 +44,10 @@ namespace WebViewANELib.Edge {
             return File.Open(_allowingReadAccessTo + rel, FileMode.Open, FileAccess.Read);
         }
 
-        internal static string RelativeUriToString(Uri uri) {
+        private static string RelativeUriToString(Uri uri) {
             return new StringBuilder(
-                uri.GetComponents(UriComponents.PathAndQuery, 
-                    UriFormat.SafeUnescaped), 
+                uri.GetComponents(UriComponents.PathAndQuery,
+                    UriFormat.SafeUnescaped),
                 MaxUrlLength).ToString();
         }
     }

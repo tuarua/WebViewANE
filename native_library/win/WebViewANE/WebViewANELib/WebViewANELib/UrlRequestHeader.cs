@@ -25,10 +25,12 @@
 
 using FREObject = System.IntPtr;
 using TuaRua.FreSharp;
+
 namespace WebViewANELib {
     public class UrlRequestHeader {
         public string Name { get; }
         public string Value { get; }
+
         public UrlRequestHeader(FREObject freObject) {
             Name = freObject.GetProp("name").AsString();
             Value = freObject.GetProp("value").AsString();

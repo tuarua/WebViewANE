@@ -360,8 +360,8 @@ public class WebViewANESample extends Sprite {
     }
 
     private function loadWithRequestHeaders(event:MouseEvent):void {
-        var req:URLRequest = new URLRequest("http://www.adobe.com");
-        req.requestHeaders.push(new URLRequestHeader("Cookie", "WebViewANE"));
+        var req:URLRequest = new URLRequest("http://www.google.com");
+        req.requestHeaders.push(new URLRequestHeader("Cookie", "BROWSER=WebViewANE;"));
         webView.load(req);
     }
 

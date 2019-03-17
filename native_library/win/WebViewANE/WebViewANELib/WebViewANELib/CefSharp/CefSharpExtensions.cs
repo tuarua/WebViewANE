@@ -33,8 +33,8 @@ namespace WebViewANELib.CefSharp {
             var json = JObject.FromObject(new {
                 message = response.Message,
                 error = (string) null,
-                result = response.Success && response.Result != null 
-                    ? response.Result 
+                result = response.Success && response.Result != null
+                    ? response.Result
                     : null as object,
                 success = response.Success,
                 callbackName

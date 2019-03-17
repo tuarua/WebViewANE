@@ -22,10 +22,13 @@
 //  All Rights Reserved. Tua Rua Ltd.
 
 #endregion
+
 using System;
 using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
@@ -34,11 +37,15 @@ using Newtonsoft.Json.Linq;
 using TuaRua.FreSharp;
 using WebViewANELib.Edge;
 
+// ReSharper disable UnusedAutoPropertyAccessor.Local
+
 namespace WebViewANELib {
+    [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
     public partial class EdgeView : IWebView {
         public int CurrentTab { get; private set; }
         public ArrayList TabDetails { get; } = new ArrayList();
         private readonly ArrayList _tabs = new ArrayList();
+        private WebView _currentBrowser;
         public int X { get; set; }
         public int Y { get; set; }
         public int ViewWidth { get; set; }
@@ -49,16 +56,15 @@ namespace WebViewANELib {
         public UrlRequest InitialUrl { private get; set; }
         public ArrayList WhiteList { private get; set; }
         public ArrayList BlackList { private get; set; }
-        public WebView CurrentBrowser { get; private set; }
-
+        
         public static FreContextSharp Context;
 
         public void Init() {
             InitializeComponent();
             IsManipulationEnabled = true;
             var browser = CreateNewBrowser();
-            CurrentBrowser = browser;
-            MainGrid.Children.Add(CurrentBrowser);
+            _currentBrowser = browser;
+            MainGrid.Children.Add(_currentBrowser);
         }
 
         private WebView CreateNewBrowser() {
@@ -78,7 +84,7 @@ namespace WebViewANELib {
             browser.NavigationCompleted += OnNavigationCompleted;
             browser.NewWindowRequested += OnNewWindowRequested;
             browser.ScriptNotify += OnScriptNotify;
-            browser.Loaded+= OnLoaded;
+            browser.Loaded += OnLoaded;
 
             _tabs.Add(browser);
             TabDetails.Add(new TabDetails());
@@ -88,7 +94,7 @@ namespace WebViewANELib {
 
         private void OnLoaded(object sender, RoutedEventArgs e) {
             if (InitialUrl != null && !string.IsNullOrEmpty(InitialUrl.Url)) {
-                CurrentBrowser.Navigate(new Uri(InitialUrl.Url));
+                _currentBrowser.Navigate(new Uri(InitialUrl.Url));
             }
         }
 
@@ -146,12 +152,12 @@ namespace WebViewANELib {
             for (var index = 0; index < _tabs.Count; index++) {
                 if (!_tabs[index].Equals(sender)) continue;
                 var tabDetails = GetTabDetails(index);
-                if (tabDetails.Title == CurrentBrowser.DocumentTitle) {
+                if (tabDetails.Title == _currentBrowser.DocumentTitle) {
                     return;
                 }
 
-                tabDetails.Title = CurrentBrowser.DocumentTitle;
-                SendPropertyChange(@"title", CurrentBrowser.DocumentTitle, index);
+                tabDetails.Title = _currentBrowser.DocumentTitle;
+                SendPropertyChange(@"title", _currentBrowser.DocumentTitle, index);
             }
         }
 
@@ -172,7 +178,7 @@ namespace WebViewANELib {
             for (var index = 0; index < _tabs.Count; index++) {
                 if (!_tabs[index].Equals(browser)) continue;
                 var tabDetails = GetTabDetails(index);
-                if (!tabDetails.IsLoading)  return;
+                if (!tabDetails.IsLoading) return;
 
                 tabDetails.IsLoading = false;
                 SendPropertyChange(@"isLoading", false, index);
@@ -209,35 +215,46 @@ namespace WebViewANELib {
             Context.DispatchEvent(WebViewEvent.OnPropertyChange, json.ToString());
         }
 
-        private void Load(string url, string allowingReadAccessTo = null) {
-            if (allowingReadAccessTo != null) {
-                var fName = Path.GetFileName(url);
-                if (fName == null) return;
-                var relativeUrl = new Uri(fName, UriKind.Relative);
-                var resolver = new StreamResolver(allowingReadAccessTo);
-                try {
-                    CurrentBrowser.NavigateToLocalStreamUri(relativeUrl, resolver);
-                }
-                catch (Exception e) {
-                    Context.DispatchEvent("TRACE", e.Message);
-                }
+        private void Load(string url) {
+            try {
+                _currentBrowser.Navigate(new Uri(url));
             }
-            else {
-                try {
-                    CurrentBrowser.Navigate(new Uri(url));
-                }
-                catch (Exception e) {
-                    Context.DispatchEvent("TRACE", e.Message);
-                }
+            catch (Exception e) {
+                Context.DispatchEvent("TRACE", e.Message);
+            }
+        }
+
+        private void LoadFile(string url, string allowingReadAccessTo) {
+            var fName = Path.GetFileName(url);
+            if (fName == null) return;
+            var relativeUrl = new Uri(fName, UriKind.Relative);
+            var resolver = new StreamResolver(allowingReadAccessTo);
+            try {
+                _currentBrowser.NavigateToLocalStreamUri(relativeUrl, resolver);
+            }
+            catch (Exception e) {
+                Context.DispatchEvent("TRACE", e.Message);
             }
         }
 
         public void Load(UrlRequest url, string allowingReadAccessTo = null) {
-            Load(url.Url, allowingReadAccessTo);
+            if (allowingReadAccessTo != null) {
+                LoadFile(url.Url, allowingReadAccessTo);
+            }
+            else {
+                try {
+                    var headers = url.RequestHeaders;
+                    _currentBrowser.Navigate(new Uri(url.Url), HttpMethod.Get, null,
+                        headers.Count > 0 ? headers : null);
+                }
+                catch (Exception e) {
+                    Context.DispatchEvent("TRACE", e.Message);
+                }
+            }
         }
 
         public void LoadHtmlString(string html, UrlRequest url) {
-            CurrentBrowser.NavigateToString(html);
+            _currentBrowser.NavigateToString(html);
         }
 
         public void ZoomIn() {
@@ -249,26 +266,26 @@ namespace WebViewANELib {
         }
 
         public void ForceFocus() {
-            CurrentBrowser.Focus();
+            _currentBrowser.Focus();
         }
 
         public void Reload(bool ignoreCache = false) {
-            CurrentBrowser.Refresh();
+            _currentBrowser.Refresh();
         }
 
         public void Stop() {
-            CurrentBrowser.Stop();
+            _currentBrowser.Stop();
         }
 
         public void Back() {
-            if (CurrentBrowser.CanGoBack) {
-                CurrentBrowser.GoBack();
+            if (_currentBrowser.CanGoBack) {
+                _currentBrowser.GoBack();
             }
         }
 
         public void Forward() {
-            if (CurrentBrowser.CanGoForward) {
-                CurrentBrowser.GoForward();
+            if (_currentBrowser.CanGoForward) {
+                _currentBrowser.GoForward();
             }
         }
 
@@ -297,7 +314,7 @@ namespace WebViewANELib {
         }
 
         public async void EvaluateJavaScript(string javascript, string callback) {
-            var task = CurrentBrowser.InvokeScriptAsync("eval", javascript);
+            var task = _currentBrowser.InvokeScriptAsync("eval", javascript);
             await task.ContinueWith(previous => {
                 JObject json;
                 if (previous.Status == TaskStatus.RanToCompletion) {
@@ -324,7 +341,7 @@ namespace WebViewANELib {
         }
 
         public void EvaluateJavaScript(string javascript) {
-            CurrentBrowser.InvokeScript("eval", javascript);
+            _currentBrowser.InvokeScript("eval", javascript);
         }
 
         public void DeleteCookies() {

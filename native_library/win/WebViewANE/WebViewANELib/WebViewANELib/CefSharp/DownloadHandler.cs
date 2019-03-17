@@ -16,8 +16,7 @@ namespace WebViewANELib.CefSharp {
         }
 
         public void OnBeforeDownload(IWebBrowser chromiumWebBrowser, IBrowser browser, DownloadItem downloadItem,
-            IBeforeDownloadCallback callback)
-        {
+            IBeforeDownloadCallback callback) {
             var handler = OnBeforeDownloadFired;
             handler?.Invoke(this, downloadItem);
 
