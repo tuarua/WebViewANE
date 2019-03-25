@@ -1,3 +1,6 @@
+### 2.2.1
+- WIN Edge: Add Ability to add/modify custom Request Headers Issue #200
+
 ### 2.2.0
 - AND/iOS/WIN/OSX: [BREAKING CHANGE] all urls are now passed as `URLRequest`
 - WIN/OSX/iOS/Android: Add Ability to add/modify custom Request Headers Issue #200

@@ -140,10 +140,10 @@ public class WebViewANESample extends Sprite {
         settings.cacheEnabled = true;
 
         // enable Edge View on Windows if available
-        /*
+
         settings.engine = (os.isWindows && os.majorVersion >= 10 && os.buildVersion >= 17134)
                 ? WebEngine.EDGE
-                : WebEngine.DEFAULT;*/
+                : WebEngine.DEFAULT;
 
         settings.enableDownloads = true;
         settings.contextMenu.enabled = true; //enable/disable right click
@@ -190,7 +190,7 @@ public class WebViewANESample extends Sprite {
         fwdBtn.alpha = backBtn.alpha = 0.4;
 
         refreshBtn.x = 100;
-        refreshBtn.addEventListener(MouseEvent.CLICK, onRefresh);
+        refreshBtn.addEventListener(MouseEvent.CLICK, loadWithRequestHeaders);
 
         cancelBtn.x = 100;
         cancelBtn.addEventListener(MouseEvent.CLICK, onCancel);
