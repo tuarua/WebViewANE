@@ -192,7 +192,7 @@ public class StarlingRoot extends Sprite {
     }
 
     private static function copyHTMLFiles():void {
-
+        if (!os.isAndroid) return;
         var inFile1:File = File.applicationDirectory.resolvePath("jsTest.html");
         var inStream1:FileStream = new FileStream();
         inStream1.open(inFile1, FileMode.READ);
@@ -234,9 +234,15 @@ public class StarlingRoot extends Sprite {
             jsBtn.visible = false;
             webBtn.visible = true;
             progress.visible = false;
-            var localHTML1:File = File.applicationStorageDirectory.resolvePath("jsTest.html");
-            if (localHTML1.exists) {
-                webView.loadFileURL(localHTML1.nativePath, File.applicationStorageDirectory.nativePath);
+            var localHTML:File;
+            if (os.isAndroid) {
+                // Android only allows files to be loaded from the applicationStorageDirectory
+                localHTML = File.applicationStorageDirectory.resolvePath("jsTest.html");
+                webView.loadFileURL(localHTML.nativePath, File.applicationStorageDirectory.nativePath);
+            } else {
+                // iOS 12.2 only allows local files to be loaded from the main bundle path
+                localHTML = File.applicationDirectory.resolvePath("jsTest.html");
+                webView.loadFileURL(localHTML.nativePath, File.applicationDirectory.nativePath);
             }
         }
     }
