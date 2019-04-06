@@ -141,9 +141,9 @@ public class WebViewANESample extends Sprite {
 
         // enable Edge View on Windows if available
 
-        settings.engine = (os.isWindows && os.majorVersion >= 10 && os.buildVersion >= 17134)
+        /*settings.engine = (os.isWindows && os.majorVersion >= 10 && os.buildVersion >= 17134)
                 ? WebEngine.EDGE
-                : WebEngine.DEFAULT;
+                : WebEngine.DEFAULT;*/
 
         settings.enableDownloads = true;
         settings.contextMenu.enabled = true; //enable/disable right click
