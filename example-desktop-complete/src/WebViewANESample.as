@@ -190,7 +190,7 @@ public class WebViewANESample extends Sprite {
         fwdBtn.alpha = backBtn.alpha = 0.4;
 
         refreshBtn.x = 100;
-        refreshBtn.addEventListener(MouseEvent.CLICK, loadWithRequestHeaders);
+        refreshBtn.addEventListener(MouseEvent.CLICK, onRefresh);
 
         cancelBtn.x = 100;
         cancelBtn.addEventListener(MouseEvent.CLICK, onCancel);
