@@ -22,7 +22,9 @@
 //  All Rights Reserved. Tua Rua Ltd.
 
 #endregion
+
 using System.Collections;
+
 namespace WebViewANELib {
     internal interface IWebView {
         void Init();

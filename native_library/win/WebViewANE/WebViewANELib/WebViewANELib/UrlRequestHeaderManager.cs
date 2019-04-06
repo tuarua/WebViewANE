@@ -1,4 +1,5 @@
 ﻿#region License
+
 // Copyright 2017 Tua Rua Ltd.
 // 
 //  Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,6 +15,7 @@
 //  limitations under the License.
 // 
 //  All Rights Reserved. Tua Rua Ltd.
+
 #endregion
 
 using System;
@@ -27,8 +29,8 @@ namespace WebViewANELib {
         private static readonly object SyncLock = new object();
 
         // Constructor (protected)
-        protected UrlRequestHeaderManager() {
-            Headers = new Dictionary<string, List<UrlRequestHeader>>();
+        private UrlRequestHeaderManager() {
+            Headers = new Dictionary<string, List<KeyValuePair<string, string>>>();
         }
 
         public static UrlRequestHeaderManager GetInstance() {
@@ -38,12 +40,12 @@ namespace WebViewANELib {
                     _instance = new UrlRequestHeaderManager();
                 }
             }
-
             return _instance;
         }
 
-        public Dictionary<string, List<UrlRequestHeader>> Headers { get; }
+        public Dictionary<string, List<KeyValuePair<string, string>>> Headers { get; }
         public bool PersistRequestHeaders { get; set; }
+
         public void Add(UrlRequest urlRequest) {
             var uri = new Uri(urlRequest.Url);
             if (urlRequest.RequestHeaders.Count == 0) {
@@ -68,6 +70,5 @@ namespace WebViewANELib {
         public void Remove() {
             Headers.Clear();
         }
-
     }
 }

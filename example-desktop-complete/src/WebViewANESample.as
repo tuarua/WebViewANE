@@ -140,8 +140,8 @@ public class WebViewANESample extends Sprite {
         settings.cacheEnabled = true;
 
         // enable Edge View on Windows if available
-        /*
-        settings.engine = (os.isWindows && os.majorVersion >= 10 && os.buildVersion >= 17134)
+
+        /*settings.engine = (os.isWindows && os.majorVersion >= 10 && os.buildVersion >= 17134)
                 ? WebEngine.EDGE
                 : WebEngine.DEFAULT;*/
 
@@ -360,8 +360,8 @@ public class WebViewANESample extends Sprite {
     }
 
     private function loadWithRequestHeaders(event:MouseEvent):void {
-        var req:URLRequest = new URLRequest("http://www.adobe.com");
-        req.requestHeaders.push(new URLRequestHeader("Cookie", "WebViewANE"));
+        var req:URLRequest = new URLRequest("http://www.google.com");
+        req.requestHeaders.push(new URLRequestHeader("Cookie", "BROWSER=WebViewANE;"));
         webView.load(req);
     }
 

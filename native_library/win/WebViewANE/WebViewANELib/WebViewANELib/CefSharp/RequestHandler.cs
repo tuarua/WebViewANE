@@ -25,7 +25,8 @@ namespace WebViewANELib.CefSharp {
                    _blackList.Cast<string>().Any(s => url.ToLower().Contains(s.ToLower()));
         }
 
-        public bool OnBeforeBrowse(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request, bool userGesture,
+        public bool OnBeforeBrowse(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request,
+            bool userGesture,
             bool isRedirect) {
             if (!IsWhiteListBlocked(request.Url) && !IsBlackListBlocked(request.Url)) return false;
             var handler = OnUrlBlockedFired;
@@ -63,8 +64,9 @@ namespace WebViewANELib.CefSharp {
                 var domainHeaders = userHeaders[host];
                 var headers = request.Headers;
                 foreach (var domainHeader in domainHeaders) {
-                    headers[domainHeader.Name] = domainHeader.Value;
+                    headers[domainHeader.Key] = domainHeader.Value;
                 }
+
                 request.Headers = headers;
                 if (!manager.PersistRequestHeaders) {
                     manager.Remove(host);

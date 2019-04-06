@@ -1,4 +1,5 @@
 ﻿#region License
+
 // Copyright 2017 Tua Rua Ltd.
 // 
 //  Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,6 +15,7 @@
 //  limitations under the License.
 // 
 //  All Rights Reserved. Tua Rua Ltd.
+
 #endregion
 
 using System;
@@ -26,7 +28,8 @@ using WebViewANELib.Touch;
 namespace WebViewANELib.CefSharp {
     public class CefWindowsFormsHost : WindowsFormsHost {
         static CefWindowsFormsHost() {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(CefWindowsFormsHost), new FrameworkPropertyMetadata(typeof(CefWindowsFormsHost)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(CefWindowsFormsHost),
+                new FrameworkPropertyMetadata(typeof(CefWindowsFormsHost)));
         }
 
         protected override IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled) {

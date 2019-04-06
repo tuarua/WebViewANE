@@ -19,14 +19,12 @@ public class WebViewExampleAS3 extends Sprite {
     }
 
     protected function onActivated(event:Event):void {
-        if (!hasActivated) {
-            hasActivated = true;
-            var viewport:Rectangle = new Rectangle(0, 0, 1024, 768);
-            var settings:Settings = new Settings();
-            webview.init(stage, viewport, new URLRequest("https://html5test.com"), settings, 1, 0xFFF1F1F1);
-            webview.visible = true;
-        }
-
+        if (hasActivated) return;
+        hasActivated = true;
+        var viewport:Rectangle = new Rectangle(0, 0, 1024, 768);
+        var settings:Settings = new Settings();
+        webview.init(stage, viewport, new URLRequest("https://html5test.com"), settings, 1, 0xFFF1F1F1);
+        webview.visible = true;
     }
 }
 }

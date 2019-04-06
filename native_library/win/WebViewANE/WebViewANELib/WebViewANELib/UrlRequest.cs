@@ -24,25 +24,39 @@
 #endregion
 
 using System.Collections.Generic;
+using System.Linq;
 using FREObject = System.IntPtr;
 using TuaRua.FreSharp;
+
 namespace WebViewANELib {
     public class UrlRequest {
         public string Url { get; }
-        public List<UrlRequestHeader> RequestHeaders { get; }
-        public UrlRequest(FREObject freObject) {
-            RequestHeaders = new List<UrlRequestHeader>();
+        public List<KeyValuePair<string, string>> RequestHeaders { get; }
+
+        private readonly string[] _acceptedHeaders = {
+            "accept", "accept-encoding", "accept-language", "authorization",
+            "cache-control", "connection", "cookie", "date", "from", "host", "if-modified-since",
+            "if-unmodified-since", "max-forwards", "proxy-authorization", "referer", "user-agent"
+        };
+
+        public UrlRequest(FREObject freObject, bool usingEdge) {
+            RequestHeaders = new List<KeyValuePair<string, string>>();
             if (freObject.Type() == FreObjectTypeSharp.Null) return;
             Url = freObject.GetProp("url").AsString();
             var requestHeadersFre = new FREArray(freObject.GetProp("requestHeaders"));
             foreach (var requestHeader in requestHeadersFre) {
-                RequestHeaders.Add(new UrlRequestHeader(requestHeader));
+                var rh = new UrlRequestHeader(requestHeader);
+                if (usingEdge && !_acceptedHeaders.Contains(rh.Name.ToLower())) {
+                    continue;
+                }
+
+                RequestHeaders.Add(new KeyValuePair<string, string>(rh.Name, rh.Value));
             }
         }
 
         public UrlRequest(string url) {
             Url = url;
-            RequestHeaders = new List<UrlRequestHeader>();
+            RequestHeaders = new List<KeyValuePair<string, string>>();
         }
     }
 }

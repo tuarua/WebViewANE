@@ -156,7 +156,7 @@ namespace WebViewANELib {
             return FREObject.Zero;
         }
 
-        public FREObject InjectScript(FREContext ctx, uint argc, FREObject[] argv) {
+        private FREObject InjectScript(FREContext ctx, uint argc, FREObject[] argv) {
             try {
                 var injectCodeFre = argv[0];
                 var injectScriptUrlFre = argv[1];
@@ -178,7 +178,7 @@ namespace WebViewANELib {
             return FREObject.Zero;
         }
 
-        public FREObject InitView(FREContext ctx, uint argc, FREObject[] argv) {
+        private FREObject InitView(FREContext ctx, uint argc, FREObject[] argv) {
             FreSharpLogger.GetInstance().Context = Context;
             _airWindow = System.Diagnostics.Process.GetCurrentProcess().MainWindowHandle;
             if (_airWindow == Hwnd.Zero) {
@@ -187,15 +187,18 @@ namespace WebViewANELib {
                         "Please see https://forum.starling-framework.org/topic/webviewane-for-osx/page/7?replies=201#post-105524 for more details")
                     .RawValue;
             }
+
             bool useTransparentBackground;
             try {
                 dynamic settings = new FreObjectSharp(argv[2]);
+                _useEdge = settings.engine == 1;
+                
                 UrlRequestHeaderManager.GetInstance().PersistRequestHeaders = settings.persistRequestHeaders;
                 dynamic cefSettings = new FreObjectSharp(settings.cef);
                 var freUrl = argv[0];
                 UrlRequest initialUrl = null;
                 if (FreObjectTypeSharp.Null != freUrl.Type()) {
-                    initialUrl = new UrlRequest(freUrl);
+                    initialUrl = new UrlRequest(freUrl, _useEdge);
                     UrlRequestHeaderManager.GetInstance().Add(initialUrl);
                 }
 
@@ -212,8 +215,6 @@ namespace WebViewANELib {
                     argsDict.Add(key, val);
                 }
                 
-                _useEdge = settings.engine == 1;
-
                 ArrayList whiteList = settings.urlWhiteList.AsArrayList();
                 ArrayList blackList = settings.urlBlackList.AsArrayList();
 
@@ -259,6 +260,7 @@ namespace WebViewANELib {
                         PopupDimensions = new Tuple<int, int>(dimensions.width, dimensions.height)
                     };
                 }
+
                 _view.InitialUrl = initialUrl;
                 _view.WhiteList = whiteList;
                 _view.BlackList = blackList;
@@ -288,7 +290,7 @@ namespace WebViewANELib {
             var source = _useEdge
                 ? new HwndSource(parameters) {RootVisual = (EdgeView) _view}
                 : new HwndSource(parameters) {RootVisual = (CefView) _view};
-            
+
             if (useTransparentBackground && source.CompositionTarget != null) {
                 source.CompositionTarget.BackgroundColor = Colors.Transparent;
             }
@@ -300,9 +302,9 @@ namespace WebViewANELib {
             return FREObject.Zero;
         }
 
-        public FREObject AddTab(FREContext ctx, uint argc, FREObject[] argv) {
+        private FREObject AddTab(FREContext ctx, uint argc, FREObject[] argv) {
             try {
-                _view.InitialUrl = new UrlRequest(argv[0]);
+                _view.InitialUrl = new UrlRequest(argv[0], _useEdge);
                 _view.AddTab();
             }
             catch (Exception e) {
@@ -312,7 +314,7 @@ namespace WebViewANELib {
             return FREObject.Zero;
         }
 
-        public FREObject CloseTab(FREContext ctx, uint argc, FREObject[] argv) {
+        private FREObject CloseTab(FREContext ctx, uint argc, FREObject[] argv) {
             try {
                 _view.CloseTab(argv[0].AsInt());
             }
@@ -323,7 +325,7 @@ namespace WebViewANELib {
             return FREObject.Zero;
         }
 
-        public FREObject SetCurrentTab(FREContext ctx, uint argc, FREObject[] argv) {
+        private FREObject SetCurrentTab(FREContext ctx, uint argc, FREObject[] argv) {
             try {
                 _view.SetCurrentTab(argv[0].AsInt());
             }
@@ -334,11 +336,11 @@ namespace WebViewANELib {
             return FREObject.Zero;
         }
 
-        public FREObject GetCurrentTab(FREContext ctx, uint argc, FREObject[] argv) {
+        private FREObject GetCurrentTab(FREContext ctx, uint argc, FREObject[] argv) {
             return _view.CurrentTab.ToFREObject();
         }
 
-        public FREObject GetTabDetails(FREContext ctx, uint argc, FREObject[] argv) {
+        private FREObject GetTabDetails(FREContext ctx, uint argc, FREObject[] argv) {
             var tabDetails = _view.TabDetails;
             try {
                 var vecTabDetails = new FREArray("com.tuarua.webview.TabDetails", tabDetails.Count, true);
@@ -363,7 +365,7 @@ namespace WebViewANELib {
             }
         }
 
-        public FREObject SetVisible(FREContext ctx, uint argc, FREObject[] argv) {
+        private FREObject SetVisible(FREContext ctx, uint argc, FREObject[] argv) {
             try {
                 var visible = argv[0].AsBool();
                 WinApi.ShowWindow(_webViewWindow,
@@ -377,7 +379,7 @@ namespace WebViewANELib {
             return FREObject.Zero;
         }
 
-        public FREObject SetViewPort(FREContext ctx, uint argc, FREObject[] argv) {
+        private FREObject SetViewPort(FREContext ctx, uint argc, FREObject[] argv) {
             System.Windows.Rect viewPort;
             try {
                 viewPort = argv[0].AsRect();
@@ -426,14 +428,15 @@ namespace WebViewANELib {
                 flags |= WindowPositionFlags.SWP_NOMOVE;
             }
 
-            WinApi.SetWindowPos(_webViewWindow, new Hwnd(0), _view.X, _view.Y, _view.ViewWidth, _view.ViewHeight, flags);
+            WinApi.SetWindowPos(_webViewWindow, new Hwnd(0), _view.X, _view.Y, _view.ViewWidth, _view.ViewHeight,
+                flags);
             WinApi.UpdateWindow(_webViewWindow);
             return FREObject.Zero;
         }
 
-        public FREObject Load(FREContext ctx, uint argc, FREObject[] argv) {
+        private FREObject Load(FREContext ctx, uint argc, FREObject[] argv) {
             try {
-                var request = new UrlRequest(argv[0]);
+                var request = new UrlRequest(argv[0], _useEdge);
                 UrlRequestHeaderManager.GetInstance().Add(request);
                 _view.Load(request, argc > 1 ? argv[1].AsString() : null);
             }
@@ -444,7 +447,7 @@ namespace WebViewANELib {
             return FREObject.Zero;
         }
 
-        public FREObject LoadFileUrl(FREContext ctx, uint argc, FREObject[] argv) {
+        private FREObject LoadFileUrl(FREContext ctx, uint argc, FREObject[] argv) {
             try {
                 _view.Load(new UrlRequest(argv[0].AsString()), argc > 1 ? argv[1].AsString() : null);
             }
@@ -455,13 +458,13 @@ namespace WebViewANELib {
             return FREObject.Zero;
         }
 
-        public FREObject LoadHtmlString(FREContext ctx, uint argc, FREObject[] argv) {
+        private FREObject LoadHtmlString(FREContext ctx, uint argc, FREObject[] argv) {
             try {
                 var html = argv[0].AsString();
                 var freUrl = argv[1];
-                _view.LoadHtmlString(html, FreObjectTypeSharp.Null == freUrl.Type() 
-                    ? null 
-                    : new UrlRequest(freUrl)
+                _view.LoadHtmlString(html, FreObjectTypeSharp.Null == freUrl.Type()
+                    ? null
+                    : new UrlRequest(freUrl, _useEdge)
                 );
             }
             catch (Exception e) {
@@ -471,72 +474,74 @@ namespace WebViewANELib {
             return FREObject.Zero;
         }
 
-        public FREObject Reload(FREContext ctx, uint argc, FREObject[] argv) {
+        private FREObject Reload(FREContext ctx, uint argc, FREObject[] argv) {
             _view.Reload();
             return FREObject.Zero;
         }
 
-        public FREObject ReloadFromOrigin(FREContext ctx, uint argc, FREObject[] argv) {
+        private FREObject ReloadFromOrigin(FREContext ctx, uint argc, FREObject[] argv) {
             _view.Reload(true);
             return FREObject.Zero;
         }
 
-        public FREObject StopLoading(FREContext ctx, uint argc, FREObject[] argv) {
+        private FREObject StopLoading(FREContext ctx, uint argc, FREObject[] argv) {
             _view.Stop();
             return FREObject.Zero;
         }
 
-        public FREObject ClearRequestHeaders(FREContext ctx, uint argc, FREObject[] argv) {
+        private FREObject ClearRequestHeaders(FREContext ctx, uint argc, FREObject[] argv) {
             try {
                 UrlRequestHeaderManager.GetInstance().Remove();
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 return new FreException(e).RawValue;
             }
+
             return FREObject.Zero;
         }
 
-        public FREObject BackForwardList(FREContext ctx, uint argc, FREObject[] argv) {
+        private FREObject BackForwardList(FREContext ctx, uint argc, FREObject[] argv) {
             return FREObject.Zero;
         }
 
-        public FREObject Go(FREContext ctx, uint argc, FREObject[] argv) {
+        private FREObject Go(FREContext ctx, uint argc, FREObject[] argv) {
             return FREObject.Zero;
         }
 
-        public FREObject GoBack(FREContext ctx, uint argc, FREObject[] argv) {
+        private FREObject GoBack(FREContext ctx, uint argc, FREObject[] argv) {
             _view.Back();
             return FREObject.Zero;
         }
 
-        public FREObject GoForward(FREContext ctx, uint argc, FREObject[] argv) {
+        private FREObject GoForward(FREContext ctx, uint argc, FREObject[] argv) {
             _view.Forward();
             return FREObject.Zero;
         }
 
-        public FREObject ShutDown(FREContext ctx, uint argc, FREObject[] argv) {
+        private FREObject ShutDown(FREContext ctx, uint argc, FREObject[] argv) {
             OnFinalize();
             return FREObject.Zero;
         }
 
-        public FREObject ShowDevTools(FREContext ctx, uint argc, FREObject[] argv) {
+        private FREObject ShowDevTools(FREContext ctx, uint argc, FREObject[] argv) {
             _view.ShowDevTools();
             return FREObject.Zero;
         }
 
-        public FREObject CloseDevTools(FREContext ctx, uint argc, FREObject[] argv) {
+        private FREObject CloseDevTools(FREContext ctx, uint argc, FREObject[] argv) {
             _view.CloseDevTools();
             return FREObject.Zero;
         }
 
-        public FREObject ClearCache(FREContext ctx, uint argc, FREObject[] argv) {
+        private FREObject ClearCache(FREContext ctx, uint argc, FREObject[] argv) {
             return FREObject.Zero;
         }
 
-        public FREObject OnFullScreen(FREContext ctx, uint argc, FREObject[] argv) {
+        private FREObject OnFullScreen(FREContext ctx, uint argc, FREObject[] argv) {
             return FREObject.Zero;
         }
 
-        public FREObject EvaluateJavaScript(FREContext ctx, uint argc, FREObject[] argv) {
+        private FREObject EvaluateJavaScript(FREContext ctx, uint argc, FREObject[] argv) {
             try {
                 var js = argv[0].AsString();
                 var callbackFre = argv[1];
@@ -556,7 +561,7 @@ namespace WebViewANELib {
             return FREObject.Zero;
         }
 
-        public FREObject CallJavascriptFunction(FREContext ctx, uint argc, FREObject[] argv) {
+        private FREObject CallJavascriptFunction(FREContext ctx, uint argc, FREObject[] argv) {
             try {
                 var js = argv[0].AsString();
                 var callbackFre = argv[1];
@@ -575,12 +580,12 @@ namespace WebViewANELib {
             return FREObject.Zero;
         }
 
-        public FREObject Print(FREContext ctx, uint argc, FREObject[] argv) {
+        private FREObject Print(FREContext ctx, uint argc, FREObject[] argv) {
             _view.Print();
             return FREObject.Zero;
         }
 
-        public FREObject PrintToPdf(FREContext ctx, uint argc, FREObject[] argv) {
+        private FREObject PrintToPdf(FREContext ctx, uint argc, FREObject[] argv) {
             var path = argv[0].AsString();
             if (!string.IsNullOrEmpty(path)) {
                 _view.PrintToPdfAsync(path);
@@ -589,17 +594,17 @@ namespace WebViewANELib {
             return FREObject.Zero;
         }
 
-        public FREObject AddEventListener(FREContext ctx, uint argc, FREObject[] argv) {
+        private FREObject AddEventListener(FREContext ctx, uint argc, FREObject[] argv) {
             _view.AddEventListener(argv[0].AsString());
             return FREObject.Zero;
         }
 
-        public FREObject RemoveEventListener(FREContext ctx, uint argc, FREObject[] argv) {
+        private FREObject RemoveEventListener(FREContext ctx, uint argc, FREObject[] argv) {
             _view.RemoveEventListener(argv[0].AsString());
             return FREObject.Zero;
         }
 
-        public FREObject GetOsVersion(FREContext ctx, uint argc, FREObject[] argv) {
+        private FREObject GetOsVersion(FREContext ctx, uint argc, FREObject[] argv) {
             return new[] {
                 Environment.OSVersion.Version.Major,
                 Environment.OSVersion.Version.Minor,
@@ -607,11 +612,11 @@ namespace WebViewANELib {
             }.ToFREObject();
         }
 
-        public FREObject DeleteCookies(FREContext ctx, uint argc, FREObject[] argv) {
+        private FREObject DeleteCookies(FREContext ctx, uint argc, FREObject[] argv) {
             _view.DeleteCookies();
             return FREObject.Zero;
         }
-        
+
         public override void OnFinalize() {
             Cef.Shutdown();
         }
