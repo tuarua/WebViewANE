@@ -33,9 +33,6 @@ import com.adobe.fre.FREObject
 import com.tuarua.frekotlin.*
 import com.tuarua.frekotlin.display.FreBitmapDataKotlin
 import com.tuarua.frekotlin.geom.RectF
-import java.util.ArrayList
-
-typealias FREArgv = ArrayList<FREObject>
 
 @Suppress("unused", "UNUSED_PARAMETER", "UNCHECKED_CAST")
 class KotlinController : FreKotlinMainController {
