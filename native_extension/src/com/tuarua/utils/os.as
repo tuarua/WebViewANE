@@ -35,7 +35,7 @@ public final class os {
     }
 
     private static function getVersion():void {
-        var arr:Array = WebViewANE.context.call("getOsVersion") as Array;
+        var arr:Vector.<int> = WebViewANE.context.call("getOsVersion") as Vector.<int>;
         _majorVersion = arr[0];
         _minorVersion = arr[1];
         _buildVersion = arr[2];

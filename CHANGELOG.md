@@ -1,3 +1,9 @@
+### 2.3.0
+- AND: Updated to FreKotlin 1.7.0
+- Upgraded to AIR 32.0.0.116
+- OSX/iOS: Updated to FreSwift 3.1.0
+- WIN: Updated to FreSharp 2.2.0
+
 ### 2.2.1
 - WIN Edge: Add Ability to add/modify custom Request Headers Issue #200
 
