@@ -1,3 +1,6 @@
+### 2.3.1
+- AND: Fix capture bug Issue #207
+
 ### 2.3.0
 - AND: Updated to FreKotlin 1.7.0
 - Upgraded to AIR 32.0.0.116
