@@ -9,9 +9,9 @@ fwSuffix="_FW"
 libSuffix="_LIB"
 
 AIR_SDK="/Users/eoinlandy/SDKs/AIRSDK_32"
-echo $AIR_SDK
+echo ${AIR_SDK}
 
-if [ ! -d "$pathtome/../../native_library/apple/$PROJECTNAME/Build/Release-iphonesimulator/" ]; then
+if [[ ! -d "$pathtome/../../native_library/apple/$PROJECTNAME/Build/Release-iphonesimulator/" ]]; then
 echo "No Simulator build. Build using Xcode"
 exit
 fi
@@ -113,7 +113,7 @@ if [ -e "$pathtome/platforms/ios/device/Frameworks/$PROJECTNAME$fwSuffix.framewo
 then
 for dylib in "$pathtome/platforms/ios/device/Frameworks/$PROJECTNAME$fwSuffix.framework/Frameworks/*"
 do
-mv -f $dylib "$pathtome/../../example-mobile/ios_dependencies/device/Frameworks"
+mv -f ${dylib} "$pathtome/../../example-mobile/ios_dependencies/device/Frameworks"
 done
 rm -r "$pathtome/platforms/ios/device/Frameworks/$PROJECTNAME$fwSuffix.framework/Frameworks"
 fi
@@ -124,7 +124,7 @@ if [ -e "$pathtome/platforms/ios/simulator/Frameworks/$PROJECTNAME$fwSuffix.fram
 then
 for dylib in "$pathtome/platforms/ios/simulator/Frameworks/$PROJECTNAME$fwSuffix.framework/Frameworks/*"
 do
-mv -f $dylib "$pathtome/../../example-mobile/ios_dependencies/simulator/Frameworks"
+mv -f ${dylib} "$pathtome/../../example-mobile/ios_dependencies/simulator/Frameworks"
 done
 if [ -d "$pathtome/platforms/ios/device/Frameworks/$PROJECTNAME$fwSuffix.framework/Frameworks" ]; then
 rm -r "$pathtome/platforms/ios/device/Frameworks/$PROJECTNAME$fwSuffix.framework/Frameworks"
@@ -155,11 +155,11 @@ echo "Building ANE."
 -swc "$pathtome/$PROJECTNAME.swc" \
 -platform Android-ARM \
 -C "$pathtome/platforms/android" "library.swf" "classes.jar" \
-com.tuarua.$PROJECTNAME-res/. \
+com.tuarua.${PROJECTNAME}-res/. \
 -platformoptions "$pathtome/platforms/android/platform.xml" \
 -platform Android-x86 \
 -C "$pathtome/platforms/android" "library.swf" "classes.jar" \
-com.tuarua.$PROJECTNAME-res/. \
+com.tuarua.${PROJECTNAME}-res/. \
 -platformoptions "$pathtome/platforms/android/platform.xml" \
 -platform iPhone-x86  -C "$pathtome/platforms/ios/simulator" "library.swf" "Frameworks" "lib$PROJECTNAME.a" \
 -platformoptions "$pathtome/platforms/ios/platform.xml" \

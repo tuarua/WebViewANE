@@ -6,21 +6,21 @@ pathtome=$0
 pathtome="${pathtome%/*}"
 
 
-echo $pathtome
+echo ${pathtome}
 
 PROJECTNAME=WebViewANE
 fwSuffix="_FW"
 libSuffix="_LIB"
 
 AIR_SDK="/Users/eoinlandy/SDKs/AIRSDK_32"
-echo $AIR_SDK
+echo ${AIR_SDK}
 
-if [ ! -d "$pathtome/../../native_library/ios/$PROJECTNAME/Build/Products/Release-iphonesimulator/" ]; then
+if [[ ! -d "$pathtome/../../native_library/ios/$PROJECTNAME/Build/Products/Release-iphonesimulator/" ]]; then
 echo "No Simulator build. Build using Xcode"
 exit
 fi
 
-if [ ! -d "$pathtome/../../native_library/ios/$PROJECTNAME/Build/Products/Release-iphoneos/" ]; then
+if [[ ! -d "$pathtome/../../native_library/ios/$PROJECTNAME/Build/Products/Release-iphoneos/" ]]; then
 echo "No Device build. Build using Xcode"
 exit
 fi
@@ -34,19 +34,19 @@ fi
 if [ ! -d "$pathtome/platforms/ios" ]; then
 mkdir "$pathtome/platforms/ios"
 fi
-if [ ! -d "$pathtome/platforms/ios/simulator" ]; then
+if [[ ! -d "$pathtome/platforms/ios/simulator" ]]; then
 mkdir "$pathtome/platforms/ios/simulator"
 fi
-if [ ! -d "$pathtome/platforms/ios/simulator/Frameworks" ]; then
+if [[ ! -d "$pathtome/platforms/ios/simulator/Frameworks" ]]; then
 mkdir "$pathtome/platforms/ios/simulator/Frameworks"
 fi
-if [ ! -d "$pathtome/platforms/ios/device" ]; then
+if [[ ! -d "$pathtome/platforms/ios/device" ]]; then
 mkdir "$pathtome/platforms/ios/device"
 fi
-if [ ! -d "$pathtome/platforms/ios/device/Frameworks" ]; then
+if [[ ! -d "$pathtome/platforms/ios/device/Frameworks" ]]; then
 mkdir "$pathtome/platforms/ios/device/Frameworks"
 fi
-if [ ! -d "$pathtome/platforms/default" ]; then
+if [[ ! -d "$pathtome/platforms/default" ]]; then
 mkdir "$pathtome/platforms/default"
 fi
 
@@ -83,38 +83,38 @@ cp -R -L "$pathtome/../../native_library/ios/$PROJECTNAME/Build/Products/Release
 
 echo "Copying Swift dylibs into place for device."
 #Device
-if [ -e "$pathtome/platforms/ios/device/Frameworks/$PROJECTNAME$fwSuffix.framework/Frameworks" ]
+if [[ -e "$pathtome/platforms/ios/device/Frameworks/$PROJECTNAME$fwSuffix.framework/Frameworks" ]]
 then
 for dylib in "$pathtome/platforms/ios/device/Frameworks/$PROJECTNAME$fwSuffix.framework/Frameworks/*"
 do
-mv -f $dylib "$pathtome/../../example-mobile/ios_dependencies/device/Frameworks"
+mv -f ${dylib} "$pathtome/../../example-mobile/ios_dependencies/device/Frameworks"
 done
 rm -r "$pathtome/platforms/ios/device/Frameworks/$PROJECTNAME$fwSuffix.framework/Frameworks"
 fi
 
 echo "Copying Swift dylibs into place for simulator."
 #Simulator
-if [ -e "$pathtome/platforms/ios/simulator/Frameworks/$PROJECTNAME$fwSuffix.framework/Frameworks" ]
+if [[ -e "$pathtome/platforms/ios/simulator/Frameworks/$PROJECTNAME$fwSuffix.framework/Frameworks" ]]
 then
 for dylib in "$pathtome/platforms/ios/simulator/Frameworks/$PROJECTNAME$fwSuffix.framework/Frameworks/*"
 do
-mv -f $dylib "$pathtome/../../example-mobile/ios_dependencies/simulator/Frameworks"
+mv -f ${dylib} "$pathtome/../../example-mobile/ios_dependencies/simulator/Frameworks"
 done
-if [ -d "$pathtome/platforms/ios/device/Frameworks/$PROJECTNAME$fwSuffix.framework/Frameworks" ]; then
+if [[ -d "$pathtome/platforms/ios/device/Frameworks/$PROJECTNAME$fwSuffix.framework/Frameworks" ]]; then
 rm -r "$pathtome/platforms/ios/device/Frameworks/$PROJECTNAME$fwSuffix.framework/Frameworks"
 fi
 fi
 
-if [ -f "$pathtome/../../example-mobile/ios_dependencies/simulator/Frameworks/$PROJECTNAME$fwSuffix.framework/libswiftRemoteMirror.dylib" ]; then
+if [[ -f "$pathtome/../../example-mobile/ios_dependencies/simulator/Frameworks/$PROJECTNAME$fwSuffix.framework/libswiftRemoteMirror.dylib" ]]; then
 rm "$pathtome/../../example-mobile/ios_dependencies/simulator/Frameworks/$PROJECTNAME$fwSuffix.framework/libswiftRemoteMirror.dylib"
 fi
-if [ -f "$pathtome/../../example-mobile/ios_dependencies/device/Frameworks/$PROJECTNAME$fwSuffix.framework/libswiftRemoteMirror.dylib" ]; then
+if [[ -f "$pathtome/../../example-mobile/ios_dependencies/device/Frameworks/$PROJECTNAME$fwSuffix.framework/libswiftRemoteMirror.dylib" ]]; then
 rm "$pathtome/../../example-mobile/ios_dependencies/device/Frameworks/$PROJECTNAME$fwSuffix.framework/libswiftRemoteMirror.dylib"
 fi
-if [ -f "$pathtome/platforms/ios/simulator/Frameworks/$PROJECTNAME$fwSuffix.framework/libswiftRemoteMirror.dylib" ]; then
+if [[ -f "$pathtome/platforms/ios/simulator/Frameworks/$PROJECTNAME$fwSuffix.framework/libswiftRemoteMirror.dylib" ]]; then
 rm "$pathtome/platforms/ios/simulator/Frameworks/$PROJECTNAME$fwSuffix.framework/libswiftRemoteMirror.dylib"
 fi
-if [ -f "$pathtome/platforms/ios/device/Frameworks/$PROJECTNAME$fwSuffix.framework/libswiftRemoteMirror.dylib" ]; then
+if [[ -f "$pathtome/platforms/ios/device/Frameworks/$PROJECTNAME$fwSuffix.framework/libswiftRemoteMirror.dylib" ]]; then
 rm "$pathtome/platforms/ios/device/Frameworks/$PROJECTNAME$fwSuffix.framework/libswiftRemoteMirror.dylib"
 fi
 

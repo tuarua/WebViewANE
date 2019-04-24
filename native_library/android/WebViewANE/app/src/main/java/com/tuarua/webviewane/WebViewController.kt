@@ -235,20 +235,16 @@ class WebViewController(override var context: FREContext?,
         var y: Int = cropTo.top.toInt()
         var w: Int = cropTo.width().toInt()
         var h: Int = cropTo.height().toInt()
-        val bitmap: Bitmap
-        if (w > 0 && h > 0) {
-            bitmap = Bitmap.createBitmap(w + x, h + y, Bitmap.Config.ARGB_8888)
-        } else {
+        if (w == 0 || h == 0) {
             x = 0
             y = 0
             w = wv.width
             h = wv.height
-            bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
         }
-
-        val canvas = Canvas(bitmap)
-        wv.draw(canvas)
-        return Bitmap.createBitmap(bitmap, x, y, w, h)
+        wv.isDrawingCacheEnabled = true
+        val ret = Bitmap.createBitmap(wv.drawingCache, x, y, w, h)
+        wv.isDrawingCacheEnabled = false
+        return ret
     }
 
     fun evaluateJavascript(js: String, callback: String?) {

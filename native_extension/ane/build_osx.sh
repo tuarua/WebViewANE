@@ -4,12 +4,12 @@
 echo "Setting path to current directory to:"
 pathtome=$0
 pathtome="${pathtome%/*}"
-echo $pathtome
+echo ${pathtome}
 
 PROJECT_NAME=WebViewANE
 
 AIR_SDK="/Users/eoinlandy/SDKs/AIRSDK_32"
-echo $AIR_SDK
+echo ${AIR_SDK}
 
 #Setup the directory.
 echo "Making directories."
