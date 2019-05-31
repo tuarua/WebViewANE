@@ -149,11 +149,11 @@ namespace WebViewANELib {
                 BindingOptions.DefaultBinder);
 
             var dh = new DownloadHandler(DownloadPath);
-            dh.OnDownloadUpdatedFired += OnDownloadUpdatedFired;
-            dh.OnBeforeDownloadFired += OnDownloadFired;
+            dh.OnDownloadUpdatedFired += OnDownloadUpdated;
+            dh.OnBeforeDownloadFired += OnBeforeDownload;
 
             KeyboardHandler = new KeyboardHandler(Context);
-            KeyboardHandler.OnKeyEventFired += OnKeyEventFired;
+            KeyboardHandler.OnKeyEventFired += OnKeyEvent;
 
             if (EnableDownloads) {
                 browser.DownloadHandler = dh;
@@ -172,20 +172,29 @@ namespace WebViewANELib {
             browser.LoadError += OnLoadError;
             browser.IsBrowserInitializedChanged += OnBrowserInitialized;
             browser.StatusMessage += OnStatusMessage;
-            browser.DisplayHandler = new DisplayHandler();
+            var displayHandler = new DisplayHandler();
+            displayHandler.OnLoadingProgressChangeFired += OnLoadingProgressChange;
+            browser.DisplayHandler = displayHandler;
 
             if (!ContextMenuEnabled) {
                 browser.MenuHandler = new MenuHandler();
             }
 
             var rh = new RequestHandler(WhiteList, BlackList);
-            rh.OnUrlBlockedFired += OnUrlBlockedFired;
+            rh.OnUrlBlockedFired += OnUrlBlocked;
 
             browser.RequestHandler = rh;
             _tabs.Add(browser);
             TabDetails.Add(new TabDetails());
 
             return browser;
+        }
+
+        private void OnLoadingProgressChange(object sender, double progress) {
+            var tab = _tabs.IndexOf(sender);
+            tab = tab == -1 ? 0 : tab;
+            var json = JObject.FromObject(new {propName = "estimatedProgress", value = progress, tab});
+            Context.DispatchEvent(WebViewEvent.OnPropertyChange, json.ToString());
         }
 
         private void OnPopupBlock(object sender, string url) {
@@ -249,7 +258,7 @@ namespace WebViewANELib {
         }
 
 
-        private void OnUrlBlockedFired(object sender, string url) {
+        private void OnUrlBlocked(object sender, string url) {
             var tab = _tabs.IndexOf(sender);
             tab = tab == -1 ? 0 : tab;
             var json = JObject.FromObject(new {url, tab });
@@ -374,7 +383,7 @@ namespace WebViewANELib {
             Context.DispatchEvent(WebViewEvent.OnPropertyChange, json.ToString());
         }
 
-        private static void OnDownloadUpdatedFired(object sender, DownloadItem downloadItem) {
+        private static void OnDownloadUpdated(object sender, DownloadItem downloadItem) {
             if (downloadItem.IsCancelled) {
                 Context.DispatchEvent(WebViewEvent.OnDownloadCancel, downloadItem.Id.ToString());
                 return;
@@ -388,9 +397,9 @@ namespace WebViewANELib {
             Context.DispatchEvent(WebViewEvent.OnDownloadProgress, downloadItem.ToJsonString());
         }
 
-        private static void OnDownloadFired(object sender, DownloadItem downloadItem) { }
+        private static void OnBeforeDownload(object sender, DownloadItem downloadItem) { }
 
-        private static void OnKeyEventFired(object sender, int e) {
+        private static void OnKeyEvent(object sender, int e) {
             Context.DispatchEvent(WebViewEvent.OnEscKey, e.ToString());
         }
 

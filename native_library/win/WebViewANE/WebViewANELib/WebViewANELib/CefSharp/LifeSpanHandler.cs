@@ -45,11 +45,11 @@ namespace WebViewANELib.CefSharp {
                     return false;
                 case PopupBehaviour.Block:
                     handler = OnPopupBlock;
-                    handler?.Invoke(this, targetUrl);
+                    handler?.Invoke(browserControl, targetUrl);
                     return true;
                 case PopupBehaviour.SameWindow:
                     handler = OnPermissionPopup;
-                    handler?.Invoke(this, targetUrl);
+                    handler?.Invoke(browserControl, targetUrl);
                     return true;
                 default:
                     return false;

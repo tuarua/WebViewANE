@@ -1,3 +1,8 @@
+### 2.4.0
+- WIN: updated Json.NET to 12.0.2
+- WIN: Updated to CefSharp 73.1.130
+- WIN: CefSharp now supports estimatedProgress
+
 ### 2.3.1
 - AND: Fix capture bug Issue #207
 
