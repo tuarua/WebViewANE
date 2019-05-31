@@ -38,8 +38,7 @@ namespace WebViewANELib.CefSharp {
             }
 
             if (windowsKeyCode != 27) return false;
-            var handler = OnKeyEventFired;
-            handler?.Invoke(this, windowsKeyCode);
+            OnKeyEventFired?.Invoke(browserControl, windowsKeyCode);
             return false;
         }
     }

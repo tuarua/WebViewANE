@@ -5,7 +5,7 @@ using System.Security.Cryptography.X509Certificates;
 using CefSharp;
 
 namespace WebViewANELib.CefSharp {
-    public class RequestHandler : IRequestHandler {
+    public sealed class RequestHandler : IRequestHandler {
         private readonly ArrayList _whiteList;
         private readonly ArrayList _blackList;
         public event EventHandler<string> OnUrlBlockedFired;
@@ -29,8 +29,7 @@ namespace WebViewANELib.CefSharp {
             bool userGesture,
             bool isRedirect) {
             if (!IsWhiteListBlocked(request.Url) && !IsBlackListBlocked(request.Url)) return false;
-            var handler = OnUrlBlockedFired;
-            handler?.Invoke(this, request.Url);
+            OnUrlBlockedFired?.Invoke(chromiumWebBrowser, request.Url);
             return true;
         }
 
@@ -39,7 +38,7 @@ namespace WebViewANELib.CefSharp {
             return OnOpenUrlFromTab(browserControl, browser, frame, targetUrl, targetDisposition, userGesture);
         }
 
-        protected virtual bool OnOpenUrlFromTab(IWebBrowser browserControl, IBrowser browser, IFrame frame,
+        private bool OnOpenUrlFromTab(IWebBrowser browserControl, IBrowser browser, IFrame frame,
             string targetUrl, WindowOpenDisposition targetDisposition, bool userGesture) {
             return false;
         }
@@ -86,12 +85,6 @@ namespace WebViewANELib.CefSharp {
 
         bool IRequestHandler.OnSelectClientCertificate(IWebBrowser browserControl, IBrowser browser, bool isProxy,
             string host, int port, X509Certificate2Collection certificates, ISelectClientCertificateCallback callback) {
-            return false;
-        }
-
-        protected virtual bool OnSelectClientCertificate(IWebBrowser browserControl, IBrowser browser, bool isProxy,
-            string host, int port, X509Certificate2Collection certificates, ISelectClientCertificateCallback callback) {
-            callback.Dispose();
             return false;
         }
 

@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using CefSharp;
 using CefSharp.Structs;
 
 namespace WebViewANELib.CefSharp {
     public class DisplayHandler : IDisplayHandler {
+        public event EventHandler<double> OnLoadingProgressChangeFired;
+
         public void OnAddressChanged(IWebBrowser browserControl, AddressChangedEventArgs addressChangedArgs) { }
 
         public bool OnAutoResize(IWebBrowser browserControl, IBrowser browser, Size newSize) {
@@ -24,6 +27,10 @@ namespace WebViewANELib.CefSharp {
 
         public bool OnConsoleMessage(IWebBrowser browserControl, ConsoleMessageEventArgs consoleMessageArgs) {
             return false;
+        }
+
+        public void OnLoadingProgressChange(IWebBrowser chromiumWebBrowser, IBrowser browser, double progress) {
+            OnLoadingProgressChangeFired?.Invoke(chromiumWebBrowser, progress);
         }
     }
 }
