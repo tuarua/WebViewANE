@@ -16,12 +16,12 @@ echo "No Simulator build. Build using Xcode"
 exit
 fi
 
-if [ ! -d "$pathtome/../../native_library/apple/$PROJECTNAME/Build/Release-iphoneos/" ]; then
+if [[ ! -d "$pathtome/../../native_library/apple/$PROJECTNAME/Build/Release-iphoneos/" ]]; then
 echo "No Device build. Build using Xcode"
 exit
 fi
 
-if [ ! -d "$pathtome/../../native_library/apple/$PROJECTNAME/Build/Release/" ]; then
+if [[ ! -d "$pathtome/../../native_library/apple/$PROJECTNAME/Build/Release/" ]]; then
 echo "No OSX build. Build using Xcode"
 exit
 fi
@@ -29,32 +29,32 @@ fi
 #Setup the directory.
 echo "Making directories."
 
-if [ ! -d "$pathtome/platforms" ]; then
+if [[ ! -d "$pathtome/platforms" ]]; then
 mkdir "$pathtome/platforms"
 fi
-if [ -d "$pathtome/platforms/mac" ]; then
+if [[ -d "$pathtome/platforms/mac" ]]; then
 rm -r "$pathtome/platforms/mac"
 fi
-if [ ! -d "$pathtome/platforms/mac" ]; then
+if [[ ! -d "$pathtome/platforms/mac" ]]; then
 mkdir "$pathtome/platforms/mac"
 mkdir "$pathtome/platforms/mac/release"
 fi
-if [ ! -d "$pathtome/platforms/ios" ]; then
+if [[ ! -d "$pathtome/platforms/ios" ]]; then
 mkdir "$pathtome/platforms/ios"
 fi
-if [ ! -d "$pathtome/platforms/ios/simulator" ]; then
+if [[ ! -d "$pathtome/platforms/ios/simulator" ]]; then
 mkdir "$pathtome/platforms/ios/simulator"
 fi
-if [ ! -d "$pathtome/platforms/ios/simulator/Frameworks" ]; then
+if [[ ! -d "$pathtome/platforms/ios/simulator/Frameworks" ]]; then
 mkdir "$pathtome/platforms/ios/simulator/Frameworks"
 fi
-if [ ! -d "$pathtome/platforms/ios/device" ]; then
+if [[ ! -d "$pathtome/platforms/ios/device" ]]; then
 mkdir "$pathtome/platforms/ios/device"
 fi
-if [ ! -d "$pathtome/platforms/ios/device/Frameworks" ]; then
+if [[ ! -d "$pathtome/platforms/ios/device/Frameworks" ]]; then
 mkdir "$pathtome/platforms/ios/device/Frameworks"
 fi
-if [ ! -d "$pathtome/platforms/default" ]; then
+if [[ ! -d "$pathtome/platforms/default" ]]; then
 mkdir "$pathtome/platforms/default"
 fi
 
@@ -109,7 +109,7 @@ mv "$pathtome/platforms/android/res" "$pathtome/platforms/android/com.tuarua.$PR
 
 echo "Copying Swift dylibs into place for device."
 #Device
-if [ -e "$pathtome/platforms/ios/device/Frameworks/$PROJECTNAME$fwSuffix.framework/Frameworks" ]
+if [[ -e "$pathtome/platforms/ios/device/Frameworks/$PROJECTNAME$fwSuffix.framework/Frameworks" ]]
 then
 for dylib in "$pathtome/platforms/ios/device/Frameworks/$PROJECTNAME$fwSuffix.framework/Frameworks/*"
 do
@@ -120,27 +120,27 @@ fi
 
 echo "Copying Swift dylibs into place for simulator."
 #Simulator
-if [ -e "$pathtome/platforms/ios/simulator/Frameworks/$PROJECTNAME$fwSuffix.framework/Frameworks" ]
+if [[ -e "$pathtome/platforms/ios/simulator/Frameworks/$PROJECTNAME$fwSuffix.framework/Frameworks" ]]
 then
 for dylib in "$pathtome/platforms/ios/simulator/Frameworks/$PROJECTNAME$fwSuffix.framework/Frameworks/*"
 do
 mv -f ${dylib} "$pathtome/../../example-mobile/ios_dependencies/simulator/Frameworks"
 done
-if [ -d "$pathtome/platforms/ios/device/Frameworks/$PROJECTNAME$fwSuffix.framework/Frameworks" ]; then
+if [[ -d "$pathtome/platforms/ios/device/Frameworks/$PROJECTNAME$fwSuffix.framework/Frameworks" ]]; then
 rm -r "$pathtome/platforms/ios/device/Frameworks/$PROJECTNAME$fwSuffix.framework/Frameworks"
 fi
 fi
 
-if [ -f "$pathtome/../../example-mobile/ios_dependencies/simulator/Frameworks/$PROJECTNAME$fwSuffix.framework/libswiftRemoteMirror.dylib" ]; then
+if [[ -f "$pathtome/../../example-mobile/ios_dependencies/simulator/Frameworks/$PROJECTNAME$fwSuffix.framework/libswiftRemoteMirror.dylib" ]]; then
 rm "$pathtome/../../example-mobile/ios_dependencies/simulator/Frameworks/$PROJECTNAME$fwSuffix.framework/libswiftRemoteMirror.dylib"
 fi
-if [ -f "$pathtome/../../example-mobile/ios_dependencies/device/Frameworks/$PROJECTNAME$fwSuffix.framework/libswiftRemoteMirror.dylib" ]; then
+if [[ -f "$pathtome/../../example-mobile/ios_dependencies/device/Frameworks/$PROJECTNAME$fwSuffix.framework/libswiftRemoteMirror.dylib" ]]; then
 rm "$pathtome/../../example-mobile/ios_dependencies/device/Frameworks/$PROJECTNAME$fwSuffix.framework/libswiftRemoteMirror.dylib"
 fi
-if [ -f "$pathtome/platforms/ios/simulator/Frameworks/$PROJECTNAME$fwSuffix.framework/libswiftRemoteMirror.dylib" ]; then
+if [[ -f "$pathtome/platforms/ios/simulator/Frameworks/$PROJECTNAME$fwSuffix.framework/libswiftRemoteMirror.dylib" ]]; then
 rm "$pathtome/platforms/ios/simulator/Frameworks/$PROJECTNAME$fwSuffix.framework/libswiftRemoteMirror.dylib"
 fi
-if [ -f "$pathtome/platforms/ios/device/Frameworks/$PROJECTNAME$fwSuffix.framework/libswiftRemoteMirror.dylib" ]; then
+if [[ -f "$pathtome/platforms/ios/device/Frameworks/$PROJECTNAME$fwSuffix.framework/libswiftRemoteMirror.dylib" ]]; then
 rm "$pathtome/platforms/ios/device/Frameworks/$PROJECTNAME$fwSuffix.framework/libswiftRemoteMirror.dylib"
 fi
 
@@ -166,8 +166,8 @@ com.tuarua.${PROJECTNAME}-res/. \
 -platform iPhone-ARM  -C "$pathtome/platforms/ios/device" "library.swf" "Frameworks" "lib$PROJECTNAME.a" \
 -platformoptions "$pathtome/platforms/ios/platform.xml" \
 -platform MacOS-x86-64 -C "$pathtome/platforms/mac/release" "$PROJECTNAME.framework" "library.swf" \
--platform Windows-x86 -C "$pathtome/platforms/win/x86/release" "$PROJECTNAME.dll" "library.swf" \
--platform Windows-x86-64 -C "$pathtome/platforms/win/x64/release" "$PROJECTNAME.dll" "library.swf" \
+-platform Windows-x86 -C "$pathtome/platforms/win/x86/release" "$PROJECTNAME.dll" "WebViewANELib.dll" "Newtonsoft.Json.dll" "Microsoft.Toolkit.Wpf.UI.Controls.WebView.dll" "library.swf" -C "$pathtome/../../cef_binaries_x86" . \
+-platform Windows-x86-64 -C "$pathtome/platforms/win/x64/release" "$PROJECTNAME.dll" "WebViewANELib.dll" "Newtonsoft.Json.dll" "Microsoft.Toolkit.Wpf.UI.Controls.WebView.dll" "library.swf" -C "$pathtome/../../cef_binaries_x64" . \
 -platform default -C "$pathtome/platforms/default" "library.swf"
 
 #remove the frameworks from sim and device, as not needed any more

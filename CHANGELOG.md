@@ -1,3 +1,7 @@
+### 2.5.0
+- WIN: C# and CefSharp binaries are now packaged inside the ANE. All of these need to be deleted from your AIRSDK 
+- WIN: FreSharp.ane is now a required dependency for Windows. 
+
 ### 2.4.0
 - WIN: updated Json.NET to 12.0.2
 - WIN: Updated to CefSharp 73.1.130

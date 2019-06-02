@@ -249,7 +249,6 @@ namespace WebViewANELib {
                         EnableDownloads = settings.enableDownloads,
                         CacheEnabled = settings.cacheEnabled,
                         LogLevel = cefSettings.logSeverity,
-                        BrowserSubProcessPath = cefSettings.browserSubprocessPath,
                         AcceptLanguageList = cefSettings.acceptLanguageList,
                         Locale = cefSettings.locale,
                         ContextMenuEnabled = contextMenu.enabled,

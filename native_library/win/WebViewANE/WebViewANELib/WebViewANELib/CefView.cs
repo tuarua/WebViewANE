@@ -24,6 +24,8 @@
 #endregion
 
 using System;
+using System.IO;
+using System.Diagnostics;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -34,6 +36,7 @@ using CefSharp.WinForms;
 using Newtonsoft.Json.Linq;
 using TuaRua.FreSharp;
 using WebViewANELib.CefSharp;
+
 // ReSharper disable ConvertIfStatementToSwitchStatement
 // ReSharper disable UseObjectOrCollectionInitializer
 // ReSharper disable InvertIf
@@ -51,7 +54,6 @@ namespace WebViewANELib {
         public string CachePath { private get; set; }
         public bool CacheEnabled { private get; set; }
         public int LogLevel { private get; set; }
-        public string BrowserSubProcessPath { private get; set; }
         public string AcceptLanguageList { private get; set; }
         public string Locale { private get; set; }
         public bool EnableDownloads { private get; set; }
@@ -120,8 +122,43 @@ namespace WebViewANELib {
             }
 
             settings.WindowlessRenderingEnabled = false;
-            if (!string.IsNullOrEmpty(BrowserSubProcessPath)) {
-                settings.BrowserSubprocessPath = BrowserSubProcessPath;
+
+            var exeCommandLineArgs = Environment.GetCommandLineArgs();
+            var isAdl = false;
+            var baseDir = "";
+
+            for (var i = 0; i < exeCommandLineArgs.Length; i++) {
+                var item = exeCommandLineArgs[i];
+                if (item.Equals("-extdir")) {
+                    isAdl = true;
+                    baseDir = exeCommandLineArgs[i + 1];
+                    break;
+                }
+            }
+
+            if (!isAdl) {
+                var fullPath = Process.GetCurrentProcess().MainModule?.FileName;
+                if (!string.IsNullOrEmpty(fullPath)) {
+                    baseDir = Path.GetDirectoryName(fullPath) + "\\META-INF\\AIR\\extensions";
+                }
+            }
+
+            var platform = Environment.Is64BitProcess ? "x86-64" : "x86";
+            var directories = Directory.GetDirectories(baseDir);
+            var foundCefSharp = false;
+            foreach (var dir in directories) {
+                var fileName = dir + "\\META-INF\\ANE\\Windows-" + platform + "\\CefSharp.BrowserSubprocess.exe";
+                if (File.Exists(fileName)) {
+                    settings.BrowserSubprocessPath = fileName;
+                    settings.ResourcesDirPath = dir + "\\META-INF\\ANE\\Windows-" + platform;
+                    foundCefSharp = true;
+                    break;
+                }
+            }
+
+            if (!foundCefSharp) {
+                Context.DispatchEvent("TRACE", "Cannot find the requierd CefSharp.BrowserSubprocess.exe");
+                return;
             }
             
             settings.AcceptLanguageList = AcceptLanguageList;
@@ -132,7 +169,7 @@ namespace WebViewANELib {
             }
 
             Cef.EnableHighDPISupport();
-            if (Cef.Initialize(settings)) {
+            if (Cef.Initialize(settings, false, (IBrowserProcessHandler) null)) {
                 var browser = CreateNewBrowser();
                 CurrentBrowser = browser;
                 _host.Child = browser;
@@ -200,7 +237,7 @@ namespace WebViewANELib {
         private void OnPopupBlock(object sender, string url) {
             var tab = _tabs.IndexOf(sender);
             tab = tab == -1 ? 0 : tab;
-            var json = JObject.FromObject(new {url, tab });
+            var json = JObject.FromObject(new {url, tab});
             Context.DispatchEvent(WebViewEvent.OnPopupBlocked, json.ToString());
         }
 
@@ -261,7 +298,7 @@ namespace WebViewANELib {
         private void OnUrlBlocked(object sender, string url) {
             var tab = _tabs.IndexOf(sender);
             tab = tab == -1 ? 0 : tab;
-            var json = JObject.FromObject(new {url, tab });
+            var json = JObject.FromObject(new {url, tab});
             Context.DispatchEvent(WebViewEvent.OnUrlBlocked, json.ToString());
         }
 
@@ -284,7 +321,7 @@ namespace WebViewANELib {
             for (var index = 0; index < _tabs.Count; index++) {
                 if (!_tabs[index].Equals(sender)) continue;
                 var tabDetails = GetTabDetails(index);
-                if (tabDetails.Address == e.Address)  return;
+                if (tabDetails.Address == e.Address) return;
 
                 tabDetails.Address = e.Address;
                 SendPropertyChange(@"url", e.Address, index);
@@ -295,7 +332,7 @@ namespace WebViewANELib {
             for (var index = 0; index < _tabs.Count; index++) {
                 if (!_tabs[index].Equals(sender)) continue;
                 var tabDetails = GetTabDetails(index);
-                if (tabDetails.Title == e.Title)  return;
+                if (tabDetails.Title == e.Title) return;
                 tabDetails.Title = e.Title;
                 SendPropertyChange(@"title", e.Title, index);
             }
@@ -318,7 +355,7 @@ namespace WebViewANELib {
                     SendPropertyChange(@"canGoForward", e.CanGoForward, index);
                 }
 
-                if (tabDetails.CanGoBack == e.CanGoBack)  return;
+                if (tabDetails.CanGoBack == e.CanGoBack) return;
 
                 tabDetails.CanGoBack = e.CanGoBack;
                 SendPropertyChange(@"canGoBack", e.CanGoBack, index);
@@ -366,7 +403,7 @@ namespace WebViewANELib {
             for (var index = 0; index < _tabs.Count; index++) {
                 if (!_tabs[index].Equals(sender)) continue;
                 var tabDetails = GetTabDetails(index);
-                if (tabDetails.StatusMessage == e.Value)  return;
+                if (tabDetails.StatusMessage == e.Value) return;
 
                 tabDetails.StatusMessage = e.Value;
                 SendPropertyChange(@"statusMessage", e.Value, index);
@@ -379,7 +416,7 @@ namespace WebViewANELib {
         }
 
         private static void SendPropertyChange(string propName, string value, int tab) {
-            var json = JObject.FromObject(new { propName, value, tab });
+            var json = JObject.FromObject(new {propName, value, tab});
             Context.DispatchEvent(WebViewEvent.OnPropertyChange, json.ToString());
         }
 
@@ -468,7 +505,8 @@ namespace WebViewANELib {
         public void AddEventListener(string type) {
             if (type == "keyUp") {
                 KeyboardHandler.HasKeyUp = true;
-            } else if (type == "keyDown") {
+            }
+            else if (type == "keyDown") {
                 KeyboardHandler.HasKeyDown = true;
             }
         }
@@ -476,7 +514,8 @@ namespace WebViewANELib {
         public void RemoveEventListener(string type) {
             if (type == "keyUp") {
                 KeyboardHandler.HasKeyUp = false;
-            } else if (type == "keyDown") {
+            }
+            else if (type == "keyDown") {
                 KeyboardHandler.HasKeyDown = false;
             }
         }
@@ -494,8 +533,8 @@ namespace WebViewANELib {
                 var mf = CurrentBrowser.GetMainFrame();
                 var response =
                     await mf.EvaluateScriptAsync(javascript, TimeSpan.FromMilliseconds(500).ToString());
-                if (response.Success && response.Result is IJavascriptCallback) {
-                    response = await ((IJavascriptCallback) response.Result).ExecuteAsync("");
+                if (response.Success && response.Result is IJavascriptCallback javascriptCallback) {
+                    response = await javascriptCallback.ExecuteAsync("");
                 }
 
                 Context.DispatchEvent(WebViewEvent.AsCallbackEvent, response.ToJsonString(callback));

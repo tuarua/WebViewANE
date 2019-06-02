@@ -20,6 +20,9 @@
             <entry library-name="FreSwift" library-level="project">
               <dependency linkage="Merged" />
             </entry>
+            <entry library-name="FreSharp" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
           </entries>
           <sdk name="AIRSDK_32" />
         </dependencies>
@@ -55,6 +58,9 @@
               <dependency linkage="Merged" />
             </entry>
             <entry library-name="FreSwift" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-name="FreSharp" library-level="project">
               <dependency linkage="Merged" />
             </entry>
           </entries>
@@ -95,5 +101,7 @@
     <orderEntry type="library" exported="" name="WebViewIcons" level="project" />
     <orderEntry type="library" exported="" name="greensock" level="project" />
     <orderEntry type="library" exported="" name="FreSwift" level="project" />
+    <orderEntry type="library" exported="" name="FreSharpANE" level="project" />
+    <orderEntry type="library" exported="" name="FreSharp" level="project" />
   </component>
 </module>
