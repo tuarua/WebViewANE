@@ -31,6 +31,7 @@
         </excludedEntries>
       </libraryPathEntry>
       <libraryPathEntry kind="5" linkType="2" path="${DOCUMENTS}/WebViewANE/native_extension/ane/FreSwift.ane"/>
+      <libraryPathEntry kind="5" linkType="2" path="${DOCUMENTS}/WebViewANE/native_extension/ane/FreSharp.ane"/>
       <libraryPathEntry kind="5" linkType="2" path="${DOCUMENTS}/WebViewANE/native_extension/ane/WebViewANE.ane"/>
     </libraryPath>
     <sourceAttachmentPath/>
@@ -50,6 +51,7 @@
         <airExcludes/>
         <anePaths>
           <anePathEntry path="${DOCUMENTS}/WebViewANE/native_extension/ane/FreSwift.ane"/>
+          <anePathEntry path="${DOCUMENTS}/WebViewANE/native_extension/ane/FreSharp.ane"/>
           <anePathEntry path="${DOCUMENTS}/WebViewANE/native_extension/ane/WebViewANE.ane"/>
         </anePaths>
       </airSettings>

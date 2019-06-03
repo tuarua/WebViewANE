@@ -5,6 +5,7 @@ import com.tuarua.CancelBtn;
 import com.tuarua.CaptureBtn;
 import com.tuarua.DevToolsBtn;
 import com.tuarua.ForwardBtn;
+import com.tuarua.FreSharp;
 import com.tuarua.FreSwift;
 import com.tuarua.FullscreenBtn;
 import com.tuarua.JsBtn;
@@ -61,7 +62,8 @@ import views.TabBar;
 [SWF(width="1280", height="800", frameRate="60", backgroundColor="#F1F1F1")]
 public class WebViewANESample extends Sprite {
     public static const FONT:Font = new FiraSansSemiBold();
-    private var freSwiftANE:FreSwift = new FreSwift();//must create before all others
+    private var freSharpANE:FreSharp = new FreSharp(); // must create before all others
+    private var freSwiftANE:FreSwift = new FreSwift(); // must create before all others
     private var webView:WebViewANE = new WebViewANE();
 
     private var backBtn:SimpleButton = new BackBtn();
@@ -95,9 +97,7 @@ public class WebViewANESample extends Sprite {
         super();
         stage.align = StageAlign.TOP_LEFT;
         stage.scaleMode = StageScaleMode.NO_SCALE;
-
         this.addEventListener(Event.ACTIVATE, onActivated);
-
         NativeApplication.nativeApplication.executeInBackground = true;
 
     }
@@ -581,6 +581,7 @@ public class WebViewANESample extends Sprite {
     private function onExiting(event:Event):void {
         webView.dispose();
         freSwiftANE.dispose();
+        freSharpANE.dispose();
     }
 
 

@@ -14,6 +14,10 @@ This ANE provides access to a more modern webview from AIR.
 
 -------------
 
+## Important notice for Windows version of 2.5.0+
+C# and CefSharp binaries are now packaged inside the ANE. All of these **need to be deleted** from your AIRSDK.     
+FreSharp.ane is now a required dependency for Windows. 
+
 ## WIKI
 
 The [wiki page](https://github.com/tuarua/WebViewANE/wiki) contains extensive information. Please read.

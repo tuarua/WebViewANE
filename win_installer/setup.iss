@@ -63,8 +63,6 @@ Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescrip
 Source: "src\*.*"; DestDir: "{app}"; Flags: replacesameversion
 Source: "src\Adobe Air\*.*"; DestDir: "{app}\Adobe Air"; Flags: replacesameversion recursesubdirs
 Source: "src\META-INF\*.*"; DestDir: "{app}\META-INF"; Flags: replacesameversion recursesubdirs
-Source: "src\locales\*.*"; DestDir: "{app}\locales"; Flags: replacesameversion recursesubdirs
-Source: "src\swiftshader\*.*"; DestDir: "{app}\swiftshader"; Flags: replacesameversion recursesubdirs
 
 [Icons]
 Name: "{group}\{#MyAppSetupName}"; Filename: "{app}\{#MyAppSetupName}.exe"

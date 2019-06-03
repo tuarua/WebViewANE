@@ -19,7 +19,8 @@
     <supportedProfiles>extendedDesktop</supportedProfiles>
 
 	<extensions>
-        <extensionID>com.tuarua.WebViewANE</extensionID>
+		<extensionID>com.tuarua.FreSharp</extensionID>
 		<extensionID>com.tuarua.FreSwift</extensionID>
+        <extensionID>com.tuarua.WebViewANE</extensionID>
     </extensions>
 </application>
