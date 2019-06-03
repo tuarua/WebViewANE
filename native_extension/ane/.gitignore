@@ -2,5 +2,6 @@ debug/
 build-asdocs.bat
 build_asdocs.sh
 build_osx_debug.sh
+build_multi_edge.sh
 platforms/mac
 *.ane
