@@ -40,10 +40,7 @@ extern "C" {
 
 
 	CONTEXT_INIT(TRWV) {
-		
-		FreSharpBridge::InitController();
-		FreSharpBridge::SetFREContext(ctx);
-		FreSharpBridge::GetFunctions();
+		FREBRIDGE_INIT
 		
 		static FRENamedFunction extensionFunctions[] = {
 			 MAP_FUNCTION(init)

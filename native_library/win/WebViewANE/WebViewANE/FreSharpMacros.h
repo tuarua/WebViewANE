@@ -33,6 +33,12 @@ prefix##_contextFinalizer(nullCTX); \
 *functionsToSet = extensionFunctions;
 #endif
 
+#ifndef FREBRIDGE_INIT
+#define FREBRIDGE_INIT FreSharpBridge::InitController(); \
+FreSharpBridge::SetFREContext(ctx); \
+FreSharpBridge::GetFunctions();
+#endif // !FREBRIDGE_INIT
+
 #ifndef CONTEXT_INIT
 #define CONTEXT_INIT(prefix) void (prefix##_contextInitializer)(void *extData, const uint8_t *ctxType, FREContext ctx, uint32_t *numFunctionsToSet, const FRENamedFunction **functionsToSet)
 #endif

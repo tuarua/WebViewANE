@@ -69,10 +69,6 @@
      Comma delimited ordered list of language codes without any whitespace that will
      be used in the "Accept-Language" HTTP header. May be set globally using the CefSettings.AcceptLanguageList
      value. If both values are empty then "en-US,en" will be used.
-     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:CefSettings:browserSubprocessPath"><apiName>browserSubprocessPath</apiName><shortdesc>
-     The path to a separate executable that will be launched for sub-processes.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value="String"/></apiValueDef><apiDesc>
-     The path to a separate executable that will be launched for sub-processes. By
-     default the browser process executable is used.
      </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:CefSettings:cachePath"><apiName>cachePath</apiName><shortdesc>
      The location where cache data will be stored on disk.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>cache</apiData><apiType value="String"/></apiValueDef><apiDesc>
      The location where cache data will be stored on disk. If empty then browsers

@@ -87,14 +87,11 @@ echo "Copying native libraries into place."
 cp -R -L "$pathtome/../../native_library/apple/$PROJECTNAME/Build/Release-iphonesimulator/lib$PROJECTNAME$libSuffix.a" "$pathtome/platforms/ios/simulator/lib$PROJECTNAME.a"
 cp -R -L "$pathtome/../../native_library/apple/$PROJECTNAME/Build/Release-iphoneos/lib$PROJECTNAME$libSuffix.a" "$pathtome/platforms/ios/device/lib$PROJECTNAME.a"
 
-
 cp -R -L "$pathtome/../../example-mobile/ios_dependencies/simulator/Frameworks/FreSwift.framework" "$pathtome/platforms/ios/simulator/Frameworks"
 cp -R -L "$pathtome/../../example-mobile/ios_dependencies/device/Frameworks/FreSwift.framework" "$pathtome/platforms/ios/device/Frameworks"
 
-
 cp -R -L "$pathtome/../../native_library/apple/$PROJECTNAME/Build/Release-iphonesimulator/$PROJECTNAME$fwSuffix.framework" "$pathtome/platforms/ios/simulator/Frameworks"
 cp -R -L "$pathtome/../../native_library/apple/$PROJECTNAME/Build/Release-iphoneos/$PROJECTNAME$fwSuffix.framework" "$pathtome/platforms/ios/device/Frameworks"
-
 
 echo "COPYING Android aars into place"
 cp "$pathtome/../../native_library/android/$PROJECTNAME/app/build/outputs/aar/app-release.aar" "$pathtome/platforms/android/app-release.aar"
@@ -166,8 +163,8 @@ com.tuarua.${PROJECTNAME}-res/. \
 -platform iPhone-ARM  -C "$pathtome/platforms/ios/device" "library.swf" "Frameworks" "lib$PROJECTNAME.a" \
 -platformoptions "$pathtome/platforms/ios/platform.xml" \
 -platform MacOS-x86-64 -C "$pathtome/platforms/mac/release" "$PROJECTNAME.framework" "library.swf" \
--platform Windows-x86 -C "$pathtome/platforms/win/x86/release" "$PROJECTNAME.dll" "WebViewANELib.dll" "Newtonsoft.Json.dll" "Microsoft.Toolkit.Wpf.UI.Controls.WebView.dll" "library.swf" -C "$pathtome/../../cef_binaries_x86" . \
--platform Windows-x86-64 -C "$pathtome/platforms/win/x64/release" "$PROJECTNAME.dll" "WebViewANELib.dll" "Newtonsoft.Json.dll" "Microsoft.Toolkit.Wpf.UI.Controls.WebView.dll" "library.swf" -C "$pathtome/../../cef_binaries_x64" . \
+-platform Windows-x86 -C "$pathtome/platforms/win/x86/release" ${PROJECTNAME}.dll ${PROJECTNAME}Lib.dll "Newtonsoft.Json.dll" "Microsoft.Toolkit.Wpf.UI.Controls.WebView.dll" "library.swf" -C "$pathtome/../../cef_binaries_x86" . \
+-platform Windows-x86-64 -C "$pathtome/platforms/win/x64/release" ${PROJECTNAME}.dll ${PROJECTNAME}Lib.dll "Newtonsoft.Json.dll" "Microsoft.Toolkit.Wpf.UI.Controls.WebView.dll" "library.swf" -C "$pathtome/../../cef_binaries_x64" . \
 -platform default -C "$pathtome/platforms/default" "library.swf"
 
 #remove the frameworks from sim and device, as not needed any more
