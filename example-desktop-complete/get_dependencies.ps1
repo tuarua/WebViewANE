@@ -1,4 +1,4 @@
-$AneVersion = "2.5.0"
+$AneVersion = "2.5.1"
 $FreSharpVersion = "2.2.0"
 
 $currentDir = (Get-Item -Path ".\" -Verbose).FullName
