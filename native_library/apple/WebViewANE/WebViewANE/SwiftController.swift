@@ -354,7 +354,11 @@ public class SwiftController: NSObject {
             else {
                 return FreArgError(message: "loadHTMLString").getError(#file, #line, #column)
         }
-        wv.load(html: html)
+        var baseURL: URLRequest?
+        if let freRequest = argv[1], let request = URLRequest(freRequest) {
+            baseURL = request
+        }
+        wv.load(html: html, baseRequest: baseURL)
         return nil
     }
 

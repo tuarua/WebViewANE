@@ -119,8 +119,8 @@ class WebViewVC: WKWebView, FreSwiftController {
         self.load(request)
     }
 
-    func load(html: String) {
-        self.loadHTMLString(html, baseURL: nil)
+    func load(html: String, baseRequest: URLRequest?) {
+        self.loadHTMLString(html, baseURL: baseRequest?.url)
     }
 
     func load(fileUrl: URL, allowingReadAccessTo: URL) {

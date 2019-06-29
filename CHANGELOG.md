@@ -1,3 +1,6 @@
+### 2.5.1
+- macOS/iOS: `baseUrl` is null for `loadHTMLString` Issue #214
+
 ### 2.5.0
 - WIN: C# and CefSharp binaries are now packaged inside the ANE. All of these need to be deleted from your AIRSDK 
 - WIN: FreSharp.ane is now a required dependency for Windows. 

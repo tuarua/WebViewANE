@@ -165,7 +165,7 @@ public class WebViewANESample extends Sprite {
         // trace(os.isWindows, os.majorVersion, os.minorVersion, os.buildVersion);
 
         webView.init(stage, viewPort, new URLRequest("https://html5test.com"), settings, 1.0, 0xFFF1F1F1);
-        //webView.init(WebViewANESample.target.stage, viewPort, null, settings, 1.0, 0xFFF1F1F1); // when using loadHTMLString
+        //webView.init(stage, viewPort, null, settings, 1.0, 0xFFF1F1F1); // when using loadHTMLString
         webView.visible = true;
         webView.injectScript("function testInject(){console.log('yo yo')}");
 
