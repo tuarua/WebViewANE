@@ -3,12 +3,12 @@ apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 27
-    buildToolsVersion "27.0.3"
+    buildToolsVersion "28.0.3"
     defaultConfig {
         minSdkVersion 19
-        targetSdkVersion 27
+        targetSdkVersion compileSdkVersion
         versionCode 1
-        versionName "2.3.1"
+        versionName "2.6.0"
     }
     buildTypes {
         release {
@@ -16,9 +16,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
 }
 
 dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "com.tuarua:FreKotlin:$frekotlin_version"
     implementation "com.google.code.gson:gson:$gson_version"
 }

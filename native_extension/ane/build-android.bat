@@ -1,7 +1,7 @@
 @echo off
 SET pathtome=%~dp0
 SET SZIP="C:\Program Files\7-Zip\7z.exe"
-SET AIR_PATH="D:\dev\sdks\AIR\AIRSDK_32\bin\"
+SET AIR_PATH="D:\dev\sdks\AIR\AIRSDK_33\bin\"
 
 SET projectName=WebViewANE
 
@@ -32,7 +32,7 @@ call %AIR_PATH%adt.bat -package -target ane %pathtome%%projectName%.ane extensio
 -C platforms/android library.swf classes.jar ^
 com.tuarua.%projectName%-res/. ^
 -platformoptions platforms/android/platform.xml ^
--platform Android-x86 ^
+-platform Android-ARM64 ^
 -C platforms/android library.swf classes.jar ^
 com.tuarua.%projectName%-res/. ^
 -platformoptions platforms/android/platform.xml
