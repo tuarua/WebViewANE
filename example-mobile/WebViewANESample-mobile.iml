@@ -210,5 +210,7 @@
     <orderEntry type="library" exported="" name="com.distriqt.Core" level="project" />
     <orderEntry type="library" exported="" name="com.google.code.gson.gson-2.8.4" level="project" />
     <orderEntry type="library" exported="" name="com.tuarua.frekotlin-1.8.0" level="project" />
+    <orderEntry type="library" name="jquery" level="application" />
+    <orderEntry type="library" name="bootstrap" level="application" />
   </component>
 </module>

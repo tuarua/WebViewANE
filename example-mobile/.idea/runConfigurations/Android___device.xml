@@ -6,7 +6,7 @@
     <option name="adlOptions" value="" />
     <option name="airProgramParameters" value="" />
     <option name="appDescriptorForEmulator" value="Android" />
-    <option name="clearAppDataOnEachLaunch" value="false" />
+    <option name="clearAppDataOnEachLaunch" value="true" />
     <option name="debugTransport" value="USB" />
     <option name="debuggerSdkRaw" value="BC SDK" />
     <option name="emulator" value="NexusOne" />
