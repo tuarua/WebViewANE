@@ -119,7 +119,7 @@ cp -R -L "$pathtome/platforms/ios/device/Frameworks/$PROJECTNAME$fwSuffix.framew
 #Run the build command.
 echo "Building ANE."
 "$AIR_SDK"/bin/adt -package \
--target ane "$pathtome/mobile/$PROJECTNAME-mobile.ane" "$pathtome/extension_ios.xml" \
+-target ane "$pathtome/mobile/$PROJECTNAME.ane" "$pathtome/extension_ios.xml" \
 -swc "$pathtome/$PROJECTNAME.swc" \
 -platform iPhone-x86  -C "$pathtome/platforms/ios/simulator" "library.swf" "Frameworks" "lib$PROJECTNAME.a" \
 -platformoptions "$pathtome/platforms/ios/platform.xml" \

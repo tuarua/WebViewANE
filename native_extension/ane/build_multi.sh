@@ -107,9 +107,9 @@ echo "Copying Swift dylibs into place for device."
 #Device
 if [ -e "$pathtome/platforms/ios/device/Frameworks/$PROJECTNAME$fwSuffix.framework/Frameworks" ]
 then
-for dylib in "$pathtome"/platforms/ios/device/Frameworks/"$PROJECTNAME""$fwSuffix".framework/Frameworks/*
+for dylib in "$pathtome/platforms/ios/device/Frameworks/$PROJECTNAME$fwSuffix.framework/Frameworks/*"
 do
-mv -f "$dylib" "$pathtome/../../example-mobile/ios_dependencies/device/Frameworks"
+mv -f $dylib "$pathtome/../../example-mobile/ios_dependencies/device/Frameworks"
 done
 rm -r "$pathtome/platforms/ios/device/Frameworks/$PROJECTNAME$fwSuffix.framework/Frameworks"
 fi
@@ -118,12 +118,11 @@ echo "Copying Swift dylibs into place for simulator."
 #Simulator
 if [ -e "$pathtome/platforms/ios/simulator/Frameworks/$PROJECTNAME$fwSuffix.framework/Frameworks" ]
 then
-for dylib in "$pathtome"/platforms/ios/simulator/Frameworks/"$PROJECTNAME""$fwSuffix".framework/Frameworks/*
+for dylib in "$pathtome/platforms/ios/simulator/Frameworks/$PROJECTNAME$fwSuffix.framework/Frameworks/*"
 do
-mv -f "$dylib" "$pathtome/../../example-mobile/ios_dependencies/simulator/Frameworks"
+mv -f $dylib "$pathtome/../../example-mobile/ios_dependencies/simulator/Frameworks"
 done
-if [ -d "$pathtome/platforms/ios/device/Frameworks/$PROJECTNAME$fwSuffix.framework/Frameworks" ]
-then
+if [ -d "$pathtome/platforms/ios/device/Frameworks/$PROJECTNAME$fwSuffix.framework/Frameworks" ]; then
 rm -r "$pathtome/platforms/ios/device/Frameworks/$PROJECTNAME$fwSuffix.framework/Frameworks"
 fi
 fi
