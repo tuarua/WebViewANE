@@ -52,39 +52,6 @@
         </font>
     </embedFonts>
 
-    <!-- iOS specific capabilities -->
-    <iPhone>
-        <!-- A list of plist key/value pairs to be added to the application Info.plist -->
-        <!-- UIDeviceFamily: 1 - iPhone/iPod Touch; 2 - iPad; both: universal app -->
-        <!--<launchScreen>/system/LaunchScreen.storyboardc</launchScreen>-->
-        <InfoAdditions><![CDATA[
-            <key>UIDeviceFamily</key>
-            <array>
-                <string>1</string>
-                <string>2</string>
-            </array>
-            <key>MinimumOSVersion</key>
-            <string>9.0</string>
-            <key>NSAppTransportSecurity</key>
-            <dict>
-            <key>NSAllowsArbitraryLoads</key>
-            <true/>
-            <key>NSLocationAlwaysUsageDescription</key>
-	        <string>We require your location</string>
-	        <key>NSLocationWhenInUseUsageDescription</key>
-	        <string>We require your location</string>
-	        <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	        <string>We require your location</string>
-            </dict>
-        ]]></InfoAdditions>
-
-        <!--  If some sites fail to load ensure NSAppTransportSecurity settings are set
-        https://ste.vn/2015/06/10/configuring-app-transport-security-ios-9-osx-10-11/-->
-
-        <!-- Display Resolution for the app ("standard" or "high"). Optional. Default "standard" -->
-        <requestedDisplayResolution>high</requestedDisplayResolution>
-    </iPhone>
-
     <!-- Android specific capabilities -->
     <android>
         <manifestAdditions>

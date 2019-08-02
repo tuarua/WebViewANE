@@ -2,14 +2,14 @@
 
 buildscript {
     ext.kotlin_version = '1.3.40'
-    ext.frekotlin_version = '1.8.0-beta1'
+    ext.frekotlin_version = '1.8.0'
     ext.gson_version = '2.8.4'
     repositories {
         jcenter()
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.4.1'
+        classpath 'com.android.tools.build:gradle:3.4.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         // NOTE: Do not place your application dependencies here; they belong

@@ -19,6 +19,13 @@
                 <finalizer>TRWVExtFinizer</finalizer>
             </applicationDeployment>
         </platform>
+        <platform name="Android-x86">
+            <applicationDeployment>
+                <nativeLibrary>classes.jar</nativeLibrary>
+                <initializer>com.tuarua.WebViewANE</initializer>
+                <finalizer>com.tuarua.WebViewANE</finalizer>
+            </applicationDeployment>
+        </platform>
         <platform name="Android-ARM">
             <applicationDeployment>
                 <nativeLibrary>classes.jar</nativeLibrary>
