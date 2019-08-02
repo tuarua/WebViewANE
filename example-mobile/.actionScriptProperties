@@ -40,7 +40,8 @@
       </libraryPathEntry>
       <libraryPathEntry kind="1" linkType="1" path="/Users/eoinlandy/Desktop/dev/WebViewANE/example/libs"/>
       <libraryPathEntry kind="5" linkType="2" path="/Users/eoinlandy/Desktop/dev/WebViewANE/native_extension/ane/WebViewANE.ane"/>
-      <libraryPathEntry kind="5" linkType="2" path="android_dependencies/com.tuarua.frekotlin.ane"/>
+      <libraryPathEntry kind="5" linkType="2" path="android_dependencies/com.tuarua.frekotlin-1.8.0.ane"/>
+      <libraryPathEntry kind="5" linkType="2" path="android_dependencies/com.google.code.gson.gson-2.8.4.ane"/>
     </libraryPath>
     <sourceAttachmentPath/>
   </compiler>
@@ -83,7 +84,8 @@
         </airExcludes>
         <anePaths>
           <anePathEntry path="/Users/eoinlandy/Desktop/dev/WebViewANE/native_extension/ane/WebViewANE.ane"/>
-          <anePathEntry path="android_dependencies/com.tuarua.frekotlin.ane"/>
+          <anePathEntry path="android_dependencies/com.tuarua.frekotlin-1.8.0.ane"/>
+          <anePathEntry path="android_dependencies/com.google.code.gson.gson-2.8.4.ane"/>
         </anePaths>
         <newLaunchParams/>
         <modifiedLaunchParams/>

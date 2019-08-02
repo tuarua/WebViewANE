@@ -15,7 +15,7 @@
 
 
         var isAndroid = /Android/.test(navigator.userAgent);
-        var isCef = (navigator.vendor == "Google Inc.");
+        var isCef = (navigator.vendor === "Google Inc.");
 
         function as_to_js(numberA, stringA, numberB, obj) {
             console.log(numberA);
@@ -47,9 +47,9 @@
             var n = d.getTime();
             var output = document.getElementById('output');
             output.innerText += "Callback: paraA: " + paramA + ", paramB: " + paramB + ", paramC: " + paramC + " - " + d + " - unix tamestamp: " + n + "\n";
-            console.log(paramA)
-            console.log(paramB)
-            console.log(paramC)
+            console.log(paramA);
+            console.log(paramB);
+            console.log(paramC);
         }
 
         function testCallback() {
@@ -84,7 +84,7 @@
             var output = document.getElementById('output');
             output.innerText = "Your current position is:\nLatitude : " + crd.latitude + "\nLongitude: " + crd.longitude
                 + "\nAccuracy: " + crd.accuracy + " meters"
-        };
+        }
 
         function handleLocationError(err) {
             output.innerText = "Error: (" + err.code + "): " + err.message;

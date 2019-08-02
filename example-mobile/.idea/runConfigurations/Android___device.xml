@@ -1,10 +1,12 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Android - device" type="FlashRunConfigurationType" factoryName="Flash App">
+  <configuration default="false" name="Android - device" type="FlashRunConfigurationType">
     <option name="BCName" value="WebViewANESample-mobile Android Device" />
+    <option name="IOSSimulatorDevice" value="" />
     <option name="IOSSimulatorSdkPath" value="/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk" />
     <option name="adlOptions" value="" />
     <option name="airProgramParameters" value="" />
     <option name="appDescriptorForEmulator" value="Android" />
+    <option name="clearAppDataOnEachLaunch" value="true" />
     <option name="debugTransport" value="USB" />
     <option name="debuggerSdkRaw" value="BC SDK" />
     <option name="emulator" value="NexusOne" />
@@ -32,6 +34,8 @@
     <option name="screenWidth" value="0" />
     <option name="url" value="http://" />
     <option name="usbDebugPort" value="7936" />
-    <method />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
   </configuration>
 </component>

@@ -3,7 +3,7 @@
     <id>com.tuarua.WebViewANE</id>
     <name>WebView ANE</name>
     <copyright>This work is licensed under Apache License, Copyright (c) 2017 Tua Rua Ltd.</copyright>
-    <versionNumber>2.5.1</versionNumber>
+    <versionNumber>2.6.0</versionNumber>
     <platforms>
         <platform name="Android-ARM">
             <applicationDeployment>
@@ -12,7 +12,7 @@
                 <finalizer>com.tuarua.WebViewANE</finalizer>
             </applicationDeployment>
         </platform>
-        <platform name="Android-x86">
+        <platform name="Android-ARM64">
             <applicationDeployment>
                 <nativeLibrary>classes.jar</nativeLibrary>
                 <initializer>com.tuarua.WebViewANE</initializer>
