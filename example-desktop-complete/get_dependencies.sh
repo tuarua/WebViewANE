@@ -1,6 +1,6 @@
 #!/bin/sh
 
-AneVersion="2.5.1"
+AneVersion="2.6.0"
 FreSwiftVersion="3.1.0"
 FreSharpVersion="2.2.0"
 
