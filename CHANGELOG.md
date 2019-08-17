@@ -1,3 +1,6 @@
+### 2.7.0
+- WIN: Updated to CefSharp 75.1.141
+
 ### 2.6.0
 - AND: Updated to FreKotlin 1.8.0
 - Updated to AIR 33 ARM 64bit

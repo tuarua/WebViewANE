@@ -217,7 +217,7 @@ namespace WebViewANELib {
                 browser.MenuHandler = new MenuHandler();
             }
 
-            var rh = new RequestHandler(WhiteList, BlackList);
+            var rh = new CefRequestHandler(WhiteList, BlackList);
             rh.OnUrlBlockedFired += OnUrlBlocked;
 
             browser.RequestHandler = rh;
@@ -368,8 +368,8 @@ namespace WebViewANELib {
             Context.DispatchEvent(WebViewEvent.OnFail, e.ToJsonString(tab));
         }
 
-        private void OnBrowserInitialized(object sender, IsBrowserInitializedChangedEventArgs e) {
-            _isLoaded = e.IsBrowserInitialized;
+        private void OnBrowserInitialized(object sender, EventArgs e) {
+            _isLoaded = true;
             if (!_isLoaded) return;
             if (!string.IsNullOrEmpty(CurrentBrowser.Address)) return;
             if (!string.IsNullOrEmpty(_initialHtml)) {
