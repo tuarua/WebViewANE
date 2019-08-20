@@ -1,4 +1,4 @@
-$AneVersion = "2.6.0"
+$AneVersion = "2.7.0"
 $FreSharpVersion = "2.2.0"
 $FreSwiftVersion = "3.1.0"
 
