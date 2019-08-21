@@ -1,4 +1,4 @@
-$AneVersion = "2.6.0"
+$AneVersion = "2.7.0"
 $FreKotlinVersion = "1.8.0"
 $GsonVersion = "2.8.4"
 

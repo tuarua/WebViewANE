@@ -9,7 +9,7 @@
 #define use_vc2015
 
 #define MyAppSetupName 'WebViewANESample'
-#define MyAppVersion '2.2.0'
+#define MyAppVersion '2.7.0'
 
 [Setup]
 AppName={#MyAppSetupName}
