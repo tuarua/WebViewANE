@@ -16,7 +16,7 @@ This ANE provides access to a more modern webview from AIR.
 
 ## Important notice for Windows version of 2.5.0+
 C# and CefSharp binaries are now packaged inside the ANE. All of these **need to be deleted** from your AIRSDK.     
-FreSharp.ane is now a required dependency for Windows. 
+[FreSharp.ane](https://github.com/tuarua/FreSharp/releases) is now a required dependency for Windows. 
 
 ## WIKI
 
@@ -31,4 +31,4 @@ The [wiki page](https://github.com/tuarua/WebViewANE/wiki) contains extensive in
 - The Issue Tracker is for **reproducible bugs only**. Use the supplied template.
 - Spend at least 1 hour investigating the issue yourself.
 - The project is open source, that is, the code is free to use and free to modify. 
-- Paid Support is available for anything which falls outside bug fixing and minor help.
+- [Paid Support](mailto:info@tuarua.co.uk) is available for anything which falls outside bug fixing.
