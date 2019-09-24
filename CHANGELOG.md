@@ -1,3 +1,7 @@
+### 2.8.0
+- WIN: Updated to Windows Toolkit 5.1.1 for Modern WebView (Edge)
+- WIN: Updated to CefSharp 75.1.142
+
 ### 2.7.0
 - WIN: Updated to CefSharp 75.1.141
 

@@ -203,7 +203,9 @@
    Additional Terms
    No part, or derivative of this Air Native Extensions's code is permitted 
    to be sold as the basis of a commercially packaged Air Native Extension or 
-   OpenFl/Haxe extension which undertakes the same purpose as this software. That is, 
-   a WebView for Windows, OSX and/or iOS and/or Android.
+   OpenFl/Haxe extension which undertakes the same purpose as this software. 
+   That is, a WebView for Windows, OSX and/or iOS and/or Android.
+   It is also strictly prohibited to distribute the compiled binary ( the 
+   .ane file ) outside of Tua Rua Ltd's offical channels.
    All Rights Reserved. Tua Rua Ltd.
 
