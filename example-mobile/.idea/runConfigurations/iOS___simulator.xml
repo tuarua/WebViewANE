@@ -1,7 +1,8 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="iOS - simulator" type="FlashRunConfigurationType">
     <option name="BCName" value="WebViewANESample-mobile iOS simulator" />
-    <option name="IOSSimulatorSdkPath" value="/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator12.1.sdk" />
+    <option name="IOSSimulatorDevice" value="" />
+    <option name="IOSSimulatorSdkPath" value="/Applications/Xcode10.1.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator12.1.sdk" />
     <option name="adlOptions" value="" />
     <option name="airProgramParameters" value="" />
     <option name="appDescriptorForEmulator" value="Android" />
