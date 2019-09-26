@@ -13,13 +13,13 @@ This ANE provides access to modern webviews from AIR.
 ### Update 26/10/2019
 
 The compiled binary (the .ane file) is no longer provided free of charge.    
-It is now provided inside a ***password protected*** zip file in [releases](https://github.com/tuarua/WebViewANE/releases).
+It is now provided inside a __*password protected*__ zip file in [releases](https://github.com/tuarua/WebViewANE/releases).
 
 ##### How do I get the password?
 
 You can make a one-off payment via [Paypal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=YZ3M5H58GDSLQ).   
 You will be emailed the password to allow you to unzip the file and access the .ane file(s).    
-This password will work for the ***current*** and any ***future*** versions.
+This password will work for the __*current*__ and any __*future*__ versions.
 
 [![paypal](https://www.paypalobjects.com/en_US/GB/i/btn/btn_buynowCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=YZ3M5H58GDSLQ)
 
