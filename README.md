@@ -10,7 +10,7 @@ This ANE provides access to modern webviews from AIR.
 
 -------------
 
-### Update 26/10/2019
+### Update 26/9/2019
 
 The compiled binary (the .ane file) is no longer provided free of charge.    
 It is now provided inside a __*password protected*__ zip file in [releases](https://github.com/tuarua/WebViewANE/releases).
