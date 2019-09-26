@@ -15,7 +15,7 @@ This ANE provides access to modern webviews from AIR.
 The compiled binary (the .ane file) is no longer provided free of charge.    
 It is now provided inside a __*password protected*__ zip file in [releases](https://github.com/tuarua/WebViewANE/releases).
 
-##### How do I get the password?
+#### How do I get the password?
 
 You can make a one-off payment via [Paypal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=YZ3M5H58GDSLQ).   
 You will be emailed the password to allow you to unzip the file and access the .ane file(s).    
@@ -24,16 +24,16 @@ This password will work for the __*current*__ and any __*future*__ versions.
 [![paypal](https://www.paypalobjects.com/en_US/GB/i/btn/btn_buynowCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=YZ3M5H58GDSLQ)
 
 
-##### Wait... is the project still open source?
+#### Wait... is the project still open source?
 
 The project remains open source.  
 Open source is often wrongly confused as synonymous with 'free' i.e. free binaries / email support / updates / bug fixes / tutorials / consultation.   
 Open source software is software with source code that anyone can inspect, modify, and compile.  
 
-##### I have previously donated to the project, can I get the password?
+#### I have previously donated to the project, can I get the password?
 Those who have kindly previously already can send an email to [info@tuarua.co.uk](mailto:info@tuarua.co.uk) to enquire about this.
 
-##### I don't want to pay for the compiled ane. What can I do?
+#### I don't want to pay for the compiled ane. What can I do?
 
 You can build the ane from the source code in this repo.
 
