@@ -1,44 +1,22 @@
 # WebViewANE 
 
 WebView Adobe Air Native Extension for macOS 10.10+, Windows Desktop, iOS 9.0+ and Android19+.
-This ANE provides access to modern webviews from AIR.
+This ANE provides access to a more modern webview from AIR.
 
 -------------
+
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=FTUQPB2L9NMAU&source=url)
+
+##### Much time, skill and effort has gone into this. Help support the project.     
 
 ##### IDE Software provided by JetBrains
 [![Jetbrains](https://raw.githubusercontent.com/tuarua/WebViewANE/master/screenshots/jetbrains.png)](https://www.jetbrains.com)
 
 -------------
 
-### Update 26/9/2019
-
-The compiled binary (the .ane file) is no longer provided free of charge.    
-It is now provided inside a __*password protected*__ zip file in [releases](https://github.com/tuarua/WebViewANE/releases).
-
-#### How do I get the password?
-
-You can make a one-off payment via [Paypal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=YZ3M5H58GDSLQ).   
-You will be emailed the password to allow you to unzip the file and access the .ane file(s).    
-This password will work for the __*current*__ and any __*future*__ versions.
-
-[![paypal](https://www.paypalobjects.com/en_US/GB/i/btn/btn_buynowCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=YZ3M5H58GDSLQ)
-
-
-#### Wait... is the project still open source?
-
-The project remains open source.  
-Open source is often wrongly confused as synonymous with 'free' i.e. free binaries / email support / updates / bug fixes / tutorials / consultation.   
-Open source software is software with source code that anyone can inspect, modify, and compile.  
-
-#### I have previously donated to the project, can I get the password?
-Those who have kindly previously already can send an email to [info@tuarua.co.uk](mailto:info@tuarua.co.uk) to enquire about this.
-
-#### I don't want to pay for the compiled ane. What can I do?
-
-You can build the ane from the source code in this repo.
-
--------------
-
+## Important notice for Windows version of 2.5.0+
+C# and CefSharp binaries are now packaged inside the ANE. All of these **need to be deleted** from your AIRSDK.     
+[FreSharp.ane](https://github.com/tuarua/FreSharp/releases) is now a required dependency for Windows. 
 
 ## WIKI
 
@@ -52,4 +30,5 @@ The [wiki page](https://github.com/tuarua/WebViewANE/wiki) contains extensive in
 
 - The Issue Tracker is for **reproducible bugs only**. Use the supplied template.
 - Spend at least 1 hour investigating the issue yourself.
+- The project is open source, that is, the code is free to use and free to modify. 
 - [Paid Support](mailto:info@tuarua.co.uk) is available for anything which falls outside bug fixing.

@@ -14,4 +14,4 @@ wget https://github.com/tuarua/WebViewANE/releases/download/$AneVersion/ios_depe
 unzip -u -o ios_dependencies.zip
 rm ios_dependencies.zip
 
-wget -O ../native_extension/ane/WebViewANE.ane.zip https://github.com/tuarua/WebViewANE/releases/download/$AneVersion/WebViewANE.ane.zip?raw=true
+wget -O ../native_extension/ane/WebViewANE.ane https://github.com/tuarua/WebViewANE/releases/download/$AneVersion/WebViewANE.ane?raw=true
