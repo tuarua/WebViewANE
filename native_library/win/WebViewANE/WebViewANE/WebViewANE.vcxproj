@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\TuaRua.FreSharp.1.6.0\build\TuaRua.FreSharp.props" Condition="Exists('..\packages\TuaRua.FreSharp.1.6.0\build\TuaRua.FreSharp.props')" />
+  <Import Project="..\packages\TuaRua.FreSharp.2.3.0\build\TuaRua.FreSharp.props" Condition="Exists('..\packages\TuaRua.FreSharp.2.3.0\build\TuaRua.FreSharp.props')" />
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -206,7 +206,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FreSharp">
-      <HintPath>..\packages\TuaRua.FreSharp.2.2.0\FreSharp\$(PlatformTarget)\FreSharp.dll</HintPath>
+      <HintPath>..\packages\TuaRua.FreSharp.2.3.0\FreSharp\$(PlatformTarget)\FreSharp.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />

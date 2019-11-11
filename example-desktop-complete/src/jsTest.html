@@ -17,7 +17,7 @@
         const isEdge = /Edge/.test(navigator.userAgent);
 
         const webViewANEWrapper = {
-            postMessage: function (message) { //object
+            postMessage: (message) => { //object
                 if (isCef) {
                     webViewANE.postMessage(message);
                 } else if (isEdge) {
@@ -28,15 +28,11 @@
             }
         };
 
-        function getWebviewANE() {
-            return webViewANEWrapper;
-        }
-
-        $(document).ready(function () {
+        $(document).ready(() => {
             let button1 = document.getElementById("button1");
             let button2 = document.getElementById("button2");
 
-            button1.addEventListener('click', function (event) {
+            button1.addEventListener('click', (event) => {
                 const d = new Date();
                 const n = d.getTime();
                 const output = document.getElementById('output');
@@ -47,32 +43,32 @@
                     'args': [1, 'I am a string with UTF-8: Björk Guðmundsdóttir Sinéad O’Connor 久保田  利伸 ' +
                     'Михаил Горбачёв Садриддин Айнӣ Tor Åge Bringsværd 章子怡 € ', false]
                 };
-                getWebviewANE().postMessage(messageToPost);
+                webViewANEWrapper.postMessage(messageToPost);
             });
 
-            button2.addEventListener('click', function (event) {
+            button2.addEventListener('click',  (event) => {
                 const d = new Date();
                 const n = d.getTime();
                 const output = document.getElementById('output');
                 output.innerText = "The function has returned: " + d + " - unix timestamp: " + n + "\n";
                 const messageToPost = {'functionName': 'js_to_as'};
-                getWebviewANE().postMessage(messageToPost);
+                webViewANEWrapper.postMessage(messageToPost);
             });
 
             //workaround for Windows touch, ensures the webview is focused on
-            document.body.addEventListener("touchend", function (e) {
+            document.body.addEventListener("touchend", (event) => {
                 const messageToPost = {
                     'functionName': 'forceWebViewFocus',
                     'callbackName': null,
                     'args': []
                 };
-                getWebviewANE().postMessage(messageToPost);
+                webViewANEWrapper.postMessage(messageToPost);
             }, false);
 
             if (isCef) {
                 // Important: CefSharp binding must now be performed async
                 (async () => {
-                    await window.CefSharp.BindObjectAsync("webViewANE", "bound").then(function (res) {
+                    await window.CefSharp.BindObjectAsync("webViewANE", "bound").then((res) => {
                         if (res.Success) {
                             button1.disabled = button2.disabled = false;
                         }
@@ -84,7 +80,7 @@
 
         });
 
-        function jsCallback(paramA, paramB, paramC) {
+        const jsCallback = (paramA, paramB, paramC) => {
             const d = new Date();
             const n = d.getTime();
             const output = document.getElementById('output');
@@ -93,13 +89,13 @@
             console.log(paramA);
             console.log(paramB);
             console.log(paramC);
-        }
+        };
 
-        function openNewWindow() {
+        const openNewWindow = ()=> {
             window.open("https://www.w3schools.com");
-        }
+        };
 
-        function as_to_js(numberA, stringA, numberB, obj) {
+        const as_to_js = (numberA, stringA, numberB, obj) => {
             console.log(numberA);
             console.log(stringA);
             console.log(numberB);
