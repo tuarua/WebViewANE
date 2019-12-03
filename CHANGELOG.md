@@ -1,3 +1,8 @@
+### 2.9.0
+- AND: Updated to FreKotlin 1.9.1
+- OSX/iOS: Updated to FreSwift 4.1.0
+- WIN: Updated to FreSharp 2.3.0
+
 ### 2.8.0
 - WIN: Updated to Windows Toolkit 5.1.1 for Modern WebView (Edge)
 - WIN: Updated to CefSharp 75.1.142

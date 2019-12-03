@@ -21,6 +21,7 @@
 
 import Foundation
 import WebKit
+import SwiftyJSON
 
 extension SwiftController: WKScriptMessageHandler {
     #if os(iOS)

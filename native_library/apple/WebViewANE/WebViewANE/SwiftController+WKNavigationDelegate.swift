@@ -22,6 +22,7 @@
 import Foundation
 import WebKit
 import FreSwift
+import SwiftyJSON
 
 extension SwiftController: WKNavigationDelegate {
   

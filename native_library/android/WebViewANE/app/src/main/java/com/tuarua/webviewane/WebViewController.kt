@@ -229,6 +229,7 @@ class WebViewController(override var context: FREContext?,
         webView?.stopLoading()
     }
 
+    @Suppress("DEPRECATION")
     fun capture(cropTo: RectF): Bitmap? {
         val wv = webView ?: return null
         var x = cropTo.left.toInt()

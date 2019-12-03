@@ -22,6 +22,7 @@
 import Foundation
 import WebKit
 import FreSwift
+import SwiftyJSON
 #if canImport(Cocoa)
 import Cocoa
 #endif

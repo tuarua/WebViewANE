@@ -34,7 +34,7 @@ public extension URLRequest {
         }
     }
     
-    public static func getCustomRequestHeaders(_ freObject: FREObject?) -> [(String, String)] {
+    static func getCustomRequestHeaders(_ freObject: FREObject?) -> [(String, String)] {
         var ret = [(String, String)]()
         guard let rv = freObject else { return ret }
         if let freRequestHeaders = rv["requestHeaders"] {

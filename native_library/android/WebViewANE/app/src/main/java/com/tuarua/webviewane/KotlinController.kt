@@ -46,7 +46,7 @@ class KotlinController : FreKotlinMainController {
     }
 
     fun init(ctx: FREContext, argv: FREArgv): FREObject? {
-        argv.takeIf { argv.size > 4 } ?: return FreArgException("init")
+        argv.takeIf { argv.size > 4 } ?: return FreArgException()
         val initialUrl = URLRequest(argv[0])
         val viewPort = RectF(argv[1])
         val settings = Settings(argv[2])
@@ -73,14 +73,14 @@ class KotlinController : FreKotlinMainController {
     }
 
     fun setViewPort(ctx: FREContext, argv: FREArgv): FREObject? {
-        argv.takeIf { argv.size > 0 } ?: return FreArgException("setViewPort")
+        argv.takeIf { argv.size > 0 } ?: return FreArgException()
         val viewPortFre = RectF(argv[0])
         webViewController?.viewPort = scaleViewPort(viewPortFre)
         return null
     }
 
     fun setVisible(ctx: FREContext, argv: FREArgv): FREObject? {
-        argv.takeIf { argv.size > 0 } ?: return FreArgException("setVisible")
+        argv.takeIf { argv.size > 0 } ?: return FreArgException()
         val visible = Boolean(argv[0]) == true
         if (!isAdded) {
             webViewController?.add()
@@ -91,21 +91,21 @@ class KotlinController : FreKotlinMainController {
     }
 
     fun loadHTMLString(ctx: FREContext, argv: FREArgv): FREObject? {
-        argv.takeIf { argv.size > 0 } ?: return FreArgException("loadHTMLString")
+        argv.takeIf { argv.size > 0 } ?: return FreArgException()
         val data = String(argv[0]) ?: return null
         webViewController?.loadHTMLString(data)
         return null
     }
 
     fun load(ctx: FREContext, argv: FREArgv): FREObject? {
-        argv.takeIf { argv.size > 0 } ?: return FreArgException("load")
+        argv.takeIf { argv.size > 0 } ?: return FreArgException()
         val request = URLRequest(argv[0])
         webViewController?.loadUrl(request)
         return null
     }
 
     fun loadFileURL(ctx: FREContext, argv: FREArgv): FREObject? {
-        argv.takeIf { argv.size > 0 } ?: return FreArgException("loadFileURL")
+        argv.takeIf { argv.size > 0 } ?: return FreArgException()
         val url = String(argv[0]) ?: return null
         webViewController?.loadFileUrl(url)
         return null
@@ -122,7 +122,7 @@ class KotlinController : FreKotlinMainController {
     }
 
     fun go(ctx: FREContext, argv: FREArgv): FREObject? {
-        argv.takeIf { argv.size > 0 } ?: return FreArgException("go")
+        argv.takeIf { argv.size > 0 } ?: return FreArgException()
         val offset = Int(argv[0]) ?: return null
         webViewController?.go(offset)
         return null
@@ -163,7 +163,7 @@ class KotlinController : FreKotlinMainController {
     }
 
     fun callJavascriptFunction(ctx: FREContext, argv: FREArgv): FREObject? {
-        argv.takeIf { argv.size > 1 } ?: return FreArgException("callJavascriptFunction")
+        argv.takeIf { argv.size > 1 } ?: return FreArgException()
         val js = String(argv[0]) ?: return null
         val callback = String(argv[1])
         webViewController?.evaluateJavascript(js, callback)
@@ -171,7 +171,7 @@ class KotlinController : FreKotlinMainController {
     }
 
     fun evaluateJavaScript(ctx: FREContext, argv: FREArgv): FREObject? {
-        argv.takeIf { argv.size > 1 } ?: return FreArgException("evaluateJavaScript")
+        argv.takeIf { argv.size > 1 } ?: return FreArgException()
         val js = String(argv[0]) ?: return null
         val callback = String(argv[1])
         webViewController?.evaluateJavascript(js, callback)
@@ -198,7 +198,7 @@ class KotlinController : FreKotlinMainController {
     }
 
     fun capture(ctx: FREContext, argv: FREArgv): FREObject? {
-        argv.takeIf { argv.size > 0 } ?: return FreArgException("capture")
+        argv.takeIf { argv.size > 0 } ?: return FreArgException()
         val cropTo = scaleViewPort(RectF(argv[0]))
         capturedBitmapData = webViewController?.capture(cropTo)
         dispatchEvent(WebViewEvent.ON_CAPTURE_COMPLETE, "")
@@ -245,7 +245,7 @@ class KotlinController : FreKotlinMainController {
     }
 
     @Suppress("PropertyName")
-    override val TAG: String
+    override val TAG: String?
         get() = this::class.java.simpleName
     private var _context: FREContext? = null
     override var context: FREContext?

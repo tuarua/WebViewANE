@@ -394,7 +394,7 @@ public class WebViewANESample extends Sprite {
     }
 
     private function onPropertyChange(event:WebViewEvent):void {
-// read list of tabs and their details like this:
+        // read list of tabs and their details like this:
         /*var tabList:Vector.<TabDetails> = webView.tabDetails;
         if (tabList && tabList.length > 0) {
             trace(tabList[webView.currentTab].index, tabList[webView.currentTab].title, tabList[webView.currentTab].url);
@@ -572,7 +572,6 @@ public class WebViewANESample extends Sprite {
         _appWidth = this.stage.stageWidth;
         _appHeight = this.stage.stageHeight;
         updateWebViewOnResize();
-
     }
 
     /**
