@@ -36,7 +36,7 @@
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/ios_dependencies/simulator" path-in-package="." />
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/src/Assets.car" path-in-package="Assets.car" />
           </files-to-package>
-          <AirSigningOptions keystore-path="$USER_HOME$/Documents/appleCertsProv/2019/dev/tua_rua_dev_2019.p12" provisioning-profile-path="$USER_HOME$/Documents/appleCertsProv/2019/dev/Tua_Rua_Dev_Provisioning.mobileprovision" />
+          <AirSigningOptions keystore-path="$USER_HOME$/Documents/appleCertsProv/2020/dev/tua_rua_dev_2020.p12" provisioning-profile-path="$USER_HOME$/Documents/appleCertsProv/2019/dev/Tua_Rua_Dev_Provisioning.mobileprovision" />
         </packaging-ios>
       </configuration>
       <configuration name="WebViewANESample-mobile iOS Device" target-platform="Mobile" pure-as="true" main-class="WebViewANESample" output-file="WebViewANESample-mobile.swf" output-folder="$MODULE_DIR$/bin-release/device">
@@ -52,7 +52,7 @@
               <dependency linkage="Merged" />
             </entry>
           </entries>
-          <sdk name="AIRSDK_32" />
+          <sdk name="AIRSDK_33" />
         </dependencies>
         <compiler-options>
           <map>
@@ -73,7 +73,7 @@
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/ios_dependencies/device" path-in-package="." />
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/src/Assets.car" path-in-package="Assets.car" />
           </files-to-package>
-          <AirSigningOptions keystore-path="$USER_HOME$/Documents/appleCertsProv/2019/dev/tua_rua_dev_2019.p12" provisioning-profile-path="$USER_HOME$/Documents/appleCertsProv/2019/dev/Tua_Rua_Dev_Provisioning.mobileprovision" />
+          <AirSigningOptions keystore-path="$USER_HOME$/Documents/appleCertsProv/2020/dev/tua_rua_dev_2020.p12" provisioning-profile-path="$USER_HOME$/Documents/appleCertsProv/2019/dev/Tua_Rua_Dev_Provisioning.mobileprovision" />
         </packaging-ios>
       </configuration>
       <configuration name="WebViewANESample-mobile Android Device" target-platform="Mobile" pure-as="true" main-class="WebViewANESample" output-file="WebViewANESample-mobile_Android_Device.swf" output-folder="$MODULE_DIR$/bin-release/device">
@@ -91,7 +91,7 @@
             <entry library-name="com.google.code.gson.gson-2.8.4" library-level="project">
               <dependency linkage="Merged" />
             </entry>
-            <entry library-name="com.tuarua.frekotlin-1.8.0" library-level="project">
+            <entry library-name="com.tuarua.frekotlin-1.9.1" library-level="project">
               <dependency linkage="Merged" />
             </entry>
           </entries>
@@ -134,7 +134,7 @@
               <dependency linkage="Merged" />
             </entry>
           </entries>
-          <sdk name="AIRSDK_32" />
+          <sdk name="AIRSDK_33" />
         </dependencies>
         <compiler-options>
           <map>
@@ -168,7 +168,7 @@
       <sourceFolder url="file://$MODULE_DIR$/system" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/assets" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="AIRSDK_32&#9;AIRSDK_33" jdkType="__CompositeFlexSdk__" />
+    <orderEntry type="jdk" jdkName="AIRSDK_33" jdkType="Flex SDK Type (new)" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="starling" level="project" />
     <orderEntry type="library" exported="" name="WebViewANE-ios" level="project" />
@@ -182,5 +182,6 @@
     <orderEntry type="library" exported="" name="com.tuarua.frekotlin-1.8.0" level="project" />
     <orderEntry type="library" exported="" name="jquery" level="application" />
     <orderEntry type="library" exported="" name="bootstrap" level="application" />
+    <orderEntry type="library" exported="" name="com.tuarua.frekotlin-1.9.1" level="project" />
   </component>
 </module>
