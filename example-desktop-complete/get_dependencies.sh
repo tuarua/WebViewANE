@@ -1,7 +1,7 @@
 #!/bin/sh
 
 AneVersion="2.9.0"
-FreSwiftVersion="4.1.0"
+FreSwiftVersion="4.2.0"
 FreSharpVersion="2.3.0"
 
 wget -O ../native_extension/ane/FreSwift.ane https://github.com/tuarua/Swift-IOS-ANE/releases/download/$FreSwiftVersion/FreSwift.ane?raw=true
