@@ -3,5 +3,10 @@ build-asdocs.bat
 build_asdocs.sh
 build_osx_debug.sh
 build_multi_edge.sh
+
+extension_android.xml
+extension_ios.xml
+extension_osx.xml
+
 platforms/mac
 *.ane
