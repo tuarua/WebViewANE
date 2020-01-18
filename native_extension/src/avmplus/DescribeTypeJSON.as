@@ -29,6 +29,7 @@ package avmplus {
  * on describeType.</strong>
  *
  * @see http://www.tillschneidereit.de/2009/11/22/improved-reflection-support-in-flash-player-10-1/
+ * @private
  */
 public class DescribeTypeJSON {
     //----------------------              Public Properties             ----------------------//

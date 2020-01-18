@@ -131,13 +131,24 @@ public class ANEUtils {
                 case Vector.<int>:
                 case Vector.<Number>:
                 case Vector.<Boolean>:
-                    classInstance[name] = from[name];
+                    if (classInstance.hasOwnProperty(name)) classInstance[name] = from[name];
                     break;
                 case Date:
-                    classInstance[name] = new Date(Date.parse(from[name]));
+                    if (classInstance.hasOwnProperty(name)) classInstance[name] = new Date(Date.parse(from[name]));
                     break;
-                default: //Object or Class
-                    classInstance[name] = (propCls == null) ? from[name] : map(from[name], getPropClass(name, to));
+                default: //Object or Class or Vector.<Class>
+                    // handle Vector.<Class>
+                    if (propCls && propCls.toString().indexOf("Vector.") > -1) {
+                        var vec:* = new propCls();
+                        var vecClsName:String = propCls.toString().replace("[class Vector.<","").replace(">]","");
+                        var vecCls:Class = getClass(Class(getDefinitionByName(vecClsName)));
+                        for each(var o:* in from[name]) {
+                            vec.push(map(o, vecCls));
+                        }
+                        if (classInstance.hasOwnProperty(name)) classInstance[name] = vec;
+                    } else {
+                        if (classInstance.hasOwnProperty(name)) classInstance[name] = (propCls == null) ? from[name] : map(from[name], getPropClass(name, to));
+                    }
                     break;
             }
 
