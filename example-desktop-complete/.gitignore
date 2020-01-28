@@ -8,6 +8,16 @@ bin-release/
 bin-release-temp/
 cache/
 
+mac_packaging/*.app
+mac_packaging/*.plist
+mac_packaging/*.pkg
+mac_packaging/*.provisionprofile
+mac_packaging/sign_playground.sh
+mac_packaging/signTR.sh
+mac_packaging/signTR_store.sh
+mac_packaging/signTR_developerId.sh
+mac_packaging/Assets.xcassets/AppIcon.appiconset/*.png
+
 *.app
 
 # Other files and folders

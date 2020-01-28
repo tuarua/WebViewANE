@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <application xmlns="http://ns.adobe.com/air/application/32.0">
-    <id>WebViewANESample</id>
+    <id>com.tuaura.WebViewANESample</id>
     <filename>WebViewANESample</filename>
     <name>webView</name>
     <versionNumber>2.9.0</versionNumber>
