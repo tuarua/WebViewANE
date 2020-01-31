@@ -69,6 +69,12 @@ public class CefSettings {
      */
     public var locale:String = "en-US";
 
+    /**
+     *  Set command line argument to enable Print Preview
+     *  See https://bitbucket.org/chromiumembedded/cef/issues/123/add-support-for-print-preview for details.
+     */
+    public var enablePrintPreview:Boolean;
+
     public function CefSettings() {
     }
 }

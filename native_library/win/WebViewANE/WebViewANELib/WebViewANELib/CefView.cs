@@ -50,6 +50,7 @@ namespace WebViewANELib {
         public int ViewWidth { get; set; }
         public int ViewHeight { get; set; }
         public int RemoteDebuggingPort { private get; set; }
+        public bool EnablePrintPreview { private get; set; }
         public string DownloadPath { private get; set; }
         public string CachePath { private get; set; }
         public bool CacheEnabled { private get; set; }
@@ -94,7 +95,10 @@ namespace WebViewANELib {
                 UserAgent = UserAgent,
                 UserDataPath = UserDataPath
             };
-
+            if (EnablePrintPreview) {
+                settings.EnablePrintPreview();
+            }
+           
             CefSharpSettings.ShutdownOnExit = false;
 
             switch (LogLevel) {

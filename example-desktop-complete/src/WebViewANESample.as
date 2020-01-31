@@ -154,6 +154,7 @@ public class WebViewANESample extends Sprite {
             key: "disable-direct-write",
             value: "1"
         });
+        settings.cef.enablePrintPreview = true;
         settings.cef.userDataPath = File.applicationStorageDirectory.nativePath;
         settings.cef.logSeverity = LogSeverity.DISABLE;
 
