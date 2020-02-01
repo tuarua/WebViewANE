@@ -125,7 +125,7 @@ if [ -d "$APP.app/Contents/Resources/META-INF/AIR/extensions" ]; then
     LAST=$(( $LEN - 1 ))
     ANE_NAME="${my_array[LAST]}"
 
-    if [ -d "${ane}/META-INF/ANE/MacOS-x86-64/${ANE_NAME}.framework" ]; then
+    if [[ (-d "${ane}/META-INF/ANE/MacOS-x86-64/${ANE_NAME}.framework") && (! -d "${ane}/META-INF/ANE/MacOS-x86-64/${ANE_NAME}.framework/Versions") ]]; then
         # https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPFrameworks/Concepts/FrameworkAnatomy.html
         cd "${ane}/META-INF/ANE/MacOS-x86-64/${ANE_NAME}.framework"
         mkdir Versions
