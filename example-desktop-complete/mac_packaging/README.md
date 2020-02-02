@@ -11,5 +11,5 @@
 5. From the Teminal cd into */example-desktop/mac_packaging* and run:
 
 ```shell
-bash /full/path/to/Apple-Signin-ANE/example-desktop/mac_packaging/sign_store.sh
+bash /full/path/to/WebViewANE/example-desktop-complete/mac_packaging/sign_store.sh
 ```
