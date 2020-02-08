@@ -11,5 +11,5 @@
 5. From the Teminal cd into */example-desktop/mac_packaging* and run:
 
 ```shell
-bash /full/path/to/mac_packaging/sign_store.sh
+bash sign_store.sh
 ```

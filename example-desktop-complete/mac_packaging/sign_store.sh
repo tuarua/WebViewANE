@@ -30,32 +30,34 @@ mag=$'\e[1;35m'
 cyn=$'\e[1;36m'
 white=$'\e[0m'
 PlistBuddy=/usr/libexec/PlistBuddy
-pathtome=$0
-pathtome="${pathtome%/*}"
-cd "$pathtome"
+pathtome=$PWD
+_self="${0##*/}"
+
+if [ ! -f "$pathtome/$_self" ]; then
+    echo ${red} "cd into the packaging directory and run: ${cyn}bash $_self" ${white}
+    exit 72
+fi
 
 echo ${cyn} "Check Tools Availability" ${white}
 
-if [ ! -d "$(xcrun --show-sdk-path)" ]
-then
+if [ ! -d "$(xcrun --show-sdk-path)" ]; then
     echo ${red} "Xcode not configured" ${white}
     exit 72
 fi
 
-if [ ! -x "${PlistBuddy}" ]
-then
+if [ ! -x "${PlistBuddy}" ]; then
     echo ${red} "Couldn't find PlistBuddy" ${white}
     exit 72
 fi
 
-if [ ! -f "$pathtome/$PROVISION_PROFILE" ]; then
+if [ ! -f "$PROVISION_PROFILE" ]; then
     echo ${red} "Can't find $PROVISION_PROFILE. Did you forget to copy it into the packaging folder?" ${white}
     exit 72
 fi
 
 echo ${cyn} "Copying $APP.app" ${white}
 
-if [ ! -d "$pathtome/../bin-release/$APP.app" ]; then
+if [ ! -d "../bin-release/$APP.app" ]; then
     echo ${red} "Can't find bin-release/$APP.app. Package your AIR app!" ${white}
     exit 72
 fi
@@ -65,14 +67,14 @@ if [ -d "$APP.app" ]; then
 fi
 
 xattr -cr "../bin-release/$APP.app"
-cp -R "../bin-release/$APP.app" "$pathtome/"
+cp -R "../bin-release/$APP.app" .
 
 BUNDLE_ID=$( "${PlistBuddy}" -c "Print CFBundleIdentifier" "$APP.app/Contents/Info.plist" )
 APP_VERSION=$( "${PlistBuddy}" -c "Print CFBundleShortVersionString" "$APP.app/Contents/Info.plist" )
 
 echo ${cyn} "Making icons..." ${white}
 
-if [ ! -f "$pathtome/icon-1024.png" ]; then
+if [ ! -f "icon-1024.png" ]; then
     echo ${red} "Can't find icon-1024.png. Create a 1024x1024 png." ${white}
     exit
 fi
@@ -115,8 +117,9 @@ $PlistBuddy -c "Add :CFBundleSupportedPlatforms: string MacOSX" $APP.app/Content
 # Swift requires 10.10 not AIR's 10.6
 $PlistBuddy -c "Set :LSMinimumSystemVersion 10.10" $APP.app/Contents/Info.plist
 
-echo ${cyn} "Correct ANE symlinks" ${white}
 if [ -d "$APP.app/Contents/Resources/META-INF/AIR/extensions" ]; then
+    pushd $pathtome > /dev/null 2>&1
+    echo ${cyn} "Correct ANE symlinks" ${white}
     cd $APP.app/Contents/Resources/META-INF/AIR/extensions
     for ane in *
     do
@@ -149,8 +152,8 @@ if [ -d "$APP.app/Contents/Resources/META-INF/AIR/extensions" ]; then
         cd "../../../../../"
     fi
     done
+    popd > /dev/null 2>&1
 fi
-cd "$pathtome"
 
 echo ${cyn} "Applying values to Entitlements" ${white}
 
@@ -188,6 +191,7 @@ if [ "${codesign_result}" != "0" ]; then
     exit 1
 fi
 if [ -d "$APP.app/Contents/Resources/META-INF/AIR/extensions" ]; then
+    pushd $pathtome > /dev/null 2>&1
     cd $APP.app/Contents/Resources/META-INF/AIR/extensions
     for ane in *
     do
@@ -204,7 +208,7 @@ if [ -d "$APP.app/Contents/Resources/META-INF/AIR/extensions" ]; then
         fi
     fi
     done
-    cd "$pathtome"
+    popd > /dev/null 2>&1
 fi
 xcrun codesign -f -s "$APP_KEY" --entitlements "$ROOT_ENTITLEMENTS" --options runtime --timestamp $APP.app
 codesign_result=$?
@@ -240,6 +244,7 @@ if [ "${codesign_result}" != "0" ]; then
     exit 1
 fi
 if [ -d "$APP.app/Contents/Resources/META-INF/AIR/extensions" ]; then
+    pushd $pathtome > /dev/null 2>&1
     cd $APP.app/Contents/Resources/META-INF/AIR/extensions
     for ane in *
     do
@@ -256,9 +261,9 @@ if [ -d "$APP.app/Contents/Resources/META-INF/AIR/extensions" ]; then
         fi
     fi
     done
+    popd > /dev/null 2>&1
 fi
 
-cd "$pathtome"
 echo ${grn} "Codesign OK" ${white}
 
 echo ${cyn} "Building .pkg" ${white}
@@ -274,12 +279,12 @@ if [ "${codesign_result}" != "0" ]; then
     exit 1
 fi
 
-echo ${cyn}"Validate app..." ${white}
+echo ${cyn} "Validate app..." ${white}
 
 xcrun altool -t osx -f "$APP.pkg" --primary-bundle-id "$BUNDLE_ID" --validate-app -u "$TWO_FAC_UN" -p "$TWO_FAC_PW" > /dev/null 2>&1
 validate_result=$?
 if [ "${validate_result}" != "0" ]; then
-    echo ${red}"Validation failed: ${validate_result}" ${white}
+    echo ${red} "Validation failed: ${validate_result}" ${white}
     exit 1
 fi
 
