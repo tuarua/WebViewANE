@@ -1,5 +1,5 @@
 package {
-import com.tuarua.WebViewANE;
+import com.tuarua.WebView;
 import com.tuarua.utils.os;
 import com.tuarua.webview.ActionscriptCallback;
 import com.tuarua.webview.Settings;
@@ -48,7 +48,7 @@ public class StarlingRoot extends Sprite {
     private var inputBG:Image;
     private var urlInput:StageText;
     private var titleTxt:TextField;
-    private var webView:WebViewANE;
+    private var webView:WebView;
 
     public function StarlingRoot() {
     }
@@ -128,7 +128,7 @@ public class StarlingRoot extends Sprite {
 
         addChild(titleTxt);
 
-        webView = new WebViewANE();
+        webView = WebView.shared();
         webView.addEventListener(WebViewEvent.ON_PROPERTY_CHANGE, onPropertyChange);
         webView.addEventListener(WebViewEvent.ON_URL_BLOCKED, onUrlBlocked);
         webView.addEventListener(WebViewEvent.ON_FAIL, onUrlFail);
@@ -408,7 +408,7 @@ public class StarlingRoot extends Sprite {
      * It's very important to call webView.dispose(); when the app is exiting.
      */
     private function onExiting(event:Event):void {
-        webView.dispose();
+        WebView.dispose();
     }
 }
 }

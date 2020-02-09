@@ -11,7 +11,7 @@ import com.tuarua.FullscreenBtn;
 import com.tuarua.JsBtn;
 import com.tuarua.RefreshBtn;
 import com.tuarua.WebBtn;
-import com.tuarua.WebViewANE;
+import com.tuarua.WebView;
 import com.tuarua.ZoominBtn;
 import com.tuarua.ZoomoutBtn;
 import com.tuarua.fre.ANEError;
@@ -64,7 +64,7 @@ public class WebViewANESample extends Sprite {
     public static const FONT:Font = new FiraSansSemiBold();
     private var freSharpANE:FreSharp = new FreSharp(); // must create before all others
     private var freSwiftANE:FreSwift = new FreSwift(); // must create before all others
-    private var webView:WebViewANE = new WebViewANE();
+    private var webView:WebView;
 
     private var backBtn:SimpleButton = new BackBtn();
     private var fwdBtn:SimpleButton = new BackBtn();
@@ -99,7 +99,6 @@ public class WebViewANESample extends Sprite {
         stage.scaleMode = StageScaleMode.NO_SCALE;
         this.addEventListener(Event.ACTIVATE, onActivated);
         NativeApplication.nativeApplication.executeInBackground = true;
-
     }
 
     protected function onActivated(event:Event):void {
@@ -112,6 +111,7 @@ public class WebViewANESample extends Sprite {
         NativeApplication.nativeApplication.activeWindow.addEventListener(
                 NativeWindowDisplayStateEvent.DISPLAY_STATE_CHANGE, onWindowMiniMaxi);
 
+        webView = WebView.shared();
         webView.addCallback("js_to_as", jsToAsCallback);
         webView.addCallback("forceWebViewFocus", forceWebViewFocus); //for Windows touch - see jsTest.html
 
@@ -579,7 +579,7 @@ public class WebViewANESample extends Sprite {
      * It's very important to call webView.dispose(); when the app is exiting.
      */
     private function onExiting(event:Event):void {
-        webView.dispose();
+        WebView.dispose();
         freSwiftANE.dispose();
         freSharpANE.dispose();
     }

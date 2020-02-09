@@ -1,4 +1,5 @@
 ### 2.9.0
+- API changes. Now use `var webView = WebView.shared();`
 - AND: Updated to FreKotlin 1.9.5
 - AND: Updated to Gson 2.8.6
 - OSX/iOS: Updated to FreSwift 4.2.0

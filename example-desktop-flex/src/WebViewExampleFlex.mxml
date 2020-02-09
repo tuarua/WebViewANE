@@ -9,33 +9,34 @@
     <fx:Script>
 		<![CDATA[
 		import com.tuarua.FreSharp;
-        import com.tuarua.FreSwift;
-        import com.tuarua.WebViewANE;
-		import com.tuarua.fre.ANEError;
+    import com.tuarua.FreSwift;
+    import com.tuarua.WebView;
+    import com.tuarua.fre.ANEError;
 		import com.tuarua.webview.Settings;
 
 		private var freSharpANE:FreSharp = new FreSharp(); // must create before all others
 		private var freSwiftANE:FreSwift = new FreSwift(); // must create before all others
-        private var webview:WebViewANE = new WebViewANE();
+    private var webView:WebViewANE = new WebViewANE();
 
         protected function onWindowComplete():void {
             this.stage.nativeWindow.addEventListener(NativeWindowBoundsEvent.RESIZE, onResize);
-			NativeApplication.nativeApplication.addEventListener(Event.EXITING, onExiting);
+            NativeApplication.nativeApplication.addEventListener(Event.EXITING, onExiting);
             var viewport:Rectangle = getBounds(this);
             var settings:Settings = new Settings();
-			webview.init(stage, viewport, new URLRequest("https://html5test.com"), settings, 1, 0xFFF1F1F1);
-			webview.visible = true;
+            webView = WebView.shared();
+            webView.init(stage, viewport, new URLRequest("https://html5test.com"), settings, 1, 0xFFF1F1F1);
+            webView.visible = true;
         }
 
         private function onResize(event:NativeWindowBoundsEvent):void {
             webview.viewPort = new Rectangle(0, 0, event.afterBounds.width, event.afterBounds.height);
         }
 
-		private function onExiting(event:Event):void {
-			webview.dispose();
-			freSwiftANE.dispose();
-			freSharpANE.dispose();
-		}
+        private function onExiting(event:Event):void {
+             WebView.dispose();
+			       freSwiftANE.dispose();
+			       freSharpANE.dispose();
+         }
 
         ]]>
 	</fx:Script>
