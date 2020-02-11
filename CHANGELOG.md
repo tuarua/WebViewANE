@@ -4,7 +4,7 @@
 - AND: Updated to Gson 2.8.6
 - OSX/iOS: Updated to FreSwift 4.2.0
 - WIN: Updated to FreSharp 2.3.0
-- WIN: Updated to CefSharp 79.1.350
+- WIN: Updated to CefSharp 79.1.360
 
 ### 2.8.0
 - WIN: Updated to Windows Toolkit 5.1.1 for Modern WebView (Edge)
