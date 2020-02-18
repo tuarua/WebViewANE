@@ -1,7 +1,4 @@
 <!DOCTYPE html>
-<!--
-  ~ Copyright Tua Rua Ltd. (c) 2017.
-  -->
 <!--suppress JSUnresolvedLibraryURL -->
 <html lang="en">
 <head>
@@ -13,13 +10,17 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     <script type="text/javascript">
-        const isCef = (navigator.vendor === "Google Inc.");
+        const isAndroidWebView = /Android/.test(navigator.userAgent);
+        const isChromium = !isAndroidWebView && navigator.vendor === "Google Inc.";
         const isEdge = /Edge/.test(navigator.userAgent);
+        const isWebKit = !isAndroidWebView && !isChromium && !isEdge;
 
         const webViewANEWrapper = {
-            postMessage: (message) => { //object
-                if (isCef) {
+            postMessage: (message) => { // object
+                if (isChromium) {
                     webViewANE.postMessage(message);
+                } else if (isAndroidWebView) {
+                    webViewANE.postMessage(JSON.stringify(message));
                 } else if (isEdge) {
                     window.external.notify(JSON.stringify(message));
                 } else {
@@ -65,7 +66,7 @@
                 webViewANEWrapper.postMessage(messageToPost);
             }, false);
 
-            if (isCef) {
+            if (isChromium) {
                 // Important: CefSharp binding must now be performed async
                 (async () => {
                     await window.CefSharp.BindObjectAsync("webViewANE", "bound").then((res) => {
@@ -107,10 +108,7 @@
                     population: 167674
                 }
             };
-            const i = 21;
-            const str = "this is a string";
-            const b = false;
-            return isCef ? person : JSON.stringify(person);
+            return isWebKit ? JSON.stringify(person) : person;
         }
 
     </script>

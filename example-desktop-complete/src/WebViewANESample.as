@@ -288,7 +288,7 @@ public class WebViewANESample extends Sprite {
     private function onAsJsAsBtn(event:MouseEvent):void {
         webView.callJavascriptFunction("as_to_js", asToJsCallback, 1, "é", 77);
 
-        //this is how to use without a callback
+        // this is how to use without a callback
         // webView.callJavascriptFunction("console.log",null,"hello console. The is AIR");
     }
 
@@ -534,7 +534,6 @@ public class WebViewANESample extends Sprite {
         var testObject:* = jsResult.result;
         trace(testObject);
     }
-
 
     private static function onFail(event:WebViewEvent):void {
         trace(event.params.url);
