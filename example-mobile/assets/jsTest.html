@@ -40,7 +40,7 @@
                     population: 167674
                 }
             };
-            return isWebKit ? JSON.stringify(person) : person;
+            return isAndroidWebView ? person : JSON.stringify(person);
         }
 
         function jsCallback(paramA, paramB, paramC) {

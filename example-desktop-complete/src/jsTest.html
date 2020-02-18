@@ -52,7 +52,10 @@
                 const n = d.getTime();
                 const output = document.getElementById('output');
                 output.innerText = "The function has returned: " + d + " - unix timestamp: " + n + "\n";
-                const messageToPost = {'functionName': 'js_to_as'};
+                const messageToPost = {
+                    'functionName': 'js_to_as',
+                    'args': []
+                };
                 webViewANEWrapper.postMessage(messageToPost);
             });
 
@@ -108,7 +111,7 @@
                     population: 167674
                 }
             };
-            return isWebKit ? JSON.stringify(person) : person;
+            return isAndroidWebView ? person : JSON.stringify(person);
         }
 
     </script>

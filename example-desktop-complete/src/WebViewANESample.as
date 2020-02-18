@@ -531,7 +531,7 @@ public class WebViewANESample extends Sprite {
         trace("jsResult.result", jsResult.result);
         trace("jsResult.message", jsResult.message);
         trace("jsResult.success", jsResult.success);
-        var testObject:* = jsResult.result;
+        var testObject:Object = JSON.parse(jsResult.result);
         trace(testObject);
     }
 
