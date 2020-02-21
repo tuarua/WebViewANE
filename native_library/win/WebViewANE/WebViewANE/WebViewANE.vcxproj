@@ -206,7 +206,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FreSharp">
-      <HintPath>..\packages\TuaRua.FreSharp.2.3.0\FreSharp\$(PlatformTarget)\FreSharp.dll</HintPath>
+      <HintPath>..\packages\TuaRua.FreSharp.2.4.0\FreSharp\$(PlatformTarget)\FreSharp.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -229,7 +229,7 @@
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="..\packages\TuaRua.FreSharp.2.1.0\build\TuaRua.FreSharp.targets" Condition="Exists('..\packages\TuaRua.FreSharp.2.1.0\build\TuaRua.FreSharp.targets')" />
+    <Import Project="..\packages\TuaRua.FreSharp.2.4.0\build\TuaRua.FreSharp.targets" Condition="Exists('..\packages\TuaRua.FreSharp.2.4.0\build\TuaRua.FreSharp.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
