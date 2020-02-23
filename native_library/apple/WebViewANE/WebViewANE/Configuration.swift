@@ -71,7 +71,7 @@ open class Configuration: WKWebViewConfiguration {
         if let freCustom = rv["custom"] {
             let custom = FREArray(freCustom)
             for index in 0..<custom.length {
-                if let argFre = custom[index],
+                if let argFre: FREObject = custom[index],
                     let key = String(argFre["key"]),
                     let val = argFre["value"],
                     let v = FreObjectSwift(val).value {
