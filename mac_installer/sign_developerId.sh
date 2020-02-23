@@ -54,8 +54,8 @@ fi
 
 echo ${cyn} "Copying $APP.app" ${white}
 
-if [ ! -d "../bin-release/$APP.app" ]; then
-    echo ${red} "Can't find bin-release/$APP.app. Package your AIR app!" ${white}
+if [ ! -d "../example-desktop-complete/bin-release/$APP.app" ]; then
+    echo ${red} "Can't find example-desktop-complete/bin-release/$APP.app. Package your AIR app!" ${white}
     exit 72
 fi
 
@@ -63,8 +63,8 @@ if [ -d "$APP.app" ]; then
     rm -r "$APP.app"
 fi
 
-xattr -cr "../bin-release/$APP.app"
-cp -R "../bin-release/$APP.app" .
+xattr -cr "../example-desktop-complete/bin-release/$APP.app"
+cp -R "../example-desktop-complete/bin-release/$APP.app" .
 
 BUNDLE_ID=$( "${PlistBuddy}" -c "Print CFBundleIdentifier" "$APP.app/Contents/Info.plist" )
 APP_VERSION=$( "${PlistBuddy}" -c "Print CFBundleShortVersionString" "$APP.app/Contents/Info.plist" )
