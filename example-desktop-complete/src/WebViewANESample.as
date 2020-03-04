@@ -575,7 +575,7 @@ public class WebViewANESample extends Sprite {
     }
 
     /**
-     * It's very important to call webView.dispose(); when the app is exiting.
+     * It's very important to call WebView.dispose(); when the app is exiting.
      */
     private function onExiting(event:Event):void {
         WebView.dispose();

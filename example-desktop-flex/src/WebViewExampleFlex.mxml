@@ -9,14 +9,14 @@
     <fx:Script>
 		<![CDATA[
 		import com.tuarua.FreSharp;
-    import com.tuarua.FreSwift;
-    import com.tuarua.WebView;
-    import com.tuarua.fre.ANEError;
+    	import com.tuarua.FreSwift;
+    	import com.tuarua.WebView;
+    	import com.tuarua.fre.ANEError;
 		import com.tuarua.webview.Settings;
 
 		private var freSharpANE:FreSharp = new FreSharp(); // must create before all others
 		private var freSwiftANE:FreSwift = new FreSwift(); // must create before all others
-    private var webView:WebViewANE = new WebViewANE();
+		private var webView:WebViewANE = new WebViewANE();
 
         protected function onWindowComplete():void {
             this.stage.nativeWindow.addEventListener(NativeWindowBoundsEvent.RESIZE, onResize);
@@ -33,9 +33,9 @@
         }
 
         private function onExiting(event:Event):void {
-             WebView.dispose();
-			       freSwiftANE.dispose();
-			       freSharpANE.dispose();
+			WebView.dispose();
+			FreSwift.dispose();
+			FreSharp.dispose();
          }
 
         ]]>
