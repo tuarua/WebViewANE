@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="com.google.code.gson.gson-2.8.6" type="flex">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/android_dependencies/com.google.code.gson.gson-2.8.6.ane!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

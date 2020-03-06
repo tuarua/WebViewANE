@@ -29,6 +29,7 @@ import com.adobe.fre.FREContext
 import com.google.gson.Gson
 import com.tuarua.frekotlin.FreKotlinController
 import java.io.ByteArrayInputStream
+import java.util.*
 
 class ViewClient(override var context: FREContext?, private var settings: Settings) : WebViewClient(), FreKotlinController {
     internal var isLoading = false
@@ -50,11 +51,11 @@ class ViewClient(override var context: FREContext?, private var settings: Settin
         if (list.isEmpty()) {
             return false
         }
-        val urlClean = url.toLowerCase()
+        val urlClean = url.toLowerCase(Locale.getDefault())
         var i = 0
         val size = list.size
         while (i < size) {
-            val s = list[i].toLowerCase()
+            val s = list[i].toLowerCase(Locale.getDefault())
             if (urlClean.contains(s)) {
                 return true
             }
@@ -69,11 +70,11 @@ class ViewClient(override var context: FREContext?, private var settings: Settin
         if (list.isEmpty()) {
             return false
         }
-        val urlClean = url.toLowerCase()
+        val urlClean = url.toLowerCase(Locale.getDefault())
         var i = 0
         val size = list.size
         while (i < size) {
-            val s = list[i].toLowerCase()
+            val s = list[i].toLowerCase(Locale.getDefault())
             if (urlClean.contains(s)) {
                 return false
             }
@@ -87,7 +88,7 @@ class ViewClient(override var context: FREContext?, private var settings: Settin
             return null
         }
         val url = request?.url.toString()
-        val host = request?.url?.host
+        request?.url?.host
         return if (isWhiteListBlocked(url) || isBlackListBlocked(url)) {
             dispatchEvent(WebViewEvent.ON_URL_BLOCKED, gson.toJson(mapOf("url" to url, "tab" to 0)))
             val response = WebResourceResponse("text/plain", "utf-8",
@@ -96,10 +97,6 @@ class ViewClient(override var context: FREContext?, private var settings: Settin
             response.setStatusCodeAndReasonPhrase(403, "Blocked")
             response
         } else {
-            if (host != null
-                    && UrlRequestHeaderManager.persistRequestHeaders
-                    && UrlRequestHeaderManager.persistentRequestHeaders.containsKey(host)) {
-            }
             null
         }
     }

@@ -244,6 +244,7 @@ namespace WebViewANELib {
                     _view = new CefView {
                         Background = new SolidColorBrush(backgroundMediaColor),
                         RemoteDebuggingPort = cefSettings.remoteDebuggingPort,
+                        EnablePrintPreview = cefSettings.enablePrintPreview,
                         CachePath = cefSettings.cachePath,
                         DownloadPath = settings.downloadPath,
                         EnableDownloads = settings.enableDownloads,

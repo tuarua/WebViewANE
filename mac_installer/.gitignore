@@ -1,0 +1,9 @@
+*.app
+*.plist
+*.pkg
+*.provisionprofile
+sign_playground.sh
+signTR.sh
+signTR_store.sh
+signTR_developerId.sh
+Assets.xcassets/AppIcon.appiconset/*.png

@@ -81,6 +81,11 @@
      OnBeforeCommandLineProcessing.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>unknown</apiData><apiType value="Vector$Object"/></apiValueDef><apiDesc>
      Add custom command line arguments to this collection, they will be added in
      OnBeforeCommandLineProcessing.
+     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:CefSettings:enablePrintPreview"><apiName>enablePrintPreview</apiName><shortdesc>
+      Set command line argument to enable Print Preview
+      See https://bitbucket.org/chromiumembedded/cef/issues/123/add-support-for-print-preview for details.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiType value="Boolean"/></apiValueDef><apiDesc>
+      Set command line argument to enable Print Preview
+      See https://bitbucket.org/chromiumembedded/cef/issues/123/add-support-for-print-preview for details.
      </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:CefSettings:locale"><apiName>locale</apiName><shortdesc>
      The locale string that will be passed to WebKit.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>en-US</apiData><apiType value="String"/></apiValueDef><apiDesc>
      The locale string that will be passed to WebKit. If empty the default locale of "en-US" will be used.

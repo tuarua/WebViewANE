@@ -3,41 +3,42 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 48;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		285FE3EB871F2DD420623AEE /* WebViewANE_oc.h in Headers */ = {isa = PBXBuildFile; fileRef = 285FEBB3CADF8D704FAB5E4D /* WebViewANE_oc.h */; };
-		285FECB67C2311471C2CD119 /* WebViewANE.m in Sources */ = {isa = PBXBuildFile; fileRef = 285FE6D7F3D6356FA03A26C0 /* WebViewANE.m */; };
-		903EDA6F2237005A00DAD6C0 /* FreURLRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 903EDA6E2237005A00DAD6C0 /* FreURLRequest.swift */; };
+		285FE3EB871F2DD420623AEE /* WebViewANE_oc.h in Headers */ = {isa = PBXBuildFile; fileRef = 285FEBB3CADF8D704FAB5E4D /* WebViewANE_oc.h */; platformFilter = ios; };
+		285FECB67C2311471C2CD119 /* WebViewANE.m in Sources */ = {isa = PBXBuildFile; fileRef = 285FE6D7F3D6356FA03A26C0 /* WebViewANE.m */; platformFilter = ios; };
+		903EDA6F2237005A00DAD6C0 /* FreURLRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 903EDA6E2237005A00DAD6C0 /* FreURLRequest.swift */; platformFilter = ios; };
 		903EDA702237005A00DAD6C0 /* FreURLRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 903EDA6E2237005A00DAD6C0 /* FreURLRequest.swift */; };
+		907FA02A2396D4DA00A02384 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 907FA0292396D4DA00A02384 /* SwiftyJSON */; };
+		907FA02C2396D51600A02384 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; platformFilter = ios; productRef = 907FA02B2396D51600A02384 /* SwiftyJSON */; };
 		90C7382121AA1F550025C2FE /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90C7382021AA1F540025C2FE /* Cocoa.framework */; };
-		90EB0A69223C4C0A00EF5851 /* UrlRequestHeaderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90EB0A68223C4C0A00EF5851 /* UrlRequestHeaderManager.swift */; };
+		90EB0A69223C4C0A00EF5851 /* UrlRequestHeaderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90EB0A68223C4C0A00EF5851 /* UrlRequestHeaderManager.swift */; platformFilter = ios; };
 		90EB0A6A223C4C0A00EF5851 /* UrlRequestHeaderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90EB0A68223C4C0A00EF5851 /* UrlRequestHeaderManager.swift */; };
-		CE0014D21F648344000AE663 /* FreMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = CE0014D11F648344000AE663 /* FreMacros.h */; };
-		CE0014D71F648483000AE663 /* FreSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0014D61F648483000AE663 /* FreSwift.framework */; };
-		CE0014D81F648483000AE663 /* FreSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0014D61F648483000AE663 /* FreSwift.framework */; };
-		CE3980AD1E58BF3F0062485B /* WebViewANE_FW.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE39808A1E58BAA90062485B /* WebViewANE_FW.framework */; };
+		CE0014D21F648344000AE663 /* FreMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = CE0014D11F648344000AE663 /* FreMacros.h */; platformFilter = ios; };
+		CE0014D71F648483000AE663 /* FreSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0014D61F648483000AE663 /* FreSwift.framework */; platformFilter = ios; };
+		CE0014D81F648483000AE663 /* FreSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0014D61F648483000AE663 /* FreSwift.framework */; platformFilter = ios; };
+		CE3980AD1E58BF3F0062485B /* WebViewANE_FW.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE39808A1E58BAA90062485B /* WebViewANE_FW.framework */; platformFilter = ios; };
 		CE3AC4A220B4C79A000D60E5 /* SwiftController+URLSessionDownloadDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3AC4A120B4C79A000D60E5 /* SwiftController+URLSessionDownloadDelegate.swift */; };
-		CE59BDE01EEF38C600F698DE /* WebViewEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE59BDDB1EEF38C600F698DE /* WebViewEvent.swift */; };
-		CE6C07D82079713400393167 /* SwiftController+FreSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA65349202797D10034C691 /* SwiftController+FreSwift.swift */; };
-		CE6C07D92079713400393167 /* SwiftController+WKNavigationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA65347202797D00034C691 /* SwiftController+WKNavigationDelegate.swift */; };
-		CE6C07DA2079713400393167 /* SwiftController+WKScriptMessageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA65348202797D10034C691 /* SwiftController+WKScriptMessageHandler.swift */; };
-		CE6C07DB2079713400393167 /* SwiftController+WKUIDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA65346202797D00034C691 /* SwiftController+WKUIDelegate.swift */; };
-		CE6C07DC2079713400393167 /* PopupBehaviour.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA65344202797B50034C691 /* PopupBehaviour.swift */; };
-		CE6C07DD2079713400393167 /* SwiftController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFE5BEA1F1A27A9007BFBF2 /* SwiftController.swift */; };
-		CE6C07DE2079713400393167 /* WebViewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC13D401EFEE651003BDA4A /* WebViewVC.swift */; };
-		CE6C07DF2079713400393167 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE59BDDC1EEF38C600F698DE /* Settings.swift */; };
-		CE6C07E02079713400393167 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE59BDDD1EEF38C600F698DE /* Configuration.swift */; };
-		CE6C07E12079713400393167 /* BackForwardList.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE59BDDE1EEF38C600F698DE /* BackForwardList.swift */; };
-		CE6C07E22079713400393167 /* WebViewVC+UIScrollViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA6534E202798370034C691 /* WebViewVC+UIScrollViewDelegate.swift */; };
-		CE6C07E32079716200393167 /* FreMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = CE0014D11F648344000AE663 /* FreMacros.h */; };
+		CE59BDE01EEF38C600F698DE /* WebViewEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE59BDDB1EEF38C600F698DE /* WebViewEvent.swift */; platformFilter = ios; };
+		CE6C07D82079713400393167 /* SwiftController+FreSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA65349202797D10034C691 /* SwiftController+FreSwift.swift */; platformFilter = ios; };
+		CE6C07D92079713400393167 /* SwiftController+WKNavigationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA65347202797D00034C691 /* SwiftController+WKNavigationDelegate.swift */; platformFilter = ios; };
+		CE6C07DA2079713400393167 /* SwiftController+WKScriptMessageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA65348202797D10034C691 /* SwiftController+WKScriptMessageHandler.swift */; platformFilter = ios; };
+		CE6C07DB2079713400393167 /* SwiftController+WKUIDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA65346202797D00034C691 /* SwiftController+WKUIDelegate.swift */; platformFilter = ios; };
+		CE6C07DC2079713400393167 /* PopupBehaviour.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA65344202797B50034C691 /* PopupBehaviour.swift */; platformFilter = ios; };
+		CE6C07DD2079713400393167 /* SwiftController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFE5BEA1F1A27A9007BFBF2 /* SwiftController.swift */; platformFilter = ios; };
+		CE6C07DE2079713400393167 /* WebViewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC13D401EFEE651003BDA4A /* WebViewVC.swift */; platformFilter = ios; };
+		CE6C07DF2079713400393167 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE59BDDC1EEF38C600F698DE /* Settings.swift */; platformFilter = ios; };
+		CE6C07E02079713400393167 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE59BDDD1EEF38C600F698DE /* Configuration.swift */; platformFilter = ios; };
+		CE6C07E12079713400393167 /* BackForwardList.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE59BDDE1EEF38C600F698DE /* BackForwardList.swift */; platformFilter = ios; };
+		CE6C07E22079713400393167 /* WebViewVC+UIScrollViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA6534E202798370034C691 /* WebViewVC+UIScrollViewDelegate.swift */; platformFilter = ios; };
+		CE6C07E32079716200393167 /* FreMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = CE0014D11F648344000AE663 /* FreMacros.h */; platformFilter = ios; };
 		CE6C07F9207974DB00393167 /* FreSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE6C07F8207974DB00393167 /* FreSwift.framework */; };
 		CE6C07FC2079759400393167 /* Adobe AIR_64 in Frameworks */ = {isa = PBXBuildFile; fileRef = CE6C07FA2079759400393167 /* Adobe AIR_64 */; };
 		CE6C07FD2079759400393167 /* Adobe AIR in Frameworks */ = {isa = PBXBuildFile; fileRef = CE6C07FB2079759400393167 /* Adobe AIR */; };
 		CE6C07FE2079765500393167 /* WebViewANE_oc.h in Headers */ = {isa = PBXBuildFile; fileRef = 285FEBB3CADF8D704FAB5E4D /* WebViewANE_oc.h */; };
 		CE6C07FF2079765500393167 /* FreMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = CE0014D11F648344000AE663 /* FreMacros.h */; };
-		CE6C08002079766000393167 /* SwiftyJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = CEA438031E78A2C00099F463 /* SwiftyJSON.h */; };
 		CE6C08012079767800393167 /* Popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6C07E5207972F800393167 /* Popup.swift */; };
 		CE6C08022079767800393167 /* PopupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6C07E4207972F800393167 /* PopupVC.swift */; };
 		CE6C08032079767800393167 /* SwiftController+FreSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA65349202797D10034C691 /* SwiftController+FreSwift.swift */; };
@@ -51,13 +52,10 @@
 		CE6C080B2079767800393167 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE59BDDD1EEF38C600F698DE /* Configuration.swift */; };
 		CE6C080C2079767800393167 /* BackForwardList.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE59BDDE1EEF38C600F698DE /* BackForwardList.swift */; };
 		CE6C080E2079767800393167 /* WebViewANE.m in Sources */ = {isa = PBXBuildFile; fileRef = 285FE6D7F3D6356FA03A26C0 /* WebViewANE.m */; };
-		CE6C080F2079767800393167 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA438041E78A2C00099F463 /* SwiftyJSON.swift */; };
 		CE6C08102079767800393167 /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE886FC62047491300B2C8FF /* URL.swift */; };
 		CE6C08112079767800393167 /* WebViewEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE59BDDB1EEF38C600F698DE /* WebViewEvent.swift */; };
-		CE6C08142079795E00393167 /* WebViewANE_FW.h in Headers */ = {isa = PBXBuildFile; fileRef = CE39808C1E58BAA90062485B /* WebViewANE_FW.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CE886FC72047491300B2C8FF /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE886FC62047491300B2C8FF /* URL.swift */; };
-		CEA438051E78A2C00099F463 /* SwiftyJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = CEA438031E78A2C00099F463 /* SwiftyJSON.h */; };
-		CEA438061E78A2C00099F463 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA438041E78A2C00099F463 /* SwiftyJSON.swift */; };
+		CE6C08142079795E00393167 /* WebViewANE_FW.h in Headers */ = {isa = PBXBuildFile; fileRef = CE39808C1E58BAA90062485B /* WebViewANE_FW.h */; platformFilter = ios; settings = {ATTRIBUTES = (Public, ); }; };
+		CE886FC72047491300B2C8FF /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE886FC62047491300B2C8FF /* URL.swift */; platformFilter = ios; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -95,8 +93,6 @@
 		CE6C07FB2079759400393167 /* Adobe AIR */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "Adobe AIR"; path = "../../../../../SDKs/AIRSDK_32/runtimes/air-captive/mac/Adobe AIR.framework/Versions/1.0/Adobe AIR"; sourceTree = "<group>"; };
 		CE886FC62047491300B2C8FF /* URL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
 		CE886FC8204749BC00B2C8FF /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
-		CEA438031E78A2C00099F463 /* SwiftyJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwiftyJSON.h; sourceTree = "<group>"; };
-		CEA438041E78A2C00099F463 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		CEA65344202797B50034C691 /* PopupBehaviour.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupBehaviour.swift; sourceTree = "<group>"; };
 		CEA65346202797D00034C691 /* SwiftController+WKUIDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SwiftController+WKUIDelegate.swift"; sourceTree = "<group>"; };
 		CEA65347202797D00034C691 /* SwiftController+WKNavigationDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SwiftController+WKNavigationDelegate.swift"; sourceTree = "<group>"; };
@@ -112,6 +108,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				907FA02C2396D51600A02384 /* SwiftyJSON in Frameworks */,
 				CE0014D71F648483000AE663 /* FreSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -132,6 +129,7 @@
 				90C7382121AA1F550025C2FE /* Cocoa.framework in Frameworks */,
 				CE6C07FD2079759400393167 /* Adobe AIR in Frameworks */,
 				CE6C07FC2079759400393167 /* Adobe AIR_64 in Frameworks */,
+				907FA02A2396D4DA00A02384 /* SwiftyJSON in Frameworks */,
 				CE6C07F9207974DB00393167 /* FreSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -190,7 +188,6 @@
 				CE59BDDE1EEF38C600F698DE /* BackForwardList.swift */,
 				CEA6534E202798370034C691 /* WebViewVC+UIScrollViewDelegate.swift */,
 				285FE6D7F3D6356FA03A26C0 /* WebViewANE.m */,
-				CE6C07CB2079704F00393167 /* SwiftyJSON */,
 				CE886FC5204748D700B2C8FF /* Extensions */,
 				CE6C07CA20796FF300393167 /* Misc */,
 				CE6C07C920796FE900393167 /* Headers */,
@@ -225,15 +222,6 @@
 			path = Misc;
 			sourceTree = "<group>";
 		};
-		CE6C07CB2079704F00393167 /* SwiftyJSON */ = {
-			isa = PBXGroup;
-			children = (
-				CEA438031E78A2C00099F463 /* SwiftyJSON.h */,
-				CEA438041E78A2C00099F463 /* SwiftyJSON.swift */,
-			);
-			path = SwiftyJSON;
-			sourceTree = "<group>";
-		};
 		CE886FC5204748D700B2C8FF /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -251,7 +239,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE6C08142079795E00393167 /* WebViewANE_FW.h in Headers */,
-				CEA438051E78A2C00099F463 /* SwiftyJSON.h in Headers */,
 				CE6C07E32079716200393167 /* FreMacros.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -269,7 +256,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE6C08002079766000393167 /* SwiftyJSON.h in Headers */,
 				CE6C07FE2079765500393167 /* WebViewANE_oc.h in Headers */,
 				CE6C07FF2079765500393167 /* FreMacros.h in Headers */,
 			);
@@ -292,6 +278,9 @@
 			dependencies = (
 			);
 			name = "WebViewANE_FW (iOS)";
+			packageProductDependencies = (
+				907FA02B2396D51600A02384 /* SwiftyJSON */,
+			);
 			productName = WebViewANE_FW;
 			productReference = CE39808A1E58BAA90062485B /* WebViewANE_FW.framework */;
 			productType = "com.apple.product-type.framework";
@@ -330,6 +319,9 @@
 			dependencies = (
 			);
 			name = "WebViewANE (OSX)";
+			packageProductDependencies = (
+				907FA0292396D4DA00A02384 /* SwiftyJSON */,
+			);
 			productName = WebViewANE;
 			productReference = CE6C07EB2079744700393167 /* WebViewANE.framework */;
 			productType = "com.apple.product-type.framework";
@@ -340,7 +332,7 @@
 		CE3980631E58BA7F0062485B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0930;
+				LastUpgradeCheck = 1100;
 				ORGANIZATIONNAME = "Tua Rua Ltd";
 				TargetAttributes = {
 					CE3980891E58BAA90062485B = {
@@ -359,14 +351,17 @@
 				};
 			};
 			buildConfigurationList = CE3980661E58BA7F0062485B /* Build configuration list for PBXProject "WebViewANE" */;
-			compatibilityVersion = "Xcode 8.0";
-			developmentRegion = English;
+			compatibilityVersion = "Xcode 10.0";
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
 			mainGroup = CE3980621E58BA7F0062485B;
+			packageReferences = (
+				907FA0282396D4DA00A02384 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
+			);
 			productRefGroup = CE39806C1E58BA7F0062485B /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -390,7 +385,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 		CE6C0812207976CA00393167 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -452,7 +447,6 @@
 				CE6C07E12079713400393167 /* BackForwardList.swift in Sources */,
 				CE6C07E22079713400393167 /* WebViewVC+UIScrollViewDelegate.swift in Sources */,
 				CE886FC72047491300B2C8FF /* URL.swift in Sources */,
-				CEA438061E78A2C00099F463 /* SwiftyJSON.swift in Sources */,
 				CE59BDE01EEF38C600F698DE /* WebViewEvent.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -485,7 +479,6 @@
 				CE6C080B2079767800393167 /* Configuration.swift in Sources */,
 				CE6C080C2079767800393167 /* BackForwardList.swift in Sources */,
 				CE6C080E2079767800393167 /* WebViewANE.m in Sources */,
-				CE6C080F2079767800393167 /* SwiftyJSON.swift in Sources */,
 				CE6C08102079767800393167 /* URL.swift in Sources */,
 				CE6C08112079767800393167 /* WebViewEvent.swift in Sources */,
 			);
@@ -496,6 +489,7 @@
 /* Begin PBXTargetDependency section */
 		CE3980B11E58C08A0062485B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
+			platformFilter = ios;
 			target = CE3980891E58BAA90062485B /* WebViewANE_FW (iOS) */;
 			targetProxy = CE3980B01E58C08A0062485B /* PBXContainerItemProxy */;
 		};
@@ -506,6 +500,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -556,6 +551,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
 				SYMROOT = build;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -565,6 +561,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -608,7 +605,9 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
 				SYMROOT = build;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -618,7 +617,7 @@
 		CE3980941E58BAA90062485B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -636,18 +635,24 @@
 				INFOPLIST_FILE = "$(SRCROOT)/WebViewANE/Misc/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 2.9.1;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tuarua.WebViewANE;
 				PRODUCT_NAME = WebViewANE_FW;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "WebViewANE_FW-Swift.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				SYMROOT = build;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -657,7 +662,7 @@
 		CE3980951E58BAA90062485B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -675,17 +680,24 @@
 				INFOPLIST_FILE = "$(SRCROOT)/WebViewANE/Misc/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 2.9.1;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tuarua.WebViewANE;
 				PRODUCT_NAME = WebViewANE_FW;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "WebViewANE_FW-Swift.h";
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				SYMROOT = build;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -703,7 +715,13 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @rpath @loader_path @executable_path/Frameworks @executable_path";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@rpath",
+					"@loader_path",
+					"@executable_path/Frameworks",
+					"@executable_path",
+				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = WebViewANE_LIB;
@@ -723,7 +741,13 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @rpath @loader_path @executable_path/Frameworks @executable_path";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@rpath",
+					"@loader_path",
+					"@executable_path/Frameworks",
+					"@executable_path",
+				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = WebViewANE_LIB;
@@ -757,9 +781,14 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = "$(SRCROOT)/WebViewANE/Misc/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = /Users/eoinlandy/SDKs/AIRSDK_30/runtimes/air/mac;
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MARKETING_VERSION = 2.9.1;
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					"\"Adobe AIR\"",
@@ -772,7 +801,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				SYMROOT = build;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -804,9 +833,14 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = "$(SRCROOT)/WebViewANE/Misc/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = /Users/eoinlandy/SDKs/AIRSDK_30/runtimes/air/mac;
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MARKETING_VERSION = 2.9.1;
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					"\"Adobe AIR\"",
@@ -817,7 +851,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				SYMROOT = build;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -864,6 +898,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		907FA0282396D4DA00A02384 /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftyJSON/SwiftyJSON.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		907FA0292396D4DA00A02384 /* SwiftyJSON */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 907FA0282396D4DA00A02384 /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
+			productName = SwiftyJSON;
+		};
+		907FA02B2396D51600A02384 /* SwiftyJSON */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 907FA0282396D4DA00A02384 /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
+			productName = SwiftyJSON;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = CE3980631E58BA7F0062485B /* Project object */;
 }

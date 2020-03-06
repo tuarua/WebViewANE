@@ -2,13 +2,13 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
     buildToolsVersion "28.0.3"
     defaultConfig {
         minSdkVersion 19
-        targetSdkVersion compileSdkVersion
+        targetSdkVersion 28
         versionCode 1
-        versionName "2.7.0"
+        versionName "2.9.0"
     }
     buildTypes {
         release {
@@ -19,6 +19,9 @@ android {
     compileOptions {
         sourceCompatibility = '1.8'
         targetCompatibility = '1.8'
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
     }
 }
 

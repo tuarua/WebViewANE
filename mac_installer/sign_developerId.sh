@@ -1,0 +1,346 @@
+#!/bin/bash
+
+# Name of your app.
+APP="WebViewANESample"
+TEAM_ID="XXXXXXXX"
+
+# See https://developer.apple.com/documentation/bundleresources/information_property_list/lsapplicationcategorytype
+APP_CATEGORY="public.app-category.games"
+
+# Certificates and signing.
+APP_KEY="Developer ID Application: Xxxx Xxxx (XXXXXXXX)"
+INSTALLER_KEY="Developer ID Installer: Xxxx Xxxx (XXXXXXXX)"
+PROVISION_PROFILE="DeveloperIdApplication.provisionprofile"
+
+# from https://appleid.apple.com/#!&page=signin  > Security > APP-SPECIFIC PASSWORDS > Generate password…
+TWO_FAC_UN="USER_NAME"
+TWO_FAC_PW="PASSWORD"
+
+############################################################################################################
+############################################################################################################
+############################################################################################################
+
+red=$'\e[1;31m'
+grn=$'\e[1;32m'
+blu=$'\e[1;34m'
+mag=$'\e[1;35m'
+cyn=$'\e[1;36m'
+white=$'\e[0m'
+PlistBuddy=/usr/libexec/PlistBuddy
+pathtome=$PWD
+_self="${0##*/}"
+
+if [ ! -f "$pathtome/$_self" ]; then
+    echo ${red} "cd into the packaging directory and run: ${cyn}bash $_self" ${white}
+    exit 72
+fi
+
+echo ${cyn} "Check Tools Availability" ${white}
+
+if [ ! -d "$(xcrun --show-sdk-path)" ]; then
+    echo ${red} "Xcode not configured" ${white}
+    exit 72
+fi
+
+if [ ! -x "${PlistBuddy}" ]; then
+    echo ${red} "Couldn't find PlistBuddy" ${white}
+    exit 72
+fi
+
+if [ ! -f "$PROVISION_PROFILE" ]; then
+    echo ${red} "Can't find $PROVISION_PROFILE. Did you forget to copy it into the packaging folder?" ${white}
+    exit 72
+fi
+
+echo ${cyn} "Copying $APP.app" ${white}
+
+if [ ! -d "../example-desktop-complete/bin-release/$APP.app" ]; then
+    echo ${red} "Can't find example-desktop-complete/bin-release/$APP.app. Package your AIR app!" ${white}
+    exit 72
+fi
+
+if [ -d "$APP.app" ]; then
+    rm -r "$APP.app"
+fi
+
+xattr -cr "../example-desktop-complete/bin-release/$APP.app"
+cp -R "../example-desktop-complete/bin-release/$APP.app" .
+
+BUNDLE_ID=$( "${PlistBuddy}" -c "Print CFBundleIdentifier" "$APP.app/Contents/Info.plist" )
+APP_VERSION=$( "${PlistBuddy}" -c "Print CFBundleShortVersionString" "$APP.app/Contents/Info.plist" )
+
+echo ${cyn} "Making icons..." ${white}
+
+if [ ! -f "icon-1024.png" ]; then
+    echo ${red} "Can't find icon-1024.png. Create a 1024x1024 png." ${white}
+    exit
+fi
+
+sips -z 16 16     icon-1024.png --out Assets.xcassets/AppIcon.appiconset/icon_16x16.png > /dev/null 2>&1
+sips -z 32 32     icon-1024.png --out Assets.xcassets/AppIcon.appiconset/icon_16x16@2x.png > /dev/null 2>&1
+sips -z 32 32     icon-1024.png --out Assets.xcassets/AppIcon.appiconset/icon_32x32.png > /dev/null 2>&1
+sips -z 64 64     icon-1024.png --out Assets.xcassets/AppIcon.appiconset/icon_32x32@2x.png > /dev/null 2>&1
+sips -z 128 128   icon-1024.png --out Assets.xcassets/AppIcon.appiconset/icon_128x128.png > /dev/null 2>&1
+sips -z 256 256   icon-1024.png --out Assets.xcassets/AppIcon.appiconset/icon_128x128@2x.png > /dev/null 2>&1
+sips -z 256 256   icon-1024.png --out Assets.xcassets/AppIcon.appiconset/icon_256x256.png > /dev/null 2>&1
+sips -z 512 512   icon-1024.png --out Assets.xcassets/AppIcon.appiconset/icon_256x256@2x.png > /dev/null 2>&1
+sips -z 512 512   icon-1024.png --out Assets.xcassets/AppIcon.appiconset/icon_512x512.png > /dev/null 2>&1
+cp icon-1024.png Assets.xcassets/AppIcon.appiconset/icon_512x512@2x.png
+mkdir build
+xcrun actool Assets.xcassets --compile build --platform macosx --minimum-deployment-target 10.10 --app-icon AppIcon --output-partial-info-plist build/partial.plist > /dev/null 2>&1
+cp -R "build/AppIcon.icns" "$APP.app/Contents/Resources"
+cp -R "build/Assets.car" "$APP.app/Contents/Resources"
+rm -R "build"
+
+echo ${cyn} "Cleaning up unneeded AIR files" ${white}
+
+xattr -cr "$APP.app"
+rm -r "$APP.app/Contents/Frameworks/Adobe AIR.framework/Versions/1.0/Resources/Adobe AIR.vch"
+rm -r "$APP.app/Contents/Frameworks/Adobe AIR.framework/Versions/1.0/Resources/WebKit.dylib"
+rm -r "$APP.app/Contents/Frameworks/Adobe AIR.framework/Versions/1.0/Resources/Flash Player.plugin"
+rm -r "$APP.app/Contents/Frameworks/Adobe AIR.framework/Versions/1.0/Resources/WebKit"
+rm -r "$APP.app/Contents/Frameworks/Adobe AIR.framework/Versions/1.0/Resources/__MACOSX"
+rm -r "$APP.app/Contents/Frameworks/Adobe AIR.framework/Versions/1.0/Resources/A2712Enabler"
+xattr -cr $APP.app
+
+echo ${cyn} "Fixing Info.plist entries" ${white}
+
+$PlistBuddy -c "Add :LSApplicationCategoryType string $APP_CATEGORY" $APP.app/Contents/Info.plist
+$PlistBuddy -c "Add :CFBundleVersion string $APP_VERSION" $APP.app/Contents/Info.plist
+$PlistBuddy -c "Add :CFBundleIconName string AppIcon" $APP.app/Contents/Info.plist
+$PlistBuddy -c "Add :CFBundleIconFile string AppIcon" $APP.app/Contents/Info.plist
+$PlistBuddy -c "Add :CFBundleSupportedPlatforms array" $APP.app/Contents/Info.plist
+$PlistBuddy -c "Add :CFBundleSupportedPlatforms: string MacOSX" $APP.app/Contents/Info.plist
+# Swift requires 10.10 not AIR's 10.6
+$PlistBuddy -c "Set :LSMinimumSystemVersion 10.10" $APP.app/Contents/Info.plist
+
+if [ -d "$APP.app/Contents/Resources/META-INF/AIR/extensions" ]; then
+    pushd $pathtome > /dev/null 2>&1
+    echo ${cyn} "Correct ANE symlinks" ${white}
+    cd $APP.app/Contents/Resources/META-INF/AIR/extensions
+    for ane in *
+    do
+    IFS='.' read -ra my_array <<< "$ane"
+    LEN=${#my_array[@]}
+    LAST=$(( $LEN - 1 ))
+    ANE_NAME="${my_array[LAST]}"
+
+    if [[ (-d "${ane}/META-INF/ANE/MacOS-x86-64/${ANE_NAME}.framework") && (! -d "${ane}/META-INF/ANE/MacOS-x86-64/${ANE_NAME}.framework/Versions") ]]; then
+        # https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPFrameworks/Concepts/FrameworkAnatomy.html
+        cd "${ane}/META-INF/ANE/MacOS-x86-64/${ANE_NAME}.framework"
+        mkdir Versions
+        cd Versions
+        mkdir A
+        cd ../
+        if [ -d Frameworks ]; then
+            mv Frameworks Versions/A
+        fi
+        mv $ANE_NAME Versions/A
+        mv Modules Versions/A
+        mv Headers Versions/A
+        mv Resources Versions/A
+        cd Versions
+        ln -s A Current
+        cd ../
+        ln -s Versions/Current/$ANE_NAME $ANE_NAME
+        ln -s Versions/Current/Resources Resources
+        ln -s Versions/Current/Headers Headers
+        ln -s Versions/Current/Modules Modules
+        cd "../../../../../"
+    fi
+    done
+    popd > /dev/null 2>&1
+fi
+
+echo ${cyn} "Applying values to Entitlements" ${white}
+
+ROOT_ENTITLEMENTS="Root.entitlements"
+CHILD_ENTITLEMENTS="Child.entitlements"
+
+val=$($PlistBuddy -c 'print ":com.apple.developer.team-identifier"' $ROOT_ENTITLEMENTS 2>/dev/null)
+exitCode=$?
+if (( exitCode == 0 )); then
+    $PlistBuddy -c "Set :com.apple.developer.team-identifier $TEAM_ID" $ROOT_ENTITLEMENTS
+fi
+
+val=$($PlistBuddy -c 'print ":com.apple.application-identifier"' $ROOT_ENTITLEMENTS 2>/dev/null)
+exitCode=$?
+if (( exitCode == 0 )); then
+    $PlistBuddy -c "Set :com.apple.application-identifier $TEAM_ID.$BUNDLE_ID" $ROOT_ENTITLEMENTS
+fi
+
+val=$($PlistBuddy -c 'print ":com.apple.security.application-groups"' $ROOT_ENTITLEMENTS 2>/dev/null)
+exitCode=$?
+if (( exitCode == 0 )); then
+    $PlistBuddy -c "Set :com.apple.security.application-groups:0 $TEAM_ID.$BUNDLE_ID" $ROOT_ENTITLEMENTS
+fi
+
+echo ${cyn} "Embedding Provisioning Profile" ${white}
+
+cp -R $PROVISION_PROFILE "$APP.app/Contents/embedded.provisionprofile"
+
+echo ${cyn} "Signing..." ${white}
+
+xcrun codesign -f -s "$APP_KEY" --deep --entitlements "$CHILD_ENTITLEMENTS" --options runtime --timestamp $APP.app/Contents/Frameworks/* > /dev/null 2>&1
+codesign_result=$?
+if [ "${codesign_result}" != "0" ]; then
+    echo ${red} "Failed to sign AIR Framework: ${codesign_result}" ${white}
+    exit 1
+fi
+if [ -d "$APP.app/Contents/Resources/META-INF/AIR/extensions" ]; then
+    pushd $pathtome > /dev/null 2>&1
+    cd $APP.app/Contents/Resources/META-INF/AIR/extensions
+    for ane in *
+    do
+    IFS='.' read -ra my_array <<< "$ane"
+    LEN=${#my_array[@]}
+    LAST=$(( $LEN - 1 ))
+    ANE_NAME="${my_array[LAST]}"
+    if [ -d "${ane}/META-INF/ANE/MacOS-x86-64/${ANE_NAME}.framework" ]; then
+        xcrun codesign -f -s "$APP_KEY" --deep --entitlements "$pathtome/$CHILD_ENTITLEMENTS" --options runtime --timestamp ${ane}/META-INF/ANE/MacOS-x86-64/${ANE_NAME}.framework > /dev/null 2>&1
+        codesign_result=$?
+        if [ "${codesign_result}" != "0" ]; then
+            echo ${red} "Failed to sign ANE: ${codesign_result}" ${white}
+            exit 1
+        fi
+    fi
+    done
+    popd > /dev/null 2>&1
+fi
+xcrun codesign -f -s "$APP_KEY" --entitlements "$ROOT_ENTITLEMENTS" --options runtime --timestamp $APP.app
+codesign_result=$?
+if [ "${codesign_result}" != "0" ]; then
+    echo ${red} "Failed to sign main App binary: ${codesign_result}" ${white}
+    exit 1
+fi
+
+val=$($PlistBuddy -c 'print ":com.apple.developer.team-identifier"' $ROOT_ENTITLEMENTS 2>/dev/null)
+exitCode=$?
+if (( exitCode == 0 )); then
+    $PlistBuddy -c "Set :com.apple.developer.team-identifier XXX" $ROOT_ENTITLEMENTS
+fi
+
+val=$($PlistBuddy -c 'print ":com.apple.application-identifier"' $ROOT_ENTITLEMENTS 2>/dev/null)
+exitCode=$?
+if (( exitCode == 0 )); then
+    $PlistBuddy -c "Set :com.apple.application-identifier XXX.x.x.x" $ROOT_ENTITLEMENTS
+fi
+
+val=$($PlistBuddy -c 'print ":com.apple.security.application-groups"' $ROOT_ENTITLEMENTS 2>/dev/null)
+exitCode=$?
+if (( exitCode == 0 )); then
+    $PlistBuddy -c "Set :com.apple.security.application-groups:0 XXX.x.x.x" $ROOT_ENTITLEMENTS
+fi
+
+echo ${cyn} "Verify codesign" ${white}
+
+xcrun codesign -vvv --deep --strict $APP.app > /dev/null 2>&1
+codesign_result=$?
+if [ "${codesign_result}" != "0" ]; then
+    echo ${red} "Failed to sign App: ${codesign_result}"${white}
+    exit 1
+fi
+if [ -d "$APP.app/Contents/Resources/META-INF/AIR/extensions" ]; then
+    pushd $pathtome > /dev/null 2>&1
+    cd $APP.app/Contents/Resources/META-INF/AIR/extensions
+    for ane in *
+    do
+    IFS='.' read -ra my_array <<< "$ane"
+    LEN=${#my_array[@]}
+    LAST=$(( $LEN - 1 ))
+    ANE_NAME="${my_array[LAST]}"
+    if [ -d "${ane}/META-INF/ANE/MacOS-x86-64/${ANE_NAME}.framework" ]; then
+        xcrun codesign -vvv --deep --strict ${ane}/META-INF/ANE/MacOS-x86-64/${ANE_NAME}.framework > /dev/null 2>&1
+        codesign_result=$?
+        if [ "${codesign_result}" != "0" ]; then
+            echo ${red} "Failed to sign ANE Framework: ${codesign_result}" ${white}
+            exit 1
+        fi
+    fi
+    done
+    popd > /dev/null 2>&1
+fi
+
+echo ${grn} "Codesign OK" ${white}
+
+echo ${cyn} "Building .pkg" ${white}
+
+if [ -d "$APP.pkg" ]; then
+    rm -r "$APP.pkg"
+fi
+
+xcrun productbuild --component "$APP.app" /Applications --sign "$INSTALLER_KEY" "$APP.pkg" > /dev/null 2>&1
+codesign_result=$?
+if [ "${codesign_result}" != "0" ]; then
+    echo ${red} "Failed to build pkg: ${codesign_result}" ${white}
+    exit 1
+fi
+
+echo ${cyn} "Uploading for notarization..." ${white}
+
+xcrun altool -t osx -f "$APP.pkg" --primary-bundle-id "$BUNDLE_ID" --notarize-app -u "$TWO_FAC_UN" -p "$TWO_FAC_PW" --output-format xml > "notarize_result.plist"
+notarize_exit=$?
+if [ "${notarize_exit}" != "0" ]; then
+    echo ${red} "Notarization failed: ${notarize_exit}" ${white}
+    cat "notarize_result.plist"
+    exit 1
+fi
+
+request_uuid="$("${PlistBuddy}" -c "Print notarization-upload:RequestUUID"  "notarize_result.plist")"
+echo ${cyn} "Notarization UUID: ${request_uuid} result: $("${PlistBuddy}" -c "Print success-message"  "notarize_result.plist")" ${white}
+
+for (( ; ; ))
+do
+    xcrun altool --notarization-info "${request_uuid}" -u "$TWO_FAC_UN" -p "$TWO_FAC_PW" --output-format xml > "notarize_status.plist"
+
+    notarize_exit=$?
+    if [ "${notarize_exit}" != "0" ]; then
+        echo ${red} "Notarization failed: ${notarize_exit}" ${white}
+        cat "notarize_status.plist"
+        exit 1
+    fi
+    notarize_status="$("${PlistBuddy}" -c "Print notarization-info:Status"  "notarize_status.plist")"
+    if [ "${notarize_status}" == "in progress" ]; then
+        echo ${cyn} "Waiting for notarization to complete" ${white}
+        sleep 10
+    else
+        echo ${cyn} "Notarization status: ${notarize_status}" ${white}
+        break
+    fi
+done
+
+notarization_log_url="$("${PlistBuddy}" -c "Print notarization-info:LogFileURL"  "notarize_status.plist")"
+echo ${cyn} "Notarization log URL: ${notarization_log_url}" ${white}
+
+if [ "${notarize_status}" != "success" ]; then
+    echo ${red} "Notarization failed."${white}
+    if [ ! -z "${notarization_log_url}" ]; then
+        curl "${notarization_log_url}"
+    fi
+    exit 1
+fi
+
+echo ${cyn} "Stapling notarization result..." ${white}
+
+for (( ; ; ))
+do
+    xcrun stapler staple -q "$APP.pkg"
+    stapler_status=$?
+    if [ "${stapler_status}" = "65" ]; then
+        echo ${cyn} "Waiting for stapling to find record" ${white}
+        sleep 10
+    else
+        if [ "${stapler_status}" != "0" ]; then
+            echo ${red} "Stapling failed: ${notarize_exit}" ${white}
+            exit 1
+        else
+            echo ${cyn} "Stapling OK" ${white}
+        fi
+        break
+    fi
+done
+
+rm -r "notarize_status.plist"
+rm -r "notarize_result.plist"
+
+echo ${grn} "All Done!" ${white}

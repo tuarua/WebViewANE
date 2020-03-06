@@ -1,3 +1,11 @@
+### 2.9.0
+- API changes. Now use `var webView = WebView.shared();`
+- AND: Updated to FreKotlin 1.9.5
+- AND: Updated to Gson 2.8.6
+- OSX/iOS: Updated to FreSwift 4.3.0
+- WIN: Updated to FreSharp 2.4.0
+- WIN: Updated to CefSharp 79.1.360
+
 ### 2.8.0
 - WIN: Updated to Windows Toolkit 5.1.1 for Modern WebView (Edge)
 - WIN: Updated to CefSharp 75.1.142

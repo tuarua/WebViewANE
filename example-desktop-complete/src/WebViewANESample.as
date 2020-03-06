@@ -11,7 +11,7 @@ import com.tuarua.FullscreenBtn;
 import com.tuarua.JsBtn;
 import com.tuarua.RefreshBtn;
 import com.tuarua.WebBtn;
-import com.tuarua.WebViewANE;
+import com.tuarua.WebView;
 import com.tuarua.ZoominBtn;
 import com.tuarua.ZoomoutBtn;
 import com.tuarua.fre.ANEError;
@@ -64,7 +64,7 @@ public class WebViewANESample extends Sprite {
     public static const FONT:Font = new FiraSansSemiBold();
     private var freSharpANE:FreSharp = new FreSharp(); // must create before all others
     private var freSwiftANE:FreSwift = new FreSwift(); // must create before all others
-    private var webView:WebViewANE = new WebViewANE();
+    private var webView:WebView;
 
     private var backBtn:SimpleButton = new BackBtn();
     private var fwdBtn:SimpleButton = new BackBtn();
@@ -99,7 +99,6 @@ public class WebViewANESample extends Sprite {
         stage.scaleMode = StageScaleMode.NO_SCALE;
         this.addEventListener(Event.ACTIVATE, onActivated);
         NativeApplication.nativeApplication.executeInBackground = true;
-
     }
 
     protected function onActivated(event:Event):void {
@@ -112,6 +111,7 @@ public class WebViewANESample extends Sprite {
         NativeApplication.nativeApplication.activeWindow.addEventListener(
                 NativeWindowDisplayStateEvent.DISPLAY_STATE_CHANGE, onWindowMiniMaxi);
 
+        webView = WebView.shared();
         webView.addCallback("js_to_as", jsToAsCallback);
         webView.addCallback("forceWebViewFocus", forceWebViewFocus); //for Windows touch - see jsTest.html
 
@@ -154,6 +154,7 @@ public class WebViewANESample extends Sprite {
             key: "disable-direct-write",
             value: "1"
         });
+        settings.cef.enablePrintPreview = true;
         settings.cef.userDataPath = File.applicationStorageDirectory.nativePath;
         settings.cef.logSeverity = LogSeverity.DISABLE;
 
@@ -287,7 +288,7 @@ public class WebViewANESample extends Sprite {
     private function onAsJsAsBtn(event:MouseEvent):void {
         webView.callJavascriptFunction("as_to_js", asToJsCallback, 1, "é", 77);
 
-        //this is how to use without a callback
+        // this is how to use without a callback
         // webView.callJavascriptFunction("console.log",null,"hello console. The is AIR");
     }
 
@@ -394,7 +395,7 @@ public class WebViewANESample extends Sprite {
     }
 
     private function onPropertyChange(event:WebViewEvent):void {
-// read list of tabs and their details like this:
+        // read list of tabs and their details like this:
         /*var tabList:Vector.<TabDetails> = webView.tabDetails;
         if (tabList && tabList.length > 0) {
             trace(tabList[webView.currentTab].index, tabList[webView.currentTab].title, tabList[webView.currentTab].url);
@@ -530,10 +531,9 @@ public class WebViewANESample extends Sprite {
         trace("jsResult.result", jsResult.result);
         trace("jsResult.message", jsResult.message);
         trace("jsResult.success", jsResult.success);
-        var testObject:* = jsResult.result;
+        var testObject:Object = JSON.parse(jsResult.result);
         trace(testObject);
     }
-
 
     private static function onFail(event:WebViewEvent):void {
         trace(event.params.url);
@@ -572,16 +572,15 @@ public class WebViewANESample extends Sprite {
         _appWidth = this.stage.stageWidth;
         _appHeight = this.stage.stageHeight;
         updateWebViewOnResize();
-
     }
 
     /**
-     * It's very important to call webView.dispose(); when the app is exiting.
+     * It's very important to call WebView.dispose(); when the app is exiting.
      */
     private function onExiting(event:Event):void {
-        webView.dispose();
-        freSwiftANE.dispose();
-        freSharpANE.dispose();
+        WebView.dispose();
+        FreSwift.dispose();
+        FreSharp.dispose();
     }
 
 

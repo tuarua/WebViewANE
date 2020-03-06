@@ -1,5 +1,5 @@
 package com.tuarua.utils {
-import com.tuarua.WebViewANE;
+import com.tuarua.WebViewANEContext;
 
 import flash.system.Capabilities;
 
@@ -35,7 +35,7 @@ public final class os {
     }
 
     private static function getVersion():void {
-        var arr:Vector.<int> = WebViewANE.context.call("getOsVersion") as Vector.<int>;
+        var arr:Vector.<int> = WebViewANEContext.context.call("getOsVersion") as Vector.<int>;
         _majorVersion = arr[0];
         _minorVersion = arr[1];
         _buildVersion = arr[2];

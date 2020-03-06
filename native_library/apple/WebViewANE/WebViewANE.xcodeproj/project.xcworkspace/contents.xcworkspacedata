@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:/Users/User/flash/WebViewANE/native_library/ios/WebViewANE/WebViewANE.xcodeproj">
+      location = "self:">
    </FileRef>
 </Workspace>

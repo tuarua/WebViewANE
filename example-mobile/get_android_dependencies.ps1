@@ -1,6 +1,6 @@
-$AneVersion = "2.8.0"
-$FreKotlinVersion = "1.8.0"
-$GsonVersion = "2.8.4"
+$AneVersion = "2.9.0"
+$FreKotlinVersion = "1.9.5"
+$GsonVersion = "2.8.6"
 
 $currentDir = (Get-Item -Path ".\" -Verbose).FullName
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12

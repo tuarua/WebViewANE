@@ -72,8 +72,8 @@ public class Settings {
      */
     public var engine:int = WebEngine.DEFAULT;
     /**
-     @param useHiDPI set true if using <requestedDisplayResolution>high</requestedDisplayResolution> in your
-     app xml - Windows only.
+     * @param useHiDPI set true if using <requestedDisplayResolution>high</requestedDisplayResolution> in your
+     * app xml - Windows only.
      */
     public var useHiDPI:Boolean = true;
     /**

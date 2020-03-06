@@ -21,6 +21,7 @@
 
 import Foundation
 import WebKit
+import SwiftyJSON
 
 extension SwiftController: URLSessionTaskDelegate, URLSessionDelegate, URLSessionDownloadDelegate {
     // https://developer.apple.com/documentation/foundation/urlsessiondownloadtask
