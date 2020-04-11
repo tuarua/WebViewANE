@@ -22,19 +22,31 @@
  */
 package com.tuarua;
 
+import com.adobe.air.AndroidActivityWrapper;
 import com.tuarua.frekotlin.FreKotlinContext;
 import com.tuarua.frekotlin.FreKotlinMainController;
+import com.tuarua.webviewane.KotlinController;
+
 @SuppressWarnings("WeakerAccess")
 public class WebViewANEContext extends FreKotlinContext {
-    private final FreKotlinMainController controller;
+    private AndroidActivityWrapper aaw;
+    private KotlinController kc;
     public WebViewANEContext(String name, FreKotlinMainController controller, String[] functions) {
         super(name, controller, functions);
         this.controller = controller;
+        kc = (KotlinController) this.controller;
+        aaw = AndroidActivityWrapper.GetAndroidActivityWrapper();
+        aaw.addActivityResultListener(kc);
     }
 
     @Override
     public void dispose() {
         super.dispose();
-        controller.dispose();
+        if (aaw != null) {
+            aaw.removeActivityResultListener(kc);
+            aaw = null;
+        }
+        kc.dispose();
+        kc = null;
     }
 }

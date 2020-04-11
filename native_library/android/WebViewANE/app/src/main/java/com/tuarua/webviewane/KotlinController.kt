@@ -24,18 +24,22 @@
 
 package com.tuarua.webviewane
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.RectF
 import android.os.Build
+import android.webkit.WebChromeClient.FileChooserParams
 import android.webkit.WebView
+import com.adobe.air.FreKotlinActivityResultCallback
 import com.adobe.fre.FREContext
 import com.adobe.fre.FREObject
 import com.tuarua.frekotlin.*
 import com.tuarua.frekotlin.display.FreBitmapDataKotlin
 import com.tuarua.frekotlin.geom.RectF
+import com.tuarua.webviewane.ChromeClient.Companion.REQUEST_FILE
 
 @Suppress("unused", "UNUSED_PARAMETER", "UNCHECKED_CAST")
-class KotlinController : FreKotlinMainController {
+class KotlinController : FreKotlinMainController, FreKotlinActivityResultCallback {
     private var isAdded = false
     private var scaleFactor = 1.0f
     private var webViewController: WebViewController? = null
@@ -239,6 +243,13 @@ class KotlinController : FreKotlinMainController {
         return null
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
+        if (requestCode != REQUEST_FILE) return
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return
+        webViewController?.chromeClient?.filePathCallback?.onReceiveValue(FileChooserParams.parseResult(resultCode, intent))
+        webViewController?.chromeClient?.filePathCallback = null
+    }
+
     override fun dispose() {
         webViewController?.dispose()
         webViewController = null
@@ -254,5 +265,4 @@ class KotlinController : FreKotlinMainController {
             _context = value
             FreKotlinLogger.context = _context
         }
-
 }

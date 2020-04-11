@@ -1,6 +1,6 @@
-$AneVersion = "2.9.0"
+$AneVersion = "2.10.0"
 $FreSharpVersion = "2.4.0"
-$FreSwiftVersion = "4.3.0"
+$FreSwiftVersion = "4.4.0"
 
 $currentDir = (Get-Item -Path ".\" -Verbose).FullName
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12

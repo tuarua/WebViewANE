@@ -23,14 +23,21 @@
 
 package com.tuarua.webviewane
 
+import android.annotation.TargetApi
+import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.webkit.GeolocationPermissions
+import android.webkit.ValueCallback
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import com.adobe.fre.FREContext
 import com.google.gson.Gson
 import com.tuarua.frekotlin.FreKotlinController
 
-class ChromeClient(override var context: FREContext?): WebChromeClient(), FreKotlinController {
+class ChromeClient(override var context: FREContext?) : WebChromeClient(), FreKotlinController {
+    var filePathCallback: ValueCallback<Array<Uri>>? = null
+
     internal var progress = 0.0
     private val gson = Gson()
     override fun onProgressChanged(view: WebView?, newProgress: Int) {
@@ -54,6 +61,38 @@ class ChromeClient(override var context: FREContext?): WebChromeClient(), FreKot
                                                     callback: GeolocationPermissions.Callback?) {
         callback?.invoke(origin, true, false)
     }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    override fun onShowFileChooser(webView: WebView?, filePathCallback: ValueCallback<Array<Uri>>?,
+                                   fileChooserParams: FileChooserParams?): Boolean {
+
+        this.filePathCallback?.onReceiveValue(arrayOf());
+        this.filePathCallback = null;
+
+        val intent = Intent()
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.addCategory(Intent.CATEGORY_DEFAULT);
+        intent.action = Intent.ACTION_GET_CONTENT;
+        intent.type = "*/*"
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+        if (fileChooserParams?.acceptTypes != null) {
+            intent.putExtra(Intent.EXTRA_MIME_TYPES, fileChooserParams.acceptTypes)
+        }
+
+        if (filePathCallback != null && fileChooserParams != null) {
+            this.filePathCallback = filePathCallback;
+        }
+
+        val title = fileChooserParams?.title ?: "Choose a file"
+
+        context?.activity?.startActivityForResult(Intent.createChooser(intent, title), REQUEST_FILE)
+        return true
+    }
+
+    companion object {
+        const val REQUEST_FILE = 80
+    }
+
     override val TAG: String
         get() = this::class.java.simpleName
 
