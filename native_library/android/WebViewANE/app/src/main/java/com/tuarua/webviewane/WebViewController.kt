@@ -49,6 +49,7 @@ class WebViewController(override var context: FREContext?,
     private var airView: ViewGroup? = null
     private var container: FrameLayout? = null
     private var webView: WebView? = null
+    private lateinit var viewClient: ViewClient
     var visible: Boolean
         set(value) {
             this._visible = value
@@ -67,9 +68,7 @@ class WebViewController(override var context: FREContext?,
             frame.y = viewPort.top
         }
         get() = _viewPort
-
-    private lateinit var chromeClient: ChromeClient
-    private lateinit var viewClient: ViewClient
+    lateinit var chromeClient: ChromeClient
 
     fun add() {
         val newId = View.generateViewId()

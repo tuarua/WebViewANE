@@ -97,11 +97,11 @@
     <orderEntry type="library" exported="" name="FiraSansSemiBold" level="project" />
     <orderEntry type="library" exported="" name="WindowsHelperANE" level="project" />
     <orderEntry type="library" exported="" name="CommonDependencies" level="project" />
-    <orderEntry type="library" exported="" name="WebViewANE" level="project" />
     <orderEntry type="library" exported="" name="WebViewIcons" level="project" />
     <orderEntry type="library" exported="" name="greensock" level="project" />
     <orderEntry type="library" exported="" name="FreSwift" level="project" />
     <orderEntry type="library" exported="" name="FreSharpANE" level="project" />
     <orderEntry type="library" exported="" name="FreSharp" level="project" />
+    <orderEntry type="library" exported="" name="WebViewANE" level="project" />
   </component>
 </module>

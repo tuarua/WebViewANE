@@ -1,3 +1,7 @@
+### 2.10.0
+- OSX/iOS: Updated to FreSwift 4.4.0
+- AND: Support File input tag (v21 and above)
+
 ### 2.9.0
 - API changes. Now use `var webView = WebView.shared();`
 - AND: Updated to FreKotlin 1.9.5

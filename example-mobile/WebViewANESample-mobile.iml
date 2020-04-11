@@ -91,7 +91,7 @@
             <entry library-name="com.google.code.gson.gson-2.8.6" library-level="project">
               <dependency linkage="Merged" />
             </entry>
-            <entry library-name="com.tuarua.frekotlin-1.9.5" library-level="project">
+            <entry library-name="com.tuarua.frekotlin-1.10.0" library-level="project">
               <dependency linkage="Merged" />
             </entry>
           </entries>
@@ -185,5 +185,6 @@
     <orderEntry type="library" exported="" name="com.tuarua.frekotlin-1.9.1" level="project" />
     <orderEntry type="library" exported="" name="com.google.code.gson.gson-2.8.6" level="project" />
     <orderEntry type="library" exported="" name="com.tuarua.frekotlin-1.9.5" level="project" />
+    <orderEntry type="library" exported="" name="com.tuarua.frekotlin-1.10.0" level="project" />
   </component>
 </module>
