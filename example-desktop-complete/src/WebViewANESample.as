@@ -51,6 +51,7 @@ import flash.net.URLRequestMethod;
 import flash.system.Capabilities;
 import flash.text.Font;
 import flash.utils.ByteArray;
+import flash.utils.setTimeout;
 
 import views.BasicButton;
 
@@ -103,7 +104,11 @@ public class WebViewANESample extends Sprite {
 
     protected function onActivated(event:Event):void {
         if (hasActivated) return;
+        setTimeout(init, 0); // this is handle the HARMAN splash screen
+        hasActivated = true;
+    }
 
+    protected function init():void {
         stage.addEventListener(Event.RESIZE, onResize);
         stage.addEventListener(FullScreenEvent.FULL_SCREEN, onFullScreenEvent);
         NativeApplication.nativeApplication.addEventListener(Event.EXITING, onExiting);
@@ -272,9 +277,6 @@ public class WebViewANESample extends Sprite {
         addChild(eval_js_Btn);
         addChild(urlInput);
         addChild(progress);
-
-        hasActivated = true;
-
     }
 
     private function onEvalJsBtn(event:MouseEvent):void {
