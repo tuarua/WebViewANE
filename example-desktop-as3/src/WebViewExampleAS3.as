@@ -10,6 +10,7 @@ import flash.display.Sprite;
 import flash.events.Event;
 import flash.geom.Rectangle;
 import flash.net.URLRequest;
+import flash.utils.setTimeout;
 
 [SWF(width="1024", height="768", frameRate="60", backgroundColor="#F1F1F1")]
 public class WebViewExampleAS3 extends Sprite {
@@ -24,8 +25,12 @@ public class WebViewExampleAS3 extends Sprite {
 
     protected function onActivated(event:Event):void {
         if (hasActivated) return;
-        NativeApplication.nativeApplication.addEventListener(Event.EXITING, onExiting);
+        setTimeout(init, 0); // this is handle the HARMAN splash screen
         hasActivated = true;
+    }
+
+    protected function init():void {
+        NativeApplication.nativeApplication.addEventListener(Event.EXITING, onExiting);
         var viewport:Rectangle = new Rectangle(0, 0, 1024, 768);
         var settings:Settings = new Settings();
         webView = WebView.shared();
