@@ -6,39 +6,39 @@
                        width="1024" height="768"
                        backgroundColor="#F1F1F1">
 
-    <fx:Script>
-		<![CDATA[
-		import com.tuarua.FreSharp;
+<fx:Script>
+	<![CDATA[
+	import com.tuarua.FreSharp;
     	import com.tuarua.FreSwift;
     	import com.tuarua.WebView;
     	import com.tuarua.fre.ANEError;
-		import com.tuarua.webview.Settings;
+	import com.tuarua.webview.Settings;
 
-		private var freSharpANE:FreSharp = new FreSharp(); // must create before all others
-		private var freSwiftANE:FreSwift = new FreSwift(); // must create before all others
-		private var webView:WebViewANE = new WebViewANE();
+	private var freSharpANE:FreSharp = new FreSharp(); // must create before all others
+	private var freSwiftANE:FreSwift = new FreSwift(); // must create before all others
+	private var webView:WebView = new WebView();
 
         protected function onWindowComplete():void {
-            this.stage.nativeWindow.addEventListener(NativeWindowBoundsEvent.RESIZE, onResize);
-            NativeApplication.nativeApplication.addEventListener(Event.EXITING, onExiting);
-            var viewport:Rectangle = getBounds(this);
-            var settings:Settings = new Settings();
-            webView = WebView.shared();
-            webView.init(stage, viewport, new URLRequest("https://html5test.com"), settings, 1, 0xFFF1F1F1);
-            webView.visible = true;
+		this.stage.nativeWindow.addEventListener(NativeWindowBoundsEvent.RESIZE, onResize);
+		NativeApplication.nativeApplication.addEventListener(Event.EXITING, onExiting);
+		var viewport:Rectangle = getBounds(this);
+		var settings:Settings = new Settings();
+		webView = WebView.shared();
+		webView.init(stage, viewport, new URLRequest("https://html5test.com"), settings, 1, 0xFFF1F1F1);
+		webView.visible = true;
         }
 
         private function onResize(event:NativeWindowBoundsEvent):void {
-            webview.viewPort = new Rectangle(0, 0, event.afterBounds.width, event.afterBounds.height);
+		webView.viewPort = new Rectangle(0, 0, event.afterBounds.width, event.afterBounds.height);
         }
 
         private function onExiting(event:Event):void {
-			WebView.dispose();
-			FreSwift.dispose();
-			FreSharp.dispose();
+		WebView.dispose();
+		FreSwift.dispose();
+		FreSharp.dispose();
          }
 
         ]]>
-	</fx:Script>
+</fx:Script>
 
 </s:WindowedApplication>
