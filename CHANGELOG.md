@@ -1,5 +1,6 @@
 ### 2.11.0
 - WIN: Updated to CefSharp 81.3.100
+- WIN: `CefSettings.cachePath` must now be an absolute path
 
 ### 2.10.0
 - OSX/iOS: Updated to FreSwift 4.4.0
