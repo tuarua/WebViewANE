@@ -4,6 +4,7 @@ build_asdocs.sh
 build_osx_debug.sh
 build_multi_edge.sh
 build-windows-propietary-codecs.bat
+build_multi_propietary_codecs.sh
 
 extension_android.xml
 extension_ios.xml
