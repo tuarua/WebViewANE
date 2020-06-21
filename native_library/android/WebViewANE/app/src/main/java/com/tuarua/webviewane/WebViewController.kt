@@ -86,7 +86,7 @@ class WebViewController(override var context: FREContext?,
         frame.id = newId
         (airView as ViewGroup).addView(frame)
 
-        webView = WebView(ctx.activity.applicationContext)
+        webView = WebView(ctx.activity)
         val wv = webView ?: return
         wv.setOnKeyListener(View.OnKeyListener { _, keyCode, event ->
             if (keyCode == KeyEvent.KEYCODE_BACK) {

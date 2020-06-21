@@ -64,7 +64,7 @@ extension SwiftController: WKNavigationDelegate {
                     warning("Cannot open popup in new window on iOS. Opening in same window.")
                     webView.load(navigationAction.request)
                 #else
-                _popup?.createPopupWindow(url: request, configuration: _settings.configuration)
+                return _popup?.createPopupWindow(url: request, configuration: configuration)
                 #endif
             case .sameWindow:
                 webView.load(request)
