@@ -1,5 +1,5 @@
 ### 2.11.0
-- WIN: Updated to CefSharp 81.3.100
+- WIN: Updated to CefSharp 83.4.200
 - WIN: `CefSettings.cachePath` must now be an absolute path
 - macOS: fix BUG window.opener Issue #253
 - macOS: fix .visible and tabs Issue #199
