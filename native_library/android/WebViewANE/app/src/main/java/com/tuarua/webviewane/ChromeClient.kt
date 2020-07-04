@@ -66,13 +66,13 @@ class ChromeClient(override var context: FREContext?) : WebChromeClient(), FreKo
     override fun onShowFileChooser(webView: WebView?, filePathCallback: ValueCallback<Array<Uri>>?,
                                    fileChooserParams: FileChooserParams?): Boolean {
 
-        this.filePathCallback?.onReceiveValue(arrayOf());
-        this.filePathCallback = null;
+        this.filePathCallback?.onReceiveValue(arrayOf())
+        this.filePathCallback = null
 
         val intent = Intent()
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.addCategory(Intent.CATEGORY_DEFAULT);
-        intent.action = Intent.ACTION_GET_CONTENT;
+        intent.addCategory(Intent.CATEGORY_OPENABLE)
+        intent.addCategory(Intent.CATEGORY_DEFAULT)
+        intent.action = Intent.ACTION_GET_CONTENT
         intent.type = "*/*"
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
         if (fileChooserParams?.acceptTypes != null) {
@@ -80,7 +80,7 @@ class ChromeClient(override var context: FREContext?) : WebChromeClient(), FreKo
         }
 
         if (filePathCallback != null && fileChooserParams != null) {
-            this.filePathCallback = filePathCallback;
+            this.filePathCallback = filePathCallback
         }
 
         val title = fileChooserParams?.title ?: "Choose a file"

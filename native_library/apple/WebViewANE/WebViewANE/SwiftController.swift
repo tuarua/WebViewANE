@@ -48,6 +48,7 @@ public class SwiftController: NSObject {
     internal var downloadTaskSaveTos = [Int: URL]()
 #endif
     private var _isAdded = false
+    private var _isVisible = false
     internal var _settings: Settings!
     private var _userController = WKUserContentController()
     
@@ -278,16 +279,23 @@ public class SwiftController: NSObject {
 
     func setVisible(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
         guard argc > 0,
-            let wv = _currentWebView,
             let visible = Bool(argv[0])
             else {
                 return FreArgError().getError()
         }
+        
+        _isVisible = visible
 
         if !_isAdded {
             addToStage()
         }
-        wv.isHidden = !visible
+        
+        for vc in _tabList {
+            if let theVC = vc as? WebViewVC {
+                theVC.isHidden = !_isVisible
+            }
+        }
+        
         return nil
     }
 
@@ -601,12 +609,11 @@ public class SwiftController: NSObject {
         }
 
         _currentTab = _tabList.count
-        let isHidden = _currentWebView?.isHidden ?? true
         _currentWebView = createNewBrowser(
           frame: CGRect(x: wv.frame.origin.x, y: wv.frame.origin.y,
                              width: _viewPort.size.width, height: _viewPort.size.height),
           tab: _tabList.count)
-        _currentWebView?.isHidden = isHidden
+        _currentWebView?.isHidden = !_isVisible
         _ = removeFromStage()
         _ = addToStage()
 
@@ -627,10 +634,7 @@ public class SwiftController: NSObject {
         if _currentTab >= index {
             _currentTab -= 1
         }
-        if _tabList.count == 2 {
-            _currentTab = 0
-        }
-        if _currentTab < 0 {
+        if _tabList.count == 2 || _currentTab < 0 {
             _currentTab = 0
         }
 
@@ -649,7 +653,7 @@ public class SwiftController: NSObject {
         for vc in _tabList {
             if let theVC = vc as? WebViewVC {
                 theVC.tab = cnt
-                theVC.isHidden = !(theVC.tab == _currentTab)
+                theVC.isHidden = _isVisible ? !(theVC.tab == _currentTab) : true
             }
             cnt += 1
         }
@@ -681,7 +685,7 @@ public class SwiftController: NSObject {
 
         for vc in _tabList {
             if let theVC = vc as? WebViewVC {
-                theVC.isHidden = !(theVC.tab == index)
+                theVC.isHidden = _isVisible ? !(theVC.tab == index) : true
             }
         }
         let currentFrame = cwv.frame

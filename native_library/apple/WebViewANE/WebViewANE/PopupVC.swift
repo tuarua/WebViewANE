@@ -25,7 +25,7 @@ import WebKit
 
 class PopupVC: NSViewController, WKUIDelegate, WKNavigationDelegate,
 URLSessionTaskDelegate, URLSessionDelegate, URLSessionDownloadDelegate {
-    private var webView: WKWebView?
+    var webView: WKWebView?
     private var request: URLRequest!
     private var width: Int!
     private var height: Int!

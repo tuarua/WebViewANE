@@ -27,7 +27,7 @@ class Popup: NSObject, NSWindowDelegate {
     private var _popupVC: PopupVC!
     public var popupDimensions: (Int, Int) = (800, 600)
 
-    public func createPopupWindow(url: URLRequest, configuration: WKWebViewConfiguration) {
+    public func createPopupWindow(url: URLRequest, configuration: WKWebViewConfiguration) -> WKWebView? {
         if let p = _popupWindow {
             p.close()
         }
@@ -41,10 +41,10 @@ class Popup: NSObject, NSWindowDelegate {
         _popupWindow?.delegate = self
         _popupVC = PopupVC(request: url, width: popupDimensions.0,
                            height: popupDimensions.1, configuration: configuration)
-        guard let contentView = _popupWindow?.contentView else { return }
+        guard let contentView = _popupWindow?.contentView else { return nil }
         contentView.addSubview(_popupVC.view)
         _popupWindow?.makeKeyAndOrderFront(nil)
-        
+        return _popupVC.webView
     }
 
     func windowWillClose(_ notification: Notification) {

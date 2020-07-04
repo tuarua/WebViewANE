@@ -21,6 +21,7 @@
  *  All Rights Reserved. Tua Rua Ltd.
  */
 package com.tuarua.webview {
+import flash.filesystem.File;
 
 public class CefSettings {
     /**
@@ -37,7 +38,7 @@ public class CefSettings {
      * persist across sessions if a cache path is specified. Can be overridden for individual
      * CefRequestContext instances via the RequestContextSettings.CachePath value.
      */
-    public var cachePath:String = "cache";//set to empty
+    public var cachePath:String = File.applicationStorageDirectory.resolvePath("cache").nativePath;
     /**
      * The log severity. Only messages of this severity level or higher will be logged.
      * Also configurable using the "log-severity" command-line switch with a value of

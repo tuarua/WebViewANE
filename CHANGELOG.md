@@ -1,3 +1,10 @@
+### 2.11.0
+- WIN: Updated to CefSharp 83.4.200
+- WIN: `CefSettings.cachePath` must now be an absolute path
+- macOS: fix BUG window.opener Issue #253
+- macOS: fix .visible and tabs Issue #199
+- AND: BUG fix - select tag Issue #252
+
 ### 2.10.0
 - OSX/iOS: Updated to FreSwift 4.4.0
 - AND: Support File input tag (v21 and above)
