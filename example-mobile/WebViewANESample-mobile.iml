@@ -15,7 +15,7 @@
               <dependency linkage="Merged" />
             </entry>
           </entries>
-          <sdk name="AIRSDK_33" />
+          <sdk name="AIRSDK_33.1.1.217" />
         </dependencies>
         <compiler-options>
           <map>
@@ -52,7 +52,7 @@
               <dependency linkage="Merged" />
             </entry>
           </entries>
-          <sdk name="AIRSDK_33" />
+          <sdk name="AIRSDK_33.1.1.217" />
         </dependencies>
         <compiler-options>
           <map>
@@ -88,14 +88,11 @@
             <entry library-name="WebViewANE" library-level="project">
               <dependency linkage="Merged" />
             </entry>
-            <entry library-name="com.google.code.gson.gson-2.8.6" library-level="project">
-              <dependency linkage="Merged" />
-            </entry>
-            <entry library-name="com.tuarua.frekotlin-1.10.0" library-level="project">
+            <entry library-name="android_dependencies" library-level="project">
               <dependency linkage="Merged" />
             </entry>
           </entries>
-          <sdk name="AIRSDK_33" />
+          <sdk name="AIRSDK_33.1.1.217" />
         </dependencies>
         <compiler-options>
           <map>
@@ -134,7 +131,7 @@
               <dependency linkage="Merged" />
             </entry>
           </entries>
-          <sdk name="AIRSDK_33" />
+          <sdk name="AIRSDK_33.1.1.217" />
         </dependencies>
         <compiler-options>
           <map>
@@ -168,7 +165,7 @@
       <sourceFolder url="file://$MODULE_DIR$/system" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/assets" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="AIRSDK_33" jdkType="Flex SDK Type (new)" />
+    <orderEntry type="jdk" jdkName="AIRSDK_33.1.1.217" jdkType="Flex SDK Type (new)" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="starling" level="project" />
     <orderEntry type="library" exported="" name="WebViewANE-ios" level="project" />
@@ -186,5 +183,6 @@
     <orderEntry type="library" exported="" name="com.google.code.gson.gson-2.8.6" level="project" />
     <orderEntry type="library" exported="" name="com.tuarua.frekotlin-1.9.5" level="project" />
     <orderEntry type="library" exported="" name="com.tuarua.frekotlin-1.10.0" level="project" />
+    <orderEntry type="library" exported="" name="android_dependencies" level="project" />
   </component>
 </module>

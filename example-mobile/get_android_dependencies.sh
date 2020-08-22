@@ -1,7 +1,7 @@
 #!/bin/sh
 
-AneVersion="2.11.0"
-FreKotlinVersion="1.10.0"
+AneVersion="2.12.0"
+FreKotlinVersion="1.40.0"
 GsonVersion="2.8.6"
 
 wget -O android_dependencies/com.tuarua.frekotlin-$FreKotlinVersion.ane https://github.com/tuarua/Android-ANE-Dependencies/blob/master/anes/kotlin/com.tuarua.frekotlin-$FreKotlinVersion.ane?raw=true

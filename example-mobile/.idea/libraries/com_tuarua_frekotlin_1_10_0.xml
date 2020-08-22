@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="com.tuarua.frekotlin-1.10.0" type="flex">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/android_dependencies/com.tuarua.frekotlin-1.10.0.ane!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
