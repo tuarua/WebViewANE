@@ -1,3 +1,7 @@
+### 2.12.0
+- AND: Updated to FreKotlin 1.40.0
+- iOS: Updated to FreSwift 4.5.0
+
 ### 2.11.0
 - WIN: Updated to CefSharp 83.4.200
 - WIN: `CefSettings.cachePath` must now be an absolute path
