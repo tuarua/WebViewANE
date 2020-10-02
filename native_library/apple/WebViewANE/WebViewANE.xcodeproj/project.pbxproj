@@ -332,7 +332,7 @@
 		CE3980631E58BA7F0062485B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1100;
+				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = "Tua Rua Ltd";
 				TargetAttributes = {
 					CE3980891E58BAA90062485B = {
@@ -521,6 +521,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -582,6 +583,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -640,7 +642,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.12.0;
+				MARKETING_VERSION = 2.13.0;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tuarua.WebViewANE;
@@ -685,7 +687,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.12.0;
+				MARKETING_VERSION = 2.13.0;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tuarua.WebViewANE;
@@ -788,7 +790,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = /Users/eoinlandy/SDKs/AIRSDK_30/runtimes/air/mac;
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				MARKETING_VERSION = 2.12.0;
+				MARKETING_VERSION = 2.13.0;
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					"\"Adobe AIR\"",
@@ -840,7 +842,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = /Users/eoinlandy/SDKs/AIRSDK_30/runtimes/air/mac;
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				MARKETING_VERSION = 2.12.0;
+				MARKETING_VERSION = 2.13.0;
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					"\"Adobe AIR\"",

@@ -25,22 +25,24 @@ import WebKit
 class Popup: NSObject, NSWindowDelegate {
     private var _popupWindow: NSWindow?
     private var _popupVC: PopupVC!
-    public var popupDimensions: (Int, Int) = (800, 600)
 
-    public func createPopupWindow(url: URLRequest, configuration: WKWebViewConfiguration) -> WKWebView? {
+    public func createPopupWindow(url: URLRequest, configuration: WKWebViewConfiguration, frame: CGRect) -> WKWebView? {
         if let p = _popupWindow {
             p.close()
         }
-        _popupWindow = NSWindow(contentRect: NSRect(x: 0, y: 0, width: CGFloat(popupDimensions.0),
-                                                    height: CGFloat(popupDimensions.1)),
+        _popupWindow = NSWindow(contentRect: CGRect(x: 0, y: 0, width: frame.width, height: frame.height),
                 styleMask: [.titled, .miniaturizable, .closable],
                 backing: .buffered, defer: false)
 
-        _popupWindow?.center()
+        if frame.minX == -1 || frame.minY == -1 {
+            _popupWindow?.center()
+        } else {
+            _popupWindow?.setFrameOrigin(CGPoint(x: frame.minX, y: frame.minY))
+        }
+        
         _popupWindow?.isReleasedWhenClosed = false
         _popupWindow?.delegate = self
-        _popupVC = PopupVC(request: url, width: popupDimensions.0,
-                           height: popupDimensions.1, configuration: configuration)
+        _popupVC = PopupVC(request: url, position: frame, configuration: configuration)
         guard let contentView = _popupWindow?.contentView else { return nil }
         contentView.addSubview(_popupVC.view)
         _popupWindow?.makeKeyAndOrderFront(nil)

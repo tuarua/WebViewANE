@@ -27,15 +27,13 @@ class PopupVC: NSViewController, WKUIDelegate, WKNavigationDelegate,
 URLSessionTaskDelegate, URLSessionDelegate, URLSessionDownloadDelegate {
     var webView: WKWebView?
     private var request: URLRequest!
-    private var width: Int!
-    private var height: Int!
+    private var position: CGRect!
     private var downloadTaskSaveTos = [Int: URL]()
 
-    convenience init(request: URLRequest, width: Int, height: Int, configuration: WKWebViewConfiguration) {
+    convenience init(request: URLRequest, position: CGRect, configuration: WKWebViewConfiguration) {
         self.init()
         self.request = request
-        self.width = width
-        self.height = height
+        self.position = position
 
         webView = WKWebView(frame: self.view.frame, configuration: configuration)
         if let wv = webView {
@@ -59,8 +57,7 @@ URLSessionTaskDelegate, URLSessionDelegate, URLSessionDownloadDelegate {
     }
 
     override func loadView() {
-        let myRect: NSRect = NSRect(x: 0, y: 0, width: self.width, height: self.height)
-        self.view = NSView(frame: myRect)
+        self.view = NSView(frame: CGRect(x: 0, y: 0, width: position.width, height: position.height))
     }
 
     override func observeValue(forKeyPath keyPath: String?, of object: Any?,

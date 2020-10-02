@@ -1,3 +1,6 @@
+### 2.13.0
+- WIN/macOS: Issue #264
+
 ### 2.12.0
 - AND: Updated to FreKotlin 1.40.0
 - iOS: Updated to FreSwift 4.5.0
