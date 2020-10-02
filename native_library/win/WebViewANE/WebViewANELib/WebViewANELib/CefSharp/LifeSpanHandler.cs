@@ -23,8 +23,8 @@ namespace WebViewANELib.CefSharp {
             //Set newBrowser to null unless your attempting to host the popup in a new instance of ChromiumWebBrowser
             newBrowser = null;
 
-            windowInfo.Width = _popupDimensions.Item1;
-            windowInfo.Height = _popupDimensions.Item2;
+            windowInfo.Width = popupFeatures.Width > 0 ? popupFeatures.Width :_popupDimensions.Item1;
+            windowInfo.Height = popupFeatures.Height > 0 ? popupFeatures.Height : _popupDimensions.Item2;
             EventHandler<string> handler;
 
             switch (_popupBehaviour) {
