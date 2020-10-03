@@ -45,7 +45,7 @@ public class Tab extends Sprite {
 
 
         var textFormat:TextFormat = new TextFormat();
-        textFormat.font = WebViewANESample.FONT.fontName;
+        textFormat.font = Main.FONT.fontName;
         textFormat.size = 11;
         textFormat.align = TextFormatAlign.LEFT;
         textFormat.kerning = true;

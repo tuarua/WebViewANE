@@ -2,7 +2,7 @@
 <module type="Flex" version="4">
   <component name="FlexBuildConfigurationManager" active="WebViewANESample-mobile Android Device">
     <configurations>
-      <configuration name="WebViewANESample-mobile iOS simulator" target-platform="Mobile" pure-as="true" main-class="WebViewANESample" output-file="WebViewANESample-mobile.swf" output-folder="$MODULE_DIR$/bin-debug">
+      <configuration name="WebViewANESample-mobile iOS simulator" target-platform="Mobile" pure-as="true" main-class="Main" output-file="WebViewANESample-mobile.swf" output-folder="$MODULE_DIR$/bin-debug">
         <dependencies>
           <entries>
             <entry library-name="starling" library-level="project">
@@ -11,7 +11,7 @@
             <entry library-name="FiraSansSemiBold" library-level="project">
               <dependency linkage="Merged" />
             </entry>
-            <entry library-name="WebViewANE" library-level="project">
+            <entry library-name="extensions" library-level="project">
               <dependency linkage="Merged" />
             </entry>
           </entries>
@@ -29,7 +29,7 @@
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/assets" path-in-package="." />
           </files-to-package>
         </packaging-android>
-        <packaging-ios enabled="true" use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/src/Main-app-ios.xml" package-file-name="WebViewANESample-mobile">
+        <packaging-ios enabled="true" use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/src/Main-app.xml" package-file-name="WebViewANESample-mobile">
           <files-to-package>
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/assets" path-in-package="." />
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/system" path-in-package="." />
@@ -39,7 +39,7 @@
           <AirSigningOptions keystore-path="$USER_HOME$/Documents/appleCertsProv/2020/dev/tua_rua_dev_2020.p12" provisioning-profile-path="$USER_HOME$/Documents/appleCertsProv/2020/dev/Tua_Rua_Dev_Provisioning.mobileprovision" />
         </packaging-ios>
       </configuration>
-      <configuration name="WebViewANESample-mobile iOS Device" target-platform="Mobile" pure-as="true" main-class="WebViewANESample" output-file="WebViewANESample-mobile.swf" output-folder="$MODULE_DIR$/bin-release/device">
+      <configuration name="WebViewANESample-mobile iOS Device" target-platform="Mobile" pure-as="true" main-class="Main" output-file="WebViewANESample-mobile.swf" output-folder="$MODULE_DIR$/bin-release/device">
         <dependencies>
           <entries>
             <entry library-name="starling" library-level="project">
@@ -48,7 +48,7 @@
             <entry library-name="FiraSansSemiBold" library-level="project">
               <dependency linkage="Merged" />
             </entry>
-            <entry library-name="WebViewANE" library-level="project">
+            <entry library-name="extensions" library-level="project">
               <dependency linkage="Merged" />
             </entry>
           </entries>
@@ -66,7 +66,7 @@
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/assets" path-in-package="." />
           </files-to-package>
         </packaging-android>
-        <packaging-ios enabled="true" use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/src/Main-app-ios.xml" package-file-name="WebViewANESample-mobile_device">
+        <packaging-ios enabled="true" use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/src/Main-app.xml" package-file-name="WebViewANESample-mobile_device">
           <files-to-package>
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/system" path-in-package="." />
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/assets" path-in-package="." />
@@ -76,7 +76,7 @@
           <AirSigningOptions keystore-path="$USER_HOME$/Documents/appleCertsProv/2020/dev/tua_rua_dev_2020.p12" provisioning-profile-path="$USER_HOME$/Documents/appleCertsProv/2020/dev/Tua_Rua_Dev_Provisioning.mobileprovision" />
         </packaging-ios>
       </configuration>
-      <configuration name="WebViewANESample-mobile Android Device" target-platform="Mobile" pure-as="true" main-class="WebViewANESample" output-file="WebViewANESample-mobile_Android_Device.swf" output-folder="$MODULE_DIR$/bin-release/device">
+      <configuration name="WebViewANESample-mobile Android Device" target-platform="Mobile" pure-as="true" main-class="Main" output-file="WebViewANESample-mobile_Android_Device.swf" output-folder="$MODULE_DIR$/bin-release/device">
         <dependencies>
           <entries>
             <entry library-name="starling" library-level="project">
@@ -85,10 +85,7 @@
             <entry library-name="FiraSansSemiBold" library-level="project">
               <dependency linkage="Merged" />
             </entry>
-            <entry library-name="WebViewANE" library-level="project">
-              <dependency linkage="Merged" />
-            </entry>
-            <entry library-name="android_dependencies" library-level="project">
+            <entry library-name="extensions" library-level="project">
               <dependency linkage="Merged" />
             </entry>
           </entries>
@@ -101,7 +98,7 @@
           <option name="additionalOptions" value="-swf-version=40" />
         </compiler-options>
         <packaging-air-desktop />
-        <packaging-android enabled="true" use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/src/Main-app-android.xml" package-file-name="WebViewANESample-mobile_Android_Device">
+        <packaging-android enabled="true" use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/src/Main-app.xml" package-file-name="WebViewANESample-mobile_Android_Device">
           <files-to-package>
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/system" path-in-package="." />
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/assets" path-in-package="." />
@@ -118,7 +115,7 @@
           <AirSigningOptions sdk="/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk" keystore-path="$USER_HOME$/Documents/appleCertsProv/2017/dev/tuarua_dev.p12" provisioning-profile-path="$USER_HOME$/Documents/appleCertsProv/2017/dev/Tua_Rua_Dev_Provisioning.mobileprovision" />
         </packaging-ios>
       </configuration>
-      <configuration name="WebViewANESample-mobile iOS Store" target-platform="Mobile" pure-as="true" main-class="WebViewANESample" output-file="WebViewANESample-mobile_iOS_Store.swf" output-folder="$MODULE_DIR$/bin-release/appstore">
+      <configuration name="WebViewANESample-mobile iOS Store" target-platform="Mobile" pure-as="true" main-class="Main" output-file="WebViewANESample-mobile_iOS_Store.swf" output-folder="$MODULE_DIR$/bin-release/appstore">
         <dependencies>
           <entries>
             <entry library-name="starling" library-level="project">
@@ -127,7 +124,7 @@
             <entry library-name="FiraSansSemiBold" library-level="project">
               <dependency linkage="Merged" />
             </entry>
-            <entry library-name="WebViewANE" library-level="project">
+            <entry library-name="extensions" library-level="project">
               <dependency linkage="Merged" />
             </entry>
           </entries>
@@ -145,7 +142,7 @@
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/assets" path-in-package="." />
           </files-to-package>
         </packaging-android>
-        <packaging-ios enabled="true" use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/src/Main-app-ios.xml" package-file-name="WebViewANESamplemobile">
+        <packaging-ios enabled="true" use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/src/Main-app.xml" package-file-name="WebViewANESamplemobile">
           <files-to-package>
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/system" path-in-package="." />
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/assets" path-in-package="." />
@@ -184,5 +181,6 @@
     <orderEntry type="library" exported="" name="com.tuarua.frekotlin-1.9.5" level="project" />
     <orderEntry type="library" exported="" name="com.tuarua.frekotlin-1.10.0" level="project" />
     <orderEntry type="library" exported="" name="android_dependencies" level="project" />
+    <orderEntry type="library" exported="" name="extensions" level="project" />
   </component>
 </module>

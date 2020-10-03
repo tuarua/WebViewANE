@@ -61,7 +61,7 @@ import views.StatusText;
 import views.TabBar;
 
 [SWF(width="1280", height="800", frameRate="60", backgroundColor="#F1F1F1")]
-public class WebViewANESample extends Sprite {
+public class Main extends Sprite {
     public static const FONT:Font = new FiraSansSemiBold();
     private var freSharpANE:FreSharp = new FreSharp(); // must create before all others
     private var freSwiftANE:FreSwift = new FreSwift(); // must create before all others
@@ -94,7 +94,7 @@ public class WebViewANESample extends Sprite {
     private static const newTabUrls:Vector.<String> = new <String>["https://www.bing.com", "https://www.bbc.co.uk",
         null, "https://www.github.com", "https://forum.starling-framework.org/"];
 
-    public function WebViewANESample() {
+    public function Main() {
         super();
         stage.align = StageAlign.TOP_LEFT;
         stage.scaleMode = StageScaleMode.NO_SCALE;

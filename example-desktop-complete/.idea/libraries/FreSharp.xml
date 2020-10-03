@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="FreSharp" type="flex">
-    <CLASSES>
-      <root url="jar://$DOCUMENTS$/WebViewANE/native_extension/ane/FreSharp.ane!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

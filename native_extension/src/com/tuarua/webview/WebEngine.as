@@ -24,6 +24,7 @@
 package com.tuarua.webview {
 public final class WebEngine {
     public static const DEFAULT:int = 0;
+    /** @deprecated */
     public static const EDGE:int = 1;
 }
 }

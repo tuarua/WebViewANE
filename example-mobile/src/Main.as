@@ -22,7 +22,7 @@ import utils.ProgressBar;
 import utils.ScreenSetup;
 
 [SWF(width="320", height="480", frameRate="60", backgroundColor="#F1F1F1")]
-public class WebViewANESample extends Sprite {
+public class Main extends Sprite {
     [Embed(source="ttf/fira-sans-embed.ttf", embedAsCFF="false", fontFamily="Fira Sans", fontWeight="SemiBold")]
     private static const firaSansEmbedded:Class;
 
@@ -30,7 +30,7 @@ public class WebViewANESample extends Sprite {
     private var logo:Loader;
     private var progressBar:ProgressBar;
 
-    public function WebViewANESample() {
+    public function Main() {
         // The "ScreenSetup" class is part of the "utils" package of this project.
         // It figures out the perfect scale factor and stage size for the given device.
         // The third parameter describes the available asset sets (here, '1x' and '2x').

@@ -13,7 +13,7 @@ public class StatusText extends TextField {
         super();
 
         var textFormat:TextFormat = new TextFormat();
-        textFormat.font = WebViewANESample.FONT.fontName;
+        textFormat.font = Main.FONT.fontName;
         textFormat.size = 13;
         textFormat.align = TextFormatAlign.LEFT;
         textFormat.kerning = true;
