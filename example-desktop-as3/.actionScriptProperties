@@ -30,9 +30,9 @@
           <libraryPathEntry kind="1" linkType="1" path="${PROJECT_FRAMEWORKS}/locale/{locale}"/>
         </excludedEntries>
       </libraryPathEntry>
-      <libraryPathEntry kind="5" linkType="2" path="${DOCUMENTS}/WebViewANE/native_extension/ane/FreSwift.ane"/>
-      <libraryPathEntry kind="5" linkType="2" path="${DOCUMENTS}/WebViewANE/native_extension/ane/FreSharp.ane"/>
-      <libraryPathEntry kind="5" linkType="2" path="${DOCUMENTS}/WebViewANE/native_extension/ane/WebViewANE.ane"/>
+      <libraryPathEntry kind="5" linkType="2" path="extensions/FreSwift.ane"/>
+      <libraryPathEntry kind="5" linkType="2" path="extensions/FreSharp.ane"/>
+      <libraryPathEntry kind="5" linkType="2" path="extensions/WebViewANE.ane"/>
     </libraryPath>
     <sourceAttachmentPath/>
   </compiler>
@@ -50,9 +50,9 @@
       <airSettings airCertificatePath="D:/dev/flash/tuaruaWin.p12" airTimestamp="true" anePathSet="true" version="1">
         <airExcludes/>
         <anePaths>
-          <anePathEntry path="${DOCUMENTS}/WebViewANE/native_extension/ane/FreSwift.ane"/>
-          <anePathEntry path="${DOCUMENTS}/WebViewANE/native_extension/ane/FreSharp.ane"/>
-          <anePathEntry path="${DOCUMENTS}/WebViewANE/native_extension/ane/WebViewANE.ane"/>
+          <anePathEntry path="extensions/FreSwift.ane"/>
+          <anePathEntry path="extensions/FreSharp.ane"/>
+          <anePathEntry path="extensions/WebViewANE.ane"/>
         </anePaths>
       </airSettings>
       <actionScriptSettings version="1"/>
