@@ -41,6 +41,7 @@ using TuaRua.FreSharp.Exceptions;
 using TuaRua.FreSharp.Geom;
 using WebViewANELib.Touch;
 using WinApi = TuaRua.FreSharp.Utils.WinApi;
+using System.Diagnostics;
 
 namespace WebViewANELib {
     public class MainController : FreSharpMainController {
@@ -52,6 +53,7 @@ namespace WebViewANELib {
         private Bitmap _capturedBitmapData;
         private const string OnCaptureComplete = "WebView.OnCaptureComplete";
         private bool _useEdge;
+        private bool _useHiDpi;
 
         public string[] GetFunctions() {
             FunctionsDict =
@@ -180,7 +182,7 @@ namespace WebViewANELib {
 
         private FREObject InitView(FREContext ctx, uint argc, FREObject[] argv) {
             FreSharpLogger.GetInstance().Context = Context;
-            _airWindow = System.Diagnostics.Process.GetCurrentProcess().MainWindowHandle;
+            _airWindow = Process.GetCurrentProcess().MainWindowHandle;
             if (_airWindow == Hwnd.Zero) {
                 return new FreException(
                         "Cannot find AIR window to attach webView to. Ensure you init the ANE AFTER your main Sprite is initialized. " +
@@ -226,8 +228,8 @@ namespace WebViewANELib {
                     B = _backgroundColor.B
                 };
 
-                bool useHiDpi = settings.useHiDPI;
-                _scaleFactor = useHiDpi ? WinApi.GetScaleFactor() : 1.0;
+                _useHiDpi = settings.useHiDPI;
+                _scaleFactor = _useHiDpi ? WinApi.GetScaleFactor(_airWindow) : 1.0;
 
                 if (_useEdge) {
                     EdgeView.Context = Context;
@@ -387,6 +389,8 @@ namespace WebViewANELib {
             catch (Exception e) {
                 return new FreException(e).RawValue;
             }
+
+            _scaleFactor = _useHiDpi ? WinApi.GetScaleFactor(_airWindow) : 1.0;
 
             var tmpX = Convert.ToInt32(viewPort.X * _scaleFactor);
             var tmpY = Convert.ToInt32(viewPort.Y * _scaleFactor);
