@@ -56,7 +56,8 @@ namespace WebViewANELib {
         public UrlRequest InitialUrl { private get; set; }
         public ArrayList WhiteList { private get; set; }
         public ArrayList BlackList { private get; set; }
-        
+        private double _scaleFactor;
+        public double ScaleFactor { set => _scaleFactor = value; }
         public static FreContextSharp Context;
 
         public void Init() {

@@ -77,8 +77,17 @@ namespace WebViewANELib {
         private bool _isLoaded;
         private string _initialHtml;
         public int CurrentTab { get; private set; }
+        private LifeSpanHandler lifeSpanHandler;
+        private double _scaleFactor;
+        public double ScaleFactor {
+            set {
+                if (lifeSpanHandler != null) {
+                    lifeSpanHandler.ScaleFactor = value;
+                }
+                _scaleFactor = value;
+            }
+        }
         private KeyboardHandler KeyboardHandler;
-
         public static FreContextSharp Context;
         private const double ZoomIncrement = 0.10;
 
@@ -202,10 +211,10 @@ namespace WebViewANELib {
 
             browser.KeyboardHandler = KeyboardHandler;
 
-            var sh = new LifeSpanHandler(PopupBehaviour, PopupDimensions);
-            sh.OnPermissionPopup += OnPermissionPopup;
-            sh.OnPopupBlock += OnPopupBlock;
-            browser.LifeSpanHandler = sh;
+            lifeSpanHandler = new LifeSpanHandler(PopupBehaviour, PopupDimensions, _scaleFactor);
+            lifeSpanHandler.OnPermissionPopup += OnPermissionPopup;
+            lifeSpanHandler.OnPopupBlock += OnPopupBlock;
+            browser.LifeSpanHandler = lifeSpanHandler;
             browser.FrameLoadEnd += OnFrameLoaded;
             browser.AddressChanged += OnBrowserAddressChanged;
             browser.TitleChanged += OnBrowserTitleChanged;

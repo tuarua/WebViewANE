@@ -259,7 +259,8 @@ namespace WebViewANELib {
                         UserDataPath = cefSettings.userDataPath,
                         CommandLineArgs = argsDict,
                         PopupBehaviour = (PopupBehaviour) popup.behaviour,
-                        PopupDimensions = new Tuple<int, int>(dimensions.width, dimensions.height)
+                        PopupDimensions = new Tuple<int, int>(dimensions.width, dimensions.height),
+                        ScaleFactor = _scaleFactor
                     };
                 }
 
@@ -391,6 +392,7 @@ namespace WebViewANELib {
             }
 
             _scaleFactor = _useHiDpi ? WinApi.GetScaleFactor(_airWindow) : 1.0;
+            _view.ScaleFactor = _scaleFactor;
 
             var tmpX = Convert.ToInt32(viewPort.X * _scaleFactor);
             var tmpY = Convert.ToInt32(viewPort.Y * _scaleFactor);
