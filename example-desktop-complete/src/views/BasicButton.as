@@ -29,7 +29,7 @@ public class BasicButton extends SimpleButton {
         lbl.antiAliasType = AntiAliasType.ADVANCED;
         lbl.sharpness = -100;
 
-        var tf:TextFormat = new TextFormat(WebViewANESample.FONT.fontName, 13, 0xFFFFFF);
+        var tf:TextFormat = new TextFormat(Main.FONT.fontName, 13, 0xFFFFFF);
         tf.align = "center";
         tf.bold = false;
         lbl.defaultTextFormat = tf;

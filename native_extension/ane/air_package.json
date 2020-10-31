@@ -1,0 +1,9 @@
+{
+  "name": "com.tuarua.WebViewANE",
+  "version": "2.13.0",
+  "repository": {
+    "url": "https://tuarua.github.io/air/air_packages.json"
+  },
+  "dependencies": {
+  }
+}

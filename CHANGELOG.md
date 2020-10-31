@@ -1,3 +1,11 @@
+### 2.13.0
+- WIN/macOS: Support windowFeatures on `window.open()` Issue #264
+- WIN: Improve ScaleFactor detection Issue #263
+- AND: Updated to FreKotlin 1.41.0
+- iOS/macOS: Updated to FreSwift 5.0.0
+- WIN: Updated to FreSharp 2.5.0
+- WIN: Deprecate Modern WebView1 (Edge) support
+
 ### 2.12.0
 - AND: Updated to FreKotlin 1.40.0
 - iOS: Updated to FreSwift 4.5.0

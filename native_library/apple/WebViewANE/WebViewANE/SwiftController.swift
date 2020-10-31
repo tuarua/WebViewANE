@@ -425,8 +425,8 @@ public class SwiftController: NSObject {
         }
 
         if tmpIsAdded {
-            _ = removeFromStage()
-            _ = addToStage()
+            removeFromStage()
+            addToStage()
         }
 
 #endif
@@ -614,8 +614,8 @@ public class SwiftController: NSObject {
                              width: _viewPort.size.width, height: _viewPort.size.height),
           tab: _tabList.count)
         _currentWebView?.isHidden = !_isVisible
-        _ = removeFromStage()
-        _ = addToStage()
+        removeFromStage()
+        addToStage()
 
 #endif
         return nil
@@ -667,8 +667,8 @@ public class SwiftController: NSObject {
         }
         wv.frame = currentFrame
         wv.switchTabTo()
-        _ = removeFromStage()
-        _ = addToStage()
+        removeFromStage()
+        addToStage()
 
 #endif
         return nil
@@ -697,8 +697,8 @@ public class SwiftController: NSObject {
         }
         wv.frame = currentFrame
         wv.switchTabTo()
-        _ = removeFromStage()
-        _ = addToStage()
+        removeFromStage()
+        addToStage()
 #endif
         return nil
     }
@@ -803,7 +803,6 @@ public class SwiftController: NSObject {
         UrlRequestHeaderManager.shared.persistRequestHeaders = _settings.persistRequestHeaders
 #if os(OSX)
         _popup = Popup()
-        _popup?.popupDimensions = _settings.popupDimensions
         _popupBehaviour = _settings.popupBehaviour
 #endif
 

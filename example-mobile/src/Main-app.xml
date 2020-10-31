@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <application xmlns="http://ns.adobe.com/air/application/33.1">
 
-    <id>com.tuarua.webview</id> <!-- Bundle Identifier. Required. -->
+    <id>com.eoinlandy.webview</id> <!-- Bundle Identifier. Required. -->
     <filename>WebViewANESampleMobile</filename> <!-- Used as the filename for the application. Required. -->
     <name>WebViewANESampleMobile</name> <!-- The name that is displayed below the app icon. -->
-    <versionNumber>2.10.0</versionNumber> <!-- Required. -->
+    <versionNumber>2.13.0</versionNumber> <!-- Required. -->
 
     <!-- Settings for the application's initial window. Required. -->
     <initialWindow>
@@ -52,6 +52,41 @@
         </font>
     </embedFonts>
 
+    <!-- Android specific capabilities -->
+    <android>
+        <manifestAdditions>
+            <![CDATA[
+            <manifest android:installLocation="auto">
+                <uses-sdk android:minSdkVersion="19" android:targetSdkVersion="28" />
+                <uses-permission android:name="android.permission.INTERNET"/>
+                <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+                <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+                <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+                <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+                <uses-configuration android:reqFiveWayNav="true"/>
+                <supports-screens android:normalScreens="true"/>
+                <uses-feature android:required="true" android:name="android.hardware.touchscreen.multitouch"/>
+                <application android:enabled="true">
+                    <meta-data android:name="android.max_aspect" android:value="2.1" />
+                    <activity android:excludeFromRecents="false" android:hardwareAccelerated="true">
+                     <intent-filter>
+                         <action android:name="android.intent.action.MAIN"/>
+                         <category android:name="android.intent.category.LAUNCHER"/>
+                     </intent-filter>
+                    </activity>
+                 </application>
+             </manifest>
+         ]]>
+        </manifestAdditions>
+    </android>
+
+    <embedFonts>
+        <font>
+            <fontName>FiraSansEmbed</fontName>
+            <fontPath>/ttf/fira-sans-embed.ttf</fontPath>
+        </font>
+    </embedFonts>
+
     <!-- iOS specific capabilities -->
     <iPhone>
         <!-- A list of plist key/value pairs to be added to the application Info.plist -->
@@ -87,6 +122,8 @@
 
     <extensions>
         <extensionID>com.tuarua.WebViewANE</extensionID>
+        <extensionID>com.tuarua.frekotlin</extensionID>
+        <extensionID>com.google.code.gson.gson</extensionID>
     </extensions>
 
 </application>

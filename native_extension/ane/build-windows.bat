@@ -60,4 +60,6 @@ call DEL /F /Q /A %pathtome%%projectName%.swc
 call DEL /F /Q /A %pathtome%library.swf
 call DEL /F /Q /A %pathtome%catalog.xml
 
+copy %pathtome%%projectName%.ane %pathtome%..\..\example-desktop-complete\extensions\%projectName%.ane
+
 echo FIN

@@ -2,13 +2,10 @@
 <module type="Flex" version="4">
   <component name="FlexBuildConfigurationManager" active="WebView ANE Sample">
     <configurations>
-      <configuration name="WebView ANE Sample" target-platform="Desktop" pure-as="true" main-class="WebViewANESample" output-file="WebViewANESample.swf" output-folder="$MODULE_DIR$/bin-release">
+      <configuration name="WebView ANE Sample" target-platform="Desktop" pure-as="true" main-class="Main" output-file="WebViewANESample.swf" output-folder="$MODULE_DIR$/bin-release">
         <dependencies>
           <entries>
             <entry library-name="FiraSansSemiBold" library-level="project">
-              <dependency linkage="Merged" />
-            </entry>
-            <entry library-name="WebViewANE" library-level="project">
               <dependency linkage="Merged" />
             </entry>
             <entry library-name="WebViewIcons" library-level="project">
@@ -17,10 +14,7 @@
             <entry library-name="greensock" library-level="project">
               <dependency linkage="Merged" />
             </entry>
-            <entry library-name="FreSwift" library-level="project">
-              <dependency linkage="Merged" />
-            </entry>
-            <entry library-name="FreSharp" library-level="project">
+            <entry library-name="extensions" library-level="project">
               <dependency linkage="Merged" />
             </entry>
           </entries>
@@ -33,7 +27,7 @@
           </map>
           <option name="additionalOptions" value="-swf-version=43" />
         </compiler-options>
-        <packaging-air-desktop use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/src/WebViewANESample-app.xml" package-file-name="WebViewANESample">
+        <packaging-air-desktop use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/src/Main-app.xml" package-file-name="WebViewANESample">
           <files-to-package>
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/src/jsTest.html" path-in-package="jsTest.html" />
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/src/localTest.html" path-in-package="localTest.html" />
@@ -42,13 +36,10 @@
         <packaging-android />
         <packaging-ios />
       </configuration>
-      <configuration name="webView ANE Sample 64bit" target-platform="Desktop" pure-as="true" main-class="WebViewANESample" output-file="webView_ANE_Sample_64bit.swf" output-folder="$MODULE_DIR$/bin-debug">
+      <configuration name="webView ANE Sample 64bit" target-platform="Desktop" pure-as="true" main-class="Main" output-file="webView_ANE_Sample_64bit.swf" output-folder="$MODULE_DIR$/bin-debug">
         <dependencies>
           <entries>
             <entry library-name="FiraSansSemiBold" library-level="project">
-              <dependency linkage="Merged" />
-            </entry>
-            <entry library-name="WebViewANE" library-level="project">
               <dependency linkage="Merged" />
             </entry>
             <entry library-name="WebViewIcons" library-level="project">
@@ -57,10 +48,7 @@
             <entry library-name="greensock" library-level="project">
               <dependency linkage="Merged" />
             </entry>
-            <entry library-name="FreSwift" library-level="project">
-              <dependency linkage="Merged" />
-            </entry>
-            <entry library-name="FreSharp" library-level="project">
+            <entry library-name="extensions" library-level="project">
               <dependency linkage="Merged" />
             </entry>
           </entries>
@@ -73,7 +61,7 @@
           </map>
           <option name="additionalOptions" value="-swf-version=43" />
         </compiler-options>
-        <packaging-air-desktop use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/src/WebViewANESample-app-64.xml" package-file-name="webView_ANE_Sample_64bit">
+        <packaging-air-desktop use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/src/Main-app-64.xml" package-file-name="webView_ANE_Sample_64bit">
           <files-to-package>
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/src/jsTest.html" path-in-package="jsTest.html" />
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/src/localTest.html" path-in-package="localTest.html" />
@@ -103,5 +91,6 @@
     <orderEntry type="library" exported="" name="FreSharpANE" level="project" />
     <orderEntry type="library" exported="" name="FreSharp" level="project" />
     <orderEntry type="library" exported="" name="WebViewANE" level="project" />
+    <orderEntry type="library" exported="" name="extensions" level="project" />
   </component>
 </module>

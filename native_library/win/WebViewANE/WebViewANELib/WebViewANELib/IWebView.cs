@@ -39,6 +39,7 @@ namespace WebViewANELib {
         UrlRequest InitialUrl { set; }
         ArrayList WhiteList { set; }
         ArrayList BlackList { set; }
+        double ScaleFactor { set; }
         void AddTab();
         void CloseTab(int index);
         void SetCurrentTab(int index);

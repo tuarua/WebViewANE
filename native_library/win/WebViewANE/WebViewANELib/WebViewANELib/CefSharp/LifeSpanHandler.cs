@@ -8,11 +8,13 @@ namespace WebViewANELib.CefSharp {
         public event EventHandler<string> OnPopupBlock;
         private readonly PopupBehaviour _popupBehaviour;
         private readonly Tuple<int, int> _popupDimensions;
+        public double ScaleFactor { get; set; }
         private readonly ArrayList _popUps = new ArrayList();
 
-        public LifeSpanHandler(PopupBehaviour popupBehaviour, Tuple<int, int> popupDimensions) {
+        public LifeSpanHandler(PopupBehaviour popupBehaviour, Tuple<int, int> popupDimensions, double scaleFactor) {
             _popupBehaviour = popupBehaviour;
             _popupDimensions = popupDimensions;
+            ScaleFactor = scaleFactor;
         }
 
         public bool OnBeforePopup(IWebBrowser browserControl, IBrowser browser, IFrame frame, string targetUrl,
@@ -23,8 +25,8 @@ namespace WebViewANELib.CefSharp {
             //Set newBrowser to null unless your attempting to host the popup in a new instance of ChromiumWebBrowser
             newBrowser = null;
 
-            windowInfo.Width = _popupDimensions.Item1;
-            windowInfo.Height = _popupDimensions.Item2;
+            windowInfo.Width = Convert.ToInt32((popupFeatures.Width > 0 ? popupFeatures.Width : _popupDimensions.Item1) * ScaleFactor);
+            windowInfo.Height = Convert.ToInt32((popupFeatures.Height > 0 ? popupFeatures.Height : _popupDimensions.Item2) * ScaleFactor);
             EventHandler<string> handler;
 
             switch (_popupBehaviour) {

@@ -169,8 +169,8 @@ class WebViewVC: WKWebView, FreSwiftController {
 #else
         guard let height = NSApp.mainWindow?.contentLayoutRect.height else { return }
         let realY = height - viewPort.size.height - viewPort.origin.y
-        self.setFrameOrigin(NSPoint(x: viewPort.origin.x, y: realY))
-        self.setFrameSize(NSSize(width: viewPort.size.width, height: viewPort.size.height))
+        self.setFrameOrigin(CGPoint(x: viewPort.origin.x, y: realY))
+        self.setFrameSize(CGSize(width: viewPort.size.width, height: viewPort.size.height))
 #endif
     }
 
@@ -179,7 +179,7 @@ class WebViewVC: WKWebView, FreSwiftController {
         var json: JSON
         if let val = self.url?.absoluteString {
             if val != "" {
-                props = Dictionary()
+                props = [:]
                 props["propName"] = "url"
                 props["value"] = val
                 props["tab"] = _tab
@@ -190,7 +190,7 @@ class WebViewVC: WKWebView, FreSwiftController {
 
         if let val = self.title {
             if val != "" {
-                props = Dictionary()
+                props = [:]
                 props["propName"] = "title"
                 props["value"] = val
                 props["tab"] = _tab

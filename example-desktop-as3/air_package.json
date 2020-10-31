@@ -1,0 +1,17 @@
+{
+  "name": "webview-sample",
+  "version": "2.13.0",
+  "appDescriptor": "src/Main-app.xml",
+  "variables": {
+  },
+  "airDotPrefix": true,
+  "appleTeamId": "XXXXXX",
+  "repository": {
+    "url": "https://tuarua.github.io/air/air_packages.json"
+  },
+  "dependencies": {
+    "com.tuarua.WebViewANE": "2.13.0",
+    "com.tuarua.FreSharp": "2.5.0",
+    "com.tuarua.FreSwift": "5.0.0"
+  }
+}

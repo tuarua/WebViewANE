@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,7 +13,6 @@
 		903EDA702237005A00DAD6C0 /* FreURLRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 903EDA6E2237005A00DAD6C0 /* FreURLRequest.swift */; };
 		907FA02A2396D4DA00A02384 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 907FA0292396D4DA00A02384 /* SwiftyJSON */; };
 		907FA02C2396D51600A02384 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; platformFilter = ios; productRef = 907FA02B2396D51600A02384 /* SwiftyJSON */; };
-		90C7382121AA1F550025C2FE /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90C7382021AA1F540025C2FE /* Cocoa.framework */; };
 		90EB0A69223C4C0A00EF5851 /* UrlRequestHeaderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90EB0A68223C4C0A00EF5851 /* UrlRequestHeaderManager.swift */; platformFilter = ios; };
 		90EB0A6A223C4C0A00EF5851 /* UrlRequestHeaderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90EB0A68223C4C0A00EF5851 /* UrlRequestHeaderManager.swift */; };
 		CE0014D21F648344000AE663 /* FreMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = CE0014D11F648344000AE663 /* FreMacros.h */; platformFilter = ios; };
@@ -72,7 +71,6 @@
 		285FE6D7F3D6356FA03A26C0 /* WebViewANE.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewANE.m; sourceTree = "<group>"; };
 		285FEBB3CADF8D704FAB5E4D /* WebViewANE_oc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewANE_oc.h; sourceTree = "<group>"; };
 		903EDA6E2237005A00DAD6C0 /* FreURLRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreURLRequest.swift; sourceTree = "<group>"; };
-		90C7382021AA1F540025C2FE /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
 		90EB0A68223C4C0A00EF5851 /* UrlRequestHeaderManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlRequestHeaderManager.swift; sourceTree = "<group>"; };
 		CE0014D11F648344000AE663 /* FreMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FreMacros.h; sourceTree = "<group>"; };
 		CE0014D61F648483000AE663 /* FreSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FreSwift.framework; path = Carthage/Build/iOS/FreSwift.framework; sourceTree = "<group>"; };
@@ -126,7 +124,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				90C7382121AA1F550025C2FE /* Cocoa.framework in Frameworks */,
 				CE6C07FD2079759400393167 /* Adobe AIR in Frameworks */,
 				CE6C07FC2079759400393167 /* Adobe AIR_64 in Frameworks */,
 				907FA02A2396D4DA00A02384 /* SwiftyJSON in Frameworks */,
@@ -140,7 +137,6 @@
 		CE0014D01F6482C6000AE663 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				90C7382021AA1F540025C2FE /* Cocoa.framework */,
 				CE6C07FB2079759400393167 /* Adobe AIR */,
 				CE6C07FA2079759400393167 /* Adobe AIR_64 */,
 				CE6C07F8207974DB00393167 /* FreSwift.framework */,
@@ -332,7 +328,7 @@
 		CE3980631E58BA7F0062485B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1100;
+				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = "Tua Rua Ltd";
 				TargetAttributes = {
 					CE3980891E58BAA90062485B = {
@@ -351,7 +347,7 @@
 				};
 			};
 			buildConfigurationList = CE3980661E58BA7F0062485B /* Build configuration list for PBXProject "WebViewANE" */;
-			compatibilityVersion = "Xcode 10.0";
+			compatibilityVersion = "Xcode 12.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -521,6 +517,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -582,6 +579,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -628,6 +626,8 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_BITCODE = NO;
+				EXCLUDED_ARCHS = "";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -640,7 +640,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.12.0;
+				MARKETING_VERSION = 2.13.0;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tuarua.WebViewANE;
@@ -673,6 +673,8 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_BITCODE = NO;
+				EXCLUDED_ARCHS = "";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -685,7 +687,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.12.0;
+				MARKETING_VERSION = 2.13.0;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tuarua.WebViewANE;
@@ -707,10 +709,13 @@
 		CE3980A61E58BEE10062485B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
+				EXCLUDED_ARCHS = "";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -733,10 +738,13 @@
 		CE3980A71E58BEE10062485B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
+				EXCLUDED_ARCHS = "";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -788,7 +796,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = /Users/eoinlandy/SDKs/AIRSDK_30/runtimes/air/mac;
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				MARKETING_VERSION = 2.12.0;
+				MARKETING_VERSION = 2.13.0;
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					"\"Adobe AIR\"",
@@ -840,7 +848,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = /Users/eoinlandy/SDKs/AIRSDK_30/runtimes/air/mac;
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				MARKETING_VERSION = 2.12.0;
+				MARKETING_VERSION = 2.13.0;
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					"\"Adobe AIR\"",
