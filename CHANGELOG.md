@@ -1,3 +1,6 @@
+### 2.14.0
+- WIN: Updated to CefSharp 85.3.130
+
 ### 2.13.0
 - WIN/macOS: Support windowFeatures on `window.open()` Issue #264
 - WIN: Improve ScaleFactor detection Issue #263
