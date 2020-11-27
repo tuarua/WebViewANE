@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\..\packages\CefSharp.WinForms.85.3.130\build\CefSharp.WinForms.props" Condition="Exists('..\..\packages\CefSharp.WinForms.85.3.130\build\CefSharp.WinForms.props')" />
-  <Import Project="..\..\packages\CefSharp.Common.85.3.130\build\CefSharp.Common.props" Condition="Exists('..\..\packages\CefSharp.Common.85.3.130\build\CefSharp.Common.props')" />
-  <Import Project="..\..\packages\cef.redist.x86.85.3.13\build\cef.redist.x86.props" Condition="Exists('..\..\packages\cef.redist.x86.85.3.13\build\cef.redist.x86.props')" />
-  <Import Project="..\..\packages\cef.redist.x64.85.3.13\build\cef.redist.x64.props" Condition="Exists('..\..\packages\cef.redist.x64.85.3.13\build\cef.redist.x64.props')" />
+  <Import Project="..\..\packages\CefSharp.WinForms.86.0.241\build\CefSharp.WinForms.props" Condition="Exists('..\..\packages\CefSharp.WinForms.86.0.241\build\CefSharp.WinForms.props')" />
+  <Import Project="..\..\packages\CefSharp.Common.86.0.241\build\CefSharp.Common.props" Condition="Exists('..\..\packages\CefSharp.Common.86.0.241\build\CefSharp.Common.props')" />
+  <Import Project="..\..\packages\cef.redist.x86.86.0.24\build\cef.redist.x86.props" Condition="Exists('..\..\packages\cef.redist.x86.86.0.24\build\cef.redist.x86.props')" />
+  <Import Project="..\..\packages\cef.redist.x64.86.0.24\build\cef.redist.x64.props" Condition="Exists('..\..\packages\cef.redist.x64.86.0.24\build\cef.redist.x64.props')" />
   <Import Project="..\..\packages\TuaRua.FreSharp.2.5.0\build\TuaRua.FreSharp.props" Condition="Exists('..\..\packages\TuaRua.FreSharp.2.5.0\build\TuaRua.FreSharp.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -171,16 +171,16 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\..\packages\TuaRua.FreSharp.2.5.0\build\TuaRua.FreSharp.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\TuaRua.FreSharp.2.5.0\build\TuaRua.FreSharp.props'))" />
     <Error Condition="!Exists('..\..\packages\TuaRua.FreSharp.2.5.0\build\TuaRua.FreSharp.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\TuaRua.FreSharp.2.5.0\build\TuaRua.FreSharp.targets'))" />
-    <Error Condition="!Exists('..\..\packages\cef.redist.x64.85.3.13\build\cef.redist.x64.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\cef.redist.x64.85.3.13\build\cef.redist.x64.props'))" />
-    <Error Condition="!Exists('..\..\packages\cef.redist.x86.85.3.13\build\cef.redist.x86.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\cef.redist.x86.85.3.13\build\cef.redist.x86.props'))" />
-    <Error Condition="!Exists('..\..\packages\CefSharp.Common.85.3.130\build\CefSharp.Common.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\CefSharp.Common.85.3.130\build\CefSharp.Common.props'))" />
-    <Error Condition="!Exists('..\..\packages\CefSharp.Common.85.3.130\build\CefSharp.Common.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\CefSharp.Common.85.3.130\build\CefSharp.Common.targets'))" />
-    <Error Condition="!Exists('..\..\packages\CefSharp.WinForms.85.3.130\build\CefSharp.WinForms.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\CefSharp.WinForms.85.3.130\build\CefSharp.WinForms.props'))" />
-    <Error Condition="!Exists('..\..\packages\CefSharp.WinForms.85.3.130\build\CefSharp.WinForms.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\CefSharp.WinForms.85.3.130\build\CefSharp.WinForms.targets'))" />
+    <Error Condition="!Exists('..\..\packages\cef.redist.x64.86.0.24\build\cef.redist.x64.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\cef.redist.x64.86.0.24\build\cef.redist.x64.props'))" />
+    <Error Condition="!Exists('..\..\packages\cef.redist.x86.86.0.24\build\cef.redist.x86.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\cef.redist.x86.86.0.24\build\cef.redist.x86.props'))" />
+    <Error Condition="!Exists('..\..\packages\CefSharp.Common.86.0.241\build\CefSharp.Common.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\CefSharp.Common.86.0.241\build\CefSharp.Common.props'))" />
+    <Error Condition="!Exists('..\..\packages\CefSharp.Common.86.0.241\build\CefSharp.Common.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\CefSharp.Common.86.0.241\build\CefSharp.Common.targets'))" />
+    <Error Condition="!Exists('..\..\packages\CefSharp.WinForms.86.0.241\build\CefSharp.WinForms.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\CefSharp.WinForms.86.0.241\build\CefSharp.WinForms.props'))" />
+    <Error Condition="!Exists('..\..\packages\CefSharp.WinForms.86.0.241\build\CefSharp.WinForms.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\CefSharp.WinForms.86.0.241\build\CefSharp.WinForms.targets'))" />
   </Target>
   <Import Project="..\..\packages\TuaRua.FreSharp.2.5.0\build\TuaRua.FreSharp.targets" Condition="Exists('..\..\packages\TuaRua.FreSharp.2.5.0\build\TuaRua.FreSharp.targets')" />
-  <Import Project="..\..\packages\CefSharp.Common.85.3.130\build\CefSharp.Common.targets" Condition="Exists('..\..\packages\CefSharp.Common.85.3.130\build\CefSharp.Common.targets')" />
-  <Import Project="..\..\packages\CefSharp.WinForms.85.3.130\build\CefSharp.WinForms.targets" Condition="Exists('..\..\packages\CefSharp.WinForms.85.3.130\build\CefSharp.WinForms.targets')" />
+  <Import Project="..\..\packages\CefSharp.Common.86.0.241\build\CefSharp.Common.targets" Condition="Exists('..\..\packages\CefSharp.Common.86.0.241\build\CefSharp.Common.targets')" />
+  <Import Project="..\..\packages\CefSharp.WinForms.86.0.241\build\CefSharp.WinForms.targets" Condition="Exists('..\..\packages\CefSharp.WinForms.86.0.241\build\CefSharp.WinForms.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

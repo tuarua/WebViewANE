@@ -1,5 +1,5 @@
 ### 2.14.0
-- WIN: Updated to CefSharp 85.3.130
+- WIN: Updated to CefSharp 86.0.241
 
 ### 2.13.0
 - WIN/macOS: Support windowFeatures on `window.open()` Issue #264
