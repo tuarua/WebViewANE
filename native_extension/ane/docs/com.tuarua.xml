@@ -173,12 +173,12 @@
      </shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn><apiParam><apiItemName>savePath</apiItemName><apiType value="String"/><apiDesc>path to save the pdf to.
      
      Prints the webView to a pdf.
-     <p><b>Windows only.</b></p>
+     <p><b>Windows and macOS 11.0+ only.</b></p>
      </apiDesc></apiParam></apiOperationDef><apiDesc>
      </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebView:print"><apiName>print</apiName><shortdesc>
      Prints the webView.</shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn></apiOperationDef><apiDesc>
      Prints the webView.
-     <p><b>Windows only.</b></p>
+     <p><b>Windows and macOS 11.0+ only.</b></p>
      </apiDesc></apiOperationDetail></apiOperation><apiOperation id="com.tuarua:WebView:reloadFromOrigin"><apiName>reloadFromOrigin</apiName><shortdesc>
      Forces a reload of the page (i.e.</shortdesc><prolog/><apiOperationDetail><apiOperationDef><apiAccess value="public"/><apiReturn><apiType value="void"/></apiReturn></apiOperationDef><apiDesc>
      Forces a reload of the page (i.e. ctrl F5)

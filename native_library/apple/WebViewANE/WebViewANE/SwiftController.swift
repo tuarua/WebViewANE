@@ -496,12 +496,56 @@ public class SwiftController: NSObject {
     }
 
     func print(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
-        warning("print is Windows only.")
+#if os(OSX)
+        guard let wv = _currentWebView
+            else {
+                return FreArgError().getError()
+        }
+        
+        if #available(OSX 10.16, *) {
+            let printOperation = wv.printOperation(with: NSPrintInfo.shared)
+            printOperation.run()
+        } else {
+            warning("print is Windows and macOS 11.0+ only ")
+        }
+#else
+        warning("print is Windows and macOS 11.0+ only ")
+#endif
         return nil
     }
     
     func printToPdf(ctx: FREContext, argc: FREArgc, argv: FREArgv) -> FREObject? {
-        warning("printToPdf is Windows only.")
+#if os(OSX)
+        guard argc > 0,
+              let wv = _currentWebView,
+              let path = String(argv[0])
+            else {
+                return FreArgError().getError()
+        }
+
+        if #available(OSX 10.16, *) {
+            wv.createPDF { [weak self] result in
+                guard let self = self else {
+                    return
+                }
+                switch result {
+                case .success(let data):
+                    let url = URL(fileURLWithPath: path)
+                    do {
+                        try data.write(to: url)
+                    } catch let e {
+                        self.warning("printToPdf failed", e.localizedDescription)
+                    }
+                case .failure(let error):
+                    self.warning("printToPdf failed", error.localizedDescription)
+                }
+            }
+        } else {
+            warning("printToPdf is Windows and macOS 11.0+ only.")
+        }
+#else
+        warning("printToPdf is Windows and macOS 11.0+ only.")
+#endif
         return nil
     }
     

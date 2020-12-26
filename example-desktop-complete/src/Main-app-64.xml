@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
-<application xmlns="http://ns.adobe.com/air/application/32.0">
+<application xmlns="http://ns.adobe.com/air/application/33.1">
     <id>WebViewANESample</id>
     <architecture>64</architecture>
     <filename>WebViewANESample</filename>
     <name>webView</name>
-    <versionNumber>2.10.0</versionNumber>
+    <versionNumber>2.14.0</versionNumber>
     <initialWindow>
         <content>[This value will be overwritten by Flash Builder in the output app.xml]</content>
         <resizable>false</resizable>

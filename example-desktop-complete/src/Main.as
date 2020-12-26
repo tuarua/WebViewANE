@@ -138,6 +138,19 @@ public class Main extends Sprite {
         settings.popup.dimensions.height = 800;
         settings.persistRequestHeaders = true;
 
+        /*
+        / To enable Flash Player Plugin
+        settings.cef.commandLineArgs.push({
+            key: "ppapi-flash-path",
+            value: "C:\\path\\to\\PepperFlash\\32.0.0.453\\pepflashplayer.dll"
+        });
+
+        settings.cef.commandLineArgs.push({
+            key: "ppapi-flash-version",
+            value: "32.0.0.453"
+        });
+         */
+
         //only use settings.userAgent if you are running your own site.
         //google.com for eg displays different sites based on user agent
         //settings.userAgent = "WebViewANE";

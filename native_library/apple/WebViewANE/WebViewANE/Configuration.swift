@@ -56,6 +56,7 @@ open class Configuration: WKWebViewConfiguration {
             let allowsPictureInPictureMediaPlayback = Bool(rv["allowsPictureInPictureMediaPlayback"]),
             let ignoresViewportScaleLimits = Bool(rv["ignoresViewportScaleLimits"]),
             let allowsAirPlayForMediaPlayback = Bool(rv["allowsAirPlayForMediaPlayback"]),
+            let limitsNavigationsToAppBoundDomains = Bool(rv["limitsNavigationsToAppBoundDomains"]),
             let bounces = Bool(rv["bounces"]),
             let useZoomGestures = Bool(rv["useZoomGestures"]),
             let minimumFontSize = CGFloat(rv["minimumFontSize"])
@@ -78,6 +79,10 @@ open class Configuration: WKWebViewConfiguration {
                     self.preferences.setValue(v, forKey: key)
                 }
             }
+        }
+        
+        if #available(OSX 10.16, iOS 14.0, *) {
+            self.limitsNavigationsToAppBoundDomains = limitsNavigationsToAppBoundDomains
         }
         
 #if os(iOS)

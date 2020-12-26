@@ -527,7 +527,7 @@ public class WebView extends EventDispatcher {
 
     /**
      * Prints the webView.
-     * <p><b>Windows only.</b></p>
+     * <p><b>Windows and macOS 11.0+ only.</b></p>
      */
     public function print():void {
         WebViewANEContext.context.call("print");
@@ -537,7 +537,7 @@ public class WebView extends EventDispatcher {
      * @param savePath path to save the pdf to.
      *
      * Prints the webView to a pdf.
-     * <p><b>Windows only.</b></p>
+     * <p><b>Windows and macOS 11.0+ only.</b></p>
      */
     public function printToPdf(savePath:String):void {
         if (!safetyCheck()) return;
