@@ -14,8 +14,8 @@
       Add custom preferences via preferences.setValue.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>unknown</apiData><apiType value="Vector$Object"/></apiValueDef><apiDesc>
       Add custom preferences via preferences.setValue. This can be used to set private APIs. Use at own risk.
      </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:WebkitSettings:ignoresViewportScaleLimits"><apiName>ignoresViewportScaleLimits</apiName><shortdesc>
-     A Boolean value that determines whether a WKWeb​View object should always allow scaling of the webpage.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>false</apiData><apiType value="Boolean"/></apiValueDef><apiDesc>
-     A Boolean value that determines whether a WKWeb​View object should always allow scaling of the webpage.
+     A Boolean value that determines whether a WKWebView object should always allow scaling of the webpage.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>false</apiData><apiType value="Boolean"/></apiValueDef><apiDesc>
+     A Boolean value that determines whether a WKWebView object should always allow scaling of the webpage.
      </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:WebkitSettings:javaEnabled"><apiName>javaEnabled</apiName><shortdesc>
      A Boolean value indicating whether Java is enabled.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>false</apiData><apiType value="Boolean"/></apiValueDef><apiDesc>
      A Boolean value indicating whether Java is enabled. OSX only.
@@ -25,7 +25,7 @@
      </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:WebkitSettings:javaScriptEnabled"><apiName>javaScriptEnabled</apiName><shortdesc>
      A Boolean value indicating whether JavaScript is enabled.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>true</apiData><apiType value="Boolean"/></apiValueDef><apiDesc>
      A Boolean value indicating whether JavaScript is enabled.
-     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:WebkitSettings:minimumFontSize"><apiName>minimumFontSize</apiName><shortdesc>
+     </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:WebkitSettings:limitsNavigationsToAppBoundDomains"><apiName>limitsNavigationsToAppBoundDomains</apiName><shortdesc/><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>true</apiData><apiType value="Boolean"/></apiValueDef></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:WebkitSettings:minimumFontSize"><apiName>minimumFontSize</apiName><shortdesc>
      The minimum font size in points.</shortdesc><prolog/><apiValueDetail><apiValueDef><apiProperty/><apiAccess value="public"/><apiDynamic/><apiData>0</apiData><apiType value="int"/></apiValueDef><apiDesc>
      The minimum font size in points.
      </apiDesc></apiValueDetail></apiValue><apiValue id="com.tuarua.webview:WebkitSettings:plugInsEnabled"><apiName>plugInsEnabled</apiName><shortdesc>
