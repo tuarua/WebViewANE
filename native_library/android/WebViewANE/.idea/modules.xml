@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/WebViewANE.iml" filepath="$PROJECT_DIR$/WebViewANE.iml" group="WebViewANE" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="WebViewANE/app" />
+      <module fileurl="file://$PROJECT_DIR$/WebViewANE.iml" filepath="$PROJECT_DIR$/WebViewANE.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/WebViewANE.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/WebViewANE.app.iml" />
     </modules>
   </component>
 </project>

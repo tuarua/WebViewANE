@@ -1,5 +1,9 @@
 ### 2.14.0
 - WIN: Updated to CefSharp 86.0.241
+- iOS/macOS: Updated to FreSwift 5.1.0
+- macOS: `webView.print()` and `webView.printToPdf()` are now available on macOS 11.0+
+- macOS: Added `WebkitSettings.limitsNavigationsToAppBoundDomains`
+- AND: Updated to FreKotlin 1.42.0
 
 ### 2.13.0
 - WIN/macOS: Support windowFeatures on `window.open()` Issue #264

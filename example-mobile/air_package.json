@@ -12,8 +12,8 @@
   "dependencies": {
     "com.tuarua.WebViewANE": "2.14.0",
     "com.google.code.gson.gson": "2.8.6",
-    "com.tuarua.frekotlin": "1.41.0",
-    "com.tuarua.iOS.FreSwift": "5.0.0",
+    "com.tuarua.frekotlin": "1.42.0",
+    "com.tuarua.iOS.FreSwift": "5.1.0",
     "com.tuarua.WebViewANE.IosDependencies": "2.14.0"
   }
 }

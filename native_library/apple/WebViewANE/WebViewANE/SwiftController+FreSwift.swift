@@ -54,6 +54,7 @@ extension SwiftController: FreSwiftMainController {
         functionsToSet["\(prefix)injectScript"] = injectScript
         functionsToSet["\(prefix)focus"] = focusWebView
         functionsToSet["\(prefix)print"] = print
+        functionsToSet["\(prefix)printToPdf"] = printToPdf
         functionsToSet["\(prefix)capture"] = capture
         functionsToSet["\(prefix)getCapturedBitmapData"] = getCapturedBitmapData
         functionsToSet["\(prefix)addTab"] = addTab

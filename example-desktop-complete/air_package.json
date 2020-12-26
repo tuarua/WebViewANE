@@ -12,6 +12,6 @@
   "dependencies": {
     "com.tuarua.WebViewANE": "2.14.0",
     "com.tuarua.FreSharp": "2.5.0",
-    "com.tuarua.FreSwift": "5.0.0"
+    "com.tuarua.FreSwift": "5.1.0"
   }
 }

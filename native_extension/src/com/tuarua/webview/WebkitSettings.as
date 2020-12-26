@@ -52,13 +52,16 @@ public class WebkitSettings {
      */
     public var allowsPictureInPictureMediaPlayback:Boolean = true;
     /**
-     * A Boolean value that determines whether a WKWeb​View object should always allow scaling of the webpage.
+     * A Boolean value that determines whether a WKWebView object should always allow scaling of the webpage.
      */
     public var ignoresViewportScaleLimits:Boolean = false;
     /**
      * A Boolean value indicating whether AirPlay is allowed.
      */
     public var allowsAirPlayForMediaPlayback:Boolean = true;
+
+    public var limitsNavigationsToAppBoundDomains:Boolean = true;
+
     /**
      * A Boolean value indicating whether the webview bounces past edge of content and back again.
      */
