@@ -1,3 +1,6 @@
+### 2.15.0
+- WIN: fix BUG Windows 7 Issue #274
+
 ### 2.14.0
 - WIN: Updated to CefSharp 86.0.241
 - iOS/macOS: Updated to FreSwift 5.1.0
