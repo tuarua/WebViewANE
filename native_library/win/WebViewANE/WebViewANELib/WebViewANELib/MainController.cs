@@ -229,7 +229,12 @@ namespace WebViewANELib {
                 };
 
                 _useHiDpi = settings.useHiDPI;
-                _scaleFactor = _useHiDpi ? WinApi.GetScaleFactor(_airWindow) : 1.0;
+
+                if (Environment.OSVersion.Version.Major > 7) {
+                    _scaleFactor = _useHiDpi ? WinApi.GetScaleFactor(_airWindow) : 1.0;
+                } else {
+                    _scaleFactor = _useHiDpi ? WinApi.GetScaleFactor() : 1.0;
+                }
 
                 if (_useEdge) {
                     EdgeView.Context = Context;
@@ -391,7 +396,13 @@ namespace WebViewANELib {
                 return new FreException(e).RawValue;
             }
 
-            _scaleFactor = _useHiDpi ? WinApi.GetScaleFactor(_airWindow) : 1.0;
+            if (Environment.OSVersion.Version.Major > 7) {
+                _scaleFactor = _useHiDpi ? WinApi.GetScaleFactor(_airWindow) : 1.0;
+            } else {
+                _scaleFactor = _useHiDpi ? WinApi.GetScaleFactor() : 1.0;
+            }
+
+           
             _view.ScaleFactor = _scaleFactor;
 
             var tmpX = Convert.ToInt32(viewPort.X * _scaleFactor);
