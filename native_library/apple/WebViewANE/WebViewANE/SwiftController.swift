@@ -52,6 +52,38 @@ public class SwiftController: NSObject {
     internal var _settings: Settings!
     private var _userController = WKUserContentController()
     
+    fileprivate func addCopyPasteHandling() {
+#if os(OSX)
+        var eventMask: NSEvent.EventTypeMask = .keyDown
+        eventMask.formUnion(.flagsChanged)
+        NSEvent.addLocalMonitorForEvents(matching: [eventMask]) { [self] (event: NSEvent) -> NSEvent? in
+            var processed = false
+
+            if event.modifierFlags.intersection(NSEvent.ModifierFlags.deviceIndependentFlagsMask) == .command {
+                switch event.characters?.lowercased() {
+                case "v":
+                    processed = NSApp.sendAction(#selector(NSText.paste(_:)), to: self._currentWebView, from: nil)
+                case "c":
+                    processed = NSApp.sendAction(#selector(NSText.copy(_:)), to: self._currentWebView, from: nil)
+                case "x":
+                    processed = NSApp.sendAction(#selector(NSText.cut(_:)), to: self._currentWebView, from: nil)
+                case "a":
+                    processed = NSApp.sendAction(#selector(NSText.selectAll(_:)), to: self._currentWebView, from: nil)
+                default:
+                    break
+                }
+            }
+
+            if processed {
+                return event
+            }
+            
+            NSApp.keyWindow?.sendEvent(event)
+            return nil
+        }
+#endif
+    }
+    
     private func addKeyListener(type: String) {
 #if os(OSX)
         var eventMask: NSEvent.EventTypeMask = type == "keyUp" ? .keyUp : .keyDown
@@ -59,6 +91,7 @@ public class SwiftController: NSObject {
         var listener: Any? = type == "keyUp" ? SwiftController.keyUpListener : SwiftController.keyDownListener
         if listener == nil {
             listener = NSEvent.addLocalMonitorForEvents(matching: [eventMask]) { (event: NSEvent) -> NSEvent? in
+                NSApp.keyWindow?.sendEvent(event)
                 var modifiers = ""
                 var isModifier = false
                 var keyValue: UInt32 = 0
@@ -860,6 +893,8 @@ public class SwiftController: NSObject {
                    height: _viewPort.size.height),
                                            tab: 0)
 
+        addCopyPasteHandling()
+        
         return nil
     }
 
