@@ -80,13 +80,6 @@
         </manifestAdditions>
     </android>
 
-    <embedFonts>
-        <font>
-            <fontName>FiraSansEmbed</fontName>
-            <fontPath>/ttf/fira-sans-embed.ttf</fontPath>
-        </font>
-    </embedFonts>
-
     <!-- iOS specific capabilities -->
     <iPhone>
         <!-- A list of plist key/value pairs to be added to the application Info.plist -->
