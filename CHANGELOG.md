@@ -1,3 +1,6 @@
+### 2.16.0
+- macOS: Add handling for cut, copy, paste to WKWebView Issue #276
+
 ### 2.15.0
 - WIN: fix BUG Windows 7 Issue #274
 
