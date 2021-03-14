@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="Flex" version="4">
-  <component name="FlexBuildConfigurationManager" active="WebViewANESample-mobile Android Device">
+  <component name="FlexBuildConfigurationManager" active="WebViewANESample-mobile iOS Store">
     <configurations>
       <configuration name="WebViewANESample-mobile iOS simulator" target-platform="Mobile" pure-as="true" main-class="Main" output-file="WebViewANESample-mobile.swf" output-folder="$MODULE_DIR$/bin-debug">
         <dependencies>
@@ -149,7 +149,7 @@
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/ios_dependencies/device" path-in-package="." />
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/src/Assets.car" path-in-package="Assets.car" />
           </files-to-package>
-          <AirSigningOptions keystore-path="$USER_HOME$/Documents/appleCertsProv/2019/prod/Tua_Rua_Dist_WebView.p12" provisioning-profile-path="$USER_HOME$/Documents/appleCertsProv/2019/prod/Tua_Rua_Dist_Provisioning_WebView.mobileprovision" />
+          <AirSigningOptions keystore-path="$USER_HOME$/Documents/appleCertsProv/2021/iOS/dist/tua_rua_dist_2021.p12" provisioning-profile-path="$USER_HOME$/Documents/appleCertsProv/2021/iOS/dist/Tua_Rua_Dist_Provisioning_WebView.mobileprovision" />
         </packaging-ios>
       </configuration>
     </configurations>
