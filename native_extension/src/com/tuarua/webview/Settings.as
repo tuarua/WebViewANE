@@ -68,10 +68,6 @@ public class Settings {
      */
     public var cacheEnabled:Boolean = true;
     /**
-     * The web engine to use.
-     */
-    public var engine:int = WebEngine.DEFAULT;
-    /**
      * @param useHiDPI set true if using <requestedDisplayResolution>high</requestedDisplayResolution> in your
      * app xml - Windows only.
      */

@@ -52,7 +52,6 @@ namespace WebViewANELib {
         private double _scaleFactor = 1.0;
         private Bitmap _capturedBitmapData;
         private const string OnCaptureComplete = "WebView.OnCaptureComplete";
-        private bool _useEdge;
         private bool _useHiDpi;
 
         public string[] GetFunctions() {
@@ -193,14 +192,13 @@ namespace WebViewANELib {
             bool useTransparentBackground;
             try {
                 dynamic settings = new FreObjectSharp(argv[2]);
-                _useEdge = settings.engine == 1;
                 
                 UrlRequestHeaderManager.GetInstance().PersistRequestHeaders = settings.persistRequestHeaders;
                 dynamic cefSettings = new FreObjectSharp(settings.cef);
                 var freUrl = argv[0];
                 UrlRequest initialUrl = null;
                 if (FreObjectTypeSharp.Null != freUrl.Type()) {
-                    initialUrl = new UrlRequest(freUrl, _useEdge);
+                    initialUrl = new UrlRequest(freUrl);
                     UrlRequestHeaderManager.GetInstance().Add(initialUrl);
                 }
 
@@ -236,38 +234,30 @@ namespace WebViewANELib {
                     _scaleFactor = _useHiDpi ? WinApi.GetScaleFactor() : 1.0;
                 }
 
-                if (_useEdge) {
-                    EdgeView.Context = Context;
-                    _view = new EdgeView {
-                        Background = new SolidColorBrush(backgroundMediaColor)
-                    };
-                }
-                else {
-                    CefView.Context = Context;
-                    dynamic contextMenu = new FreObjectSharp(settings.contextMenu);
-                    dynamic popup = new FreObjectSharp(settings.popup);
-                    dynamic dimensions = new FreObjectSharp(popup.dimensions);
+                CefView.Context = Context;
+                dynamic contextMenu = new FreObjectSharp(settings.contextMenu);
+                dynamic popup = new FreObjectSharp(settings.popup);
+                dynamic dimensions = new FreObjectSharp(popup.dimensions);
 
-                    _view = new CefView {
-                        Background = new SolidColorBrush(backgroundMediaColor),
-                        RemoteDebuggingPort = cefSettings.remoteDebuggingPort,
-                        EnablePrintPreview = cefSettings.enablePrintPreview,
-                        CachePath = cefSettings.cachePath,
-                        DownloadPath = settings.downloadPath,
-                        EnableDownloads = settings.enableDownloads,
-                        CacheEnabled = settings.cacheEnabled,
-                        LogLevel = cefSettings.logSeverity,
-                        AcceptLanguageList = cefSettings.acceptLanguageList,
-                        Locale = cefSettings.locale,
-                        ContextMenuEnabled = contextMenu.enabled,
-                        UserAgent = settings.userAgent,
-                        UserDataPath = cefSettings.userDataPath,
-                        CommandLineArgs = argsDict,
-                        PopupBehaviour = (PopupBehaviour) popup.behaviour,
-                        PopupDimensions = new Tuple<int, int>(dimensions.width, dimensions.height),
-                        ScaleFactor = _scaleFactor
-                    };
-                }
+                _view = new CefView {
+                    Background = new SolidColorBrush(backgroundMediaColor),
+                    RemoteDebuggingPort = cefSettings.remoteDebuggingPort,
+                    EnablePrintPreview = cefSettings.enablePrintPreview,
+                    CachePath = cefSettings.cachePath,
+                    DownloadPath = settings.downloadPath,
+                    EnableDownloads = settings.enableDownloads,
+                    CacheEnabled = settings.cacheEnabled,
+                    LogLevel = cefSettings.logSeverity,
+                    AcceptLanguageList = cefSettings.acceptLanguageList,
+                    Locale = cefSettings.locale,
+                    ContextMenuEnabled = contextMenu.enabled,
+                    UserAgent = settings.userAgent,
+                    UserDataPath = cefSettings.userDataPath,
+                    CommandLineArgs = argsDict,
+                    PopupBehaviour = (PopupBehaviour) popup.behaviour,
+                    PopupDimensions = new Tuple<int, int>(dimensions.width, dimensions.height),
+                    ScaleFactor = _scaleFactor
+                };
 
                 _view.InitialUrl = initialUrl;
                 _view.WhiteList = whiteList;
@@ -295,9 +285,7 @@ namespace WebViewANELib {
                 parameters.UsesPerPixelTransparency = true;
             }
 
-            var source = _useEdge
-                ? new HwndSource(parameters) {RootVisual = (EdgeView) _view}
-                : new HwndSource(parameters) {RootVisual = (CefView) _view};
+            var source = new HwndSource(parameters) {RootVisual = (CefView) _view};
 
             if (useTransparentBackground && source.CompositionTarget != null) {
                 source.CompositionTarget.BackgroundColor = Colors.Transparent;
@@ -312,7 +300,7 @@ namespace WebViewANELib {
 
         private FREObject AddTab(FREContext ctx, uint argc, FREObject[] argv) {
             try {
-                _view.InitialUrl = new UrlRequest(argv[0], _useEdge);
+                _view.InitialUrl = new UrlRequest(argv[0]);
                 _view.AddTab();
             }
             catch (Exception e) {
@@ -453,7 +441,7 @@ namespace WebViewANELib {
 
         private FREObject Load(FREContext ctx, uint argc, FREObject[] argv) {
             try {
-                var request = new UrlRequest(argv[0], _useEdge);
+                var request = new UrlRequest(argv[0]);
                 UrlRequestHeaderManager.GetInstance().Add(request);
                 _view.Load(request, argc > 1 ? argv[1].AsString() : null);
             }
@@ -481,7 +469,7 @@ namespace WebViewANELib {
                 var freUrl = argv[1];
                 _view.LoadHtmlString(html, FreObjectTypeSharp.Null == freUrl.Type()
                     ? null
-                    : new UrlRequest(freUrl, _useEdge)
+                    : new UrlRequest(freUrl)
                 );
             }
             catch (Exception e) {
