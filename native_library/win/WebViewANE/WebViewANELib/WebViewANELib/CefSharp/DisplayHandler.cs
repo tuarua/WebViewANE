@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using CefSharp;
+using CefSharp.Enums;
 using CefSharp.Structs;
 
 namespace WebViewANELib.CefSharp {
@@ -31,6 +32,10 @@ namespace WebViewANELib.CefSharp {
 
         public void OnLoadingProgressChange(IWebBrowser chromiumWebBrowser, IBrowser browser, double progress) {
             OnLoadingProgressChangeFired?.Invoke(chromiumWebBrowser, progress);
+        }
+
+        public bool OnCursorChange(IWebBrowser chromiumWebBrowser, IBrowser browser, IntPtr cursor, CursorType type, CursorInfo customCursorInfo) {
+            return false;
         }
     }
 }

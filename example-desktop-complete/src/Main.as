@@ -21,7 +21,6 @@ import com.tuarua.webview.DownloadProgress;
 import com.tuarua.webview.JavascriptResult;
 import com.tuarua.webview.LogSeverity;
 import com.tuarua.webview.Settings;
-import com.tuarua.webview.WebEngine;
 import com.tuarua.webview.WebViewEvent;
 import com.tuarua.webview.popup.Behaviour;
 
@@ -138,31 +137,11 @@ public class Main extends Sprite {
         settings.popup.dimensions.height = 800;
         settings.persistRequestHeaders = true;
 
-        /*
-        / To enable Flash Player Plugin
-        settings.cef.commandLineArgs.push({
-            key: "ppapi-flash-path",
-            value: "C:\\path\\to\\PepperFlash\\32.0.0.453\\pepflashplayer.dll"
-        });
-
-        settings.cef.commandLineArgs.push({
-            key: "ppapi-flash-version",
-            value: "32.0.0.453"
-        });
-         */
-
         //only use settings.userAgent if you are running your own site.
         //google.com for eg displays different sites based on user agent
         //settings.userAgent = "WebViewANE";
 
         settings.cacheEnabled = true;
-
-        // enable Edge View on Windows if available
-
-        /*settings.engine = (os.isWindows && os.majorVersion >= 10 && os.buildVersion >= 17134)
-                ? WebEngine.EDGE
-                : WebEngine.DEFAULT;*/
-
         settings.enableDownloads = true;
         settings.contextMenu.enabled = true; //enable/disable right click
         settings.useTransparentBackground = true;

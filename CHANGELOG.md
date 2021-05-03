@@ -1,3 +1,9 @@
+### 2.18.0
+- WIN: remove `settings.WebEngine`
+- WIN: Updated to CefSharp 89.0.170
+- WIN: updated Json.NET to 13.0.1
+- WIN: remove Edge WebView1
+
 ### 2.17.0
 - macOS: Add handling for cut, copy, paste to WKWebView Issue #276
 
