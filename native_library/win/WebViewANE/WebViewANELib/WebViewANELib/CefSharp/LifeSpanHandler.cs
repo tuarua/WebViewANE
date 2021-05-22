@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using CefSharp;
+using System.Diagnostics;
+using WinApi = TuaRua.FreSharp.Utils.WinApi;
 
 namespace WebViewANELib.CefSharp {
     public class LifeSpanHandler : ILifeSpanHandler {
@@ -27,6 +29,18 @@ namespace WebViewANELib.CefSharp {
 
             windowInfo.Width = Convert.ToInt32((popupFeatures.Width > 0 ? popupFeatures.Width : _popupDimensions.Item1) * ScaleFactor);
             windowInfo.Height = Convert.ToInt32((popupFeatures.Height > 0 ? popupFeatures.Height : _popupDimensions.Item2) * ScaleFactor);
+            
+            var popX = popupFeatures.X ?? -1;
+            if (popX == -1) {
+                var rect = new WinApi.Rect();
+                var mainWindow = Process.GetCurrentProcess().MainWindowHandle;
+                if (mainWindow != IntPtr.Zero) {
+                    WinApi.GetWindowRect(Process.GetCurrentProcess().MainWindowHandle, ref rect);
+                    windowInfo.X = rect.left + 50;
+                    windowInfo.Y = rect.top + 50;
+                }
+            }
+
             EventHandler<string> handler;
 
             switch (_popupBehaviour) {

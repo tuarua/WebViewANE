@@ -1,3 +1,7 @@
+### 2.19.0
+- WIN: Updated to CefSharp 90.6.50
+- WIN: Opened popup windows are positioned relative to parent window
+
 ### 2.18.0
 - WIN: remove `settings.WebEngine`
 - WIN: Updated to CefSharp 89.0.170
