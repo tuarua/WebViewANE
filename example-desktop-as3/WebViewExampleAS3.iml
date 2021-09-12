@@ -18,7 +18,7 @@
               <dependency linkage="Merged" />
             </entry>
           </entries>
-          <sdk name="AIRSDK_33.1.1.345" />
+          <sdk name="AIRSDK_33.1.1.575" />
         </dependencies>
         <compiler-options>
           <map>
@@ -37,7 +37,7 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="AIRSDK_33.1.1.345" jdkType="Flex SDK Type (new)" />
+    <orderEntry type="jdk" jdkName="AIRSDK_33.1.1.575" jdkType="Flex SDK Type (new)" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library" exported="">
       <library type="flex">
