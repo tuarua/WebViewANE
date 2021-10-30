@@ -151,6 +151,14 @@ public class Main extends Sprite {
             key: "disable-direct-write",
             value: "1"
         });
+        // this is added to download the WideVine CDM to settings.cef.userDataPath when the app first launches
+        // see https://bitbucket.org/chromiumembedded/cef/issues/3149/alloy-add-component-updater-support-for
+        // load https://shaka-player-demo.appspot.com/support.html to check for DRM + media support
+        settings.cef.commandLineArgs.push({
+            key: "component-updater",
+            value: "fast-update"
+        });
+
         settings.cef.enablePrintPreview = true;
         settings.cef.userDataPath = File.applicationStorageDirectory.nativePath;
         settings.cef.logSeverity = LogSeverity.DISABLE;
