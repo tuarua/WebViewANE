@@ -51,6 +51,7 @@ namespace WebViewANELib {
         public int ViewHeight { get; set; }
         public int RemoteDebuggingPort { private get; set; }
         public bool EnablePrintPreview { private get; set; }
+        public bool DisableFileDialog { private get; set; }
         public string DownloadPath { private get; set; }
         public string CachePath { private get; set; }
         public bool CacheEnabled { private get; set; }
@@ -225,6 +226,11 @@ namespace WebViewANELib {
             var displayHandler = new DisplayHandler();
             displayHandler.OnLoadingProgressChangeFired += OnLoadingProgressChange;
             browser.DisplayHandler = displayHandler;
+
+            var dialogHandler = new DialogHandler {
+                Disabled = DisableFileDialog
+            };
+            browser.DialogHandler = dialogHandler;
 
             if (!ContextMenuEnabled) {
                 browser.MenuHandler = new MenuHandler();

@@ -107,6 +107,7 @@
   <ItemGroup>
     <Compile Include="CefSharp\CefSharpExtensions.cs" />
     <Compile Include="CefSharp\CefWindowsFormsHost.cs" />
+    <Compile Include="CefSharp\DialogHandler.cs" />
     <Compile Include="CefSharp\DisplayHandler.cs" />
     <Compile Include="CefSharp\CefResourceRequestHandler.cs" />
     <Compile Include="Touch\GraphicsHelper.cs" />
