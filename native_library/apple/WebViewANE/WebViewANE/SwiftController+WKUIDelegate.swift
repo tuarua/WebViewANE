@@ -28,6 +28,8 @@ extension SwiftController: WKUIDelegate {
     @available(OSX 10.12, *)
     public func webView(_ webView: WKWebView, runOpenPanelWith parameters: WKOpenPanelParameters,
                         initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping ([URL]?) -> Void) {
+        if _settings.disableFileDialog { return }
+
         let openPanel = NSOpenPanel()
         openPanel.canChooseFiles = true
         openPanel.allowsMultipleSelection = true
