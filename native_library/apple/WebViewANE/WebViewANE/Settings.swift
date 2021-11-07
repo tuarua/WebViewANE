@@ -34,6 +34,7 @@ public struct Settings {
     private var _downloadPath: String?
     private var _popupBehaviour = PopupBehaviour.newWindow
     private var _popupDimensions = (800, 600)
+    private var _disableFileDialog = false
     
     public var enableDownloads: Bool {
         return _enableDownloads
@@ -75,6 +76,10 @@ public struct Settings {
         return _persistRequestHeaders
     }
     
+    public var disableFileDialog: Bool {
+        return _disableFileDialog
+    }
+    
     init?(_ freObject: FREObject?) {
         guard let rv = freObject,
             let urlWhiteList = [String](rv["urlWhiteList"]),
@@ -89,7 +94,8 @@ public struct Settings {
             let popupBehaviour = PopupBehaviour(rawValue: behaviour),
             let dimensions = popup["dimensions"],
             let popupW = Int(dimensions["width"]),
-            let popupH = Int(dimensions["height"])
+            let popupH = Int(dimensions["height"]),
+            let disableFileDialog = Bool(rv["disableFileDialog"])
             else { return }
         
         _downloadPath = String(rv["downloadPath"])
@@ -102,6 +108,7 @@ public struct Settings {
         _popupBehaviour = popupBehaviour
         _popupDimensions = (popupW, popupH)
         _persistRequestHeaders = persistRequestHeaders
+        _disableFileDialog = disableFileDialog
 #if os(iOS)
         _configuration.websiteDataStore = cacheEnabled
             ? WKWebsiteDataStore.default()

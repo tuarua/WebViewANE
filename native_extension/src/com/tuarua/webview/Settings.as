@@ -82,6 +82,11 @@ public class Settings {
      * <p><b>Windows, OSX, iOS only.</b></p>
      */
     public var persistRequestHeaders:Boolean = false;
+    /**
+     * Disallows users from selecting files via the input form field.
+     * <p><b>Windows, macOS only.</b></p>
+     */
+    public var disableFileDialog:Boolean = false;
 
     public function Settings() {
     }

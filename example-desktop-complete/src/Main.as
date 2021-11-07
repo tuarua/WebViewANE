@@ -143,8 +143,9 @@ public class Main extends Sprite {
 
         settings.cacheEnabled = true;
         settings.enableDownloads = true;
-        settings.contextMenu.enabled = true; //enable/disable right click
+        settings.contextMenu.enabled = true; // enable/disable right click
         settings.useTransparentBackground = true;
+        settings.disableFileDialog = false; // disable/enable form.file.input fields
 
         // See https://github.com/cefsharp/CefSharp/blob/master/CefSharp.Example/CefExample.cs#L37 for more examples
         settings.cef.commandLineArgs.push({
