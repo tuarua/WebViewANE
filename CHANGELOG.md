@@ -1,3 +1,8 @@
+### 2.23.0
+- WIN: Updated to CefSharp 95.7.14
+- iOS/macOS: Updated to FreSwift 5.5.1
+- macOS: Support Apple M1
+
 ### 2.22.0
 - WIN/macOS: add `settings.disableFileDialog`
 
