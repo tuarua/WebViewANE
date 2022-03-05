@@ -1,3 +1,6 @@
+### 2.25.0
+- WIN: Updated to CefSharp 98.1.21
+
 ### 2.24.0
 - WIN: Updated to CefSharp 96.0.18
 - iOS/macOS: Updated to FreSwift 5.5.2
