@@ -130,8 +130,11 @@ class WebViewController(override var context: FREContext?,
         wv.webChromeClient = chromeClient
         wv.webViewClient = viewClient
         wv.setBackgroundColor(backgroundColor)
-        wv.isVerticalScrollBarEnabled = settings.scrollBarsEnabled
-        wv.isHorizontalScrollBarEnabled = settings.scrollBarsEnabled
+
+        if (!settings.scrollBarsEnabled) {
+            wv.isVerticalScrollBarEnabled = false
+            wv.isHorizontalScrollBarEnabled = false
+        }
 
         wv.addJavascriptInterface(BoundObject(), "webViewANE")
 
