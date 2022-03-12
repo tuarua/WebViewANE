@@ -131,6 +131,11 @@ class WebViewController(override var context: FREContext?,
         wv.webViewClient = viewClient
         wv.setBackgroundColor(backgroundColor)
 
+        if (!settings.scrollBarsEnabled) {
+            wv.isVerticalScrollBarEnabled = false
+            wv.isHorizontalScrollBarEnabled = false
+        }
+
         wv.addJavascriptInterface(BoundObject(), "webViewANE")
 
         // AppRTC requires third party cookies to work

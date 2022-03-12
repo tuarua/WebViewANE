@@ -44,6 +44,7 @@ class Settings() {
     var builtInZoomControls = true
     var whiteList: List<String>? = null
     var blackList: List<String>? = null
+    var scrollBarsEnabled: Boolean = true
 
     constructor(freObject: FREObject?) : this() {
         val fre = freObject ?: return
@@ -64,6 +65,7 @@ class Settings() {
             domStorageEnabled = Boolean(androidSettings["domStorageEnabled"]) ?: false
             displayZoomControls = Boolean(androidSettings["displayZoomControls"]) ?: false
             builtInZoomControls = Boolean(androidSettings["builtInZoomControls"]) ?: false
+            scrollBarsEnabled = Boolean(androidSettings["scrollBarsEnabled"]) ?: false
         }
         persistRequestHeaders = Boolean(fre["persistRequestHeaders"]) ?: false
         userAgent = String(fre["userAgent"])

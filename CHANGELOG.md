@@ -1,3 +1,6 @@
+### 2.26.0
+- AND: Add `AndroidSettings.scrollBarsEnabled`
+
 ### 2.25.0
 - WIN: Updated to CefSharp 98.1.21
 
