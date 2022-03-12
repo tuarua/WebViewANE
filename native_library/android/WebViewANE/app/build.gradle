@@ -8,7 +8,7 @@ android {
         minSdkVersion 19
         targetSdkVersion compileSdkVersion
         versionCode 1
-        versionName "2.13.0"
+        versionName "2.26.0"
     }
     buildTypes {
         release {

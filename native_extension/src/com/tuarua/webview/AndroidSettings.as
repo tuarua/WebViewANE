@@ -77,6 +77,10 @@ public class AndroidSettings {
      * Sets whether the WebView should use its built-in zoom mechanisms.
      */
     public var builtInZoomControls:Boolean = true;
+    /**
+     * Sets whether the WebView should display vertical and horizontal scrollbars.
+     */
+    public var scrollBarsEnabled:Boolean = true;
 
     public function AndroidSettings() {
     }

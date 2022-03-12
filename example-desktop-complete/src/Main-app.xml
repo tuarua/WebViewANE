@@ -3,7 +3,7 @@
   <id>com.tuaura.WebViewANESample</id>
   <filename>WebViewANESample</filename>
   <name>webView</name>
-  <versionNumber>2.25.0</versionNumber>
+  <versionNumber>2.26.0</versionNumber>
   <initialWindow>
     <content>[This value will be overwritten by Flash Builder in the output app.xml]</content>
     <title>WebViewANE Example</title>
