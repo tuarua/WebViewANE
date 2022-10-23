@@ -31,5 +31,9 @@ namespace WebViewANELib.CefSharp {
             IDownloadItemCallback callback) {
             OnDownloadUpdatedFired?.Invoke(chromiumWebBrowser, downloadItem);
         }
+
+        public bool CanDownload(IWebBrowser chromiumWebBrowser, IBrowser browser, string url, string requestMethod) {
+            return true;
+        }
     }
 }
