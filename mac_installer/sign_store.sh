@@ -115,7 +115,7 @@ $PlistBuddy -c "Add :CFBundleIconFile string AppIcon" $APP.app/Contents/Info.pli
 $PlistBuddy -c "Add :CFBundleSupportedPlatforms array" $APP.app/Contents/Info.plist
 $PlistBuddy -c "Add :CFBundleSupportedPlatforms: string MacOSX" $APP.app/Contents/Info.plist
 # Swift requires 10.10 not AIR's 10.6
-$PlistBuddy -c "Set :LSMinimumSystemVersion 10.10" $APP.app/Contents/Info.plist
+$PlistBuddy -c "Set :LSMinimumSystemVersion 10.13" $APP.app/Contents/Info.plist
 
 if [ -d "$APP.app/Contents/Resources/META-INF/AIR/extensions" ]; then
     pushd $pathtome > /dev/null 2>&1

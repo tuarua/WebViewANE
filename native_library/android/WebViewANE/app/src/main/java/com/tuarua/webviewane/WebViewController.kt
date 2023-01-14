@@ -145,12 +145,14 @@ class WebViewController(override var context: FREContext?,
         }
 
         val initialRequest = _initialRequest
-        if (initialRequest != null && !initialRequest.url.isNullOrEmpty()) {
+        val url = initialRequest?.url
+        val requestHeaders = initialRequest?.requestHeaders
+        if (initialRequest != null && !url.isNullOrEmpty()) {
             when {
-                initialRequest.requestHeaders?.isEmpty() == true -> wv.loadUrl(initialRequest.url)
+                requestHeaders?.isEmpty() == true -> wv.loadUrl(url)
                 else -> {
                     UrlRequestHeaderManager.add(initialRequest)
-                    wv.loadUrl(initialRequest.url, initialRequest.requestHeaders)
+                    wv.loadUrl(url, requestHeaders ?: mutableMapOf())
                 }
             }
         }
@@ -186,12 +188,13 @@ class WebViewController(override var context: FREContext?,
     }
 
     fun loadUrl(request: URLRequest) {
+        val url = request.url
         when {
-            request.url == null -> return
-            request.requestHeaders?.isEmpty() == true -> webView?.loadUrl(request.url)
+            url == null -> return
+            request.requestHeaders?.isEmpty() == true -> webView?.loadUrl(url)
             else -> {
                 UrlRequestHeaderManager.add(request)
-                webView?.loadUrl(request.url, request.requestHeaders)
+                webView?.loadUrl(url, request.requestHeaders ?: mutableMapOf())
             }
         }
     }
@@ -305,7 +308,7 @@ class WebViewController(override var context: FREContext?,
         get() {
             return webView?.canGoForward()
         }
-    val progress: Double?
+    val progress: Double
         get() {
             return chromeClient.progress
         }

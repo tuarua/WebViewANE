@@ -2,7 +2,7 @@
   <configuration default="false" name="iOS - simulator" type="FlashRunConfigurationType">
     <option name="BCName" value="WebViewANESample-mobile iOS simulator" />
     <option name="IOSSimulatorDevice" value="iPhone 11" />
-    <option name="IOSSimulatorSdkPath" value="/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator15.2.sdk" />
+    <option name="IOSSimulatorSdkPath" value="/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator16.2.sdk" />
     <option name="adlOptions" value="" />
     <option name="airProgramParameters" value="" />
     <option name="appDescriptorForEmulator" value="Android" />

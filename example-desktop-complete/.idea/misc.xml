@@ -3,7 +3,7 @@
   <component name="JavaScriptSettings">
     <option name="languageLevel" value="ES6" />
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_3">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_3" default="false" project-jdk-name="AIRSDK_50.1.1" project-jdk-type="Flex SDK Type (new)">
     <output url="file://$PROJECT_DIR$/bin-debug" />
   </component>
 </project>

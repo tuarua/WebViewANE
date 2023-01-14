@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <platform xmlns="http://ns.adobe.com/air/extension/19.0">
-    <sdkVersion>15.2</sdkVersion>
+    <sdkVersion>16.2</sdkVersion>
     <linkerOptions>
-        <option>-ios_version_min 9.0</option>
+        <option>-ios_version_min 11.0</option>
         <option>-w</option>
         <option>-ObjC</option>
         <option>-rpath @executable_path/Frameworks</option>
