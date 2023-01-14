@@ -1,6 +1,6 @@
 # WebViewANE 
 
-WebView Adobe Air Native Extension for macOS 10.10+, Windows Desktop, iOS 9.0+ and Android19+.
+WebView Adobe Air Native Extension for macOS 10.13+, Windows Desktop, iOS 11.0+ and Android19+.
 This ANE provides access to a more modern webview from AIR.
 
 -------------
