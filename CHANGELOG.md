@@ -1,6 +1,9 @@
 ### 2.28.0
 - iOS/macOS: Updated to FreSwift 5.7.2
 - AND: Updated to FreKotlin 1.72.1
+- WIN: Updated to CefSharp 108.4.13
+- WIN: updated Json.NET to 13.0.2
+- WIN: DownloadProgress.percent int value
 
 ### 2.27.0
 - WIN: Updated to CefSharp 106.0.29
