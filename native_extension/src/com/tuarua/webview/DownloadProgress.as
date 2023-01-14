@@ -33,7 +33,7 @@ public class DownloadProgress extends Object {
     /**
      * Returns the rough percent complete or -1 if the receive total size is unknown.
      */
-    public var percent:uint = 0;
+    public var percent:int = 0;
     /**
      * Returns the number of received bytes.
      */

@@ -51,11 +51,11 @@ class ViewClient(override var context: FREContext?, private var settings: Settin
         if (list.isEmpty()) {
             return false
         }
-        val urlClean = url.toLowerCase(Locale.getDefault())
+        val urlClean = url.lowercase(Locale.getDefault())
         var i = 0
         val size = list.size
         while (i < size) {
-            val s = list[i].toLowerCase(Locale.getDefault())
+            val s = list[i].lowercase(Locale.getDefault())
             if (urlClean.contains(s)) {
                 return true
             }
@@ -70,11 +70,11 @@ class ViewClient(override var context: FREContext?, private var settings: Settin
         if (list.isEmpty()) {
             return false
         }
-        val urlClean = url.toLowerCase(Locale.getDefault())
+        val urlClean = url.lowercase(Locale.getDefault())
         var i = 0
         val size = list.size
         while (i < size) {
-            val s = list[i].toLowerCase(Locale.getDefault())
+            val s = list[i].lowercase(Locale.getDefault())
             if (urlClean.contains(s)) {
                 return false
             }

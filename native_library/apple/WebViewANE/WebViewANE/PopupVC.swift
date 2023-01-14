@@ -86,7 +86,7 @@ URLSessionTaskDelegate, URLSessionDelegate, URLSessionDownloadDelegate {
         openPanel.canChooseFiles = true
         openPanel.allowsMultipleSelection = true
         openPanel.begin(completionHandler: {(result) in
-            if result.rawValue == NSFileHandlingPanelOKButton {
+            if result == NSApplication.ModalResponse.OK {
                 completionHandler(openPanel.urls)
             } else {
                 completionHandler([])

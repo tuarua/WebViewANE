@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
-<application xmlns="http://ns.adobe.com/air/application/33.1">
+<application xmlns="http://ns.adobe.com/air/application/50.1">
 
     <id>com.eoinlandy.webview</id> <!-- Bundle Identifier. Required. -->
     <filename>WebViewANESampleMobile</filename> <!-- Used as the filename for the application. Required. -->
     <name>WebViewANESampleMobile</name> <!-- The name that is displayed below the app icon. -->
-    <versionNumber>2.27.0</versionNumber> <!-- Required. -->
+    <versionNumber>2.28.0</versionNumber> <!-- Required. -->
 
     <!-- Settings for the application's initial window. Required. -->
     <initialWindow>
@@ -57,7 +57,7 @@
         <manifestAdditions>
             <![CDATA[
             <manifest android:installLocation="auto">
-                <uses-sdk android:minSdkVersion="19" android:targetSdkVersion="28" />
+                <uses-sdk android:minSdkVersion="19" android:targetSdkVersion="31" />
                 <uses-permission android:name="android.permission.INTERNET"/>
                 <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
                 <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
@@ -92,7 +92,7 @@
                 <string>2</string>
             </array>
             <key>MinimumOSVersion</key>
-            <string>9.0</string>
+            <string>11.0</string>
             <key>NSAppTransportSecurity</key>
             <dict>
             <key>NSAllowsArbitraryLoads</key>
