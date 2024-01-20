@@ -1,3 +1,7 @@
+### 2.29.0
+- WIN: Updated to CefSharp 120.1.10
+- WIN: Remove CefSettings.userDataPath
+
 ### 2.28.0
 - iOS/macOS: Updated to FreSwift 5.7.2
 - AND: Updated to FreKotlin 1.72.1

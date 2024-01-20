@@ -253,7 +253,6 @@ namespace WebViewANELib {
                     Locale = cefSettings.locale,
                     ContextMenuEnabled = contextMenu.enabled,
                     UserAgent = settings.userAgent,
-                    UserDataPath = cefSettings.userDataPath,
                     CommandLineArgs = argsDict,
                     PopupBehaviour = (PopupBehaviour) popup.behaviour,
                     PopupDimensions = new Tuple<int, int>(dimensions.width, dimensions.height),

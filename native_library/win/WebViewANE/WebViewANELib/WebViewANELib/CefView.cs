@@ -65,7 +65,6 @@ namespace WebViewANELib {
         public PopupBehaviour PopupBehaviour { private get; set; }
         public Tuple<int, int> PopupDimensions { private get; set; }
         public string UserAgent { private get; set; }
-        public string UserDataPath { private get; set; }
         public Dictionary<string, string> CommandLineArgs { private get; set; }
         public ArrayList WhiteList { private get; set; }
         public ArrayList BlackList { private get; set; }
@@ -102,8 +101,7 @@ namespace WebViewANELib {
             var settings = new CefSettings {
                 RemoteDebuggingPort = RemoteDebuggingPort,
                 CachePath = CacheEnabled ? CachePath : "",
-                UserAgent = UserAgent,
-                UserDataPath = UserDataPath
+                UserAgent = UserAgent
             };
             if (EnablePrintPreview) {
                 settings.EnablePrintPreview();
@@ -182,7 +180,6 @@ namespace WebViewANELib {
                 settings.CefCommandLineArgs.Add(kvp.Key, kvp.Value);
             }
 
-            Cef.EnableHighDPISupport();
             if (Cef.Initialize(settings, false, (IBrowserProcessHandler) null)) {
                 var browser = CreateNewBrowser();
                 CurrentBrowser = browser;
