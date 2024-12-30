@@ -15,16 +15,17 @@ namespace WebViewANELib.CefSharp {
             _saveToDirectory = saveToDirectory;
         }
 
-        public void OnBeforeDownload(IWebBrowser chromiumWebBrowser, IBrowser browser, DownloadItem downloadItem,
-            IBeforeDownloadCallback callback) {
+        bool IDownloadHandler.OnBeforeDownload(IWebBrowser chromiumWebBrowser, IBrowser browser, DownloadItem downloadItem, IBeforeDownloadCallback callback) {
             OnBeforeDownloadFired?.Invoke(this, downloadItem);
 
-            if (callback.IsDisposed) return;
+            if (callback.IsDisposed) return true;
             var downloadPath = string.IsNullOrEmpty(_saveToDirectory)
                 ? downloadItem.SuggestedFileName
                 : _saveToDirectory + "\\" + downloadItem.SuggestedFileName;
             var showDialog = string.IsNullOrEmpty(_saveToDirectory);
             callback.Continue(downloadPath, showDialog);
+
+            return true;
         }
 
         public void OnDownloadUpdated(IWebBrowser chromiumWebBrowser, IBrowser browser, DownloadItem downloadItem,
