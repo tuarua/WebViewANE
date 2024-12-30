@@ -1,3 +1,8 @@
+### 2.30.0
+- WIN: Updated to CefSharp 131.3.5
+- WIN: Minimum support Windows 10
+- WIN: Requires C++ runtime 2019
+
 ### 2.29.0
 - WIN: Updated to CefSharp 120.1.10
 - WIN: Remove CefSettings.userDataPath

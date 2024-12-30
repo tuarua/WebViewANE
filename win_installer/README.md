@@ -1,7 +1,8 @@
 ### Sample Installer
 
 This folder contains an Inno Setup config for installing the sample WebViewANE application.
-It creates an installer which will package all files and check for the dependencies which WebViewANE requires (MSVC++ 2015 redist, .NET 4.6)   
+It creates an installer which will package all files and check for the dependencies which WebViewANE requires (MSVC++ 2019 redist, .NET 4.6.2) 
+You may use the existing script which will install the 2015-2022 inclusive installer.  
 
 Download this software at http://www.jrsoftware.org/isinfo.php  
 
