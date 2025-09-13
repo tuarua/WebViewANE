@@ -115,7 +115,7 @@ extension SwiftController: WKNavigationDelegate {
                 saveDialog.nameFieldStringValue = suggestedFilename
                 let result = saveDialog.runModal()
                 switch result {
-                case NSApplication.ModalResponse.OK :
+                case NSApplication.ModalResponse.OK:
                     if let location = saveDialog.url {
                         saveDownload(url: url, location: location)
                     }

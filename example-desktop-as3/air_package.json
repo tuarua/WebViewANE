@@ -1,6 +1,6 @@
 {
   "name": "webview-sample",
-  "version": "2.30.0",
+  "version": "2.31.0",
   "appDescriptor": "src/Main-app.xml",
   "variables": {
   },
@@ -10,8 +10,8 @@
     "url": "https://tuarua.github.io/air/air_packages.json"
   },
   "dependencies": {
-    "com.tuarua.WebViewANE": "2.30.0",
+    "com.tuarua.WebViewANE": "2.31.0",
     "com.tuarua.FreSharp": "2.5.0",
-    "com.tuarua.FreSwift": "5.7.2"
+    "com.tuarua.FreSwift": "6.1.2"
   }
 }
