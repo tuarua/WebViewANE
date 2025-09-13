@@ -1,3 +1,8 @@
+### 2.31.0
+- iOS/macOS: Updated to FreSwift 6.1.2
+- iOS: minimum 12.0
+- macOS: minimum Big Sur (11.5)
+
 ### 2.30.0
 - WIN: Updated to CefSharp 131.3.5
 - WIN: Minimum support Windows 10

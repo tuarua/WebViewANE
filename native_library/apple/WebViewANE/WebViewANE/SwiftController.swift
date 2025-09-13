@@ -89,16 +89,16 @@ public class SwiftController: NSObject {
                 var keyValue: UInt32 = 0
                 
                 switch event.keyCode {
-                case 55: //command
+                case 55: // command
                     keyValue = 15
                     isModifier = true
-                case 56: //shift
+                case 56: // shift
                     keyValue = 16
                     isModifier = true
-                case 58: //option
+                case 58: // option
                     keyValue = 18
                     isModifier = true
-                case 59: //control
+                case 59: // control
                     keyValue = 17
                     isModifier = true
                 default:
@@ -119,8 +119,6 @@ public class SwiftController: NSObject {
                     modifiers = "alt"
                 case [.command]:
                     modifiers = "command"
-                case [.control, .shift]:
-                    modifiers = "control-shift"
                 case [.option, .shift]:
                     modifiers = "option-shift"
                 case [.command, .shift]:
@@ -145,17 +143,17 @@ public class SwiftController: NSObject {
                 if let characters = event.charactersIgnoringModifiers {
                     let s = characters.uppercased().unicodeScalars
                     switch event.keyCode {
-                    case 51: //BACKSPACE
+                    case 51: // BACKSPACE
                         keyValue = 8
-                    case 53: //ESC
+                    case 53: // ESC
                         keyValue = 27
-                    case 123: //LEFT
+                    case 123: // LEFT
                         keyValue = 37
-                    case 124: //RIGHT
+                    case 124: // RIGHT
                         keyValue = 39
-                    case 125: //DOWN
+                    case 125: // DOWN
                         keyValue = 40
-                    case 126: //UP
+                    case 126: // UP
                         keyValue = 38
                     default:
                         keyValue = s[s.startIndex].value
@@ -336,7 +334,7 @@ public class SwiftController: NSObject {
             view.addSubview(wv)
             _isAdded = true
         } else {
-            //allow for mainWindow not having been set yet on NSApp
+            // allow for mainWindow not having been set yet on NSApp
             let allWindows = NSApp.windows
             if allWindows.count > 0 {
                 let mWin = allWindows[0]
@@ -856,7 +854,7 @@ public class SwiftController: NSObject {
             if let win = NSApp.mainWindow {
                 mWin = win
             } else {
-                //allow for mainWindow not having been set yet on NSApp
+                // allow for mainWindow not having been set yet on NSApp
                 mWin = allWindows[0]
             }
         } else {

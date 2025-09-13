@@ -1,48 +1,27 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <application xmlns="http://ns.adobe.com/air/application/50.1">
-  <id>com.tuaura.WebViewANESample</id>
-  <filename>WebViewANESample</filename>
-  <name>webView</name>
-  <versionNumber>2.30.0</versionNumber>
-  <initialWindow>
-    <content>[This value will be overwritten by Flash Builder in the output app.xml]</content>
-    <title>WebViewANE Example</title>
-    <resizable>true</resizable>
-    <x>100</x>
-    <y>100</y>
-    <requestedDisplayResolution>high</requestedDisplayResolution>
-    <!-- This also applies to Windows 10 also -->
-    <depthAndStencil>true</depthAndStencil>
-    <renderMode>direct</renderMode>
-    <autoOrients>false</autoOrients>
-    <fullScreen>true</fullScreen>
-    <visible>true</visible>
-  </initialWindow>
-  <supportedProfiles>extendedDesktop</supportedProfiles>
-  <extensions>
-    <extensionID>com.tuarua.WebViewANE</extensionID>
-    <extensionID>com.tuarua.FreSharp</extensionID>
-    <extensionID>com.tuarua.FreSwift</extensionID>
-  </extensions>
-  <android>
-    <manifestAdditions><![CDATA[<manifest android:installLocation="auto">
-	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="28" />
-	<uses-permission android:name="android.permission.INTERNET" />
-	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
-	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-	<application android:enabled="true">
-		<meta-data android:name="android.max_aspect" android:value="2.1" />
-		<activity android:excludeFromRecents="false" android:hardwareAccelerated="true">
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
-				<category android:name="android.intent.category.LAUNCHER" />
-			</intent-filter>
-		</activity>
-		<uses-permission android:name="android.permission.INTERNET" />
-		<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-		<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-	</application>
-</manifest>]]></manifestAdditions>
-  </android>
+    <id>com.tuaura.WebViewANESample</id>
+    <filename>WebViewANESample</filename>
+    <name>webView</name>
+    <versionNumber>2.31.0</versionNumber>
+    <initialWindow>
+        <content>[This value will be overwritten by Flash Builder in the output app.xml]</content>
+        <title>WebViewANE Example</title>
+        <resizable>true</resizable>
+        <x>100</x>
+        <y>100</y>
+        <requestedDisplayResolution>high</requestedDisplayResolution>
+        <!-- This also applies to Windows 10 also -->
+        <depthAndStencil>true</depthAndStencil>
+        <renderMode>direct</renderMode>
+        <autoOrients>false</autoOrients>
+        <fullScreen>true</fullScreen>
+        <visible>true</visible>
+    </initialWindow>
+    <supportedProfiles>extendedDesktop</supportedProfiles>
+    <extensions>
+        <extensionID>com.tuarua.WebViewANE</extensionID>
+        <extensionID>com.tuarua.FreSharp</extensionID>
+        <extensionID>com.tuarua.FreSwift</extensionID>
+    </extensions>
 </application>

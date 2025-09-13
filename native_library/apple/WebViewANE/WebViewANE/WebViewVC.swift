@@ -104,7 +104,7 @@ class WebViewVC: WKWebView, FreSwiftController {
 #else
         if #available(OSX 10.13, *) {
             let config = WKSnapshotConfiguration()
-            takeSnapshot(with: config, completionHandler: { (result: NSImage?, _: Error?) -> Void in
+            takeSnapshot(with: config, completionHandler: { (result: NSImage?, _: Error?) in
                 if let snapshot = result {
                     self._capturedBitmapData = snapshot.cgImage(forProposedRect: nil, context: nil, hints: nil)
                 }
@@ -141,7 +141,7 @@ class WebViewVC: WKWebView, FreSwiftController {
     }
 
     func evaluateJavaScript(js: String, callback: String) {
-        self.evaluateJavaScript(js, completionHandler: { (result: Any?, error: Error?) -> Void in
+        self.evaluateJavaScript(js, completionHandler: { (result: Any?, error: Error?) in
             var props = [String: Any]()
             props["callbackName"] = callback
             props["message"] = ""

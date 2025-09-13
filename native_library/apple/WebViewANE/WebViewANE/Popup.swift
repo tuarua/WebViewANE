@@ -50,7 +50,7 @@ class Popup: NSObject, NSWindowDelegate {
     }
 
     func windowWillClose(_ notification: Notification) {
-        //this clears the popup window and it's webview
+        // this clears the popup window and it's webview
         _popupVC.dispose()
         _popupVC.view.removeFromSuperview()
         _popupVC = nil

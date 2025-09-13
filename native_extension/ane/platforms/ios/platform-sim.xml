@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <platform xmlns="http://ns.adobe.com/air/extension/19.0">
-    <sdkVersion>16.2</sdkVersion>
+    <sdkVersion>18.6</sdkVersion>
     <linkerOptions>
         <option>-w</option>
         <option>-ObjC</option>
